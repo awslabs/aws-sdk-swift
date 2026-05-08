@@ -57,6 +57,7 @@ import struct AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.FlexibleChecksumsRequestMiddleware
 import struct AWSClientRuntime.FlexibleChecksumsResponseMiddleware
+import struct AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AAuthScheme
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
@@ -787,7 +788,7 @@ extension S3Client {
     /// - `NoSuchUpload` : The specified multipart upload does not exist.
     public func abortMultipartUpload(input: AbortMultipartUploadInput) async throws -> AbortMultipartUploadOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -809,7 +810,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -920,7 +921,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `CompleteMultipartUploadOutput`)
     public func completeMultipartUpload(input: CompleteMultipartUploadInput) async throws -> CompleteMultipartUploadOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -942,7 +943,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1059,7 +1060,7 @@ extension S3Client {
     /// - `ObjectNotInActiveTierError` : The source object of the COPY action is not in the active tier and is only stored in Amazon S3 Glacier.
     public func copyObject(input: CopyObjectInput) async throws -> CopyObjectOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1081,7 +1082,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1171,7 +1172,7 @@ extension S3Client {
     /// - `BucketAlreadyOwnedByYou` : The bucket you tried to create already exists, and you own it. Amazon S3 returns this error in all Amazon Web Services Regions except in the North Virginia Region. For legacy compatibility, if you re-create an existing bucket that you already own in the North Virginia Region, Amazon S3 returns 200 OK and resets the bucket access control lists (ACLs).
     public func createBucket(input: CreateBucketInput) async throws -> CreateBucketOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1193,7 +1194,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1276,7 +1277,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `CreateBucketMetadataConfigurationOutput`)
     public func createBucketMetadataConfiguration(input: CreateBucketMetadataConfigurationInput) async throws -> CreateBucketMetadataConfigurationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1298,7 +1299,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1373,7 +1374,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `CreateBucketMetadataTableConfigurationOutput`)
     public func createBucketMetadataTableConfiguration(input: CreateBucketMetadataTableConfigurationInput) async throws -> CreateBucketMetadataTableConfigurationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1395,7 +1396,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1520,7 +1521,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `CreateMultipartUploadOutput`)
     public func createMultipartUpload(input: CreateMultipartUploadInput) async throws -> CreateMultipartUploadOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1542,7 +1543,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1608,7 +1609,7 @@ extension S3Client {
     /// - `NoSuchBucket` : The specified bucket does not exist.
     public func createSession(input: CreateSessionInput) async throws -> CreateSessionOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1630,7 +1631,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1703,7 +1704,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `DeleteBucketOutput`)
     public func deleteBucket(input: DeleteBucketInput) async throws -> DeleteBucketOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1725,7 +1726,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1785,7 +1786,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `DeleteBucketAnalyticsConfigurationOutput`)
     public func deleteBucketAnalyticsConfiguration(input: DeleteBucketAnalyticsConfigurationInput) async throws -> DeleteBucketAnalyticsConfigurationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1807,7 +1808,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1866,7 +1867,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `DeleteBucketCorsOutput`)
     public func deleteBucketCors(input: DeleteBucketCorsInput) async throws -> DeleteBucketCorsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1888,7 +1889,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1961,7 +1962,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `DeleteBucketEncryptionOutput`)
     public func deleteBucketEncryption(input: DeleteBucketEncryptionInput) async throws -> DeleteBucketEncryptionOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1983,7 +1984,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2044,7 +2045,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `DeleteBucketIntelligentTieringConfigurationOutput`)
     public func deleteBucketIntelligentTieringConfiguration(input: DeleteBucketIntelligentTieringConfigurationInput) async throws -> DeleteBucketIntelligentTieringConfigurationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2066,7 +2067,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2134,7 +2135,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `DeleteBucketInventoryConfigurationOutput`)
     public func deleteBucketInventoryConfiguration(input: DeleteBucketInventoryConfigurationInput) async throws -> DeleteBucketInventoryConfigurationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2156,7 +2157,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2225,7 +2226,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `DeleteBucketLifecycleOutput`)
     public func deleteBucketLifecycle(input: DeleteBucketLifecycleInput) async throws -> DeleteBucketLifecycleOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2247,7 +2248,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2310,7 +2311,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `DeleteBucketMetadataConfigurationOutput`)
     public func deleteBucketMetadataConfiguration(input: DeleteBucketMetadataConfigurationInput) async throws -> DeleteBucketMetadataConfigurationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2332,7 +2333,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2391,7 +2392,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `DeleteBucketMetadataTableConfigurationOutput`)
     public func deleteBucketMetadataTableConfiguration(input: DeleteBucketMetadataTableConfigurationInput) async throws -> DeleteBucketMetadataTableConfigurationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2413,7 +2414,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2483,7 +2484,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `DeleteBucketMetricsConfigurationOutput`)
     public func deleteBucketMetricsConfiguration(input: DeleteBucketMetricsConfigurationInput) async throws -> DeleteBucketMetricsConfigurationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2505,7 +2506,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2564,7 +2565,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `DeleteBucketOwnershipControlsOutput`)
     public func deleteBucketOwnershipControls(input: DeleteBucketOwnershipControlsInput) async throws -> DeleteBucketOwnershipControlsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2586,7 +2587,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2652,7 +2653,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `DeleteBucketPolicyOutput`)
     public func deleteBucketPolicy(input: DeleteBucketPolicyInput) async throws -> DeleteBucketPolicyOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2674,7 +2675,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2733,7 +2734,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `DeleteBucketReplicationOutput`)
     public func deleteBucketReplication(input: DeleteBucketReplicationInput) async throws -> DeleteBucketReplicationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2755,7 +2756,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2814,7 +2815,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `DeleteBucketTaggingOutput`)
     public func deleteBucketTagging(input: DeleteBucketTaggingInput) async throws -> DeleteBucketTaggingOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2836,7 +2837,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2895,7 +2896,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `DeleteBucketWebsiteOutput`)
     public func deleteBucketWebsite(input: DeleteBucketWebsiteInput) async throws -> DeleteBucketWebsiteOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2917,7 +2918,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3004,7 +3005,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `DeleteObjectOutput`)
     public func deleteObject(input: DeleteObjectInput) async throws -> DeleteObjectOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3026,7 +3027,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3085,7 +3086,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `DeleteObjectTaggingOutput`)
     public func deleteObjectTagging(input: DeleteObjectTaggingInput) async throws -> DeleteObjectTaggingOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3107,7 +3108,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3200,7 +3201,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `DeleteObjectsOutput`)
     public func deleteObjects(input: DeleteObjectsInput) async throws -> DeleteObjectsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3222,7 +3223,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3288,7 +3289,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `DeletePublicAccessBlockOutput`)
     public func deletePublicAccessBlock(input: DeletePublicAccessBlockInput) async throws -> DeletePublicAccessBlockOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3310,7 +3311,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3362,7 +3363,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `GetBucketAbacOutput`)
     public func getBucketAbac(input: GetBucketAbacInput) async throws -> GetBucketAbacOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3384,7 +3385,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3441,7 +3442,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `GetBucketAccelerateConfigurationOutput`)
     public func getBucketAccelerateConfiguration(input: GetBucketAccelerateConfigurationInput) async throws -> GetBucketAccelerateConfigurationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3463,7 +3464,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3517,7 +3518,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `GetBucketAclOutput`)
     public func getBucketAcl(input: GetBucketAclInput) async throws -> GetBucketAclOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3539,7 +3540,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3600,7 +3601,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `GetBucketAnalyticsConfigurationOutput`)
     public func getBucketAnalyticsConfiguration(input: GetBucketAnalyticsConfigurationInput) async throws -> GetBucketAnalyticsConfigurationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3622,7 +3623,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3681,7 +3682,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `GetBucketCorsOutput`)
     public func getBucketCors(input: GetBucketCorsInput) async throws -> GetBucketCorsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3703,7 +3704,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3776,7 +3777,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `GetBucketEncryptionOutput`)
     public func getBucketEncryption(input: GetBucketEncryptionInput) async throws -> GetBucketEncryptionOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3798,7 +3799,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3859,7 +3860,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `GetBucketIntelligentTieringConfigurationOutput`)
     public func getBucketIntelligentTieringConfiguration(input: GetBucketIntelligentTieringConfigurationInput) async throws -> GetBucketIntelligentTieringConfigurationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3881,7 +3882,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3949,7 +3950,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `GetBucketInventoryConfigurationOutput`)
     public func getBucketInventoryConfiguration(input: GetBucketInventoryConfigurationInput) async throws -> GetBucketInventoryConfigurationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3971,7 +3972,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4056,7 +4057,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `GetBucketLifecycleConfigurationOutput`)
     public func getBucketLifecycleConfiguration(input: GetBucketLifecycleConfigurationInput) async throws -> GetBucketLifecycleConfigurationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4078,7 +4079,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4137,7 +4138,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `GetBucketLocationOutput`)
     public func getBucketLocation(input: GetBucketLocationInput) async throws -> GetBucketLocationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4159,7 +4160,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4218,7 +4219,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `GetBucketLoggingOutput`)
     public func getBucketLogging(input: GetBucketLoggingInput) async throws -> GetBucketLoggingOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4240,7 +4241,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4303,7 +4304,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `GetBucketMetadataConfigurationOutput`)
     public func getBucketMetadataConfiguration(input: GetBucketMetadataConfigurationInput) async throws -> GetBucketMetadataConfigurationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4325,7 +4326,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4384,7 +4385,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `GetBucketMetadataTableConfigurationOutput`)
     public func getBucketMetadataTableConfiguration(input: GetBucketMetadataTableConfigurationInput) async throws -> GetBucketMetadataTableConfigurationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4406,7 +4407,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4476,7 +4477,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `GetBucketMetricsConfigurationOutput`)
     public func getBucketMetricsConfiguration(input: GetBucketMetricsConfigurationInput) async throws -> GetBucketMetricsConfigurationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4498,7 +4499,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4555,7 +4556,7 @@ extension S3Client {
     /// - Returns: A container for specifying the notification configuration of the bucket. If this element is empty, notifications are turned off for the bucket. (Type: `GetBucketNotificationConfigurationOutput`)
     public func getBucketNotificationConfiguration(input: GetBucketNotificationConfigurationInput) async throws -> GetBucketNotificationConfigurationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4577,7 +4578,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4643,7 +4644,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `GetBucketOwnershipControlsOutput`)
     public func getBucketOwnershipControls(input: GetBucketOwnershipControlsInput) async throws -> GetBucketOwnershipControlsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4665,7 +4666,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4729,7 +4730,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `GetBucketPolicyOutput`)
     public func getBucketPolicy(input: GetBucketPolicyInput) async throws -> GetBucketPolicyOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4751,7 +4752,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4814,7 +4815,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `GetBucketPolicyStatusOutput`)
     public func getBucketPolicyStatus(input: GetBucketPolicyStatusInput) async throws -> GetBucketPolicyStatusOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4836,7 +4837,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4895,7 +4896,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `GetBucketReplicationOutput`)
     public func getBucketReplication(input: GetBucketReplicationInput) async throws -> GetBucketReplicationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4917,7 +4918,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4974,7 +4975,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `GetBucketRequestPaymentOutput`)
     public func getBucketRequestPayment(input: GetBucketRequestPaymentInput) async throws -> GetBucketRequestPaymentOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4996,7 +4997,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -5065,7 +5066,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `GetBucketTaggingOutput`)
     public func getBucketTagging(input: GetBucketTaggingInput) async throws -> GetBucketTaggingOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -5087,7 +5088,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -5148,7 +5149,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `GetBucketVersioningOutput`)
     public func getBucketVersioning(input: GetBucketVersioningInput) async throws -> GetBucketVersioningOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -5170,7 +5171,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -5229,7 +5230,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `GetBucketWebsiteOutput`)
     public func getBucketWebsite(input: GetBucketWebsiteInput) async throws -> GetBucketWebsiteOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -5251,7 +5252,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -5345,7 +5346,7 @@ extension S3Client {
     /// - `NoSuchKey` : The specified key does not exist.
     public func getObject(input: GetObjectInput) async throws -> GetObjectOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -5367,7 +5368,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -5435,7 +5436,7 @@ extension S3Client {
     /// - `NoSuchKey` : The specified key does not exist.
     public func getObjectAcl(input: GetObjectAclInput) async throws -> GetObjectAclOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -5457,7 +5458,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -5584,7 +5585,7 @@ extension S3Client {
     /// - `NoSuchKey` : The specified key does not exist.
     public func getObjectAttributes(input: GetObjectAttributesInput) async throws -> GetObjectAttributesOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -5606,7 +5607,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -5663,7 +5664,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `GetObjectLegalHoldOutput`)
     public func getObjectLegalHold(input: GetObjectLegalHoldInput) async throws -> GetObjectLegalHoldOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -5685,7 +5686,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -5742,7 +5743,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `GetObjectLockConfigurationOutput`)
     public func getObjectLockConfiguration(input: GetObjectLockConfigurationInput) async throws -> GetObjectLockConfigurationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -5764,7 +5765,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -5821,7 +5822,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `GetObjectRetentionOutput`)
     public func getObjectRetention(input: GetObjectRetentionInput) async throws -> GetObjectRetentionOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -5843,7 +5844,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -5904,7 +5905,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `GetObjectTaggingOutput`)
     public func getObjectTagging(input: GetObjectTaggingInput) async throws -> GetObjectTaggingOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -5926,7 +5927,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -5983,7 +5984,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `GetObjectTorrentOutput`)
     public func getObjectTorrent(input: GetObjectTorrentInput) async throws -> GetObjectTorrentOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -6005,7 +6006,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -6067,7 +6068,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `GetPublicAccessBlockOutput`)
     public func getPublicAccessBlock(input: GetPublicAccessBlockInput) async throws -> GetPublicAccessBlockOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -6089,7 +6090,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -6153,7 +6154,7 @@ extension S3Client {
     /// - `NotFound` : The specified content does not exist.
     public func headBucket(input: HeadBucketInput) async throws -> HeadBucketOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -6175,7 +6176,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -6275,7 +6276,7 @@ extension S3Client {
     /// - `NotFound` : The specified content does not exist.
     public func headObject(input: HeadObjectInput) async throws -> HeadObjectOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -6297,7 +6298,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -6358,7 +6359,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `ListBucketAnalyticsConfigurationsOutput`)
     public func listBucketAnalyticsConfigurations(input: ListBucketAnalyticsConfigurationsInput) async throws -> ListBucketAnalyticsConfigurationsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -6380,7 +6381,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -6441,7 +6442,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `ListBucketIntelligentTieringConfigurationsOutput`)
     public func listBucketIntelligentTieringConfigurations(input: ListBucketIntelligentTieringConfigurationsInput) async throws -> ListBucketIntelligentTieringConfigurationsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -6463,7 +6464,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -6531,7 +6532,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `ListBucketInventoryConfigurationsOutput`)
     public func listBucketInventoryConfigurations(input: ListBucketInventoryConfigurationsInput) async throws -> ListBucketInventoryConfigurationsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -6553,7 +6554,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -6621,7 +6622,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `ListBucketMetricsConfigurationsOutput`)
     public func listBucketMetricsConfigurations(input: ListBucketMetricsConfigurationsInput) async throws -> ListBucketMetricsConfigurationsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -6643,7 +6644,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -6695,7 +6696,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `ListBucketsOutput`)
     public func listBuckets(input: ListBucketsInput) async throws -> ListBucketsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -6717,7 +6718,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -6768,7 +6769,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `ListDirectoryBucketsOutput`)
     public func listDirectoryBuckets(input: ListDirectoryBucketsInput) async throws -> ListDirectoryBucketsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -6790,7 +6791,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -6875,7 +6876,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `ListMultipartUploadsOutput`)
     public func listMultipartUploads(input: ListMultipartUploadsInput) async throws -> ListMultipartUploadsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -6897,7 +6898,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -6960,7 +6961,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `ListObjectVersionsOutput`)
     public func listObjectVersions(input: ListObjectVersionsInput) async throws -> ListObjectVersionsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -6982,7 +6983,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -7052,7 +7053,7 @@ extension S3Client {
     /// - `NoSuchBucket` : The specified bucket does not exist.
     public func listObjects(input: ListObjectsInput) async throws -> ListObjectsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -7074,7 +7075,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -7163,7 +7164,7 @@ extension S3Client {
     /// - `NoSuchBucket` : The specified bucket does not exist.
     public func listObjectsV2(input: ListObjectsV2Input) async throws -> ListObjectsV2Output {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -7185,7 +7186,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -7259,7 +7260,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `ListPartsOutput`)
     public func listParts(input: ListPartsInput) async throws -> ListPartsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -7281,7 +7282,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -7333,7 +7334,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `PutBucketAbacOutput`)
     public func putBucketAbac(input: PutBucketAbacInput) async throws -> PutBucketAbacOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -7355,7 +7356,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -7424,7 +7425,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `PutBucketAccelerateConfigurationOutput`)
     public func putBucketAccelerateConfiguration(input: PutBucketAccelerateConfigurationInput) async throws -> PutBucketAccelerateConfigurationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -7446,7 +7447,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -7580,7 +7581,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `PutBucketAclOutput`)
     public func putBucketAcl(input: PutBucketAclInput) async throws -> PutBucketAclOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -7602,7 +7603,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -7699,7 +7700,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `PutBucketAnalyticsConfigurationOutput`)
     public func putBucketAnalyticsConfiguration(input: PutBucketAnalyticsConfigurationInput) async throws -> PutBucketAnalyticsConfigurationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -7721,7 +7722,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -7793,7 +7794,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `PutBucketCorsOutput`)
     public func putBucketCors(input: PutBucketCorsInput) async throws -> PutBucketCorsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -7815,7 +7816,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -7911,7 +7912,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `PutBucketEncryptionOutput`)
     public func putBucketEncryption(input: PutBucketEncryptionInput) async throws -> PutBucketEncryptionOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -7933,7 +7934,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -7997,7 +7998,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `PutBucketIntelligentTieringConfigurationOutput`)
     public func putBucketIntelligentTieringConfiguration(input: PutBucketIntelligentTieringConfigurationInput) async throws -> PutBucketIntelligentTieringConfigurationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -8019,7 +8020,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -8089,7 +8090,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `PutBucketInventoryConfigurationOutput`)
     public func putBucketInventoryConfiguration(input: PutBucketInventoryConfigurationInput) async throws -> PutBucketInventoryConfigurationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -8111,7 +8112,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -8200,7 +8201,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `PutBucketLifecycleConfigurationOutput`)
     public func putBucketLifecycleConfiguration(input: PutBucketLifecycleConfigurationInput) async throws -> PutBucketLifecycleConfigurationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -8222,7 +8223,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -8297,7 +8298,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `PutBucketLoggingOutput`)
     public func putBucketLogging(input: PutBucketLoggingInput) async throws -> PutBucketLoggingOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -8319,7 +8320,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -8402,7 +8403,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `PutBucketMetricsConfigurationOutput`)
     public func putBucketMetricsConfiguration(input: PutBucketMetricsConfigurationInput) async throws -> PutBucketMetricsConfigurationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -8424,7 +8425,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -8483,7 +8484,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `PutBucketNotificationConfigurationOutput`)
     public func putBucketNotificationConfiguration(input: PutBucketNotificationConfigurationInput) async throws -> PutBucketNotificationConfigurationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -8505,7 +8506,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -8566,7 +8567,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `PutBucketOwnershipControlsOutput`)
     public func putBucketOwnershipControls(input: PutBucketOwnershipControlsInput) async throws -> PutBucketOwnershipControlsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -8588,7 +8589,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -8657,7 +8658,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `PutBucketPolicyOutput`)
     public func putBucketPolicy(input: PutBucketPolicyInput) async throws -> PutBucketPolicyOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -8679,7 +8680,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -8741,7 +8742,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `PutBucketReplicationOutput`)
     public func putBucketReplication(input: PutBucketReplicationInput) async throws -> PutBucketReplicationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -8763,7 +8764,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -8825,7 +8826,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `PutBucketRequestPaymentOutput`)
     public func putBucketRequestPayment(input: PutBucketRequestPaymentInput) async throws -> PutBucketRequestPaymentOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -8847,7 +8848,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -8920,7 +8921,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `PutBucketTaggingOutput`)
     public func putBucketTagging(input: PutBucketTaggingInput) async throws -> PutBucketTaggingOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -8942,7 +8943,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -9006,7 +9007,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `PutBucketVersioningOutput`)
     public func putBucketVersioning(input: PutBucketVersioningInput) async throws -> PutBucketVersioningOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -9028,7 +9029,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -9129,7 +9130,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `PutBucketWebsiteOutput`)
     public func putBucketWebsite(input: PutBucketWebsiteInput) async throws -> PutBucketWebsiteOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -9151,7 +9152,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -9276,7 +9277,7 @@ extension S3Client {
     /// - `TooManyParts` : You have attempted to add more parts than the maximum of 10000 that are allowed for this object. You can use the CopyObject operation to copy this object to another and then add more data to the newly copied object.
     public func putObject(input: PutObjectInput) async throws -> PutObjectOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -9298,7 +9299,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -9428,7 +9429,7 @@ extension S3Client {
     /// - `NoSuchKey` : The specified key does not exist.
     public func putObjectAcl(input: PutObjectAclInput) async throws -> PutObjectAclOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -9450,7 +9451,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -9505,7 +9506,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `PutObjectLegalHoldOutput`)
     public func putObjectLegalHold(input: PutObjectLegalHoldInput) async throws -> PutObjectLegalHoldOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -9527,7 +9528,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -9591,7 +9592,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `PutObjectLockConfigurationOutput`)
     public func putObjectLockConfiguration(input: PutObjectLockConfigurationInput) async throws -> PutObjectLockConfigurationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -9613,7 +9614,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -9668,7 +9669,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `PutObjectRetentionOutput`)
     public func putObjectRetention(input: PutObjectRetentionInput) async throws -> PutObjectRetentionOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -9690,7 +9691,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -9763,7 +9764,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `PutObjectTaggingOutput`)
     public func putObjectTagging(input: PutObjectTaggingInput) async throws -> PutObjectTaggingOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -9785,7 +9786,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -9851,7 +9852,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `PutPublicAccessBlockOutput`)
     public func putPublicAccessBlock(input: PutPublicAccessBlockInput) async throws -> PutPublicAccessBlockOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -9873,7 +9874,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -9938,7 +9939,7 @@ extension S3Client {
     /// - `IdempotencyParameterMismatch` : Parameters on this idempotent request are inconsistent with parameters used in previous request(s). For a list of error codes and more information on Amazon S3 errors, see [Error codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#ErrorCodeList). Idempotency ensures that an API request completes no more than one time. With an idempotent request, if the original request completes successfully, any subsequent retries complete successfully without performing any further actions.
     public func renameObject(input: RenameObjectInput) async throws -> RenameObjectOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -9960,7 +9961,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -10083,7 +10084,7 @@ extension S3Client {
     /// - `ObjectAlreadyInActiveTierError` : This action is not allowed against this storage tier.
     public func restoreObject(input: RestoreObjectInput) async throws -> RestoreObjectOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -10105,7 +10106,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -10187,7 +10188,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `SelectObjectContentOutput`)
     public func selectObjectContent(input: SelectObjectContentInput) async throws -> SelectObjectContentOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -10209,7 +10210,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -10292,7 +10293,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `UpdateBucketMetadataInventoryTableConfigurationOutput`)
     public func updateBucketMetadataInventoryTableConfiguration(input: UpdateBucketMetadataInventoryTableConfigurationInput) async throws -> UpdateBucketMetadataInventoryTableConfigurationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -10314,7 +10315,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -10380,7 +10381,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `UpdateBucketMetadataJournalTableConfigurationOutput`)
     public func updateBucketMetadataJournalTableConfiguration(input: UpdateBucketMetadataJournalTableConfigurationInput) async throws -> UpdateBucketMetadataJournalTableConfigurationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -10402,7 +10403,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -10517,7 +10518,7 @@ extension S3Client {
     /// - `NoSuchKey` : The specified key does not exist.
     public func updateObjectEncryption(input: UpdateObjectEncryptionInput) async throws -> UpdateObjectEncryptionOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -10539,7 +10540,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -10644,7 +10645,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `UploadPartOutput`)
     public func uploadPart(input: UploadPartInput) async throws -> UploadPartOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -10666,7 +10667,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -10787,7 +10788,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `UploadPartCopyOutput`)
     public func uploadPartCopy(input: UploadPartCopyInput) async throws -> UploadPartCopyOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -10809,7 +10810,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -10861,7 +10862,7 @@ extension S3Client {
     /// - Returns: [no documentation found] (Type: `WriteGetObjectResponseOutput`)
     public func writeGetObjectResponse(input: WriteGetObjectResponseInput) async throws -> WriteGetObjectResponseOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -10883,7 +10884,7 @@ extension S3Client {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())

@@ -36,6 +36,7 @@ import struct AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.FlexibleChecksumsRequestMiddleware
 import struct AWSClientRuntime.FlexibleChecksumsResponseMiddleware
+import struct AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct ClientRuntime.AuthSchemeMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
@@ -18512,7 +18513,7 @@ extension GetObjectInput {
             throw Smithy.ClientError.unknownError("No HTTP client configured for presigned request")
         }
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -18536,7 +18537,7 @@ extension GetObjectInput {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -18670,7 +18671,7 @@ extension PutObjectInput {
             throw Smithy.ClientError.unknownError("No HTTP client configured for presigned request")
         }
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -18694,7 +18695,7 @@ extension PutObjectInput {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -18769,7 +18770,7 @@ extension UploadPartInput {
             throw Smithy.ClientError.unknownError("No HTTP client configured for presigned request")
         }
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -18793,7 +18794,7 @@ extension UploadPartInput {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -18847,7 +18848,7 @@ extension GetObjectInput {
             throw Smithy.ClientError.unknownError("No HTTP client configured for presigned request")
         }
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -18871,7 +18872,7 @@ extension GetObjectInput {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -18928,7 +18929,7 @@ extension PutObjectInput {
             throw Smithy.ClientError.unknownError("No HTTP client configured for presigned request")
         }
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -18952,7 +18953,7 @@ extension PutObjectInput {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -19012,7 +19013,7 @@ extension UploadPartInput {
             throw Smithy.ClientError.unknownError("No HTTP client configured for presigned request")
         }
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -19036,7 +19037,7 @@ extension UploadPartInput {
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, customErrorResolver: s3CustomErrorResolver, errorPostProcessor: s3ErrorPostProcessor)
+        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -19098,7 +19099,7 @@ import SmithyHTTPAPI
 @_spi(SchemaBasedSerde) import Smithy
 @_spi(UnknownAWSHTTPServiceError) import AWSClientRuntime
 
-func s3CustomErrorResolver(_ response: SmithyHTTPAPI.HTTPResponse, _ bodyData: Foundation.Data, _ errorTypeRegistry: SmithySerialization.TypeRegistry, _ noErrorWrapping: Bool) async throws -> Swift.Error? {
+@Sendable func s3CustomErrorResolver(_ response: SmithyHTTPAPI.HTTPResponse, _ bodyData: Foundation.Data, _ errorTypeRegistry: SmithySerialization.TypeRegistry, _ noErrorWrapping: Bool) async throws -> Swift.Error? {
     let responseReader = try SmithyXML.Reader.from(data: bodyData)
     let baseError = try ClientRuntime.RestXMLError(httpResponse: response, responseReader: responseReader, noErrorWrapping: true)
 
@@ -19111,9 +19112,7 @@ func s3CustomErrorResolver(_ response: SmithyHTTPAPI.HTTPResponse, _ bodyData: F
     return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
 }
 
-import AWSClientRuntime
-
-func s3ErrorPostProcessor(_ error: inout any (ClientRuntime.ServiceError & ClientRuntime.HTTPError & Swift.Error), _ response: SmithyHTTPAPI.HTTPResponse) {
+@Sendable func s3ErrorPostProcessor(_ error: inout any (ClientRuntime.ServiceError & ClientRuntime.HTTPError & Swift.Error), _ response: SmithyHTTPAPI.HTTPResponse) {
     if var s3Error = error as? S3ErrorRequestIDSettable {
         s3Error.requestID = response.requestID
         s3Error.requestID2 = response.requestID2

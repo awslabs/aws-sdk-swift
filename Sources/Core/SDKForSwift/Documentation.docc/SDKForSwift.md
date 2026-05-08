@@ -53,6 +53,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [SmithyReadWrite](/sdk-for-swift/latest/api/smithyreadwrite/documentation/smithyreadwrite)
 
+[SmithyRestXML](/sdk-for-swift/latest/api/smithyrestxml/documentation/smithyrestxml)
+
 [SmithyRetries](/sdk-for-swift/latest/api/smithyretries/documentation/smithyretries)
 
 [SmithyRetriesAPI](/sdk-for-swift/latest/api/smithyretriesapi/documentation/smithyretriesapi)

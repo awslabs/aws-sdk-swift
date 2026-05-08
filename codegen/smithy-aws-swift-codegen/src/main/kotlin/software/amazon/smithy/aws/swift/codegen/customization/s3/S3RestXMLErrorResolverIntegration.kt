@@ -19,18 +19,7 @@ import software.amazon.smithy.swift.codegen.model.expectShape
 import software.amazon.smithy.swift.codegen.model.getTrait
 import software.amazon.smithy.swift.codegen.utils.ModelFileUtils
 
-/**
- * Generates `s3CustomErrorResolver` and `s3ErrorPostProcessor` for S3.
- *
- * - `s3CustomErrorResolver`: Called before the generic TypeRegistry error path.
- *   Constructs a `RestXMLError` (old BaseError protocol) and uses
- *   `UnknownAWSHTTPServiceError.makeError(baseError:)` to handle candidate
- *   errors (e.g. InvalidAccessKeyId) and propagate requestID2 on unknown errors.
- *   Returns nil for modeled errors so the generic path handles them.
- *
- * - `s3ErrorPostProcessor`: Called after a modeled error is deserialized.
- *   Sets requestID and requestID2 from the HTTP response headers.
- */
+/** Renders S3-specific custom error resolver and post-processor for RestXML. */
 class S3RestXMLErrorResolverIntegration : SwiftIntegration {
     override val order: Byte
         get() = 127
@@ -68,10 +57,6 @@ class S3RestXMLErrorResolverIntegration : SwiftIntegration {
         writer.write("@_spi(UnknownAWSHTTPServiceError) import AWSClientRuntime")
         writer.write("")
 
-        // The custom error resolver handles errors that the generic TypeRegistry path
-        // cannot: candidate errors (InvalidAccessKeyId) and unknown errors with requestID2.
-        // For modeled errors (those in the TypeRegistry), it returns nil so the generic path
-        // handles deserialization.
         writer.openBlock(
             "@Sendable func s3CustomErrorResolver(_ response: SmithyHTTPAPI.HTTPResponse, _ bodyData: Foundation.Data, _ errorTypeRegistry: SmithySerialization.TypeRegistry, _ noErrorWrapping: Bool) async throws -> Swift.Error? {",
             "}",
@@ -82,26 +67,17 @@ class S3RestXMLErrorResolverIntegration : SwiftIntegration {
                 noErrorWrapping,
             )
             writer.write("")
-
-            // customError() check
             writer.write("if let error = baseError.customError() { return error }")
             writer.write("")
-
-            // Check if this is a modeled error in the registry — if so, return nil
-            // to let the generic path handle it (with errorPostProcessor for requestID2)
             writer.openBlock("if errorTypeRegistry.find(matcher: { $$0.schema.id.name == baseError.code }) != nil {", "}") {
                 writer.write("return nil")
             }
             writer.write("")
-
-            // Not a modeled error — use UnknownAWSHTTPServiceError.makeError which
-            // checks candidates (InvalidAccessKeyId) and propagates requestID2
             writer.write("return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)")
         }
     }
 
     private fun renderErrorPostProcessor(writer: SwiftWriter) {
-        // Post-processor sets requestID and requestID2 on modeled S3 errors
         writer.openBlock(
             "@Sendable func s3ErrorPostProcessor(_ error: inout any (ClientRuntime.ServiceError & ClientRuntime.HTTPError & Swift.Error), _ response: SmithyHTTPAPI.HTTPResponse) {",
             "}",
@@ -120,7 +96,6 @@ class S3RestXMLErrorResolverIntegration : SwiftIntegration {
 
         writer.write("")
 
-        // Internal protocol for setting requestID and requestID2 on S3 error types
         writer.openBlock("protocol S3ErrorRequestIDSettable {", "}") {
             writer.write("var requestID: Swift.String? { get set }")
             writer.write("var requestID2: Swift.String? { get set }")
