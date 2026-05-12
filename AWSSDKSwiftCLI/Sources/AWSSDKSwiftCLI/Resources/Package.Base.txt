@@ -79,7 +79,7 @@ private var runtimeProducts: [Product] {
 }
 
 private var serviceProducts: [Product] {
-    serviceClientData.filter { $0.serviceType == .awsServiceClient }.map(productForService(_:))
+    selectedServiceClientData.filter { $0.serviceType == .awsServiceClient }.map(productForService(_:))
 }
 
 private func productForService(_ service: ServiceClientData) -> Product {
@@ -270,7 +270,7 @@ private var runtimeTestTargets: [Target] {
 }
 
 private var serviceTargets: [Target] {
-    serviceClientData.filter { $0.serviceType == .awsServiceClient }.map(target(_:))
+    selectedServiceClientData.filter { $0.serviceType == .awsServiceClient }.map(target(_:))
 }
 
 private func target(_ service: ServiceClientData) -> Target {
@@ -279,7 +279,7 @@ private func target(_ service: ServiceClientData) -> Target {
 
 private var serviceTestTargets: [Target] {
     guard ProcessInfo.processInfo.environment["AWS_SWIFT_SDK_ENABLE_SERVICE_TESTS"] != nil else { return [] }
-    return serviceClientData.filter { $0.serviceType == .awsServiceClient }.map(unitTestTarget(_:))
+    return selectedServiceClientData.filter { $0.serviceType == .awsServiceClient }.map(unitTestTarget(_:))
 }
 
 private func unitTestTarget(_ service: ServiceClientData) -> Target {
@@ -295,6 +295,23 @@ private func unitTestTarget(_ service: ServiceClientData) -> Target {
         ],
         path: "codegen/sdk-codegen/build/smithyprojections/sdk-codegen/\(modelName)/swift-codegen/Tests/\(testName)"
     )
+}
+
+private var selectedServiceClientData: [ServiceClientData] {
+    // If the batch env vars aren't set with valid values,
+    // then include all services
+    let env = ProcessInfo.processInfo.environment
+    guard let batchNumberString = env["AWS_SWIFT_SDK_BATCH_NUMBER"],
+          let batchNumber = UInt(batchNumberString),
+          let batchTotalString = env["AWS_SWIFT_SDK_BATCH_TOTAL"],
+          let batchTotal = UInt(batchTotalString) else {
+        return serviceClientData
+    }
+
+    // Select services to include, batching services by their index
+    return serviceClientData.enumerated().filter {
+        UInt($0.offset) % batchTotal == batchNumber
+    }.map { $0.element }
 }
 
 // As of Swift 6.2, @unchecked is not needed, but for Swift 6.0 it is
