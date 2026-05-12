@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.firehose#Firehose_20150804",
-    "module": "AWSFirehose",
-    "sdkId": "Firehose",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/firehose.json"
-}

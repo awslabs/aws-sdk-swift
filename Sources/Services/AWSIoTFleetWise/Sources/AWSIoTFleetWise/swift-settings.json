@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.iotfleetwise#IoTAutobahnControlPlane",
-    "module": "AWSIoTFleetWise",
-    "sdkId": "IoTFleetWise",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/iotfleetwise.json"
-}

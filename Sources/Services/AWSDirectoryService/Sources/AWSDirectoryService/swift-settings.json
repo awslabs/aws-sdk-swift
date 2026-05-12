@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.directoryservice#DirectoryService_20150416",
-    "module": "AWSDirectoryService",
-    "sdkId": "Directory Service",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/directory-service.json"
-}

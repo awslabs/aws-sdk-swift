@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.bcmdashboards#AWSBCMDashboardsService",
-    "module": "AWSBCMDashboards",
-    "sdkId": "BCM Dashboards",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/bcm-dashboards.json"
-}

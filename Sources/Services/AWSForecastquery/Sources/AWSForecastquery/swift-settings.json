@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.forecastquery#AmazonForecastRuntime",
-    "module": "AWSForecastquery",
-    "sdkId": "forecastquery",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/forecastquery.json"
-}

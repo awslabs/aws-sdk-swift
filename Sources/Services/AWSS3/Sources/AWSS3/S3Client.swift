@@ -11,7 +11,6 @@ import Foundation
 #if canImport(FoundationNetworking)
 import FoundationNetworking
 #endif
-@_spi(SchemaBasedSerde) import SmithySerialization
 import class AWSClientRuntime.AWSClientConfigDefaultsProvider
 import class AWSClientRuntime.AmzSdkRequestMiddleware
 import class AWSClientRuntime.DefaultAWSClientPlugin
@@ -20,12 +19,14 @@ import class AWSSDKIdentity.DefaultS3ExpressIdentityResolver
 import class ClientRuntime.ClientBuilder
 import class ClientRuntime.DefaultClientPlugin
 import class ClientRuntime.HttpClientConfiguration
-@_spi(SchemaBasedSerde) import class ClientRuntime.OrchestratorBuilder
+import class ClientRuntime.OrchestratorBuilder
 import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
 import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
+import class SmithyHTTPAPI.HTTPResponse
+@_spi(SmithyReadWrite) import class SmithyXML.Writer
 import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
@@ -35,6 +36,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import enum Smithy.ByteStream
 import enum Smithy.ClientError
+@_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
 import func ClientRuntime.initialize
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
@@ -45,41 +47,43 @@ import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
 import protocol ClientRuntime.IdempotencyTokenGenerator
 import protocol ClientRuntime.InterceptorProvider
-import protocol ClientRuntime.Plugin
 import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 @_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
+@_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.FlexibleChecksumsRequestMiddleware
 import struct AWSClientRuntime.FlexibleChecksumsResponseMiddleware
-import struct AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AAuthScheme
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct AWSSDKHTTPAuth.SigV4S3ExpressAuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
+import struct ClientRuntime.BlobStreamBodyMiddleware
+@_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
+@_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.HeaderMiddleware
 import struct ClientRuntime.IdempotencyTokenMiddleware
 import struct ClientRuntime.LoggerMiddleware
+import struct ClientRuntime.PayloadBodyMiddleware
 import struct ClientRuntime.QueryItemMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
+import struct ClientRuntime.StringBodyMiddleware
 import struct ClientRuntime.URLHostMiddleware
 import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.AttributeKey
 import struct Smithy.Attributes
 import struct SmithyIdentity.BearerTokenIdentity
 @_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
-@_spi(SchemaBasedSerde) import struct SmithyRestXML.HTTPClientProtocol
-@_spi(SchemaBasedSerde) import struct SmithyRestXML.Plugin
 import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
@@ -787,12 +791,6 @@ extension S3Client {
     /// __Possible Exceptions:__
     /// - `NoSuchUpload` : The specified multipart upload does not exist.
     public func abortMultipartUpload(input: AbortMultipartUploadInput) async throws -> AbortMultipartUploadOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.abortMultipartUploadOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -808,10 +806,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<AbortMultipartUploadInput, AbortMultipartUploadOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -822,6 +818,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AbortMultipartUploadInput, AbortMultipartUploadOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<AbortMultipartUploadInput, AbortMultipartUploadOutput>(AbortMultipartUploadInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<AbortMultipartUploadInput, AbortMultipartUploadOutput>(AbortMultipartUploadInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<AbortMultipartUploadOutput>(AbortMultipartUploadOutput.httpOutput(from:), AbortMultipartUploadOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AbortMultipartUploadInput, AbortMultipartUploadOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -920,12 +917,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `CompleteMultipartUploadOutput`)
     public func completeMultipartUpload(input: CompleteMultipartUploadInput) async throws -> CompleteMultipartUploadOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.completeMultipartUploadOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -941,10 +932,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<CompleteMultipartUploadInput, CompleteMultipartUploadOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -956,7 +945,9 @@ extension S3Client {
         builder.serialize(ClientRuntime.HeaderMiddleware<CompleteMultipartUploadInput, CompleteMultipartUploadOutput>(CompleteMultipartUploadInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<CompleteMultipartUploadInput, CompleteMultipartUploadOutput>(CompleteMultipartUploadInput.queryItemProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CompleteMultipartUploadInput, CompleteMultipartUploadOutput>(contentType: "application/xml"))
+        builder.serialize(ClientRuntime.PayloadBodyMiddleware<CompleteMultipartUploadInput, CompleteMultipartUploadOutput, S3ClientTypes.CompletedMultipartUpload, SmithyXML.Writer>(rootNodeInfo: .init("CompleteMultipartUpload", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/")), inputWritingClosure: S3ClientTypes.CompletedMultipartUpload.write(value:to:), keyPath: \.multipartUpload, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CompleteMultipartUploadInput, CompleteMultipartUploadOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CompleteMultipartUploadOutput>(CompleteMultipartUploadOutput.httpOutput(from:), CompleteMultipartUploadOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CompleteMultipartUploadInput, CompleteMultipartUploadOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1059,12 +1050,6 @@ extension S3Client {
     /// __Possible Exceptions:__
     /// - `ObjectNotInActiveTierError` : The source object of the COPY action is not in the active tier and is only stored in Amazon S3 Glacier.
     public func copyObject(input: CopyObjectInput) async throws -> CopyObjectOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.copyObjectOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -1080,10 +1065,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<CopyObjectInput, CopyObjectOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1094,6 +1077,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CopyObjectInput, CopyObjectOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<CopyObjectInput, CopyObjectOutput>(CopyObjectInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<CopyObjectInput, CopyObjectOutput>(CopyObjectInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CopyObjectOutput>(CopyObjectOutput.httpOutput(from:), CopyObjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CopyObjectInput, CopyObjectOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1171,12 +1155,6 @@ extension S3Client {
     /// - `BucketAlreadyExists` : The requested bucket name is not available. The bucket namespace is shared by all users of the system. Select a different name and try again.
     /// - `BucketAlreadyOwnedByYou` : The bucket you tried to create already exists, and you own it. Amazon S3 returns this error in all Amazon Web Services Regions except in the North Virginia Region. For legacy compatibility, if you re-create an existing bucket that you already own in the North Virginia Region, Amazon S3 returns 200 OK and resets the bucket access control lists (ACLs).
     public func createBucket(input: CreateBucketInput) async throws -> CreateBucketOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.createBucketOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -1192,10 +1170,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<CreateBucketInput, CreateBucketOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1206,7 +1182,9 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateBucketInput, CreateBucketOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<CreateBucketInput, CreateBucketOutput>(CreateBucketInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateBucketInput, CreateBucketOutput>(contentType: "application/xml"))
+        builder.serialize(ClientRuntime.PayloadBodyMiddleware<CreateBucketInput, CreateBucketOutput, S3ClientTypes.CreateBucketConfiguration, SmithyXML.Writer>(rootNodeInfo: .init("CreateBucketConfiguration", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/")), inputWritingClosure: S3ClientTypes.CreateBucketConfiguration.write(value:to:), keyPath: \.createBucketConfiguration, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBucketInput, CreateBucketOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateBucketOutput>(CreateBucketOutput.httpOutput(from:), CreateBucketOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBucketInput, CreateBucketOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1276,12 +1254,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `CreateBucketMetadataConfigurationOutput`)
     public func createBucketMetadataConfiguration(input: CreateBucketMetadataConfigurationInput) async throws -> CreateBucketMetadataConfigurationOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.createBucketMetadataConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1297,10 +1269,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<CreateBucketMetadataConfigurationInput, CreateBucketMetadataConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1312,7 +1282,9 @@ extension S3Client {
         builder.serialize(ClientRuntime.HeaderMiddleware<CreateBucketMetadataConfigurationInput, CreateBucketMetadataConfigurationOutput>(CreateBucketMetadataConfigurationInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<CreateBucketMetadataConfigurationInput, CreateBucketMetadataConfigurationOutput>(CreateBucketMetadataConfigurationInput.queryItemProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateBucketMetadataConfigurationInput, CreateBucketMetadataConfigurationOutput>(contentType: "application/xml"))
+        builder.serialize(ClientRuntime.PayloadBodyMiddleware<CreateBucketMetadataConfigurationInput, CreateBucketMetadataConfigurationOutput, S3ClientTypes.MetadataConfiguration, SmithyXML.Writer>(rootNodeInfo: .init("MetadataConfiguration", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/")), inputWritingClosure: S3ClientTypes.MetadataConfiguration.write(value:to:), keyPath: \.metadataConfiguration, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBucketMetadataConfigurationInput, CreateBucketMetadataConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateBucketMetadataConfigurationOutput>(CreateBucketMetadataConfigurationOutput.httpOutput(from:), CreateBucketMetadataConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBucketMetadataConfigurationInput, CreateBucketMetadataConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1373,12 +1345,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `CreateBucketMetadataTableConfigurationOutput`)
     public func createBucketMetadataTableConfiguration(input: CreateBucketMetadataTableConfigurationInput) async throws -> CreateBucketMetadataTableConfigurationOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.createBucketMetadataTableConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1394,10 +1360,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<CreateBucketMetadataTableConfigurationInput, CreateBucketMetadataTableConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1409,7 +1373,9 @@ extension S3Client {
         builder.serialize(ClientRuntime.HeaderMiddleware<CreateBucketMetadataTableConfigurationInput, CreateBucketMetadataTableConfigurationOutput>(CreateBucketMetadataTableConfigurationInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<CreateBucketMetadataTableConfigurationInput, CreateBucketMetadataTableConfigurationOutput>(CreateBucketMetadataTableConfigurationInput.queryItemProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateBucketMetadataTableConfigurationInput, CreateBucketMetadataTableConfigurationOutput>(contentType: "application/xml"))
+        builder.serialize(ClientRuntime.PayloadBodyMiddleware<CreateBucketMetadataTableConfigurationInput, CreateBucketMetadataTableConfigurationOutput, S3ClientTypes.MetadataTableConfiguration, SmithyXML.Writer>(rootNodeInfo: .init("MetadataTableConfiguration", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/")), inputWritingClosure: S3ClientTypes.MetadataTableConfiguration.write(value:to:), keyPath: \.metadataTableConfiguration, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBucketMetadataTableConfigurationInput, CreateBucketMetadataTableConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateBucketMetadataTableConfigurationOutput>(CreateBucketMetadataTableConfigurationOutput.httpOutput(from:), CreateBucketMetadataTableConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBucketMetadataTableConfigurationInput, CreateBucketMetadataTableConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1520,12 +1486,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `CreateMultipartUploadOutput`)
     public func createMultipartUpload(input: CreateMultipartUploadInput) async throws -> CreateMultipartUploadOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.createMultipartUploadOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1541,10 +1501,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<CreateMultipartUploadInput, CreateMultipartUploadOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1555,6 +1513,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateMultipartUploadInput, CreateMultipartUploadOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<CreateMultipartUploadInput, CreateMultipartUploadOutput>(CreateMultipartUploadInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<CreateMultipartUploadInput, CreateMultipartUploadOutput>(CreateMultipartUploadInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateMultipartUploadOutput>(CreateMultipartUploadOutput.httpOutput(from:), CreateMultipartUploadOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMultipartUploadInput, CreateMultipartUploadOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1608,12 +1567,6 @@ extension S3Client {
     /// __Possible Exceptions:__
     /// - `NoSuchBucket` : The specified bucket does not exist.
     public func createSession(input: CreateSessionInput) async throws -> CreateSessionOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.createSessionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -1629,10 +1582,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<CreateSessionInput, CreateSessionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1643,6 +1594,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateSessionInput, CreateSessionOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<CreateSessionInput, CreateSessionOutput>(CreateSessionInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<CreateSessionInput, CreateSessionOutput>(CreateSessionInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSessionOutput>(CreateSessionOutput.httpOutput(from:), CreateSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSessionInput, CreateSessionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1703,12 +1655,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `DeleteBucketOutput`)
     public func deleteBucket(input: DeleteBucketInput) async throws -> DeleteBucketOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.deleteBucketOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -1724,10 +1670,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteBucketInput, DeleteBucketOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1737,6 +1681,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteBucketInput, DeleteBucketOutput>(DeleteBucketInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteBucketInput, DeleteBucketOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteBucketInput, DeleteBucketOutput>(DeleteBucketInput.headerProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBucketOutput>(DeleteBucketOutput.httpOutput(from:), DeleteBucketOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBucketInput, DeleteBucketOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1785,12 +1730,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `DeleteBucketAnalyticsConfigurationOutput`)
     public func deleteBucketAnalyticsConfiguration(input: DeleteBucketAnalyticsConfigurationInput) async throws -> DeleteBucketAnalyticsConfigurationOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.deleteBucketAnalyticsConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -1806,10 +1745,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteBucketAnalyticsConfigurationInput, DeleteBucketAnalyticsConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1820,6 +1757,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteBucketAnalyticsConfigurationInput, DeleteBucketAnalyticsConfigurationOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteBucketAnalyticsConfigurationInput, DeleteBucketAnalyticsConfigurationOutput>(DeleteBucketAnalyticsConfigurationInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteBucketAnalyticsConfigurationInput, DeleteBucketAnalyticsConfigurationOutput>(DeleteBucketAnalyticsConfigurationInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBucketAnalyticsConfigurationOutput>(DeleteBucketAnalyticsConfigurationOutput.httpOutput(from:), DeleteBucketAnalyticsConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBucketAnalyticsConfigurationInput, DeleteBucketAnalyticsConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1866,12 +1804,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `DeleteBucketCorsOutput`)
     public func deleteBucketCors(input: DeleteBucketCorsInput) async throws -> DeleteBucketCorsOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.deleteBucketCorsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -1887,10 +1819,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteBucketCorsInput, DeleteBucketCorsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1901,6 +1831,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteBucketCorsInput, DeleteBucketCorsOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteBucketCorsInput, DeleteBucketCorsOutput>(DeleteBucketCorsInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteBucketCorsInput, DeleteBucketCorsOutput>(DeleteBucketCorsInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBucketCorsOutput>(DeleteBucketCorsOutput.httpOutput(from:), DeleteBucketCorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBucketCorsInput, DeleteBucketCorsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1961,12 +1892,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `DeleteBucketEncryptionOutput`)
     public func deleteBucketEncryption(input: DeleteBucketEncryptionInput) async throws -> DeleteBucketEncryptionOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.deleteBucketEncryptionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -1982,10 +1907,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteBucketEncryptionInput, DeleteBucketEncryptionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1996,6 +1919,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteBucketEncryptionInput, DeleteBucketEncryptionOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteBucketEncryptionInput, DeleteBucketEncryptionOutput>(DeleteBucketEncryptionInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteBucketEncryptionInput, DeleteBucketEncryptionOutput>(DeleteBucketEncryptionInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBucketEncryptionOutput>(DeleteBucketEncryptionOutput.httpOutput(from:), DeleteBucketEncryptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBucketEncryptionInput, DeleteBucketEncryptionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2044,12 +1968,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `DeleteBucketIntelligentTieringConfigurationOutput`)
     public func deleteBucketIntelligentTieringConfiguration(input: DeleteBucketIntelligentTieringConfigurationInput) async throws -> DeleteBucketIntelligentTieringConfigurationOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.deleteBucketIntelligentTieringConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -2065,10 +1983,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteBucketIntelligentTieringConfigurationInput, DeleteBucketIntelligentTieringConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2079,6 +1995,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteBucketIntelligentTieringConfigurationInput, DeleteBucketIntelligentTieringConfigurationOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteBucketIntelligentTieringConfigurationInput, DeleteBucketIntelligentTieringConfigurationOutput>(DeleteBucketIntelligentTieringConfigurationInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteBucketIntelligentTieringConfigurationInput, DeleteBucketIntelligentTieringConfigurationOutput>(DeleteBucketIntelligentTieringConfigurationInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBucketIntelligentTieringConfigurationOutput>(DeleteBucketIntelligentTieringConfigurationOutput.httpOutput(from:), DeleteBucketIntelligentTieringConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBucketIntelligentTieringConfigurationInput, DeleteBucketIntelligentTieringConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2134,12 +2051,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `DeleteBucketInventoryConfigurationOutput`)
     public func deleteBucketInventoryConfiguration(input: DeleteBucketInventoryConfigurationInput) async throws -> DeleteBucketInventoryConfigurationOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.deleteBucketInventoryConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -2155,10 +2066,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteBucketInventoryConfigurationInput, DeleteBucketInventoryConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2169,6 +2078,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteBucketInventoryConfigurationInput, DeleteBucketInventoryConfigurationOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteBucketInventoryConfigurationInput, DeleteBucketInventoryConfigurationOutput>(DeleteBucketInventoryConfigurationInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteBucketInventoryConfigurationInput, DeleteBucketInventoryConfigurationOutput>(DeleteBucketInventoryConfigurationInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBucketInventoryConfigurationOutput>(DeleteBucketInventoryConfigurationOutput.httpOutput(from:), DeleteBucketInventoryConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBucketInventoryConfigurationInput, DeleteBucketInventoryConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2225,12 +2135,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `DeleteBucketLifecycleOutput`)
     public func deleteBucketLifecycle(input: DeleteBucketLifecycleInput) async throws -> DeleteBucketLifecycleOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.deleteBucketLifecycleOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -2246,10 +2150,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteBucketLifecycleInput, DeleteBucketLifecycleOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2260,6 +2162,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteBucketLifecycleInput, DeleteBucketLifecycleOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteBucketLifecycleInput, DeleteBucketLifecycleOutput>(DeleteBucketLifecycleInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteBucketLifecycleInput, DeleteBucketLifecycleOutput>(DeleteBucketLifecycleInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBucketLifecycleOutput>(DeleteBucketLifecycleOutput.httpOutput(from:), DeleteBucketLifecycleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBucketLifecycleInput, DeleteBucketLifecycleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2310,12 +2213,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `DeleteBucketMetadataConfigurationOutput`)
     public func deleteBucketMetadataConfiguration(input: DeleteBucketMetadataConfigurationInput) async throws -> DeleteBucketMetadataConfigurationOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.deleteBucketMetadataConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -2331,10 +2228,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteBucketMetadataConfigurationInput, DeleteBucketMetadataConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2345,6 +2240,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteBucketMetadataConfigurationInput, DeleteBucketMetadataConfigurationOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteBucketMetadataConfigurationInput, DeleteBucketMetadataConfigurationOutput>(DeleteBucketMetadataConfigurationInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteBucketMetadataConfigurationInput, DeleteBucketMetadataConfigurationOutput>(DeleteBucketMetadataConfigurationInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBucketMetadataConfigurationOutput>(DeleteBucketMetadataConfigurationOutput.httpOutput(from:), DeleteBucketMetadataConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBucketMetadataConfigurationInput, DeleteBucketMetadataConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2391,12 +2287,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `DeleteBucketMetadataTableConfigurationOutput`)
     public func deleteBucketMetadataTableConfiguration(input: DeleteBucketMetadataTableConfigurationInput) async throws -> DeleteBucketMetadataTableConfigurationOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.deleteBucketMetadataTableConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -2412,10 +2302,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteBucketMetadataTableConfigurationInput, DeleteBucketMetadataTableConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2426,6 +2314,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteBucketMetadataTableConfigurationInput, DeleteBucketMetadataTableConfigurationOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteBucketMetadataTableConfigurationInput, DeleteBucketMetadataTableConfigurationOutput>(DeleteBucketMetadataTableConfigurationInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteBucketMetadataTableConfigurationInput, DeleteBucketMetadataTableConfigurationOutput>(DeleteBucketMetadataTableConfigurationInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBucketMetadataTableConfigurationOutput>(DeleteBucketMetadataTableConfigurationOutput.httpOutput(from:), DeleteBucketMetadataTableConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBucketMetadataTableConfigurationInput, DeleteBucketMetadataTableConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2483,12 +2372,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `DeleteBucketMetricsConfigurationOutput`)
     public func deleteBucketMetricsConfiguration(input: DeleteBucketMetricsConfigurationInput) async throws -> DeleteBucketMetricsConfigurationOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.deleteBucketMetricsConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -2504,10 +2387,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteBucketMetricsConfigurationInput, DeleteBucketMetricsConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2518,6 +2399,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteBucketMetricsConfigurationInput, DeleteBucketMetricsConfigurationOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteBucketMetricsConfigurationInput, DeleteBucketMetricsConfigurationOutput>(DeleteBucketMetricsConfigurationInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteBucketMetricsConfigurationInput, DeleteBucketMetricsConfigurationOutput>(DeleteBucketMetricsConfigurationInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBucketMetricsConfigurationOutput>(DeleteBucketMetricsConfigurationOutput.httpOutput(from:), DeleteBucketMetricsConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBucketMetricsConfigurationInput, DeleteBucketMetricsConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2564,12 +2446,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `DeleteBucketOwnershipControlsOutput`)
     public func deleteBucketOwnershipControls(input: DeleteBucketOwnershipControlsInput) async throws -> DeleteBucketOwnershipControlsOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.deleteBucketOwnershipControlsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -2585,10 +2461,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteBucketOwnershipControlsInput, DeleteBucketOwnershipControlsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2599,6 +2473,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteBucketOwnershipControlsInput, DeleteBucketOwnershipControlsOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteBucketOwnershipControlsInput, DeleteBucketOwnershipControlsOutput>(DeleteBucketOwnershipControlsInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteBucketOwnershipControlsInput, DeleteBucketOwnershipControlsOutput>(DeleteBucketOwnershipControlsInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBucketOwnershipControlsOutput>(DeleteBucketOwnershipControlsOutput.httpOutput(from:), DeleteBucketOwnershipControlsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBucketOwnershipControlsInput, DeleteBucketOwnershipControlsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2652,12 +2527,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `DeleteBucketPolicyOutput`)
     public func deleteBucketPolicy(input: DeleteBucketPolicyInput) async throws -> DeleteBucketPolicyOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.deleteBucketPolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -2673,10 +2542,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteBucketPolicyInput, DeleteBucketPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2687,6 +2554,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteBucketPolicyInput, DeleteBucketPolicyOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteBucketPolicyInput, DeleteBucketPolicyOutput>(DeleteBucketPolicyInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteBucketPolicyInput, DeleteBucketPolicyOutput>(DeleteBucketPolicyInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBucketPolicyOutput>(DeleteBucketPolicyOutput.httpOutput(from:), DeleteBucketPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBucketPolicyInput, DeleteBucketPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2733,12 +2601,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `DeleteBucketReplicationOutput`)
     public func deleteBucketReplication(input: DeleteBucketReplicationInput) async throws -> DeleteBucketReplicationOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.deleteBucketReplicationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -2754,10 +2616,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteBucketReplicationInput, DeleteBucketReplicationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2768,6 +2628,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteBucketReplicationInput, DeleteBucketReplicationOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteBucketReplicationInput, DeleteBucketReplicationOutput>(DeleteBucketReplicationInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteBucketReplicationInput, DeleteBucketReplicationOutput>(DeleteBucketReplicationInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBucketReplicationOutput>(DeleteBucketReplicationOutput.httpOutput(from:), DeleteBucketReplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBucketReplicationInput, DeleteBucketReplicationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2814,12 +2675,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `DeleteBucketTaggingOutput`)
     public func deleteBucketTagging(input: DeleteBucketTaggingInput) async throws -> DeleteBucketTaggingOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.deleteBucketTaggingOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -2835,10 +2690,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteBucketTaggingInput, DeleteBucketTaggingOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2849,6 +2702,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteBucketTaggingInput, DeleteBucketTaggingOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteBucketTaggingInput, DeleteBucketTaggingOutput>(DeleteBucketTaggingInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteBucketTaggingInput, DeleteBucketTaggingOutput>(DeleteBucketTaggingInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBucketTaggingOutput>(DeleteBucketTaggingOutput.httpOutput(from:), DeleteBucketTaggingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBucketTaggingInput, DeleteBucketTaggingOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2895,12 +2749,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `DeleteBucketWebsiteOutput`)
     public func deleteBucketWebsite(input: DeleteBucketWebsiteInput) async throws -> DeleteBucketWebsiteOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.deleteBucketWebsiteOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -2916,10 +2764,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteBucketWebsiteInput, DeleteBucketWebsiteOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2930,6 +2776,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteBucketWebsiteInput, DeleteBucketWebsiteOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteBucketWebsiteInput, DeleteBucketWebsiteOutput>(DeleteBucketWebsiteInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteBucketWebsiteInput, DeleteBucketWebsiteOutput>(DeleteBucketWebsiteInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBucketWebsiteOutput>(DeleteBucketWebsiteOutput.httpOutput(from:), DeleteBucketWebsiteOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBucketWebsiteInput, DeleteBucketWebsiteOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3004,12 +2851,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `DeleteObjectOutput`)
     public func deleteObject(input: DeleteObjectInput) async throws -> DeleteObjectOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.deleteObjectOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -3025,10 +2866,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteObjectInput, DeleteObjectOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3039,6 +2878,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteObjectInput, DeleteObjectOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteObjectInput, DeleteObjectOutput>(DeleteObjectInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteObjectInput, DeleteObjectOutput>(DeleteObjectInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteObjectOutput>(DeleteObjectOutput.httpOutput(from:), DeleteObjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteObjectInput, DeleteObjectOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3085,12 +2925,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `DeleteObjectTaggingOutput`)
     public func deleteObjectTagging(input: DeleteObjectTaggingInput) async throws -> DeleteObjectTaggingOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.deleteObjectTaggingOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -3106,10 +2940,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteObjectTaggingInput, DeleteObjectTaggingOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3120,6 +2952,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteObjectTaggingInput, DeleteObjectTaggingOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteObjectTaggingInput, DeleteObjectTaggingOutput>(DeleteObjectTaggingInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteObjectTaggingInput, DeleteObjectTaggingOutput>(DeleteObjectTaggingInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteObjectTaggingOutput>(DeleteObjectTaggingOutput.httpOutput(from:), DeleteObjectTaggingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteObjectTaggingInput, DeleteObjectTaggingOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3200,12 +3033,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `DeleteObjectsOutput`)
     public func deleteObjects(input: DeleteObjectsInput) async throws -> DeleteObjectsOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.deleteObjectsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -3221,10 +3048,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteObjectsInput, DeleteObjectsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3236,7 +3061,9 @@ extension S3Client {
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteObjectsInput, DeleteObjectsOutput>(DeleteObjectsInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteObjectsInput, DeleteObjectsOutput>(DeleteObjectsInput.queryItemProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteObjectsInput, DeleteObjectsOutput>(contentType: "application/xml"))
+        builder.serialize(ClientRuntime.PayloadBodyMiddleware<DeleteObjectsInput, DeleteObjectsOutput, S3ClientTypes.Delete, SmithyXML.Writer>(rootNodeInfo: .init("Delete", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/")), inputWritingClosure: S3ClientTypes.Delete.write(value:to:), keyPath: \.delete, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteObjectsInput, DeleteObjectsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteObjectsOutput>(DeleteObjectsOutput.httpOutput(from:), DeleteObjectsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteObjectsInput, DeleteObjectsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3288,12 +3115,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `DeletePublicAccessBlockOutput`)
     public func deletePublicAccessBlock(input: DeletePublicAccessBlockInput) async throws -> DeletePublicAccessBlockOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.deletePublicAccessBlockOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
@@ -3309,10 +3130,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<DeletePublicAccessBlockInput, DeletePublicAccessBlockOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3323,6 +3142,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeletePublicAccessBlockInput, DeletePublicAccessBlockOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<DeletePublicAccessBlockInput, DeletePublicAccessBlockOutput>(DeletePublicAccessBlockInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeletePublicAccessBlockInput, DeletePublicAccessBlockOutput>(DeletePublicAccessBlockInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePublicAccessBlockOutput>(DeletePublicAccessBlockOutput.httpOutput(from:), DeletePublicAccessBlockOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePublicAccessBlockInput, DeletePublicAccessBlockOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3362,12 +3182,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `GetBucketAbacOutput`)
     public func getBucketAbac(input: GetBucketAbacInput) async throws -> GetBucketAbacOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.getBucketAbacOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -3383,10 +3197,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<GetBucketAbacInput, GetBucketAbacOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3397,6 +3209,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetBucketAbacInput, GetBucketAbacOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<GetBucketAbacInput, GetBucketAbacOutput>(GetBucketAbacInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetBucketAbacInput, GetBucketAbacOutput>(GetBucketAbacInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketAbacOutput>(GetBucketAbacOutput.httpOutput(from:), GetBucketAbacOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketAbacInput, GetBucketAbacOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3441,12 +3254,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `GetBucketAccelerateConfigurationOutput`)
     public func getBucketAccelerateConfiguration(input: GetBucketAccelerateConfigurationInput) async throws -> GetBucketAccelerateConfigurationOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.getBucketAccelerateConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -3462,10 +3269,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<GetBucketAccelerateConfigurationInput, GetBucketAccelerateConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3476,6 +3281,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetBucketAccelerateConfigurationInput, GetBucketAccelerateConfigurationOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<GetBucketAccelerateConfigurationInput, GetBucketAccelerateConfigurationOutput>(GetBucketAccelerateConfigurationInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetBucketAccelerateConfigurationInput, GetBucketAccelerateConfigurationOutput>(GetBucketAccelerateConfigurationInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketAccelerateConfigurationOutput>(GetBucketAccelerateConfigurationOutput.httpOutput(from:), GetBucketAccelerateConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketAccelerateConfigurationInput, GetBucketAccelerateConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3517,12 +3323,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `GetBucketAclOutput`)
     public func getBucketAcl(input: GetBucketAclInput) async throws -> GetBucketAclOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.getBucketAclOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -3538,10 +3338,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<GetBucketAclInput, GetBucketAclOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3552,6 +3350,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetBucketAclInput, GetBucketAclOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<GetBucketAclInput, GetBucketAclOutput>(GetBucketAclInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetBucketAclInput, GetBucketAclOutput>(GetBucketAclInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketAclOutput>(GetBucketAclOutput.httpOutput(from:), GetBucketAclOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketAclInput, GetBucketAclOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3600,12 +3399,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `GetBucketAnalyticsConfigurationOutput`)
     public func getBucketAnalyticsConfiguration(input: GetBucketAnalyticsConfigurationInput) async throws -> GetBucketAnalyticsConfigurationOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.getBucketAnalyticsConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -3621,10 +3414,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<GetBucketAnalyticsConfigurationInput, GetBucketAnalyticsConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3635,6 +3426,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetBucketAnalyticsConfigurationInput, GetBucketAnalyticsConfigurationOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<GetBucketAnalyticsConfigurationInput, GetBucketAnalyticsConfigurationOutput>(GetBucketAnalyticsConfigurationInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetBucketAnalyticsConfigurationInput, GetBucketAnalyticsConfigurationOutput>(GetBucketAnalyticsConfigurationInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketAnalyticsConfigurationOutput>(GetBucketAnalyticsConfigurationOutput.httpOutput(from:), GetBucketAnalyticsConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketAnalyticsConfigurationInput, GetBucketAnalyticsConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3681,12 +3473,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `GetBucketCorsOutput`)
     public func getBucketCors(input: GetBucketCorsInput) async throws -> GetBucketCorsOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.getBucketCorsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -3702,10 +3488,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<GetBucketCorsInput, GetBucketCorsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3716,6 +3500,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetBucketCorsInput, GetBucketCorsOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<GetBucketCorsInput, GetBucketCorsOutput>(GetBucketCorsInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetBucketCorsInput, GetBucketCorsOutput>(GetBucketCorsInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketCorsOutput>(GetBucketCorsOutput.httpOutput(from:), GetBucketCorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketCorsInput, GetBucketCorsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3776,12 +3561,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `GetBucketEncryptionOutput`)
     public func getBucketEncryption(input: GetBucketEncryptionInput) async throws -> GetBucketEncryptionOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.getBucketEncryptionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -3797,10 +3576,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<GetBucketEncryptionInput, GetBucketEncryptionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3811,6 +3588,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetBucketEncryptionInput, GetBucketEncryptionOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<GetBucketEncryptionInput, GetBucketEncryptionOutput>(GetBucketEncryptionInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetBucketEncryptionInput, GetBucketEncryptionOutput>(GetBucketEncryptionInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketEncryptionOutput>(GetBucketEncryptionOutput.httpOutput(from:), GetBucketEncryptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketEncryptionInput, GetBucketEncryptionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3859,12 +3637,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `GetBucketIntelligentTieringConfigurationOutput`)
     public func getBucketIntelligentTieringConfiguration(input: GetBucketIntelligentTieringConfigurationInput) async throws -> GetBucketIntelligentTieringConfigurationOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.getBucketIntelligentTieringConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -3880,10 +3652,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<GetBucketIntelligentTieringConfigurationInput, GetBucketIntelligentTieringConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3894,6 +3664,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetBucketIntelligentTieringConfigurationInput, GetBucketIntelligentTieringConfigurationOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<GetBucketIntelligentTieringConfigurationInput, GetBucketIntelligentTieringConfigurationOutput>(GetBucketIntelligentTieringConfigurationInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetBucketIntelligentTieringConfigurationInput, GetBucketIntelligentTieringConfigurationOutput>(GetBucketIntelligentTieringConfigurationInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketIntelligentTieringConfigurationOutput>(GetBucketIntelligentTieringConfigurationOutput.httpOutput(from:), GetBucketIntelligentTieringConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketIntelligentTieringConfigurationInput, GetBucketIntelligentTieringConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -3949,12 +3720,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `GetBucketInventoryConfigurationOutput`)
     public func getBucketInventoryConfiguration(input: GetBucketInventoryConfigurationInput) async throws -> GetBucketInventoryConfigurationOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.getBucketInventoryConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -3970,10 +3735,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<GetBucketInventoryConfigurationInput, GetBucketInventoryConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3984,6 +3747,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetBucketInventoryConfigurationInput, GetBucketInventoryConfigurationOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<GetBucketInventoryConfigurationInput, GetBucketInventoryConfigurationOutput>(GetBucketInventoryConfigurationInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetBucketInventoryConfigurationInput, GetBucketInventoryConfigurationOutput>(GetBucketInventoryConfigurationInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketInventoryConfigurationOutput>(GetBucketInventoryConfigurationOutput.httpOutput(from:), GetBucketInventoryConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketInventoryConfigurationInput, GetBucketInventoryConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4056,12 +3820,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `GetBucketLifecycleConfigurationOutput`)
     public func getBucketLifecycleConfiguration(input: GetBucketLifecycleConfigurationInput) async throws -> GetBucketLifecycleConfigurationOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.getBucketLifecycleConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -4077,10 +3835,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<GetBucketLifecycleConfigurationInput, GetBucketLifecycleConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4091,6 +3847,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetBucketLifecycleConfigurationInput, GetBucketLifecycleConfigurationOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<GetBucketLifecycleConfigurationInput, GetBucketLifecycleConfigurationOutput>(GetBucketLifecycleConfigurationInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetBucketLifecycleConfigurationInput, GetBucketLifecycleConfigurationOutput>(GetBucketLifecycleConfigurationInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketLifecycleConfigurationOutput>(GetBucketLifecycleConfigurationOutput.httpOutput(from:), GetBucketLifecycleConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketLifecycleConfigurationInput, GetBucketLifecycleConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4137,12 +3894,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `GetBucketLocationOutput`)
     public func getBucketLocation(input: GetBucketLocationInput) async throws -> GetBucketLocationOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.getBucketLocationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -4158,10 +3909,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<GetBucketLocationInput, GetBucketLocationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4172,6 +3921,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetBucketLocationInput, GetBucketLocationOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<GetBucketLocationInput, GetBucketLocationOutput>(GetBucketLocationInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetBucketLocationInput, GetBucketLocationOutput>(GetBucketLocationInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketLocationOutput>(GetBucketLocationOutput.httpOutput(from:), GetBucketLocationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketLocationInput, GetBucketLocationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4218,12 +3968,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `GetBucketLoggingOutput`)
     public func getBucketLogging(input: GetBucketLoggingInput) async throws -> GetBucketLoggingOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.getBucketLoggingOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -4239,10 +3983,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<GetBucketLoggingInput, GetBucketLoggingOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4253,6 +3995,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetBucketLoggingInput, GetBucketLoggingOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<GetBucketLoggingInput, GetBucketLoggingOutput>(GetBucketLoggingInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetBucketLoggingInput, GetBucketLoggingOutput>(GetBucketLoggingInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketLoggingOutput>(GetBucketLoggingOutput.httpOutput(from:), GetBucketLoggingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketLoggingInput, GetBucketLoggingOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4303,12 +4046,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `GetBucketMetadataConfigurationOutput`)
     public func getBucketMetadataConfiguration(input: GetBucketMetadataConfigurationInput) async throws -> GetBucketMetadataConfigurationOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.getBucketMetadataConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -4324,10 +4061,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<GetBucketMetadataConfigurationInput, GetBucketMetadataConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4338,6 +4073,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetBucketMetadataConfigurationInput, GetBucketMetadataConfigurationOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<GetBucketMetadataConfigurationInput, GetBucketMetadataConfigurationOutput>(GetBucketMetadataConfigurationInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetBucketMetadataConfigurationInput, GetBucketMetadataConfigurationOutput>(GetBucketMetadataConfigurationInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketMetadataConfigurationOutput>(GetBucketMetadataConfigurationOutput.httpOutput(from:), GetBucketMetadataConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketMetadataConfigurationInput, GetBucketMetadataConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4384,12 +4120,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `GetBucketMetadataTableConfigurationOutput`)
     public func getBucketMetadataTableConfiguration(input: GetBucketMetadataTableConfigurationInput) async throws -> GetBucketMetadataTableConfigurationOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.getBucketMetadataTableConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -4405,10 +4135,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<GetBucketMetadataTableConfigurationInput, GetBucketMetadataTableConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4419,6 +4147,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetBucketMetadataTableConfigurationInput, GetBucketMetadataTableConfigurationOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<GetBucketMetadataTableConfigurationInput, GetBucketMetadataTableConfigurationOutput>(GetBucketMetadataTableConfigurationInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetBucketMetadataTableConfigurationInput, GetBucketMetadataTableConfigurationOutput>(GetBucketMetadataTableConfigurationInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketMetadataTableConfigurationOutput>(GetBucketMetadataTableConfigurationOutput.httpOutput(from:), GetBucketMetadataTableConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketMetadataTableConfigurationInput, GetBucketMetadataTableConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4476,12 +4205,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `GetBucketMetricsConfigurationOutput`)
     public func getBucketMetricsConfiguration(input: GetBucketMetricsConfigurationInput) async throws -> GetBucketMetricsConfigurationOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.getBucketMetricsConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -4497,10 +4220,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<GetBucketMetricsConfigurationInput, GetBucketMetricsConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4511,6 +4232,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetBucketMetricsConfigurationInput, GetBucketMetricsConfigurationOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<GetBucketMetricsConfigurationInput, GetBucketMetricsConfigurationOutput>(GetBucketMetricsConfigurationInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetBucketMetricsConfigurationInput, GetBucketMetricsConfigurationOutput>(GetBucketMetricsConfigurationInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketMetricsConfigurationOutput>(GetBucketMetricsConfigurationOutput.httpOutput(from:), GetBucketMetricsConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketMetricsConfigurationInput, GetBucketMetricsConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4555,12 +4277,6 @@ extension S3Client {
     ///
     /// - Returns: A container for specifying the notification configuration of the bucket. If this element is empty, notifications are turned off for the bucket. (Type: `GetBucketNotificationConfigurationOutput`)
     public func getBucketNotificationConfiguration(input: GetBucketNotificationConfigurationInput) async throws -> GetBucketNotificationConfigurationOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.getBucketNotificationConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -4576,10 +4292,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<GetBucketNotificationConfigurationInput, GetBucketNotificationConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4590,6 +4304,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetBucketNotificationConfigurationInput, GetBucketNotificationConfigurationOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<GetBucketNotificationConfigurationInput, GetBucketNotificationConfigurationOutput>(GetBucketNotificationConfigurationInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetBucketNotificationConfigurationInput, GetBucketNotificationConfigurationOutput>(GetBucketNotificationConfigurationInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketNotificationConfigurationOutput>(GetBucketNotificationConfigurationOutput.httpOutput(from:), GetBucketNotificationConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketNotificationConfigurationInput, GetBucketNotificationConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4643,12 +4358,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `GetBucketOwnershipControlsOutput`)
     public func getBucketOwnershipControls(input: GetBucketOwnershipControlsInput) async throws -> GetBucketOwnershipControlsOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.getBucketOwnershipControlsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -4664,10 +4373,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<GetBucketOwnershipControlsInput, GetBucketOwnershipControlsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4678,6 +4385,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetBucketOwnershipControlsInput, GetBucketOwnershipControlsOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<GetBucketOwnershipControlsInput, GetBucketOwnershipControlsOutput>(GetBucketOwnershipControlsInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetBucketOwnershipControlsInput, GetBucketOwnershipControlsOutput>(GetBucketOwnershipControlsInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketOwnershipControlsOutput>(GetBucketOwnershipControlsOutput.httpOutput(from:), GetBucketOwnershipControlsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketOwnershipControlsInput, GetBucketOwnershipControlsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4729,12 +4437,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `GetBucketPolicyOutput`)
     public func getBucketPolicy(input: GetBucketPolicyInput) async throws -> GetBucketPolicyOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.getBucketPolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -4750,10 +4452,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<GetBucketPolicyInput, GetBucketPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4764,6 +4464,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetBucketPolicyInput, GetBucketPolicyOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<GetBucketPolicyInput, GetBucketPolicyOutput>(GetBucketPolicyInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetBucketPolicyInput, GetBucketPolicyOutput>(GetBucketPolicyInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketPolicyOutput>(GetBucketPolicyOutput.httpOutput(from:), GetBucketPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketPolicyInput, GetBucketPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4814,12 +4515,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `GetBucketPolicyStatusOutput`)
     public func getBucketPolicyStatus(input: GetBucketPolicyStatusInput) async throws -> GetBucketPolicyStatusOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.getBucketPolicyStatusOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -4835,10 +4530,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<GetBucketPolicyStatusInput, GetBucketPolicyStatusOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4849,6 +4542,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetBucketPolicyStatusInput, GetBucketPolicyStatusOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<GetBucketPolicyStatusInput, GetBucketPolicyStatusOutput>(GetBucketPolicyStatusInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetBucketPolicyStatusInput, GetBucketPolicyStatusOutput>(GetBucketPolicyStatusInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketPolicyStatusOutput>(GetBucketPolicyStatusOutput.httpOutput(from:), GetBucketPolicyStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketPolicyStatusInput, GetBucketPolicyStatusOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4895,12 +4589,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `GetBucketReplicationOutput`)
     public func getBucketReplication(input: GetBucketReplicationInput) async throws -> GetBucketReplicationOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.getBucketReplicationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -4916,10 +4604,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<GetBucketReplicationInput, GetBucketReplicationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4930,6 +4616,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetBucketReplicationInput, GetBucketReplicationOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<GetBucketReplicationInput, GetBucketReplicationOutput>(GetBucketReplicationInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetBucketReplicationInput, GetBucketReplicationOutput>(GetBucketReplicationInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketReplicationOutput>(GetBucketReplicationOutput.httpOutput(from:), GetBucketReplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketReplicationInput, GetBucketReplicationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -4974,12 +4661,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `GetBucketRequestPaymentOutput`)
     public func getBucketRequestPayment(input: GetBucketRequestPaymentInput) async throws -> GetBucketRequestPaymentOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.getBucketRequestPaymentOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -4995,10 +4676,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<GetBucketRequestPaymentInput, GetBucketRequestPaymentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5009,6 +4688,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetBucketRequestPaymentInput, GetBucketRequestPaymentOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<GetBucketRequestPaymentInput, GetBucketRequestPaymentOutput>(GetBucketRequestPaymentInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetBucketRequestPaymentInput, GetBucketRequestPaymentOutput>(GetBucketRequestPaymentInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketRequestPaymentOutput>(GetBucketRequestPaymentOutput.httpOutput(from:), GetBucketRequestPaymentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketRequestPaymentInput, GetBucketRequestPaymentOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5065,12 +4745,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `GetBucketTaggingOutput`)
     public func getBucketTagging(input: GetBucketTaggingInput) async throws -> GetBucketTaggingOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.getBucketTaggingOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -5086,10 +4760,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<GetBucketTaggingInput, GetBucketTaggingOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5100,6 +4772,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetBucketTaggingInput, GetBucketTaggingOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<GetBucketTaggingInput, GetBucketTaggingOutput>(GetBucketTaggingInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetBucketTaggingInput, GetBucketTaggingOutput>(GetBucketTaggingInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketTaggingOutput>(GetBucketTaggingOutput.httpOutput(from:), GetBucketTaggingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketTaggingInput, GetBucketTaggingOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5148,12 +4821,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `GetBucketVersioningOutput`)
     public func getBucketVersioning(input: GetBucketVersioningInput) async throws -> GetBucketVersioningOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.getBucketVersioningOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -5169,10 +4836,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<GetBucketVersioningInput, GetBucketVersioningOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5183,6 +4848,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetBucketVersioningInput, GetBucketVersioningOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<GetBucketVersioningInput, GetBucketVersioningOutput>(GetBucketVersioningInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetBucketVersioningInput, GetBucketVersioningOutput>(GetBucketVersioningInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketVersioningOutput>(GetBucketVersioningOutput.httpOutput(from:), GetBucketVersioningOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketVersioningInput, GetBucketVersioningOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5229,12 +4895,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `GetBucketWebsiteOutput`)
     public func getBucketWebsite(input: GetBucketWebsiteInput) async throws -> GetBucketWebsiteOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.getBucketWebsiteOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -5250,10 +4910,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<GetBucketWebsiteInput, GetBucketWebsiteOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5264,6 +4922,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetBucketWebsiteInput, GetBucketWebsiteOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<GetBucketWebsiteInput, GetBucketWebsiteOutput>(GetBucketWebsiteInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetBucketWebsiteInput, GetBucketWebsiteOutput>(GetBucketWebsiteInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketWebsiteOutput>(GetBucketWebsiteOutput.httpOutput(from:), GetBucketWebsiteOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketWebsiteInput, GetBucketWebsiteOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5345,12 +5004,6 @@ extension S3Client {
     /// - `InvalidObjectState` : Object is archived and inaccessible until restored. If the object you are retrieving is stored in the S3 Glacier Flexible Retrieval storage class, the S3 Glacier Deep Archive storage class, the S3 Intelligent-Tiering Archive Access tier, or the S3 Intelligent-Tiering Deep Archive Access tier, before you can retrieve the object you must first restore a copy using [RestoreObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_RestoreObject.html). Otherwise, this operation returns an InvalidObjectState error. For information about restoring archived objects, see [Restoring Archived Objects](https://docs.aws.amazon.com/AmazonS3/latest/dev/restoring-objects.html) in the Amazon S3 User Guide.
     /// - `NoSuchKey` : The specified key does not exist.
     public func getObject(input: GetObjectInput) async throws -> GetObjectOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.getObjectOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -5366,10 +5019,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<GetObjectInput, GetObjectOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5380,6 +5031,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetObjectInput, GetObjectOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<GetObjectInput, GetObjectOutput>(GetObjectInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetObjectInput, GetObjectOutput>(GetObjectInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetObjectOutput>(GetObjectOutput.httpOutput(from:), GetObjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetObjectInput, GetObjectOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5435,12 +5087,6 @@ extension S3Client {
     /// __Possible Exceptions:__
     /// - `NoSuchKey` : The specified key does not exist.
     public func getObjectAcl(input: GetObjectAclInput) async throws -> GetObjectAclOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.getObjectAclOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -5456,10 +5102,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<GetObjectAclInput, GetObjectAclOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5470,6 +5114,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetObjectAclInput, GetObjectAclOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<GetObjectAclInput, GetObjectAclOutput>(GetObjectAclInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetObjectAclInput, GetObjectAclOutput>(GetObjectAclInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetObjectAclOutput>(GetObjectAclOutput.httpOutput(from:), GetObjectAclOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetObjectAclInput, GetObjectAclOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5584,12 +5229,6 @@ extension S3Client {
     /// __Possible Exceptions:__
     /// - `NoSuchKey` : The specified key does not exist.
     public func getObjectAttributes(input: GetObjectAttributesInput) async throws -> GetObjectAttributesOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.getObjectAttributesOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -5605,10 +5244,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<GetObjectAttributesInput, GetObjectAttributesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5619,6 +5256,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetObjectAttributesInput, GetObjectAttributesOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<GetObjectAttributesInput, GetObjectAttributesOutput>(GetObjectAttributesInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetObjectAttributesInput, GetObjectAttributesOutput>(GetObjectAttributesInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetObjectAttributesOutput>(GetObjectAttributesOutput.httpOutput(from:), GetObjectAttributesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetObjectAttributesInput, GetObjectAttributesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5663,12 +5301,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `GetObjectLegalHoldOutput`)
     public func getObjectLegalHold(input: GetObjectLegalHoldInput) async throws -> GetObjectLegalHoldOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.getObjectLegalHoldOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -5684,10 +5316,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<GetObjectLegalHoldInput, GetObjectLegalHoldOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5698,6 +5328,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetObjectLegalHoldInput, GetObjectLegalHoldOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<GetObjectLegalHoldInput, GetObjectLegalHoldOutput>(GetObjectLegalHoldInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetObjectLegalHoldInput, GetObjectLegalHoldOutput>(GetObjectLegalHoldInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetObjectLegalHoldOutput>(GetObjectLegalHoldOutput.httpOutput(from:), GetObjectLegalHoldOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetObjectLegalHoldInput, GetObjectLegalHoldOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5742,12 +5373,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `GetObjectLockConfigurationOutput`)
     public func getObjectLockConfiguration(input: GetObjectLockConfigurationInput) async throws -> GetObjectLockConfigurationOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.getObjectLockConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -5763,10 +5388,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<GetObjectLockConfigurationInput, GetObjectLockConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5777,6 +5400,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetObjectLockConfigurationInput, GetObjectLockConfigurationOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<GetObjectLockConfigurationInput, GetObjectLockConfigurationOutput>(GetObjectLockConfigurationInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetObjectLockConfigurationInput, GetObjectLockConfigurationOutput>(GetObjectLockConfigurationInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetObjectLockConfigurationOutput>(GetObjectLockConfigurationOutput.httpOutput(from:), GetObjectLockConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetObjectLockConfigurationInput, GetObjectLockConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5821,12 +5445,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `GetObjectRetentionOutput`)
     public func getObjectRetention(input: GetObjectRetentionInput) async throws -> GetObjectRetentionOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.getObjectRetentionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -5842,10 +5460,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<GetObjectRetentionInput, GetObjectRetentionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5856,6 +5472,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetObjectRetentionInput, GetObjectRetentionOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<GetObjectRetentionInput, GetObjectRetentionOutput>(GetObjectRetentionInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetObjectRetentionInput, GetObjectRetentionOutput>(GetObjectRetentionInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetObjectRetentionOutput>(GetObjectRetentionOutput.httpOutput(from:), GetObjectRetentionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetObjectRetentionInput, GetObjectRetentionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5904,12 +5521,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `GetObjectTaggingOutput`)
     public func getObjectTagging(input: GetObjectTaggingInput) async throws -> GetObjectTaggingOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.getObjectTaggingOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -5925,10 +5536,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<GetObjectTaggingInput, GetObjectTaggingOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -5939,6 +5548,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetObjectTaggingInput, GetObjectTaggingOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<GetObjectTaggingInput, GetObjectTaggingOutput>(GetObjectTaggingInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetObjectTaggingInput, GetObjectTaggingOutput>(GetObjectTaggingInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetObjectTaggingOutput>(GetObjectTaggingOutput.httpOutput(from:), GetObjectTaggingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetObjectTaggingInput, GetObjectTaggingOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -5983,12 +5593,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `GetObjectTorrentOutput`)
     public func getObjectTorrent(input: GetObjectTorrentInput) async throws -> GetObjectTorrentOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.getObjectTorrentOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -6004,10 +5608,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<GetObjectTorrentInput, GetObjectTorrentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -6018,6 +5620,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetObjectTorrentInput, GetObjectTorrentOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<GetObjectTorrentInput, GetObjectTorrentOutput>(GetObjectTorrentInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetObjectTorrentInput, GetObjectTorrentOutput>(GetObjectTorrentInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetObjectTorrentOutput>(GetObjectTorrentOutput.httpOutput(from:), GetObjectTorrentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetObjectTorrentInput, GetObjectTorrentOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6067,12 +5670,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `GetPublicAccessBlockOutput`)
     public func getPublicAccessBlock(input: GetPublicAccessBlockInput) async throws -> GetPublicAccessBlockOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.getPublicAccessBlockOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -6088,10 +5685,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<GetPublicAccessBlockInput, GetPublicAccessBlockOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -6102,6 +5697,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPublicAccessBlockInput, GetPublicAccessBlockOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<GetPublicAccessBlockInput, GetPublicAccessBlockOutput>(GetPublicAccessBlockInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetPublicAccessBlockInput, GetPublicAccessBlockOutput>(GetPublicAccessBlockInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPublicAccessBlockOutput>(GetPublicAccessBlockOutput.httpOutput(from:), GetPublicAccessBlockOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPublicAccessBlockInput, GetPublicAccessBlockOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6153,12 +5749,6 @@ extension S3Client {
     /// __Possible Exceptions:__
     /// - `NotFound` : The specified content does not exist.
     public func headBucket(input: HeadBucketInput) async throws -> HeadBucketOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.headBucketOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .head)
                       .withServiceName(value: serviceName)
@@ -6174,10 +5764,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<HeadBucketInput, HeadBucketOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -6187,6 +5775,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<HeadBucketInput, HeadBucketOutput>(HeadBucketInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<HeadBucketInput, HeadBucketOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<HeadBucketInput, HeadBucketOutput>(HeadBucketInput.headerProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<HeadBucketOutput>(HeadBucketOutput.httpOutput(from:), HeadBucketOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<HeadBucketInput, HeadBucketOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6275,12 +5864,6 @@ extension S3Client {
     /// __Possible Exceptions:__
     /// - `NotFound` : The specified content does not exist.
     public func headObject(input: HeadObjectInput) async throws -> HeadObjectOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.headObjectOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .head)
                       .withServiceName(value: serviceName)
@@ -6296,10 +5879,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<HeadObjectInput, HeadObjectOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -6310,6 +5891,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<HeadObjectInput, HeadObjectOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<HeadObjectInput, HeadObjectOutput>(HeadObjectInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<HeadObjectInput, HeadObjectOutput>(HeadObjectInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<HeadObjectOutput>(HeadObjectOutput.httpOutput(from:), HeadObjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<HeadObjectInput, HeadObjectOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6358,12 +5940,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `ListBucketAnalyticsConfigurationsOutput`)
     public func listBucketAnalyticsConfigurations(input: ListBucketAnalyticsConfigurationsInput) async throws -> ListBucketAnalyticsConfigurationsOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.listBucketAnalyticsConfigurationsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -6379,10 +5955,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<ListBucketAnalyticsConfigurationsInput, ListBucketAnalyticsConfigurationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -6393,6 +5967,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListBucketAnalyticsConfigurationsInput, ListBucketAnalyticsConfigurationsOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<ListBucketAnalyticsConfigurationsInput, ListBucketAnalyticsConfigurationsOutput>(ListBucketAnalyticsConfigurationsInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListBucketAnalyticsConfigurationsInput, ListBucketAnalyticsConfigurationsOutput>(ListBucketAnalyticsConfigurationsInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBucketAnalyticsConfigurationsOutput>(ListBucketAnalyticsConfigurationsOutput.httpOutput(from:), ListBucketAnalyticsConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBucketAnalyticsConfigurationsInput, ListBucketAnalyticsConfigurationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6441,12 +6016,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `ListBucketIntelligentTieringConfigurationsOutput`)
     public func listBucketIntelligentTieringConfigurations(input: ListBucketIntelligentTieringConfigurationsInput) async throws -> ListBucketIntelligentTieringConfigurationsOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.listBucketIntelligentTieringConfigurationsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -6462,10 +6031,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<ListBucketIntelligentTieringConfigurationsInput, ListBucketIntelligentTieringConfigurationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -6476,6 +6043,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListBucketIntelligentTieringConfigurationsInput, ListBucketIntelligentTieringConfigurationsOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<ListBucketIntelligentTieringConfigurationsInput, ListBucketIntelligentTieringConfigurationsOutput>(ListBucketIntelligentTieringConfigurationsInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListBucketIntelligentTieringConfigurationsInput, ListBucketIntelligentTieringConfigurationsOutput>(ListBucketIntelligentTieringConfigurationsInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBucketIntelligentTieringConfigurationsOutput>(ListBucketIntelligentTieringConfigurationsOutput.httpOutput(from:), ListBucketIntelligentTieringConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBucketIntelligentTieringConfigurationsInput, ListBucketIntelligentTieringConfigurationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6531,12 +6099,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `ListBucketInventoryConfigurationsOutput`)
     public func listBucketInventoryConfigurations(input: ListBucketInventoryConfigurationsInput) async throws -> ListBucketInventoryConfigurationsOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.listBucketInventoryConfigurationsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -6552,10 +6114,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<ListBucketInventoryConfigurationsInput, ListBucketInventoryConfigurationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -6566,6 +6126,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListBucketInventoryConfigurationsInput, ListBucketInventoryConfigurationsOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<ListBucketInventoryConfigurationsInput, ListBucketInventoryConfigurationsOutput>(ListBucketInventoryConfigurationsInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListBucketInventoryConfigurationsInput, ListBucketInventoryConfigurationsOutput>(ListBucketInventoryConfigurationsInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBucketInventoryConfigurationsOutput>(ListBucketInventoryConfigurationsOutput.httpOutput(from:), ListBucketInventoryConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBucketInventoryConfigurationsInput, ListBucketInventoryConfigurationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6621,12 +6182,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `ListBucketMetricsConfigurationsOutput`)
     public func listBucketMetricsConfigurations(input: ListBucketMetricsConfigurationsInput) async throws -> ListBucketMetricsConfigurationsOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.listBucketMetricsConfigurationsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -6642,10 +6197,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<ListBucketMetricsConfigurationsInput, ListBucketMetricsConfigurationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -6656,6 +6209,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListBucketMetricsConfigurationsInput, ListBucketMetricsConfigurationsOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<ListBucketMetricsConfigurationsInput, ListBucketMetricsConfigurationsOutput>(ListBucketMetricsConfigurationsInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListBucketMetricsConfigurationsInput, ListBucketMetricsConfigurationsOutput>(ListBucketMetricsConfigurationsInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBucketMetricsConfigurationsOutput>(ListBucketMetricsConfigurationsOutput.httpOutput(from:), ListBucketMetricsConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBucketMetricsConfigurationsInput, ListBucketMetricsConfigurationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6695,12 +6249,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `ListBucketsOutput`)
     public func listBuckets(input: ListBucketsInput) async throws -> ListBucketsOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.listBucketsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -6716,10 +6264,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<ListBucketsInput, ListBucketsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -6729,6 +6275,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListBucketsInput, ListBucketsOutput>(ListBucketsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListBucketsInput, ListBucketsOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListBucketsInput, ListBucketsOutput>(ListBucketsInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBucketsOutput>(ListBucketsOutput.httpOutput(from:), ListBucketsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBucketsInput, ListBucketsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6768,12 +6315,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `ListDirectoryBucketsOutput`)
     public func listDirectoryBuckets(input: ListDirectoryBucketsInput) async throws -> ListDirectoryBucketsOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.listDirectoryBucketsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -6789,10 +6330,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<ListDirectoryBucketsInput, ListDirectoryBucketsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -6802,6 +6341,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListDirectoryBucketsInput, ListDirectoryBucketsOutput>(ListDirectoryBucketsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListDirectoryBucketsInput, ListDirectoryBucketsOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDirectoryBucketsInput, ListDirectoryBucketsOutput>(ListDirectoryBucketsInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDirectoryBucketsOutput>(ListDirectoryBucketsOutput.httpOutput(from:), ListDirectoryBucketsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDirectoryBucketsInput, ListDirectoryBucketsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6875,12 +6415,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `ListMultipartUploadsOutput`)
     public func listMultipartUploads(input: ListMultipartUploadsInput) async throws -> ListMultipartUploadsOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.listMultipartUploadsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -6896,10 +6430,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<ListMultipartUploadsInput, ListMultipartUploadsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -6910,6 +6442,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListMultipartUploadsInput, ListMultipartUploadsOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<ListMultipartUploadsInput, ListMultipartUploadsOutput>(ListMultipartUploadsInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListMultipartUploadsInput, ListMultipartUploadsOutput>(ListMultipartUploadsInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMultipartUploadsOutput>(ListMultipartUploadsOutput.httpOutput(from:), ListMultipartUploadsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMultipartUploadsInput, ListMultipartUploadsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6960,12 +6493,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `ListObjectVersionsOutput`)
     public func listObjectVersions(input: ListObjectVersionsInput) async throws -> ListObjectVersionsOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.listObjectVersionsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -6981,10 +6508,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<ListObjectVersionsInput, ListObjectVersionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -6995,6 +6520,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListObjectVersionsInput, ListObjectVersionsOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<ListObjectVersionsInput, ListObjectVersionsOutput>(ListObjectVersionsInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListObjectVersionsInput, ListObjectVersionsOutput>(ListObjectVersionsInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListObjectVersionsOutput>(ListObjectVersionsOutput.httpOutput(from:), ListObjectVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListObjectVersionsInput, ListObjectVersionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -7052,12 +6578,6 @@ extension S3Client {
     /// __Possible Exceptions:__
     /// - `NoSuchBucket` : The specified bucket does not exist.
     public func listObjects(input: ListObjectsInput) async throws -> ListObjectsOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.listObjectsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -7073,10 +6593,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<ListObjectsInput, ListObjectsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -7087,6 +6605,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListObjectsInput, ListObjectsOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<ListObjectsInput, ListObjectsOutput>(ListObjectsInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListObjectsInput, ListObjectsOutput>(ListObjectsInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListObjectsOutput>(ListObjectsOutput.httpOutput(from:), ListObjectsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListObjectsInput, ListObjectsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -7163,12 +6682,6 @@ extension S3Client {
     /// __Possible Exceptions:__
     /// - `NoSuchBucket` : The specified bucket does not exist.
     public func listObjectsV2(input: ListObjectsV2Input) async throws -> ListObjectsV2Output {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.listObjectsV2Operation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -7184,10 +6697,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<ListObjectsV2Input, ListObjectsV2Output, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -7198,6 +6709,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListObjectsV2Input, ListObjectsV2Output>())
         builder.serialize(ClientRuntime.HeaderMiddleware<ListObjectsV2Input, ListObjectsV2Output>(ListObjectsV2Input.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListObjectsV2Input, ListObjectsV2Output>(ListObjectsV2Input.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListObjectsV2Output>(ListObjectsV2Output.httpOutput(from:), ListObjectsV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListObjectsV2Input, ListObjectsV2Output>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -7259,12 +6771,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `ListPartsOutput`)
     public func listParts(input: ListPartsInput) async throws -> ListPartsOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.listPartsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -7280,10 +6786,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<ListPartsInput, ListPartsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -7294,6 +6798,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListPartsInput, ListPartsOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<ListPartsInput, ListPartsOutput>(ListPartsInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPartsInput, ListPartsOutput>(ListPartsInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPartsOutput>(ListPartsOutput.httpOutput(from:), ListPartsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPartsInput, ListPartsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -7333,12 +6838,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `PutBucketAbacOutput`)
     public func putBucketAbac(input: PutBucketAbacInput) async throws -> PutBucketAbacOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.putBucketAbacOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -7354,10 +6853,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<PutBucketAbacInput, PutBucketAbacOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -7369,7 +6866,9 @@ extension S3Client {
         builder.serialize(ClientRuntime.HeaderMiddleware<PutBucketAbacInput, PutBucketAbacOutput>(PutBucketAbacInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<PutBucketAbacInput, PutBucketAbacOutput>(PutBucketAbacInput.queryItemProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutBucketAbacInput, PutBucketAbacOutput>(contentType: "application/xml"))
+        builder.serialize(ClientRuntime.PayloadBodyMiddleware<PutBucketAbacInput, PutBucketAbacOutput, S3ClientTypes.AbacStatus, SmithyXML.Writer>(rootNodeInfo: .init("AbacStatus", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/")), inputWritingClosure: S3ClientTypes.AbacStatus.write(value:to:), keyPath: \.abacStatus, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutBucketAbacInput, PutBucketAbacOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutBucketAbacOutput>(PutBucketAbacOutput.httpOutput(from:), PutBucketAbacOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutBucketAbacInput, PutBucketAbacOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -7424,12 +6923,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `PutBucketAccelerateConfigurationOutput`)
     public func putBucketAccelerateConfiguration(input: PutBucketAccelerateConfigurationInput) async throws -> PutBucketAccelerateConfigurationOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.putBucketAccelerateConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -7445,10 +6938,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<PutBucketAccelerateConfigurationInput, PutBucketAccelerateConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -7460,7 +6951,9 @@ extension S3Client {
         builder.serialize(ClientRuntime.HeaderMiddleware<PutBucketAccelerateConfigurationInput, PutBucketAccelerateConfigurationOutput>(PutBucketAccelerateConfigurationInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<PutBucketAccelerateConfigurationInput, PutBucketAccelerateConfigurationOutput>(PutBucketAccelerateConfigurationInput.queryItemProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutBucketAccelerateConfigurationInput, PutBucketAccelerateConfigurationOutput>(contentType: "application/xml"))
+        builder.serialize(ClientRuntime.PayloadBodyMiddleware<PutBucketAccelerateConfigurationInput, PutBucketAccelerateConfigurationOutput, S3ClientTypes.AccelerateConfiguration, SmithyXML.Writer>(rootNodeInfo: .init("AccelerateConfiguration", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/")), inputWritingClosure: S3ClientTypes.AccelerateConfiguration.write(value:to:), keyPath: \.accelerateConfiguration, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutBucketAccelerateConfigurationInput, PutBucketAccelerateConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutBucketAccelerateConfigurationOutput>(PutBucketAccelerateConfigurationOutput.httpOutput(from:), PutBucketAccelerateConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutBucketAccelerateConfigurationInput, PutBucketAccelerateConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -7580,12 +7073,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `PutBucketAclOutput`)
     public func putBucketAcl(input: PutBucketAclInput) async throws -> PutBucketAclOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.putBucketAclOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -7601,10 +7088,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<PutBucketAclInput, PutBucketAclOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -7616,7 +7101,9 @@ extension S3Client {
         builder.serialize(ClientRuntime.HeaderMiddleware<PutBucketAclInput, PutBucketAclOutput>(PutBucketAclInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<PutBucketAclInput, PutBucketAclOutput>(PutBucketAclInput.queryItemProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutBucketAclInput, PutBucketAclOutput>(contentType: "application/xml"))
+        builder.serialize(ClientRuntime.PayloadBodyMiddleware<PutBucketAclInput, PutBucketAclOutput, S3ClientTypes.AccessControlPolicy, SmithyXML.Writer>(rootNodeInfo: .init("AccessControlPolicy", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/")), inputWritingClosure: S3ClientTypes.AccessControlPolicy.write(value:to:), keyPath: \.accessControlPolicy, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutBucketAclInput, PutBucketAclOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutBucketAclOutput>(PutBucketAclOutput.httpOutput(from:), PutBucketAclOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutBucketAclInput, PutBucketAclOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -7699,12 +7186,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `PutBucketAnalyticsConfigurationOutput`)
     public func putBucketAnalyticsConfiguration(input: PutBucketAnalyticsConfigurationInput) async throws -> PutBucketAnalyticsConfigurationOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.putBucketAnalyticsConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -7720,10 +7201,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<PutBucketAnalyticsConfigurationInput, PutBucketAnalyticsConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -7735,7 +7214,9 @@ extension S3Client {
         builder.serialize(ClientRuntime.HeaderMiddleware<PutBucketAnalyticsConfigurationInput, PutBucketAnalyticsConfigurationOutput>(PutBucketAnalyticsConfigurationInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<PutBucketAnalyticsConfigurationInput, PutBucketAnalyticsConfigurationOutput>(PutBucketAnalyticsConfigurationInput.queryItemProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutBucketAnalyticsConfigurationInput, PutBucketAnalyticsConfigurationOutput>(contentType: "application/xml"))
+        builder.serialize(ClientRuntime.PayloadBodyMiddleware<PutBucketAnalyticsConfigurationInput, PutBucketAnalyticsConfigurationOutput, S3ClientTypes.AnalyticsConfiguration, SmithyXML.Writer>(rootNodeInfo: .init("AnalyticsConfiguration", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/")), inputWritingClosure: S3ClientTypes.AnalyticsConfiguration.write(value:to:), keyPath: \.analyticsConfiguration, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutBucketAnalyticsConfigurationInput, PutBucketAnalyticsConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutBucketAnalyticsConfigurationOutput>(PutBucketAnalyticsConfigurationOutput.httpOutput(from:), PutBucketAnalyticsConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutBucketAnalyticsConfigurationInput, PutBucketAnalyticsConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -7793,12 +7274,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `PutBucketCorsOutput`)
     public func putBucketCors(input: PutBucketCorsInput) async throws -> PutBucketCorsOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.putBucketCorsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -7814,10 +7289,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<PutBucketCorsInput, PutBucketCorsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -7829,7 +7302,9 @@ extension S3Client {
         builder.serialize(ClientRuntime.HeaderMiddleware<PutBucketCorsInput, PutBucketCorsOutput>(PutBucketCorsInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<PutBucketCorsInput, PutBucketCorsOutput>(PutBucketCorsInput.queryItemProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutBucketCorsInput, PutBucketCorsOutput>(contentType: "application/xml"))
+        builder.serialize(ClientRuntime.PayloadBodyMiddleware<PutBucketCorsInput, PutBucketCorsOutput, S3ClientTypes.CORSConfiguration, SmithyXML.Writer>(rootNodeInfo: .init("CORSConfiguration", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/")), inputWritingClosure: S3ClientTypes.CORSConfiguration.write(value:to:), keyPath: \.corsConfiguration, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutBucketCorsInput, PutBucketCorsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutBucketCorsOutput>(PutBucketCorsOutput.httpOutput(from:), PutBucketCorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutBucketCorsInput, PutBucketCorsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -7911,12 +7386,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `PutBucketEncryptionOutput`)
     public func putBucketEncryption(input: PutBucketEncryptionInput) async throws -> PutBucketEncryptionOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.putBucketEncryptionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -7932,10 +7401,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<PutBucketEncryptionInput, PutBucketEncryptionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -7947,7 +7414,9 @@ extension S3Client {
         builder.serialize(ClientRuntime.HeaderMiddleware<PutBucketEncryptionInput, PutBucketEncryptionOutput>(PutBucketEncryptionInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<PutBucketEncryptionInput, PutBucketEncryptionOutput>(PutBucketEncryptionInput.queryItemProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutBucketEncryptionInput, PutBucketEncryptionOutput>(contentType: "application/xml"))
+        builder.serialize(ClientRuntime.PayloadBodyMiddleware<PutBucketEncryptionInput, PutBucketEncryptionOutput, S3ClientTypes.ServerSideEncryptionConfiguration, SmithyXML.Writer>(rootNodeInfo: .init("ServerSideEncryptionConfiguration", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/")), inputWritingClosure: S3ClientTypes.ServerSideEncryptionConfiguration.write(value:to:), keyPath: \.serverSideEncryptionConfiguration, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutBucketEncryptionInput, PutBucketEncryptionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutBucketEncryptionOutput>(PutBucketEncryptionOutput.httpOutput(from:), PutBucketEncryptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutBucketEncryptionInput, PutBucketEncryptionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -7997,12 +7466,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `PutBucketIntelligentTieringConfigurationOutput`)
     public func putBucketIntelligentTieringConfiguration(input: PutBucketIntelligentTieringConfigurationInput) async throws -> PutBucketIntelligentTieringConfigurationOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.putBucketIntelligentTieringConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -8018,10 +7481,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<PutBucketIntelligentTieringConfigurationInput, PutBucketIntelligentTieringConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -8033,7 +7494,9 @@ extension S3Client {
         builder.serialize(ClientRuntime.HeaderMiddleware<PutBucketIntelligentTieringConfigurationInput, PutBucketIntelligentTieringConfigurationOutput>(PutBucketIntelligentTieringConfigurationInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<PutBucketIntelligentTieringConfigurationInput, PutBucketIntelligentTieringConfigurationOutput>(PutBucketIntelligentTieringConfigurationInput.queryItemProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutBucketIntelligentTieringConfigurationInput, PutBucketIntelligentTieringConfigurationOutput>(contentType: "application/xml"))
+        builder.serialize(ClientRuntime.PayloadBodyMiddleware<PutBucketIntelligentTieringConfigurationInput, PutBucketIntelligentTieringConfigurationOutput, S3ClientTypes.IntelligentTieringConfiguration, SmithyXML.Writer>(rootNodeInfo: .init("IntelligentTieringConfiguration", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/")), inputWritingClosure: S3ClientTypes.IntelligentTieringConfiguration.write(value:to:), keyPath: \.intelligentTieringConfiguration, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutBucketIntelligentTieringConfigurationInput, PutBucketIntelligentTieringConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutBucketIntelligentTieringConfigurationOutput>(PutBucketIntelligentTieringConfigurationOutput.httpOutput(from:), PutBucketIntelligentTieringConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutBucketIntelligentTieringConfigurationInput, PutBucketIntelligentTieringConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -8089,12 +7552,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `PutBucketInventoryConfigurationOutput`)
     public func putBucketInventoryConfiguration(input: PutBucketInventoryConfigurationInput) async throws -> PutBucketInventoryConfigurationOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.putBucketInventoryConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -8110,10 +7567,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<PutBucketInventoryConfigurationInput, PutBucketInventoryConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -8125,7 +7580,9 @@ extension S3Client {
         builder.serialize(ClientRuntime.HeaderMiddleware<PutBucketInventoryConfigurationInput, PutBucketInventoryConfigurationOutput>(PutBucketInventoryConfigurationInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<PutBucketInventoryConfigurationInput, PutBucketInventoryConfigurationOutput>(PutBucketInventoryConfigurationInput.queryItemProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutBucketInventoryConfigurationInput, PutBucketInventoryConfigurationOutput>(contentType: "application/xml"))
+        builder.serialize(ClientRuntime.PayloadBodyMiddleware<PutBucketInventoryConfigurationInput, PutBucketInventoryConfigurationOutput, S3ClientTypes.InventoryConfiguration, SmithyXML.Writer>(rootNodeInfo: .init("InventoryConfiguration", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/")), inputWritingClosure: S3ClientTypes.InventoryConfiguration.write(value:to:), keyPath: \.inventoryConfiguration, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutBucketInventoryConfigurationInput, PutBucketInventoryConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutBucketInventoryConfigurationOutput>(PutBucketInventoryConfigurationOutput.httpOutput(from:), PutBucketInventoryConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutBucketInventoryConfigurationInput, PutBucketInventoryConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -8200,12 +7657,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `PutBucketLifecycleConfigurationOutput`)
     public func putBucketLifecycleConfiguration(input: PutBucketLifecycleConfigurationInput) async throws -> PutBucketLifecycleConfigurationOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.putBucketLifecycleConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -8221,10 +7672,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<PutBucketLifecycleConfigurationInput, PutBucketLifecycleConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -8236,7 +7685,9 @@ extension S3Client {
         builder.serialize(ClientRuntime.HeaderMiddleware<PutBucketLifecycleConfigurationInput, PutBucketLifecycleConfigurationOutput>(PutBucketLifecycleConfigurationInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<PutBucketLifecycleConfigurationInput, PutBucketLifecycleConfigurationOutput>(PutBucketLifecycleConfigurationInput.queryItemProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutBucketLifecycleConfigurationInput, PutBucketLifecycleConfigurationOutput>(contentType: "application/xml"))
+        builder.serialize(ClientRuntime.PayloadBodyMiddleware<PutBucketLifecycleConfigurationInput, PutBucketLifecycleConfigurationOutput, S3ClientTypes.BucketLifecycleConfiguration, SmithyXML.Writer>(rootNodeInfo: .init("LifecycleConfiguration", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/")), inputWritingClosure: S3ClientTypes.BucketLifecycleConfiguration.write(value:to:), keyPath: \.lifecycleConfiguration, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutBucketLifecycleConfigurationInput, PutBucketLifecycleConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutBucketLifecycleConfigurationOutput>(PutBucketLifecycleConfigurationOutput.httpOutput(from:), PutBucketLifecycleConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutBucketLifecycleConfigurationInput, PutBucketLifecycleConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -8297,12 +7748,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `PutBucketLoggingOutput`)
     public func putBucketLogging(input: PutBucketLoggingInput) async throws -> PutBucketLoggingOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.putBucketLoggingOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -8318,10 +7763,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<PutBucketLoggingInput, PutBucketLoggingOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -8333,7 +7776,9 @@ extension S3Client {
         builder.serialize(ClientRuntime.HeaderMiddleware<PutBucketLoggingInput, PutBucketLoggingOutput>(PutBucketLoggingInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<PutBucketLoggingInput, PutBucketLoggingOutput>(PutBucketLoggingInput.queryItemProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutBucketLoggingInput, PutBucketLoggingOutput>(contentType: "application/xml"))
+        builder.serialize(ClientRuntime.PayloadBodyMiddleware<PutBucketLoggingInput, PutBucketLoggingOutput, S3ClientTypes.BucketLoggingStatus, SmithyXML.Writer>(rootNodeInfo: .init("BucketLoggingStatus", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/")), inputWritingClosure: S3ClientTypes.BucketLoggingStatus.write(value:to:), keyPath: \.bucketLoggingStatus, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutBucketLoggingInput, PutBucketLoggingOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutBucketLoggingOutput>(PutBucketLoggingOutput.httpOutput(from:), PutBucketLoggingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutBucketLoggingInput, PutBucketLoggingOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -8402,12 +7847,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `PutBucketMetricsConfigurationOutput`)
     public func putBucketMetricsConfiguration(input: PutBucketMetricsConfigurationInput) async throws -> PutBucketMetricsConfigurationOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.putBucketMetricsConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -8423,10 +7862,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<PutBucketMetricsConfigurationInput, PutBucketMetricsConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -8438,7 +7875,9 @@ extension S3Client {
         builder.serialize(ClientRuntime.HeaderMiddleware<PutBucketMetricsConfigurationInput, PutBucketMetricsConfigurationOutput>(PutBucketMetricsConfigurationInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<PutBucketMetricsConfigurationInput, PutBucketMetricsConfigurationOutput>(PutBucketMetricsConfigurationInput.queryItemProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutBucketMetricsConfigurationInput, PutBucketMetricsConfigurationOutput>(contentType: "application/xml"))
+        builder.serialize(ClientRuntime.PayloadBodyMiddleware<PutBucketMetricsConfigurationInput, PutBucketMetricsConfigurationOutput, S3ClientTypes.MetricsConfiguration, SmithyXML.Writer>(rootNodeInfo: .init("MetricsConfiguration", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/")), inputWritingClosure: S3ClientTypes.MetricsConfiguration.write(value:to:), keyPath: \.metricsConfiguration, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutBucketMetricsConfigurationInput, PutBucketMetricsConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutBucketMetricsConfigurationOutput>(PutBucketMetricsConfigurationOutput.httpOutput(from:), PutBucketMetricsConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutBucketMetricsConfigurationInput, PutBucketMetricsConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -8483,12 +7922,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `PutBucketNotificationConfigurationOutput`)
     public func putBucketNotificationConfiguration(input: PutBucketNotificationConfigurationInput) async throws -> PutBucketNotificationConfigurationOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.putBucketNotificationConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -8504,10 +7937,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<PutBucketNotificationConfigurationInput, PutBucketNotificationConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -8519,7 +7950,9 @@ extension S3Client {
         builder.serialize(ClientRuntime.HeaderMiddleware<PutBucketNotificationConfigurationInput, PutBucketNotificationConfigurationOutput>(PutBucketNotificationConfigurationInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<PutBucketNotificationConfigurationInput, PutBucketNotificationConfigurationOutput>(PutBucketNotificationConfigurationInput.queryItemProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutBucketNotificationConfigurationInput, PutBucketNotificationConfigurationOutput>(contentType: "application/xml"))
+        builder.serialize(ClientRuntime.PayloadBodyMiddleware<PutBucketNotificationConfigurationInput, PutBucketNotificationConfigurationOutput, S3ClientTypes.NotificationConfiguration, SmithyXML.Writer>(rootNodeInfo: .init("NotificationConfiguration", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/")), inputWritingClosure: S3ClientTypes.NotificationConfiguration.write(value:to:), keyPath: \.notificationConfiguration, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutBucketNotificationConfigurationInput, PutBucketNotificationConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutBucketNotificationConfigurationOutput>(PutBucketNotificationConfigurationOutput.httpOutput(from:), PutBucketNotificationConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutBucketNotificationConfigurationInput, PutBucketNotificationConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -8566,12 +7999,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `PutBucketOwnershipControlsOutput`)
     public func putBucketOwnershipControls(input: PutBucketOwnershipControlsInput) async throws -> PutBucketOwnershipControlsOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.putBucketOwnershipControlsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -8587,10 +8014,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<PutBucketOwnershipControlsInput, PutBucketOwnershipControlsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -8602,7 +8027,9 @@ extension S3Client {
         builder.serialize(ClientRuntime.HeaderMiddleware<PutBucketOwnershipControlsInput, PutBucketOwnershipControlsOutput>(PutBucketOwnershipControlsInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<PutBucketOwnershipControlsInput, PutBucketOwnershipControlsOutput>(PutBucketOwnershipControlsInput.queryItemProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutBucketOwnershipControlsInput, PutBucketOwnershipControlsOutput>(contentType: "application/xml"))
+        builder.serialize(ClientRuntime.PayloadBodyMiddleware<PutBucketOwnershipControlsInput, PutBucketOwnershipControlsOutput, S3ClientTypes.OwnershipControls, SmithyXML.Writer>(rootNodeInfo: .init("OwnershipControls", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/")), inputWritingClosure: S3ClientTypes.OwnershipControls.write(value:to:), keyPath: \.ownershipControls, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutBucketOwnershipControlsInput, PutBucketOwnershipControlsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutBucketOwnershipControlsOutput>(PutBucketOwnershipControlsOutput.httpOutput(from:), PutBucketOwnershipControlsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutBucketOwnershipControlsInput, PutBucketOwnershipControlsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -8657,12 +8084,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `PutBucketPolicyOutput`)
     public func putBucketPolicy(input: PutBucketPolicyInput) async throws -> PutBucketPolicyOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.putBucketPolicyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -8678,10 +8099,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<PutBucketPolicyInput, PutBucketPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -8693,7 +8112,9 @@ extension S3Client {
         builder.serialize(ClientRuntime.HeaderMiddleware<PutBucketPolicyInput, PutBucketPolicyOutput>(PutBucketPolicyInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<PutBucketPolicyInput, PutBucketPolicyOutput>(PutBucketPolicyInput.queryItemProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutBucketPolicyInput, PutBucketPolicyOutput>(contentType: "text/plain"))
+        builder.serialize(ClientRuntime.StringBodyMiddleware<PutBucketPolicyInput, PutBucketPolicyOutput>(keyPath: \.policy))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutBucketPolicyInput, PutBucketPolicyOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutBucketPolicyOutput>(PutBucketPolicyOutput.httpOutput(from:), PutBucketPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutBucketPolicyInput, PutBucketPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -8741,12 +8162,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `PutBucketReplicationOutput`)
     public func putBucketReplication(input: PutBucketReplicationInput) async throws -> PutBucketReplicationOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.putBucketReplicationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -8762,10 +8177,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<PutBucketReplicationInput, PutBucketReplicationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -8777,7 +8190,9 @@ extension S3Client {
         builder.serialize(ClientRuntime.HeaderMiddleware<PutBucketReplicationInput, PutBucketReplicationOutput>(PutBucketReplicationInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<PutBucketReplicationInput, PutBucketReplicationOutput>(PutBucketReplicationInput.queryItemProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutBucketReplicationInput, PutBucketReplicationOutput>(contentType: "application/xml"))
+        builder.serialize(ClientRuntime.PayloadBodyMiddleware<PutBucketReplicationInput, PutBucketReplicationOutput, S3ClientTypes.ReplicationConfiguration, SmithyXML.Writer>(rootNodeInfo: .init("ReplicationConfiguration", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/")), inputWritingClosure: S3ClientTypes.ReplicationConfiguration.write(value:to:), keyPath: \.replicationConfiguration, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutBucketReplicationInput, PutBucketReplicationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutBucketReplicationOutput>(PutBucketReplicationOutput.httpOutput(from:), PutBucketReplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutBucketReplicationInput, PutBucketReplicationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -8825,12 +8240,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `PutBucketRequestPaymentOutput`)
     public func putBucketRequestPayment(input: PutBucketRequestPaymentInput) async throws -> PutBucketRequestPaymentOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.putBucketRequestPaymentOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -8846,10 +8255,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<PutBucketRequestPaymentInput, PutBucketRequestPaymentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -8861,7 +8268,9 @@ extension S3Client {
         builder.serialize(ClientRuntime.HeaderMiddleware<PutBucketRequestPaymentInput, PutBucketRequestPaymentOutput>(PutBucketRequestPaymentInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<PutBucketRequestPaymentInput, PutBucketRequestPaymentOutput>(PutBucketRequestPaymentInput.queryItemProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutBucketRequestPaymentInput, PutBucketRequestPaymentOutput>(contentType: "application/xml"))
+        builder.serialize(ClientRuntime.PayloadBodyMiddleware<PutBucketRequestPaymentInput, PutBucketRequestPaymentOutput, S3ClientTypes.RequestPaymentConfiguration, SmithyXML.Writer>(rootNodeInfo: .init("RequestPaymentConfiguration", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/")), inputWritingClosure: S3ClientTypes.RequestPaymentConfiguration.write(value:to:), keyPath: \.requestPaymentConfiguration, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutBucketRequestPaymentInput, PutBucketRequestPaymentOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutBucketRequestPaymentOutput>(PutBucketRequestPaymentOutput.httpOutput(from:), PutBucketRequestPaymentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutBucketRequestPaymentInput, PutBucketRequestPaymentOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -8920,12 +8329,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `PutBucketTaggingOutput`)
     public func putBucketTagging(input: PutBucketTaggingInput) async throws -> PutBucketTaggingOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.putBucketTaggingOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -8941,10 +8344,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<PutBucketTaggingInput, PutBucketTaggingOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -8956,7 +8357,9 @@ extension S3Client {
         builder.serialize(ClientRuntime.HeaderMiddleware<PutBucketTaggingInput, PutBucketTaggingOutput>(PutBucketTaggingInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<PutBucketTaggingInput, PutBucketTaggingOutput>(PutBucketTaggingInput.queryItemProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutBucketTaggingInput, PutBucketTaggingOutput>(contentType: "application/xml"))
+        builder.serialize(ClientRuntime.PayloadBodyMiddleware<PutBucketTaggingInput, PutBucketTaggingOutput, S3ClientTypes.Tagging, SmithyXML.Writer>(rootNodeInfo: .init("Tagging", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/")), inputWritingClosure: S3ClientTypes.Tagging.write(value:to:), keyPath: \.tagging, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutBucketTaggingInput, PutBucketTaggingOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutBucketTaggingOutput>(PutBucketTaggingOutput.httpOutput(from:), PutBucketTaggingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutBucketTaggingInput, PutBucketTaggingOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -9006,12 +8409,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `PutBucketVersioningOutput`)
     public func putBucketVersioning(input: PutBucketVersioningInput) async throws -> PutBucketVersioningOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.putBucketVersioningOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -9027,10 +8424,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<PutBucketVersioningInput, PutBucketVersioningOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -9042,7 +8437,9 @@ extension S3Client {
         builder.serialize(ClientRuntime.HeaderMiddleware<PutBucketVersioningInput, PutBucketVersioningOutput>(PutBucketVersioningInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<PutBucketVersioningInput, PutBucketVersioningOutput>(PutBucketVersioningInput.queryItemProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutBucketVersioningInput, PutBucketVersioningOutput>(contentType: "application/xml"))
+        builder.serialize(ClientRuntime.PayloadBodyMiddleware<PutBucketVersioningInput, PutBucketVersioningOutput, S3ClientTypes.VersioningConfiguration, SmithyXML.Writer>(rootNodeInfo: .init("VersioningConfiguration", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/")), inputWritingClosure: S3ClientTypes.VersioningConfiguration.write(value:to:), keyPath: \.versioningConfiguration, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutBucketVersioningInput, PutBucketVersioningOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutBucketVersioningOutput>(PutBucketVersioningOutput.httpOutput(from:), PutBucketVersioningOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutBucketVersioningInput, PutBucketVersioningOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -9129,12 +8526,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `PutBucketWebsiteOutput`)
     public func putBucketWebsite(input: PutBucketWebsiteInput) async throws -> PutBucketWebsiteOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.putBucketWebsiteOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -9150,10 +8541,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<PutBucketWebsiteInput, PutBucketWebsiteOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -9165,7 +8554,9 @@ extension S3Client {
         builder.serialize(ClientRuntime.HeaderMiddleware<PutBucketWebsiteInput, PutBucketWebsiteOutput>(PutBucketWebsiteInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<PutBucketWebsiteInput, PutBucketWebsiteOutput>(PutBucketWebsiteInput.queryItemProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutBucketWebsiteInput, PutBucketWebsiteOutput>(contentType: "application/xml"))
+        builder.serialize(ClientRuntime.PayloadBodyMiddleware<PutBucketWebsiteInput, PutBucketWebsiteOutput, S3ClientTypes.WebsiteConfiguration, SmithyXML.Writer>(rootNodeInfo: .init("WebsiteConfiguration", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/")), inputWritingClosure: S3ClientTypes.WebsiteConfiguration.write(value:to:), keyPath: \.websiteConfiguration, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutBucketWebsiteInput, PutBucketWebsiteOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutBucketWebsiteOutput>(PutBucketWebsiteOutput.httpOutput(from:), PutBucketWebsiteOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutBucketWebsiteInput, PutBucketWebsiteOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -9276,12 +8667,6 @@ extension S3Client {
     /// - `InvalidWriteOffset` : The write offset value that you specified does not match the current object size.
     /// - `TooManyParts` : You have attempted to add more parts than the maximum of 10000 that are allowed for this object. You can use the CopyObject operation to copy this object to another and then add more data to the newly copied object.
     public func putObject(input: PutObjectInput) async throws -> PutObjectOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.putObjectOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -9297,10 +8682,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<PutObjectInput, PutObjectOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -9312,7 +8695,9 @@ extension S3Client {
         builder.serialize(ClientRuntime.HeaderMiddleware<PutObjectInput, PutObjectOutput>(PutObjectInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<PutObjectInput, PutObjectOutput>(PutObjectInput.queryItemProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutObjectInput, PutObjectOutput>(contentType: "application/octet-stream"))
+        builder.serialize(ClientRuntime.BlobStreamBodyMiddleware<PutObjectInput, PutObjectOutput>(keyPath: \.body))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutObjectInput, PutObjectOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutObjectOutput>(PutObjectOutput.httpOutput(from:), PutObjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutObjectInput, PutObjectOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -9428,12 +8813,6 @@ extension S3Client {
     /// __Possible Exceptions:__
     /// - `NoSuchKey` : The specified key does not exist.
     public func putObjectAcl(input: PutObjectAclInput) async throws -> PutObjectAclOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.putObjectAclOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -9449,10 +8828,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<PutObjectAclInput, PutObjectAclOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -9464,7 +8841,9 @@ extension S3Client {
         builder.serialize(ClientRuntime.HeaderMiddleware<PutObjectAclInput, PutObjectAclOutput>(PutObjectAclInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<PutObjectAclInput, PutObjectAclOutput>(PutObjectAclInput.queryItemProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutObjectAclInput, PutObjectAclOutput>(contentType: "application/xml"))
+        builder.serialize(ClientRuntime.PayloadBodyMiddleware<PutObjectAclInput, PutObjectAclOutput, S3ClientTypes.AccessControlPolicy, SmithyXML.Writer>(rootNodeInfo: .init("AccessControlPolicy", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/")), inputWritingClosure: S3ClientTypes.AccessControlPolicy.write(value:to:), keyPath: \.accessControlPolicy, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutObjectAclInput, PutObjectAclOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutObjectAclOutput>(PutObjectAclOutput.httpOutput(from:), PutObjectAclOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutObjectAclInput, PutObjectAclOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -9505,12 +8884,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `PutObjectLegalHoldOutput`)
     public func putObjectLegalHold(input: PutObjectLegalHoldInput) async throws -> PutObjectLegalHoldOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.putObjectLegalHoldOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -9526,10 +8899,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<PutObjectLegalHoldInput, PutObjectLegalHoldOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -9541,7 +8912,9 @@ extension S3Client {
         builder.serialize(ClientRuntime.HeaderMiddleware<PutObjectLegalHoldInput, PutObjectLegalHoldOutput>(PutObjectLegalHoldInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<PutObjectLegalHoldInput, PutObjectLegalHoldOutput>(PutObjectLegalHoldInput.queryItemProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutObjectLegalHoldInput, PutObjectLegalHoldOutput>(contentType: "application/xml"))
+        builder.serialize(ClientRuntime.PayloadBodyMiddleware<PutObjectLegalHoldInput, PutObjectLegalHoldOutput, S3ClientTypes.ObjectLockLegalHold, SmithyXML.Writer>(rootNodeInfo: .init("LegalHold", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/")), inputWritingClosure: S3ClientTypes.ObjectLockLegalHold.write(value:to:), keyPath: \.legalHold, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutObjectLegalHoldInput, PutObjectLegalHoldOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutObjectLegalHoldOutput>(PutObjectLegalHoldOutput.httpOutput(from:), PutObjectLegalHoldOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutObjectLegalHoldInput, PutObjectLegalHoldOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -9591,12 +8964,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `PutObjectLockConfigurationOutput`)
     public func putObjectLockConfiguration(input: PutObjectLockConfigurationInput) async throws -> PutObjectLockConfigurationOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.putObjectLockConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -9612,10 +8979,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<PutObjectLockConfigurationInput, PutObjectLockConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -9627,7 +8992,9 @@ extension S3Client {
         builder.serialize(ClientRuntime.HeaderMiddleware<PutObjectLockConfigurationInput, PutObjectLockConfigurationOutput>(PutObjectLockConfigurationInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<PutObjectLockConfigurationInput, PutObjectLockConfigurationOutput>(PutObjectLockConfigurationInput.queryItemProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutObjectLockConfigurationInput, PutObjectLockConfigurationOutput>(contentType: "application/xml"))
+        builder.serialize(ClientRuntime.PayloadBodyMiddleware<PutObjectLockConfigurationInput, PutObjectLockConfigurationOutput, S3ClientTypes.ObjectLockConfiguration, SmithyXML.Writer>(rootNodeInfo: .init("ObjectLockConfiguration", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/")), inputWritingClosure: S3ClientTypes.ObjectLockConfiguration.write(value:to:), keyPath: \.objectLockConfiguration, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutObjectLockConfigurationInput, PutObjectLockConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutObjectLockConfigurationOutput>(PutObjectLockConfigurationOutput.httpOutput(from:), PutObjectLockConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutObjectLockConfigurationInput, PutObjectLockConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -9668,12 +9035,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `PutObjectRetentionOutput`)
     public func putObjectRetention(input: PutObjectRetentionInput) async throws -> PutObjectRetentionOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.putObjectRetentionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -9689,10 +9050,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<PutObjectRetentionInput, PutObjectRetentionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -9704,7 +9063,9 @@ extension S3Client {
         builder.serialize(ClientRuntime.HeaderMiddleware<PutObjectRetentionInput, PutObjectRetentionOutput>(PutObjectRetentionInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<PutObjectRetentionInput, PutObjectRetentionOutput>(PutObjectRetentionInput.queryItemProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutObjectRetentionInput, PutObjectRetentionOutput>(contentType: "application/xml"))
+        builder.serialize(ClientRuntime.PayloadBodyMiddleware<PutObjectRetentionInput, PutObjectRetentionOutput, S3ClientTypes.ObjectLockRetention, SmithyXML.Writer>(rootNodeInfo: .init("Retention", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/")), inputWritingClosure: S3ClientTypes.ObjectLockRetention.write(value:to:), keyPath: \.retention, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutObjectRetentionInput, PutObjectRetentionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutObjectRetentionOutput>(PutObjectRetentionOutput.httpOutput(from:), PutObjectRetentionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutObjectRetentionInput, PutObjectRetentionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -9763,12 +9124,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `PutObjectTaggingOutput`)
     public func putObjectTagging(input: PutObjectTaggingInput) async throws -> PutObjectTaggingOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.putObjectTaggingOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -9784,10 +9139,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<PutObjectTaggingInput, PutObjectTaggingOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -9799,7 +9152,9 @@ extension S3Client {
         builder.serialize(ClientRuntime.HeaderMiddleware<PutObjectTaggingInput, PutObjectTaggingOutput>(PutObjectTaggingInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<PutObjectTaggingInput, PutObjectTaggingOutput>(PutObjectTaggingInput.queryItemProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutObjectTaggingInput, PutObjectTaggingOutput>(contentType: "application/xml"))
+        builder.serialize(ClientRuntime.PayloadBodyMiddleware<PutObjectTaggingInput, PutObjectTaggingOutput, S3ClientTypes.Tagging, SmithyXML.Writer>(rootNodeInfo: .init("Tagging", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/")), inputWritingClosure: S3ClientTypes.Tagging.write(value:to:), keyPath: \.tagging, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutObjectTaggingInput, PutObjectTaggingOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutObjectTaggingOutput>(PutObjectTaggingOutput.httpOutput(from:), PutObjectTaggingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutObjectTaggingInput, PutObjectTaggingOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -9851,12 +9206,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `PutPublicAccessBlockOutput`)
     public func putPublicAccessBlock(input: PutPublicAccessBlockInput) async throws -> PutPublicAccessBlockOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.putPublicAccessBlockOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -9872,10 +9221,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<PutPublicAccessBlockInput, PutPublicAccessBlockOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -9887,7 +9234,9 @@ extension S3Client {
         builder.serialize(ClientRuntime.HeaderMiddleware<PutPublicAccessBlockInput, PutPublicAccessBlockOutput>(PutPublicAccessBlockInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<PutPublicAccessBlockInput, PutPublicAccessBlockOutput>(PutPublicAccessBlockInput.queryItemProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutPublicAccessBlockInput, PutPublicAccessBlockOutput>(contentType: "application/xml"))
+        builder.serialize(ClientRuntime.PayloadBodyMiddleware<PutPublicAccessBlockInput, PutPublicAccessBlockOutput, S3ClientTypes.PublicAccessBlockConfiguration, SmithyXML.Writer>(rootNodeInfo: .init("PublicAccessBlockConfiguration", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/")), inputWritingClosure: S3ClientTypes.PublicAccessBlockConfiguration.write(value:to:), keyPath: \.publicAccessBlockConfiguration, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutPublicAccessBlockInput, PutPublicAccessBlockOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutPublicAccessBlockOutput>(PutPublicAccessBlockOutput.httpOutput(from:), PutPublicAccessBlockOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutPublicAccessBlockInput, PutPublicAccessBlockOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -9938,12 +9287,6 @@ extension S3Client {
     /// __Possible Exceptions:__
     /// - `IdempotencyParameterMismatch` : Parameters on this idempotent request are inconsistent with parameters used in previous request(s). For a list of error codes and more information on Amazon S3 errors, see [Error codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#ErrorCodeList). Idempotency ensures that an API request completes no more than one time. With an idempotent request, if the original request completes successfully, any subsequent retries complete successfully without performing any further actions.
     public func renameObject(input: RenameObjectInput) async throws -> RenameObjectOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.renameObjectOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -9959,10 +9302,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<RenameObjectInput, RenameObjectOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -9974,6 +9315,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RenameObjectInput, RenameObjectOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<RenameObjectInput, RenameObjectOutput>(RenameObjectInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<RenameObjectInput, RenameObjectOutput>(RenameObjectInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<RenameObjectOutput>(RenameObjectOutput.httpOutput(from:), RenameObjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RenameObjectInput, RenameObjectOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -10083,12 +9425,6 @@ extension S3Client {
     /// __Possible Exceptions:__
     /// - `ObjectAlreadyInActiveTierError` : This action is not allowed against this storage tier.
     public func restoreObject(input: RestoreObjectInput) async throws -> RestoreObjectOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.restoreObjectOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -10104,10 +9440,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<RestoreObjectInput, RestoreObjectOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -10119,7 +9453,9 @@ extension S3Client {
         builder.serialize(ClientRuntime.HeaderMiddleware<RestoreObjectInput, RestoreObjectOutput>(RestoreObjectInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<RestoreObjectInput, RestoreObjectOutput>(RestoreObjectInput.queryItemProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RestoreObjectInput, RestoreObjectOutput>(contentType: "application/xml"))
+        builder.serialize(ClientRuntime.PayloadBodyMiddleware<RestoreObjectInput, RestoreObjectOutput, S3ClientTypes.RestoreRequest, SmithyXML.Writer>(rootNodeInfo: .init("RestoreRequest", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/")), inputWritingClosure: S3ClientTypes.RestoreRequest.write(value:to:), keyPath: \.restoreRequest, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RestoreObjectInput, RestoreObjectOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<RestoreObjectOutput>(RestoreObjectOutput.httpOutput(from:), RestoreObjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RestoreObjectInput, RestoreObjectOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -10187,12 +9523,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `SelectObjectContentOutput`)
     public func selectObjectContent(input: SelectObjectContentInput) async throws -> SelectObjectContentOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.selectObjectContentOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -10208,10 +9538,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<SelectObjectContentInput, SelectObjectContentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -10223,7 +9551,9 @@ extension S3Client {
         builder.serialize(ClientRuntime.HeaderMiddleware<SelectObjectContentInput, SelectObjectContentOutput>(SelectObjectContentInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<SelectObjectContentInput, SelectObjectContentOutput>(SelectObjectContentInput.queryItemProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SelectObjectContentInput, SelectObjectContentOutput>(contentType: "application/xml"))
+        builder.serialize(ClientRuntime.BodyMiddleware<SelectObjectContentInput, SelectObjectContentOutput, SmithyXML.Writer>(rootNodeInfo: .init("SelectObjectContentRequest", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/")), inputWritingClosure: SelectObjectContentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SelectObjectContentInput, SelectObjectContentOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<SelectObjectContentOutput>(SelectObjectContentOutput.httpOutput(from:), SelectObjectContentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SelectObjectContentInput, SelectObjectContentOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -10292,12 +9622,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `UpdateBucketMetadataInventoryTableConfigurationOutput`)
     public func updateBucketMetadataInventoryTableConfiguration(input: UpdateBucketMetadataInventoryTableConfigurationInput) async throws -> UpdateBucketMetadataInventoryTableConfigurationOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.updateBucketMetadataInventoryTableConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -10313,10 +9637,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateBucketMetadataInventoryTableConfigurationInput, UpdateBucketMetadataInventoryTableConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -10328,7 +9650,9 @@ extension S3Client {
         builder.serialize(ClientRuntime.HeaderMiddleware<UpdateBucketMetadataInventoryTableConfigurationInput, UpdateBucketMetadataInventoryTableConfigurationOutput>(UpdateBucketMetadataInventoryTableConfigurationInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<UpdateBucketMetadataInventoryTableConfigurationInput, UpdateBucketMetadataInventoryTableConfigurationOutput>(UpdateBucketMetadataInventoryTableConfigurationInput.queryItemProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateBucketMetadataInventoryTableConfigurationInput, UpdateBucketMetadataInventoryTableConfigurationOutput>(contentType: "application/xml"))
+        builder.serialize(ClientRuntime.PayloadBodyMiddleware<UpdateBucketMetadataInventoryTableConfigurationInput, UpdateBucketMetadataInventoryTableConfigurationOutput, S3ClientTypes.InventoryTableConfigurationUpdates, SmithyXML.Writer>(rootNodeInfo: .init("InventoryTableConfiguration", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/")), inputWritingClosure: S3ClientTypes.InventoryTableConfigurationUpdates.write(value:to:), keyPath: \.inventoryTableConfiguration, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateBucketMetadataInventoryTableConfigurationInput, UpdateBucketMetadataInventoryTableConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateBucketMetadataInventoryTableConfigurationOutput>(UpdateBucketMetadataInventoryTableConfigurationOutput.httpOutput(from:), UpdateBucketMetadataInventoryTableConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateBucketMetadataInventoryTableConfigurationInput, UpdateBucketMetadataInventoryTableConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -10380,12 +9704,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `UpdateBucketMetadataJournalTableConfigurationOutput`)
     public func updateBucketMetadataJournalTableConfiguration(input: UpdateBucketMetadataJournalTableConfigurationInput) async throws -> UpdateBucketMetadataJournalTableConfigurationOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.updateBucketMetadataJournalTableConfigurationOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -10401,10 +9719,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateBucketMetadataJournalTableConfigurationInput, UpdateBucketMetadataJournalTableConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -10416,7 +9732,9 @@ extension S3Client {
         builder.serialize(ClientRuntime.HeaderMiddleware<UpdateBucketMetadataJournalTableConfigurationInput, UpdateBucketMetadataJournalTableConfigurationOutput>(UpdateBucketMetadataJournalTableConfigurationInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<UpdateBucketMetadataJournalTableConfigurationInput, UpdateBucketMetadataJournalTableConfigurationOutput>(UpdateBucketMetadataJournalTableConfigurationInput.queryItemProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateBucketMetadataJournalTableConfigurationInput, UpdateBucketMetadataJournalTableConfigurationOutput>(contentType: "application/xml"))
+        builder.serialize(ClientRuntime.PayloadBodyMiddleware<UpdateBucketMetadataJournalTableConfigurationInput, UpdateBucketMetadataJournalTableConfigurationOutput, S3ClientTypes.JournalTableConfigurationUpdates, SmithyXML.Writer>(rootNodeInfo: .init("JournalTableConfiguration", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/")), inputWritingClosure: S3ClientTypes.JournalTableConfigurationUpdates.write(value:to:), keyPath: \.journalTableConfiguration, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateBucketMetadataJournalTableConfigurationInput, UpdateBucketMetadataJournalTableConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateBucketMetadataJournalTableConfigurationOutput>(UpdateBucketMetadataJournalTableConfigurationOutput.httpOutput(from:), UpdateBucketMetadataJournalTableConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateBucketMetadataJournalTableConfigurationInput, UpdateBucketMetadataJournalTableConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -10517,12 +9835,6 @@ extension S3Client {
     /// - `InvalidRequest` : A parameter or header in your request isn't valid. For details, see the description of this API operation.
     /// - `NoSuchKey` : The specified key does not exist.
     public func updateObjectEncryption(input: UpdateObjectEncryptionInput) async throws -> UpdateObjectEncryptionOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.updateObjectEncryptionOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -10538,10 +9850,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateObjectEncryptionInput, UpdateObjectEncryptionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -10553,7 +9863,9 @@ extension S3Client {
         builder.serialize(ClientRuntime.HeaderMiddleware<UpdateObjectEncryptionInput, UpdateObjectEncryptionOutput>(UpdateObjectEncryptionInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<UpdateObjectEncryptionInput, UpdateObjectEncryptionOutput>(UpdateObjectEncryptionInput.queryItemProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateObjectEncryptionInput, UpdateObjectEncryptionOutput>(contentType: "application/xml"))
+        builder.serialize(ClientRuntime.PayloadBodyMiddleware<UpdateObjectEncryptionInput, UpdateObjectEncryptionOutput, S3ClientTypes.ObjectEncryption, SmithyXML.Writer>(rootNodeInfo: .init("ObjectEncryption", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/")), inputWritingClosure: S3ClientTypes.ObjectEncryption.write(value:to:), keyPath: \.objectEncryption, defaultBody: nil))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateObjectEncryptionInput, UpdateObjectEncryptionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateObjectEncryptionOutput>(UpdateObjectEncryptionOutput.httpOutput(from:), UpdateObjectEncryptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateObjectEncryptionInput, UpdateObjectEncryptionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -10644,12 +9956,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `UploadPartOutput`)
     public func uploadPart(input: UploadPartInput) async throws -> UploadPartOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.uploadPartOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -10665,10 +9971,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<UploadPartInput, UploadPartOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -10680,7 +9984,9 @@ extension S3Client {
         builder.serialize(ClientRuntime.HeaderMiddleware<UploadPartInput, UploadPartOutput>(UploadPartInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<UploadPartInput, UploadPartOutput>(UploadPartInput.queryItemProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UploadPartInput, UploadPartOutput>(contentType: "application/octet-stream"))
+        builder.serialize(ClientRuntime.BlobStreamBodyMiddleware<UploadPartInput, UploadPartOutput>(keyPath: \.body))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UploadPartInput, UploadPartOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UploadPartOutput>(UploadPartOutput.httpOutput(from:), UploadPartOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UploadPartInput, UploadPartOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -10787,12 +10093,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `UploadPartCopyOutput`)
     public func uploadPartCopy(input: UploadPartCopyInput) async throws -> UploadPartCopyOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.uploadPartCopyOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -10808,10 +10108,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<UploadPartCopyInput, UploadPartCopyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -10822,6 +10120,7 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UploadPartCopyInput, UploadPartCopyOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<UploadPartCopyInput, UploadPartCopyOutput>(UploadPartCopyInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<UploadPartCopyInput, UploadPartCopyOutput>(UploadPartCopyInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UploadPartCopyOutput>(UploadPartCopyOutput.httpOutput(from:), UploadPartCopyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UploadPartCopyInput, UploadPartCopyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -10861,12 +10160,6 @@ extension S3Client {
     ///
     /// - Returns: [no documentation found] (Type: `WriteGetObjectResponseOutput`)
     public func writeGetObjectResponse(input: WriteGetObjectResponseInput) async throws -> WriteGetObjectResponseOutput {
-        var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRestXML.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
-        for plugin in plugins {
-            try await plugin.configureClient(clientConfiguration: &config)
-        }
-        let operation = S3Client.writeGetObjectResponseOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -10882,10 +10175,8 @@ extension S3Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
-                      .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRestXML.HTTPClientProtocol(noErrorWrapping: true, handleEmpty404: true).withCustomErrorResolver(s3CustomErrorResolver).withErrorPostProcessor(s3ErrorPostProcessor)
-        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        let builder = ClientRuntime.OrchestratorBuilder<WriteGetObjectResponseInput, WriteGetObjectResponseOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -10896,7 +10187,9 @@ extension S3Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<WriteGetObjectResponseInput, WriteGetObjectResponseOutput>(hostPrefix: "\(input.requestRoute!)."))
         builder.serialize(ClientRuntime.HeaderMiddleware<WriteGetObjectResponseInput, WriteGetObjectResponseOutput>(WriteGetObjectResponseInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<WriteGetObjectResponseInput, WriteGetObjectResponseOutput>(contentType: "application/octet-stream"))
+        builder.serialize(ClientRuntime.BlobStreamBodyMiddleware<WriteGetObjectResponseInput, WriteGetObjectResponseOutput>(keyPath: \.body))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<WriteGetObjectResponseInput, WriteGetObjectResponseOutput>(requiresLength: false, unsignedPayload: true))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<WriteGetObjectResponseOutput>(WriteGetObjectResponseOutput.httpOutput(from:), WriteGetObjectResponseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<WriteGetObjectResponseInput, WriteGetObjectResponseOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))

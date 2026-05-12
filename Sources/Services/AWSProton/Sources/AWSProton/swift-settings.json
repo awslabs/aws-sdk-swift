@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.proton#AwsProton20200720",
-    "module": "AWSProton",
-    "sdkId": "Proton",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/proton.json"
-}

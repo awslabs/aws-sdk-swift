@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.codepipeline#CodePipeline_20150709",
-    "module": "AWSCodePipeline",
-    "sdkId": "CodePipeline",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/codepipeline.json"
-}

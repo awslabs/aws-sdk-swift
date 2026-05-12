@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.inspector#InspectorService",
-    "module": "AWSInspector",
-    "sdkId": "Inspector",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/inspector.json"
-}

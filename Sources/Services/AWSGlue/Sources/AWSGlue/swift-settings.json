@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.glue#AWSGlue",
-    "module": "AWSGlue",
-    "sdkId": "Glue",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/glue.json"
-}

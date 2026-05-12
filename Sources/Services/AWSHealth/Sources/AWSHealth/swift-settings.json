@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.health#AWSHealth_20160804",
-    "module": "AWSHealth",
-    "sdkId": "Health",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/health.json"
-}

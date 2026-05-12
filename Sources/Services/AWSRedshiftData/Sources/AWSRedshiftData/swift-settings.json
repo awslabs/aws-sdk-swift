@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.redshiftdata#RedshiftData",
-    "module": "AWSRedshiftData",
-    "sdkId": "Redshift Data",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/redshift-data.json"
-}

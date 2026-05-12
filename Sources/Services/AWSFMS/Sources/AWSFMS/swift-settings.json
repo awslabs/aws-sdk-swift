@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.fms#AWSFMS_20180101",
-    "module": "AWSFMS",
-    "sdkId": "FMS",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/fms.json"
-}

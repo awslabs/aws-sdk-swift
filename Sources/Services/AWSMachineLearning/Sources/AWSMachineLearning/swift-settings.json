@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.machinelearning#AmazonML_20141212",
-    "module": "AWSMachineLearning",
-    "sdkId": "Machine Learning",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/machine-learning.json"
-}

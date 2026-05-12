@@ -10,8 +10,10 @@
     "SmithyHTTPAPI",
     "SmithyHTTPAuthAPI",
     "SmithyIdentity",
-    "SmithyRestXML",
+    "SmithyReadWrite",
     "SmithyRetries",
-    "SmithyRetriesAPI"
+    "SmithyRetriesAPI",
+    "SmithyTimestamps",
+    "SmithyXML"
   ]
 }

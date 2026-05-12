@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.route53resolver#Route53Resolver",
-    "module": "AWSRoute53Resolver",
-    "sdkId": "Route53Resolver",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/route53resolver.json"
-}

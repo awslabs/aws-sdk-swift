@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.budgets#AWSBudgetServiceGateway",
-    "module": "AWSBudgets",
-    "sdkId": "Budgets",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/budgets.json"
-}

@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.workspacesinstances#EUCMIFrontendAPIService",
-    "module": "AWSWorkspacesInstances",
-    "sdkId": "Workspaces Instances",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/workspaces-instances.json"
-}

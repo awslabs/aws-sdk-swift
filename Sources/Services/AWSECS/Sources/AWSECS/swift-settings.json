@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.ecs#AmazonEC2ContainerServiceV20141113",
-    "module": "AWSECS",
-    "sdkId": "ECS",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/ecs.json"
-}

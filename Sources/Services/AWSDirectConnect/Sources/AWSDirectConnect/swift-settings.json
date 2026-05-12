@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.directconnect#OvertureService",
-    "module": "AWSDirectConnect",
-    "sdkId": "Direct Connect",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/direct-connect.json"
-}

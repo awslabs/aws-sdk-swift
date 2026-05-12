@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.bedrockdataautomationruntime#AmazonBedrockKeystoneRuntimeService",
-    "module": "AWSBedrockDataAutomationRuntime",
-    "sdkId": "Bedrock Data Automation Runtime",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/bedrock-data-automation-runtime.json"
-}

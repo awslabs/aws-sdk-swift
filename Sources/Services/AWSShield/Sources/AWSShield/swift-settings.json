@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.shield#AWSShield_20160616",
-    "module": "AWSShield",
-    "sdkId": "Shield",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/shield.json"
-}

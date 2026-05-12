@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.lightsail#Lightsail_20161128",
-    "module": "AWSLightsail",
-    "sdkId": "Lightsail",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/lightsail.json"
-}

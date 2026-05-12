@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.cognitoidentityprovider#AWSCognitoIdentityProviderService",
-    "module": "AWSCognitoIdentityProvider",
-    "sdkId": "Cognito Identity Provider",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/cognito-identity-provider.json"
-}

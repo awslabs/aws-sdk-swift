@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.eventbridge#AWSEvents",
-    "module": "AWSEventBridge",
-    "sdkId": "EventBridge",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/eventbridge.json"
-}

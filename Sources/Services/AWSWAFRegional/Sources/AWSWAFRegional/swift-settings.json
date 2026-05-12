@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.wafregional#AWSWAF_Regional_20161128",
-    "module": "AWSWAFRegional",
-    "sdkId": "WAF Regional",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/waf-regional.json"
-}

@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.transcribe#Transcribe",
-    "module": "AWSTranscribe",
-    "sdkId": "Transcribe",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/transcribe.json"
-}

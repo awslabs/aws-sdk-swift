@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.emr#ElasticMapReduce",
-    "module": "AWSEMR",
-    "sdkId": "EMR",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/emr.json"
-}

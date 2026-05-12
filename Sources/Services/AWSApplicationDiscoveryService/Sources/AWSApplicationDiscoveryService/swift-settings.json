@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.applicationdiscoveryservice#AWSPoseidonService_V2015_11_01",
-    "module": "AWSApplicationDiscoveryService",
-    "sdkId": "Application Discovery Service",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/application-discovery-service.json"
-}

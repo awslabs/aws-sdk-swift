@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.frauddetector#AWSHawksNestServiceFacade",
-    "module": "AWSFraudDetector",
-    "sdkId": "FraudDetector",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/frauddetector.json"
-}

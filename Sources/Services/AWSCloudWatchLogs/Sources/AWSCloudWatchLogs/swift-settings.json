@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.cloudwatchlogs#Logs_20140328",
-    "module": "AWSCloudWatchLogs",
-    "sdkId": "CloudWatch Logs",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/cloudwatch-logs.json"
-}

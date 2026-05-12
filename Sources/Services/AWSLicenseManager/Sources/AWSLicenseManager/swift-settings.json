@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.licensemanager#AWSLicenseManager",
-    "module": "AWSLicenseManager",
-    "sdkId": "License Manager",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/license-manager.json"
-}

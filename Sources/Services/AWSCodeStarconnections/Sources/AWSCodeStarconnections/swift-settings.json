@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.codestarconnections#CodeStar_connections_20191201",
-    "module": "AWSCodeStarconnections",
-    "sdkId": "CodeStar connections",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/codestar-connections.json"
-}

@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.dax#AmazonDAXV3",
-    "module": "AWSDAX",
-    "sdkId": "DAX",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/dax.json"
-}

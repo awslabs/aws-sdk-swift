@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.gamelift#GameLift",
-    "module": "AWSGameLift",
-    "sdkId": "GameLift",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/gamelift.json"
-}

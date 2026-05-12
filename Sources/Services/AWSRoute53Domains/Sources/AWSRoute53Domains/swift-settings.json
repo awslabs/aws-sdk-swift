@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.route53domains#Route53Domains_v20140515",
-    "module": "AWSRoute53Domains",
-    "sdkId": "Route 53 Domains",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/route-53-domains.json"
-}

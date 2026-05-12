@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.marketplaceentitlementservice#AWSMPEntitlementService",
-    "module": "AWSMarketplaceEntitlementService",
-    "sdkId": "Marketplace Entitlement Service",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/marketplace-entitlement-service.json"
-}

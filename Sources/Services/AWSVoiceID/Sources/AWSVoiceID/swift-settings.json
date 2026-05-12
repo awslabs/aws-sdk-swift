@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.voiceid#VoiceID",
-    "module": "AWSVoiceID",
-    "sdkId": "Voice ID",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/voice-id.json"
-}

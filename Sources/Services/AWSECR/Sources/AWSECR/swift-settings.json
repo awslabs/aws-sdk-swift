@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.ecr#AmazonEC2ContainerRegistry_V20150921",
-    "module": "AWSECR",
-    "sdkId": "ECR",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/ecr.json"
-}

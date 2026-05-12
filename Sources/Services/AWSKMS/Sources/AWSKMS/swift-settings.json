@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.kms#TrentService",
-    "module": "AWSKMS",
-    "sdkId": "KMS",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/kms.json"
-}

@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.devicefarm#DeviceFarm_20150623",
-    "module": "AWSDeviceFarm",
-    "sdkId": "Device Farm",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/device-farm.json"
-}

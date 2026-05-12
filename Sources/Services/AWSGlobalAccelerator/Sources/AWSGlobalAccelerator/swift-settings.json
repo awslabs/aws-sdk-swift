@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.globalaccelerator#GlobalAccelerator_V20180706",
-    "module": "AWSGlobalAccelerator",
-    "sdkId": "Global Accelerator",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/global-accelerator.json"
-}

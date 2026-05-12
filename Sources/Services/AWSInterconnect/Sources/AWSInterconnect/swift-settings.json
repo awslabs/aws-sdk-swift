@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.interconnect#Interconnect",
-    "module": "AWSInterconnect",
-    "sdkId": "Interconnect",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/interconnect.json"
-}

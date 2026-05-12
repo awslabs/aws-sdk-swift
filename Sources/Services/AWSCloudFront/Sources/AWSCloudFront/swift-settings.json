@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.cloudfront#Cloudfront2020_05_31",
-    "module": "AWSCloudFront",
-    "sdkId": "CloudFront",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/cloudfront.json"
-}

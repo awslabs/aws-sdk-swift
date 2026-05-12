@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.comprehend#Comprehend_20171127",
-    "module": "AWSComprehend",
-    "sdkId": "Comprehend",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/comprehend.json"
-}

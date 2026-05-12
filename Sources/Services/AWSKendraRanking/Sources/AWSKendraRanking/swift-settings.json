@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.kendraranking#AWSKendraRerankingFrontendService",
-    "module": "AWSKendraRanking",
-    "sdkId": "Kendra Ranking",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/kendra-ranking.json"
-}

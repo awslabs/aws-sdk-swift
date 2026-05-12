@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.ecrpublic#SpencerFrontendService",
-    "module": "AWSECRPUBLIC",
-    "sdkId": "ECR PUBLIC",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/ecr-public.json"
-}

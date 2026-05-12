@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.workspaces#WorkspacesService",
-    "module": "AWSWorkSpaces",
-    "sdkId": "WorkSpaces",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/workspaces.json"
-}

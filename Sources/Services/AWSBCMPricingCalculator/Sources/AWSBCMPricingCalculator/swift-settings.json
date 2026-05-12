@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.bcmpricingcalculator#AWSBCMPricingCalculator",
-    "module": "AWSBCMPricingCalculator",
-    "sdkId": "BCM Pricing Calculator",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/bcm-pricing-calculator.json"
-}

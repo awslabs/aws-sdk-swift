@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.waf#AWSWAF_20150824",
-    "module": "AWSWAF",
-    "sdkId": "WAF",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/waf.json"
-}

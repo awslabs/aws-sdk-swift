@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.costandusagereportservice#AWSOrigamiServiceGatewayService",
-    "module": "AWSCostandUsageReportService",
-    "sdkId": "Cost and Usage Report Service",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/cost-and-usage-report-service.json"
-}

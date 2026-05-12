@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.datasync#FmrsService",
-    "module": "AWSDataSync",
-    "sdkId": "DataSync",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/datasync.json"
-}

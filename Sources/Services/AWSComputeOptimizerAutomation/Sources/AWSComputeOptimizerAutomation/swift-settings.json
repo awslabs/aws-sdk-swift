@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.computeoptimizerautomation#ComputeOptimizerAutomationService",
-    "module": "AWSComputeOptimizerAutomation",
-    "sdkId": "Compute Optimizer Automation",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/compute-optimizer-automation.json"
-}

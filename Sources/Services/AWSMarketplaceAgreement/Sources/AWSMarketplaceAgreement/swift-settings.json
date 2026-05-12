@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.marketplaceagreement#AWSMPCommerceService_v20200301",
-    "module": "AWSMarketplaceAgreement",
-    "sdkId": "Marketplace Agreement",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/marketplace-agreement.json"
-}

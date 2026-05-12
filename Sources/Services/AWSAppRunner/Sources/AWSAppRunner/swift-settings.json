@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.apprunner#AppRunner",
-    "module": "AWSAppRunner",
-    "sdkId": "AppRunner",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/apprunner.json"
-}

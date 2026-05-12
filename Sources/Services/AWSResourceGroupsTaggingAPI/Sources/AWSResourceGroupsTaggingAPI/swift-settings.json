@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.resourcegroupstaggingapi#ResourceGroupsTaggingAPI_20170126",
-    "module": "AWSResourceGroupsTaggingAPI",
-    "sdkId": "Resource Groups Tagging API",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/resource-groups-tagging-api.json"
-}

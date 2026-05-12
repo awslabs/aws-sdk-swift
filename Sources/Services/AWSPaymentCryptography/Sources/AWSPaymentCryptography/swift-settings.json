@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.paymentcryptography#PaymentCryptographyControlPlane",
-    "module": "AWSPaymentCryptography",
-    "sdkId": "Payment Cryptography",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/payment-cryptography.json"
-}

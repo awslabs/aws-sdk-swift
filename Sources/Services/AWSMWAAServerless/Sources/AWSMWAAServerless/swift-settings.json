@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.mwaaserverless#AmazonMWAAServerless",
-    "module": "AWSMWAAServerless",
-    "sdkId": "MWAA Serverless",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/mwaa-serverless.json"
-}

@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.ssmcontacts#SSMContacts",
-    "module": "AWSSSMContacts",
-    "sdkId": "SSM Contacts",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/ssm-contacts.json"
-}

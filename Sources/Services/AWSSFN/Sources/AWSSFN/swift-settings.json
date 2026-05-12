@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.sfn#AWSStepFunctions",
-    "module": "AWSSFN",
-    "sdkId": "SFN",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/sfn.json"
-}

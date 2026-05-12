@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.comprehendmedical#ComprehendMedical_20181030",
-    "module": "AWSComprehendMedical",
-    "sdkId": "ComprehendMedical",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/comprehendmedical.json"
-}

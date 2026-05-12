@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.acmpca#ACMPrivateCA",
-    "module": "AWSACMPCA",
-    "sdkId": "ACM PCA",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/acm-pca.json"
-}

@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.ec2instanceconnect#AWSEC2InstanceConnectService",
-    "module": "AWSEC2InstanceConnect",
-    "sdkId": "EC2 Instance Connect",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/ec2-instance-connect.json"
-}

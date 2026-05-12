@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.timestreamwrite#Timestream_20181101",
-    "module": "AWSTimestreamWrite",
-    "sdkId": "Timestream Write",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/timestream-write.json"
-}

@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.timestreamquery#Timestream_20181101",
-    "module": "AWSTimestreamQuery",
-    "sdkId": "Timestream Query",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/timestream-query.json"
-}

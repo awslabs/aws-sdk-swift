@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.migrationhubconfig#AWSMigrationHubMultiAccountService",
-    "module": "AWSMigrationHubConfig",
-    "sdkId": "MigrationHub Config",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/migrationhub-config.json"
-}

@@ -1,8 +1,0 @@
-{
-    "service": "com.amazonaws.s3control#AWSS3ControlServiceV20180820",
-    "module": "AWSS3Control",
-    "sdkId": "S3 Control",
-    "internalClient": false,
-    "operations": [],
-    "modelPath": "codegen/sdk-codegen/aws-models/s3-control.json"
-}
