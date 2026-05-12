@@ -20407,16 +20407,20 @@ extension GlueClientTypes {
         public var cloudWatchMetricsEnabled: Swift.Bool?
         /// Set the evaluation method for composite rules in the ruleset to ROW/COLUMN
         public var compositeRuleEvaluationMethod: GlueClientTypes.DQCompositeRuleEvaluationMethod?
+        /// A custom prefix for the CloudWatch log group names. When specified, evaluation run logs are written to /error and /output instead of the default /aws-glue/data-quality/error and /aws-glue/data-quality/output log groups.
+        public var customLogGroupPrefix: Swift.String?
         /// Prefix for Amazon S3 to store results.
         public var resultsS3Prefix: Swift.String?
 
         public init(
             cloudWatchMetricsEnabled: Swift.Bool? = nil,
             compositeRuleEvaluationMethod: GlueClientTypes.DQCompositeRuleEvaluationMethod? = nil,
+            customLogGroupPrefix: Swift.String? = nil,
             resultsS3Prefix: Swift.String? = nil
         ) {
             self.cloudWatchMetricsEnabled = cloudWatchMetricsEnabled
             self.compositeRuleEvaluationMethod = compositeRuleEvaluationMethod
+            self.customLogGroupPrefix = customLogGroupPrefix
             self.resultsS3Prefix = resultsS3Prefix
         }
     }
@@ -24985,6 +24989,8 @@ extension GlueClientTypes {
         /// Filter based on a data source (an Glue table) associated with the run.
         /// This member is required.
         public var dataSource: GlueClientTypes.DataSource?
+        /// Filter results by the name of the ruleset.
+        public var rulesetName: Swift.String?
         /// Filter results by runs that started after this time.
         public var startedAfter: Foundation.Date?
         /// Filter results by runs that started before this time.
@@ -24992,10 +24998,12 @@ extension GlueClientTypes {
 
         public init(
             dataSource: GlueClientTypes.DataSource? = nil,
+            rulesetName: Swift.String? = nil,
             startedAfter: Foundation.Date? = nil,
             startedBefore: Foundation.Date? = nil
         ) {
             self.dataSource = dataSource
+            self.rulesetName = rulesetName
             self.startedAfter = startedAfter
             self.startedBefore = startedBefore
         }
@@ -46430,6 +46438,7 @@ extension GlueClientTypes.DataQualityEvaluationRunAdditionalRunOptions {
         guard let value else { return }
         try writer["CloudWatchMetricsEnabled"].write(value.cloudWatchMetricsEnabled)
         try writer["CompositeRuleEvaluationMethod"].write(value.compositeRuleEvaluationMethod)
+        try writer["CustomLogGroupPrefix"].write(value.customLogGroupPrefix)
         try writer["ResultsS3Prefix"].write(value.resultsS3Prefix)
     }
 
@@ -46439,6 +46448,7 @@ extension GlueClientTypes.DataQualityEvaluationRunAdditionalRunOptions {
         value.cloudWatchMetricsEnabled = try reader["CloudWatchMetricsEnabled"].readIfPresent()
         value.resultsS3Prefix = try reader["ResultsS3Prefix"].readIfPresent()
         value.compositeRuleEvaluationMethod = try reader["CompositeRuleEvaluationMethod"].readIfPresent()
+        value.customLogGroupPrefix = try reader["CustomLogGroupPrefix"].readIfPresent()
         return value
     }
 }
@@ -46600,6 +46610,7 @@ extension GlueClientTypes.DataQualityRulesetEvaluationRunFilter {
     static func write(value: GlueClientTypes.DataQualityRulesetEvaluationRunFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["DataSource"].write(value.dataSource, with: GlueClientTypes.DataSource.write(value:to:))
+        try writer["RulesetName"].write(value.rulesetName)
         try writer["StartedAfter"].writeTimestamp(value.startedAfter, format: SmithyTimestamps.TimestampFormat.epochSeconds)
         try writer["StartedBefore"].writeTimestamp(value.startedBefore, format: SmithyTimestamps.TimestampFormat.epochSeconds)
     }

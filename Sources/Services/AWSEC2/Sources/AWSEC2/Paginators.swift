@@ -1594,6 +1594,7 @@ extension DescribeInstanceTypesInput: ClientRuntime.PaginateToken {
         return DescribeInstanceTypesInput(
             dryRun: self.dryRun,
             filters: self.filters,
+            includeUnsupportedInRegion: self.includeUnsupportedInRegion,
             instanceTypes: self.instanceTypes,
             maxResults: self.maxResults,
             nextToken: token

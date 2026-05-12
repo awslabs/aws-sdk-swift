@@ -258,11 +258,11 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes {
 
-    /// Contains information about the account.
+    /// Contains information about the Amazon Web Services account within which the activity took place.
     public struct Account: Swift.Sendable {
         /// Name of the member's Amazon Web Services account.
         public var name: Swift.String?
-        /// ID of the member's Amazon Web Services account
+        /// The Amazon Web Services account ID within which the activity took place. This may differ from the account that owns the user identity.
         /// This member is required.
         public var uid: Swift.String?
 
@@ -1259,7 +1259,7 @@ extension GuardDutyClientTypes {
 
     /// Contains information about the user involved in the attack sequence.
     public struct User: Swift.Sendable {
-        /// Contains information about the Amazon Web Services account.
+        /// Contains information about the Amazon Web Services account within which the activity took place. This is not necessarily the account that owns the user identity.
         public var account: GuardDutyClientTypes.Account?
         /// The credentials of the user ID.
         public var credentialUid: Swift.String?

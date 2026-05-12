@@ -318,12 +318,16 @@ extension BCMDataExportsClientTypes {
 extension BCMDataExportsClientTypes {
 
     public enum S3OutputType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case athena
         case custom
+        case redshift
         case sdkUnknown(Swift.String)
 
         public static var allCases: [S3OutputType] {
             return [
-                .custom
+                .athena,
+                .custom,
+                .redshift
             ]
         }
 
@@ -334,7 +338,9 @@ extension BCMDataExportsClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .athena: return "ATHENA"
             case .custom: return "CUSTOM"
+            case .redshift: return "REDSHIFT"
             case let .sdkUnknown(s): return s
             }
         }

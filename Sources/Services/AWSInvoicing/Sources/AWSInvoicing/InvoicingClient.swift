@@ -760,7 +760,7 @@ extension InvoicingClient {
 
     /// Performs the `CreateProcurementPortalPreference` operation on the `Invoicing` service.
     ///
-    /// Creates a procurement portal preference configuration for e-invoice delivery and purchase order retrieval. This preference defines how invoices are delivered to a procurement portal and how purchase orders are retrieved.
+    /// This feature API is subject to changing at any time. For more information, see the [Amazon Web Services Service Terms](https://aws.amazon.com/service-terms/) (Betas and Previews). Creates a procurement portal preference configuration for e-invoice delivery and purchase order retrieval. This preference defines how invoices are delivered to a procurement portal and how purchase orders are retrieved.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateProcurementPortalPreferenceInput`)
     ///
@@ -908,7 +908,7 @@ extension InvoicingClient {
 
     /// Performs the `DeleteProcurementPortalPreference` operation on the `Invoicing` service.
     ///
-    /// Deletes an existing procurement portal preference. This action cannot be undone. Active e-invoice delivery and PO retrieval configurations will be terminated.
+    /// This feature API is subject to changing at any time. For more information, see the [Amazon Web Services Service Terms](https://aws.amazon.com/service-terms/) (Betas and Previews). Deletes an existing procurement portal preference. This action cannot be undone. Active e-invoice delivery and PO retrieval configurations will be terminated.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteProcurementPortalPreferenceInput`)
     ///
@@ -1128,7 +1128,7 @@ extension InvoicingClient {
 
     /// Performs the `GetProcurementPortalPreference` operation on the `Invoicing` service.
     ///
-    /// Retrieves the details of a specific procurement portal preference configuration.
+    /// This feature API is subject to changing at any time. For more information, see the [Amazon Web Services Service Terms](https://aws.amazon.com/service-terms/) (Betas and Previews). Retrieves the details of a specific procurement portal preference configuration.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetProcurementPortalPreferenceInput`)
     ///
@@ -1348,7 +1348,7 @@ extension InvoicingClient {
 
     /// Performs the `ListProcurementPortalPreferences` operation on the `Invoicing` service.
     ///
-    /// Retrieves a list of procurement portal preferences associated with the Amazon Web Services account.
+    /// This feature API is subject to changing at any time. For more information, see the [Amazon Web Services Service Terms](https://aws.amazon.com/service-terms/) (Betas and Previews). Retrieves a list of procurement portal preferences associated with the Amazon Web Services account.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListProcurementPortalPreferencesInput`)
     ///
@@ -1495,7 +1495,7 @@ extension InvoicingClient {
 
     /// Performs the `PutProcurementPortalPreference` operation on the `Invoicing` service.
     ///
-    /// Updates an existing procurement portal preference configuration. This operation can modify settings for e-invoice delivery and purchase order retrieval.
+    /// This feature API is subject to changing at any time. For more information, see the [Amazon Web Services Service Terms](https://aws.amazon.com/service-terms/) (Betas and Previews). Updates an existing procurement portal preference configuration. This operation can modify settings for e-invoice delivery and purchase order retrieval.
     ///
     /// - Parameter input: [no documentation found] (Type: `PutProcurementPortalPreferenceInput`)
     ///
@@ -1790,7 +1790,7 @@ extension InvoicingClient {
 
     /// Performs the `UpdateProcurementPortalPreferenceStatus` operation on the `Invoicing` service.
     ///
-    /// Updates the status of a procurement portal preference, including the activation state of e-invoice delivery and purchase order retrieval features.
+    /// This feature API is subject to changing at any time. For more information, see the [Amazon Web Services Service Terms](https://aws.amazon.com/service-terms/) (Betas and Previews). Updates the status of a procurement portal preference, including the activation state of e-invoice delivery and purchase order retrieval features.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateProcurementPortalPreferenceStatusInput`)
     ///

@@ -3511,9 +3511,11 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have permissions to perform the requested operation.
     /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
+    /// - `TooManyRequestsException` : You have attempted too many requests for the specific operation.
     public func importDiskImage(input: ImportDiskImageInput) async throws -> ImportDiskImageOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
