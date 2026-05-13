@@ -699,12 +699,16 @@ extension Route53ResolverClientTypes {
         ///
         /// * INBOUND_DELEGATION: Resolver delegates queries to Route 53 private hosted zones from your network.
         public var direction: Route53ResolverClientTypes.ResolverEndpointDirection?
+        /// Indicates whether DNS64 is enabled for the inbound Resolver endpoint. When true, Route 53 Resolver synthesizes AAAA (IPv6) records for IPv4-only services by prepending the 64:ff9b::/96 prefix to the IPv4 address.
+        public var dns64Enabled: Swift.Bool?
         /// The ID of the VPC that you want to create the Resolver endpoint in.
         public var hostVPCId: Swift.String?
         /// The ID of the Resolver endpoint.
         public var id: Swift.String?
         /// The number of IP addresses that the Resolver endpoint can use for DNS queries.
         public var ipAddressCount: Swift.Int?
+        /// Indicates whether IPv6 internet access is enabled for the outbound Resolver endpoint. When true, the endpoint elastic network interfaces (ENIs) can forward DNS queries to public IPv6 targets through an internet gateway.
+        public var ipv6InternetAccessEnabled: Swift.Bool?
         /// The date and time that the endpoint was last modified, in Unix time format and Coordinated Universal Time (UTC).
         public var modificationTime: Swift.String?
         /// The name that you assigned to the Resolver endpoint when you submitted a [CreateResolverEndpoint](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_CreateResolverEndpoint.html) request.
@@ -775,9 +779,11 @@ extension Route53ResolverClientTypes {
             creationTime: Swift.String? = nil,
             creatorRequestId: Swift.String? = nil,
             direction: Route53ResolverClientTypes.ResolverEndpointDirection? = nil,
+            dns64Enabled: Swift.Bool? = nil,
             hostVPCId: Swift.String? = nil,
             id: Swift.String? = nil,
             ipAddressCount: Swift.Int? = nil,
+            ipv6InternetAccessEnabled: Swift.Bool? = nil,
             modificationTime: Swift.String? = nil,
             name: Swift.String? = nil,
             outpostArn: Swift.String? = nil,
@@ -794,9 +800,11 @@ extension Route53ResolverClientTypes {
             self.creationTime = creationTime
             self.creatorRequestId = creatorRequestId
             self.direction = direction
+            self.dns64Enabled = dns64Enabled
             self.hostVPCId = hostVPCId
             self.id = id
             self.ipAddressCount = ipAddressCount
+            self.ipv6InternetAccessEnabled = ipv6InternetAccessEnabled
             self.modificationTime = modificationTime
             self.name = name
             self.outpostArn = outpostArn
@@ -2027,9 +2035,13 @@ public struct CreateResolverEndpointInput: Swift.Sendable {
     /// * INBOUND_DELEGATION: Resolver delegates queries to Route 53 private hosted zones from your network.
     /// This member is required.
     public var direction: Route53ResolverClientTypes.ResolverEndpointDirection?
+    /// Specifies whether DNS64 is enabled for the inbound Resolver endpoint. When set to true, Route 53 Resolver synthesizes AAAA (IPv6) records for IPv4-only services by prepending the 64:ff9b::/96 prefix to the IPv4 address. This enables IPv6-only clients that send queries through the inbound endpoint to reach IPv4-only services. DNS64 works with NAT64 to provide complete IPv6-to-IPv4 translation. Default is false.
+    public var dns64Enabled: Swift.Bool?
     /// The subnets and IP addresses in your VPC that DNS queries originate from (for outbound endpoints) or that you forward DNS queries to (for inbound endpoints). The subnet ID uniquely identifies a VPC. Even though the minimum is 1, Route 53 requires that you create at least two.
     /// This member is required.
     public var ipAddresses: [Route53ResolverClientTypes.IpAddressRequest]?
+    /// Specifies whether IPv6 internet access is enabled for the outbound Resolver endpoint. When set to true, the endpoint elastic network interfaces (ENIs) can forward DNS queries to public IPv6 targets through an internet gateway. Default is false. When you enable IPv6 internet access, use network controls like security groups, NACLs, or egress-only internet gateways to protect the endpoint ENIs from unsolicited ingress traffic. Be aware that some network controls can affect DNS query throughput due to connection tracking. For more information, see [Amazon EC2 security group connection tracking](https://docs.aws.amazon.com/ec2/latest/userguide/security-group-connection-tracking.html) and [Resolver endpoint scaling](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/best-practices-resolver-endpoint-scaling.html).
+    public var ipv6InternetAccessEnabled: Swift.Bool?
     /// A friendly name that lets you easily find a configuration in the Resolver dashboard in the Route 53 console.
     public var name: Swift.String?
     /// The Amazon Resource Name (ARN) of the Outpost. If you specify this, you must also specify a value for the PreferredInstanceType.
@@ -2076,7 +2088,9 @@ public struct CreateResolverEndpointInput: Swift.Sendable {
     public init(
         creatorRequestId: Swift.String? = nil,
         direction: Route53ResolverClientTypes.ResolverEndpointDirection? = nil,
+        dns64Enabled: Swift.Bool? = nil,
         ipAddresses: [Route53ResolverClientTypes.IpAddressRequest]? = nil,
+        ipv6InternetAccessEnabled: Swift.Bool? = nil,
         name: Swift.String? = nil,
         outpostArn: Swift.String? = nil,
         preferredInstanceType: Swift.String? = nil,
@@ -2089,7 +2103,9 @@ public struct CreateResolverEndpointInput: Swift.Sendable {
     ) {
         self.creatorRequestId = creatorRequestId
         self.direction = direction
+        self.dns64Enabled = dns64Enabled
         self.ipAddresses = ipAddresses
+        self.ipv6InternetAccessEnabled = ipv6InternetAccessEnabled
         self.name = name
         self.outpostArn = outpostArn
         self.preferredInstanceType = preferredInstanceType
@@ -5144,6 +5160,10 @@ extension Route53ResolverClientTypes {
 }
 
 public struct UpdateResolverEndpointInput: Swift.Sendable {
+    /// Specifies whether DNS64 is enabled for the inbound Resolver endpoint. When set to true, Route 53 Resolver synthesizes AAAA (IPv6) records for IPv4-only services by prepending the 64:ff9b::/96 prefix to the IPv4 address. This enables IPv6-only clients that send queries through the inbound endpoint to reach IPv4-only services. DNS64 works with NAT64 to provide complete IPv6-to-IPv4 translation.
+    public var dns64Enabled: Swift.Bool?
+    /// Specifies whether IPv6 internet access is enabled for the outbound Resolver endpoint. When set to true, the endpoint elastic network interfaces (ENIs) can forward DNS queries to public IPv6 targets through an internet gateway. When you enable IPv6 internet access, use network controls like security groups, NACLs, or egress-only internet gateways to protect the endpoint ENIs from unsolicited ingress traffic. Be aware that some network controls can affect DNS query throughput due to connection tracking. For more information, see [Amazon EC2 security group connection tracking](https://docs.aws.amazon.com/ec2/latest/userguide/security-group-connection-tracking.html) and [Resolver endpoint scaling](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/best-practices-resolver-endpoint-scaling.html).
+    public var ipv6InternetAccessEnabled: Swift.Bool?
     /// The name of the Resolver endpoint that you want to update.
     public var name: Swift.String?
     /// The protocols you want to use for the endpoint. DoH-FIPS is applicable for default inbound endpoints only. For a default inbound endpoint you can apply the protocols as follows:
@@ -5187,6 +5207,8 @@ public struct UpdateResolverEndpointInput: Swift.Sendable {
     public var updateIpAddresses: [Route53ResolverClientTypes.UpdateIpAddress]?
 
     public init(
+        dns64Enabled: Swift.Bool? = nil,
+        ipv6InternetAccessEnabled: Swift.Bool? = nil,
         name: Swift.String? = nil,
         protocols: [Route53ResolverClientTypes.ModelProtocol]? = nil,
         resolverEndpointId: Swift.String? = nil,
@@ -5195,6 +5217,8 @@ public struct UpdateResolverEndpointInput: Swift.Sendable {
         targetNameServerMetricsEnabled: Swift.Bool? = nil,
         updateIpAddresses: [Route53ResolverClientTypes.UpdateIpAddress]? = nil
     ) {
+        self.dns64Enabled = dns64Enabled
+        self.ipv6InternetAccessEnabled = ipv6InternetAccessEnabled
         self.name = name
         self.protocols = protocols
         self.resolverEndpointId = resolverEndpointId
@@ -5822,7 +5846,9 @@ extension CreateResolverEndpointInput {
         guard let value else { return }
         try writer["CreatorRequestId"].write(value.creatorRequestId)
         try writer["Direction"].write(value.direction)
+        try writer["Dns64Enabled"].write(value.dns64Enabled)
         try writer["IpAddresses"].writeList(value.ipAddresses, memberWritingClosure: Route53ResolverClientTypes.IpAddressRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Ipv6InternetAccessEnabled"].write(value.ipv6InternetAccessEnabled)
         try writer["Name"].write(value.name)
         try writer["OutpostArn"].write(value.outpostArn)
         try writer["PreferredInstanceType"].write(value.preferredInstanceType)
@@ -6379,6 +6405,8 @@ extension UpdateResolverEndpointInput {
 
     static func write(value: UpdateResolverEndpointInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["Dns64Enabled"].write(value.dns64Enabled)
+        try writer["Ipv6InternetAccessEnabled"].write(value.ipv6InternetAccessEnabled)
         try writer["Name"].write(value.name)
         try writer["Protocols"].writeList(value.protocols, memberWritingClosure: SmithyReadWrite.WritingClosureBox<Route53ResolverClientTypes.ModelProtocol>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ResolverEndpointId"].write(value.resolverEndpointId)
@@ -7575,6 +7603,7 @@ enum DeleteResolverRuleOutputError {
         switch baseError.code {
             case "InternalServiceErrorException": return try InternalServiceErrorException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceInUseException": return try ResourceInUseException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -7650,6 +7679,7 @@ enum DisassociateResolverRuleOutputError {
         switch baseError.code {
             case "InternalServiceErrorException": return try InternalServiceErrorException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -8976,6 +9006,8 @@ extension Route53ResolverClientTypes.ResolverEndpoint {
         value.protocols = try reader["Protocols"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<Route53ResolverClientTypes.ModelProtocol>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.rniEnhancedMetricsEnabled = try reader["RniEnhancedMetricsEnabled"].readIfPresent()
         value.targetNameServerMetricsEnabled = try reader["TargetNameServerMetricsEnabled"].readIfPresent()
+        value.dns64Enabled = try reader["Dns64Enabled"].readIfPresent()
+        value.ipv6InternetAccessEnabled = try reader["Ipv6InternetAccessEnabled"].readIfPresent()
         return value
     }
 }

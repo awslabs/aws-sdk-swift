@@ -9,6 +9,7 @@
 
 @_spi(SmithyReadWrite) import ClientRuntime
 import Foundation
+import SmithyJSON
 @_spi(SmithyEventStreams) import class SmithyEventStreams.DefaultMessageDecoder
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Reader
@@ -5173,6 +5174,233 @@ extension GetResourceOauth2TokenOutput: Swift.CustomDebugStringConvertible {
         "GetResourceOauth2TokenOutput(sessionStatus: \(Swift.String(describing: sessionStatus)), sessionUri: \(Swift.String(describing: sessionUri)), accessToken: \"CONTENT_REDACTED\", authorizationUrl: \"CONTENT_REDACTED\")"}
 }
 
+extension BedrockAgentCoreClientTypes {
+
+    public enum PaymentHttpMethodType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case delete
+        case `get`
+        case patch
+        case post
+        case put
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PaymentHttpMethodType] {
+            return [
+                .delete,
+                .get,
+                .patch,
+                .post,
+                .put
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .delete: return "DELETE"
+            case .get: return "GET"
+            case .patch: return "PATCH"
+            case .post: return "POST"
+            case .put: return "PUT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Coinbase CDP token request parameters
+    public struct CoinbaseCdpTokenRequestInput: Swift.Sendable {
+        /// Set to true for wallet write operations (requires walletSecret configured)
+        public var includeWalletAuthToken: Swift.Bool
+        /// Request body JSON - used to generate wallet auth JWT
+        public var requestBody: Swift.String?
+        /// Optional - defaults to "api.cdp.coinbase.com"
+        public var requestHost: Swift.String?
+        /// The HTTP method for the payment API request.
+        /// This member is required.
+        public var requestMethod: BedrockAgentCoreClientTypes.PaymentHttpMethodType?
+        /// The path of the payment API request.
+        /// This member is required.
+        public var requestPath: Swift.String?
+
+        public init(
+            includeWalletAuthToken: Swift.Bool = false,
+            requestBody: Swift.String? = nil,
+            requestHost: Swift.String? = nil,
+            requestMethod: BedrockAgentCoreClientTypes.PaymentHttpMethodType? = nil,
+            requestPath: Swift.String? = nil
+        ) {
+            self.includeWalletAuthToken = includeWalletAuthToken
+            self.requestBody = requestBody
+            self.requestHost = requestHost
+            self.requestMethod = requestMethod
+            self.requestPath = requestPath
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// StripePrivy token request parameters
+    public struct StripePrivyTokenRequestInput: Swift.Sendable {
+        /// Set to true to generate privy-authorization-signature
+        public var includeAuthorizationSignature: Swift.Bool
+        /// Request body JSON for the Privy API call
+        /// This member is required.
+        public var requestBody: Swift.String?
+        /// Optional - defaults to "api.privy.io"
+        public var requestHost: Swift.String?
+        /// The path of the Stripe Privy API request.
+        /// This member is required.
+        public var requestPath: Swift.String?
+
+        public init(
+            includeAuthorizationSignature: Swift.Bool = false,
+            requestBody: Swift.String? = nil,
+            requestHost: Swift.String? = nil,
+            requestPath: Swift.String? = nil
+        ) {
+            self.includeAuthorizationSignature = includeAuthorizationSignature
+            self.requestBody = requestBody
+            self.requestHost = requestHost
+            self.requestPath = requestPath
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.StripePrivyTokenRequestInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "StripePrivyTokenRequestInput(includeAuthorizationSignature: \(Swift.String(describing: includeAuthorizationSignature)), requestHost: \(Swift.String(describing: requestHost)), requestPath: \(Swift.String(describing: requestPath)), requestBody: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// VENDOR-SPECIFIC TOKEN REQUEST CONFIGURATION - Input
+    public enum PaymentTokenRequestInput: Swift.Sendable {
+        /// Coinbase CDP token request parameters
+        case coinbasecdptokenrequest(BedrockAgentCoreClientTypes.CoinbaseCdpTokenRequestInput)
+        /// StripePrivy token request parameters
+        case stripeprivytokenrequest(BedrockAgentCoreClientTypes.StripePrivyTokenRequestInput)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct GetResourcePaymentTokenInput: Swift.Sendable {
+    /// Vendor-specific token request input Contains all request parameters in a type-safe, vendor-specific structure
+    /// This member is required.
+    public var paymentTokenRequest: BedrockAgentCoreClientTypes.PaymentTokenRequestInput?
+    /// Name of the payment credential provider to use
+    /// This member is required.
+    public var resourceCredentialProviderName: Swift.String?
+    /// Workload access token for authorization. Named workloadIdentityToken for consistency with APIKey and OAuth2CredentialProvider.
+    /// This member is required.
+    public var workloadIdentityToken: Swift.String?
+
+    public init(
+        paymentTokenRequest: BedrockAgentCoreClientTypes.PaymentTokenRequestInput? = nil,
+        resourceCredentialProviderName: Swift.String? = nil,
+        workloadIdentityToken: Swift.String? = nil
+    ) {
+        self.paymentTokenRequest = paymentTokenRequest
+        self.resourceCredentialProviderName = resourceCredentialProviderName
+        self.workloadIdentityToken = workloadIdentityToken
+    }
+}
+
+extension GetResourcePaymentTokenInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetResourcePaymentTokenInput(paymentTokenRequest: \(Swift.String(describing: paymentTokenRequest)), resourceCredentialProviderName: \(Swift.String(describing: resourceCredentialProviderName)), workloadIdentityToken: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Coinbase CDP token response
+    public struct CoinbaseCdpTokenResponseOutput: Swift.Sendable {
+        /// Bearer Token for Authorization header
+        /// This member is required.
+        public var bearerToken: Swift.String?
+        /// Wallet Auth Token for X-Wallet-Auth header
+        public var walletAuthToken: Swift.String?
+
+        public init(
+            bearerToken: Swift.String? = nil,
+            walletAuthToken: Swift.String? = nil
+        ) {
+            self.bearerToken = bearerToken
+            self.walletAuthToken = walletAuthToken
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.CoinbaseCdpTokenResponseOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CoinbaseCdpTokenResponseOutput(bearerToken: \"CONTENT_REDACTED\", walletAuthToken: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// StripePrivy token response containing appId, basicAuthToken, and optionally authorizationSignature
+    public struct StripePrivyTokenResponseOutput: Swift.Sendable {
+        /// The Privy app ID for the privy-app-id header
+        /// This member is required.
+        public var appId: Swift.String?
+        /// Base64-encoded ECDSA P-256 authorization signature (only present when includeAuthorizationSignature is true)
+        public var authorizationSignature: Swift.String?
+        /// Base64-encoded Basic Auth token (appId:appSecret) for the Authorization header
+        /// This member is required.
+        public var basicAuthToken: Swift.String?
+        /// Unix timestamp in milliseconds when the authorization signature expires. Set as privy-request-expiry header.
+        public var requestExpiry: Swift.Int?
+
+        public init(
+            appId: Swift.String? = nil,
+            authorizationSignature: Swift.String? = nil,
+            basicAuthToken: Swift.String? = nil,
+            requestExpiry: Swift.Int? = nil
+        ) {
+            self.appId = appId
+            self.authorizationSignature = authorizationSignature
+            self.basicAuthToken = basicAuthToken
+            self.requestExpiry = requestExpiry
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.StripePrivyTokenResponseOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "StripePrivyTokenResponseOutput(appId: \(Swift.String(describing: appId)), requestExpiry: \(Swift.String(describing: requestExpiry)), authorizationSignature: \"CONTENT_REDACTED\", basicAuthToken: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// VENDOR-SPECIFIC TOKEN RESPONSE CONFIGURATION - Output
+    public enum PaymentTokenResponseOutput: Swift.Sendable {
+        /// Coinbase CDP token response
+        case coinbasecdptokenresponse(BedrockAgentCoreClientTypes.CoinbaseCdpTokenResponseOutput)
+        /// StripePrivy token response containing appId, basicAuthToken, and optionally authorizationSignature
+        case stripeprivytokenresponse(BedrockAgentCoreClientTypes.StripePrivyTokenResponseOutput)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct GetResourcePaymentTokenOutput: Swift.Sendable {
+    /// Vendor-specific token response output Contains all response data in a type-safe, vendor-specific structure
+    /// This member is required.
+    public var paymentTokenResponse: BedrockAgentCoreClientTypes.PaymentTokenResponseOutput?
+
+    public init(
+        paymentTokenResponse: BedrockAgentCoreClientTypes.PaymentTokenResponseOutput? = nil
+    ) {
+        self.paymentTokenResponse = paymentTokenResponse
+    }
+}
+
 public struct GetWorkloadAccessTokenInput: Swift.Sendable {
     /// The unique identifier for the registered workload.
     /// This member is required.
@@ -6189,12 +6417,14 @@ extension BedrockAgentCoreClientTypes {
     public enum OAuthGrantType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case authorizationCode
         case clientCredentials
+        case tokenExchange
         case sdkUnknown(Swift.String)
 
         public static var allCases: [OAuthGrantType] {
             return [
                 .authorizationCode,
-                .clientCredentials
+                .clientCredentials,
+                .tokenExchange
             ]
         }
 
@@ -6207,6 +6437,7 @@ extension BedrockAgentCoreClientTypes {
             switch self {
             case .authorizationCode: return "AUTHORIZATION_CODE"
             case .clientCredentials: return "CLIENT_CREDENTIALS"
+            case .tokenExchange: return "TOKEN_EXCHANGE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -8435,6 +8666,1332 @@ public struct StartMemoryExtractionJobOutput: Swift.Sendable {
     }
 }
 
+extension BedrockAgentCoreClientTypes {
+
+    /// Authentication method using JWT with key ID and subject claims.
+    public struct LinkedAccountDeveloperJwt: Swift.Sendable {
+        /// The key ID (kid) from the JWT header. Identifies which key was used to sign the JWT.
+        /// This member is required.
+        public var kid: Swift.String?
+        /// The subject (sub) claim from the JWT payload. Identifies the principal that is the subject of the JWT.
+        /// This member is required.
+        public var sub: Swift.String?
+
+        public init(
+            kid: Swift.String? = nil,
+            sub: Swift.String? = nil
+        ) {
+            self.kid = kid
+            self.sub = sub
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// LinkedAccount using an email address.
+    public struct LinkedAccountEmail: Swift.Sendable {
+        /// The email address used for linkedAccount. Must be a valid email format.
+        /// This member is required.
+        public var emailAddress: Swift.String?
+
+        public init(
+            emailAddress: Swift.String? = nil
+        ) {
+            self.emailAddress = emailAddress
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.LinkedAccountEmail: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// OAuth2 authentication information for third-party providers. Supports Google, Apple, X, Telegram, and GitHub providers.
+    public struct OAuth2Authentication: Swift.Sendable {
+        /// The email address from the OAuth2 provider (optional).
+        public var emailAddress: Swift.String?
+        /// The user's name from the OAuth2 provider (optional).
+        public var name: Swift.String?
+        /// The subject (sub) claim from the OAuth2 provider. Uniquely identifies the user at the provider.
+        /// This member is required.
+        public var sub: Swift.String?
+        /// The username from the OAuth2 provider (optional).
+        public var username: Swift.String?
+
+        public init(
+            emailAddress: Swift.String? = nil,
+            name: Swift.String? = nil,
+            sub: Swift.String? = nil,
+            username: Swift.String? = nil
+        ) {
+            self.emailAddress = emailAddress
+            self.name = name
+            self.sub = sub
+            self.username = username
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.OAuth2Authentication: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Authentication method using OAuth2 providers. Supports Google, Apple, X, Telegram, and GitHub providers.
+    public enum LinkedAccountOAuth2: Swift.Sendable {
+        /// Google OAuth2 authentication
+        case google(BedrockAgentCoreClientTypes.OAuth2Authentication)
+        /// Apple OAuth2 authentication
+        case apple(BedrockAgentCoreClientTypes.OAuth2Authentication)
+        /// X (formerly Twitter) OAuth2 authentication
+        case x(BedrockAgentCoreClientTypes.OAuth2Authentication)
+        /// Telegram OAuth2 authentication
+        case telegram(BedrockAgentCoreClientTypes.OAuth2Authentication)
+        /// GitHub OAuth2 authentication
+        case github(BedrockAgentCoreClientTypes.OAuth2Authentication)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// LinkedAccount using a phone number in E.164 format.
+    public struct LinkedAccountSms: Swift.Sendable {
+        /// The phone number in E.164 format (e.g., +1234567890). Must be a valid E.164 formatted phone number starting with + and containing 1-15 digits.
+        /// This member is required.
+        public var phoneNumber: Swift.String?
+
+        public init(
+            phoneNumber: Swift.String? = nil
+        ) {
+            self.phoneNumber = phoneNumber
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.LinkedAccountSms: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Represents different linkedAccounts that can be linked to an embedded wallet. This union supports multiple linkedAccount approaches: email, SMS, JWT, and OAuth2.
+    public enum LinkedAccount: Swift.Sendable {
+        /// Email-based linkedAccount
+        case email(BedrockAgentCoreClientTypes.LinkedAccountEmail)
+        /// SMS-based linkedAccount using phone number
+        case sms(BedrockAgentCoreClientTypes.LinkedAccountSms)
+        /// Developer JWT linkedAccount with key ID and subject
+        case developerjwt(BedrockAgentCoreClientTypes.LinkedAccountDeveloperJwt)
+        /// OAuth2 provider linkedAccount (Google, Apple, X, Telegram, GitHub)
+        case oauth2(BedrockAgentCoreClientTypes.LinkedAccountOAuth2)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Supported blockchain networks for crypto wallets
+    public enum CryptoWalletNetwork: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ethereum
+        case solana
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CryptoWalletNetwork] {
+            return [
+                .ethereum,
+                .solana
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ethereum: return "ETHEREUM"
+            case .solana: return "SOLANA"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Embedded Crypto wallet instrument details
+    public struct EmbeddedCryptoWallet: Swift.Sendable {
+        /// List of linkedAccounts linked to this wallet. Each linkedAccount represents a way the end user can authenticate to this wallet. Can be empty when adding a new linkedAccount to an existing wallet.
+        /// This member is required.
+        public var linkedAccounts: [BedrockAgentCoreClientTypes.LinkedAccount]?
+        /// The blockchain network for this embedded crypto wallet. Supported networks: ETHEREUM, SOLANA
+        /// This member is required.
+        public var network: BedrockAgentCoreClientTypes.CryptoWalletNetwork?
+        /// URL for the end user to complete a provider-specific action (e.g., wallet linking, onboarding). Returned by the payment connector during instrument creation.
+        public var redirectUrl: Swift.String?
+        /// The wallet address on the specified blockchain network.
+        public var walletAddress: Swift.String?
+
+        public init(
+            linkedAccounts: [BedrockAgentCoreClientTypes.LinkedAccount]? = nil,
+            network: BedrockAgentCoreClientTypes.CryptoWalletNetwork? = nil,
+            redirectUrl: Swift.String? = nil,
+            walletAddress: Swift.String? = nil
+        ) {
+            self.linkedAccounts = linkedAccounts
+            self.network = network
+            self.redirectUrl = redirectUrl
+            self.walletAddress = walletAddress
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.EmbeddedCryptoWallet: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "EmbeddedCryptoWallet(network: \(Swift.String(describing: network)), redirectUrl: \(Swift.String(describing: redirectUrl)), walletAddress: \(Swift.String(describing: walletAddress)), linkedAccounts: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Details specific to the instrument type
+    public enum PaymentInstrumentDetails: Swift.Sendable {
+        /// Embedded crypto wallet managed directly by end user
+        case embeddedcryptowallet(BedrockAgentCoreClientTypes.EmbeddedCryptoWallet)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The type of payment instrument
+    public enum PaymentInstrumentType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case embeddedCryptoWallet
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PaymentInstrumentType] {
+            return [
+                .embeddedCryptoWallet
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .embeddedCryptoWallet: return "EMBEDDED_CRYPTO_WALLET"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// Request structure for creating a payment instrument
+public struct CreatePaymentInstrumentInput: Swift.Sendable {
+    /// The agent name associated with this request, used for observability.
+    public var agentName: Swift.String?
+    /// Idempotency token to ensure request uniqueness.
+    public var clientToken: Swift.String?
+    /// The ID of the payment connector to use for this instrument.
+    /// This member is required.
+    public var paymentConnectorId: Swift.String?
+    /// The details of the payment instrument.
+    /// This member is required.
+    public var paymentInstrumentDetails: BedrockAgentCoreClientTypes.PaymentInstrumentDetails?
+    /// The type of payment instrument being created.
+    /// This member is required.
+    public var paymentInstrumentType: BedrockAgentCoreClientTypes.PaymentInstrumentType?
+    /// The ARN of the payment manager that owns this payment instrument.
+    /// This member is required.
+    public var paymentManagerArn: Swift.String?
+    /// The user ID associated with this payment instrument.
+    public var userId: Swift.String?
+
+    public init(
+        agentName: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        paymentConnectorId: Swift.String? = nil,
+        paymentInstrumentDetails: BedrockAgentCoreClientTypes.PaymentInstrumentDetails? = nil,
+        paymentInstrumentType: BedrockAgentCoreClientTypes.PaymentInstrumentType? = nil,
+        paymentManagerArn: Swift.String? = nil,
+        userId: Swift.String? = nil
+    ) {
+        self.agentName = agentName
+        self.clientToken = clientToken
+        self.paymentConnectorId = paymentConnectorId
+        self.paymentInstrumentDetails = paymentInstrumentDetails
+        self.paymentInstrumentType = paymentInstrumentType
+        self.paymentManagerArn = paymentManagerArn
+        self.userId = userId
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The status of a payment instrument
+    public enum PaymentInstrumentStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case deleted
+        case failed
+        case initiated
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PaymentInstrumentStatus] {
+            return [
+                .active,
+                .deleted,
+                .failed,
+                .initiated
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .deleted: return "DELETED"
+            case .failed: return "FAILED"
+            case .initiated: return "INITIATED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Represents a payment instrument
+    public struct PaymentInstrument: Swift.Sendable {
+        /// The timestamp when this payment instrument was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The ID of the payment connector associated with this instrument.
+        /// This member is required.
+        public var paymentConnectorId: Swift.String?
+        /// The details specific to the payment instrument type.
+        /// This member is required.
+        public var paymentInstrumentDetails: BedrockAgentCoreClientTypes.PaymentInstrumentDetails?
+        /// The unique identifier for this payment instrument.
+        /// This member is required.
+        public var paymentInstrumentId: Swift.String?
+        /// The type of payment instrument (e.g., EMBEDDED_CRYPTO_WALLET).
+        /// This member is required.
+        public var paymentInstrumentType: BedrockAgentCoreClientTypes.PaymentInstrumentType?
+        /// The ARN of the payment manager that owns this payment instrument.
+        /// This member is required.
+        public var paymentManagerArn: Swift.String?
+        /// The current status of this payment instrument.
+        /// This member is required.
+        public var status: BedrockAgentCoreClientTypes.PaymentInstrumentStatus?
+        /// The timestamp when this payment instrument was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+        /// The user ID associated with this payment instrument.
+        /// This member is required.
+        public var userId: Swift.String?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            paymentConnectorId: Swift.String? = nil,
+            paymentInstrumentDetails: BedrockAgentCoreClientTypes.PaymentInstrumentDetails? = nil,
+            paymentInstrumentId: Swift.String? = nil,
+            paymentInstrumentType: BedrockAgentCoreClientTypes.PaymentInstrumentType? = nil,
+            paymentManagerArn: Swift.String? = nil,
+            status: BedrockAgentCoreClientTypes.PaymentInstrumentStatus? = nil,
+            updatedAt: Foundation.Date? = nil,
+            userId: Swift.String? = nil
+        ) {
+            self.createdAt = createdAt
+            self.paymentConnectorId = paymentConnectorId
+            self.paymentInstrumentDetails = paymentInstrumentDetails
+            self.paymentInstrumentId = paymentInstrumentId
+            self.paymentInstrumentType = paymentInstrumentType
+            self.paymentManagerArn = paymentManagerArn
+            self.status = status
+            self.updatedAt = updatedAt
+            self.userId = userId
+        }
+    }
+}
+
+/// Response structure for creating a payment instrument
+public struct CreatePaymentInstrumentOutput: Swift.Sendable {
+    /// Represents a payment instrument
+    /// This member is required.
+    public var paymentInstrument: BedrockAgentCoreClientTypes.PaymentInstrument?
+
+    public init(
+        paymentInstrument: BedrockAgentCoreClientTypes.PaymentInstrument? = nil
+    ) {
+        self.paymentInstrument = paymentInstrument
+    }
+}
+
+/// Request structure for deleting a payment instrument All fields are required and must match the instrument owner's identifiers for authorization to succeed.
+public struct DeletePaymentInstrumentInput: Swift.Sendable {
+    /// The payment connector ID. Must match the instrument's paymentConnectorId.
+    /// This member is required.
+    public var paymentConnectorId: Swift.String?
+    /// The payment instrument ID to delete.
+    /// This member is required.
+    public var paymentInstrumentId: Swift.String?
+    /// The payment manager ARN. Must match the instrument's paymentManagerArn.
+    /// This member is required.
+    public var paymentManagerArn: Swift.String?
+    /// The user ID making the delete request. Must match the instrument's userId.
+    public var userId: Swift.String?
+
+    public init(
+        paymentConnectorId: Swift.String? = nil,
+        paymentInstrumentId: Swift.String? = nil,
+        paymentManagerArn: Swift.String? = nil,
+        userId: Swift.String? = nil
+    ) {
+        self.paymentConnectorId = paymentConnectorId
+        self.paymentInstrumentId = paymentInstrumentId
+        self.paymentManagerArn = paymentManagerArn
+        self.userId = userId
+    }
+}
+
+/// Response structure for deleting a payment instrument Returns the deletion status with HTTP 200 OK status code on successful soft deletion.
+public struct DeletePaymentInstrumentOutput: Swift.Sendable {
+    /// The status of the instrument after deletion. Always DELETED for successful soft delete.
+    /// This member is required.
+    public var status: BedrockAgentCoreClientTypes.PaymentInstrumentStatus?
+
+    public init(
+        status: BedrockAgentCoreClientTypes.PaymentInstrumentStatus? = nil
+    ) {
+        self.status = status
+    }
+}
+
+/// Request structure for getting a payment instrument
+public struct GetPaymentInstrumentInput: Swift.Sendable {
+    /// The agent name associated with this request, used for observability.
+    public var agentName: Swift.String?
+    /// The ID of the payment connector.
+    public var paymentConnectorId: Swift.String?
+    /// The ID of the payment instrument to retrieve.
+    /// This member is required.
+    public var paymentInstrumentId: Swift.String?
+    /// The ARN of the payment manager that owns this payment instrument.
+    /// This member is required.
+    public var paymentManagerArn: Swift.String?
+    /// The user ID associated with this payment instrument.
+    public var userId: Swift.String?
+
+    public init(
+        agentName: Swift.String? = nil,
+        paymentConnectorId: Swift.String? = nil,
+        paymentInstrumentId: Swift.String? = nil,
+        paymentManagerArn: Swift.String? = nil,
+        userId: Swift.String? = nil
+    ) {
+        self.agentName = agentName
+        self.paymentConnectorId = paymentConnectorId
+        self.paymentInstrumentId = paymentInstrumentId
+        self.paymentManagerArn = paymentManagerArn
+        self.userId = userId
+    }
+}
+
+/// Response structure for getting a payment instrument
+public struct GetPaymentInstrumentOutput: Swift.Sendable {
+    /// Represents a payment instrument
+    /// This member is required.
+    public var paymentInstrument: BedrockAgentCoreClientTypes.PaymentInstrument?
+
+    public init(
+        paymentInstrument: BedrockAgentCoreClientTypes.PaymentInstrument? = nil
+    ) {
+        self.paymentInstrument = paymentInstrument
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Supported blockchain chain identifiers for balance queries. Each value maps to a specific chain supported by the underlying providers (Privy, Coinbase).
+    public enum BlockchainChainId: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Base Mainnet (EVM L2)
+        case base
+        /// Base Sepolia testnet (EVM L2)
+        case baseSepolia
+        /// Ethereum Mainnet (EVM L1)
+        case ethereum
+        /// Solana Mainnet
+        case solana
+        /// Solana Devnet testnet
+        case solanaDevnet
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BlockchainChainId] {
+            return [
+                .base,
+                .baseSepolia,
+                .ethereum,
+                .solana,
+                .solanaDevnet
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .base: return "BASE"
+            case .baseSepolia: return "BASE_SEPOLIA"
+            case .ethereum: return "ETHEREUM"
+            case .solana: return "SOLANA"
+            case .solanaDevnet: return "SOLANA_DEVNET"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Supported tokens for instrument balance queries. Only tokens supported for X402 payments are returned.
+    public enum InstrumentBalanceToken: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case usdc
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InstrumentBalanceToken] {
+            return [
+                .usdc
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .usdc: return "USDC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// Request structure for getting payment instrument balance
+public struct GetPaymentInstrumentBalanceInput: Swift.Sendable {
+    /// The agent name associated with this request, used for observability.
+    public var agentName: Swift.String?
+    /// The specific blockchain chain to query balance on. Required because balances are chain-specific — the same wallet address may hold different token balances on different chains.
+    /// This member is required.
+    public var chain: BedrockAgentCoreClientTypes.BlockchainChainId?
+    /// The ID of the payment connector associated with this instrument.
+    /// This member is required.
+    public var paymentConnectorId: Swift.String?
+    /// The ID of the payment instrument to query balance for.
+    /// This member is required.
+    public var paymentInstrumentId: Swift.String?
+    /// The ARN of the payment manager that owns this payment instrument.
+    /// This member is required.
+    public var paymentManagerArn: Swift.String?
+    /// The token to query balance for. Required to specify which supported token's balance to return.
+    /// This member is required.
+    public var token: BedrockAgentCoreClientTypes.InstrumentBalanceToken?
+    /// The user ID associated with this payment instrument.
+    public var userId: Swift.String?
+
+    public init(
+        agentName: Swift.String? = nil,
+        chain: BedrockAgentCoreClientTypes.BlockchainChainId? = nil,
+        paymentConnectorId: Swift.String? = nil,
+        paymentInstrumentId: Swift.String? = nil,
+        paymentManagerArn: Swift.String? = nil,
+        token: BedrockAgentCoreClientTypes.InstrumentBalanceToken? = nil,
+        userId: Swift.String? = nil
+    ) {
+        self.agentName = agentName
+        self.chain = chain
+        self.paymentConnectorId = paymentConnectorId
+        self.paymentInstrumentId = paymentInstrumentId
+        self.paymentManagerArn = paymentManagerArn
+        self.token = token
+        self.userId = userId
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// A single token balance entry
+    public struct TokenBalance: Swift.Sendable {
+        /// Raw balance in the smallest denomination (e.g., USDC base units where 1 USDC = 1000000).
+        /// This member is required.
+        public var amount: Swift.String?
+        /// The specific blockchain chain.
+        /// This member is required.
+        public var chain: BedrockAgentCoreClientTypes.BlockchainChainId?
+        /// Number of decimal places for the token (e.g., 6 for USDC).
+        /// This member is required.
+        public var decimals: Swift.Int?
+        /// The blockchain network family (ETHEREUM or SOLANA).
+        /// This member is required.
+        public var network: BedrockAgentCoreClientTypes.CryptoWalletNetwork?
+        /// The supported token for this balance.
+        /// This member is required.
+        public var token: BedrockAgentCoreClientTypes.InstrumentBalanceToken?
+
+        public init(
+            amount: Swift.String? = nil,
+            chain: BedrockAgentCoreClientTypes.BlockchainChainId? = nil,
+            decimals: Swift.Int? = nil,
+            network: BedrockAgentCoreClientTypes.CryptoWalletNetwork? = nil,
+            token: BedrockAgentCoreClientTypes.InstrumentBalanceToken? = nil
+        ) {
+            self.amount = amount
+            self.chain = chain
+            self.decimals = decimals
+            self.network = network
+            self.token = token
+        }
+    }
+}
+
+/// Response structure for getting payment instrument balance
+public struct GetPaymentInstrumentBalanceOutput: Swift.Sendable {
+    /// The ID of the payment instrument.
+    /// This member is required.
+    public var paymentInstrumentId: Swift.String?
+    /// The balance of the supported token on the requested chain.
+    /// This member is required.
+    public var tokenBalance: BedrockAgentCoreClientTypes.TokenBalance?
+
+    public init(
+        paymentInstrumentId: Swift.String? = nil,
+        tokenBalance: BedrockAgentCoreClientTypes.TokenBalance? = nil
+    ) {
+        self.paymentInstrumentId = paymentInstrumentId
+        self.tokenBalance = tokenBalance
+    }
+}
+
+/// Request structure for listing payment instruments
+public struct ListPaymentInstrumentsInput: Swift.Sendable {
+    /// The agent name associated with this request, used for observability.
+    public var agentName: Swift.String?
+    /// Maximum number of results to return in a single response.
+    public var maxResults: Swift.Int?
+    /// Token for pagination to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// The ID of the payment connector to filter by.
+    public var paymentConnectorId: Swift.String?
+    /// The ARN of the payment manager that owns the payment instruments.
+    /// This member is required.
+    public var paymentManagerArn: Swift.String?
+    /// The user ID associated with the payment instruments.
+    public var userId: Swift.String?
+
+    public init(
+        agentName: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        paymentConnectorId: Swift.String? = nil,
+        paymentManagerArn: Swift.String? = nil,
+        userId: Swift.String? = nil
+    ) {
+        self.agentName = agentName
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.paymentConnectorId = paymentConnectorId
+        self.paymentManagerArn = paymentManagerArn
+        self.userId = userId
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Summary of a payment instrument for list operations
+    public struct PaymentInstrumentSummary: Swift.Sendable {
+        /// The timestamp when this payment instrument was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The ID of the payment connector associated with this instrument.
+        /// This member is required.
+        public var paymentConnectorId: Swift.String?
+        /// The unique identifier for this payment instrument.
+        /// This member is required.
+        public var paymentInstrumentId: Swift.String?
+        /// The type of payment instrument (e.g., EMBEDDED_CRYPTO_WALLET).
+        /// This member is required.
+        public var paymentInstrumentType: BedrockAgentCoreClientTypes.PaymentInstrumentType?
+        /// The ARN of the payment manager that owns this payment instrument.
+        /// This member is required.
+        public var paymentManagerArn: Swift.String?
+        /// The current status of this payment instrument.
+        /// This member is required.
+        public var status: BedrockAgentCoreClientTypes.PaymentInstrumentStatus?
+        /// The timestamp when this payment instrument was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+        /// The user ID associated with this payment instrument.
+        /// This member is required.
+        public var userId: Swift.String?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            paymentConnectorId: Swift.String? = nil,
+            paymentInstrumentId: Swift.String? = nil,
+            paymentInstrumentType: BedrockAgentCoreClientTypes.PaymentInstrumentType? = nil,
+            paymentManagerArn: Swift.String? = nil,
+            status: BedrockAgentCoreClientTypes.PaymentInstrumentStatus? = nil,
+            updatedAt: Foundation.Date? = nil,
+            userId: Swift.String? = nil
+        ) {
+            self.createdAt = createdAt
+            self.paymentConnectorId = paymentConnectorId
+            self.paymentInstrumentId = paymentInstrumentId
+            self.paymentInstrumentType = paymentInstrumentType
+            self.paymentManagerArn = paymentManagerArn
+            self.status = status
+            self.updatedAt = updatedAt
+            self.userId = userId
+        }
+    }
+}
+
+/// Response structure for listing payment instruments
+public struct ListPaymentInstrumentsOutput: Swift.Sendable {
+    /// Token for pagination to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// List of payment instrument summaries matching the request criteria.
+    /// This member is required.
+    public var paymentInstruments: [BedrockAgentCoreClientTypes.PaymentInstrumentSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        paymentInstruments: [BedrockAgentCoreClientTypes.PaymentInstrumentSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.paymentInstruments = paymentInstruments
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Supported currency codes
+    public enum Currency: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case usd
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Currency] {
+            return [
+                .usd
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .usd: return "USD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Money amount with currency
+    public struct Amount: Swift.Sendable {
+        /// The currency code for this amount.
+        /// This member is required.
+        public var currency: BedrockAgentCoreClientTypes.Currency?
+        /// The numeric value of the amount.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            currency: BedrockAgentCoreClientTypes.Currency? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.currency = currency
+            self.value = value
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Session spending limits
+    public struct SessionLimits: Swift.Sendable {
+        /// The maximum amount that can be spent in this session.
+        /// This member is required.
+        public var maxSpendAmount: BedrockAgentCoreClientTypes.Amount?
+
+        public init(
+            maxSpendAmount: BedrockAgentCoreClientTypes.Amount? = nil
+        ) {
+            self.maxSpendAmount = maxSpendAmount
+        }
+    }
+}
+
+/// Request structure for creating a payment session
+public struct CreatePaymentSessionInput: Swift.Sendable {
+    /// The agent name associated with this request, used for observability.
+    public var agentName: Swift.String?
+    /// Idempotency token to ensure request uniqueness.
+    public var clientToken: Swift.String?
+    /// The session expiry time in minutes. Must be between 15 and 480 minutes.
+    /// This member is required.
+    public var expiryTimeInMinutes: Swift.Int?
+    /// The spending limits for this payment session.
+    public var limits: BedrockAgentCoreClientTypes.SessionLimits?
+    /// The ARN of the payment manager that owns this session.
+    /// This member is required.
+    public var paymentManagerArn: Swift.String?
+    /// The user ID associated with this payment session.
+    public var userId: Swift.String?
+
+    public init(
+        agentName: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        expiryTimeInMinutes: Swift.Int? = nil,
+        limits: BedrockAgentCoreClientTypes.SessionLimits? = nil,
+        paymentManagerArn: Swift.String? = nil,
+        userId: Swift.String? = nil
+    ) {
+        self.agentName = agentName
+        self.clientToken = clientToken
+        self.expiryTimeInMinutes = expiryTimeInMinutes
+        self.limits = limits
+        self.paymentManagerArn = paymentManagerArn
+        self.userId = userId
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Available session limits. Currently only budget is supported.
+    public struct AvailableLimits: Swift.Sendable {
+        /// The available spend amount for this session.
+        public var availableSpendAmount: BedrockAgentCoreClientTypes.Amount?
+        /// The timestamp when the available limits were last updated.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            availableSpendAmount: BedrockAgentCoreClientTypes.Amount? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.availableSpendAmount = availableSpendAmount
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Payment manager session
+    public struct PaymentSession: Swift.Sendable {
+        /// The available limits for this session after accounting for processed payments.
+        public var availableLimits: BedrockAgentCoreClientTypes.AvailableLimits?
+        /// The timestamp when this payment session was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The session expiry time in minutes.
+        /// This member is required.
+        public var expiryTimeInMinutes: Swift.Int?
+        /// The spending limits for this session.
+        public var limits: BedrockAgentCoreClientTypes.SessionLimits?
+        /// The ARN of the payment manager that owns this session.
+        /// This member is required.
+        public var paymentManagerArn: Swift.String?
+        /// The unique identifier for this payment session.
+        /// This member is required.
+        public var paymentSessionId: Swift.String?
+        /// The timestamp when this payment session was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+        /// The user ID associated with this payment session.
+        /// This member is required.
+        public var userId: Swift.String?
+
+        public init(
+            availableLimits: BedrockAgentCoreClientTypes.AvailableLimits? = nil,
+            createdAt: Foundation.Date? = nil,
+            expiryTimeInMinutes: Swift.Int? = nil,
+            limits: BedrockAgentCoreClientTypes.SessionLimits? = nil,
+            paymentManagerArn: Swift.String? = nil,
+            paymentSessionId: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil,
+            userId: Swift.String? = nil
+        ) {
+            self.availableLimits = availableLimits
+            self.createdAt = createdAt
+            self.expiryTimeInMinutes = expiryTimeInMinutes
+            self.limits = limits
+            self.paymentManagerArn = paymentManagerArn
+            self.paymentSessionId = paymentSessionId
+            self.updatedAt = updatedAt
+            self.userId = userId
+        }
+    }
+}
+
+/// Response structure for creating a payment session
+public struct CreatePaymentSessionOutput: Swift.Sendable {
+    /// Payment manager session
+    /// This member is required.
+    public var paymentSession: BedrockAgentCoreClientTypes.PaymentSession?
+
+    public init(
+        paymentSession: BedrockAgentCoreClientTypes.PaymentSession? = nil
+    ) {
+        self.paymentSession = paymentSession
+    }
+}
+
+/// Request structure for deleting a payment session All fields are required and must match the session owner's identifiers for authorization to succeed.
+public struct DeletePaymentSessionInput: Swift.Sendable {
+    /// The payment manager ARN. Must match the session's paymentManagerArn.
+    /// This member is required.
+    public var paymentManagerArn: Swift.String?
+    /// The payment session ID to delete.
+    /// This member is required.
+    public var paymentSessionId: Swift.String?
+    /// The user ID making the delete request. Must match the session's userId.
+    public var userId: Swift.String?
+
+    public init(
+        paymentManagerArn: Swift.String? = nil,
+        paymentSessionId: Swift.String? = nil,
+        userId: Swift.String? = nil
+    ) {
+        self.paymentManagerArn = paymentManagerArn
+        self.paymentSessionId = paymentSessionId
+        self.userId = userId
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The status of a payment session
+    public enum PaymentSessionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case deleted
+        case expired
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PaymentSessionStatus] {
+            return [
+                .active,
+                .deleted,
+                .expired
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .deleted: return "DELETED"
+            case .expired: return "EXPIRED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// Response structure for deleting a payment session Returns the deletion status with HTTP 200 status code on successful deletion.
+public struct DeletePaymentSessionOutput: Swift.Sendable {
+    /// The status of the deletion. Always DELETED for successful hard delete.
+    /// This member is required.
+    public var status: BedrockAgentCoreClientTypes.PaymentSessionStatus?
+
+    public init(
+        status: BedrockAgentCoreClientTypes.PaymentSessionStatus? = nil
+    ) {
+        self.status = status
+    }
+}
+
+/// Request structure for getting a payment session
+public struct GetPaymentSessionInput: Swift.Sendable {
+    /// The agent name associated with this request, used for observability.
+    public var agentName: Swift.String?
+    /// The ARN of the payment manager that owns this session.
+    /// This member is required.
+    public var paymentManagerArn: Swift.String?
+    /// The ID of the payment session to retrieve.
+    /// This member is required.
+    public var paymentSessionId: Swift.String?
+    /// The user ID associated with this payment session.
+    public var userId: Swift.String?
+
+    public init(
+        agentName: Swift.String? = nil,
+        paymentManagerArn: Swift.String? = nil,
+        paymentSessionId: Swift.String? = nil,
+        userId: Swift.String? = nil
+    ) {
+        self.agentName = agentName
+        self.paymentManagerArn = paymentManagerArn
+        self.paymentSessionId = paymentSessionId
+        self.userId = userId
+    }
+}
+
+/// Response structure for getting a payment session
+public struct GetPaymentSessionOutput: Swift.Sendable {
+    /// Payment manager session
+    /// This member is required.
+    public var paymentSession: BedrockAgentCoreClientTypes.PaymentSession?
+
+    public init(
+        paymentSession: BedrockAgentCoreClientTypes.PaymentSession? = nil
+    ) {
+        self.paymentSession = paymentSession
+    }
+}
+
+/// Request structure for listing payment sessions
+public struct ListPaymentSessionsInput: Swift.Sendable {
+    /// The agent name associated with this request, used for observability.
+    public var agentName: Swift.String?
+    /// Maximum number of results to return in a single response.
+    public var maxResults: Swift.Int?
+    /// Token for pagination to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// The ARN of the payment manager that owns the sessions.
+    /// This member is required.
+    public var paymentManagerArn: Swift.String?
+    /// The user ID associated with the payment sessions.
+    public var userId: Swift.String?
+
+    public init(
+        agentName: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        paymentManagerArn: Swift.String? = nil,
+        userId: Swift.String? = nil
+    ) {
+        self.agentName = agentName
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.paymentManagerArn = paymentManagerArn
+        self.userId = userId
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Summary of a payment session for list operations
+    public struct PaymentSessionSummary: Swift.Sendable {
+        /// The timestamp when this payment session was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The session expiry time in minutes.
+        /// This member is required.
+        public var expiryTimeInMinutes: Swift.Int?
+        /// The ARN of the payment manager that owns this session.
+        /// This member is required.
+        public var paymentManagerArn: Swift.String?
+        /// The unique identifier for this payment session.
+        /// This member is required.
+        public var paymentSessionId: Swift.String?
+        /// The timestamp when this payment session was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+        /// The user ID associated with this payment session.
+        /// This member is required.
+        public var userId: Swift.String?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            expiryTimeInMinutes: Swift.Int? = nil,
+            paymentManagerArn: Swift.String? = nil,
+            paymentSessionId: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil,
+            userId: Swift.String? = nil
+        ) {
+            self.createdAt = createdAt
+            self.expiryTimeInMinutes = expiryTimeInMinutes
+            self.paymentManagerArn = paymentManagerArn
+            self.paymentSessionId = paymentSessionId
+            self.updatedAt = updatedAt
+            self.userId = userId
+        }
+    }
+}
+
+/// Response structure for listing payment sessions
+public struct ListPaymentSessionsOutput: Swift.Sendable {
+    /// Token for pagination to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// List of payment session summaries matching the request criteria.
+    /// This member is required.
+    public var paymentSessions: [BedrockAgentCoreClientTypes.PaymentSessionSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        paymentSessions: [BedrockAgentCoreClientTypes.PaymentSessionSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.paymentSessions = paymentSessions
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// X402 payment requirement input
+    public struct CryptoX402PaymentInput: Swift.Sendable {
+        /// This can hold any JSON-like object
+        /// This member is required.
+        public var payload: Smithy.Document?
+        /// The X402 protocol version (e.g., "v1", "v2")
+        /// This member is required.
+        public var version: Swift.String?
+
+        public init(
+            payload: Smithy.Document? = nil,
+            version: Swift.String? = nil
+        ) {
+            self.payload = payload
+            self.version = version
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.CryptoX402PaymentInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CryptoX402PaymentInput(version: \(Swift.String(describing: version)), payload: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Payment request details union
+    public enum PaymentInput: Swift.Sendable {
+        /// X402 payment requirement input
+        case cryptox402(BedrockAgentCoreClientTypes.CryptoX402PaymentInput)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Payment type enum
+    public enum PaymentType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cryptoX402
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PaymentType] {
+            return [
+                .cryptoX402
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cryptoX402: return "CRYPTO_X402"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// Request structure for processing a payment
+public struct ProcessPaymentInput: Swift.Sendable {
+    /// The agent name associated with this request, used for observability.
+    public var agentName: Swift.String?
+    /// Idempotency token to ensure request uniqueness.
+    public var clientToken: Swift.String?
+    /// The payment input details specific to the payment type.
+    /// This member is required.
+    public var paymentInput: BedrockAgentCoreClientTypes.PaymentInput?
+    /// The ID of the payment instrument to use for this transaction.
+    /// This member is required.
+    public var paymentInstrumentId: Swift.String?
+    /// The ARN of the payment manager handling this payment.
+    /// This member is required.
+    public var paymentManagerArn: Swift.String?
+    /// The ID of the payment session for this transaction.
+    /// This member is required.
+    public var paymentSessionId: Swift.String?
+    /// The type of payment being processed.
+    /// This member is required.
+    public var paymentType: BedrockAgentCoreClientTypes.PaymentType?
+    /// The user ID associated with this payment.
+    public var userId: Swift.String?
+
+    public init(
+        agentName: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        paymentInput: BedrockAgentCoreClientTypes.PaymentInput? = nil,
+        paymentInstrumentId: Swift.String? = nil,
+        paymentManagerArn: Swift.String? = nil,
+        paymentSessionId: Swift.String? = nil,
+        paymentType: BedrockAgentCoreClientTypes.PaymentType? = nil,
+        userId: Swift.String? = nil
+    ) {
+        self.agentName = agentName
+        self.clientToken = clientToken
+        self.paymentInput = paymentInput
+        self.paymentInstrumentId = paymentInstrumentId
+        self.paymentManagerArn = paymentManagerArn
+        self.paymentSessionId = paymentSessionId
+        self.paymentType = paymentType
+        self.userId = userId
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// X402 payment requirement output
+    public struct CryptoX402PaymentOutput: Swift.Sendable {
+        /// This can hold any JSON-like object
+        /// This member is required.
+        public var payload: Smithy.Document?
+        /// The X402 protocol version (e.g., "1", "2")
+        /// This member is required.
+        public var version: Swift.String?
+
+        public init(
+            payload: Smithy.Document? = nil,
+            version: Swift.String? = nil
+        ) {
+            self.payload = payload
+            self.version = version
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.CryptoX402PaymentOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CryptoX402PaymentOutput(version: \(Swift.String(describing: version)), payload: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Payment response payload union. We will support versioning by introducing other model in this union
+    public enum PaymentOutput: Swift.Sendable {
+        /// X402 payment requirement output
+        case cryptox402(BedrockAgentCoreClientTypes.CryptoX402PaymentOutput)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Transaction status enum
+    public enum PaymentStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case proofGenerated
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PaymentStatus] {
+            return [
+                .proofGenerated
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .proofGenerated: return "PROOF_GENERATED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// Response structure for processing a payment
+public struct ProcessPaymentOutput: Swift.Sendable {
+    /// The timestamp when the payment was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The ID of the payment instrument used for this transaction.
+    /// This member is required.
+    public var paymentInstrumentId: Swift.String?
+    /// The ARN of the payment manager that processed this payment.
+    /// This member is required.
+    public var paymentManagerArn: Swift.String?
+    /// The payment output details specific to the payment type.
+    /// This member is required.
+    public var paymentOutput: BedrockAgentCoreClientTypes.PaymentOutput?
+    /// The ID of the payment session for this transaction.
+    /// This member is required.
+    public var paymentSessionId: Swift.String?
+    /// The type of payment that was processed.
+    /// This member is required.
+    public var paymentType: BedrockAgentCoreClientTypes.PaymentType?
+    /// The unique ID of the processed payment transaction.
+    /// This member is required.
+    public var processPaymentId: Swift.String?
+    /// The status of the payment transaction.
+    /// This member is required.
+    public var status: BedrockAgentCoreClientTypes.PaymentStatus?
+    /// The timestamp when the payment was last updated.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        paymentInstrumentId: Swift.String? = nil,
+        paymentManagerArn: Swift.String? = nil,
+        paymentOutput: BedrockAgentCoreClientTypes.PaymentOutput? = nil,
+        paymentSessionId: Swift.String? = nil,
+        paymentType: BedrockAgentCoreClientTypes.PaymentType? = nil,
+        processPaymentId: Swift.String? = nil,
+        status: BedrockAgentCoreClientTypes.PaymentStatus? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.createdAt = createdAt
+        self.paymentInstrumentId = paymentInstrumentId
+        self.paymentManagerArn = paymentManagerArn
+        self.paymentOutput = paymentOutput
+        self.paymentSessionId = paymentSessionId
+        self.paymentType = paymentType
+        self.processPaymentId = processPaymentId
+        self.status = status
+        self.updatedAt = updatedAt
+    }
+}
+
 public struct SearchRegistryRecordsInput: Swift.Sendable {
     /// A metadata filter expression to narrow search results. Uses structured JSON operators including field-level operators ($eq, $ne, $in) and logical operators ($and, $or) on filterable fields (name, descriptorType, version). For example, to filter by descriptor type: {"descriptorType": {"$eq": "MCP"}}. To combine filters: {"$and": [{"descriptorType": {"$eq": "MCP"}}, {"name": {"$eq": "my-tool"}}]}.
     public var filters: Smithy.Document?
@@ -8772,6 +10329,48 @@ extension CreateEventInput {
     }
 }
 
+extension CreatePaymentInstrumentInput {
+
+    static func urlPathProvider(_ value: CreatePaymentInstrumentInput) -> Swift.String? {
+        return "/payments/createPaymentInstrument"
+    }
+}
+
+extension CreatePaymentInstrumentInput {
+
+    static func headerProvider(_ value: CreatePaymentInstrumentInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let agentName = value.agentName {
+            items.add(SmithyHTTPAPI.Header(name: "X-Amzn-Bedrock-AgentCore-Payments-Agent-Name", value: Swift.String(agentName)))
+        }
+        if let userId = value.userId {
+            items.add(SmithyHTTPAPI.Header(name: "X-Amzn-Bedrock-AgentCore-Payments-User-Id", value: Swift.String(userId)))
+        }
+        return items
+    }
+}
+
+extension CreatePaymentSessionInput {
+
+    static func urlPathProvider(_ value: CreatePaymentSessionInput) -> Swift.String? {
+        return "/payments/createPaymentSession"
+    }
+}
+
+extension CreatePaymentSessionInput {
+
+    static func headerProvider(_ value: CreatePaymentSessionInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let agentName = value.agentName {
+            items.add(SmithyHTTPAPI.Header(name: "X-Amzn-Bedrock-AgentCore-Payments-Agent-Name", value: Swift.String(agentName)))
+        }
+        if let userId = value.userId {
+            items.add(SmithyHTTPAPI.Header(name: "X-Amzn-Bedrock-AgentCore-Payments-User-Id", value: Swift.String(userId)))
+        }
+        return items
+    }
+}
+
 extension DeleteABTestInput {
 
     static func urlPathProvider(_ value: DeleteABTestInput) -> Swift.String? {
@@ -8821,6 +10420,42 @@ extension DeleteMemoryRecordInput {
             return nil
         }
         return "/memories/\(memoryId.urlPercentEncoding())/memoryRecords/\(memoryRecordId.urlPercentEncoding())"
+    }
+}
+
+extension DeletePaymentInstrumentInput {
+
+    static func urlPathProvider(_ value: DeletePaymentInstrumentInput) -> Swift.String? {
+        return "/payments/deletePaymentInstrument"
+    }
+}
+
+extension DeletePaymentInstrumentInput {
+
+    static func headerProvider(_ value: DeletePaymentInstrumentInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let userId = value.userId {
+            items.add(SmithyHTTPAPI.Header(name: "X-Amzn-Bedrock-AgentCore-Payments-User-Id", value: Swift.String(userId)))
+        }
+        return items
+    }
+}
+
+extension DeletePaymentSessionInput {
+
+    static func urlPathProvider(_ value: DeletePaymentSessionInput) -> Swift.String? {
+        return "/payments/deletePaymentSession"
+    }
+}
+
+extension DeletePaymentSessionInput {
+
+    static func headerProvider(_ value: DeletePaymentSessionInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let userId = value.userId {
+            items.add(SmithyHTTPAPI.Header(name: "X-Amzn-Bedrock-AgentCore-Payments-User-Id", value: Swift.String(userId)))
+        }
+        return items
     }
 }
 
@@ -8977,6 +10612,69 @@ extension GetMemoryRecordInput {
     }
 }
 
+extension GetPaymentInstrumentInput {
+
+    static func urlPathProvider(_ value: GetPaymentInstrumentInput) -> Swift.String? {
+        return "/payments/getPaymentInstrument"
+    }
+}
+
+extension GetPaymentInstrumentInput {
+
+    static func headerProvider(_ value: GetPaymentInstrumentInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let agentName = value.agentName {
+            items.add(SmithyHTTPAPI.Header(name: "X-Amzn-Bedrock-AgentCore-Payments-Agent-Name", value: Swift.String(agentName)))
+        }
+        if let userId = value.userId {
+            items.add(SmithyHTTPAPI.Header(name: "X-Amzn-Bedrock-AgentCore-Payments-User-Id", value: Swift.String(userId)))
+        }
+        return items
+    }
+}
+
+extension GetPaymentInstrumentBalanceInput {
+
+    static func urlPathProvider(_ value: GetPaymentInstrumentBalanceInput) -> Swift.String? {
+        return "/payments/getPaymentInstrumentBalance"
+    }
+}
+
+extension GetPaymentInstrumentBalanceInput {
+
+    static func headerProvider(_ value: GetPaymentInstrumentBalanceInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let agentName = value.agentName {
+            items.add(SmithyHTTPAPI.Header(name: "X-Amzn-Bedrock-AgentCore-Payments-Agent-Name", value: Swift.String(agentName)))
+        }
+        if let userId = value.userId {
+            items.add(SmithyHTTPAPI.Header(name: "X-Amzn-Bedrock-AgentCore-Payments-User-Id", value: Swift.String(userId)))
+        }
+        return items
+    }
+}
+
+extension GetPaymentSessionInput {
+
+    static func urlPathProvider(_ value: GetPaymentSessionInput) -> Swift.String? {
+        return "/payments/getPaymentSession"
+    }
+}
+
+extension GetPaymentSessionInput {
+
+    static func headerProvider(_ value: GetPaymentSessionInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let agentName = value.agentName {
+            items.add(SmithyHTTPAPI.Header(name: "X-Amzn-Bedrock-AgentCore-Payments-Agent-Name", value: Swift.String(agentName)))
+        }
+        if let userId = value.userId {
+            items.add(SmithyHTTPAPI.Header(name: "X-Amzn-Bedrock-AgentCore-Payments-User-Id", value: Swift.String(userId)))
+        }
+        return items
+    }
+}
+
 extension GetRecommendationInput {
 
     static func urlPathProvider(_ value: GetRecommendationInput) -> Swift.String? {
@@ -8998,6 +10696,13 @@ extension GetResourceOauth2TokenInput {
 
     static func urlPathProvider(_ value: GetResourceOauth2TokenInput) -> Swift.String? {
         return "/identities/oauth2/token"
+    }
+}
+
+extension GetResourcePaymentTokenInput {
+
+    static func urlPathProvider(_ value: GetResourcePaymentTokenInput) -> Swift.String? {
+        return "/identities/payment/token"
     }
 }
 
@@ -9333,6 +11038,48 @@ extension ListMemoryRecordsInput {
     }
 }
 
+extension ListPaymentInstrumentsInput {
+
+    static func urlPathProvider(_ value: ListPaymentInstrumentsInput) -> Swift.String? {
+        return "/payments/listPaymentInstruments"
+    }
+}
+
+extension ListPaymentInstrumentsInput {
+
+    static func headerProvider(_ value: ListPaymentInstrumentsInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let agentName = value.agentName {
+            items.add(SmithyHTTPAPI.Header(name: "X-Amzn-Bedrock-AgentCore-Payments-Agent-Name", value: Swift.String(agentName)))
+        }
+        if let userId = value.userId {
+            items.add(SmithyHTTPAPI.Header(name: "X-Amzn-Bedrock-AgentCore-Payments-User-Id", value: Swift.String(userId)))
+        }
+        return items
+    }
+}
+
+extension ListPaymentSessionsInput {
+
+    static func urlPathProvider(_ value: ListPaymentSessionsInput) -> Swift.String? {
+        return "/payments/listPaymentSessions"
+    }
+}
+
+extension ListPaymentSessionsInput {
+
+    static func headerProvider(_ value: ListPaymentSessionsInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let agentName = value.agentName {
+            items.add(SmithyHTTPAPI.Header(name: "X-Amzn-Bedrock-AgentCore-Payments-Agent-Name", value: Swift.String(agentName)))
+        }
+        if let userId = value.userId {
+            items.add(SmithyHTTPAPI.Header(name: "X-Amzn-Bedrock-AgentCore-Payments-User-Id", value: Swift.String(userId)))
+        }
+        return items
+    }
+}
+
 extension ListRecommendationsInput {
 
     static func urlPathProvider(_ value: ListRecommendationsInput) -> Swift.String? {
@@ -9370,6 +11117,27 @@ extension ListSessionsInput {
             return nil
         }
         return "/memories/\(memoryId.urlPercentEncoding())/actor/\(actorId.urlPercentEncoding())/sessions"
+    }
+}
+
+extension ProcessPaymentInput {
+
+    static func urlPathProvider(_ value: ProcessPaymentInput) -> Swift.String? {
+        return "/payments/processPayment"
+    }
+}
+
+extension ProcessPaymentInput {
+
+    static func headerProvider(_ value: ProcessPaymentInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let agentName = value.agentName {
+            items.add(SmithyHTTPAPI.Header(name: "X-Amzn-Bedrock-AgentCore-Payments-Agent-Name", value: Swift.String(agentName)))
+        }
+        if let userId = value.userId {
+            items.add(SmithyHTTPAPI.Header(name: "X-Amzn-Bedrock-AgentCore-Payments-User-Id", value: Swift.String(userId)))
+        }
+        return items
     }
 }
 
@@ -9703,6 +11471,48 @@ extension CreateEventInput {
     }
 }
 
+extension CreatePaymentInstrumentInput {
+
+    static func write(value: CreatePaymentInstrumentInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["paymentConnectorId"].write(value.paymentConnectorId)
+        try writer["paymentInstrumentDetails"].write(value.paymentInstrumentDetails, with: BedrockAgentCoreClientTypes.PaymentInstrumentDetails.write(value:to:))
+        try writer["paymentInstrumentType"].write(value.paymentInstrumentType)
+        try writer["paymentManagerArn"].write(value.paymentManagerArn)
+    }
+}
+
+extension CreatePaymentSessionInput {
+
+    static func write(value: CreatePaymentSessionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["expiryTimeInMinutes"].write(value.expiryTimeInMinutes)
+        try writer["limits"].write(value.limits, with: BedrockAgentCoreClientTypes.SessionLimits.write(value:to:))
+        try writer["paymentManagerArn"].write(value.paymentManagerArn)
+    }
+}
+
+extension DeletePaymentInstrumentInput {
+
+    static func write(value: DeletePaymentInstrumentInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["paymentConnectorId"].write(value.paymentConnectorId)
+        try writer["paymentInstrumentId"].write(value.paymentInstrumentId)
+        try writer["paymentManagerArn"].write(value.paymentManagerArn)
+    }
+}
+
+extension DeletePaymentSessionInput {
+
+    static func write(value: DeletePaymentSessionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["paymentManagerArn"].write(value.paymentManagerArn)
+        try writer["paymentSessionId"].write(value.paymentSessionId)
+    }
+}
+
 extension EvaluateInput {
 
     static func write(value: EvaluateInput?, to writer: SmithyJSON.Writer) throws {
@@ -9710,6 +11520,37 @@ extension EvaluateInput {
         try writer["evaluationInput"].write(value.evaluationInput, with: BedrockAgentCoreClientTypes.EvaluationInput.write(value:to:))
         try writer["evaluationReferenceInputs"].writeList(value.evaluationReferenceInputs, memberWritingClosure: BedrockAgentCoreClientTypes.EvaluationReferenceInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["evaluationTarget"].write(value.evaluationTarget, with: BedrockAgentCoreClientTypes.EvaluationTarget.write(value:to:))
+    }
+}
+
+extension GetPaymentInstrumentInput {
+
+    static func write(value: GetPaymentInstrumentInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["paymentConnectorId"].write(value.paymentConnectorId)
+        try writer["paymentInstrumentId"].write(value.paymentInstrumentId)
+        try writer["paymentManagerArn"].write(value.paymentManagerArn)
+    }
+}
+
+extension GetPaymentInstrumentBalanceInput {
+
+    static func write(value: GetPaymentInstrumentBalanceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["chain"].write(value.chain)
+        try writer["paymentConnectorId"].write(value.paymentConnectorId)
+        try writer["paymentInstrumentId"].write(value.paymentInstrumentId)
+        try writer["paymentManagerArn"].write(value.paymentManagerArn)
+        try writer["token"].write(value.token)
+    }
+}
+
+extension GetPaymentSessionInput {
+
+    static func write(value: GetPaymentSessionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["paymentManagerArn"].write(value.paymentManagerArn)
+        try writer["paymentSessionId"].write(value.paymentSessionId)
     }
 }
 
@@ -9736,6 +11577,16 @@ extension GetResourceOauth2TokenInput {
         try writer["resources"].writeList(value.resources, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["scopes"].writeList(value.scopes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["sessionUri"].write(value.sessionUri)
+        try writer["workloadIdentityToken"].write(value.workloadIdentityToken)
+    }
+}
+
+extension GetResourcePaymentTokenInput {
+
+    static func write(value: GetResourcePaymentTokenInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["paymentTokenRequest"].write(value.paymentTokenRequest, with: BedrockAgentCoreClientTypes.PaymentTokenRequestInput.write(value:to:))
+        try writer["resourceCredentialProviderName"].write(value.resourceCredentialProviderName)
         try writer["workloadIdentityToken"].write(value.workloadIdentityToken)
     }
 }
@@ -9879,6 +11730,27 @@ extension ListMemoryRecordsInput {
     }
 }
 
+extension ListPaymentInstrumentsInput {
+
+    static func write(value: ListPaymentInstrumentsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+        try writer["paymentConnectorId"].write(value.paymentConnectorId)
+        try writer["paymentManagerArn"].write(value.paymentManagerArn)
+    }
+}
+
+extension ListPaymentSessionsInput {
+
+    static func write(value: ListPaymentSessionsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+        try writer["paymentManagerArn"].write(value.paymentManagerArn)
+    }
+}
+
 extension ListSessionsInput {
 
     static func write(value: ListSessionsInput?, to writer: SmithyJSON.Writer) throws {
@@ -9886,6 +11758,19 @@ extension ListSessionsInput {
         try writer["filter"].write(value.filter, with: BedrockAgentCoreClientTypes.SessionFilter.write(value:to:))
         try writer["maxResults"].write(value.maxResults)
         try writer["nextToken"].write(value.nextToken)
+    }
+}
+
+extension ProcessPaymentInput {
+
+    static func write(value: ProcessPaymentInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["paymentInput"].write(value.paymentInput, with: BedrockAgentCoreClientTypes.PaymentInput.write(value:to:))
+        try writer["paymentInstrumentId"].write(value.paymentInstrumentId)
+        try writer["paymentManagerArn"].write(value.paymentManagerArn)
+        try writer["paymentSessionId"].write(value.paymentSessionId)
+        try writer["paymentType"].write(value.paymentType)
     }
 }
 
@@ -10106,6 +11991,30 @@ extension CreateEventOutput {
     }
 }
 
+extension CreatePaymentInstrumentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreatePaymentInstrumentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreatePaymentInstrumentOutput()
+        value.paymentInstrument = try reader["paymentInstrument"].readIfPresent(with: BedrockAgentCoreClientTypes.PaymentInstrument.read(from:))
+        return value
+    }
+}
+
+extension CreatePaymentSessionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreatePaymentSessionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreatePaymentSessionOutput()
+        value.paymentSession = try reader["paymentSession"].readIfPresent(with: BedrockAgentCoreClientTypes.PaymentSession.read(from:))
+        return value
+    }
+}
+
 extension DeleteABTestOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteABTestOutput {
@@ -10154,6 +12063,30 @@ extension DeleteMemoryRecordOutput {
         let reader = responseReader
         var value = DeleteMemoryRecordOutput()
         value.memoryRecordId = try reader["memoryRecordId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DeletePaymentInstrumentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeletePaymentInstrumentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeletePaymentInstrumentOutput()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension DeletePaymentSessionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeletePaymentSessionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeletePaymentSessionOutput()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -10319,6 +12252,43 @@ extension GetMemoryRecordOutput {
     }
 }
 
+extension GetPaymentInstrumentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetPaymentInstrumentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetPaymentInstrumentOutput()
+        value.paymentInstrument = try reader["paymentInstrument"].readIfPresent(with: BedrockAgentCoreClientTypes.PaymentInstrument.read(from:))
+        return value
+    }
+}
+
+extension GetPaymentInstrumentBalanceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetPaymentInstrumentBalanceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetPaymentInstrumentBalanceOutput()
+        value.paymentInstrumentId = try reader["paymentInstrumentId"].readIfPresent() ?? ""
+        value.tokenBalance = try reader["tokenBalance"].readIfPresent(with: BedrockAgentCoreClientTypes.TokenBalance.read(from:))
+        return value
+    }
+}
+
+extension GetPaymentSessionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetPaymentSessionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetPaymentSessionOutput()
+        value.paymentSession = try reader["paymentSession"].readIfPresent(with: BedrockAgentCoreClientTypes.PaymentSession.read(from:))
+        return value
+    }
+}
+
 extension GetRecommendationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetRecommendationOutput {
@@ -10363,6 +12333,18 @@ extension GetResourceOauth2TokenOutput {
         value.authorizationUrl = try reader["authorizationUrl"].readIfPresent()
         value.sessionStatus = try reader["sessionStatus"].readIfPresent()
         value.sessionUri = try reader["sessionUri"].readIfPresent()
+        return value
+    }
+}
+
+extension GetResourcePaymentTokenOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetResourcePaymentTokenOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetResourcePaymentTokenOutput()
+        value.paymentTokenResponse = try reader["paymentTokenResponse"].readIfPresent(with: BedrockAgentCoreClientTypes.PaymentTokenResponseOutput.read(from:))
         return value
     }
 }
@@ -10624,6 +12606,32 @@ extension ListMemoryRecordsOutput {
     }
 }
 
+extension ListPaymentInstrumentsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListPaymentInstrumentsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListPaymentInstrumentsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.paymentInstruments = try reader["paymentInstruments"].readListIfPresent(memberReadingClosure: BedrockAgentCoreClientTypes.PaymentInstrumentSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ListPaymentSessionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListPaymentSessionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListPaymentSessionsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.paymentSessions = try reader["paymentSessions"].readListIfPresent(memberReadingClosure: BedrockAgentCoreClientTypes.PaymentSessionSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension ListRecommendationsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListRecommendationsOutput {
@@ -10646,6 +12654,26 @@ extension ListSessionsOutput {
         var value = ListSessionsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
         value.sessionSummaries = try reader["sessionSummaries"].readListIfPresent(memberReadingClosure: BedrockAgentCoreClientTypes.SessionSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ProcessPaymentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ProcessPaymentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ProcessPaymentOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.paymentInstrumentId = try reader["paymentInstrumentId"].readIfPresent() ?? ""
+        value.paymentManagerArn = try reader["paymentManagerArn"].readIfPresent() ?? ""
+        value.paymentOutput = try reader["paymentOutput"].readIfPresent(with: BedrockAgentCoreClientTypes.PaymentOutput.read(from:))
+        value.paymentSessionId = try reader["paymentSessionId"].readIfPresent() ?? ""
+        value.paymentType = try reader["paymentType"].readIfPresent() ?? .sdkUnknown("")
+        value.processPaymentId = try reader["processPaymentId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -10973,6 +13001,44 @@ enum CreateEventOutputError {
     }
 }
 
+enum CreatePaymentInstrumentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreatePaymentSessionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteABTestOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -11047,6 +13113,42 @@ enum DeleteMemoryRecordOutputError {
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottledException": return try ThrottledException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeletePaymentInstrumentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeletePaymentSessionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -11228,6 +13330,60 @@ enum GetMemoryRecordOutputError {
     }
 }
 
+enum GetPaymentInstrumentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetPaymentInstrumentBalanceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetPaymentSessionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetRecommendationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -11266,6 +13422,25 @@ enum GetResourceApiKeyOutputError {
 }
 
 enum GetResourceOauth2TokenOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetResourcePaymentTokenOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -11589,6 +13764,40 @@ enum ListMemoryRecordsOutputError {
     }
 }
 
+enum ListPaymentInstrumentsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListPaymentSessionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListRecommendationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -11620,6 +13829,25 @@ enum ListSessionsOutputError {
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottledException": return try ThrottledException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ProcessPaymentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -12388,6 +14616,23 @@ extension BedrockAgentCoreClientTypes.AgentTracesConfig {
     }
 }
 
+extension BedrockAgentCoreClientTypes.Amount {
+
+    static func write(value: BedrockAgentCoreClientTypes.Amount?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["currency"].write(value.currency)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.Amount {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.Amount()
+        value.value = try reader["value"].readIfPresent() ?? ""
+        value.currency = try reader["currency"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension BedrockAgentCoreClientTypes.AutomationStream {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.AutomationStream {
@@ -12404,6 +14649,17 @@ extension BedrockAgentCoreClientTypes.AutomationStreamUpdate {
     static func write(value: BedrockAgentCoreClientTypes.AutomationStreamUpdate?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["streamStatus"].write(value.streamStatus)
+    }
+}
+
+extension BedrockAgentCoreClientTypes.AvailableLimits {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.AvailableLimits {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.AvailableLimits()
+        value.availableSpendAmount = try reader["availableSpendAmount"].readIfPresent(with: BedrockAgentCoreClientTypes.Amount.read(from:))
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
     }
 }
 
@@ -12765,6 +15021,29 @@ extension BedrockAgentCoreClientTypes.CodeInterpreterSessionSummary {
     }
 }
 
+extension BedrockAgentCoreClientTypes.CoinbaseCdpTokenRequestInput {
+
+    static func write(value: BedrockAgentCoreClientTypes.CoinbaseCdpTokenRequestInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["includeWalletAuthToken"].write(value.includeWalletAuthToken)
+        try writer["requestBody"].write(value.requestBody)
+        try writer["requestHost"].write(value.requestHost)
+        try writer["requestMethod"].write(value.requestMethod)
+        try writer["requestPath"].write(value.requestPath)
+    }
+}
+
+extension BedrockAgentCoreClientTypes.CoinbaseCdpTokenResponseOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.CoinbaseCdpTokenResponseOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.CoinbaseCdpTokenResponseOutput()
+        value.bearerToken = try reader["bearerToken"].readIfPresent() ?? ""
+        value.walletAuthToken = try reader["walletAuthToken"].readIfPresent()
+        return value
+    }
+}
+
 extension BedrockAgentCoreClientTypes.ConfidenceInterval {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.ConfidenceInterval {
@@ -12945,6 +15224,26 @@ extension BedrockAgentCoreClientTypes.Conversational {
     }
 }
 
+extension BedrockAgentCoreClientTypes.CryptoX402PaymentInput {
+
+    static func write(value: BedrockAgentCoreClientTypes.CryptoX402PaymentInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["payload"].write(value.payload)
+        try writer["version"].write(value.version)
+    }
+}
+
+extension BedrockAgentCoreClientTypes.CryptoX402PaymentOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.CryptoX402PaymentOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.CryptoX402PaymentOutput()
+        value.version = try reader["version"].readIfPresent() ?? ""
+        value.payload = try reader["payload"].readIfPresent() ?? [:]
+        return value
+    }
+}
+
 extension BedrockAgentCoreClientTypes.CustomDescriptor {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.CustomDescriptor {
@@ -12988,6 +15287,27 @@ extension BedrockAgentCoreClientTypes.Descriptors {
         value.a2a = try reader["a2a"].readIfPresent(with: BedrockAgentCoreClientTypes.A2aDescriptor.read(from:))
         value.custom = try reader["custom"].readIfPresent(with: BedrockAgentCoreClientTypes.CustomDescriptor.read(from:))
         value.agentSkills = try reader["agentSkills"].readIfPresent(with: BedrockAgentCoreClientTypes.AgentSkillsDescriptor.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.EmbeddedCryptoWallet {
+
+    static func write(value: BedrockAgentCoreClientTypes.EmbeddedCryptoWallet?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["linkedAccounts"].writeList(value.linkedAccounts, memberWritingClosure: BedrockAgentCoreClientTypes.LinkedAccount.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["network"].write(value.network)
+        try writer["redirectUrl"].write(value.redirectUrl)
+        try writer["walletAddress"].write(value.walletAddress)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.EmbeddedCryptoWallet {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.EmbeddedCryptoWallet()
+        value.network = try reader["network"].readIfPresent() ?? .sdkUnknown("")
+        value.linkedAccounts = try reader["linkedAccounts"].readListIfPresent(memberReadingClosure: BedrockAgentCoreClientTypes.LinkedAccount.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.walletAddress = try reader["walletAddress"].readIfPresent()
+        value.redirectUrl = try reader["redirectUrl"].readIfPresent()
         return value
     }
 }
@@ -13899,6 +16219,129 @@ extension BedrockAgentCoreClientTypes.LeftExpression {
     }
 }
 
+extension BedrockAgentCoreClientTypes.LinkedAccount {
+
+    static func write(value: BedrockAgentCoreClientTypes.LinkedAccount?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .developerjwt(developerjwt):
+                try writer["developerJwt"].write(developerjwt, with: BedrockAgentCoreClientTypes.LinkedAccountDeveloperJwt.write(value:to:))
+            case let .email(email):
+                try writer["email"].write(email, with: BedrockAgentCoreClientTypes.LinkedAccountEmail.write(value:to:))
+            case let .oauth2(oauth2):
+                try writer["oAuth2"].write(oauth2, with: BedrockAgentCoreClientTypes.LinkedAccountOAuth2.write(value:to:))
+            case let .sms(sms):
+                try writer["sms"].write(sms, with: BedrockAgentCoreClientTypes.LinkedAccountSms.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.LinkedAccount {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "email":
+                return .email(try reader["email"].read(with: BedrockAgentCoreClientTypes.LinkedAccountEmail.read(from:)))
+            case "sms":
+                return .sms(try reader["sms"].read(with: BedrockAgentCoreClientTypes.LinkedAccountSms.read(from:)))
+            case "developerJwt":
+                return .developerjwt(try reader["developerJwt"].read(with: BedrockAgentCoreClientTypes.LinkedAccountDeveloperJwt.read(from:)))
+            case "oAuth2":
+                return .oauth2(try reader["oAuth2"].read(with: BedrockAgentCoreClientTypes.LinkedAccountOAuth2.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.LinkedAccountDeveloperJwt {
+
+    static func write(value: BedrockAgentCoreClientTypes.LinkedAccountDeveloperJwt?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["kid"].write(value.kid)
+        try writer["sub"].write(value.sub)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.LinkedAccountDeveloperJwt {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.LinkedAccountDeveloperJwt()
+        value.kid = try reader["kid"].readIfPresent() ?? ""
+        value.sub = try reader["sub"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.LinkedAccountEmail {
+
+    static func write(value: BedrockAgentCoreClientTypes.LinkedAccountEmail?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["emailAddress"].write(value.emailAddress)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.LinkedAccountEmail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.LinkedAccountEmail()
+        value.emailAddress = try reader["emailAddress"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.LinkedAccountOAuth2 {
+
+    static func write(value: BedrockAgentCoreClientTypes.LinkedAccountOAuth2?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .apple(apple):
+                try writer["apple"].write(apple, with: BedrockAgentCoreClientTypes.OAuth2Authentication.write(value:to:))
+            case let .github(github):
+                try writer["github"].write(github, with: BedrockAgentCoreClientTypes.OAuth2Authentication.write(value:to:))
+            case let .google(google):
+                try writer["google"].write(google, with: BedrockAgentCoreClientTypes.OAuth2Authentication.write(value:to:))
+            case let .telegram(telegram):
+                try writer["telegram"].write(telegram, with: BedrockAgentCoreClientTypes.OAuth2Authentication.write(value:to:))
+            case let .x(x):
+                try writer["x"].write(x, with: BedrockAgentCoreClientTypes.OAuth2Authentication.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.LinkedAccountOAuth2 {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "google":
+                return .google(try reader["google"].read(with: BedrockAgentCoreClientTypes.OAuth2Authentication.read(from:)))
+            case "apple":
+                return .apple(try reader["apple"].read(with: BedrockAgentCoreClientTypes.OAuth2Authentication.read(from:)))
+            case "x":
+                return .x(try reader["x"].read(with: BedrockAgentCoreClientTypes.OAuth2Authentication.read(from:)))
+            case "telegram":
+                return .telegram(try reader["telegram"].read(with: BedrockAgentCoreClientTypes.OAuth2Authentication.read(from:)))
+            case "github":
+                return .github(try reader["github"].read(with: BedrockAgentCoreClientTypes.OAuth2Authentication.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.LinkedAccountSms {
+
+    static func write(value: BedrockAgentCoreClientTypes.LinkedAccountSms?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["phoneNumber"].write(value.phoneNumber)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.LinkedAccountSms {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.LinkedAccountSms()
+        value.phoneNumber = try reader["phoneNumber"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension BedrockAgentCoreClientTypes.LiveViewStream {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.LiveViewStream {
@@ -14217,6 +16660,27 @@ extension BedrockAgentCoreClientTypes.MouseScrollResult {
     }
 }
 
+extension BedrockAgentCoreClientTypes.OAuth2Authentication {
+
+    static func write(value: BedrockAgentCoreClientTypes.OAuth2Authentication?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["emailAddress"].write(value.emailAddress)
+        try writer["name"].write(value.name)
+        try writer["sub"].write(value.sub)
+        try writer["username"].write(value.username)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.OAuth2Authentication {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.OAuth2Authentication()
+        value.sub = try reader["sub"].readIfPresent() ?? ""
+        value.emailAddress = try reader["emailAddress"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.username = try reader["username"].readIfPresent()
+        return value
+    }
+}
+
 extension BedrockAgentCoreClientTypes.OAuthCredentialProvider {
 
     static func write(value: BedrockAgentCoreClientTypes.OAuthCredentialProvider?, to writer: SmithyJSON.Writer) throws {
@@ -14265,6 +16729,155 @@ extension BedrockAgentCoreClientTypes.PayloadType {
                 return .conversational(try reader["conversational"].read(with: BedrockAgentCoreClientTypes.Conversational.read(from:)))
             case "blob":
                 return .blob(try reader["blob"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.PaymentInput {
+
+    static func write(value: BedrockAgentCoreClientTypes.PaymentInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .cryptox402(cryptox402):
+                try writer["cryptoX402"].write(cryptox402, with: BedrockAgentCoreClientTypes.CryptoX402PaymentInput.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.PaymentInstrument {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.PaymentInstrument {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.PaymentInstrument()
+        value.paymentInstrumentId = try reader["paymentInstrumentId"].readIfPresent() ?? ""
+        value.paymentManagerArn = try reader["paymentManagerArn"].readIfPresent() ?? ""
+        value.paymentConnectorId = try reader["paymentConnectorId"].readIfPresent() ?? ""
+        value.userId = try reader["userId"].readIfPresent() ?? ""
+        value.paymentInstrumentType = try reader["paymentInstrumentType"].readIfPresent() ?? .sdkUnknown("")
+        value.paymentInstrumentDetails = try reader["paymentInstrumentDetails"].readIfPresent(with: BedrockAgentCoreClientTypes.PaymentInstrumentDetails.read(from:))
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.PaymentInstrumentDetails {
+
+    static func write(value: BedrockAgentCoreClientTypes.PaymentInstrumentDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .embeddedcryptowallet(embeddedcryptowallet):
+                try writer["embeddedCryptoWallet"].write(embeddedcryptowallet, with: BedrockAgentCoreClientTypes.EmbeddedCryptoWallet.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.PaymentInstrumentDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "embeddedCryptoWallet":
+                return .embeddedcryptowallet(try reader["embeddedCryptoWallet"].read(with: BedrockAgentCoreClientTypes.EmbeddedCryptoWallet.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.PaymentInstrumentSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.PaymentInstrumentSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.PaymentInstrumentSummary()
+        value.paymentInstrumentId = try reader["paymentInstrumentId"].readIfPresent() ?? ""
+        value.paymentManagerArn = try reader["paymentManagerArn"].readIfPresent() ?? ""
+        value.paymentConnectorId = try reader["paymentConnectorId"].readIfPresent() ?? ""
+        value.userId = try reader["userId"].readIfPresent() ?? ""
+        value.paymentInstrumentType = try reader["paymentInstrumentType"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.PaymentOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.PaymentOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "cryptoX402":
+                return .cryptox402(try reader["cryptoX402"].read(with: BedrockAgentCoreClientTypes.CryptoX402PaymentOutput.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.PaymentSession {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.PaymentSession {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.PaymentSession()
+        value.paymentSessionId = try reader["paymentSessionId"].readIfPresent() ?? ""
+        value.paymentManagerArn = try reader["paymentManagerArn"].readIfPresent() ?? ""
+        value.limits = try reader["limits"].readIfPresent(with: BedrockAgentCoreClientTypes.SessionLimits.read(from:))
+        value.userId = try reader["userId"].readIfPresent() ?? ""
+        value.expiryTimeInMinutes = try reader["expiryTimeInMinutes"].readIfPresent() ?? 0
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.availableLimits = try reader["availableLimits"].readIfPresent(with: BedrockAgentCoreClientTypes.AvailableLimits.read(from:))
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.PaymentSessionSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.PaymentSessionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.PaymentSessionSummary()
+        value.paymentSessionId = try reader["paymentSessionId"].readIfPresent() ?? ""
+        value.paymentManagerArn = try reader["paymentManagerArn"].readIfPresent() ?? ""
+        value.userId = try reader["userId"].readIfPresent() ?? ""
+        value.expiryTimeInMinutes = try reader["expiryTimeInMinutes"].readIfPresent() ?? 0
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.PaymentTokenRequestInput {
+
+    static func write(value: BedrockAgentCoreClientTypes.PaymentTokenRequestInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .coinbasecdptokenrequest(coinbasecdptokenrequest):
+                try writer["coinbaseCdpTokenRequest"].write(coinbasecdptokenrequest, with: BedrockAgentCoreClientTypes.CoinbaseCdpTokenRequestInput.write(value:to:))
+            case let .stripeprivytokenrequest(stripeprivytokenrequest):
+                try writer["stripePrivyTokenRequest"].write(stripeprivytokenrequest, with: BedrockAgentCoreClientTypes.StripePrivyTokenRequestInput.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.PaymentTokenResponseOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.PaymentTokenResponseOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "coinbaseCdpTokenResponse":
+                return .coinbasecdptokenresponse(try reader["coinbaseCdpTokenResponse"].read(with: BedrockAgentCoreClientTypes.CoinbaseCdpTokenResponseOutput.read(from:)))
+            case "stripePrivyTokenResponse":
+                return .stripeprivytokenresponse(try reader["stripePrivyTokenResponse"].read(with: BedrockAgentCoreClientTypes.StripePrivyTokenResponseOutput.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -14684,6 +17297,21 @@ extension BedrockAgentCoreClientTypes.SessionFilterConfig {
     }
 }
 
+extension BedrockAgentCoreClientTypes.SessionLimits {
+
+    static func write(value: BedrockAgentCoreClientTypes.SessionLimits?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxSpendAmount"].write(value.maxSpendAmount, with: BedrockAgentCoreClientTypes.Amount.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.SessionLimits {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.SessionLimits()
+        value.maxSpendAmount = try reader["maxSpendAmount"].readIfPresent(with: BedrockAgentCoreClientTypes.Amount.read(from:))
+        return value
+    }
+}
+
 extension BedrockAgentCoreClientTypes.SessionMetadataShape {
 
     static func write(value: BedrockAgentCoreClientTypes.SessionMetadataShape?, to writer: SmithyJSON.Writer) throws {
@@ -14757,6 +17385,30 @@ extension BedrockAgentCoreClientTypes.StreamUpdate {
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.StripePrivyTokenRequestInput {
+
+    static func write(value: BedrockAgentCoreClientTypes.StripePrivyTokenRequestInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["includeAuthorizationSignature"].write(value.includeAuthorizationSignature)
+        try writer["requestBody"].write(value.requestBody)
+        try writer["requestHost"].write(value.requestHost)
+        try writer["requestPath"].write(value.requestPath)
+    }
+}
+
+extension BedrockAgentCoreClientTypes.StripePrivyTokenResponseOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.StripePrivyTokenResponseOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.StripePrivyTokenResponseOutput()
+        value.authorizationSignature = try reader["authorizationSignature"].readIfPresent()
+        value.requestExpiry = try reader["requestExpiry"].readIfPresent()
+        value.appId = try reader["appId"].readIfPresent() ?? ""
+        value.basicAuthToken = try reader["basicAuthToken"].readIfPresent() ?? ""
+        return value
     }
 }
 
@@ -14860,6 +17512,20 @@ extension ThrottlingException {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ThrottlingException()
         value.properties.message = try reader["message"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.TokenBalance {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.TokenBalance {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.TokenBalance()
+        value.amount = try reader["amount"].readIfPresent() ?? ""
+        value.decimals = try reader["decimals"].readIfPresent() ?? 0
+        value.token = try reader["token"].readIfPresent() ?? .sdkUnknown("")
+        value.network = try reader["network"].readIfPresent() ?? .sdkUnknown("")
+        value.chain = try reader["chain"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }

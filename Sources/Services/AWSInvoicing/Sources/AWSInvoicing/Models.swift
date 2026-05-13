@@ -524,6 +524,35 @@ public struct BatchGetInvoiceProfileOutput: Swift.Sendable {
 
 extension InvoicingClientTypes {
 
+    public enum BillingEntity: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case aws
+        case awsMarketplace
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BillingEntity] {
+            return [
+                .aws,
+                .awsMarketplace
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .aws: return "AWS"
+            case .awsMarketplace: return "AWS_MARKETPLACE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension InvoicingClientTypes {
+
     /// The billing period for which you want to retrieve invoice-related documents.
     public struct BillingPeriod: Swift.Sendable {
         /// The billing period month.
@@ -539,6 +568,38 @@ extension InvoicingClientTypes {
         ) {
             self.month = month
             self.year = year
+        }
+    }
+}
+
+extension InvoicingClientTypes {
+
+    public enum BillType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case anniversary
+        case purchase
+        case refund
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BillType] {
+            return [
+                .anniversary,
+                .purchase,
+                .refund
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .anniversary: return "ANNIVERSARY"
+            case .purchase: return "PURCHASE"
+            case .refund: return "REFUND"
+            case let .sdkUnknown(s): return s
+            }
         }
     }
 }
@@ -679,7 +740,7 @@ extension InvoicingClientTypes {
 
     /// This is used to categorize the invoice unit. Values are Amazon Web Services account IDs. Currently, the only supported rule is LINKED_ACCOUNT.
     public struct InvoiceUnitRule: Swift.Sendable {
-        /// A list of Amazon Web Services account account IDs that have delegated their billing responsibility to the receiver account through transfer billing. Unlike linked accounts, these bill source accounts can be payer accounts from other organizations that have authorized billing transfer to this account.
+        /// A list of Amazon Web Services account IDs that have delegated their billing responsibility to the receiver account through transfer billing. Unlike linked accounts, these bill source accounts can be payer accounts from other organizations that have authorized billing transfer to this account.
         public var billSourceAccounts: [Swift.String]?
         /// The list of LINKED_ACCOUNT IDs where charges are included within the invoice unit.
         public var linkedAccounts: [Swift.String]?
@@ -1242,14 +1303,47 @@ public struct DeleteProcurementPortalPreferenceOutput: Swift.Sendable {
 
 extension InvoicingClientTypes {
 
+    public enum EinvoiceDeliveryStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case delivered
+        case notDelivered
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EinvoiceDeliveryStatus] {
+            return [
+                .delivered,
+                .notDelivered
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .delivered: return "DELIVERED"
+            case .notDelivered: return "NOT_DELIVERED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension InvoicingClientTypes {
+
     /// The organization name providing Amazon Web Services services.
     public struct Entity: Swift.Sendable {
+        /// Helps you identify whether your invoices are for Amazon Web Services Marketplace or for purchases of other Amazon Web Services services.
+        public var billingEntity: InvoicingClientTypes.BillingEntity?
         /// The name of the entity that issues the Amazon Web Services invoice.
         public var invoicingEntity: Swift.String?
 
         public init(
+            billingEntity: InvoicingClientTypes.BillingEntity? = nil,
             invoicingEntity: Swift.String? = nil
         ) {
+            self.billingEntity = billingEntity
             self.invoicingEntity = invoicingEntity
         }
     }
@@ -1261,7 +1355,7 @@ extension InvoicingClientTypes {
     public struct Filters: Swift.Sendable {
         /// You can specify a list of Amazon Web Services account IDs inside filters to return invoice units that match only the specified accounts. If multiple accounts are provided, the result is an OR condition (match any) of the specified accounts. The specified account IDs are matched with either the receiver or the linked accounts in the rules.
         public var accounts: [Swift.String]?
-        /// A list of Amazon Web Services account account IDs used to filter invoice units. These are payer accounts from other Organizations that have delegated their billing responsibility to the receiver account through the billing transfer feature.
+        /// A list of Amazon Web Services account IDs used to filter invoice units. These are payer accounts from other Organizations that have delegated their billing responsibility to the receiver account through the billing transfer feature.
         public var billSourceAccounts: [Swift.String]?
         /// You can specify a list of Amazon Web Services account IDs inside filters to return invoice units that match only the specified accounts. If multiple accounts are provided, the result is an OR condition (match any) of the specified accounts. This filter only matches the specified accounts on the invoice receivers of the invoice units.
         public var invoiceReceivers: [Swift.String]?
@@ -1296,17 +1390,60 @@ public struct GetInvoicePDFInput: Swift.Sendable {
 
 extension InvoicingClientTypes {
 
+    public enum SupplementalDocumentType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case governmentInvoice
+        case paymentReceipt
+        case supplement
+        case taxEInvoice
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SupplementalDocumentType] {
+            return [
+                .governmentInvoice,
+                .paymentReceipt,
+                .supplement,
+                .taxEInvoice
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .governmentInvoice: return "GOVERNMENT_INVOICE"
+            case .paymentReceipt: return "PAYMENT_RECEIPT"
+            case .supplement: return "SUPPLEMENT"
+            case .taxEInvoice: return "TAX_E_INVOICE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension InvoicingClientTypes {
+
     /// Supplemental document associated with the invoice.
     public struct SupplementalDocument: Swift.Sendable {
+        /// The ID of the supplemental document.
+        public var documentId: Swift.String?
+        /// The type of supplemental document.
+        public var documentType: InvoicingClientTypes.SupplementalDocumentType?
         /// The pre-signed URL to download invoice supplemental document.
         public var documentUrl: Swift.String?
         /// The pre-signed URL expiration date of invoice supplemental document.
         public var documentUrlExpirationDate: Foundation.Date?
 
         public init(
+            documentId: Swift.String? = nil,
+            documentType: InvoicingClientTypes.SupplementalDocumentType? = nil,
             documentUrl: Swift.String? = nil,
             documentUrlExpirationDate: Foundation.Date? = nil
         ) {
+            self.documentId = documentId
+            self.documentType = documentType
             self.documentUrl = documentUrl
             self.documentUrlExpirationDate = documentUrlExpirationDate
         }
@@ -1663,15 +1800,46 @@ extension InvoicingClientTypes {
 
 extension InvoicingClientTypes {
 
+    public enum InvoiceFrequency: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case oneTime
+        case recurring
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InvoiceFrequency] {
+            return [
+                .oneTime,
+                .recurring
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .oneTime: return "ONE_TIME"
+            case .recurring: return "RECURRING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension InvoicingClientTypes {
+
     public enum InvoiceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case creditMemo
         case invoice
+        case paymentReceipt
         case sdkUnknown(Swift.String)
 
         public static var allCases: [InvoiceType] {
             return [
                 .creditMemo,
-                .invoice
+                .invoice,
+                .paymentReceipt
             ]
         }
 
@@ -1684,6 +1852,68 @@ extension InvoicingClientTypes {
             switch self {
             case .creditMemo: return "CREDIT_MEMO"
             case .invoice: return "INVOICE"
+            case .paymentReceipt: return "PAYMENT_RECEIPT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension InvoicingClientTypes {
+
+    public enum ReceiverRole: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case buyer
+        case reseller
+        case seller
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ReceiverRole] {
+            return [
+                .buyer,
+                .reseller,
+                .seller
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .buyer: return "BUYER"
+            case .reseller: return "RESELLER"
+            case .seller: return "SELLER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension InvoicingClientTypes {
+
+    public enum TaxAuthorityStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cancelled
+        case issued
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TaxAuthorityStatus] {
+            return [
+                .cancelled,
+                .issued
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cancelled: return "CANCELLED"
+            case .issued: return "ISSUED"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1698,12 +1928,24 @@ extension InvoicingClientTypes {
         public var accountId: Swift.String?
         /// The summary with the product and service currency.
         public var baseCurrencyAmount: InvoicingClientTypes.InvoiceCurrencyAmount?
+        /// The list of Amazon Web Services account IDs that are the bill source of the invoice. Currently, only a single bill source account is returned.
+        public var billSourceAccounts: [Swift.String]?
+        /// The total number of accounts that are the bill source of the invoice.
+        public var billSourceAccountsTotalCount: Swift.Int?
+        /// The type of the bill.
+        public var billType: InvoicingClientTypes.BillType?
         /// The billing period of the invoice-related document.
         public var billingPeriod: InvoicingClientTypes.BillingPeriod?
+        /// The commercial invoice ID. This is only applicable for tax invoices and identifies the associated commercial invoice.
+        public var commercialInvoiceId: Swift.String?
         /// The invoice due date.
         public var dueDate: Foundation.Date?
+        /// The e-invoice delivery status.
+        public var einvoiceDeliveryStatus: InvoicingClientTypes.EinvoiceDeliveryStatus?
         /// The organization name providing Amazon Web Services services.
         public var entity: InvoicingClientTypes.Entity?
+        /// The frequency of the invoice.
+        public var invoiceFrequency: InvoicingClientTypes.InvoiceFrequency?
         /// The invoice ID.
         public var invoiceId: Swift.String?
         /// The type of invoice.
@@ -1716,34 +1958,54 @@ extension InvoicingClientTypes {
         public var paymentCurrencyAmount: InvoicingClientTypes.InvoiceCurrencyAmount?
         /// The purchase order number associated to the invoice.
         public var purchaseOrderNumber: Swift.String?
+        /// The role of the invoice receiver.
+        public var receiverRole: InvoicingClientTypes.ReceiverRole?
+        /// The current status of an invoice as reported to the tax authority. This captures scenarios where an invoice may be cancelled after issuance.
+        public var taxAuthorityStatus: InvoicingClientTypes.TaxAuthorityStatus?
         /// The summary with the tax currency.
         public var taxCurrencyAmount: InvoicingClientTypes.InvoiceCurrencyAmount?
 
         public init(
             accountId: Swift.String? = nil,
             baseCurrencyAmount: InvoicingClientTypes.InvoiceCurrencyAmount? = nil,
+            billSourceAccounts: [Swift.String]? = nil,
+            billSourceAccountsTotalCount: Swift.Int? = nil,
+            billType: InvoicingClientTypes.BillType? = nil,
             billingPeriod: InvoicingClientTypes.BillingPeriod? = nil,
+            commercialInvoiceId: Swift.String? = nil,
             dueDate: Foundation.Date? = nil,
+            einvoiceDeliveryStatus: InvoicingClientTypes.EinvoiceDeliveryStatus? = nil,
             entity: InvoicingClientTypes.Entity? = nil,
+            invoiceFrequency: InvoicingClientTypes.InvoiceFrequency? = nil,
             invoiceId: Swift.String? = nil,
             invoiceType: InvoicingClientTypes.InvoiceType? = nil,
             issuedDate: Foundation.Date? = nil,
             originalInvoiceId: Swift.String? = nil,
             paymentCurrencyAmount: InvoicingClientTypes.InvoiceCurrencyAmount? = nil,
             purchaseOrderNumber: Swift.String? = nil,
+            receiverRole: InvoicingClientTypes.ReceiverRole? = nil,
+            taxAuthorityStatus: InvoicingClientTypes.TaxAuthorityStatus? = nil,
             taxCurrencyAmount: InvoicingClientTypes.InvoiceCurrencyAmount? = nil
         ) {
             self.accountId = accountId
             self.baseCurrencyAmount = baseCurrencyAmount
+            self.billSourceAccounts = billSourceAccounts
+            self.billSourceAccountsTotalCount = billSourceAccountsTotalCount
+            self.billType = billType
             self.billingPeriod = billingPeriod
+            self.commercialInvoiceId = commercialInvoiceId
             self.dueDate = dueDate
+            self.einvoiceDeliveryStatus = einvoiceDeliveryStatus
             self.entity = entity
+            self.invoiceFrequency = invoiceFrequency
             self.invoiceId = invoiceId
             self.invoiceType = invoiceType
             self.issuedDate = issuedDate
             self.originalInvoiceId = originalInvoiceId
             self.paymentCurrencyAmount = paymentCurrencyAmount
             self.purchaseOrderNumber = purchaseOrderNumber
+            self.receiverRole = receiverRole
+            self.taxAuthorityStatus = taxAuthorityStatus
             self.taxCurrencyAmount = taxCurrencyAmount
         }
     }
@@ -1757,16 +2019,24 @@ extension InvoicingClientTypes {
         public var billingPeriod: InvoicingClientTypes.BillingPeriod?
         /// The name of the entity that issues the Amazon Web Services invoice.
         public var invoicingEntity: Swift.String?
+        /// The role of the invoice receiver to filter by. When ReceiverRole is specified:
+        ///
+        /// * Data is available starting 2025-06-01. Queries for periods before 2025-06-01 return a validation error.
+        ///
+        /// * TimeInterval supports a time interval of up to 5 years. Without ReceiverRole, TimeInterval is limited to one month.
+        public var receiverRole: InvoicingClientTypes.ReceiverRole?
         /// The date range for invoice summary retrieval.
         public var timeInterval: InvoicingClientTypes.DateInterval?
 
         public init(
             billingPeriod: InvoicingClientTypes.BillingPeriod? = nil,
             invoicingEntity: Swift.String? = nil,
+            receiverRole: InvoicingClientTypes.ReceiverRole? = nil,
             timeInterval: InvoicingClientTypes.DateInterval? = nil
         ) {
             self.billingPeriod = billingPeriod
             self.invoicingEntity = invoicingEntity
+            self.receiverRole = receiverRole
             self.timeInterval = timeInterval
         }
     }
@@ -3306,6 +3576,7 @@ extension InvoicingClientTypes.Entity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = InvoicingClientTypes.Entity()
         value.invoicingEntity = try reader["InvoicingEntity"].readIfPresent()
+        value.billingEntity = try reader["BillingEntity"].readIfPresent()
         return value
     }
 }
@@ -3392,6 +3663,7 @@ extension InvoicingClientTypes.InvoiceSummariesFilter {
         guard let value else { return }
         try writer["BillingPeriod"].write(value.billingPeriod, with: InvoicingClientTypes.BillingPeriod.write(value:to:))
         try writer["InvoicingEntity"].write(value.invoicingEntity)
+        try writer["ReceiverRole"].write(value.receiverRole)
         try writer["TimeInterval"].write(value.timeInterval, with: InvoicingClientTypes.DateInterval.write(value:to:))
     }
 }
@@ -3414,11 +3686,19 @@ extension InvoicingClientTypes.InvoiceSummary {
         value.invoiceId = try reader["InvoiceId"].readIfPresent()
         value.issuedDate = try reader["IssuedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.dueDate = try reader["DueDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.billSourceAccounts = try reader["BillSourceAccounts"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.billSourceAccountsTotalCount = try reader["BillSourceAccountsTotalCount"].readIfPresent()
+        value.receiverRole = try reader["ReceiverRole"].readIfPresent()
         value.entity = try reader["Entity"].readIfPresent(with: InvoicingClientTypes.Entity.read(from:))
         value.billingPeriod = try reader["BillingPeriod"].readIfPresent(with: InvoicingClientTypes.BillingPeriod.read(from:))
+        value.invoiceFrequency = try reader["InvoiceFrequency"].readIfPresent()
+        value.billType = try reader["BillType"].readIfPresent()
         value.invoiceType = try reader["InvoiceType"].readIfPresent()
+        value.commercialInvoiceId = try reader["CommercialInvoiceId"].readIfPresent()
         value.originalInvoiceId = try reader["OriginalInvoiceId"].readIfPresent()
         value.purchaseOrderNumber = try reader["PurchaseOrderNumber"].readIfPresent()
+        value.einvoiceDeliveryStatus = try reader["EinvoiceDeliveryStatus"].readIfPresent()
+        value.taxAuthorityStatus = try reader["TaxAuthorityStatus"].readIfPresent()
         value.baseCurrencyAmount = try reader["BaseCurrencyAmount"].readIfPresent(with: InvoicingClientTypes.InvoiceCurrencyAmount.read(from:))
         value.taxCurrencyAmount = try reader["TaxCurrencyAmount"].readIfPresent(with: InvoicingClientTypes.InvoiceCurrencyAmount.read(from:))
         value.paymentCurrencyAmount = try reader["PaymentCurrencyAmount"].readIfPresent(with: InvoicingClientTypes.InvoiceCurrencyAmount.read(from:))
@@ -3591,6 +3871,8 @@ extension InvoicingClientTypes.SupplementalDocument {
     static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.SupplementalDocument {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = InvoicingClientTypes.SupplementalDocument()
+        value.documentType = try reader["DocumentType"].readIfPresent()
+        value.documentId = try reader["DocumentId"].readIfPresent()
         value.documentUrl = try reader["DocumentUrl"].readIfPresent()
         value.documentUrlExpirationDate = try reader["DocumentUrlExpirationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
