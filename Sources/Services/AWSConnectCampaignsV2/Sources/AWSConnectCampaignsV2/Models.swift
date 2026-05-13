@@ -1030,19 +1030,53 @@ extension ConnectCampaignsV2ClientTypes {
 
 extension ConnectCampaignsV2ClientTypes {
 
+    /// Local TimeZone Detection scope.
+    public enum LocalTimeZoneDetectionScope: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case allAvailable
+        case primaryOnly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LocalTimeZoneDetectionScope] {
+            return [
+                .allAvailable,
+                .primaryOnly
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .allAvailable: return "ALL_AVAILABLE"
+            case .primaryOnly: return "PRIMARY_ONLY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes {
+
     /// Local time zone config
     public struct LocalTimeZoneConfig: Swift.Sendable {
         /// Time Zone Id in the IANA format
         public var defaultTimeZone: Swift.String?
         /// Local TimeZone Detection method list
         public var localTimeZoneDetection: [ConnectCampaignsV2ClientTypes.LocalTimeZoneDetectionType]?
+        /// Local TimeZone Detection scope.
+        public var localTimeZoneDetectionScope: ConnectCampaignsV2ClientTypes.LocalTimeZoneDetectionScope?
 
         public init(
             defaultTimeZone: Swift.String? = nil,
-            localTimeZoneDetection: [ConnectCampaignsV2ClientTypes.LocalTimeZoneDetectionType]? = nil
+            localTimeZoneDetection: [ConnectCampaignsV2ClientTypes.LocalTimeZoneDetectionType]? = nil,
+            localTimeZoneDetectionScope: ConnectCampaignsV2ClientTypes.LocalTimeZoneDetectionScope? = nil
         ) {
             self.defaultTimeZone = defaultTimeZone
             self.localTimeZoneDetection = localTimeZoneDetection
+            self.localTimeZoneDetectionScope = localTimeZoneDetectionScope
         }
     }
 }
@@ -5587,6 +5621,7 @@ extension ConnectCampaignsV2ClientTypes.LocalTimeZoneConfig {
         guard let value else { return }
         try writer["defaultTimeZone"].write(value.defaultTimeZone)
         try writer["localTimeZoneDetection"].writeList(value.localTimeZoneDetection, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ConnectCampaignsV2ClientTypes.LocalTimeZoneDetectionType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["localTimeZoneDetectionScope"].write(value.localTimeZoneDetectionScope)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.LocalTimeZoneConfig {
@@ -5594,6 +5629,7 @@ extension ConnectCampaignsV2ClientTypes.LocalTimeZoneConfig {
         var value = ConnectCampaignsV2ClientTypes.LocalTimeZoneConfig()
         value.defaultTimeZone = try reader["defaultTimeZone"].readIfPresent()
         value.localTimeZoneDetection = try reader["localTimeZoneDetection"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ConnectCampaignsV2ClientTypes.LocalTimeZoneDetectionType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.localTimeZoneDetectionScope = try reader["localTimeZoneDetectionScope"].readIfPresent()
         return value
     }
 }

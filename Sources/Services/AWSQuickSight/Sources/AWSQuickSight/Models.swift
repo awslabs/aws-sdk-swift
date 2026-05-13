@@ -27180,6 +27180,8 @@ extension QuickSightClientTypes {
 
     /// A set of actions that correspond to Amazon Quick Sight permissions.
     public struct Capabilities: Swift.Sendable {
+        /// The ability to access the native data store for new and existing apps.
+        public var accessAppsNativeDataStore: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions in external services through Action connectors. Actions allow users to interact with third-party systems.
         public var action: QuickSightClientTypes.CapabilityState?
         /// The ability to add or run anomaly detection.
@@ -27196,6 +27198,8 @@ extension QuickSightClientTypes {
         public var analysis: QuickSightClientTypes.CapabilityState?
         /// The ability to review and approve sharing requests of Flows.
         public var approveFlowShareRequests: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform apps-related actions.
+        public var apps: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using Asana connectors.
         public var asanaAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform automate-related actions.
@@ -27224,6 +27228,8 @@ extension QuickSightClientTypes {
         public var createAndUpdateAmazonBedrockKRSAction: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update Amazon S3 actions.
         public var createAndUpdateAmazonSThreeAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create or update apps.
+        public var createAndUpdateApps: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update Asana actions.
         public var createAndUpdateAsanaAction: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update BambooHR actions.
@@ -27360,6 +27366,8 @@ extension QuickSightClientTypes {
         public var includeContentInScheduledReportsEmail: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using Intercom connectors.
         public var intercomAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to add and invoke AI inference in new and existing apps.
+        public var invokeAppsAIInference: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using Jira connectors.
         public var jiraAction: QuickSightClientTypes.CapabilityState?
         /// The ability to use knowledge bases to specify content from external applications.
@@ -27428,6 +27436,8 @@ extension QuickSightClientTypes {
         public var shareAmazonSThreeAction: QuickSightClientTypes.CapabilityState?
         /// The ability to share analyses.
         public var shareAnalyses: QuickSightClientTypes.CapabilityState?
+        /// The ability to share apps with other users.
+        public var shareApps: QuickSightClientTypes.CapabilityState?
         /// The ability to share Asana actions.
         public var shareAsanaAction: QuickSightClientTypes.CapabilityState?
         /// The ability to share BambooHR actions.
@@ -27628,6 +27638,7 @@ extension QuickSightClientTypes {
         public var zendeskAction: QuickSightClientTypes.CapabilityState?
 
         public init(
+            accessAppsNativeDataStore: QuickSightClientTypes.CapabilityState? = nil,
             action: QuickSightClientTypes.CapabilityState? = nil,
             addOrRunAnomalyDetectionForAnalyses: QuickSightClientTypes.CapabilityState? = nil,
             amazonBedrockARSAction: QuickSightClientTypes.CapabilityState? = nil,
@@ -27636,6 +27647,7 @@ extension QuickSightClientTypes {
             amazonSThreeAction: QuickSightClientTypes.CapabilityState? = nil,
             analysis: QuickSightClientTypes.CapabilityState? = nil,
             approveFlowShareRequests: QuickSightClientTypes.CapabilityState? = nil,
+            apps: QuickSightClientTypes.CapabilityState? = nil,
             asanaAction: QuickSightClientTypes.CapabilityState? = nil,
             automate: QuickSightClientTypes.CapabilityState? = nil,
             bambooHRAction: QuickSightClientTypes.CapabilityState? = nil,
@@ -27650,6 +27662,7 @@ extension QuickSightClientTypes {
             createAndUpdateAmazonBedrockFSAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateAmazonBedrockKRSAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateAmazonSThreeAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateApps: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateAsanaAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateBambooHRAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateBoxAgentAction: QuickSightClientTypes.CapabilityState? = nil,
@@ -27718,6 +27731,7 @@ extension QuickSightClientTypes {
             huggingFaceAction: QuickSightClientTypes.CapabilityState? = nil,
             includeContentInScheduledReportsEmail: QuickSightClientTypes.CapabilityState? = nil,
             intercomAction: QuickSightClientTypes.CapabilityState? = nil,
+            invokeAppsAIInference: QuickSightClientTypes.CapabilityState? = nil,
             jiraAction: QuickSightClientTypes.CapabilityState? = nil,
             knowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
             linearAction: QuickSightClientTypes.CapabilityState? = nil,
@@ -27752,6 +27766,7 @@ extension QuickSightClientTypes {
             shareAmazonBedrockKRSAction: QuickSightClientTypes.CapabilityState? = nil,
             shareAmazonSThreeAction: QuickSightClientTypes.CapabilityState? = nil,
             shareAnalyses: QuickSightClientTypes.CapabilityState? = nil,
+            shareApps: QuickSightClientTypes.CapabilityState? = nil,
             shareAsanaAction: QuickSightClientTypes.CapabilityState? = nil,
             shareBambooHRAction: QuickSightClientTypes.CapabilityState? = nil,
             shareBoxAgentAction: QuickSightClientTypes.CapabilityState? = nil,
@@ -27852,6 +27867,7 @@ extension QuickSightClientTypes {
             viewAccountSPICECapacity: QuickSightClientTypes.CapabilityState? = nil,
             zendeskAction: QuickSightClientTypes.CapabilityState? = nil
         ) {
+            self.accessAppsNativeDataStore = accessAppsNativeDataStore
             self.action = action
             self.addOrRunAnomalyDetectionForAnalyses = addOrRunAnomalyDetectionForAnalyses
             self.amazonBedrockARSAction = amazonBedrockARSAction
@@ -27860,6 +27876,7 @@ extension QuickSightClientTypes {
             self.amazonSThreeAction = amazonSThreeAction
             self.analysis = analysis
             self.approveFlowShareRequests = approveFlowShareRequests
+            self.apps = apps
             self.asanaAction = asanaAction
             self.automate = automate
             self.bambooHRAction = bambooHRAction
@@ -27874,6 +27891,7 @@ extension QuickSightClientTypes {
             self.createAndUpdateAmazonBedrockFSAction = createAndUpdateAmazonBedrockFSAction
             self.createAndUpdateAmazonBedrockKRSAction = createAndUpdateAmazonBedrockKRSAction
             self.createAndUpdateAmazonSThreeAction = createAndUpdateAmazonSThreeAction
+            self.createAndUpdateApps = createAndUpdateApps
             self.createAndUpdateAsanaAction = createAndUpdateAsanaAction
             self.createAndUpdateBambooHRAction = createAndUpdateBambooHRAction
             self.createAndUpdateBoxAgentAction = createAndUpdateBoxAgentAction
@@ -27942,6 +27960,7 @@ extension QuickSightClientTypes {
             self.huggingFaceAction = huggingFaceAction
             self.includeContentInScheduledReportsEmail = includeContentInScheduledReportsEmail
             self.intercomAction = intercomAction
+            self.invokeAppsAIInference = invokeAppsAIInference
             self.jiraAction = jiraAction
             self.knowledgeBase = knowledgeBase
             self.linearAction = linearAction
@@ -27976,6 +27995,7 @@ extension QuickSightClientTypes {
             self.shareAmazonBedrockKRSAction = shareAmazonBedrockKRSAction
             self.shareAmazonSThreeAction = shareAmazonSThreeAction
             self.shareAnalyses = shareAnalyses
+            self.shareApps = shareApps
             self.shareAsanaAction = shareAsanaAction
             self.shareBambooHRAction = shareBambooHRAction
             self.shareBoxAgentAction = shareBoxAgentAction
@@ -66284,6 +66304,7 @@ extension QuickSightClientTypes.Capabilities {
 
     static func write(value: QuickSightClientTypes.Capabilities?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AccessAppsNativeDataStore"].write(value.accessAppsNativeDataStore)
         try writer["Action"].write(value.action)
         try writer["AddOrRunAnomalyDetectionForAnalyses"].write(value.addOrRunAnomalyDetectionForAnalyses)
         try writer["AmazonBedrockARSAction"].write(value.amazonBedrockARSAction)
@@ -66292,6 +66313,7 @@ extension QuickSightClientTypes.Capabilities {
         try writer["AmazonSThreeAction"].write(value.amazonSThreeAction)
         try writer["Analysis"].write(value.analysis)
         try writer["ApproveFlowShareRequests"].write(value.approveFlowShareRequests)
+        try writer["Apps"].write(value.apps)
         try writer["AsanaAction"].write(value.asanaAction)
         try writer["Automate"].write(value.automate)
         try writer["BambooHRAction"].write(value.bambooHRAction)
@@ -66306,6 +66328,7 @@ extension QuickSightClientTypes.Capabilities {
         try writer["CreateAndUpdateAmazonBedrockFSAction"].write(value.createAndUpdateAmazonBedrockFSAction)
         try writer["CreateAndUpdateAmazonBedrockKRSAction"].write(value.createAndUpdateAmazonBedrockKRSAction)
         try writer["CreateAndUpdateAmazonSThreeAction"].write(value.createAndUpdateAmazonSThreeAction)
+        try writer["CreateAndUpdateApps"].write(value.createAndUpdateApps)
         try writer["CreateAndUpdateAsanaAction"].write(value.createAndUpdateAsanaAction)
         try writer["CreateAndUpdateBambooHRAction"].write(value.createAndUpdateBambooHRAction)
         try writer["CreateAndUpdateBoxAgentAction"].write(value.createAndUpdateBoxAgentAction)
@@ -66374,6 +66397,7 @@ extension QuickSightClientTypes.Capabilities {
         try writer["HuggingFaceAction"].write(value.huggingFaceAction)
         try writer["IncludeContentInScheduledReportsEmail"].write(value.includeContentInScheduledReportsEmail)
         try writer["IntercomAction"].write(value.intercomAction)
+        try writer["InvokeAppsAIInference"].write(value.invokeAppsAIInference)
         try writer["JiraAction"].write(value.jiraAction)
         try writer["KnowledgeBase"].write(value.knowledgeBase)
         try writer["LinearAction"].write(value.linearAction)
@@ -66408,6 +66432,7 @@ extension QuickSightClientTypes.Capabilities {
         try writer["ShareAmazonBedrockKRSAction"].write(value.shareAmazonBedrockKRSAction)
         try writer["ShareAmazonSThreeAction"].write(value.shareAmazonSThreeAction)
         try writer["ShareAnalyses"].write(value.shareAnalyses)
+        try writer["ShareApps"].write(value.shareApps)
         try writer["ShareAsanaAction"].write(value.shareAsanaAction)
         try writer["ShareBambooHRAction"].write(value.shareBambooHRAction)
         try writer["ShareBoxAgentAction"].write(value.shareBoxAgentAction)
@@ -66539,6 +66564,11 @@ extension QuickSightClientTypes.Capabilities {
         value.analysis = try reader["Analysis"].readIfPresent()
         value.automate = try reader["Automate"].readIfPresent()
         value.flow = try reader["Flow"].readIfPresent()
+        value.apps = try reader["Apps"].readIfPresent()
+        value.createAndUpdateApps = try reader["CreateAndUpdateApps"].readIfPresent()
+        value.shareApps = try reader["ShareApps"].readIfPresent()
+        value.invokeAppsAIInference = try reader["InvokeAppsAIInference"].readIfPresent()
+        value.accessAppsNativeDataStore = try reader["AccessAppsNativeDataStore"].readIfPresent()
         value.publishWithoutApproval = try reader["PublishWithoutApproval"].readIfPresent()
         value.useBedrockModels = try reader["UseBedrockModels"].readIfPresent()
         value.performFlowUiTask = try reader["PerformFlowUiTask"].readIfPresent()

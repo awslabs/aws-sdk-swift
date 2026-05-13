@@ -42,6 +42,103 @@ extension PaginatorSequence where OperationStackInput == ListArtifactsInput, Ope
     }
 }
 extension SecurityAgentClient {
+    /// Paginate over `[ListCodeReviewJobsForCodeReviewOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListCodeReviewJobsForCodeReviewInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCodeReviewJobsForCodeReviewOutput`
+    public func listCodeReviewJobsForCodeReviewPaginated(input: ListCodeReviewJobsForCodeReviewInput) -> ClientRuntime.PaginatorSequence<ListCodeReviewJobsForCodeReviewInput, ListCodeReviewJobsForCodeReviewOutput> {
+        return ClientRuntime.PaginatorSequence<ListCodeReviewJobsForCodeReviewInput, ListCodeReviewJobsForCodeReviewOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCodeReviewJobsForCodeReview(input:))
+    }
+}
+
+extension ListCodeReviewJobsForCodeReviewInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListCodeReviewJobsForCodeReviewInput {
+        return ListCodeReviewJobsForCodeReviewInput(
+            agentSpaceId: self.agentSpaceId,
+            codeReviewId: self.codeReviewId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListCodeReviewJobsForCodeReviewInput, OperationStackOutput == ListCodeReviewJobsForCodeReviewOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listCodeReviewJobsForCodeReviewPaginated`
+    /// to access the nested member `[SecurityAgentClientTypes.CodeReviewJobSummary]`
+    /// - Returns: `[SecurityAgentClientTypes.CodeReviewJobSummary]`
+    public func codeReviewJobSummaries() async throws -> [SecurityAgentClientTypes.CodeReviewJobSummary] {
+        return try await self.asyncCompactMap { item in item.codeReviewJobSummaries }
+    }
+}
+extension SecurityAgentClient {
+    /// Paginate over `[ListCodeReviewJobTasksOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListCodeReviewJobTasksInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCodeReviewJobTasksOutput`
+    public func listCodeReviewJobTasksPaginated(input: ListCodeReviewJobTasksInput) -> ClientRuntime.PaginatorSequence<ListCodeReviewJobTasksInput, ListCodeReviewJobTasksOutput> {
+        return ClientRuntime.PaginatorSequence<ListCodeReviewJobTasksInput, ListCodeReviewJobTasksOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCodeReviewJobTasks(input:))
+    }
+}
+
+extension ListCodeReviewJobTasksInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListCodeReviewJobTasksInput {
+        return ListCodeReviewJobTasksInput(
+            agentSpaceId: self.agentSpaceId,
+            categoryName: self.categoryName,
+            codeReviewJobId: self.codeReviewJobId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            stepName: self.stepName
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListCodeReviewJobTasksInput, OperationStackOutput == ListCodeReviewJobTasksOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listCodeReviewJobTasksPaginated`
+    /// to access the nested member `[SecurityAgentClientTypes.CodeReviewJobTaskSummary]`
+    /// - Returns: `[SecurityAgentClientTypes.CodeReviewJobTaskSummary]`
+    public func codeReviewJobTaskSummaries() async throws -> [SecurityAgentClientTypes.CodeReviewJobTaskSummary] {
+        return try await self.asyncCompactMap { item in item.codeReviewJobTaskSummaries }
+    }
+}
+extension SecurityAgentClient {
+    /// Paginate over `[ListCodeReviewsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListCodeReviewsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCodeReviewsOutput`
+    public func listCodeReviewsPaginated(input: ListCodeReviewsInput) -> ClientRuntime.PaginatorSequence<ListCodeReviewsInput, ListCodeReviewsOutput> {
+        return ClientRuntime.PaginatorSequence<ListCodeReviewsInput, ListCodeReviewsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCodeReviews(input:))
+    }
+}
+
+extension ListCodeReviewsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListCodeReviewsInput {
+        return ListCodeReviewsInput(
+            agentSpaceId: self.agentSpaceId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListCodeReviewsInput, OperationStackOutput == ListCodeReviewsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listCodeReviewsPaginated`
+    /// to access the nested member `[SecurityAgentClientTypes.CodeReviewSummary]`
+    /// - Returns: `[SecurityAgentClientTypes.CodeReviewSummary]`
+    public func codeReviewSummaries() async throws -> [SecurityAgentClientTypes.CodeReviewSummary] {
+        return try await self.asyncCompactMap { item in item.codeReviewSummaries }
+    }
+}
+extension SecurityAgentClient {
     /// Paginate over `[ListDiscoveredEndpointsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -92,6 +189,7 @@ extension ListFindingsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListFindingsInput {
         return ListFindingsInput(
             agentSpaceId: self.agentSpaceId,
+            codeReviewJobId: self.codeReviewJobId,
             confidence: self.confidence,
             maxResults: self.maxResults,
             name: self.name,

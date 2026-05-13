@@ -285,6 +285,8 @@ extension PartnerCentralAccountClientTypes {
         case limitExceededNumberOfDomain
         case limitExceededNumberOfEmail
         case limitExceededNumberOfOpenConnectionInvitation
+        case limitExceededNumberOfProfileUpdatePerDay
+        case limitExceededNumberOfProfileVisibilityUpdatePerDay
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ServiceQuotaExceededExceptionReason] {
@@ -293,7 +295,9 @@ extension PartnerCentralAccountClientTypes {
                 .limitExceededNumberOfConnectionInvitationPerDay,
                 .limitExceededNumberOfDomain,
                 .limitExceededNumberOfEmail,
-                .limitExceededNumberOfOpenConnectionInvitation
+                .limitExceededNumberOfOpenConnectionInvitation,
+                .limitExceededNumberOfProfileUpdatePerDay,
+                .limitExceededNumberOfProfileVisibilityUpdatePerDay
             ]
         }
 
@@ -309,6 +313,8 @@ extension PartnerCentralAccountClientTypes {
             case .limitExceededNumberOfDomain: return "LIMIT_EXCEEDED_NUMBER_OF_DOMAIN"
             case .limitExceededNumberOfEmail: return "LIMIT_EXCEEDED_NUMBER_OF_EMAIL"
             case .limitExceededNumberOfOpenConnectionInvitation: return "LIMIT_EXCEEDED_NUMBER_OF_OPEN_CONNECTION_INVITATION"
+            case .limitExceededNumberOfProfileUpdatePerDay: return "LIMIT_EXCEEDED_NUMBER_OF_PROFILE_UPDATE_PER_DAY"
+            case .limitExceededNumberOfProfileVisibilityUpdatePerDay: return "LIMIT_EXCEEDED_NUMBER_OF_PROFILE_VISIBILITY_UPDATE_PER_DAY"
             case let .sdkUnknown(s): return s
             }
         }
@@ -384,6 +390,7 @@ extension PartnerCentralAccountClientTypes {
         case incompatibleIdentityVerificationStatus
         case incompatibleKnowYourBusinessStatus
         case incompatibleLegalName
+        case ineligibleAccountTier
         case invalidAccountLinkingStatus
         case invalidAccountState
         case sdkUnknown(Swift.String)
@@ -395,6 +402,7 @@ extension PartnerCentralAccountClientTypes {
                 .incompatibleIdentityVerificationStatus,
                 .incompatibleKnowYourBusinessStatus,
                 .incompatibleLegalName,
+                .ineligibleAccountTier,
                 .invalidAccountLinkingStatus,
                 .invalidAccountState
             ]
@@ -412,6 +420,7 @@ extension PartnerCentralAccountClientTypes {
             case .incompatibleIdentityVerificationStatus: return "INCOMPATIBLE_IDENTITY_VERIFICATION_STATUS"
             case .incompatibleKnowYourBusinessStatus: return "INCOMPATIBLE_KNOW_YOUR_BUSINESS_STATUS"
             case .incompatibleLegalName: return "INCOMPATIBLE_LEGAL_NAME"
+            case .ineligibleAccountTier: return "INELIGIBLE_ACCOUNT_TIER"
             case .invalidAccountLinkingStatus: return "INVALID_ACCOUNT_LINKING_STATUS"
             case .invalidAccountState: return "INVALID_ACCOUNT_STATE"
             case let .sdkUnknown(s): return s
@@ -4810,6 +4819,7 @@ enum PutProfileVisibilityOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -4866,6 +4876,7 @@ enum StartProfileUpdateTaskOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)

@@ -5152,6 +5152,38 @@ extension LightsailClientTypes {
 
 extension LightsailClientTypes {
 
+    public enum OriginIpAddressTypeEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dualstack
+        case ipv4
+        case ipv6
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OriginIpAddressTypeEnum] {
+            return [
+                .dualstack,
+                .ipv4,
+                .ipv6
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dualstack: return "dualstack"
+            case .ipv4: return "ipv4"
+            case .ipv6: return "ipv6"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LightsailClientTypes {
+
     public enum OriginProtocolPolicyEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case httponly
         case httpsonly
@@ -5183,6 +5215,8 @@ extension LightsailClientTypes {
 
     /// Describes the origin resource of an Amazon Lightsail content delivery network (CDN) distribution. An origin can be a Lightsail instance, bucket, container service, or load balancer. A distribution pulls content from an origin, caches it, and serves it to viewers via a worldwide network of edge servers.
     public struct InputOrigin: Swift.Sendable {
+        /// The IP address type that the distribution uses when connecting to the origin. The possible values are ipv4 for IPv4 only, ipv6 for IPv6 only, and dualstack for IPv4 and IPv6.
+        public var ipAddressType: LightsailClientTypes.OriginIpAddressTypeEnum?
         /// The name of the origin resource.
         public var name: Swift.String?
         /// The protocol that your Amazon Lightsail distribution uses when establishing a connection with your origin to pull content.
@@ -5193,11 +5227,13 @@ extension LightsailClientTypes {
         public var responseTimeout: Swift.Int?
 
         public init(
+            ipAddressType: LightsailClientTypes.OriginIpAddressTypeEnum? = nil,
             name: Swift.String? = nil,
             protocolPolicy: LightsailClientTypes.OriginProtocolPolicyEnum? = nil,
             regionName: LightsailClientTypes.RegionName? = nil,
             responseTimeout: Swift.Int? = nil
         ) {
+            self.ipAddressType = ipAddressType
             self.name = name
             self.protocolPolicy = protocolPolicy
             self.regionName = regionName
@@ -5296,6 +5332,8 @@ extension LightsailClientTypes {
 
     /// Describes the origin resource of an Amazon Lightsail content delivery network (CDN) distribution. An origin can be a Lightsail instance, bucket, or load balancer. A distribution pulls content from an origin, caches it, and serves it to viewers via a worldwide network of edge servers.
     public struct Origin: Swift.Sendable {
+        /// The IP address type that the distribution uses when connecting to the origin. The possible values are ipv4 for IPv4 only, ipv6 for IPv6 only, and dualstack for IPv4 and IPv6.
+        public var ipAddressType: LightsailClientTypes.OriginIpAddressTypeEnum?
         /// The name of the origin resource.
         public var name: Swift.String?
         /// The protocol that your Amazon Lightsail distribution uses when establishing a connection with your origin to pull content.
@@ -5308,12 +5346,14 @@ extension LightsailClientTypes {
         public var responseTimeout: Swift.Int?
 
         public init(
+            ipAddressType: LightsailClientTypes.OriginIpAddressTypeEnum? = nil,
             name: Swift.String? = nil,
             protocolPolicy: LightsailClientTypes.OriginProtocolPolicyEnum? = nil,
             regionName: LightsailClientTypes.RegionName? = nil,
             resourceType: LightsailClientTypes.ResourceType? = nil,
             responseTimeout: Swift.Int? = nil
         ) {
+            self.ipAddressType = ipAddressType
             self.name = name
             self.protocolPolicy = protocolPolicy
             self.regionName = regionName
@@ -22704,6 +22744,7 @@ extension LightsailClientTypes.InputOrigin {
 
     static func write(value: LightsailClientTypes.InputOrigin?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ipAddressType"].write(value.ipAddressType)
         try writer["name"].write(value.name)
         try writer["protocolPolicy"].write(value.protocolPolicy)
         try writer["regionName"].write(value.regionName)
@@ -23179,6 +23220,7 @@ extension LightsailClientTypes.Origin {
         value.regionName = try reader["regionName"].readIfPresent()
         value.protocolPolicy = try reader["protocolPolicy"].readIfPresent()
         value.responseTimeout = try reader["responseTimeout"].readIfPresent()
+        value.ipAddressType = try reader["ipAddressType"].readIfPresent()
         return value
     }
 }
