@@ -43,7 +43,6 @@ object AWSClientRuntimeTypes {
         val AmzSdkInvocationIdMiddleware = runtimeSymbol("AmzSdkInvocationIdMiddleware", SwiftDeclaration.STRUCT)
         val AmzSdkRequestMiddleware = runtimeSymbol("AmzSdkRequestMiddleware", SwiftDeclaration.CLASS)
         val AWSServiceClient = runtimeSymbol("AWSServiceClient", SwiftDeclaration.PROTOCOL)
-        val UnknownAWSHTTPServiceErrorPlugin = runtimeSymbol("UnknownAWSHTTPServiceErrorPlugin", SwiftDeclaration.STRUCT)
     }
 }
 

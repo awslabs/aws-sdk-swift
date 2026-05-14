@@ -38,7 +38,7 @@ class AWSOperationEndpointResolverMiddleware(
                 "let configuredEndpoint = try config.${getBuiltInName(param)} " +
                     "?? \$N.configuredEndpoint(\$S, config.ignoreConfiguredEndpointURLs)",
                 AWSClientRuntimeTypes.Core.AWSClientConfigDefaultsProvider,
-                ctx.settings.sdkIdStrippingService,
+                ctx.settings.sdkId,
             )
             return "configuredEndpoint"
         }

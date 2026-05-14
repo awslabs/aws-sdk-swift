@@ -17,8 +17,6 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [Smithy](/sdk-for-swift/latest/api/smithy/documentation/smithy)
 
-[SmithyAWSJSON](/sdk-for-swift/latest/api/smithyawsjson/documentation/smithyawsjson)
-
 [SmithyCBOR](/sdk-for-swift/latest/api/smithycbor/documentation/smithycbor)
 
 [SmithyChecksums](/sdk-for-swift/latest/api/smithychecksums/documentation/smithychecksums)
@@ -48,8 +46,6 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [SmithyIdentityAPI](/sdk-for-swift/latest/api/smithyidentityapi/documentation/smithyidentityapi)
 
 [SmithyJSON](/sdk-for-swift/latest/api/smithyjson/documentation/smithyjson)
-
-[SmithyRPCv2CBOR](/sdk-for-swift/latest/api/smithyrpcv2cbor/documentation/smithyrpcv2cbor)
 
 [SmithyReadWrite](/sdk-for-swift/latest/api/smithyreadwrite/documentation/smithyreadwrite)
 
