@@ -61,12 +61,12 @@ jobs:
       - name: Configure Xcode
         run: sudo xcode-select -s /Applications/${{ matrix.xcode }}.app
       - name: Configure AWS Credentials for Integration Tests
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v6
         with:
           role-to-assume: ${{ secrets.INTEGRATION_TEST_ROLE_ARN }}
           aws-region: us-west-2
       - name: Checkout aws-sdk-swift
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           path: aws-sdk-swift
       - name: Checkout smithy-swift with composite action
@@ -75,7 +75,7 @@ jobs:
           STAGING_PARTNER_REPO_PRIVATE_DEPLOY_KEY: ${{ secrets.STAGING_PARTNER_REPO_PRIVATE_DEPLOY_KEY }}
           STAGING_PARTNER_REPO: ${{ secrets.STAGING_PARTNER_REPO }}
       - name: Cache Gradle
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             ~/.gradle/caches
@@ -85,7 +85,7 @@ jobs:
             2-${{ runner.os }}-gradle-${{ hashFiles('*.gradle.kts', 'gradle/wrapper/gradle-wrapper.properties') }}
             2-${{ runner.os }}-gradle-
       - name: Cache Swift
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             ~/Library/Caches/org.swift.swiftpm
@@ -95,7 +95,7 @@ jobs:
             1-${{ runner.os }}-${{ matrix.xcode }}-${{ hashFiles('Package.swift', 'AWSSDKSwiftCLI/Package.swift') }}
             1-${{ runner.os }}-${{ matrix.xcode }}-
       - name: Setup Java
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: corretto
           java-version: 17
@@ -131,7 +131,6 @@ jobs:
             | xcbeautify
 
   linux-int:
-    # Details on why AL2 isn't included: https://github.com/awslabs/aws-sdk-swift/pull/1833
     if: github.repository == 'awslabs/aws-sdk-swift' || github.event_name == 'pull_request'
     runs-on: ${{ matrix.runner }}
     container: swift:${{ matrix.swift }}
@@ -144,20 +143,16 @@ jobs:
         swift:
           - 5.9-jammy
           - 5.9-rhel-ubi9
-          - 6.2-noble
-          - 6.3-rhel-ubi9
-    env:
-      ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
+          - 6.3-noble
+          - 6.3-amazonlinux2023
     steps:
       - name: Configure AWS Credentials for Integration Tests
-        # configure-aws-credentials@v4 does not work with AL2 images, so @v3 is used instead.  See:
-        #   https://github.com/aws-actions/configure-aws-credentials/issues/862
-        uses: aws-actions/configure-aws-credentials@v3
+        uses: aws-actions/configure-aws-credentials@v6
         with:
           role-to-assume: ${{ secrets.INTEGRATION_TEST_ROLE_ARN }}
           aws-region: us-west-2
       - name: Checkout aws-sdk-swift
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           path: aws-sdk-swift
       - name: Checkout smithy-swift with composite action
@@ -166,7 +161,7 @@ jobs:
           STAGING_PARTNER_REPO_PRIVATE_DEPLOY_KEY: ${{ secrets.STAGING_PARTNER_REPO_PRIVATE_DEPLOY_KEY }}
           STAGING_PARTNER_REPO: ${{ secrets.STAGING_PARTNER_REPO }}
       - name: Cache Gradle
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             ~/.gradle/caches
@@ -176,7 +171,7 @@ jobs:
             2-${{ runner.os }}-gradle-${{ hashFiles('*.gradle.kts', 'gradle/wrapper/gradle-wrapper.properties') }}
             2-${{ runner.os }}-gradle-
       - name: Cache Swift
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             ~/Library/Caches/org.swift.swiftpm
@@ -186,7 +181,7 @@ jobs:
             1-${{ runner.os }}-swift-${{ matrix.swift }}-spm-${{ hashFiles('Package.swift', 'AWSSDKSwiftCLI/Package.swift') }}
             1-${{ runner.os }}-swift-${{ matrix.swift }}-spm-
       - name: Setup Java
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: corretto
           java-version: 17
