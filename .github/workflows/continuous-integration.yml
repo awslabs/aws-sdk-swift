@@ -59,7 +59,7 @@ jobs:
       - name: Configure Xcode
         run: sudo xcode-select -s /Applications/${{ matrix.xcode }}.app
       - name: Checkout aws-sdk-swift
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           path: aws-sdk-swift
       - name: Checkout smithy-swift with composite action
@@ -68,7 +68,7 @@ jobs:
           STAGING_PARTNER_REPO_PRIVATE_DEPLOY_KEY: ${{ secrets.STAGING_PARTNER_REPO_PRIVATE_DEPLOY_KEY }}
           STAGING_PARTNER_REPO: ${{ secrets.STAGING_PARTNER_REPO }}
       - name: Cache Gradle
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             ~/.gradle/caches
@@ -78,7 +78,7 @@ jobs:
             2-${{ runner.os }}-gradle-${{ hashFiles('*.gradle.kts', 'gradle/wrapper/gradle-wrapper.properties') }}
             2-${{ runner.os }}-gradle-
       - name: Cache Swift
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             ~/Library/Caches/org.swift.swiftpm
@@ -138,13 +138,11 @@ jobs:
         swift:
           - 5.9-jammy
           - 5.9-rhel-ubi9
-          - 6.2-noble
-          - 6.3-rhel-ubi9
-    env:
-      ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
+          - 6.3-noble
+          - 6.3-amazonlinux2023
     steps:
       - name: Checkout aws-sdk-swift
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           path: aws-sdk-swift
       - name: Checkout smithy-swift with composite action
@@ -153,7 +151,7 @@ jobs:
           STAGING_PARTNER_REPO_PRIVATE_DEPLOY_KEY: ${{ secrets.STAGING_PARTNER_REPO_PRIVATE_DEPLOY_KEY }}
           STAGING_PARTNER_REPO: ${{ secrets.STAGING_PARTNER_REPO }}
       - name: Cache Gradle
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             ~/.gradle/caches
@@ -163,7 +161,7 @@ jobs:
             2-${{ runner.os }}-gradle-${{ hashFiles('*.gradle.kts', 'gradle/wrapper/gradle-wrapper.properties') }}
             2-${{ runner.os }}-gradle-
       - name: Cache Swift
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             ~/Library/Caches/org.swift.swiftpm
