@@ -2294,6 +2294,30 @@ public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
 
 extension OpenSearchClientTypes {
 
+    /// Specifies the automated snapshot pause request options for the domain. Suspending snapshots reduces data protection. You cannot restore your domain to points in time when snapshots are suspended. Use this feature only for short-term operational needs such as migrations or maintenance windows. Maximum suspension duration: 3 days.
+    public struct AutomatedSnapshotPauseRequestOptions: Swift.Sendable {
+        /// Whether to enable or disable automated snapshot pause for the domain.
+        /// This member is required.
+        public var enabled: Swift.Bool?
+        /// The timestamp at which the automated snapshot pause should end. The maximum allowed duration between StartTime and EndTime is 3 days.
+        public var endTime: Foundation.Date?
+        /// The timestamp at which the automated snapshot pause should begin.
+        public var startTime: Foundation.Date?
+
+        public init(
+            enabled: Swift.Bool? = nil,
+            endTime: Foundation.Date? = nil,
+            startTime: Foundation.Date? = nil
+        ) {
+            self.enabled = enabled
+            self.endTime = endTime
+            self.startTime = startTime
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
     /// The Auto-Tune desired state. Valid values are ENABLED and DISABLED.
     public enum AutoTuneDesiredState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
@@ -3506,6 +3530,8 @@ public struct CreateDomainInput: Swift.Sendable {
     public var aimlOptions: OpenSearchClientTypes.AIMLOptionsInput?
     /// Options for Auto-Tune.
     public var autoTuneOptions: OpenSearchClientTypes.AutoTuneOptionsInput?
+    /// Specifies the automated snapshot pause options for the domain. Suspending snapshots reduces data protection. You cannot restore your domain to points in time when snapshots are suspended. Use this feature only for short-term operational needs such as migrations or maintenance windows. Maximum suspension duration: 3 days.
+    public var automatedSnapshotPauseOptions: OpenSearchClientTypes.AutomatedSnapshotPauseRequestOptions?
     /// Container for the cluster configuration of a domain.
     public var clusterConfig: OpenSearchClientTypes.ClusterConfig?
     /// Key-value pairs to configure Amazon Cognito authentication. For more information, see [Configuring Amazon Cognito authentication for OpenSearch Dashboards](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/cognito-auth.html).
@@ -3548,6 +3574,7 @@ public struct CreateDomainInput: Swift.Sendable {
         advancedSecurityOptions: OpenSearchClientTypes.AdvancedSecurityOptionsInput? = nil,
         aimlOptions: OpenSearchClientTypes.AIMLOptionsInput? = nil,
         autoTuneOptions: OpenSearchClientTypes.AutoTuneOptionsInput? = nil,
+        automatedSnapshotPauseOptions: OpenSearchClientTypes.AutomatedSnapshotPauseRequestOptions? = nil,
         clusterConfig: OpenSearchClientTypes.ClusterConfig? = nil,
         cognitoOptions: OpenSearchClientTypes.CognitoOptions? = nil,
         deploymentStrategyOptions: OpenSearchClientTypes.DeploymentStrategyOptions? = nil,
@@ -3571,6 +3598,7 @@ public struct CreateDomainInput: Swift.Sendable {
         self.advancedSecurityOptions = advancedSecurityOptions
         self.aimlOptions = aimlOptions
         self.autoTuneOptions = autoTuneOptions
+        self.automatedSnapshotPauseOptions = automatedSnapshotPauseOptions
         self.clusterConfig = clusterConfig
         self.cognitoOptions = cognitoOptions
         self.deploymentStrategyOptions = deploymentStrategyOptions
@@ -3588,6 +3616,70 @@ public struct CreateDomainInput: Swift.Sendable {
         self.softwareUpdateOptions = softwareUpdateOptions
         self.tagList = tagList
         self.vpcOptions = vpcOptions
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// The state of the automated snapshot pause. Valid values are Active, Completed, Scheduled, and Disabled.
+    public enum PauseState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case completed
+        case disabled
+        case scheduled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PauseState] {
+            return [
+                .active,
+                .completed,
+                .disabled,
+                .scheduled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "Active"
+            case .completed: return "Completed"
+            case .disabled: return "Disabled"
+            case .scheduled: return "Scheduled"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// Specifies the automated snapshot pause options for the domain. These options allow you to temporarily pause automated snapshots for a specified time period.
+    public struct AutomatedSnapshotPauseOptions: Swift.Sendable {
+        /// Whether automated snapshot pause is enabled for the domain.
+        /// This member is required.
+        public var enabled: Swift.Bool?
+        /// The timestamp at which the automated snapshot pause ends.
+        public var endTime: Foundation.Date?
+        /// The timestamp at which the automated snapshot pause begins.
+        public var startTime: Foundation.Date?
+        /// The current state of the automated snapshot pause. Valid values are Active, Completed, Scheduled, and Disabled.
+        public var state: OpenSearchClientTypes.PauseState?
+
+        public init(
+            enabled: Swift.Bool? = nil,
+            endTime: Foundation.Date? = nil,
+            startTime: Foundation.Date? = nil,
+            state: OpenSearchClientTypes.PauseState? = nil
+        ) {
+            self.enabled = enabled
+            self.endTime = endTime
+            self.startTime = startTime
+            self.state = state
+        }
     }
 }
 
@@ -3967,6 +4059,8 @@ extension OpenSearchClientTypes {
         public var arn: Swift.String?
         /// Auto-Tune settings for the domain.
         public var autoTuneOptions: OpenSearchClientTypes.AutoTuneOptionsOutput?
+        /// The current status of the domain's automated snapshot pause options.
+        public var automatedSnapshotPauseOptions: OpenSearchClientTypes.AutomatedSnapshotPauseOptions?
         /// Information about a configuration change happening on the domain.
         public var changeProgressDetails: OpenSearchClientTypes.ChangeProgressDetails?
         /// Container for the cluster configuration of the domain.
@@ -4040,6 +4134,7 @@ extension OpenSearchClientTypes {
             aimlOptions: OpenSearchClientTypes.AIMLOptionsOutput? = nil,
             arn: Swift.String? = nil,
             autoTuneOptions: OpenSearchClientTypes.AutoTuneOptionsOutput? = nil,
+            automatedSnapshotPauseOptions: OpenSearchClientTypes.AutomatedSnapshotPauseOptions? = nil,
             changeProgressDetails: OpenSearchClientTypes.ChangeProgressDetails? = nil,
             clusterConfig: OpenSearchClientTypes.ClusterConfig? = nil,
             cognitoOptions: OpenSearchClientTypes.CognitoOptions? = nil,
@@ -4076,6 +4171,7 @@ extension OpenSearchClientTypes {
             self.aimlOptions = aimlOptions
             self.arn = arn
             self.autoTuneOptions = autoTuneOptions
+            self.automatedSnapshotPauseOptions = automatedSnapshotPauseOptions
             self.changeProgressDetails = changeProgressDetails
             self.clusterConfig = clusterConfig
             self.cognitoOptions = cognitoOptions
@@ -5599,6 +5695,27 @@ public struct DescribeDomainConfigInput: Swift.Sendable {
 
 extension OpenSearchClientTypes {
 
+    /// The status of automated snapshot pause options for the domain.
+    public struct AutomatedSnapshotPauseOptionsStatus: Swift.Sendable {
+        /// Automated snapshot pause options for the domain.
+        /// This member is required.
+        public var options: OpenSearchClientTypes.AutomatedSnapshotPauseOptions?
+        /// The current status of the automated snapshot pause options for the domain.
+        /// This member is required.
+        public var status: OpenSearchClientTypes.OptionStatus?
+
+        public init(
+            options: OpenSearchClientTypes.AutomatedSnapshotPauseOptions? = nil,
+            status: OpenSearchClientTypes.OptionStatus? = nil
+        ) {
+            self.options = options
+            self.status = status
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
     /// The rollback state while disabling Auto-Tune for the domain.
     public enum RollbackOnDisable: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case defaultRollback
@@ -6034,6 +6151,8 @@ extension OpenSearchClientTypes {
         public var aimlOptions: OpenSearchClientTypes.AIMLOptionsStatus?
         /// Container for Auto-Tune settings for the domain.
         public var autoTuneOptions: OpenSearchClientTypes.AutoTuneOptionsStatus?
+        /// Specifies AutomatedSnapshotPauseOptions for the domain.
+        public var automatedSnapshotPauseOptions: OpenSearchClientTypes.AutomatedSnapshotPauseOptionsStatus?
         /// Container for information about the progress of an existing configuration change.
         public var changeProgressDetails: OpenSearchClientTypes.ChangeProgressDetails?
         /// Container for the cluster configuration of a the domain.
@@ -6075,6 +6194,7 @@ extension OpenSearchClientTypes {
             advancedSecurityOptions: OpenSearchClientTypes.AdvancedSecurityOptionsStatus? = nil,
             aimlOptions: OpenSearchClientTypes.AIMLOptionsStatus? = nil,
             autoTuneOptions: OpenSearchClientTypes.AutoTuneOptionsStatus? = nil,
+            automatedSnapshotPauseOptions: OpenSearchClientTypes.AutomatedSnapshotPauseOptionsStatus? = nil,
             changeProgressDetails: OpenSearchClientTypes.ChangeProgressDetails? = nil,
             clusterConfig: OpenSearchClientTypes.ClusterConfigStatus? = nil,
             cognitoOptions: OpenSearchClientTypes.CognitoOptionsStatus? = nil,
@@ -6098,6 +6218,7 @@ extension OpenSearchClientTypes {
             self.advancedSecurityOptions = advancedSecurityOptions
             self.aimlOptions = aimlOptions
             self.autoTuneOptions = autoTuneOptions
+            self.automatedSnapshotPauseOptions = automatedSnapshotPauseOptions
             self.changeProgressDetails = changeProgressDetails
             self.clusterConfig = clusterConfig
             self.cognitoOptions = cognitoOptions
@@ -9959,6 +10080,8 @@ public struct UpdateDomainConfigInput: Swift.Sendable {
     public var aimlOptions: OpenSearchClientTypes.AIMLOptionsInput?
     /// Options for Auto-Tune.
     public var autoTuneOptions: OpenSearchClientTypes.AutoTuneOptions?
+    /// Specifies the automated snapshot pause options for the domain. Suspending snapshots reduces data protection. You cannot restore your domain to points in time when snapshots are suspended. Use this feature only for short-term operational needs such as migrations or maintenance windows. Maximum suspension duration: 3 days.
+    public var automatedSnapshotPauseOptions: OpenSearchClientTypes.AutomatedSnapshotPauseRequestOptions?
     /// Changes that you want to make to the cluster configuration, such as the instance type and number of EC2 instances.
     public var clusterConfig: OpenSearchClientTypes.ClusterConfig?
     /// Key-value pairs to configure Amazon Cognito authentication for OpenSearch Dashboards.
@@ -10005,6 +10128,7 @@ public struct UpdateDomainConfigInput: Swift.Sendable {
         advancedSecurityOptions: OpenSearchClientTypes.AdvancedSecurityOptionsInput? = nil,
         aimlOptions: OpenSearchClientTypes.AIMLOptionsInput? = nil,
         autoTuneOptions: OpenSearchClientTypes.AutoTuneOptions? = nil,
+        automatedSnapshotPauseOptions: OpenSearchClientTypes.AutomatedSnapshotPauseRequestOptions? = nil,
         clusterConfig: OpenSearchClientTypes.ClusterConfig? = nil,
         cognitoOptions: OpenSearchClientTypes.CognitoOptions? = nil,
         deploymentStrategyOptions: OpenSearchClientTypes.DeploymentStrategyOptions? = nil,
@@ -10028,6 +10152,7 @@ public struct UpdateDomainConfigInput: Swift.Sendable {
         self.advancedSecurityOptions = advancedSecurityOptions
         self.aimlOptions = aimlOptions
         self.autoTuneOptions = autoTuneOptions
+        self.automatedSnapshotPauseOptions = automatedSnapshotPauseOptions
         self.clusterConfig = clusterConfig
         self.cognitoOptions = cognitoOptions
         self.deploymentStrategyOptions = deploymentStrategyOptions
@@ -11655,6 +11780,7 @@ extension CreateDomainInput {
         try writer["AdvancedOptions"].writeMap(value.advancedOptions, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["AdvancedSecurityOptions"].write(value.advancedSecurityOptions, with: OpenSearchClientTypes.AdvancedSecurityOptionsInput.write(value:to:))
         try writer["AutoTuneOptions"].write(value.autoTuneOptions, with: OpenSearchClientTypes.AutoTuneOptionsInput.write(value:to:))
+        try writer["AutomatedSnapshotPauseOptions"].write(value.automatedSnapshotPauseOptions, with: OpenSearchClientTypes.AutomatedSnapshotPauseRequestOptions.write(value:to:))
         try writer["ClusterConfig"].write(value.clusterConfig, with: OpenSearchClientTypes.ClusterConfig.write(value:to:))
         try writer["CognitoOptions"].write(value.cognitoOptions, with: OpenSearchClientTypes.CognitoOptions.write(value:to:))
         try writer["DeploymentStrategyOptions"].write(value.deploymentStrategyOptions, with: OpenSearchClientTypes.DeploymentStrategyOptions.write(value:to:))
@@ -11911,6 +12037,7 @@ extension UpdateDomainConfigInput {
         try writer["AdvancedOptions"].writeMap(value.advancedOptions, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["AdvancedSecurityOptions"].write(value.advancedSecurityOptions, with: OpenSearchClientTypes.AdvancedSecurityOptionsInput.write(value:to:))
         try writer["AutoTuneOptions"].write(value.autoTuneOptions, with: OpenSearchClientTypes.AutoTuneOptions.write(value:to:))
+        try writer["AutomatedSnapshotPauseOptions"].write(value.automatedSnapshotPauseOptions, with: OpenSearchClientTypes.AutomatedSnapshotPauseRequestOptions.write(value:to:))
         try writer["ClusterConfig"].write(value.clusterConfig, with: OpenSearchClientTypes.ClusterConfig.write(value:to:))
         try writer["CognitoOptions"].write(value.cognitoOptions, with: OpenSearchClientTypes.CognitoOptions.write(value:to:))
         try writer["DeploymentStrategyOptions"].write(value.deploymentStrategyOptions, with: OpenSearchClientTypes.DeploymentStrategyOptions.write(value:to:))
@@ -15072,6 +15199,40 @@ extension OpenSearchClientTypes.AuthorizedPrincipal {
     }
 }
 
+extension OpenSearchClientTypes.AutomatedSnapshotPauseOptions {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.AutomatedSnapshotPauseOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.AutomatedSnapshotPauseOptions()
+        value.enabled = try reader["Enabled"].readIfPresent() ?? false
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.state = try reader["State"].readIfPresent()
+        return value
+    }
+}
+
+extension OpenSearchClientTypes.AutomatedSnapshotPauseOptionsStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.AutomatedSnapshotPauseOptionsStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.AutomatedSnapshotPauseOptionsStatus()
+        value.options = try reader["Options"].readIfPresent(with: OpenSearchClientTypes.AutomatedSnapshotPauseOptions.read(from:))
+        value.status = try reader["Status"].readIfPresent(with: OpenSearchClientTypes.OptionStatus.read(from:))
+        return value
+    }
+}
+
+extension OpenSearchClientTypes.AutomatedSnapshotPauseRequestOptions {
+
+    static func write(value: OpenSearchClientTypes.AutomatedSnapshotPauseRequestOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Enabled"].write(value.enabled)
+        try writer["EndTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["StartTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+}
+
 extension OpenSearchClientTypes.AutoTune {
 
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.AutoTune {
@@ -15646,6 +15807,7 @@ extension OpenSearchClientTypes.DomainConfig {
         value.modifyingProperties = try reader["ModifyingProperties"].readListIfPresent(memberReadingClosure: OpenSearchClientTypes.ModifyingProperties.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.aimlOptions = try reader["AIMLOptions"].readIfPresent(with: OpenSearchClientTypes.AIMLOptionsStatus.read(from:))
         value.deploymentStrategyOptions = try reader["DeploymentStrategyOptions"].readIfPresent(with: OpenSearchClientTypes.DeploymentStrategyOptionsStatus.read(from:))
+        value.automatedSnapshotPauseOptions = try reader["AutomatedSnapshotPauseOptions"].readIfPresent(with: OpenSearchClientTypes.AutomatedSnapshotPauseOptionsStatus.read(from:))
         return value
     }
 }
@@ -15804,6 +15966,7 @@ extension OpenSearchClientTypes.DomainStatus {
         value.modifyingProperties = try reader["ModifyingProperties"].readListIfPresent(memberReadingClosure: OpenSearchClientTypes.ModifyingProperties.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.aimlOptions = try reader["AIMLOptions"].readIfPresent(with: OpenSearchClientTypes.AIMLOptionsOutput.read(from:))
         value.deploymentStrategyOptions = try reader["DeploymentStrategyOptions"].readIfPresent(with: OpenSearchClientTypes.DeploymentStrategyOptions.read(from:))
+        value.automatedSnapshotPauseOptions = try reader["AutomatedSnapshotPauseOptions"].readIfPresent(with: OpenSearchClientTypes.AutomatedSnapshotPauseOptions.read(from:))
         return value
     }
 }

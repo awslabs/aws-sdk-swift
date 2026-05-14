@@ -917,6 +917,265 @@ public struct UpdateClusterOutput: Swift.Sendable {
     }
 }
 
+extension DSQLClientTypes {
+
+    /// Stream record format. JSON Stream records are formatted as JSON.
+    public enum StreamFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case json
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StreamFormat] {
+            return [
+                .json
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .json: return "JSON"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DSQLClientTypes {
+
+    /// Stream ordering mode. UNORDERED Changes are streamed without ordering guarantees.
+    public enum StreamOrdering: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case unordered
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StreamOrdering] {
+            return [
+                .unordered
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .unordered: return "UNORDERED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DSQLClientTypes {
+
+    /// Kinesis stream target configuration.
+    public struct KinesisTargetDefinition: Swift.Sendable {
+        /// The ARN of the IAM role that grants permission to write to the Kinesis stream. This can be a standard role (arn:aws:iam::account-id:role/role-name) or a role with a path prefix (arn:aws:iam::account-id:role/service-role/role-name), such as roles auto-created by the console.
+        /// This member is required.
+        public var roleArn: Swift.String?
+        /// The ARN of the Kinesis stream.
+        /// This member is required.
+        public var streamArn: Swift.String?
+
+        public init(
+            roleArn: Swift.String? = nil,
+            streamArn: Swift.String? = nil
+        ) {
+            self.roleArn = roleArn
+            self.streamArn = streamArn
+        }
+    }
+}
+
+extension DSQLClientTypes {
+
+    /// Target definition for stream destination.
+    public enum TargetDefinition: Swift.Sendable {
+        /// Kinesis stream target configuration.
+        case kinesis(DSQLClientTypes.KinesisTargetDefinition)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct CreateStreamInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the Amazon Web Services SDK automatically generates one.
+    public var clientToken: Swift.String?
+    /// The ID of the cluster for which to create the stream.
+    /// This member is required.
+    public var clusterIdentifier: Swift.String?
+    /// The format of the stream records.
+    /// This member is required.
+    public var format: DSQLClientTypes.StreamFormat?
+    /// The ordering mode for the stream. Determines how change events are ordered when delivered to the target.
+    /// This member is required.
+    public var ordering: DSQLClientTypes.StreamOrdering?
+    /// A map of key and value pairs to use to tag your stream.
+    public var tags: [Swift.String: Swift.String]?
+    /// The target destination configuration for the stream. Contains Kinesis stream configuration including stream ARN and IAM role ARN.
+    /// This member is required.
+    public var targetDefinition: DSQLClientTypes.TargetDefinition?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        clusterIdentifier: Swift.String? = nil,
+        format: DSQLClientTypes.StreamFormat? = nil,
+        ordering: DSQLClientTypes.StreamOrdering? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        targetDefinition: DSQLClientTypes.TargetDefinition? = nil
+    ) {
+        self.clientToken = clientToken
+        self.clusterIdentifier = clusterIdentifier
+        self.format = format
+        self.ordering = ordering
+        self.tags = tags
+        self.targetDefinition = targetDefinition
+    }
+}
+
+extension DSQLClientTypes {
+
+    /// The current status of a stream. CREATING The stream is being created. ACTIVE The stream is active and processing changes. DELETING The stream is being deleted. DELETED The stream has been deleted. FAILED The stream has failed. IMPAIRED The stream is impaired and may not be processing changes correctly.
+    public enum StreamStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case creating
+        case deleted
+        case deleting
+        case failed
+        case impaired
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StreamStatus] {
+            return [
+                .active,
+                .creating,
+                .deleted,
+                .deleting,
+                .failed,
+                .impaired
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .creating: return "CREATING"
+            case .deleted: return "DELETED"
+            case .deleting: return "DELETING"
+            case .failed: return "FAILED"
+            case .impaired: return "IMPAIRED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// The output of a created stream.
+public struct CreateStreamOutput: Swift.Sendable {
+    /// The ARN of the created stream.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The ID of the cluster for the created stream.
+    /// This member is required.
+    public var clusterIdentifier: Swift.String?
+    /// The time when created the stream.
+    /// This member is required.
+    public var creationTime: Foundation.Date?
+    /// The format of the created stream records.
+    /// This member is required.
+    public var format: DSQLClientTypes.StreamFormat?
+    /// The ordering mode of the created stream.
+    /// This member is required.
+    public var ordering: DSQLClientTypes.StreamOrdering?
+    /// The status of the created stream.
+    /// This member is required.
+    public var status: DSQLClientTypes.StreamStatus?
+    /// The ID of the created stream.
+    /// This member is required.
+    public var streamIdentifier: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        clusterIdentifier: Swift.String? = nil,
+        creationTime: Foundation.Date? = nil,
+        format: DSQLClientTypes.StreamFormat? = nil,
+        ordering: DSQLClientTypes.StreamOrdering? = nil,
+        status: DSQLClientTypes.StreamStatus? = nil,
+        streamIdentifier: Swift.String? = nil
+    ) {
+        self.arn = arn
+        self.clusterIdentifier = clusterIdentifier
+        self.creationTime = creationTime
+        self.format = format
+        self.ordering = ordering
+        self.status = status
+        self.streamIdentifier = streamIdentifier
+    }
+}
+
+public struct DeleteStreamInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the Amazon Web Services SDK automatically generates one.
+    public var clientToken: Swift.String?
+    /// The ID of the cluster containing the stream to delete.
+    /// This member is required.
+    public var clusterIdentifier: Swift.String?
+    /// The ID of the stream to delete.
+    /// This member is required.
+    public var streamIdentifier: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        clusterIdentifier: Swift.String? = nil,
+        streamIdentifier: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.clusterIdentifier = clusterIdentifier
+        self.streamIdentifier = streamIdentifier
+    }
+}
+
+/// The output from a deleted stream.
+public struct DeleteStreamOutput: Swift.Sendable {
+    /// The ARN of the deleted stream.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The ID of the cluster for the deleted stream.
+    /// This member is required.
+    public var clusterIdentifier: Swift.String?
+    /// The time when the stream was created.
+    /// This member is required.
+    public var creationTime: Foundation.Date?
+    /// The status of the stream.
+    /// This member is required.
+    public var status: DSQLClientTypes.StreamStatus?
+    /// The ID of the deleted stream.
+    /// This member is required.
+    public var streamIdentifier: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        clusterIdentifier: Swift.String? = nil,
+        creationTime: Foundation.Date? = nil,
+        status: DSQLClientTypes.StreamStatus? = nil,
+        streamIdentifier: Swift.String? = nil
+    ) {
+        self.arn = arn
+        self.clusterIdentifier = clusterIdentifier
+        self.creationTime = creationTime
+        self.status = status
+        self.streamIdentifier = streamIdentifier
+    }
+}
+
 public struct ListTagsForResourceInput: Swift.Sendable {
     /// The ARN of the resource for which you want to list the tags.
     /// This member is required.
@@ -937,6 +1196,219 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.tags = tags
+    }
+}
+
+public struct GetStreamInput: Swift.Sendable {
+    /// The ID of the cluster containing the stream to retrieve.
+    /// This member is required.
+    public var clusterIdentifier: Swift.String?
+    /// The ID of the stream to retrieve.
+    /// This member is required.
+    public var streamIdentifier: Swift.String?
+
+    public init(
+        clusterIdentifier: Swift.String? = nil,
+        streamIdentifier: Swift.String? = nil
+    ) {
+        self.clusterIdentifier = clusterIdentifier
+        self.streamIdentifier = streamIdentifier
+    }
+}
+
+extension DSQLClientTypes {
+
+    /// Error codes for stream failures. KINESIS_THROUGHPUT_EXCEEDED The Kinesis stream throughput limit was exceeded. KINESIS_STREAM_NOT_FOUND The specified Kinesis stream was not found. ROLE_ACCESS_DENIED Access was denied for the specified IAM role. KINESIS_ACCESS_DENIED Access to the Kinesis stream was denied. KINESIS_KMS_ACCESS_DENIED Access to the KMS key for the Kinesis stream was denied. KINESIS_OVERSIZE_RECORD A record exceeded the Kinesis stream size limit. CLUSTER_CMK_INACCESSIBLE The cluster's customer-managed key is inaccessible. INTERNAL_ERROR An internal error occurred.
+    public enum StreamFailureErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case clusterCmkInaccessible
+        case internalError
+        case kinesisAccessDenied
+        case kinesisKmsAccessDenied
+        case kinesisOversizeRecord
+        case kinesisStreamNotFound
+        case kinesisThroughputExceeded
+        case roleAccessDenied
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StreamFailureErrorCode] {
+            return [
+                .clusterCmkInaccessible,
+                .internalError,
+                .kinesisAccessDenied,
+                .kinesisKmsAccessDenied,
+                .kinesisOversizeRecord,
+                .kinesisStreamNotFound,
+                .kinesisThroughputExceeded,
+                .roleAccessDenied
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .clusterCmkInaccessible: return "CLUSTER_CMK_INACCESSIBLE"
+            case .internalError: return "INTERNAL_ERROR"
+            case .kinesisAccessDenied: return "KINESIS_ACCESS_DENIED"
+            case .kinesisKmsAccessDenied: return "KINESIS_KMS_ACCESS_DENIED"
+            case .kinesisOversizeRecord: return "KINESIS_OVERSIZE_RECORD"
+            case .kinesisStreamNotFound: return "KINESIS_STREAM_NOT_FOUND"
+            case .kinesisThroughputExceeded: return "KINESIS_THROUGHPUT_EXCEEDED"
+            case .roleAccessDenied: return "ROLE_ACCESS_DENIED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DSQLClientTypes {
+
+    /// Stream status reason with error and timestamp.
+    public struct StatusReason: Swift.Sendable {
+        /// The error code for the stream failure.
+        /// This member is required.
+        public var error: DSQLClientTypes.StreamFailureErrorCode?
+        /// The timestamp when the status was updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            error: DSQLClientTypes.StreamFailureErrorCode? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.error = error
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+/// The output of a retrieved stream.
+public struct GetStreamOutput: Swift.Sendable {
+    /// The ARN of the retrieved stream.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The ID of the cluster for the retrieved stream.
+    /// This member is required.
+    public var clusterIdentifier: Swift.String?
+    /// The time when the stream was created.
+    /// This member is required.
+    public var creationTime: Foundation.Date?
+    /// The format of the stream records.
+    /// This member is required.
+    public var format: DSQLClientTypes.StreamFormat?
+    /// The ordering mode of the stream.
+    /// This member is required.
+    public var ordering: DSQLClientTypes.StreamOrdering?
+    /// The current status of the retrieved stream.
+    /// This member is required.
+    public var status: DSQLClientTypes.StreamStatus?
+    /// Stream status reason with error code and timestamp (if applicable).
+    public var statusReason: DSQLClientTypes.StatusReason?
+    /// The ID of the retrieved stream.
+    /// This member is required.
+    public var streamIdentifier: Swift.String?
+    /// A map of tags associated with the stream.
+    public var tags: [Swift.String: Swift.String]?
+    /// The target definition for the stream destination.
+    public var targetDefinition: DSQLClientTypes.TargetDefinition?
+
+    public init(
+        arn: Swift.String? = nil,
+        clusterIdentifier: Swift.String? = nil,
+        creationTime: Foundation.Date? = nil,
+        format: DSQLClientTypes.StreamFormat? = nil,
+        ordering: DSQLClientTypes.StreamOrdering? = nil,
+        status: DSQLClientTypes.StreamStatus? = nil,
+        statusReason: DSQLClientTypes.StatusReason? = nil,
+        streamIdentifier: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        targetDefinition: DSQLClientTypes.TargetDefinition? = nil
+    ) {
+        self.arn = arn
+        self.clusterIdentifier = clusterIdentifier
+        self.creationTime = creationTime
+        self.format = format
+        self.ordering = ordering
+        self.status = status
+        self.statusReason = statusReason
+        self.streamIdentifier = streamIdentifier
+        self.tags = tags
+        self.targetDefinition = targetDefinition
+    }
+}
+
+public struct ListStreamsInput: Swift.Sendable {
+    /// The ID of the cluster for which to list streams.
+    /// This member is required.
+    public var clusterIdentifier: Swift.String?
+    /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to display the next page of results. Default: 10.
+    public var maxResults: Swift.Int?
+    /// If your initial ListStreams operation returns a nextToken, you can include the returned nextToken in following ListStreams operations, which returns results in the next page.
+    public var nextToken: Swift.String?
+
+    public init(
+        clusterIdentifier: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.clusterIdentifier = clusterIdentifier
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension DSQLClientTypes {
+
+    /// Summary information about a stream.
+    public struct StreamSummary: Swift.Sendable {
+        /// The ARN of the stream.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The ID of the cluster.
+        /// This member is required.
+        public var clusterIdentifier: Swift.String?
+        /// The timestamp when the stream was created.
+        /// This member is required.
+        public var creationTime: Foundation.Date?
+        /// The current status of the stream.
+        /// This member is required.
+        public var status: DSQLClientTypes.StreamStatus?
+        /// The ID of the stream.
+        /// This member is required.
+        public var streamIdentifier: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            clusterIdentifier: Swift.String? = nil,
+            creationTime: Foundation.Date? = nil,
+            status: DSQLClientTypes.StreamStatus? = nil,
+            streamIdentifier: Swift.String? = nil
+        ) {
+            self.arn = arn
+            self.clusterIdentifier = clusterIdentifier
+            self.creationTime = creationTime
+            self.status = status
+            self.streamIdentifier = streamIdentifier
+        }
+    }
+}
+
+public struct ListStreamsOutput: Swift.Sendable {
+    /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token.
+    public var nextToken: Swift.String?
+    /// An array of the returned streams.
+    /// This member is required.
+    public var streams: [DSQLClientTypes.StreamSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        streams: [DSQLClientTypes.StreamSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.streams = streams
     }
 }
 
@@ -978,6 +1450,16 @@ extension CreateClusterInput {
 
     static func urlPathProvider(_ value: CreateClusterInput) -> Swift.String? {
         return "/cluster"
+    }
+}
+
+extension CreateStreamInput {
+
+    static func urlPathProvider(_ value: CreateStreamInput) -> Swift.String? {
+        guard let clusterIdentifier = value.clusterIdentifier else {
+            return nil
+        }
+        return "/stream/\(clusterIdentifier.urlPercentEncoding())"
     }
 }
 
@@ -1029,6 +1511,31 @@ extension DeleteClusterPolicyInput {
     }
 }
 
+extension DeleteStreamInput {
+
+    static func urlPathProvider(_ value: DeleteStreamInput) -> Swift.String? {
+        guard let clusterIdentifier = value.clusterIdentifier else {
+            return nil
+        }
+        guard let streamIdentifier = value.streamIdentifier else {
+            return nil
+        }
+        return "/stream/\(clusterIdentifier.urlPercentEncoding())/\(streamIdentifier.urlPercentEncoding())"
+    }
+}
+
+extension DeleteStreamInput {
+
+    static func queryItemProvider(_ value: DeleteStreamInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let clientToken = value.clientToken {
+            let clientTokenQueryItem = Smithy.URIQueryItem(name: "client-token".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            items.append(clientTokenQueryItem)
+        }
+        return items
+    }
+}
+
 extension GetClusterInput {
 
     static func urlPathProvider(_ value: GetClusterInput) -> Swift.String? {
@@ -1046,6 +1553,19 @@ extension GetClusterPolicyInput {
             return nil
         }
         return "/cluster/\(identifier.urlPercentEncoding())/policy"
+    }
+}
+
+extension GetStreamInput {
+
+    static func urlPathProvider(_ value: GetStreamInput) -> Swift.String? {
+        guard let clusterIdentifier = value.clusterIdentifier else {
+            return nil
+        }
+        guard let streamIdentifier = value.streamIdentifier else {
+            return nil
+        }
+        return "/stream/\(clusterIdentifier.urlPercentEncoding())/\(streamIdentifier.urlPercentEncoding())"
     }
 }
 
@@ -1069,6 +1589,32 @@ extension ListClustersInput {
 extension ListClustersInput {
 
     static func queryItemProvider(_ value: ListClustersInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListStreamsInput {
+
+    static func urlPathProvider(_ value: ListStreamsInput) -> Swift.String? {
+        guard let clusterIdentifier = value.clusterIdentifier else {
+            return nil
+        }
+        return "/stream/\(clusterIdentifier.urlPercentEncoding())"
+    }
+}
+
+extension ListStreamsInput {
+
+    static func queryItemProvider(_ value: ListStreamsInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
         if let maxResults = value.maxResults {
             let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
@@ -1162,6 +1708,18 @@ extension CreateClusterInput {
     }
 }
 
+extension CreateStreamInput {
+
+    static func write(value: CreateStreamInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["format"].write(value.format)
+        try writer["ordering"].write(value.ordering)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["targetDefinition"].write(value.targetDefinition, with: DSQLClientTypes.TargetDefinition.write(value:to:))
+    }
+}
+
 extension PutClusterPolicyInput {
 
     static func write(value: PutClusterPolicyInput?, to writer: SmithyJSON.Writer) throws {
@@ -1211,6 +1769,24 @@ extension CreateClusterOutput {
     }
 }
 
+extension CreateStreamOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateStreamOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateStreamOutput()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.clusterIdentifier = try reader["clusterIdentifier"].readIfPresent() ?? ""
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.format = try reader["format"].readIfPresent() ?? .sdkUnknown("")
+        value.ordering = try reader["ordering"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.streamIdentifier = try reader["streamIdentifier"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension DeleteClusterOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteClusterOutput {
@@ -1234,6 +1810,22 @@ extension DeleteClusterPolicyOutput {
         let reader = responseReader
         var value = DeleteClusterPolicyOutput()
         value.policyVersion = try reader["policyVersion"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DeleteStreamOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteStreamOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteStreamOutput()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.clusterIdentifier = try reader["clusterIdentifier"].readIfPresent() ?? ""
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.streamIdentifier = try reader["streamIdentifier"].readIfPresent() ?? ""
         return value
     }
 }
@@ -1271,6 +1863,27 @@ extension GetClusterPolicyOutput {
     }
 }
 
+extension GetStreamOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetStreamOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetStreamOutput()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.clusterIdentifier = try reader["clusterIdentifier"].readIfPresent() ?? ""
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.format = try reader["format"].readIfPresent() ?? .sdkUnknown("")
+        value.ordering = try reader["ordering"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReason = try reader["statusReason"].readIfPresent(with: DSQLClientTypes.StatusReason.read(from:))
+        value.streamIdentifier = try reader["streamIdentifier"].readIfPresent() ?? ""
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.targetDefinition = try reader["targetDefinition"].readIfPresent(with: DSQLClientTypes.TargetDefinition.read(from:))
+        return value
+    }
+}
+
 extension GetVpcEndpointServiceNameOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetVpcEndpointServiceNameOutput {
@@ -1293,6 +1906,19 @@ extension ListClustersOutput {
         var value = ListClustersOutput()
         value.clusters = try reader["clusters"].readListIfPresent(memberReadingClosure: DSQLClientTypes.ClusterSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListStreamsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListStreamsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListStreamsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.streams = try reader["streams"].readListIfPresent(memberReadingClosure: DSQLClientTypes.StreamSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -1377,6 +2003,24 @@ enum CreateClusterOutputError {
     }
 }
 
+enum CreateStreamOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteClusterOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -1405,6 +2049,22 @@ enum DeleteClusterPolicyOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteStreamOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -1441,6 +2101,21 @@ enum GetClusterPolicyOutputError {
     }
 }
 
+enum GetStreamOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetVpcEndpointServiceNameOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -1460,6 +2135,21 @@ enum GetVpcEndpointServiceNameOutputError {
 }
 
 enum ListClustersOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListStreamsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -1688,6 +2378,23 @@ extension DSQLClientTypes.EncryptionDetails {
     }
 }
 
+extension DSQLClientTypes.KinesisTargetDefinition {
+
+    static func write(value: DSQLClientTypes.KinesisTargetDefinition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["roleArn"].write(value.roleArn)
+        try writer["streamArn"].write(value.streamArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DSQLClientTypes.KinesisTargetDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DSQLClientTypes.KinesisTargetDefinition()
+        value.streamArn = try reader["streamArn"].readIfPresent() ?? ""
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension DSQLClientTypes.MultiRegionProperties {
 
     static func write(value: DSQLClientTypes.MultiRegionProperties?, to writer: SmithyJSON.Writer) throws {
@@ -1702,6 +2409,55 @@ extension DSQLClientTypes.MultiRegionProperties {
         value.witnessRegion = try reader["witnessRegion"].readIfPresent()
         value.clusters = try reader["clusters"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
+    }
+}
+
+extension DSQLClientTypes.StatusReason {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DSQLClientTypes.StatusReason {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DSQLClientTypes.StatusReason()
+        value.error = try reader["error"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension DSQLClientTypes.StreamSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DSQLClientTypes.StreamSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DSQLClientTypes.StreamSummary()
+        value.clusterIdentifier = try reader["clusterIdentifier"].readIfPresent() ?? ""
+        value.streamIdentifier = try reader["streamIdentifier"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension DSQLClientTypes.TargetDefinition {
+
+    static func write(value: DSQLClientTypes.TargetDefinition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .kinesis(kinesis):
+                try writer["kinesis"].write(kinesis, with: DSQLClientTypes.KinesisTargetDefinition.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DSQLClientTypes.TargetDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "kinesis":
+                return .kinesis(try reader["kinesis"].read(with: DSQLClientTypes.KinesisTargetDefinition.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 

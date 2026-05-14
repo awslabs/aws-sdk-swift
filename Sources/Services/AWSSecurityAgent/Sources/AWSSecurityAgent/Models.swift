@@ -1186,6 +1186,59 @@ extension SecurityAgentClientTypes {
     }
 }
 
+/// Input for deleting multiple code reviews.
+public struct BatchDeleteCodeReviewsInput: Swift.Sendable {
+    /// The unique identifier of the agent space that contains the code reviews to delete.
+    /// This member is required.
+    public var agentSpaceId: Swift.String?
+    /// The list of code review identifiers to delete.
+    /// This member is required.
+    public var codeReviewIds: [Swift.String]?
+
+    public init(
+        agentSpaceId: Swift.String? = nil,
+        codeReviewIds: [Swift.String]? = nil
+    ) {
+        self.agentSpaceId = agentSpaceId
+        self.codeReviewIds = codeReviewIds
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// Contains information about a code review that failed to delete.
+    public struct DeleteCodeReviewFailure: Swift.Sendable {
+        /// The unique identifier of the code review that failed to delete.
+        public var codeReviewId: Swift.String?
+        /// The reason the code review failed to delete.
+        public var reason: Swift.String?
+
+        public init(
+            codeReviewId: Swift.String? = nil,
+            reason: Swift.String? = nil
+        ) {
+            self.codeReviewId = codeReviewId
+            self.reason = reason
+        }
+    }
+}
+
+/// Output for the BatchDeleteCodeReviews operation.
+public struct BatchDeleteCodeReviewsOutput: Swift.Sendable {
+    /// The list of identifiers of the code reviews that were successfully deleted.
+    public var deleted: [Swift.String]?
+    /// The list of code reviews that failed to delete, including the reason for each failure.
+    public var failed: [SecurityAgentClientTypes.DeleteCodeReviewFailure]?
+
+    public init(
+        deleted: [Swift.String]? = nil,
+        failed: [SecurityAgentClientTypes.DeleteCodeReviewFailure]? = nil
+    ) {
+        self.deleted = deleted
+        self.failed = failed
+    }
+}
+
 /// Input for deleting multiple pentests.
 public struct BatchDeletePentestsInput: Swift.Sendable {
     /// The unique identifier of the agent space that contains the pentests to delete.
@@ -1639,337 +1692,21 @@ public struct BatchGetArtifactMetadataOutput: Swift.Sendable {
     }
 }
 
-/// Input for BatchGetFindings operation.
-public struct BatchGetFindingsInput: Swift.Sendable {
-    /// The unique identifier of the agent space that contains the findings.
+/// Input for BatchGetCodeReviewJobs operation.
+public struct BatchGetCodeReviewJobsInput: Swift.Sendable {
+    /// The unique identifier of the agent space that contains the code review jobs.
     /// This member is required.
     public var agentSpaceId: Swift.String?
-    /// The list of finding identifiers to retrieve.
+    /// The list of code review job identifiers to retrieve.
     /// This member is required.
-    public var findingIds: [Swift.String]?
+    public var codeReviewJobIds: [Swift.String]?
 
     public init(
         agentSpaceId: Swift.String? = nil,
-        findingIds: [Swift.String]? = nil
+        codeReviewJobIds: [Swift.String]? = nil
     ) {
         self.agentSpaceId = agentSpaceId
-        self.findingIds = findingIds
-    }
-}
-
-extension SecurityAgentClientTypes {
-
-    /// Code remediation task status.
-    public enum CodeRemediationTaskStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case completed
-        case failed
-        case inProgress
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [CodeRemediationTaskStatus] {
-            return [
-                .completed,
-                .failed,
-                .inProgress
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .completed: return "COMPLETED"
-            case .failed: return "FAILED"
-            case .inProgress: return "IN_PROGRESS"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension SecurityAgentClientTypes {
-
-    /// Contains details about a code remediation task, including links to the code diff and pull request.
-    public struct CodeRemediationTaskDetails: Swift.Sendable {
-        /// The link to the code diff for the remediation.
-        public var codeDiffLink: Swift.String?
-        /// The link to the pull request created for the remediation.
-        public var pullRequestLink: Swift.String?
-        /// The name of the repository where the remediation was applied.
-        public var repoName: Swift.String?
-
-        public init(
-            codeDiffLink: Swift.String? = nil,
-            pullRequestLink: Swift.String? = nil,
-            repoName: Swift.String? = nil
-        ) {
-            self.codeDiffLink = codeDiffLink
-            self.pullRequestLink = pullRequestLink
-            self.repoName = repoName
-        }
-    }
-}
-
-extension SecurityAgentClientTypes {
-
-    /// Represents a code remediation task that was initiated to fix a security finding.
-    public struct CodeRemediationTask: Swift.Sendable {
-        /// The current status of the code remediation task.
-        /// This member is required.
-        public var status: SecurityAgentClientTypes.CodeRemediationTaskStatus?
-        /// The reason for the current status of the code remediation task.
-        public var statusReason: Swift.String?
-        /// The list of details for the code remediation task, including repository name, code diff link, and pull request link.
-        public var taskDetails: [SecurityAgentClientTypes.CodeRemediationTaskDetails]?
-
-        public init(
-            status: SecurityAgentClientTypes.CodeRemediationTaskStatus? = nil,
-            statusReason: Swift.String? = nil,
-            taskDetails: [SecurityAgentClientTypes.CodeRemediationTaskDetails]? = nil
-        ) {
-            self.status = status
-            self.statusReason = statusReason
-            self.taskDetails = taskDetails
-        }
-    }
-}
-
-extension SecurityAgentClientTypes {
-
-    /// Finding confidence level.
-    public enum ConfidenceLevel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case falsePositive
-        case high
-        case low
-        case medium
-        case unconfirmed
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ConfidenceLevel] {
-            return [
-                .falsePositive,
-                .high,
-                .low,
-                .medium,
-                .unconfirmed
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .falsePositive: return "FALSE_POSITIVE"
-            case .high: return "HIGH"
-            case .low: return "LOW"
-            case .medium: return "MEDIUM"
-            case .unconfirmed: return "UNCONFIRMED"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension SecurityAgentClientTypes {
-
-    /// Risk severity level.
-    public enum RiskLevel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case critical
-        case high
-        case informational
-        case low
-        case medium
-        case unknown
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [RiskLevel] {
-            return [
-                .critical,
-                .high,
-                .informational,
-                .low,
-                .medium,
-                .unknown
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .critical: return "CRITICAL"
-            case .high: return "HIGH"
-            case .informational: return "INFORMATIONAL"
-            case .low: return "LOW"
-            case .medium: return "MEDIUM"
-            case .unknown: return "UNKNOWN"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension SecurityAgentClientTypes {
-
-    /// Finding status.
-    public enum FindingStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case accepted
-        case active
-        case falsePositive
-        case resolved
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [FindingStatus] {
-            return [
-                .accepted,
-                .active,
-                .falsePositive,
-                .resolved
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .accepted: return "ACCEPTED"
-            case .active: return "ACTIVE"
-            case .falsePositive: return "FALSE_POSITIVE"
-            case .resolved: return "RESOLVED"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension SecurityAgentClientTypes {
-
-    /// Represents a security finding discovered during a pentest job. A finding contains details about a vulnerability, including its risk level, confidence, and remediation status.
-    public struct Finding: Swift.Sendable {
-        /// The unique identifier of the agent space associated with the finding.
-        /// This member is required.
-        public var agentSpaceId: Swift.String?
-        /// The attack script used to reproduce the finding.
-        public var attackScript: Swift.String?
-        /// The code remediation task associated with the finding, if code remediation was initiated.
-        public var codeRemediationTask: SecurityAgentClientTypes.CodeRemediationTask?
-        /// The confidence level of the finding. Valid values include FALSE_POSITIVE, UNCONFIRMED, LOW, MEDIUM, and HIGH.
-        public var confidence: SecurityAgentClientTypes.ConfidenceLevel?
-        /// The date and time the finding was created, in UTC format.
-        public var createdAt: Foundation.Date?
-        /// A description of the finding.
-        public var description: Swift.String?
-        /// The unique identifier of the finding.
-        /// This member is required.
-        public var findingId: Swift.String?
-        /// The identifier of the entity that last updated the finding.
-        public var lastUpdatedBy: Swift.String?
-        /// The name of the finding.
-        public var name: Swift.String?
-        /// The unique identifier of the pentest associated with the finding.
-        public var pentestId: Swift.String?
-        /// The unique identifier of the pentest job that produced the finding.
-        public var pentestJobId: Swift.String?
-        /// The reasoning behind the finding, explaining why it was identified as a vulnerability.
-        public var reasoning: Swift.String?
-        /// The risk level of the finding. Valid values include UNKNOWN, INFORMATIONAL, LOW, MEDIUM, HIGH, and CRITICAL.
-        public var riskLevel: SecurityAgentClientTypes.RiskLevel?
-        /// The numerical risk score of the finding.
-        public var riskScore: Swift.String?
-        /// The type of security risk identified by the finding.
-        public var riskType: Swift.String?
-        /// The current status of the finding. Valid values include ACTIVE, RESOLVED, ACCEPTED, and FALSE_POSITIVE.
-        public var status: SecurityAgentClientTypes.FindingStatus?
-        /// The unique identifier of the task that produced the finding.
-        public var taskId: Swift.String?
-        /// The date and time the finding was last updated, in UTC format.
-        public var updatedAt: Foundation.Date?
-
-        public init(
-            agentSpaceId: Swift.String? = nil,
-            attackScript: Swift.String? = nil,
-            codeRemediationTask: SecurityAgentClientTypes.CodeRemediationTask? = nil,
-            confidence: SecurityAgentClientTypes.ConfidenceLevel? = nil,
-            createdAt: Foundation.Date? = nil,
-            description: Swift.String? = nil,
-            findingId: Swift.String? = nil,
-            lastUpdatedBy: Swift.String? = nil,
-            name: Swift.String? = nil,
-            pentestId: Swift.String? = nil,
-            pentestJobId: Swift.String? = nil,
-            reasoning: Swift.String? = nil,
-            riskLevel: SecurityAgentClientTypes.RiskLevel? = nil,
-            riskScore: Swift.String? = nil,
-            riskType: Swift.String? = nil,
-            status: SecurityAgentClientTypes.FindingStatus? = nil,
-            taskId: Swift.String? = nil,
-            updatedAt: Foundation.Date? = nil
-        ) {
-            self.agentSpaceId = agentSpaceId
-            self.attackScript = attackScript
-            self.codeRemediationTask = codeRemediationTask
-            self.confidence = confidence
-            self.createdAt = createdAt
-            self.description = description
-            self.findingId = findingId
-            self.lastUpdatedBy = lastUpdatedBy
-            self.name = name
-            self.pentestId = pentestId
-            self.pentestJobId = pentestJobId
-            self.reasoning = reasoning
-            self.riskLevel = riskLevel
-            self.riskScore = riskScore
-            self.riskType = riskType
-            self.status = status
-            self.taskId = taskId
-            self.updatedAt = updatedAt
-        }
-    }
-}
-
-/// Output for the BatchGetFindings operation.
-public struct BatchGetFindingsOutput: Swift.Sendable {
-    /// The list of findings that were found.
-    public var findings: [SecurityAgentClientTypes.Finding]?
-    /// The list of finding identifiers that were not found.
-    public var notFound: [Swift.String]?
-
-    public init(
-        findings: [SecurityAgentClientTypes.Finding]? = nil,
-        notFound: [Swift.String]? = nil
-    ) {
-        self.findings = findings
-        self.notFound = notFound
-    }
-}
-
-/// Input for BatchGetPentestJobs operation.
-public struct BatchGetPentestJobsInput: Swift.Sendable {
-    /// The unique identifier of the agent space that contains the pentest jobs.
-    /// This member is required.
-    public var agentSpaceId: Swift.String?
-    /// The list of pentest job identifiers to retrieve.
-    /// This member is required.
-    public var pentestJobIds: [Swift.String]?
-
-    public init(
-        agentSpaceId: Swift.String? = nil,
-        pentestJobIds: [Swift.String]? = nil
-    ) {
-        self.agentSpaceId = agentSpaceId
-        self.pentestJobIds = pentestJobIds
+        self.codeReviewJobIds = codeReviewJobIds
     }
 }
 
@@ -2248,6 +1985,760 @@ extension SecurityAgentClientTypes {
 
 extension SecurityAgentClientTypes {
 
+    /// Represents a code review job, which is an execution instance of a code review. A code review job progresses through preflight, static analysis, and finalizing steps.
+    public struct CodeReviewJob: Swift.Sendable {
+        /// The code remediation strategy for the code review job.
+        public var codeRemediationStrategy: SecurityAgentClientTypes.CodeRemediationStrategy?
+        /// The unique identifier of the code review associated with the job.
+        public var codeReviewId: Swift.String?
+        /// The unique identifier of the code review job.
+        public var codeReviewJobId: Swift.String?
+        /// The date and time the code review job was created, in UTC format.
+        public var createdAt: Foundation.Date?
+        /// The list of documents providing context for the code review job.
+        public var documents: [SecurityAgentClientTypes.DocumentInfo]?
+        /// Error information if the code review job encountered an error.
+        public var errorInformation: SecurityAgentClientTypes.ErrorInformation?
+        /// The execution context messages for the code review job.
+        public var executionContext: [SecurityAgentClientTypes.ExecutionContext]?
+        /// The list of integrated repositories associated with the code review job.
+        public var integratedRepositories: [SecurityAgentClientTypes.IntegratedRepository]?
+        /// The CloudWatch Logs configuration for the code review job.
+        public var logConfig: SecurityAgentClientTypes.CloudWatchLog?
+        /// An overview of the code review job results.
+        public var overview: Swift.String?
+        /// The IAM service role used for the code review job.
+        public var serviceRole: Swift.String?
+        /// The list of source code repositories analyzed during the code review job.
+        public var sourceCode: [SecurityAgentClientTypes.SourceCodeRepository]?
+        /// The current status of the code review job.
+        public var status: SecurityAgentClientTypes.JobStatus?
+        /// The list of steps in the code review job execution.
+        public var steps: [SecurityAgentClientTypes.Step]?
+        /// The title of the code review job.
+        public var title: Swift.String?
+        /// The date and time the code review job was last updated, in UTC format.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            codeRemediationStrategy: SecurityAgentClientTypes.CodeRemediationStrategy? = nil,
+            codeReviewId: Swift.String? = nil,
+            codeReviewJobId: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            documents: [SecurityAgentClientTypes.DocumentInfo]? = nil,
+            errorInformation: SecurityAgentClientTypes.ErrorInformation? = nil,
+            executionContext: [SecurityAgentClientTypes.ExecutionContext]? = nil,
+            integratedRepositories: [SecurityAgentClientTypes.IntegratedRepository]? = nil,
+            logConfig: SecurityAgentClientTypes.CloudWatchLog? = nil,
+            overview: Swift.String? = nil,
+            serviceRole: Swift.String? = nil,
+            sourceCode: [SecurityAgentClientTypes.SourceCodeRepository]? = nil,
+            status: SecurityAgentClientTypes.JobStatus? = nil,
+            steps: [SecurityAgentClientTypes.Step]? = nil,
+            title: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.codeRemediationStrategy = codeRemediationStrategy
+            self.codeReviewId = codeReviewId
+            self.codeReviewJobId = codeReviewJobId
+            self.createdAt = createdAt
+            self.documents = documents
+            self.errorInformation = errorInformation
+            self.executionContext = executionContext
+            self.integratedRepositories = integratedRepositories
+            self.logConfig = logConfig
+            self.overview = overview
+            self.serviceRole = serviceRole
+            self.sourceCode = sourceCode
+            self.status = status
+            self.steps = steps
+            self.title = title
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+/// Output for the BatchGetCodeReviewJobs operation.
+public struct BatchGetCodeReviewJobsOutput: Swift.Sendable {
+    /// The list of code review jobs that were found.
+    public var codeReviewJobs: [SecurityAgentClientTypes.CodeReviewJob]?
+    /// The list of code review job identifiers that were not found.
+    public var notFound: [Swift.String]?
+
+    public init(
+        codeReviewJobs: [SecurityAgentClientTypes.CodeReviewJob]? = nil,
+        notFound: [Swift.String]? = nil
+    ) {
+        self.codeReviewJobs = codeReviewJobs
+        self.notFound = notFound
+    }
+}
+
+/// Input for retrieving multiple tasks associated with a code review job.
+public struct BatchGetCodeReviewJobTasksInput: Swift.Sendable {
+    /// The unique identifier of the agent space that contains the tasks.
+    /// This member is required.
+    public var agentSpaceId: Swift.String?
+    /// The list of task identifiers to retrieve.
+    /// This member is required.
+    public var codeReviewJobTaskIds: [Swift.String]?
+
+    public init(
+        agentSpaceId: Swift.String? = nil,
+        codeReviewJobTaskIds: [Swift.String]? = nil
+    ) {
+        self.agentSpaceId = agentSpaceId
+        self.codeReviewJobTaskIds = codeReviewJobTaskIds
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// Represents a category assigned to a security testing task.
+    public struct Category: Swift.Sendable {
+        /// Indicates whether this is the primary category for the task.
+        public var isPrimary: Swift.Bool?
+        /// The name of the category.
+        public var name: Swift.String?
+
+        public init(
+            isPrimary: Swift.Bool? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.isPrimary = isPrimary
+            self.name = name
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// Execution status of a task.
+    public enum TaskExecutionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Task was aborted.
+        case aborted
+        /// Task completed successfully.
+        case completed
+        /// Task failed during execution.
+        case failed
+        /// Task failed due to an internal error.
+        case internalError
+        /// Task is currently running.
+        case inProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TaskExecutionStatus] {
+            return [
+                .aborted,
+                .completed,
+                .failed,
+                .internalError,
+                .inProgress
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .aborted: return "ABORTED"
+            case .completed: return "COMPLETED"
+            case .failed: return "FAILED"
+            case .internalError: return "INTERNAL_ERROR"
+            case .inProgress: return "IN_PROGRESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// Type of log storage.
+    public enum LogType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Logs stored in CloudWatch.
+        case cloudwatch
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LogType] {
+            return [
+                .cloudwatch
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cloudwatch: return "CLOUDWATCH"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// The log location for a task, specifying where task execution logs are stored.
+    public struct LogLocation: Swift.Sendable {
+        /// The CloudWatch Logs location for the task logs.
+        public var cloudWatchLog: SecurityAgentClientTypes.CloudWatchLog?
+        /// The type of log storage. Currently, only CLOUDWATCH is supported.
+        public var logType: SecurityAgentClientTypes.LogType?
+
+        public init(
+            cloudWatchLog: SecurityAgentClientTypes.CloudWatchLog? = nil,
+            logType: SecurityAgentClientTypes.LogType? = nil
+        ) {
+            self.cloudWatchLog = cloudWatchLog
+            self.logType = logType
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// Represents an individual security test task within a code review job. Each task targets a specific risk type and executes independently.
+    public struct CodeReviewJobTask: Swift.Sendable {
+        /// The unique identifier of the agent space.
+        public var agentSpaceId: Swift.String?
+        /// The list of categories assigned to the task.
+        public var categories: [SecurityAgentClientTypes.Category]?
+        /// The unique identifier of the code review associated with the task.
+        public var codeReviewId: Swift.String?
+        /// The unique identifier of the code review job that contains the task.
+        public var codeReviewJobId: Swift.String?
+        /// The date and time the task was created, in UTC format.
+        public var createdAt: Foundation.Date?
+        /// A description of the task.
+        public var description: Swift.String?
+        /// The current execution status of the task.
+        public var executionStatus: SecurityAgentClientTypes.TaskExecutionStatus?
+        /// The location of the task execution logs.
+        public var logsLocation: SecurityAgentClientTypes.LogLocation?
+        /// The type of security risk the task is testing for.
+        public var riskType: SecurityAgentClientTypes.RiskType?
+        /// The unique identifier of the task.
+        /// This member is required.
+        public var taskId: Swift.String?
+        /// The title of the task.
+        public var title: Swift.String?
+        /// The date and time the task was last updated, in UTC format.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            agentSpaceId: Swift.String? = nil,
+            categories: [SecurityAgentClientTypes.Category]? = nil,
+            codeReviewId: Swift.String? = nil,
+            codeReviewJobId: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            executionStatus: SecurityAgentClientTypes.TaskExecutionStatus? = nil,
+            logsLocation: SecurityAgentClientTypes.LogLocation? = nil,
+            riskType: SecurityAgentClientTypes.RiskType? = nil,
+            taskId: Swift.String? = nil,
+            title: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.agentSpaceId = agentSpaceId
+            self.categories = categories
+            self.codeReviewId = codeReviewId
+            self.codeReviewJobId = codeReviewJobId
+            self.createdAt = createdAt
+            self.description = description
+            self.executionStatus = executionStatus
+            self.logsLocation = logsLocation
+            self.riskType = riskType
+            self.taskId = taskId
+            self.title = title
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+/// Output for the BatchGetCodeReviewJobTasks operation.
+public struct BatchGetCodeReviewJobTasksOutput: Swift.Sendable {
+    /// The list of code review job tasks that were found.
+    public var codeReviewJobTasks: [SecurityAgentClientTypes.CodeReviewJobTask]?
+    /// The list of task identifiers that were not found.
+    public var notFound: [Swift.String]?
+
+    public init(
+        codeReviewJobTasks: [SecurityAgentClientTypes.CodeReviewJobTask]? = nil,
+        notFound: [Swift.String]? = nil
+    ) {
+        self.codeReviewJobTasks = codeReviewJobTasks
+        self.notFound = notFound
+    }
+}
+
+/// Input for retrieving multiple code reviews by their IDs.
+public struct BatchGetCodeReviewsInput: Swift.Sendable {
+    /// The unique identifier of the agent space that contains the code reviews.
+    /// This member is required.
+    public var agentSpaceId: Swift.String?
+    /// The list of code review identifiers to retrieve.
+    /// This member is required.
+    public var codeReviewIds: [Swift.String]?
+
+    public init(
+        agentSpaceId: Swift.String? = nil,
+        codeReviewIds: [Swift.String]? = nil
+    ) {
+        self.agentSpaceId = agentSpaceId
+        self.codeReviewIds = codeReviewIds
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// Represents a code review configuration that defines the parameters for automated security-focused code analysis, including target assets and logging configuration.
+    public struct CodeReview: Swift.Sendable {
+        /// The unique identifier of the agent space that contains the code review.
+        /// This member is required.
+        public var agentSpaceId: Swift.String?
+        /// The assets included in the code review.
+        /// This member is required.
+        public var assets: SecurityAgentClientTypes.Assets?
+        /// The code remediation strategy for the code review.
+        public var codeRemediationStrategy: SecurityAgentClientTypes.CodeRemediationStrategy?
+        /// The unique identifier of the code review.
+        /// This member is required.
+        public var codeReviewId: Swift.String?
+        /// The date and time the code review was created, in UTC format.
+        public var createdAt: Foundation.Date?
+        /// The CloudWatch Logs configuration for the code review.
+        public var logConfig: SecurityAgentClientTypes.CloudWatchLog?
+        /// The IAM service role used for the code review.
+        public var serviceRole: Swift.String?
+        /// The title of the code review.
+        /// This member is required.
+        public var title: Swift.String?
+        /// The date and time the code review was last updated, in UTC format.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            agentSpaceId: Swift.String? = nil,
+            assets: SecurityAgentClientTypes.Assets? = nil,
+            codeRemediationStrategy: SecurityAgentClientTypes.CodeRemediationStrategy? = nil,
+            codeReviewId: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            logConfig: SecurityAgentClientTypes.CloudWatchLog? = nil,
+            serviceRole: Swift.String? = nil,
+            title: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.agentSpaceId = agentSpaceId
+            self.assets = assets
+            self.codeRemediationStrategy = codeRemediationStrategy
+            self.codeReviewId = codeReviewId
+            self.createdAt = createdAt
+            self.logConfig = logConfig
+            self.serviceRole = serviceRole
+            self.title = title
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+/// Output for the BatchGetCodeReviews operation.
+public struct BatchGetCodeReviewsOutput: Swift.Sendable {
+    /// The list of code reviews that were found.
+    public var codeReviews: [SecurityAgentClientTypes.CodeReview]?
+    /// The list of code review identifiers that were not found.
+    public var notFound: [Swift.String]?
+
+    public init(
+        codeReviews: [SecurityAgentClientTypes.CodeReview]? = nil,
+        notFound: [Swift.String]? = nil
+    ) {
+        self.codeReviews = codeReviews
+        self.notFound = notFound
+    }
+}
+
+/// Input for BatchGetFindings operation.
+public struct BatchGetFindingsInput: Swift.Sendable {
+    /// The unique identifier of the agent space that contains the findings.
+    /// This member is required.
+    public var agentSpaceId: Swift.String?
+    /// The list of finding identifiers to retrieve.
+    /// This member is required.
+    public var findingIds: [Swift.String]?
+
+    public init(
+        agentSpaceId: Swift.String? = nil,
+        findingIds: [Swift.String]? = nil
+    ) {
+        self.agentSpaceId = agentSpaceId
+        self.findingIds = findingIds
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// Represents a location in source code associated with a security finding.
+    public struct CodeLocation: Swift.Sendable {
+        /// The absolute path to the file containing the code location.
+        /// This member is required.
+        public var filePath: Swift.String?
+        /// The role of this location in the vulnerability, such as source or sink.
+        public var label: Swift.String?
+        /// The ending line number of the code location.
+        public var lineEnd: Swift.Int?
+        /// The starting line number of the code location.
+        public var lineStart: Swift.Int?
+
+        public init(
+            filePath: Swift.String? = nil,
+            label: Swift.String? = nil,
+            lineEnd: Swift.Int? = nil,
+            lineStart: Swift.Int? = nil
+        ) {
+            self.filePath = filePath
+            self.label = label
+            self.lineEnd = lineEnd
+            self.lineStart = lineStart
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// Code remediation task status.
+    public enum CodeRemediationTaskStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case completed
+        case failed
+        case inProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CodeRemediationTaskStatus] {
+            return [
+                .completed,
+                .failed,
+                .inProgress
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// Contains details about a code remediation task, including links to the code diff and pull request.
+    public struct CodeRemediationTaskDetails: Swift.Sendable {
+        /// The link to the code diff for the remediation.
+        public var codeDiffLink: Swift.String?
+        /// The link to the pull request created for the remediation.
+        public var pullRequestLink: Swift.String?
+        /// The name of the repository where the remediation was applied.
+        public var repoName: Swift.String?
+
+        public init(
+            codeDiffLink: Swift.String? = nil,
+            pullRequestLink: Swift.String? = nil,
+            repoName: Swift.String? = nil
+        ) {
+            self.codeDiffLink = codeDiffLink
+            self.pullRequestLink = pullRequestLink
+            self.repoName = repoName
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// Represents a code remediation task that was initiated to fix a security finding.
+    public struct CodeRemediationTask: Swift.Sendable {
+        /// The current status of the code remediation task.
+        /// This member is required.
+        public var status: SecurityAgentClientTypes.CodeRemediationTaskStatus?
+        /// The reason for the current status of the code remediation task.
+        public var statusReason: Swift.String?
+        /// The list of details for the code remediation task, including repository name, code diff link, and pull request link.
+        public var taskDetails: [SecurityAgentClientTypes.CodeRemediationTaskDetails]?
+
+        public init(
+            status: SecurityAgentClientTypes.CodeRemediationTaskStatus? = nil,
+            statusReason: Swift.String? = nil,
+            taskDetails: [SecurityAgentClientTypes.CodeRemediationTaskDetails]? = nil
+        ) {
+            self.status = status
+            self.statusReason = statusReason
+            self.taskDetails = taskDetails
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// Finding confidence level.
+    public enum ConfidenceLevel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case falsePositive
+        case high
+        case low
+        case medium
+        case unconfirmed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConfidenceLevel] {
+            return [
+                .falsePositive,
+                .high,
+                .low,
+                .medium,
+                .unconfirmed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .falsePositive: return "FALSE_POSITIVE"
+            case .high: return "HIGH"
+            case .low: return "LOW"
+            case .medium: return "MEDIUM"
+            case .unconfirmed: return "UNCONFIRMED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// Risk severity level.
+    public enum RiskLevel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case critical
+        case high
+        case informational
+        case low
+        case medium
+        case unknown
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RiskLevel] {
+            return [
+                .critical,
+                .high,
+                .informational,
+                .low,
+                .medium,
+                .unknown
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .critical: return "CRITICAL"
+            case .high: return "HIGH"
+            case .informational: return "INFORMATIONAL"
+            case .low: return "LOW"
+            case .medium: return "MEDIUM"
+            case .unknown: return "UNKNOWN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// Finding status.
+    public enum FindingStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accepted
+        case active
+        case falsePositive
+        case resolved
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FindingStatus] {
+            return [
+                .accepted,
+                .active,
+                .falsePositive,
+                .resolved
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accepted: return "ACCEPTED"
+            case .active: return "ACTIVE"
+            case .falsePositive: return "FALSE_POSITIVE"
+            case .resolved: return "RESOLVED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// Represents a security finding discovered during a pentest job. A finding contains details about a vulnerability, including its risk level, confidence, and remediation status.
+    public struct Finding: Swift.Sendable {
+        /// The unique identifier of the agent space associated with the finding.
+        /// This member is required.
+        public var agentSpaceId: Swift.String?
+        /// The attack script used to reproduce the finding.
+        public var attackScript: Swift.String?
+        /// The file locations involved in the vulnerability, as reported by the code scanner.
+        public var codeLocations: [SecurityAgentClientTypes.CodeLocation]?
+        /// The code remediation task associated with the finding, if code remediation was initiated.
+        public var codeRemediationTask: SecurityAgentClientTypes.CodeRemediationTask?
+        /// The unique identifier of the code review associated with the finding.
+        public var codeReviewId: Swift.String?
+        /// The unique identifier of the code review job that produced the finding.
+        public var codeReviewJobId: Swift.String?
+        /// The confidence level of the finding. Valid values include FALSE_POSITIVE, UNCONFIRMED, LOW, MEDIUM, and HIGH.
+        public var confidence: SecurityAgentClientTypes.ConfidenceLevel?
+        /// The date and time the finding was created, in UTC format.
+        public var createdAt: Foundation.Date?
+        /// A description of the finding.
+        public var description: Swift.String?
+        /// The unique identifier of the finding.
+        /// This member is required.
+        public var findingId: Swift.String?
+        /// The identifier of the entity that last updated the finding.
+        public var lastUpdatedBy: Swift.String?
+        /// The name of the finding.
+        public var name: Swift.String?
+        /// The unique identifier of the pentest associated with the finding.
+        public var pentestId: Swift.String?
+        /// The unique identifier of the pentest job that produced the finding.
+        public var pentestJobId: Swift.String?
+        /// The reasoning behind the finding, explaining why it was identified as a vulnerability.
+        public var reasoning: Swift.String?
+        /// The risk level of the finding. Valid values include UNKNOWN, INFORMATIONAL, LOW, MEDIUM, HIGH, and CRITICAL.
+        public var riskLevel: SecurityAgentClientTypes.RiskLevel?
+        /// The numerical risk score of the finding.
+        public var riskScore: Swift.String?
+        /// The type of security risk identified by the finding.
+        public var riskType: Swift.String?
+        /// The current status of the finding. Valid values include ACTIVE, RESOLVED, ACCEPTED, and FALSE_POSITIVE.
+        public var status: SecurityAgentClientTypes.FindingStatus?
+        /// The unique identifier of the task that produced the finding.
+        public var taskId: Swift.String?
+        /// The date and time the finding was last updated, in UTC format.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            agentSpaceId: Swift.String? = nil,
+            attackScript: Swift.String? = nil,
+            codeLocations: [SecurityAgentClientTypes.CodeLocation]? = nil,
+            codeRemediationTask: SecurityAgentClientTypes.CodeRemediationTask? = nil,
+            codeReviewId: Swift.String? = nil,
+            codeReviewJobId: Swift.String? = nil,
+            confidence: SecurityAgentClientTypes.ConfidenceLevel? = nil,
+            createdAt: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            findingId: Swift.String? = nil,
+            lastUpdatedBy: Swift.String? = nil,
+            name: Swift.String? = nil,
+            pentestId: Swift.String? = nil,
+            pentestJobId: Swift.String? = nil,
+            reasoning: Swift.String? = nil,
+            riskLevel: SecurityAgentClientTypes.RiskLevel? = nil,
+            riskScore: Swift.String? = nil,
+            riskType: Swift.String? = nil,
+            status: SecurityAgentClientTypes.FindingStatus? = nil,
+            taskId: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.agentSpaceId = agentSpaceId
+            self.attackScript = attackScript
+            self.codeLocations = codeLocations
+            self.codeRemediationTask = codeRemediationTask
+            self.codeReviewId = codeReviewId
+            self.codeReviewJobId = codeReviewJobId
+            self.confidence = confidence
+            self.createdAt = createdAt
+            self.description = description
+            self.findingId = findingId
+            self.lastUpdatedBy = lastUpdatedBy
+            self.name = name
+            self.pentestId = pentestId
+            self.pentestJobId = pentestJobId
+            self.reasoning = reasoning
+            self.riskLevel = riskLevel
+            self.riskScore = riskScore
+            self.riskType = riskType
+            self.status = status
+            self.taskId = taskId
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+/// Output for the BatchGetFindings operation.
+public struct BatchGetFindingsOutput: Swift.Sendable {
+    /// The list of findings that were found.
+    public var findings: [SecurityAgentClientTypes.Finding]?
+    /// The list of finding identifiers that were not found.
+    public var notFound: [Swift.String]?
+
+    public init(
+        findings: [SecurityAgentClientTypes.Finding]? = nil,
+        notFound: [Swift.String]? = nil
+    ) {
+        self.findings = findings
+        self.notFound = notFound
+    }
+}
+
+/// Input for BatchGetPentestJobs operation.
+public struct BatchGetPentestJobsInput: Swift.Sendable {
+    /// The unique identifier of the agent space that contains the pentest jobs.
+    /// This member is required.
+    public var agentSpaceId: Swift.String?
+    /// The list of pentest job identifiers to retrieve.
+    /// This member is required.
+    public var pentestJobIds: [Swift.String]?
+
+    public init(
+        agentSpaceId: Swift.String? = nil,
+        pentestJobIds: [Swift.String]? = nil
+    ) {
+        self.agentSpaceId = agentSpaceId
+        self.pentestJobIds = pentestJobIds
+    }
+}
+
+extension SecurityAgentClientTypes {
+
     /// Represents a pentest job, which is an execution instance of a pentest. A pentest job progresses through preflight, static analysis, pentest, and finalizing steps.
     public struct PentestJob: Swift.Sendable {
         /// The list of actors used during the pentest job.
@@ -2380,116 +2871,6 @@ public struct BatchGetPentestJobTasksInput: Swift.Sendable {
     ) {
         self.agentSpaceId = agentSpaceId
         self.taskIds = taskIds
-    }
-}
-
-extension SecurityAgentClientTypes {
-
-    /// Represents a category assigned to a security testing task.
-    public struct Category: Swift.Sendable {
-        /// Indicates whether this is the primary category for the task.
-        public var isPrimary: Swift.Bool?
-        /// The name of the category.
-        public var name: Swift.String?
-
-        public init(
-            isPrimary: Swift.Bool? = nil,
-            name: Swift.String? = nil
-        ) {
-            self.isPrimary = isPrimary
-            self.name = name
-        }
-    }
-}
-
-extension SecurityAgentClientTypes {
-
-    /// Execution status of a task.
-    public enum TaskExecutionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        /// Task was aborted.
-        case aborted
-        /// Task completed successfully.
-        case completed
-        /// Task failed during execution.
-        case failed
-        /// Task failed due to an internal error.
-        case internalError
-        /// Task is currently running.
-        case inProgress
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [TaskExecutionStatus] {
-            return [
-                .aborted,
-                .completed,
-                .failed,
-                .internalError,
-                .inProgress
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .aborted: return "ABORTED"
-            case .completed: return "COMPLETED"
-            case .failed: return "FAILED"
-            case .internalError: return "INTERNAL_ERROR"
-            case .inProgress: return "IN_PROGRESS"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension SecurityAgentClientTypes {
-
-    /// Type of log storage.
-    public enum LogType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        /// Logs stored in CloudWatch.
-        case cloudwatch
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [LogType] {
-            return [
-                .cloudwatch
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .cloudwatch: return "CLOUDWATCH"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension SecurityAgentClientTypes {
-
-    /// The log location for a task, specifying where task execution logs are stored.
-    public struct LogLocation: Swift.Sendable {
-        /// The CloudWatch Logs location for the task logs.
-        public var cloudWatchLog: SecurityAgentClientTypes.CloudWatchLog?
-        /// The type of log storage. Currently, only CLOUDWATCH is supported.
-        public var logType: SecurityAgentClientTypes.LogType?
-
-        public init(
-            cloudWatchLog: SecurityAgentClientTypes.CloudWatchLog? = nil,
-            logType: SecurityAgentClientTypes.LogType? = nil
-        ) {
-            self.cloudWatchLog = cloudWatchLog
-            self.logType = logType
-        }
     }
 }
 
@@ -2846,6 +3227,125 @@ public struct BatchGetTargetDomainsOutput: Swift.Sendable {
     }
 }
 
+extension SecurityAgentClientTypes {
+
+    /// Contains summary information about a code review job.
+    public struct CodeReviewJobSummary: Swift.Sendable {
+        /// The unique identifier of the code review associated with the job.
+        /// This member is required.
+        public var codeReviewId: Swift.String?
+        /// The unique identifier of the code review job.
+        /// This member is required.
+        public var codeReviewJobId: Swift.String?
+        /// The date and time the code review job was created, in UTC format.
+        public var createdAt: Foundation.Date?
+        /// The current status of the code review job.
+        public var status: SecurityAgentClientTypes.JobStatus?
+        /// The title of the code review job.
+        public var title: Swift.String?
+        /// The date and time the code review job was last updated, in UTC format.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            codeReviewId: Swift.String? = nil,
+            codeReviewJobId: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            status: SecurityAgentClientTypes.JobStatus? = nil,
+            title: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.codeReviewId = codeReviewId
+            self.codeReviewJobId = codeReviewJobId
+            self.createdAt = createdAt
+            self.status = status
+            self.title = title
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// Contains summary information about a code review job task.
+    public struct CodeReviewJobTaskSummary: Swift.Sendable {
+        /// The unique identifier of the agent space.
+        public var agentSpaceId: Swift.String?
+        /// The unique identifier of the code review associated with the task.
+        public var codeReviewId: Swift.String?
+        /// The unique identifier of the code review job that contains the task.
+        public var codeReviewJobId: Swift.String?
+        /// The date and time the task was created, in UTC format.
+        public var createdAt: Foundation.Date?
+        /// The current execution status of the task.
+        public var executionStatus: SecurityAgentClientTypes.TaskExecutionStatus?
+        /// The type of security risk the task is testing for.
+        public var riskType: SecurityAgentClientTypes.RiskType?
+        /// The unique identifier of the task.
+        /// This member is required.
+        public var taskId: Swift.String?
+        /// The title of the task.
+        public var title: Swift.String?
+        /// The date and time the task was last updated, in UTC format.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            agentSpaceId: Swift.String? = nil,
+            codeReviewId: Swift.String? = nil,
+            codeReviewJobId: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            executionStatus: SecurityAgentClientTypes.TaskExecutionStatus? = nil,
+            riskType: SecurityAgentClientTypes.RiskType? = nil,
+            taskId: Swift.String? = nil,
+            title: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.agentSpaceId = agentSpaceId
+            self.codeReviewId = codeReviewId
+            self.codeReviewJobId = codeReviewJobId
+            self.createdAt = createdAt
+            self.executionStatus = executionStatus
+            self.riskType = riskType
+            self.taskId = taskId
+            self.title = title
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// Contains summary information about a code review.
+    public struct CodeReviewSummary: Swift.Sendable {
+        /// The unique identifier of the agent space that contains the code review.
+        /// This member is required.
+        public var agentSpaceId: Swift.String?
+        /// The unique identifier of the code review.
+        /// This member is required.
+        public var codeReviewId: Swift.String?
+        /// The date and time the code review was created, in UTC format.
+        public var createdAt: Foundation.Date?
+        /// The title of the code review.
+        /// This member is required.
+        public var title: Swift.String?
+        /// The date and time the code review was last updated, in UTC format.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            agentSpaceId: Swift.String? = nil,
+            codeReviewId: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            title: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.agentSpaceId = agentSpaceId
+            self.codeReviewId = codeReviewId
+            self.createdAt = createdAt
+            self.title = title
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
 /// The request could not be completed due to a conflict with the current state of the resource.
 public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -2868,6 +3368,86 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         message: Swift.String? = nil
     ) {
         self.properties.message = message
+    }
+}
+
+/// Input for creating a new code review.
+public struct CreateCodeReviewInput: Swift.Sendable {
+    /// The unique identifier of the agent space to create the code review in.
+    /// This member is required.
+    public var agentSpaceId: Swift.String?
+    /// The assets to include in the code review, such as documents and source code.
+    /// This member is required.
+    public var assets: SecurityAgentClientTypes.Assets?
+    /// The code remediation strategy for the code review. Valid values are AUTOMATIC and DISABLED.
+    public var codeRemediationStrategy: SecurityAgentClientTypes.CodeRemediationStrategy?
+    /// The CloudWatch Logs configuration for the code review.
+    public var logConfig: SecurityAgentClientTypes.CloudWatchLog?
+    /// The IAM service role to use for the code review.
+    public var serviceRole: Swift.String?
+    /// The title of the code review.
+    /// This member is required.
+    public var title: Swift.String?
+
+    public init(
+        agentSpaceId: Swift.String? = nil,
+        assets: SecurityAgentClientTypes.Assets? = nil,
+        codeRemediationStrategy: SecurityAgentClientTypes.CodeRemediationStrategy? = nil,
+        logConfig: SecurityAgentClientTypes.CloudWatchLog? = nil,
+        serviceRole: Swift.String? = nil,
+        title: Swift.String? = nil
+    ) {
+        self.agentSpaceId = agentSpaceId
+        self.assets = assets
+        self.codeRemediationStrategy = codeRemediationStrategy
+        self.logConfig = logConfig
+        self.serviceRole = serviceRole
+        self.title = title
+    }
+}
+
+/// Output for the CreateCodeReview operation.
+public struct CreateCodeReviewOutput: Swift.Sendable {
+    /// The unique identifier of the agent space that contains the code review.
+    public var agentSpaceId: Swift.String?
+    /// The assets included in the code review.
+    public var assets: SecurityAgentClientTypes.Assets?
+    /// The code remediation strategy for the code review.
+    public var codeRemediationStrategy: SecurityAgentClientTypes.CodeRemediationStrategy?
+    /// The unique identifier of the created code review.
+    /// This member is required.
+    public var codeReviewId: Swift.String?
+    /// The date and time the code review was created, in UTC format.
+    public var createdAt: Foundation.Date?
+    /// The CloudWatch Logs configuration for the code review.
+    public var logConfig: SecurityAgentClientTypes.CloudWatchLog?
+    /// The IAM service role used for the code review.
+    public var serviceRole: Swift.String?
+    /// The title of the code review.
+    public var title: Swift.String?
+    /// The date and time the code review was last updated, in UTC format.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        agentSpaceId: Swift.String? = nil,
+        assets: SecurityAgentClientTypes.Assets? = nil,
+        codeRemediationStrategy: SecurityAgentClientTypes.CodeRemediationStrategy? = nil,
+        codeReviewId: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        logConfig: SecurityAgentClientTypes.CloudWatchLog? = nil,
+        serviceRole: Swift.String? = nil,
+        title: Swift.String? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.agentSpaceId = agentSpaceId
+        self.assets = assets
+        self.codeRemediationStrategy = codeRemediationStrategy
+        self.codeReviewId = codeReviewId
+        self.createdAt = createdAt
+        self.logConfig = logConfig
+        self.serviceRole = serviceRole
+        self.title = title
+        self.updatedAt = updatedAt
     }
 }
 
@@ -3392,6 +3972,10 @@ extension SecurityAgentClientTypes {
         /// The unique identifier of the agent space associated with the finding.
         /// This member is required.
         public var agentSpaceId: Swift.String?
+        /// The unique identifier of the code review associated with the finding.
+        public var codeReviewId: Swift.String?
+        /// The unique identifier of the code review job that produced the finding.
+        public var codeReviewJobId: Swift.String?
         /// The confidence level of the finding.
         public var confidence: SecurityAgentClientTypes.ConfidenceLevel?
         /// The date and time the finding was created, in UTC format.
@@ -3416,6 +4000,8 @@ extension SecurityAgentClientTypes {
 
         public init(
             agentSpaceId: Swift.String? = nil,
+            codeReviewId: Swift.String? = nil,
+            codeReviewJobId: Swift.String? = nil,
             confidence: SecurityAgentClientTypes.ConfidenceLevel? = nil,
             createdAt: Foundation.Date? = nil,
             findingId: Swift.String? = nil,
@@ -3428,6 +4014,8 @@ extension SecurityAgentClientTypes {
             updatedAt: Foundation.Date? = nil
         ) {
             self.agentSpaceId = agentSpaceId
+            self.codeReviewId = codeReviewId
+            self.codeReviewJobId = codeReviewJobId
             self.confidence = confidence
             self.createdAt = createdAt
             self.findingId = findingId
@@ -3861,6 +4449,134 @@ public struct ListArtifactsOutput: Swift.Sendable {
     }
 }
 
+/// Input for ListCodeReviewJobsForCodeReview operation.
+public struct ListCodeReviewJobsForCodeReviewInput: Swift.Sendable {
+    /// The unique identifier of the agent space.
+    /// This member is required.
+    public var agentSpaceId: Swift.String?
+    /// The unique identifier of the code review to list jobs for.
+    /// This member is required.
+    public var codeReviewId: Swift.String?
+    /// The maximum number of results to return in a single call.
+    public var maxResults: Swift.Int?
+    /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request. For subsequent calls, use the nextToken value returned from the previous request.
+    public var nextToken: Swift.String?
+
+    public init(
+        agentSpaceId: Swift.String? = nil,
+        codeReviewId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.agentSpaceId = agentSpaceId
+        self.codeReviewId = codeReviewId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+/// Output for the ListCodeReviewJobsForCodeReview operation.
+public struct ListCodeReviewJobsForCodeReviewOutput: Swift.Sendable {
+    /// The list of code review job summaries.
+    public var codeReviewJobSummaries: [SecurityAgentClientTypes.CodeReviewJobSummary]?
+    /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request. For subsequent calls, use the nextToken value returned from the previous request.
+    public var nextToken: Swift.String?
+
+    public init(
+        codeReviewJobSummaries: [SecurityAgentClientTypes.CodeReviewJobSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.codeReviewJobSummaries = codeReviewJobSummaries
+        self.nextToken = nextToken
+    }
+}
+
+/// Input for listing tasks associated with a code review job.
+public struct ListCodeReviewJobTasksInput: Swift.Sendable {
+    /// The unique identifier of the agent space.
+    /// This member is required.
+    public var agentSpaceId: Swift.String?
+    /// Filter tasks by category name.
+    public var categoryName: Swift.String?
+    /// The unique identifier of the code review job to list tasks for.
+    public var codeReviewJobId: Swift.String?
+    /// The maximum number of results to return in a single call.
+    public var maxResults: Swift.Int?
+    /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request. For subsequent calls, use the nextToken value returned from the previous request.
+    public var nextToken: Swift.String?
+    /// Filter tasks by step name.
+    public var stepName: SecurityAgentClientTypes.StepName?
+
+    public init(
+        agentSpaceId: Swift.String? = nil,
+        categoryName: Swift.String? = nil,
+        codeReviewJobId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        stepName: SecurityAgentClientTypes.StepName? = nil
+    ) {
+        self.agentSpaceId = agentSpaceId
+        self.categoryName = categoryName
+        self.codeReviewJobId = codeReviewJobId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.stepName = stepName
+    }
+}
+
+/// Output for the ListCodeReviewJobTasks operation.
+public struct ListCodeReviewJobTasksOutput: Swift.Sendable {
+    /// The list of code review job task summaries.
+    public var codeReviewJobTaskSummaries: [SecurityAgentClientTypes.CodeReviewJobTaskSummary]?
+    /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request. For subsequent calls, use the nextToken value returned from the previous request.
+    public var nextToken: Swift.String?
+
+    public init(
+        codeReviewJobTaskSummaries: [SecurityAgentClientTypes.CodeReviewJobTaskSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.codeReviewJobTaskSummaries = codeReviewJobTaskSummaries
+        self.nextToken = nextToken
+    }
+}
+
+/// Input for listing code reviews with optional filtering.
+public struct ListCodeReviewsInput: Swift.Sendable {
+    /// The unique identifier of the agent space to list code reviews for.
+    /// This member is required.
+    public var agentSpaceId: Swift.String?
+    /// The maximum number of results to return in a single call.
+    public var maxResults: Swift.Int?
+    /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request. For subsequent calls, use the nextToken value returned from the previous request.
+    public var nextToken: Swift.String?
+
+    public init(
+        agentSpaceId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.agentSpaceId = agentSpaceId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+/// Output for the ListCodeReviews operation.
+public struct ListCodeReviewsOutput: Swift.Sendable {
+    /// The list of code review summaries.
+    public var codeReviewSummaries: [SecurityAgentClientTypes.CodeReviewSummary]?
+    /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request. For subsequent calls, use the nextToken value returned from the previous request.
+    public var nextToken: Swift.String?
+
+    public init(
+        codeReviewSummaries: [SecurityAgentClientTypes.CodeReviewSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.codeReviewSummaries = codeReviewSummaries
+        self.nextToken = nextToken
+    }
+}
+
 /// Input for ListDiscoveredEndpoints operation.
 public struct ListDiscoveredEndpointsInput: Swift.Sendable {
     /// The unique identifier of the agent space.
@@ -3912,6 +4628,8 @@ public struct ListFindingsInput: Swift.Sendable {
     /// The unique identifier of the agent space.
     /// This member is required.
     public var agentSpaceId: Swift.String?
+    /// The unique identifier of the code review job to list findings for. Mutually exclusive with pentestJobId.
+    public var codeReviewJobId: Swift.String?
     /// Filter findings by confidence level.
     public var confidence: SecurityAgentClientTypes.ConfidenceLevel?
     /// The maximum number of results to return in a single call.
@@ -3921,7 +4639,6 @@ public struct ListFindingsInput: Swift.Sendable {
     /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request. For subsequent calls, use the nextToken value returned from the previous request.
     public var nextToken: Swift.String?
     /// The unique identifier of the pentest job to list findings for.
-    /// This member is required.
     public var pentestJobId: Swift.String?
     /// Filter findings by risk level.
     public var riskLevel: SecurityAgentClientTypes.RiskLevel?
@@ -3932,6 +4649,7 @@ public struct ListFindingsInput: Swift.Sendable {
 
     public init(
         agentSpaceId: Swift.String? = nil,
+        codeReviewJobId: Swift.String? = nil,
         confidence: SecurityAgentClientTypes.ConfidenceLevel? = nil,
         maxResults: Swift.Int? = nil,
         name: Swift.String? = nil,
@@ -3942,6 +4660,7 @@ public struct ListFindingsInput: Swift.Sendable {
         status: SecurityAgentClientTypes.FindingStatus? = nil
     ) {
         self.agentSpaceId = agentSpaceId
+        self.codeReviewJobId = codeReviewJobId
         self.confidence = confidence
         self.maxResults = maxResults
         self.name = name
@@ -4543,19 +5262,22 @@ public struct StartCodeRemediationInput: Swift.Sendable {
     /// The unique identifier of the agent space.
     /// This member is required.
     public var agentSpaceId: Swift.String?
+    /// The unique identifier of the code review job that produced the findings. Mutually exclusive with pentestJobId.
+    public var codeReviewJobId: Swift.String?
     /// The list of finding identifiers to initiate code remediation for.
     /// This member is required.
     public var findingIds: [Swift.String]?
-    /// The unique identifier of the pentest job that produced the findings.
-    /// This member is required.
+    /// The unique identifier of the pentest job that produced the findings. Mutually exclusive with codeReviewJobId.
     public var pentestJobId: Swift.String?
 
     public init(
         agentSpaceId: Swift.String? = nil,
+        codeReviewJobId: Swift.String? = nil,
         findingIds: [Swift.String]? = nil,
         pentestJobId: Swift.String? = nil
     ) {
         self.agentSpaceId = agentSpaceId
+        self.codeReviewJobId = codeReviewJobId
         self.findingIds = findingIds
         self.pentestJobId = pentestJobId
     }
@@ -4565,6 +5287,62 @@ public struct StartCodeRemediationInput: Swift.Sendable {
 public struct StartCodeRemediationOutput: Swift.Sendable {
 
     public init() { }
+}
+
+/// Input for starting the execution of a code review.
+public struct StartCodeReviewJobInput: Swift.Sendable {
+    /// The unique identifier of the agent space.
+    /// This member is required.
+    public var agentSpaceId: Swift.String?
+    /// The unique identifier of the code review to start a job for.
+    /// This member is required.
+    public var codeReviewId: Swift.String?
+
+    public init(
+        agentSpaceId: Swift.String? = nil,
+        codeReviewId: Swift.String? = nil
+    ) {
+        self.agentSpaceId = agentSpaceId
+        self.codeReviewId = codeReviewId
+    }
+}
+
+/// Output for the StartCodeReviewJob operation.
+public struct StartCodeReviewJobOutput: Swift.Sendable {
+    /// The unique identifier of the agent space.
+    public var agentSpaceId: Swift.String?
+    /// The unique identifier of the code review.
+    /// This member is required.
+    public var codeReviewId: Swift.String?
+    /// The unique identifier of the started code review job.
+    /// This member is required.
+    public var codeReviewJobId: Swift.String?
+    /// The date and time the code review job was created, in UTC format.
+    public var createdAt: Foundation.Date?
+    /// The current status of the code review job.
+    public var status: SecurityAgentClientTypes.JobStatus?
+    /// The title of the code review job.
+    public var title: Swift.String?
+    /// The date and time the code review job was last updated, in UTC format.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        agentSpaceId: Swift.String? = nil,
+        codeReviewId: Swift.String? = nil,
+        codeReviewJobId: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        status: SecurityAgentClientTypes.JobStatus? = nil,
+        title: Swift.String? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.agentSpaceId = agentSpaceId
+        self.codeReviewId = codeReviewId
+        self.codeReviewJobId = codeReviewJobId
+        self.createdAt = createdAt
+        self.status = status
+        self.title = title
+        self.updatedAt = updatedAt
+    }
 }
 
 /// Input for starting the execution of a pentest.
@@ -4619,6 +5397,30 @@ public struct StartPentestJobOutput: Swift.Sendable {
         self.title = title
         self.updatedAt = updatedAt
     }
+}
+
+/// Input for stopping the execution of a code review job.
+public struct StopCodeReviewJobInput: Swift.Sendable {
+    /// The unique identifier of the agent space.
+    /// This member is required.
+    public var agentSpaceId: Swift.String?
+    /// The unique identifier of the code review job to stop.
+    /// This member is required.
+    public var codeReviewJobId: Swift.String?
+
+    public init(
+        agentSpaceId: Swift.String? = nil,
+        codeReviewJobId: Swift.String? = nil
+    ) {
+        self.agentSpaceId = agentSpaceId
+        self.codeReviewJobId = codeReviewJobId
+    }
+}
+
+/// Output for the StopCodeReviewJob operation.
+public struct StopCodeReviewJobOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 /// Input for stopping the execution of a pentest.
@@ -4748,6 +5550,89 @@ public struct UntagResourceInput: Swift.Sendable {
 public struct UntagResourceOutput: Swift.Sendable {
 
     public init() { }
+}
+
+/// Input for updating an existing code review.
+public struct UpdateCodeReviewInput: Swift.Sendable {
+    /// The unique identifier of the agent space that contains the code review.
+    /// This member is required.
+    public var agentSpaceId: Swift.String?
+    /// The updated assets for the code review.
+    public var assets: SecurityAgentClientTypes.Assets?
+    /// The updated code remediation strategy for the code review.
+    public var codeRemediationStrategy: SecurityAgentClientTypes.CodeRemediationStrategy?
+    /// The unique identifier of the code review to update.
+    /// This member is required.
+    public var codeReviewId: Swift.String?
+    /// The updated CloudWatch Logs configuration for the code review.
+    public var logConfig: SecurityAgentClientTypes.CloudWatchLog?
+    /// The updated IAM service role for the code review.
+    public var serviceRole: Swift.String?
+    /// The updated title of the code review.
+    public var title: Swift.String?
+
+    public init(
+        agentSpaceId: Swift.String? = nil,
+        assets: SecurityAgentClientTypes.Assets? = nil,
+        codeRemediationStrategy: SecurityAgentClientTypes.CodeRemediationStrategy? = nil,
+        codeReviewId: Swift.String? = nil,
+        logConfig: SecurityAgentClientTypes.CloudWatchLog? = nil,
+        serviceRole: Swift.String? = nil,
+        title: Swift.String? = nil
+    ) {
+        self.agentSpaceId = agentSpaceId
+        self.assets = assets
+        self.codeRemediationStrategy = codeRemediationStrategy
+        self.codeReviewId = codeReviewId
+        self.logConfig = logConfig
+        self.serviceRole = serviceRole
+        self.title = title
+    }
+}
+
+/// Output for the UpdateCodeReview operation.
+public struct UpdateCodeReviewOutput: Swift.Sendable {
+    /// The unique identifier of the agent space that contains the code review.
+    public var agentSpaceId: Swift.String?
+    /// The assets included in the code review.
+    public var assets: SecurityAgentClientTypes.Assets?
+    /// The code remediation strategy for the code review.
+    public var codeRemediationStrategy: SecurityAgentClientTypes.CodeRemediationStrategy?
+    /// The unique identifier of the code review.
+    /// This member is required.
+    public var codeReviewId: Swift.String?
+    /// The date and time the code review was created, in UTC format.
+    public var createdAt: Foundation.Date?
+    /// The CloudWatch Logs configuration for the code review.
+    public var logConfig: SecurityAgentClientTypes.CloudWatchLog?
+    /// The IAM service role used for the code review.
+    public var serviceRole: Swift.String?
+    /// The title of the code review.
+    public var title: Swift.String?
+    /// The date and time the code review was last updated, in UTC format.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        agentSpaceId: Swift.String? = nil,
+        assets: SecurityAgentClientTypes.Assets? = nil,
+        codeRemediationStrategy: SecurityAgentClientTypes.CodeRemediationStrategy? = nil,
+        codeReviewId: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        logConfig: SecurityAgentClientTypes.CloudWatchLog? = nil,
+        serviceRole: Swift.String? = nil,
+        title: Swift.String? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.agentSpaceId = agentSpaceId
+        self.assets = assets
+        self.codeRemediationStrategy = codeRemediationStrategy
+        self.codeReviewId = codeReviewId
+        self.createdAt = createdAt
+        self.logConfig = logConfig
+        self.serviceRole = serviceRole
+        self.title = title
+        self.updatedAt = updatedAt
+    }
 }
 
 /// Input for updating an existing security finding.
@@ -4959,6 +5844,13 @@ extension AddArtifactInput {
     }
 }
 
+extension BatchDeleteCodeReviewsInput {
+
+    static func urlPathProvider(_ value: BatchDeleteCodeReviewsInput) -> Swift.String? {
+        return "/BatchDeleteCodeReviews"
+    }
+}
+
 extension BatchDeletePentestsInput {
 
     static func urlPathProvider(_ value: BatchDeletePentestsInput) -> Swift.String? {
@@ -4977,6 +5869,27 @@ extension BatchGetArtifactMetadataInput {
 
     static func urlPathProvider(_ value: BatchGetArtifactMetadataInput) -> Swift.String? {
         return "/BatchGetArtifactMetadata"
+    }
+}
+
+extension BatchGetCodeReviewJobsInput {
+
+    static func urlPathProvider(_ value: BatchGetCodeReviewJobsInput) -> Swift.String? {
+        return "/BatchGetCodeReviewJobs"
+    }
+}
+
+extension BatchGetCodeReviewJobTasksInput {
+
+    static func urlPathProvider(_ value: BatchGetCodeReviewJobTasksInput) -> Swift.String? {
+        return "/BatchGetCodeReviewJobTasks"
+    }
+}
+
+extension BatchGetCodeReviewsInput {
+
+    static func urlPathProvider(_ value: BatchGetCodeReviewsInput) -> Swift.String? {
+        return "/BatchGetCodeReviews"
     }
 }
 
@@ -5026,6 +5939,13 @@ extension CreateApplicationInput {
 
     static func urlPathProvider(_ value: CreateApplicationInput) -> Swift.String? {
         return "/CreateApplication"
+    }
+}
+
+extension CreateCodeReviewInput {
+
+    static func urlPathProvider(_ value: CreateCodeReviewInput) -> Swift.String? {
+        return "/CreateCodeReview"
     }
 }
 
@@ -5148,6 +6068,27 @@ extension ListArtifactsInput {
     }
 }
 
+extension ListCodeReviewJobsForCodeReviewInput {
+
+    static func urlPathProvider(_ value: ListCodeReviewJobsForCodeReviewInput) -> Swift.String? {
+        return "/ListCodeReviewJobsForCodeReview"
+    }
+}
+
+extension ListCodeReviewJobTasksInput {
+
+    static func urlPathProvider(_ value: ListCodeReviewJobTasksInput) -> Swift.String? {
+        return "/ListCodeReviewJobTasks"
+    }
+}
+
+extension ListCodeReviewsInput {
+
+    static func urlPathProvider(_ value: ListCodeReviewsInput) -> Swift.String? {
+        return "/ListCodeReviews"
+    }
+}
+
 extension ListDiscoveredEndpointsInput {
 
     static func urlPathProvider(_ value: ListDiscoveredEndpointsInput) -> Swift.String? {
@@ -5228,10 +6169,24 @@ extension StartCodeRemediationInput {
     }
 }
 
+extension StartCodeReviewJobInput {
+
+    static func urlPathProvider(_ value: StartCodeReviewJobInput) -> Swift.String? {
+        return "/StartCodeReviewJob"
+    }
+}
+
 extension StartPentestJobInput {
 
     static func urlPathProvider(_ value: StartPentestJobInput) -> Swift.String? {
         return "/StartPentestJob"
+    }
+}
+
+extension StopCodeReviewJobInput {
+
+    static func urlPathProvider(_ value: StopCodeReviewJobInput) -> Swift.String? {
+        return "/StopCodeReviewJob"
     }
 }
 
@@ -5292,6 +6247,13 @@ extension UpdateApplicationInput {
     }
 }
 
+extension UpdateCodeReviewInput {
+
+    static func urlPathProvider(_ value: UpdateCodeReviewInput) -> Swift.String? {
+        return "/UpdateCodeReview"
+    }
+}
+
 extension UpdateFindingInput {
 
     static func urlPathProvider(_ value: UpdateFindingInput) -> Swift.String? {
@@ -5338,6 +6300,15 @@ extension AddArtifactInput {
     }
 }
 
+extension BatchDeleteCodeReviewsInput {
+
+    static func write(value: BatchDeleteCodeReviewsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agentSpaceId"].write(value.agentSpaceId)
+        try writer["codeReviewIds"].writeList(value.codeReviewIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension BatchDeletePentestsInput {
 
     static func write(value: BatchDeletePentestsInput?, to writer: SmithyJSON.Writer) throws {
@@ -5361,6 +6332,33 @@ extension BatchGetArtifactMetadataInput {
         guard let value else { return }
         try writer["agentSpaceId"].write(value.agentSpaceId)
         try writer["artifactIds"].writeList(value.artifactIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BatchGetCodeReviewJobsInput {
+
+    static func write(value: BatchGetCodeReviewJobsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agentSpaceId"].write(value.agentSpaceId)
+        try writer["codeReviewJobIds"].writeList(value.codeReviewJobIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BatchGetCodeReviewJobTasksInput {
+
+    static func write(value: BatchGetCodeReviewJobTasksInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agentSpaceId"].write(value.agentSpaceId)
+        try writer["codeReviewJobTaskIds"].writeList(value.codeReviewJobTaskIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BatchGetCodeReviewsInput {
+
+    static func write(value: BatchGetCodeReviewsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agentSpaceId"].write(value.agentSpaceId)
+        try writer["codeReviewIds"].writeList(value.codeReviewIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -5430,6 +6428,19 @@ extension CreateApplicationInput {
         try writer["idcInstanceArn"].write(value.idcInstanceArn)
         try writer["roleArn"].write(value.roleArn)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension CreateCodeReviewInput {
+
+    static func write(value: CreateCodeReviewInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agentSpaceId"].write(value.agentSpaceId)
+        try writer["assets"].write(value.assets, with: SecurityAgentClientTypes.Assets.write(value:to:))
+        try writer["codeRemediationStrategy"].write(value.codeRemediationStrategy)
+        try writer["logConfig"].write(value.logConfig, with: SecurityAgentClientTypes.CloudWatchLog.write(value:to:))
+        try writer["serviceRole"].write(value.serviceRole)
+        try writer["title"].write(value.title)
     }
 }
 
@@ -5596,6 +6607,40 @@ extension ListArtifactsInput {
     }
 }
 
+extension ListCodeReviewJobsForCodeReviewInput {
+
+    static func write(value: ListCodeReviewJobsForCodeReviewInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agentSpaceId"].write(value.agentSpaceId)
+        try writer["codeReviewId"].write(value.codeReviewId)
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+    }
+}
+
+extension ListCodeReviewJobTasksInput {
+
+    static func write(value: ListCodeReviewJobTasksInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agentSpaceId"].write(value.agentSpaceId)
+        try writer["categoryName"].write(value.categoryName)
+        try writer["codeReviewJobId"].write(value.codeReviewJobId)
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+        try writer["stepName"].write(value.stepName)
+    }
+}
+
+extension ListCodeReviewsInput {
+
+    static func write(value: ListCodeReviewsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agentSpaceId"].write(value.agentSpaceId)
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+    }
+}
+
 extension ListDiscoveredEndpointsInput {
 
     static func write(value: ListDiscoveredEndpointsInput?, to writer: SmithyJSON.Writer) throws {
@@ -5613,6 +6658,7 @@ extension ListFindingsInput {
     static func write(value: ListFindingsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["agentSpaceId"].write(value.agentSpaceId)
+        try writer["codeReviewJobId"].write(value.codeReviewJobId)
         try writer["confidence"].write(value.confidence)
         try writer["maxResults"].write(value.maxResults)
         try writer["name"].write(value.name)
@@ -5706,8 +6752,18 @@ extension StartCodeRemediationInput {
     static func write(value: StartCodeRemediationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["agentSpaceId"].write(value.agentSpaceId)
+        try writer["codeReviewJobId"].write(value.codeReviewJobId)
         try writer["findingIds"].writeList(value.findingIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["pentestJobId"].write(value.pentestJobId)
+    }
+}
+
+extension StartCodeReviewJobInput {
+
+    static func write(value: StartCodeReviewJobInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agentSpaceId"].write(value.agentSpaceId)
+        try writer["codeReviewId"].write(value.codeReviewId)
     }
 }
 
@@ -5717,6 +6773,15 @@ extension StartPentestJobInput {
         guard let value else { return }
         try writer["agentSpaceId"].write(value.agentSpaceId)
         try writer["pentestId"].write(value.pentestId)
+    }
+}
+
+extension StopCodeReviewJobInput {
+
+    static func write(value: StopCodeReviewJobInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agentSpaceId"].write(value.agentSpaceId)
+        try writer["codeReviewJobId"].write(value.codeReviewJobId)
     }
 }
 
@@ -5757,6 +6822,20 @@ extension UpdateApplicationInput {
         try writer["applicationId"].write(value.applicationId)
         try writer["defaultKmsKeyId"].write(value.defaultKmsKeyId)
         try writer["roleArn"].write(value.roleArn)
+    }
+}
+
+extension UpdateCodeReviewInput {
+
+    static func write(value: UpdateCodeReviewInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agentSpaceId"].write(value.agentSpaceId)
+        try writer["assets"].write(value.assets, with: SecurityAgentClientTypes.Assets.write(value:to:))
+        try writer["codeRemediationStrategy"].write(value.codeRemediationStrategy)
+        try writer["codeReviewId"].write(value.codeReviewId)
+        try writer["logConfig"].write(value.logConfig, with: SecurityAgentClientTypes.CloudWatchLog.write(value:to:))
+        try writer["serviceRole"].write(value.serviceRole)
+        try writer["title"].write(value.title)
     }
 }
 
@@ -5827,6 +6906,19 @@ extension AddArtifactOutput {
     }
 }
 
+extension BatchDeleteCodeReviewsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchDeleteCodeReviewsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchDeleteCodeReviewsOutput()
+        value.deleted = try reader["deleted"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.failed = try reader["failed"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.DeleteCodeReviewFailure.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension BatchDeletePentestsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchDeletePentestsOutput {
@@ -5861,6 +6953,45 @@ extension BatchGetArtifactMetadataOutput {
         let reader = responseReader
         var value = BatchGetArtifactMetadataOutput()
         value.artifactMetadataList = try reader["artifactMetadataList"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.ArtifactMetadataItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BatchGetCodeReviewJobsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchGetCodeReviewJobsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchGetCodeReviewJobsOutput()
+        value.codeReviewJobs = try reader["codeReviewJobs"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.CodeReviewJob.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.notFound = try reader["notFound"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BatchGetCodeReviewJobTasksOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchGetCodeReviewJobTasksOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchGetCodeReviewJobTasksOutput()
+        value.codeReviewJobTasks = try reader["codeReviewJobTasks"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.CodeReviewJobTask.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.notFound = try reader["notFound"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BatchGetCodeReviewsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchGetCodeReviewsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchGetCodeReviewsOutput()
+        value.codeReviews = try reader["codeReviews"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.CodeReview.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.notFound = try reader["notFound"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -5958,6 +7089,26 @@ extension CreateApplicationOutput {
         let reader = responseReader
         var value = CreateApplicationOutput()
         value.applicationId = try reader["applicationId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CreateCodeReviewOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateCodeReviewOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateCodeReviewOutput()
+        value.agentSpaceId = try reader["agentSpaceId"].readIfPresent()
+        value.assets = try reader["assets"].readIfPresent(with: SecurityAgentClientTypes.Assets.read(from:))
+        value.codeRemediationStrategy = try reader["codeRemediationStrategy"].readIfPresent()
+        value.codeReviewId = try reader["codeReviewId"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.logConfig = try reader["logConfig"].readIfPresent(with: SecurityAgentClientTypes.CloudWatchLog.read(from:))
+        value.serviceRole = try reader["serviceRole"].readIfPresent()
+        value.title = try reader["title"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
@@ -6173,6 +7324,45 @@ extension ListArtifactsOutput {
     }
 }
 
+extension ListCodeReviewJobsForCodeReviewOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListCodeReviewJobsForCodeReviewOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListCodeReviewJobsForCodeReviewOutput()
+        value.codeReviewJobSummaries = try reader["codeReviewJobSummaries"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.CodeReviewJobSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListCodeReviewJobTasksOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListCodeReviewJobTasksOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListCodeReviewJobTasksOutput()
+        value.codeReviewJobTaskSummaries = try reader["codeReviewJobTaskSummaries"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.CodeReviewJobTaskSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListCodeReviewsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListCodeReviewsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListCodeReviewsOutput()
+        value.codeReviewSummaries = try reader["codeReviewSummaries"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.CodeReviewSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListDiscoveredEndpointsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDiscoveredEndpointsOutput {
@@ -6309,6 +7499,24 @@ extension StartCodeRemediationOutput {
     }
 }
 
+extension StartCodeReviewJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartCodeReviewJobOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartCodeReviewJobOutput()
+        value.agentSpaceId = try reader["agentSpaceId"].readIfPresent()
+        value.codeReviewId = try reader["codeReviewId"].readIfPresent() ?? ""
+        value.codeReviewJobId = try reader["codeReviewJobId"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.status = try reader["status"].readIfPresent()
+        value.title = try reader["title"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
 extension StartPentestJobOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartPentestJobOutput {
@@ -6324,6 +7532,13 @@ extension StartPentestJobOutput {
         value.title = try reader["title"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
+    }
+}
+
+extension StopCodeReviewJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopCodeReviewJobOutput {
+        return StopCodeReviewJobOutput()
     }
 }
 
@@ -6375,6 +7590,26 @@ extension UpdateApplicationOutput {
         let reader = responseReader
         var value = UpdateApplicationOutput()
         value.applicationId = try reader["applicationId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension UpdateCodeReviewOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateCodeReviewOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateCodeReviewOutput()
+        value.agentSpaceId = try reader["agentSpaceId"].readIfPresent()
+        value.assets = try reader["assets"].readIfPresent(with: SecurityAgentClientTypes.Assets.read(from:))
+        value.codeRemediationStrategy = try reader["codeRemediationStrategy"].readIfPresent()
+        value.codeReviewId = try reader["codeReviewId"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.logConfig = try reader["logConfig"].readIfPresent(with: SecurityAgentClientTypes.CloudWatchLog.read(from:))
+        value.serviceRole = try reader["serviceRole"].readIfPresent()
+        value.title = try reader["title"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
@@ -6467,6 +7702,19 @@ enum AddArtifactOutputError {
     }
 }
 
+enum BatchDeleteCodeReviewsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum BatchDeletePentestsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -6506,6 +7754,45 @@ enum BatchGetArtifactMetadataOutputError {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum BatchGetCodeReviewJobsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum BatchGetCodeReviewJobTasksOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum BatchGetCodeReviewsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -6590,6 +7877,19 @@ enum CreateAgentSpaceOutputError {
 }
 
 enum CreateApplicationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateCodeReviewOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -6861,6 +8161,45 @@ enum ListArtifactsOutputError {
     }
 }
 
+enum ListCodeReviewJobsForCodeReviewOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListCodeReviewJobTasksOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListCodeReviewsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListDiscoveredEndpointsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -7014,7 +8353,33 @@ enum StartCodeRemediationOutputError {
     }
 }
 
+enum StartCodeReviewJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum StartPentestJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StopCodeReviewJobOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -7080,6 +8445,19 @@ enum UpdateAgentSpaceOutputError {
 }
 
 enum UpdateApplicationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateCodeReviewOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -7438,6 +8816,19 @@ extension SecurityAgentClientTypes.CloudWatchLog {
     }
 }
 
+extension SecurityAgentClientTypes.CodeLocation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.CodeLocation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityAgentClientTypes.CodeLocation()
+        value.filePath = try reader["filePath"].readIfPresent() ?? ""
+        value.lineStart = try reader["lineStart"].readIfPresent()
+        value.lineEnd = try reader["lineEnd"].readIfPresent()
+        value.label = try reader["label"].readIfPresent()
+        return value
+    }
+}
+
 extension SecurityAgentClientTypes.CodeRemediationTask {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.CodeRemediationTask {
@@ -7462,6 +8853,103 @@ extension SecurityAgentClientTypes.CodeRemediationTaskDetails {
     }
 }
 
+extension SecurityAgentClientTypes.CodeReview {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.CodeReview {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityAgentClientTypes.CodeReview()
+        value.codeReviewId = try reader["codeReviewId"].readIfPresent() ?? ""
+        value.agentSpaceId = try reader["agentSpaceId"].readIfPresent() ?? ""
+        value.title = try reader["title"].readIfPresent() ?? ""
+        value.assets = try reader["assets"].readIfPresent(with: SecurityAgentClientTypes.Assets.read(from:))
+        value.serviceRole = try reader["serviceRole"].readIfPresent()
+        value.logConfig = try reader["logConfig"].readIfPresent(with: SecurityAgentClientTypes.CloudWatchLog.read(from:))
+        value.codeRemediationStrategy = try reader["codeRemediationStrategy"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension SecurityAgentClientTypes.CodeReviewJob {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.CodeReviewJob {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityAgentClientTypes.CodeReviewJob()
+        value.codeReviewJobId = try reader["codeReviewJobId"].readIfPresent()
+        value.codeReviewId = try reader["codeReviewId"].readIfPresent()
+        value.title = try reader["title"].readIfPresent()
+        value.overview = try reader["overview"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.documents = try reader["documents"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.DocumentInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sourceCode = try reader["sourceCode"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.SourceCodeRepository.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.steps = try reader["steps"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.Step.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.executionContext = try reader["executionContext"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.ExecutionContext.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.serviceRole = try reader["serviceRole"].readIfPresent()
+        value.logConfig = try reader["logConfig"].readIfPresent(with: SecurityAgentClientTypes.CloudWatchLog.read(from:))
+        value.errorInformation = try reader["errorInformation"].readIfPresent(with: SecurityAgentClientTypes.ErrorInformation.read(from:))
+        value.integratedRepositories = try reader["integratedRepositories"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.IntegratedRepository.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.codeRemediationStrategy = try reader["codeRemediationStrategy"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension SecurityAgentClientTypes.CodeReviewJobSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.CodeReviewJobSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityAgentClientTypes.CodeReviewJobSummary()
+        value.codeReviewJobId = try reader["codeReviewJobId"].readIfPresent() ?? ""
+        value.codeReviewId = try reader["codeReviewId"].readIfPresent() ?? ""
+        value.title = try reader["title"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension SecurityAgentClientTypes.CodeReviewJobTask {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.CodeReviewJobTask {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityAgentClientTypes.CodeReviewJobTask()
+        value.taskId = try reader["taskId"].readIfPresent() ?? ""
+        value.codeReviewId = try reader["codeReviewId"].readIfPresent()
+        value.codeReviewJobId = try reader["codeReviewJobId"].readIfPresent()
+        value.agentSpaceId = try reader["agentSpaceId"].readIfPresent()
+        value.title = try reader["title"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.categories = try reader["categories"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.Category.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.riskType = try reader["riskType"].readIfPresent()
+        value.executionStatus = try reader["executionStatus"].readIfPresent()
+        value.logsLocation = try reader["logsLocation"].readIfPresent(with: SecurityAgentClientTypes.LogLocation.read(from:))
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension SecurityAgentClientTypes.CodeReviewJobTaskSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.CodeReviewJobTaskSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityAgentClientTypes.CodeReviewJobTaskSummary()
+        value.taskId = try reader["taskId"].readIfPresent() ?? ""
+        value.codeReviewId = try reader["codeReviewId"].readIfPresent()
+        value.codeReviewJobId = try reader["codeReviewJobId"].readIfPresent()
+        value.agentSpaceId = try reader["agentSpaceId"].readIfPresent()
+        value.title = try reader["title"].readIfPresent()
+        value.riskType = try reader["riskType"].readIfPresent()
+        value.executionStatus = try reader["executionStatus"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
 extension SecurityAgentClientTypes.CodeReviewSettings {
 
     static func write(value: SecurityAgentClientTypes.CodeReviewSettings?, to writer: SmithyJSON.Writer) throws {
@@ -7479,6 +8967,20 @@ extension SecurityAgentClientTypes.CodeReviewSettings {
     }
 }
 
+extension SecurityAgentClientTypes.CodeReviewSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.CodeReviewSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityAgentClientTypes.CodeReviewSummary()
+        value.codeReviewId = try reader["codeReviewId"].readIfPresent() ?? ""
+        value.agentSpaceId = try reader["agentSpaceId"].readIfPresent() ?? ""
+        value.title = try reader["title"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
 extension SecurityAgentClientTypes.CustomHeader {
 
     static func write(value: SecurityAgentClientTypes.CustomHeader?, to writer: SmithyJSON.Writer) throws {
@@ -7492,6 +8994,17 @@ extension SecurityAgentClientTypes.CustomHeader {
         var value = SecurityAgentClientTypes.CustomHeader()
         value.name = try reader["name"].readIfPresent()
         value.value = try reader["value"].readIfPresent()
+        return value
+    }
+}
+
+extension SecurityAgentClientTypes.DeleteCodeReviewFailure {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.DeleteCodeReviewFailure {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityAgentClientTypes.DeleteCodeReviewFailure()
+        value.codeReviewId = try reader["codeReviewId"].readIfPresent()
+        value.reason = try reader["reason"].readIfPresent()
         return value
     }
 }
@@ -7599,6 +9112,8 @@ extension SecurityAgentClientTypes.Finding {
         value.agentSpaceId = try reader["agentSpaceId"].readIfPresent() ?? ""
         value.pentestId = try reader["pentestId"].readIfPresent()
         value.pentestJobId = try reader["pentestJobId"].readIfPresent()
+        value.codeReviewId = try reader["codeReviewId"].readIfPresent()
+        value.codeReviewJobId = try reader["codeReviewJobId"].readIfPresent()
         value.taskId = try reader["taskId"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
@@ -7611,6 +9126,7 @@ extension SecurityAgentClientTypes.Finding {
         value.attackScript = try reader["attackScript"].readIfPresent()
         value.codeRemediationTask = try reader["codeRemediationTask"].readIfPresent(with: SecurityAgentClientTypes.CodeRemediationTask.read(from:))
         value.lastUpdatedBy = try reader["lastUpdatedBy"].readIfPresent()
+        value.codeLocations = try reader["codeLocations"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.CodeLocation.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
@@ -7626,6 +9142,8 @@ extension SecurityAgentClientTypes.FindingSummary {
         value.agentSpaceId = try reader["agentSpaceId"].readIfPresent() ?? ""
         value.pentestId = try reader["pentestId"].readIfPresent()
         value.pentestJobId = try reader["pentestJobId"].readIfPresent()
+        value.codeReviewId = try reader["codeReviewId"].readIfPresent()
+        value.codeReviewJobId = try reader["codeReviewJobId"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         value.riskType = try reader["riskType"].readIfPresent()

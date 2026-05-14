@@ -3686,7 +3686,7 @@ extension ConnectCasesClientTypes {
 
     /// A compound condition that combines multiple boolean conditions using logical operators. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see [Add case field conditions to a case template](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html).
     public struct CompoundCondition: Swift.Sendable {
-        /// The list of conditions to combine using the logical operator.
+        /// The list of conditions to combine using the logical operator. For API users: A case rule can have a maximum of 5 conditions, spread across a maximum of 2 levels of nesting.
         /// This member is required.
         public var conditions: [ConnectCasesClientTypes.BooleanCondition]?
 

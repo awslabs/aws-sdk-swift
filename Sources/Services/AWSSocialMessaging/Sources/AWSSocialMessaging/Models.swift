@@ -505,15 +505,19 @@ extension SocialMessagingClientTypes.WhatsAppSignupCallbackResult: Swift.CustomD
 }
 
 public struct AssociateWhatsAppBusinessAccountOutput: Swift.Sendable {
+    /// The ID of the WhatsApp Business Account that was linked to your Amazon Web Services account.
+    public var linkedWhatsAppBusinessAccountId: Swift.String?
     /// Contains your WhatsApp registration status.
     public var signupCallbackResult: SocialMessagingClientTypes.WhatsAppSignupCallbackResult?
     /// The status code for the response.
     public var statusCode: Swift.Int?
 
     public init(
+        linkedWhatsAppBusinessAccountId: Swift.String? = nil,
         signupCallbackResult: SocialMessagingClientTypes.WhatsAppSignupCallbackResult? = nil,
         statusCode: Swift.Int? = nil
     ) {
+        self.linkedWhatsAppBusinessAccountId = linkedWhatsAppBusinessAccountId
         self.signupCallbackResult = signupCallbackResult
         self.statusCode = statusCode
     }
@@ -954,6 +958,8 @@ extension SocialMessagingClientTypes {
         /// The date the WhatsApp Business Account was linked.
         /// This member is required.
         public var linkDate: Foundation.Date?
+        /// The onboarding status for the Marketing Messages API. This value is fetched from Meta and indicates whether the WhatsApp Business Account is onboarded for Meta's Marketing Messages API.
+        public var marketingMessagesOnboardingStatus: Swift.String?
         /// The phone numbers associated with the Linked WhatsApp Business Account.
         /// This member is required.
         public var phoneNumbers: [SocialMessagingClientTypes.WhatsAppPhoneNumberSummary]?
@@ -972,6 +978,7 @@ extension SocialMessagingClientTypes {
             eventDestinations: [SocialMessagingClientTypes.WhatsAppBusinessAccountEventDestination]? = nil,
             id: Swift.String? = nil,
             linkDate: Foundation.Date? = nil,
+            marketingMessagesOnboardingStatus: Swift.String? = nil,
             phoneNumbers: [SocialMessagingClientTypes.WhatsAppPhoneNumberSummary]? = nil,
             registrationStatus: SocialMessagingClientTypes.RegistrationStatus? = nil,
             wabaId: Swift.String? = nil,
@@ -981,6 +988,7 @@ extension SocialMessagingClientTypes {
             self.eventDestinations = eventDestinations
             self.id = id
             self.linkDate = linkDate
+            self.marketingMessagesOnboardingStatus = marketingMessagesOnboardingStatus
             self.phoneNumbers = phoneNumbers
             self.registrationStatus = registrationStatus
             self.wabaId = wabaId
@@ -1108,15 +1116,22 @@ public struct GetWhatsAppMessageTemplateInput: Swift.Sendable {
     /// This member is required.
     public var id: Swift.String?
     /// The numeric ID of the template assigned by Meta.
-    /// This member is required.
     public var metaTemplateId: Swift.String?
+    /// The language code of the message template (for example, en or en_US). Use together with templateName as an alternative to metaTemplateId to identify a template.
+    public var templateLanguageCode: Swift.String?
+    /// The name of the message template. Use together with templateLanguageCode as an alternative to metaTemplateId to identify a template.
+    public var templateName: Swift.String?
 
     public init(
         id: Swift.String? = nil,
-        metaTemplateId: Swift.String? = nil
+        metaTemplateId: Swift.String? = nil,
+        templateLanguageCode: Swift.String? = nil,
+        templateName: Swift.String? = nil
     ) {
         self.id = id
         self.metaTemplateId = metaTemplateId
+        self.templateLanguageCode = templateLanguageCode
+        self.templateName = templateName
     }
 }
 
@@ -1201,6 +1216,8 @@ extension SocialMessagingClientTypes {
         /// The date the WhatsApp Business Account was linked.
         /// This member is required.
         public var linkDate: Foundation.Date?
+        /// The onboarding status for the Marketing Messages API. This value is fetched from Meta and indicates whether the WhatsApp Business Account is onboarded for Meta's Marketing Messages API.
+        public var marketingMessagesOnboardingStatus: Swift.String?
         /// The registration status of the linked WhatsApp Business Account.
         /// This member is required.
         public var registrationStatus: SocialMessagingClientTypes.RegistrationStatus?
@@ -1216,6 +1233,7 @@ extension SocialMessagingClientTypes {
             eventDestinations: [SocialMessagingClientTypes.WhatsAppBusinessAccountEventDestination]? = nil,
             id: Swift.String? = nil,
             linkDate: Foundation.Date? = nil,
+            marketingMessagesOnboardingStatus: Swift.String? = nil,
             registrationStatus: SocialMessagingClientTypes.RegistrationStatus? = nil,
             wabaId: Swift.String? = nil,
             wabaName: Swift.String? = nil
@@ -1224,6 +1242,7 @@ extension SocialMessagingClientTypes {
             self.eventDestinations = eventDestinations
             self.id = id
             self.linkDate = linkDate
+            self.marketingMessagesOnboardingStatus = marketingMessagesOnboardingStatus
             self.registrationStatus = registrationStatus
             self.wabaId = wabaId
             self.wabaName = wabaName
@@ -1439,7 +1458,6 @@ public struct UpdateWhatsAppMessageTemplateInput: Swift.Sendable {
     /// This member is required.
     public var id: Swift.String?
     /// The numeric ID of the template assigned by Meta.
-    /// This member is required.
     public var metaTemplateId: Swift.String?
     /// The format specification for parameters in the template, this can be either 'named' or 'positional'.
     public var parameterFormat: Swift.String?
@@ -1447,6 +1465,10 @@ public struct UpdateWhatsAppMessageTemplateInput: Swift.Sendable {
     public var templateCategory: Swift.String?
     /// The updated components of the template as a JSON blob (maximum 3000 characters).
     public var templateComponents: Foundation.Data?
+    /// The language code of the message template (for example, en or en_US). Use together with templateName as an alternative to metaTemplateId to identify a template.
+    public var templateLanguageCode: Swift.String?
+    /// The name of the message template. Use together with templateLanguageCode as an alternative to metaTemplateId to identify a template.
+    public var templateName: Swift.String?
 
     public init(
         ctaUrlLinkTrackingOptedOut: Swift.Bool? = nil,
@@ -1454,7 +1476,9 @@ public struct UpdateWhatsAppMessageTemplateInput: Swift.Sendable {
         metaTemplateId: Swift.String? = nil,
         parameterFormat: Swift.String? = nil,
         templateCategory: Swift.String? = nil,
-        templateComponents: Foundation.Data? = nil
+        templateComponents: Foundation.Data? = nil,
+        templateLanguageCode: Swift.String? = nil,
+        templateName: Swift.String? = nil
     ) {
         self.ctaUrlLinkTrackingOptedOut = ctaUrlLinkTrackingOptedOut
         self.id = id
@@ -1462,6 +1486,8 @@ public struct UpdateWhatsAppMessageTemplateInput: Swift.Sendable {
         self.parameterFormat = parameterFormat
         self.templateCategory = templateCategory
         self.templateComponents = templateComponents
+        self.templateLanguageCode = templateLanguageCode
+        self.templateName = templateName
     }
 }
 
@@ -1821,12 +1847,18 @@ extension GetWhatsAppMessageTemplateInput {
 
     static func queryItemProvider(_ value: GetWhatsAppMessageTemplateInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
-        guard let metaTemplateId = value.metaTemplateId else {
-            let message = "Creating a URL Query Item failed. metaTemplateId is required and must not be nil."
-            throw Smithy.ClientError.unknownError(message)
+        if let templateLanguageCode = value.templateLanguageCode {
+            let templateLanguageCodeQueryItem = Smithy.URIQueryItem(name: "templateLanguageCode".urlPercentEncoding(), value: Swift.String(templateLanguageCode).urlPercentEncoding())
+            items.append(templateLanguageCodeQueryItem)
         }
-        let metaTemplateIdQueryItem = Smithy.URIQueryItem(name: "metaTemplateId".urlPercentEncoding(), value: Swift.String(metaTemplateId).urlPercentEncoding())
-        items.append(metaTemplateIdQueryItem)
+        if let templateName = value.templateName {
+            let templateNameQueryItem = Smithy.URIQueryItem(name: "templateName".urlPercentEncoding(), value: Swift.String(templateName).urlPercentEncoding())
+            items.append(templateNameQueryItem)
+        }
+        if let metaTemplateId = value.metaTemplateId {
+            let metaTemplateIdQueryItem = Smithy.URIQueryItem(name: "metaTemplateId".urlPercentEncoding(), value: Swift.String(metaTemplateId).urlPercentEncoding())
+            items.append(metaTemplateIdQueryItem)
+        }
         guard let id = value.id else {
             let message = "Creating a URL Query Item failed. id is required and must not be nil."
             throw Smithy.ClientError.unknownError(message)
@@ -2088,6 +2120,8 @@ extension UpdateWhatsAppMessageTemplateInput {
         try writer["parameterFormat"].write(value.parameterFormat)
         try writer["templateCategory"].write(value.templateCategory)
         try writer["templateComponents"].write(value.templateComponents)
+        try writer["templateLanguageCode"].write(value.templateLanguageCode)
+        try writer["templateName"].write(value.templateName)
     }
 }
 
@@ -2098,6 +2132,7 @@ extension AssociateWhatsAppBusinessAccountOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = AssociateWhatsAppBusinessAccountOutput()
+        value.linkedWhatsAppBusinessAccountId = try reader["linkedWhatsAppBusinessAccountId"].readIfPresent()
         value.signupCallbackResult = try reader["signupCallbackResult"].readIfPresent(with: SocialMessagingClientTypes.WhatsAppSignupCallbackResult.read(from:))
         value.statusCode = try reader["statusCode"].readIfPresent()
         return value
@@ -2903,6 +2938,7 @@ extension SocialMessagingClientTypes.LinkedWhatsAppBusinessAccount {
         value.linkDate = try reader["linkDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.wabaName = try reader["wabaName"].readIfPresent() ?? ""
         value.eventDestinations = try reader["eventDestinations"].readListIfPresent(memberReadingClosure: SocialMessagingClientTypes.WhatsAppBusinessAccountEventDestination.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.marketingMessagesOnboardingStatus = try reader["marketingMessagesOnboardingStatus"].readIfPresent()
         value.phoneNumbers = try reader["phoneNumbers"].readListIfPresent(memberReadingClosure: SocialMessagingClientTypes.WhatsAppPhoneNumberSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
@@ -2933,6 +2969,7 @@ extension SocialMessagingClientTypes.LinkedWhatsAppBusinessAccountSummary {
         value.linkDate = try reader["linkDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.wabaName = try reader["wabaName"].readIfPresent() ?? ""
         value.eventDestinations = try reader["eventDestinations"].readListIfPresent(memberReadingClosure: SocialMessagingClientTypes.WhatsAppBusinessAccountEventDestination.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.marketingMessagesOnboardingStatus = try reader["marketingMessagesOnboardingStatus"].readIfPresent()
         return value
     }
 }

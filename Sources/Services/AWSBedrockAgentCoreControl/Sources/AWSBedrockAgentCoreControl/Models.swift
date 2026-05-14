@@ -1510,6 +1510,8 @@ extension BedrockAgentCoreControlClientTypes {
 
     /// VpcConfig for the Agent.
     public struct VpcConfig: Swift.Sendable {
+        /// This field applies only to Agent Runtimes. It is not applicable to Browsers or Code Interpreters. Controls whether a service-managed Amazon S3 gateway endpoint is provisioned in the VPC network topology for the agent runtime. This gateway is used by Amazon Bedrock AgentCore Runtime to download code and container images during agent startup. Starting May 5, 2026, Amazon Bedrock AgentCore Runtime is gradually rolling out a change to how network isolation is configured for VPC mode agents. Agent runtimes created on or after this rollout will no longer include the service-managed Amazon S3 gateway. Instead, all network access, including to Amazon S3, is governed exclusively by your VPC configuration. This field cannot be set on agent runtimes created after the rollout. Passing this field in an UpdateAgentRuntime request for these agent runtimes returns a ValidationException. Agent runtimes created before the rollout are not affected and continue to operate with the service-managed Amazon S3 gateway. To enforce full VPC network isolation on these existing agent runtimes, set this field to false via the UpdateAgentRuntime API. Before opting out, ensure your VPC provides the Amazon S3 access required for agent startup. If this field is not specified or is set to true, the service-managed Amazon S3 gateway remains provisioned. This field is only supported in the UpdateAgentRuntime API for pre-rollout agent runtimes. Passing this field in a CreateAgentRuntime request returns a ValidationException.
+        public var requireServiceS3Endpoint: Swift.Bool?
         /// The security groups associated with the VPC configuration.
         /// This member is required.
         public var securityGroups: [Swift.String]?
@@ -1518,9 +1520,11 @@ extension BedrockAgentCoreControlClientTypes {
         public var subnets: [Swift.String]?
 
         public init(
+            requireServiceS3Endpoint: Swift.Bool? = nil,
             securityGroups: [Swift.String]? = nil,
             subnets: [Swift.String]? = nil
         ) {
+            self.requireServiceS3Endpoint = requireServiceS3Endpoint
             self.securityGroups = securityGroups
             self.subnets = subnets
         }
@@ -3009,7 +3013,7 @@ extension BedrockAgentCoreControlClientTypes {
         /// The network mode for the browser. This field specifies how the browser connects to the network.
         /// This member is required.
         public var networkMode: BedrockAgentCoreControlClientTypes.BrowserNetworkMode?
-        /// VpcConfig for the Agent.
+        /// The VPC configuration for the browser. This configuration is required when the network mode is set to VPC.
         public var vpcConfig: BedrockAgentCoreControlClientTypes.VpcConfig?
 
         public init(
@@ -3455,7 +3459,7 @@ extension BedrockAgentCoreControlClientTypes {
         /// The network mode for the code interpreter. This field specifies how the code interpreter connects to the network.
         /// This member is required.
         public var networkMode: BedrockAgentCoreControlClientTypes.CodeInterpreterNetworkMode?
-        /// VpcConfig for the Agent.
+        /// The VPC configuration for the code interpreter. This configuration is required when the network mode is set to VPC.
         public var vpcConfig: BedrockAgentCoreControlClientTypes.VpcConfig?
 
         public init(
@@ -6076,7 +6080,7 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes {
 
-    /// Union for principal matching. Currently supports IAM principal ARN glob matching. Extensible for future principal types (e.g., OAuth client ID).
+    /// Union for principal matching. Currently supports IAM principal ARN glob matching.
     public enum MatchPrincipalEntry: Swift.Sendable {
         /// An IAM principal to match against, specified by ARN.
         case iamprincipal(BedrockAgentCoreControlClientTypes.IamPrincipal)
@@ -6653,6 +6657,8 @@ extension BedrockAgentCoreControlClientTypes {
         /// * CLIENT_CREDENTIALS - Authorization with a client ID and secret.
         ///
         /// * AUTHORIZATION_CODE - Authorization with a token that is specific to an individual end user.
+        ///
+        /// * TOKEN_EXCHANGE - Authorization using on-behalf-of token exchange. An inbound user token is exchanged for a downstream access token scoped to the target audience.
         public var grantType: BedrockAgentCoreControlClientTypes.OAuthGrantType?
         /// The Amazon Resource Name (ARN) of the OAuth credential provider. This ARN identifies the provider in Amazon Web Services.
         /// This member is required.
@@ -8940,7 +8946,7 @@ extension BedrockAgentCoreControlClientTypes {
         public var modelId: Swift.String?
         /// The namespaceTemplates to use for episodic reflection. Can be less nested than the episodic namespaces.
         public var namespaceTemplates: [Swift.String]?
-        /// The namespaces to use for episodic reflection. Can be less nested than the episodic namespaces.
+        /// This is a legacy parameter, use namespaceTemplates. The namespaces to use for episodic reflection. Can be less nested than the episodic namespaces.
         @available(*, deprecated, message: "Use namespaceTemplates instead API deprecated since 2026-03-02")
         public var namespaces: [Swift.String]?
 
@@ -9308,7 +9314,7 @@ extension BedrockAgentCoreControlClientTypes {
         public var name: Swift.String?
         /// The namespaceTemplates associated with the custom memory strategy.
         public var namespaceTemplates: [Swift.String]?
-        /// The namespaces associated with the custom memory strategy.
+        /// This is a legacy parameter, use namespaceTemplates. The namespaces associated with the custom memory strategy.
         @available(*, deprecated, message: "Use namespaceTemplates instead API deprecated since 2026-03-02")
         public var namespaces: [Swift.String]?
 
@@ -9343,7 +9349,7 @@ extension BedrockAgentCoreControlClientTypes {
         public var memoryRecordSchema: BedrockAgentCoreControlClientTypes.MemoryRecordSchema?
         /// The namespaceTemplates over which to create reflections. Can be less nested than episode namespaces.
         public var namespaceTemplates: [Swift.String]?
-        /// The namespaces over which to create reflections. Can be less nested than episode namespaces.
+        /// This is a legacy parameter, use namespaceTemplates. The namespaces over which to create reflections. Can be less nested than episode namespaces.
         @available(*, deprecated, message: "Use namespaceTemplates instead API deprecated since 2026-03-02")
         public var namespaces: [Swift.String]?
 
@@ -9372,7 +9378,7 @@ extension BedrockAgentCoreControlClientTypes {
         public var name: Swift.String?
         /// The namespaceTemplates for which to create episodes.
         public var namespaceTemplates: [Swift.String]?
-        /// The namespaces for which to create episodes.
+        /// This is a legacy parameter, use namespaceTemplates. The namespaces for which to create episodes.
         @available(*, deprecated, message: "Use namespaceTemplates instead API deprecated since 2026-03-02")
         public var namespaces: [Swift.String]?
         /// The configuration for the reflections created with the episodic memory strategy.
@@ -9414,7 +9420,7 @@ extension BedrockAgentCoreControlClientTypes {
         public var name: Swift.String?
         /// The namespaceTemplates associated with the semantic memory strategy.
         public var namespaceTemplates: [Swift.String]?
-        /// The namespaces associated with the semantic memory strategy.
+        /// This is a legacy parameter, use namespaceTemplates. The namespaces associated with the semantic memory strategy.
         @available(*, deprecated, message: "Use namespaceTemplates instead API deprecated since 2026-03-02")
         public var namespaces: [Swift.String]?
 
@@ -9452,7 +9458,7 @@ extension BedrockAgentCoreControlClientTypes {
         public var name: Swift.String?
         /// The namespaceTemplates associated with the summary memory strategy.
         public var namespaceTemplates: [Swift.String]?
-        /// The namespaces associated with the summary memory strategy.
+        /// This is a legacy parameter, use namespaceTemplates. The namespaces associated with the summary memory strategy.
         @available(*, deprecated, message: "Use namespaceTemplates instead API deprecated since 2026-03-02")
         public var namespaces: [Swift.String]?
 
@@ -9490,7 +9496,7 @@ extension BedrockAgentCoreControlClientTypes {
         public var name: Swift.String?
         /// The namespaceTemplates associated with the user preference memory strategy.
         public var namespaceTemplates: [Swift.String]?
-        /// The namespaces associated with the user preference memory strategy.
+        /// This is a legacy parameter, use namespaceTemplates. The namespaces associated with the user preference memory strategy.
         @available(*, deprecated, message: "Use namespaceTemplates instead API deprecated since 2026-03-02")
         public var namespaces: [Swift.String]?
 
@@ -9990,7 +9996,7 @@ extension BedrockAgentCoreControlClientTypes {
         public var modelId: Swift.String?
         /// The namespaceTemplates over which reflections were created. Can be less nested than the episodic namespaces.
         public var namespaceTemplates: [Swift.String]?
-        /// The namespaces over which reflections were created. Can be less nested than the episodic namespaces.
+        /// This is a legacy parameter. The namespaces over which reflections were created. Can be less nested than the episodic namespaces.
         @available(*, deprecated, message: "Use namespaceTemplates instead API deprecated since 2026-03-02")
         public var namespaces: [Swift.String]?
 
@@ -10033,7 +10039,7 @@ extension BedrockAgentCoreControlClientTypes {
         public var memoryRecordSchema: BedrockAgentCoreControlClientTypes.MemoryRecordSchema?
         /// The namespaceTemplates for which to create reflections. Can be less nested than the episodic namespaces.
         public var namespaceTemplates: [Swift.String]?
-        /// The namespaces for which to create reflections. Can be less nested than the episodic namespaces.
+        /// This is a legacy parameter, use namespaceTemplates. The namespaces for which to create reflections. Can be less nested than the episodic namespaces.
         @available(*, deprecated, message: "Use namespaceTemplates instead API deprecated since 2026-03-02")
         public var namespaces: [Swift.String]?
 
@@ -10327,7 +10333,7 @@ extension BedrockAgentCoreControlClientTypes {
         /// The namespaceTemplates associated with the memory strategy.
         /// This member is required.
         public var namespaceTemplates: [Swift.String]?
-        /// The namespaces associated with the memory strategy.
+        /// This is a legacy parameter. The namespaces associated with the memory strategy.
         /// This member is required.
         @available(*, deprecated, message: "Use namespaceTemplates instead API deprecated since 2026-03-02")
         public var namespaces: [Swift.String]?
@@ -10790,7 +10796,7 @@ extension BedrockAgentCoreControlClientTypes {
         public var memoryStrategyId: Swift.String?
         /// The updated namespaceTemplates for the memory strategy.
         public var namespaceTemplates: [Swift.String]?
-        /// The updated namespaces for the memory strategy.
+        /// This is a legacy parameter, use namespaceTemplates. The updated namespaces for the memory strategy.
         @available(*, deprecated, message: "Use namespaceTemplates instead API deprecated since 2026-03-02")
         public var namespaces: [Swift.String]?
 
@@ -12666,11 +12672,11 @@ public struct UpdateOnlineEvaluationConfigOutput: Swift.Sendable {
 
 extension BedrockAgentCoreControlClientTypes {
 
-    /// Supported vendor types for payment providers using non-standard auth protocols
+    /// Supported vendor types for payment providers using non-standard auth protocols.
     public enum PaymentCredentialProviderVendorType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        /// Coinbase Developer Platform - https://docs.cdp.coinbase.com/
+        /// Coinbase Developer Platform.
         case coinbasecdp
-        /// Stripe + Privy - https://docs.privy.io/
+        /// Stripe and Privy.
         case stripeprivy
         case sdkUnknown(Swift.String)
 
@@ -12698,7 +12704,7 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes {
 
-    /// Coinbase CDP configuration - credentials provided by Coinbase Developer Platform
+    /// Coinbase CDP configuration — credentials provided by Coinbase Developer Platform.
     public struct CoinbaseCdpConfigurationInput: Swift.Sendable {
         /// The API key identifier provided by Coinbase Developer Platform.
         /// This member is required.
@@ -12729,7 +12735,7 @@ extension BedrockAgentCoreControlClientTypes.CoinbaseCdpConfigurationInput: Swif
 
 extension BedrockAgentCoreControlClientTypes {
 
-    /// StripePrivy configuration - credentials provided by Stripe + Privy
+    /// Stripe Privy configuration — credentials provided by Stripe and Privy.
     public struct StripePrivyConfigurationInput: Swift.Sendable {
         /// The app ID provided by Privy.
         /// This member is required.
@@ -12765,27 +12771,27 @@ extension BedrockAgentCoreControlClientTypes.StripePrivyConfigurationInput: Swif
 
 extension BedrockAgentCoreControlClientTypes {
 
-    /// PROVIDER CONFIGURATION INPUT - Contains secrets for creation/update
+    /// Provider configuration input — contains secrets for creation and update. Varies by vendor type.
     public enum PaymentProviderConfigurationInput: Swift.Sendable {
-        /// Coinbase CDP configuration - credentials provided by Coinbase Developer Platform
+        /// The Coinbase CDP configuration.
         case coinbasecdpconfiguration(BedrockAgentCoreControlClientTypes.CoinbaseCdpConfigurationInput)
-        /// StripePrivy configuration - credentials provided by Stripe + Privy
+        /// The Stripe Privy configuration.
         case stripeprivyconfiguration(BedrockAgentCoreControlClientTypes.StripePrivyConfigurationInput)
         case sdkUnknown(Swift.String)
     }
 }
 
 public struct CreatePaymentCredentialProviderInput: Swift.Sendable {
-    /// The vendor type (e.g., CoinbaseCDP)
+    /// The vendor type for the payment credential provider (e.g., CoinbaseCDP, StripePrivy).
     /// This member is required.
     public var credentialProviderVendor: BedrockAgentCoreControlClientTypes.PaymentCredentialProviderVendorType?
-    /// Unique name for the payment credential provider
+    /// Unique name for the payment credential provider.
     /// This member is required.
     public var name: Swift.String?
-    /// Configuration specific to the vendor, including API credentials
+    /// Configuration specific to the vendor, including API credentials.
     /// This member is required.
     public var providerConfigurationInput: BedrockAgentCoreControlClientTypes.PaymentProviderConfigurationInput?
-    /// Optional tags for resource organization
+    /// Optional tags for resource organization.
     public var tags: [Swift.String: Swift.String]?
 
     public init(
@@ -12803,7 +12809,7 @@ public struct CreatePaymentCredentialProviderInput: Swift.Sendable {
 
 extension BedrockAgentCoreControlClientTypes {
 
-    /// Coinbase CDP configuration output with secret ARNs
+    /// Coinbase CDP configuration output with secret ARNs.
     public struct CoinbaseCdpConfigurationOutput: Swift.Sendable {
         /// The API key identifier provided by Coinbase Developer Platform.
         /// This member is required.
@@ -12829,7 +12835,7 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes {
 
-    /// StripePrivy configuration output with secret ARNs
+    /// Stripe Privy configuration output with secret ARNs.
     public struct StripePrivyConfigurationOutput: Swift.Sendable {
         /// The app ID provided by Privy.
         /// This member is required.
@@ -12860,11 +12866,11 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes {
 
-    /// PROVIDER CONFIGURATION OUTPUT - No raw secrets, only ARNs
+    /// Provider configuration output — no raw secrets, only ARNs. Varies by vendor type.
     public enum PaymentProviderConfigurationOutput: Swift.Sendable {
-        /// Coinbase CDP configuration output with secret ARNs
+        /// The Coinbase CDP configuration.
         case coinbasecdpconfiguration(BedrockAgentCoreControlClientTypes.CoinbaseCdpConfigurationOutput)
-        /// StripePrivy configuration output with secret ARNs
+        /// The Stripe Privy configuration.
         case stripeprivyconfiguration(BedrockAgentCoreControlClientTypes.StripePrivyConfigurationOutput)
         case sdkUnknown(Swift.String)
     }
@@ -12874,13 +12880,13 @@ public struct CreatePaymentCredentialProviderOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the created payment credential provider.
     /// This member is required.
     public var credentialProviderArn: Swift.String?
-    /// Supported vendor types for payment providers using non-standard auth protocols
+    /// The vendor type for the created payment credential provider.
     /// This member is required.
     public var credentialProviderVendor: BedrockAgentCoreControlClientTypes.PaymentCredentialProviderVendorType?
     /// The name of the created payment credential provider.
     /// This member is required.
     public var name: Swift.String?
-    /// Output configuration (contains secret ARNs, excludes actual secret values)
+    /// Output configuration (contains secret ARNs, excludes actual secret values).
     /// This member is required.
     public var providerConfigurationOutput: BedrockAgentCoreControlClientTypes.PaymentProviderConfigurationOutput?
 
@@ -12933,7 +12939,7 @@ public struct GetPaymentCredentialProviderOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the payment credential provider.
     /// This member is required.
     public var credentialProviderArn: Swift.String?
-    /// Supported vendor types for payment providers using non-standard auth protocols
+    /// The vendor type for the payment credential provider.
     /// This member is required.
     public var credentialProviderVendor: BedrockAgentCoreControlClientTypes.PaymentCredentialProviderVendorType?
     /// The timestamp when the payment credential provider was last updated.
@@ -12942,7 +12948,7 @@ public struct GetPaymentCredentialProviderOutput: Swift.Sendable {
     /// The name of the payment credential provider.
     /// This member is required.
     public var name: Swift.String?
-    /// Output configuration (contains secret ARNs, excludes actual secret values)
+    /// Output configuration (contains secret ARNs, excludes actual secret values).
     /// This member is required.
     public var providerConfigurationOutput: BedrockAgentCoreControlClientTypes.PaymentProviderConfigurationOutput?
     /// The tags associated with the payment credential provider.
@@ -12992,7 +12998,7 @@ extension BedrockAgentCoreControlClientTypes {
         /// The Amazon Resource Name (ARN) of the payment credential provider.
         /// This member is required.
         public var credentialProviderArn: Swift.String?
-        /// Supported vendor types for payment providers using non-standard auth protocols
+        /// The vendor type for the payment credential provider.
         /// This member is required.
         public var credentialProviderVendor: BedrockAgentCoreControlClientTypes.PaymentCredentialProviderVendorType?
         /// The timestamp when the payment credential provider was last updated.
@@ -13035,13 +13041,13 @@ public struct ListPaymentCredentialProvidersOutput: Swift.Sendable {
 }
 
 public struct UpdatePaymentCredentialProviderInput: Swift.Sendable {
-    /// Supported vendor types for payment providers using non-standard auth protocols
+    /// The vendor type for the payment credential provider (e.g., CoinbaseCDP, StripePrivy).
     /// This member is required.
     public var credentialProviderVendor: BedrockAgentCoreControlClientTypes.PaymentCredentialProviderVendorType?
     /// The name of the payment credential provider to update.
     /// This member is required.
     public var name: Swift.String?
-    /// Configuration specific to the vendor, including API credentials
+    /// Configuration specific to the vendor, including API credentials.
     /// This member is required.
     public var providerConfigurationInput: BedrockAgentCoreControlClientTypes.PaymentProviderConfigurationInput?
 
@@ -13063,7 +13069,7 @@ public struct UpdatePaymentCredentialProviderOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the updated payment credential provider.
     /// This member is required.
     public var credentialProviderArn: Swift.String?
-    /// Supported vendor types for payment providers using non-standard auth protocols
+    /// The vendor type for the updated payment credential provider.
     /// This member is required.
     public var credentialProviderVendor: BedrockAgentCoreControlClientTypes.PaymentCredentialProviderVendorType?
     /// The timestamp when the payment credential provider was last updated.
@@ -13072,7 +13078,7 @@ public struct UpdatePaymentCredentialProviderOutput: Swift.Sendable {
     /// The name of the updated payment credential provider.
     /// This member is required.
     public var name: Swift.String?
-    /// Output configuration (contains secret ARNs, excludes actual secret values)
+    /// Output configuration (contains secret ARNs, excludes actual secret values).
     /// This member is required.
     public var providerConfigurationOutput: BedrockAgentCoreControlClientTypes.PaymentProviderConfigurationOutput?
 
@@ -14231,6 +14237,59 @@ extension GetPolicyEngineOutput: Swift.CustomDebugStringConvertible {
         "GetPolicyEngineOutput(createdAt: \(Swift.String(describing: createdAt)), encryptionKeyArn: \(Swift.String(describing: encryptionKeyArn)), name: \(Swift.String(describing: name)), policyEngineArn: \(Swift.String(describing: policyEngineArn)), policyEngineId: \(Swift.String(describing: policyEngineId)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
 }
 
+public struct GetPolicyEngineSummaryInput: Swift.Sendable {
+    /// The unique identifier of the policy engine to retrieve the summary for. This must be a valid policy engine ID that exists within the account.
+    /// This member is required.
+    public var policyEngineId: Swift.String?
+
+    public init(
+        policyEngineId: Swift.String? = nil
+    ) {
+        self.policyEngineId = policyEngineId
+    }
+}
+
+public struct GetPolicyEngineSummaryOutput: Swift.Sendable {
+    /// The timestamp when the policy engine was originally created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the policy engine data.
+    public var encryptionKeyArn: Swift.String?
+    /// The customer-assigned name of the policy engine.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The Amazon Resource Name (ARN) of the policy engine.
+    /// This member is required.
+    public var policyEngineArn: Swift.String?
+    /// The unique identifier of the policy engine.
+    /// This member is required.
+    public var policyEngineId: Swift.String?
+    /// The current status of the policy engine.
+    /// This member is required.
+    public var status: BedrockAgentCoreControlClientTypes.PolicyEngineStatus?
+    /// The timestamp when the policy engine was last modified.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        encryptionKeyArn: Swift.String? = nil,
+        name: Swift.String? = nil,
+        policyEngineArn: Swift.String? = nil,
+        policyEngineId: Swift.String? = nil,
+        status: BedrockAgentCoreControlClientTypes.PolicyEngineStatus? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.createdAt = createdAt
+        self.encryptionKeyArn = encryptionKeyArn
+        self.name = name
+        self.policyEngineArn = policyEngineArn
+        self.policyEngineId = policyEngineId
+        self.status = status
+        self.updatedAt = updatedAt
+    }
+}
+
 public struct ListPolicyEnginesInput: Swift.Sendable {
     /// The maximum number of policy engines to return in a single response. If not specified, the default is 10 policy engines per page, with a maximum of 100 per page.
     public var maxResults: Swift.Int?
@@ -14315,6 +14374,82 @@ public struct ListPolicyEnginesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         policyEngines: [BedrockAgentCoreControlClientTypes.PolicyEngine]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.policyEngines = policyEngines
+    }
+}
+
+public struct ListPolicyEngineSummariesInput: Swift.Sendable {
+    /// The maximum number of policy engine summaries to return in a single response.
+    public var maxResults: Swift.Int?
+    /// A pagination token returned from a previous [ListPolicyEngineSummaries](https://docs.aws.amazon.com/bedrock-agentcore-control/latest/APIReference/API_ListPolicyEngineSummaries.html) call. Use this token to retrieve the next page of results when the response is paginated.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Represents a metadata-only summary of a policy engine resource. This structure contains resource identifiers, status, and timestamps without customer-encrypted fields such as description or status reasons. Policy engine summaries are returned by operations that do not require access to the customer's KMS key.
+    public struct PolicyEngineSummary: Swift.Sendable {
+        /// The timestamp when the policy engine was originally created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the policy engine data.
+        public var encryptionKeyArn: Swift.String?
+        /// The customer-assigned name of the policy engine.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The Amazon Resource Name (ARN) of the policy engine.
+        /// This member is required.
+        public var policyEngineArn: Swift.String?
+        /// The unique identifier for the policy engine.
+        /// This member is required.
+        public var policyEngineId: Swift.String?
+        /// The current status of the policy engine.
+        /// This member is required.
+        public var status: BedrockAgentCoreControlClientTypes.PolicyEngineStatus?
+        /// The timestamp when the policy engine was last modified.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            encryptionKeyArn: Swift.String? = nil,
+            name: Swift.String? = nil,
+            policyEngineArn: Swift.String? = nil,
+            policyEngineId: Swift.String? = nil,
+            status: BedrockAgentCoreControlClientTypes.PolicyEngineStatus? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.createdAt = createdAt
+            self.encryptionKeyArn = encryptionKeyArn
+            self.name = name
+            self.policyEngineArn = policyEngineArn
+            self.policyEngineId = policyEngineId
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct ListPolicyEngineSummariesOutput: Swift.Sendable {
+    /// A pagination token that can be used in subsequent [ListPolicyEngineSummaries](https://docs.aws.amazon.com/bedrock-agentcore-control/latest/APIReference/API_ListPolicyEngineSummaries.html) calls to retrieve additional results. This token is only present when there are more results available.
+    public var nextToken: Swift.String?
+    /// An array of policy engine summary objects that exist in the account. Each summary contains resource identifiers, status, and timestamps without customer-encrypted content.
+    /// This member is required.
+    public var policyEngines: [BedrockAgentCoreControlClientTypes.PolicyEngineSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        policyEngines: [BedrockAgentCoreControlClientTypes.PolicyEngineSummary]? = nil
     ) {
         self.nextToken = nextToken
         self.policyEngines = policyEngines
@@ -14526,6 +14661,74 @@ public struct GetPolicyGenerationOutput: Swift.Sendable {
         self.resource = resource
         self.status = status
         self.statusReasons = statusReasons
+        self.updatedAt = updatedAt
+    }
+}
+
+public struct GetPolicyGenerationSummaryInput: Swift.Sendable {
+    /// The identifier of the policy engine associated with the policy generation request.
+    /// This member is required.
+    public var policyEngineId: Swift.String?
+    /// The unique identifier of the policy generation request to retrieve the summary for.
+    /// This member is required.
+    public var policyGenerationId: Swift.String?
+
+    public init(
+        policyEngineId: Swift.String? = nil,
+        policyGenerationId: Swift.String? = nil
+    ) {
+        self.policyEngineId = policyEngineId
+        self.policyGenerationId = policyGenerationId
+    }
+}
+
+public struct GetPolicyGenerationSummaryOutput: Swift.Sendable {
+    /// The timestamp when the policy generation request was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The findings from the policy generation process, if available.
+    public var findings: Swift.String?
+    /// The customer-assigned name for the policy generation request.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The identifier of the policy engine associated with this policy generation.
+    /// This member is required.
+    public var policyEngineId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the policy generation request.
+    /// This member is required.
+    public var policyGenerationArn: Swift.String?
+    /// The unique identifier of the policy generation request.
+    /// This member is required.
+    public var policyGenerationId: Swift.String?
+    /// The resource information associated with the policy generation.
+    /// This member is required.
+    public var resource: BedrockAgentCoreControlClientTypes.Resource?
+    /// The current status of the policy generation request.
+    /// This member is required.
+    public var status: BedrockAgentCoreControlClientTypes.PolicyGenerationStatus?
+    /// The timestamp when the policy generation was last updated.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        findings: Swift.String? = nil,
+        name: Swift.String? = nil,
+        policyEngineId: Swift.String? = nil,
+        policyGenerationArn: Swift.String? = nil,
+        policyGenerationId: Swift.String? = nil,
+        resource: BedrockAgentCoreControlClientTypes.Resource? = nil,
+        status: BedrockAgentCoreControlClientTypes.PolicyGenerationStatus? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.createdAt = createdAt
+        self.findings = findings
+        self.name = name
+        self.policyEngineId = policyEngineId
+        self.policyGenerationArn = policyGenerationArn
+        self.policyGenerationId = policyGenerationId
+        self.resource = resource
+        self.status = status
         self.updatedAt = updatedAt
     }
 }
@@ -14802,6 +15005,97 @@ public struct ListPolicyGenerationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         policyGenerations: [BedrockAgentCoreControlClientTypes.PolicyGeneration]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.policyGenerations = policyGenerations
+    }
+}
+
+public struct ListPolicyGenerationSummariesInput: Swift.Sendable {
+    /// The maximum number of policy generation summaries to return in a single response.
+    public var maxResults: Swift.Int?
+    /// A pagination token returned from a previous [ListPolicyGenerationSummaries](https://docs.aws.amazon.com/bedrock-agentcore-control/latest/APIReference/API_ListPolicyGenerationSummaries.html) call. Use this token to retrieve the next page of results when the response is paginated.
+    public var nextToken: Swift.String?
+    /// The identifier of the policy engine whose policy generation summaries to retrieve.
+    /// This member is required.
+    public var policyEngineId: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        policyEngineId: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.policyEngineId = policyEngineId
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Represents a metadata-only summary of a policy generation resource. This structure contains resource identifiers, status, timestamps, and findings without customer-encrypted fields such as status reasons. Policy generation summaries are returned by operations that do not require access to the customer's KMS key.
+    public struct PolicyGenerationSummary: Swift.Sendable {
+        /// The timestamp when this policy generation request was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// Findings and insights from this policy generation process.
+        public var findings: Swift.String?
+        /// The customer-assigned name for this policy generation request.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The identifier of the policy engine associated with this generation request.
+        /// This member is required.
+        public var policyEngineId: Swift.String?
+        /// The ARN of this policy generation request.
+        /// This member is required.
+        public var policyGenerationArn: Swift.String?
+        /// The unique identifier for this policy generation request.
+        /// This member is required.
+        public var policyGenerationId: Swift.String?
+        /// The resource information associated with this policy generation.
+        /// This member is required.
+        public var resource: BedrockAgentCoreControlClientTypes.Resource?
+        /// The current status of this policy generation request.
+        /// This member is required.
+        public var status: BedrockAgentCoreControlClientTypes.PolicyGenerationStatus?
+        /// The timestamp when this policy generation was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            findings: Swift.String? = nil,
+            name: Swift.String? = nil,
+            policyEngineId: Swift.String? = nil,
+            policyGenerationArn: Swift.String? = nil,
+            policyGenerationId: Swift.String? = nil,
+            resource: BedrockAgentCoreControlClientTypes.Resource? = nil,
+            status: BedrockAgentCoreControlClientTypes.PolicyGenerationStatus? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.createdAt = createdAt
+            self.findings = findings
+            self.name = name
+            self.policyEngineId = policyEngineId
+            self.policyGenerationArn = policyGenerationArn
+            self.policyGenerationId = policyGenerationId
+            self.resource = resource
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct ListPolicyGenerationSummariesOutput: Swift.Sendable {
+    /// A pagination token that can be used in subsequent [ListPolicyGenerationSummaries](https://docs.aws.amazon.com/bedrock-agentcore-control/latest/APIReference/API_ListPolicyGenerationSummaries.html) calls to retrieve additional results. This token is only present when there are more results available.
+    public var nextToken: Swift.String?
+    /// An array of policy generation summary objects that match the specified criteria. Each summary contains resource identifiers, status, timestamps, and findings without customer-encrypted content.
+    /// This member is required.
+    public var policyGenerations: [BedrockAgentCoreControlClientTypes.PolicyGenerationSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        policyGenerations: [BedrockAgentCoreControlClientTypes.PolicyGenerationSummary]? = nil
     ) {
         self.nextToken = nextToken
         self.policyGenerations = policyGenerations
@@ -15234,6 +15528,65 @@ extension GetPolicyOutput: Swift.CustomDebugStringConvertible {
         "GetPolicyOutput(createdAt: \(Swift.String(describing: createdAt)), definition: \(Swift.String(describing: definition)), name: \(Swift.String(describing: name)), policyArn: \(Swift.String(describing: policyArn)), policyEngineId: \(Swift.String(describing: policyEngineId)), policyId: \(Swift.String(describing: policyId)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
 }
 
+public struct GetPolicySummaryInput: Swift.Sendable {
+    /// The identifier of the policy engine that manages the policy to retrieve the summary for.
+    /// This member is required.
+    public var policyEngineId: Swift.String?
+    /// The unique identifier of the policy to retrieve the summary for. This must be a valid policy ID that exists within the specified policy engine.
+    /// This member is required.
+    public var policyId: Swift.String?
+
+    public init(
+        policyEngineId: Swift.String? = nil,
+        policyId: Swift.String? = nil
+    ) {
+        self.policyEngineId = policyEngineId
+        self.policyId = policyId
+    }
+}
+
+public struct GetPolicySummaryOutput: Swift.Sendable {
+    /// The timestamp when the policy was originally created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The customer-assigned name of the policy.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The Amazon Resource Name (ARN) of the policy.
+    /// This member is required.
+    public var policyArn: Swift.String?
+    /// The identifier of the policy engine that manages this policy.
+    /// This member is required.
+    public var policyEngineId: Swift.String?
+    /// The unique identifier of the policy.
+    /// This member is required.
+    public var policyId: Swift.String?
+    /// The current status of the policy.
+    /// This member is required.
+    public var status: BedrockAgentCoreControlClientTypes.PolicyStatus?
+    /// The timestamp when the policy was last modified.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        name: Swift.String? = nil,
+        policyArn: Swift.String? = nil,
+        policyEngineId: Swift.String? = nil,
+        policyId: Swift.String? = nil,
+        status: BedrockAgentCoreControlClientTypes.PolicyStatus? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.createdAt = createdAt
+        self.name = name
+        self.policyArn = policyArn
+        self.policyEngineId = policyEngineId
+        self.policyId = policyId
+        self.status = status
+        self.updatedAt = updatedAt
+    }
+}
+
 public struct ListPoliciesInput: Swift.Sendable {
     /// The maximum number of policies to return in a single response. If not specified, the default is 10 policies per page, with a maximum of 100 per page.
     public var maxResults: Swift.Int?
@@ -15333,6 +15686,92 @@ public struct ListPoliciesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         policies: [BedrockAgentCoreControlClientTypes.Policy]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.policies = policies
+    }
+}
+
+public struct ListPolicySummariesInput: Swift.Sendable {
+    /// The maximum number of policy summaries to return in a single response.
+    public var maxResults: Swift.Int?
+    /// A pagination token returned from a previous [ListPolicySummaries](https://docs.aws.amazon.com/bedrock-agentcore-control/latest/APIReference/API_ListPolicySummaries.html) call. Use this token to retrieve the next page of results when the response is paginated.
+    public var nextToken: Swift.String?
+    /// The identifier of the policy engine whose policy summaries to retrieve.
+    /// This member is required.
+    public var policyEngineId: Swift.String?
+    /// Optional filter to list policy summaries that apply to a specific resource scope or resource type. This helps narrow down results to those relevant for particular Amazon Web Services resources, agent tools, or operational contexts within the policy engine ecosystem.
+    public var targetResourceScope: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        policyEngineId: Swift.String? = nil,
+        targetResourceScope: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.policyEngineId = policyEngineId
+        self.targetResourceScope = targetResourceScope
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Represents a metadata-only summary of a policy resource. This structure contains resource identifiers, status, and timestamps without customer-encrypted fields such as definition, description, or status reasons. Policy summaries are returned by operations that do not require access to the customer's KMS key.
+    public struct PolicySummary: Swift.Sendable {
+        /// The timestamp when the policy was originally created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The customer-assigned name of the policy.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The Amazon Resource Name (ARN) of the policy.
+        /// This member is required.
+        public var policyArn: Swift.String?
+        /// The identifier of the policy engine that manages this policy.
+        /// This member is required.
+        public var policyEngineId: Swift.String?
+        /// The unique identifier for the policy.
+        /// This member is required.
+        public var policyId: Swift.String?
+        /// The current status of the policy.
+        /// This member is required.
+        public var status: BedrockAgentCoreControlClientTypes.PolicyStatus?
+        /// The timestamp when the policy was last modified.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            name: Swift.String? = nil,
+            policyArn: Swift.String? = nil,
+            policyEngineId: Swift.String? = nil,
+            policyId: Swift.String? = nil,
+            status: BedrockAgentCoreControlClientTypes.PolicyStatus? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.createdAt = createdAt
+            self.name = name
+            self.policyArn = policyArn
+            self.policyEngineId = policyEngineId
+            self.policyId = policyId
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct ListPolicySummariesOutput: Swift.Sendable {
+    /// A pagination token that can be used in subsequent [ListPolicySummaries](https://docs.aws.amazon.com/bedrock-agentcore-control/latest/APIReference/API_ListPolicySummaries.html) calls to retrieve additional results. This token is only present when there are more results available.
+    public var nextToken: Swift.String?
+    /// An array of policy summary objects that match the specified criteria. Each summary contains resource identifiers, status, and timestamps without customer-encrypted content.
+    /// This member is required.
+    public var policies: [BedrockAgentCoreControlClientTypes.PolicySummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        policies: [BedrockAgentCoreControlClientTypes.PolicySummary]? = nil
     ) {
         self.nextToken = nextToken
         self.policies = policies
@@ -16864,6 +17303,8 @@ extension GetRegistryOutput: Swift.CustomDebugStringConvertible {
 }
 
 public struct ListRegistriesInput: Swift.Sendable {
+    /// Filter registries by their authorizer type. Possible values are CUSTOM_JWT and AWS_IAM. For more information about authorizer types, see the RegistryAuthorizerType enum.
+    public var authorizerType: BedrockAgentCoreControlClientTypes.RegistryAuthorizerType?
     /// The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
     public var maxResults: Swift.Int?
     /// If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
@@ -16872,10 +17313,12 @@ public struct ListRegistriesInput: Swift.Sendable {
     public var status: BedrockAgentCoreControlClientTypes.RegistryStatus?
 
     public init(
+        authorizerType: BedrockAgentCoreControlClientTypes.RegistryAuthorizerType? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         status: BedrockAgentCoreControlClientTypes.RegistryStatus? = nil
     ) {
+        self.authorizerType = authorizerType
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.status = status
@@ -18746,6 +19189,16 @@ extension GetPolicyEngineInput {
     }
 }
 
+extension GetPolicyEngineSummaryInput {
+
+    static func urlPathProvider(_ value: GetPolicyEngineSummaryInput) -> Swift.String? {
+        guard let policyEngineId = value.policyEngineId else {
+            return nil
+        }
+        return "/policy-engine-summaries/\(policyEngineId.urlPercentEncoding())"
+    }
+}
+
 extension GetPolicyGenerationInput {
 
     static func urlPathProvider(_ value: GetPolicyGenerationInput) -> Swift.String? {
@@ -18756,6 +19209,32 @@ extension GetPolicyGenerationInput {
             return nil
         }
         return "/policy-engines/\(policyEngineId.urlPercentEncoding())/policy-generations/\(policyGenerationId.urlPercentEncoding())"
+    }
+}
+
+extension GetPolicyGenerationSummaryInput {
+
+    static func urlPathProvider(_ value: GetPolicyGenerationSummaryInput) -> Swift.String? {
+        guard let policyEngineId = value.policyEngineId else {
+            return nil
+        }
+        guard let policyGenerationId = value.policyGenerationId else {
+            return nil
+        }
+        return "/policy-engines/\(policyEngineId.urlPercentEncoding())/policy-generation-summaries/\(policyGenerationId.urlPercentEncoding())"
+    }
+}
+
+extension GetPolicySummaryInput {
+
+    static func urlPathProvider(_ value: GetPolicySummaryInput) -> Swift.String? {
+        guard let policyEngineId = value.policyEngineId else {
+            return nil
+        }
+        guard let policyId = value.policyId else {
+            return nil
+        }
+        return "/policy-engines/\(policyEngineId.urlPercentEncoding())/policy-summaries/\(policyId.urlPercentEncoding())"
     }
 }
 
@@ -19281,6 +19760,29 @@ extension ListPolicyEnginesInput {
     }
 }
 
+extension ListPolicyEngineSummariesInput {
+
+    static func urlPathProvider(_ value: ListPolicyEngineSummariesInput) -> Swift.String? {
+        return "/policy-engine-summaries"
+    }
+}
+
+extension ListPolicyEngineSummariesInput {
+
+    static func queryItemProvider(_ value: ListPolicyEngineSummariesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListPolicyGenerationAssetsInput {
 
     static func urlPathProvider(_ value: ListPolicyGenerationAssetsInput) -> Swift.String? {
@@ -19336,6 +19838,62 @@ extension ListPolicyGenerationsInput {
     }
 }
 
+extension ListPolicyGenerationSummariesInput {
+
+    static func urlPathProvider(_ value: ListPolicyGenerationSummariesInput) -> Swift.String? {
+        guard let policyEngineId = value.policyEngineId else {
+            return nil
+        }
+        return "/policy-engines/\(policyEngineId.urlPercentEncoding())/policy-generation-summaries"
+    }
+}
+
+extension ListPolicyGenerationSummariesInput {
+
+    static func queryItemProvider(_ value: ListPolicyGenerationSummariesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListPolicySummariesInput {
+
+    static func urlPathProvider(_ value: ListPolicySummariesInput) -> Swift.String? {
+        guard let policyEngineId = value.policyEngineId else {
+            return nil
+        }
+        return "/policy-engines/\(policyEngineId.urlPercentEncoding())/policy-summaries"
+    }
+}
+
+extension ListPolicySummariesInput {
+
+    static func queryItemProvider(_ value: ListPolicySummariesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let targetResourceScope = value.targetResourceScope {
+            let targetResourceScopeQueryItem = Smithy.URIQueryItem(name: "targetResourceScope".urlPercentEncoding(), value: Swift.String(targetResourceScope).urlPercentEncoding())
+            items.append(targetResourceScopeQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListRegistriesInput {
 
     static func urlPathProvider(_ value: ListRegistriesInput) -> Swift.String? {
@@ -19354,6 +19912,10 @@ extension ListRegistriesInput {
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
+        }
+        if let authorizerType = value.authorizerType {
+            let authorizerTypeQueryItem = Smithy.URIQueryItem(name: "authorizerType".urlPercentEncoding(), value: Swift.String(authorizerType.rawValue).urlPercentEncoding())
+            items.append(authorizerTypeQueryItem)
         }
         if let status = value.status {
             let statusQueryItem = Smithy.URIQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
@@ -21632,6 +22194,24 @@ extension GetPolicyEngineOutput {
     }
 }
 
+extension GetPolicyEngineSummaryOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetPolicyEngineSummaryOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetPolicyEngineSummaryOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.encryptionKeyArn = try reader["encryptionKeyArn"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.policyEngineArn = try reader["policyEngineArn"].readIfPresent() ?? ""
+        value.policyEngineId = try reader["policyEngineId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
 extension GetPolicyGenerationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetPolicyGenerationOutput {
@@ -21648,6 +22228,44 @@ extension GetPolicyGenerationOutput {
         value.resource = try reader["resource"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Resource.read(from:))
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.statusReasons = try reader["statusReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension GetPolicyGenerationSummaryOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetPolicyGenerationSummaryOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetPolicyGenerationSummaryOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.findings = try reader["findings"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.policyEngineId = try reader["policyEngineId"].readIfPresent() ?? ""
+        value.policyGenerationArn = try reader["policyGenerationArn"].readIfPresent() ?? ""
+        value.policyGenerationId = try reader["policyGenerationId"].readIfPresent() ?? ""
+        value.resource = try reader["resource"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Resource.read(from:))
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension GetPolicySummaryOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetPolicySummaryOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetPolicySummaryOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.policyArn = try reader["policyArn"].readIfPresent() ?? ""
+        value.policyEngineId = try reader["policyEngineId"].readIfPresent() ?? ""
+        value.policyId = try reader["policyId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
@@ -22028,6 +22646,19 @@ extension ListPolicyEnginesOutput {
     }
 }
 
+extension ListPolicyEngineSummariesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListPolicyEngineSummariesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListPolicyEngineSummariesOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.policyEngines = try reader["policyEngines"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.PolicyEngineSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension ListPolicyGenerationAssetsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListPolicyGenerationAssetsOutput {
@@ -22050,6 +22681,32 @@ extension ListPolicyGenerationsOutput {
         var value = ListPolicyGenerationsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
         value.policyGenerations = try reader["policyGenerations"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.PolicyGeneration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ListPolicyGenerationSummariesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListPolicyGenerationSummariesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListPolicyGenerationSummariesOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.policyGenerations = try reader["policyGenerations"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.PolicyGenerationSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ListPolicySummariesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListPolicySummariesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListPolicySummariesOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.policies = try reader["policies"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.PolicySummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -23887,7 +24544,61 @@ enum GetPolicyEngineOutputError {
     }
 }
 
+enum GetPolicyEngineSummaryOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetPolicyGenerationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetPolicyGenerationSummaryOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetPolicySummaryOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -24383,6 +25094,23 @@ enum ListPolicyEnginesOutputError {
     }
 }
 
+enum ListPolicyEngineSummariesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListPolicyGenerationAssetsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -24402,6 +25130,42 @@ enum ListPolicyGenerationAssetsOutputError {
 }
 
 enum ListPolicyGenerationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListPolicyGenerationSummariesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListPolicySummariesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -28776,12 +29540,12 @@ extension BedrockAgentCoreControlClientTypes.Policy {
         value.policyId = try reader["policyId"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent() ?? ""
         value.policyEngineId = try reader["policyEngineId"].readIfPresent() ?? ""
-        value.definition = try reader["definition"].readIfPresent(with: BedrockAgentCoreControlClientTypes.PolicyDefinition.read(from:))
-        value.description = try reader["description"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.policyArn = try reader["policyArn"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.definition = try reader["definition"].readIfPresent(with: BedrockAgentCoreControlClientTypes.PolicyDefinition.read(from:))
+        value.description = try reader["description"].readIfPresent()
         value.statusReasons = try reader["statusReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
@@ -28822,12 +29586,28 @@ extension BedrockAgentCoreControlClientTypes.PolicyEngine {
         var value = BedrockAgentCoreControlClientTypes.PolicyEngine()
         value.policyEngineId = try reader["policyEngineId"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent() ?? ""
-        value.description = try reader["description"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.policyEngineArn = try reader["policyEngineArn"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.encryptionKeyArn = try reader["encryptionKeyArn"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
         value.statusReasons = try reader["statusReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.PolicyEngineSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.PolicyEngineSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.PolicyEngineSummary()
+        value.policyEngineId = try reader["policyEngineId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.policyEngineArn = try reader["policyEngineArn"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.encryptionKeyArn = try reader["encryptionKeyArn"].readIfPresent()
         return value
     }
@@ -28846,8 +29626,8 @@ extension BedrockAgentCoreControlClientTypes.PolicyGeneration {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.statusReasons = try reader["statusReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.findings = try reader["findings"].readIfPresent()
+        value.statusReasons = try reader["statusReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -28878,6 +29658,40 @@ extension BedrockAgentCoreControlClientTypes.PolicyGenerationDetails {
         var value = BedrockAgentCoreControlClientTypes.PolicyGenerationDetails()
         value.policyGenerationId = try reader["policyGenerationId"].readIfPresent() ?? ""
         value.policyGenerationAssetId = try reader["policyGenerationAssetId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.PolicyGenerationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.PolicyGenerationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.PolicyGenerationSummary()
+        value.policyEngineId = try reader["policyEngineId"].readIfPresent() ?? ""
+        value.policyGenerationId = try reader["policyGenerationId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.policyGenerationArn = try reader["policyGenerationArn"].readIfPresent() ?? ""
+        value.resource = try reader["resource"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Resource.read(from:))
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.findings = try reader["findings"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.PolicySummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.PolicySummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.PolicySummary()
+        value.policyId = try reader["policyId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.policyEngineId = try reader["policyEngineId"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.policyArn = try reader["policyArn"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -30403,6 +31217,7 @@ extension BedrockAgentCoreControlClientTypes.VpcConfig {
 
     static func write(value: BedrockAgentCoreControlClientTypes.VpcConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["requireServiceS3Endpoint"].write(value.requireServiceS3Endpoint)
         try writer["securityGroups"].writeList(value.securityGroups, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["subnets"].writeList(value.subnets, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
@@ -30412,6 +31227,7 @@ extension BedrockAgentCoreControlClientTypes.VpcConfig {
         var value = BedrockAgentCoreControlClientTypes.VpcConfig()
         value.securityGroups = try reader["securityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.subnets = try reader["subnets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.requireServiceS3Endpoint = try reader["requireServiceS3Endpoint"].readIfPresent()
         return value
     }
 }

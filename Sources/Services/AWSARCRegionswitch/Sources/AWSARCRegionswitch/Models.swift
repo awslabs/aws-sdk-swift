@@ -1372,7 +1372,7 @@ extension ARCRegionswitchClientTypes {
         public var asgs: [ARCRegionswitchClientTypes.Asg]?
         /// The monitoring approach that you specify EC2 Auto Scaling groups for the configuration.
         public var capacityMonitoringApproach: ARCRegionswitchClientTypes.Ec2AsgCapacityMonitoringApproach?
-        /// The target percentage that you specify for EC2 Auto Scaling groups.
+        /// The target percentage that you specify for EC2 Auto Scaling groups. The default is 100.
         public var targetPercent: Swift.Int?
         /// The timeout value specified for the configuration.
         public var timeoutMinutes: Swift.Int?
@@ -1476,7 +1476,7 @@ extension ARCRegionswitchClientTypes {
         /// The services specified for the configuration.
         /// This member is required.
         public var services: [ARCRegionswitchClientTypes.Service]?
-        /// The target percentage specified for the configuration.
+        /// The target percentage specified for the configuration. The default is 100.
         public var targetPercent: Swift.Int?
         /// The timeout value specified for the configuration.
         public var timeoutMinutes: Swift.Int?
@@ -1624,7 +1624,7 @@ extension ARCRegionswitchClientTypes {
         public var kubernetesResourceType: ARCRegionswitchClientTypes.KubernetesResourceType?
         /// The scaling resources for the configuration.
         public var scalingResources: [[Swift.String: [Swift.String: ARCRegionswitchClientTypes.KubernetesScalingResource]]]?
-        /// The target percentage for the configuration.
+        /// The target percentage for the configuration. The default is 100.
         public var targetPercent: Swift.Int?
         /// The timeout value specified for the configuration.
         public var timeoutMinutes: Swift.Int?
@@ -1785,6 +1785,129 @@ extension ARCRegionswitchClientTypes {
 
 extension ARCRegionswitchClientTypes {
 
+    public enum EventSourceMappingAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disable
+        case enable
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EventSourceMappingAction] {
+            return [
+                .disable,
+                .enable
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disable: return "disable"
+            case .enable: return "enable"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ARCRegionswitchClientTypes {
+
+    /// The Amazon Web Services Lambda event source mapping configuration, containing the resource ARN and optional cross-account configuration.
+    public struct EventSourceMapping: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the Lambda event source mapping.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The cross account role for the configuration.
+        public var crossAccountRole: Swift.String?
+        /// The external ID (secret key) for the configuration.
+        public var externalId: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            crossAccountRole: Swift.String? = nil,
+            externalId: Swift.String? = nil
+        ) {
+            self.arn = arn
+            self.crossAccountRole = crossAccountRole
+            self.externalId = externalId
+        }
+    }
+}
+
+extension ARCRegionswitchClientTypes {
+
+    public enum LambdaEventSourceMappingUngracefulBehavior: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case skip
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LambdaEventSourceMappingUngracefulBehavior] {
+            return [
+                .skip
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .skip: return "skip"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ARCRegionswitchClientTypes {
+
+    /// Specifies whether to skip enabling or disabling an event source mapping during an ungraceful execution.
+    public struct LambdaEventSourceMappingUngraceful: Swift.Sendable {
+        /// Set to skip to skip executing this event source mapping step during an ungraceful execution.
+        public var behavior: ARCRegionswitchClientTypes.LambdaEventSourceMappingUngracefulBehavior?
+
+        public init(
+            behavior: ARCRegionswitchClientTypes.LambdaEventSourceMappingUngracefulBehavior? = .skip
+        ) {
+            self.behavior = behavior
+        }
+    }
+}
+
+extension ARCRegionswitchClientTypes {
+
+    /// Configuration for Amazon Web Services Lambda event source mappings used in a Region switch plan.
+    public struct LambdaEventSourceMappingConfiguration: Swift.Sendable {
+        /// The action to take - whether to enable or disable an event source mapping.
+        /// This member is required.
+        public var action: ARCRegionswitchClientTypes.EventSourceMappingAction?
+        /// Per-region configuration for which Lambda event source mapping to enable or disable when activating or deactivating a region.
+        /// This member is required.
+        public var regionEventSourceMappings: [Swift.String: ARCRegionswitchClientTypes.EventSourceMapping]?
+        /// The timeout value specified for the configuration.
+        public var timeoutMinutes: Swift.Int?
+        /// The settings for ungraceful execution.
+        public var ungraceful: ARCRegionswitchClientTypes.LambdaEventSourceMappingUngraceful?
+
+        public init(
+            action: ARCRegionswitchClientTypes.EventSourceMappingAction? = nil,
+            regionEventSourceMappings: [Swift.String: ARCRegionswitchClientTypes.EventSourceMapping]? = nil,
+            timeoutMinutes: Swift.Int? = 60,
+            ungraceful: ARCRegionswitchClientTypes.LambdaEventSourceMappingUngraceful? = nil
+        ) {
+            self.action = action
+            self.regionEventSourceMappings = regionEventSourceMappings
+            self.timeoutMinutes = timeoutMinutes
+            self.ungraceful = ungraceful
+        }
+    }
+}
+
+extension ARCRegionswitchClientTypes {
+
     /// Configuration for creating an Amazon RDS cross-Region read replica during post-recovery in a Region switch.
     public struct RdsCreateCrossRegionReplicaConfiguration: Swift.Sendable {
         /// The cross-account role for the configuration.
@@ -1929,6 +2052,7 @@ extension ARCRegionswitchClientTypes {
         case ecs
         case eksResourceScaling
         case executionApproval
+        case lambdaEventSourceMapping
         case parallel
         case rdsCreateCrossRegionReplica
         case rdsPromoteReadReplica
@@ -1946,6 +2070,7 @@ extension ARCRegionswitchClientTypes {
                 .ecs,
                 .eksResourceScaling,
                 .executionApproval,
+                .lambdaEventSourceMapping,
                 .parallel,
                 .rdsCreateCrossRegionReplica,
                 .rdsPromoteReadReplica,
@@ -1969,6 +2094,7 @@ extension ARCRegionswitchClientTypes {
             case .ecs: return "ECSServiceScaling"
             case .eksResourceScaling: return "EKSResourceScaling"
             case .executionApproval: return "ManualApproval"
+            case .lambdaEventSourceMapping: return "LambdaEventSourceMapping"
             case .parallel: return "Parallel"
             case .rdsCreateCrossRegionReplica: return "RdsCreateCrossRegionReplica"
             case .rdsPromoteReadReplica: return "RdsPromoteReadReplica"
@@ -2907,6 +3033,8 @@ extension ARCRegionswitchClientTypes {
         case rdspromotereadreplicaconfig(ARCRegionswitchClientTypes.RdsPromoteReadReplicaConfiguration)
         /// An Amazon RDS create cross-Region replica execution block.
         case rdscreatecrossregionreadreplicaconfig(ARCRegionswitchClientTypes.RdsCreateCrossRegionReplicaConfiguration)
+        /// A Lambda event source mapping execution block.
+        case lambdaeventsourcemappingconfig(ARCRegionswitchClientTypes.LambdaEventSourceMappingConfiguration)
         case sdkUnknown(Swift.String)
     }
 }
@@ -4618,6 +4746,25 @@ extension ARCRegionswitchClientTypes.EksResourceScalingUngraceful {
     }
 }
 
+extension ARCRegionswitchClientTypes.EventSourceMapping {
+
+    static func write(value: ARCRegionswitchClientTypes.EventSourceMapping?, to writer: SmithyCBOR.Writer) throws {
+        guard let value else { return }
+        try writer["arn"].write(value.arn)
+        try writer["crossAccountRole"].write(value.crossAccountRole)
+        try writer["externalId"].write(value.externalId)
+    }
+
+    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.EventSourceMapping {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ARCRegionswitchClientTypes.EventSourceMapping()
+        value.crossAccountRole = try reader["crossAccountRole"].readIfPresent()
+        value.externalId = try reader["externalId"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension ARCRegionswitchClientTypes.ExecutionApprovalConfiguration {
 
     static func write(value: ARCRegionswitchClientTypes.ExecutionApprovalConfiguration?, to writer: SmithyCBOR.Writer) throws {
@@ -4656,6 +4803,8 @@ extension ARCRegionswitchClientTypes.ExecutionBlockConfiguration {
                 try writer["executionApprovalConfig"].write(executionapprovalconfig, with: ARCRegionswitchClientTypes.ExecutionApprovalConfiguration.write(value:to:))
             case let .globalauroraconfig(globalauroraconfig):
                 try writer["globalAuroraConfig"].write(globalauroraconfig, with: ARCRegionswitchClientTypes.GlobalAuroraConfiguration.write(value:to:))
+            case let .lambdaeventsourcemappingconfig(lambdaeventsourcemappingconfig):
+                try writer["lambdaEventSourceMappingConfig"].write(lambdaeventsourcemappingconfig, with: ARCRegionswitchClientTypes.LambdaEventSourceMappingConfiguration.write(value:to:))
             case let .parallelconfig(parallelconfig):
                 try writer["parallelConfig"].write(parallelconfig, with: ARCRegionswitchClientTypes.ParallelExecutionBlockConfiguration.write(value:to:))
             case let .rdscreatecrossregionreadreplicaconfig(rdscreatecrossregionreadreplicaconfig):
@@ -4701,6 +4850,8 @@ extension ARCRegionswitchClientTypes.ExecutionBlockConfiguration {
                 return .rdspromotereadreplicaconfig(try reader["rdsPromoteReadReplicaConfig"].read(with: ARCRegionswitchClientTypes.RdsPromoteReadReplicaConfiguration.read(from:)))
             case "rdsCreateCrossRegionReadReplicaConfig":
                 return .rdscreatecrossregionreadreplicaconfig(try reader["rdsCreateCrossRegionReadReplicaConfig"].read(with: ARCRegionswitchClientTypes.RdsCreateCrossRegionReplicaConfiguration.read(from:)))
+            case "lambdaEventSourceMappingConfig":
+                return .lambdaeventsourcemappingconfig(try reader["lambdaEventSourceMappingConfig"].read(with: ARCRegionswitchClientTypes.LambdaEventSourceMappingConfiguration.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -4821,6 +4972,42 @@ extension ARCRegionswitchClientTypes.KubernetesScalingResource {
         value.namespace = try reader["namespace"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent() ?? ""
         value.hpaName = try reader["hpaName"].readIfPresent()
+        return value
+    }
+}
+
+extension ARCRegionswitchClientTypes.LambdaEventSourceMappingConfiguration {
+
+    static func write(value: ARCRegionswitchClientTypes.LambdaEventSourceMappingConfiguration?, to writer: SmithyCBOR.Writer) throws {
+        guard let value else { return }
+        try writer["action"].write(value.action)
+        try writer["regionEventSourceMappings"].writeMap(value.regionEventSourceMappings, valueWritingClosure: ARCRegionswitchClientTypes.EventSourceMapping.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["timeoutMinutes"].write(value.timeoutMinutes)
+        try writer["ungraceful"].write(value.ungraceful, with: ARCRegionswitchClientTypes.LambdaEventSourceMappingUngraceful.write(value:to:))
+    }
+
+    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.LambdaEventSourceMappingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ARCRegionswitchClientTypes.LambdaEventSourceMappingConfiguration()
+        value.timeoutMinutes = try reader["timeoutMinutes"].readIfPresent() ?? 60
+        value.action = try reader["action"].readIfPresent() ?? .sdkUnknown("")
+        value.regionEventSourceMappings = try reader["regionEventSourceMappings"].readMapIfPresent(valueReadingClosure: ARCRegionswitchClientTypes.EventSourceMapping.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.ungraceful = try reader["ungraceful"].readIfPresent(with: ARCRegionswitchClientTypes.LambdaEventSourceMappingUngraceful.read(from:))
+        return value
+    }
+}
+
+extension ARCRegionswitchClientTypes.LambdaEventSourceMappingUngraceful {
+
+    static func write(value: ARCRegionswitchClientTypes.LambdaEventSourceMappingUngraceful?, to writer: SmithyCBOR.Writer) throws {
+        guard let value else { return }
+        try writer["behavior"].write(value.behavior)
+    }
+
+    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.LambdaEventSourceMappingUngraceful {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ARCRegionswitchClientTypes.LambdaEventSourceMappingUngraceful()
+        value.behavior = try reader["behavior"].readIfPresent() ?? ARCRegionswitchClientTypes.LambdaEventSourceMappingUngracefulBehavior.skip
         return value
     }
 }

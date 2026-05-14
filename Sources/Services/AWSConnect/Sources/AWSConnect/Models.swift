@@ -9108,6 +9108,7 @@ extension ConnectClientTypes {
 extension ConnectClientTypes {
 
     public enum EventSourceName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case onalertupdate
         case oncasecreate
         case oncaseupdate
         case oncontactevaluationsubmit
@@ -9118,6 +9119,9 @@ extension ConnectClientTypes {
         case onrealtimecallanalysisavailable
         case onrealtimechatanalysisavailable
         case onsalesforcecasecreate
+        case onschedulepublish
+        case onscheduletimeoffrequestactivity
+        case onscheduleupdate
         case onslabreach
         case onzendeskticketcreate
         case onzendeskticketstatusupdate
@@ -9125,6 +9129,7 @@ extension ConnectClientTypes {
 
         public static var allCases: [EventSourceName] {
             return [
+                .onalertupdate,
                 .oncasecreate,
                 .oncaseupdate,
                 .oncontactevaluationsubmit,
@@ -9135,6 +9140,9 @@ extension ConnectClientTypes {
                 .onrealtimecallanalysisavailable,
                 .onrealtimechatanalysisavailable,
                 .onsalesforcecasecreate,
+                .onschedulepublish,
+                .onscheduletimeoffrequestactivity,
+                .onscheduleupdate,
                 .onslabreach,
                 .onzendeskticketcreate,
                 .onzendeskticketstatusupdate
@@ -9148,6 +9156,7 @@ extension ConnectClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .onalertupdate: return "OnAlertUpdate"
             case .oncasecreate: return "OnCaseCreate"
             case .oncaseupdate: return "OnCaseUpdate"
             case .oncontactevaluationsubmit: return "OnContactEvaluationSubmit"
@@ -9158,6 +9167,9 @@ extension ConnectClientTypes {
             case .onrealtimecallanalysisavailable: return "OnRealTimeCallAnalysisAvailable"
             case .onrealtimechatanalysisavailable: return "OnRealTimeChatAnalysisAvailable"
             case .onsalesforcecasecreate: return "OnSalesforceCaseCreate"
+            case .onschedulepublish: return "OnSchedulePublish"
+            case .onscheduletimeoffrequestactivity: return "OnScheduleTimeOffRequestActivity"
+            case .onscheduleupdate: return "OnScheduleUpdate"
             case .onslabreach: return "OnSlaBreach"
             case .onzendeskticketcreate: return "OnZendeskTicketCreate"
             case .onzendeskticketstatusupdate: return "OnZendeskTicketStatusUpdate"
