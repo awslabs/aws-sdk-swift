@@ -1,0 +1,8 @@
+{
+    "service": "com.amazonaws.arcregionswitch#ArcRegionSwitch",
+    "module": "AWSARCRegionswitch",
+    "sdkId": "ARC Region switch",
+    "internalClient": false,
+    "operations": [],
+    "modelPath": "codegen/sdk-codegen/aws-models/arc-region-switch.json"
+}
