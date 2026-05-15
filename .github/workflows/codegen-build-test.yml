@@ -63,25 +63,19 @@ jobs:
         run: |
           cd aws-sdk-swift
           ./scripts/ci_steps/codegen_sdk.sh
-      - name: Build SDK with Unit Tests
-        run: |
-          cd aws-sdk-swift
-          AWS_SWIFT_SDK_BATCH_NUMBER=0 swift build --build-tests
-          AWS_SWIFT_SDK_BATCH_NUMBER=1 swift build --build-tests
-          AWS_SWIFT_SDK_BATCH_NUMBER=2 swift build --build-tests
-          AWS_SWIFT_SDK_BATCH_NUMBER=3 swift build --build-tests
-          AWS_SWIFT_SDK_BATCH_NUMBER=4 swift build --build-tests
-          AWS_SWIFT_SDK_BATCH_NUMBER=5 swift build --build-tests
-          AWS_SWIFT_SDK_BATCH_NUMBER=6 swift build --build-tests
-          AWS_SWIFT_SDK_BATCH_NUMBER=7 swift build --build-tests
-      - name: Run Unit Tests
-        run: |
-          cd aws-sdk-swift
-          AWS_SWIFT_SDK_BATCH_NUMBER=0 swift test --skip-build
-          AWS_SWIFT_SDK_BATCH_NUMBER=1 swift test --skip-build
-          AWS_SWIFT_SDK_BATCH_NUMBER=2 swift test --skip-build
-          AWS_SWIFT_SDK_BATCH_NUMBER=3 swift test --skip-build
-          AWS_SWIFT_SDK_BATCH_NUMBER=4 swift test --skip-build
-          AWS_SWIFT_SDK_BATCH_NUMBER=5 swift test --skip-build
-          AWS_SWIFT_SDK_BATCH_NUMBER=6 swift test --skip-build
-          AWS_SWIFT_SDK_BATCH_NUMBER=7 swift test --skip-build
+      - name: Test Batch 0
+        run: AWS_SWIFT_SDK_BATCH_NUMBER=0 cd aws-sdk-swift && swift test
+      - name: Test Batch 1
+        run: AWS_SWIFT_SDK_BATCH_NUMBER=1 cd aws-sdk-swift && swift test
+      - name: Test Batch 2
+        run: AWS_SWIFT_SDK_BATCH_NUMBER=2 cd aws-sdk-swift && swift test
+      - name: Test Batch 3
+        run: AWS_SWIFT_SDK_BATCH_NUMBER=3 cd aws-sdk-swift && swift test
+      - name: Test Batch 4
+        run: AWS_SWIFT_SDK_BATCH_NUMBER=4 cd aws-sdk-swift && swift test
+      - name: Test Batch 5
+        run: AWS_SWIFT_SDK_BATCH_NUMBER=5 cd aws-sdk-swift && swift test
+      - name: Test Batch 6
+        run: AWS_SWIFT_SDK_BATCH_NUMBER=6 cd aws-sdk-swift && swift test
+      - name: Test Batch 7
+        run: AWS_SWIFT_SDK_BATCH_NUMBER=7 cd aws-sdk-swift && swift test
