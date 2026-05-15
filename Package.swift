@@ -2273,7 +2273,7 @@ private var smithySwiftDependency: Package.Dependency {
     let previewPath = "./smithy-swift"
     let developmentPath = "../smithy-swift"
     let gitURL = "https://github.com/smithy-lang/smithy-swift"
-    let useLocalDeps = ProcessInfo.processInfo.environment["AWS_SWIFT_SDK_USE_LOCAL_DEPS"] != nil
+    let useLocalDeps = env["AWS_SWIFT_SDK_USE_LOCAL_DEPS"] != nil
     if isPreviewBuild {
         return .package(path: previewPath)
     } else if useLocalDeps {
@@ -2288,7 +2288,7 @@ private var crtDependency: Package.Dependency {
 }
 
 private var doccDependencyOrNil: Package.Dependency? {
-    guard ProcessInfo.processInfo.environment["AWS_SWIFT_SDK_ENABLE_DOCC"] != nil else { return nil }
+    guard env["AWS_SWIFT_SDK_ENABLE_DOCC"] != nil else { return nil }
     return .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.0.0")
 }
 
@@ -2397,7 +2397,8 @@ private var internalServiceTargets: [Target] {
 }
 
 private var runtimeTestTargets: [Target] {
-    guard !excludeRuntimeUnitTests else { return [] }
+    if excludeRuntimeUnitTests { return [] }
+    if let (batchNumber, _) = batchInfo, batchNumber != 0 { return [] } // only run these tests with batch 0
     return [
         .testTarget(
             name: "AWSClientRuntimeTests",
@@ -2455,7 +2456,7 @@ private func target(_ service: ServiceClientData) -> Target {
 }
 
 private var serviceTestTargets: [Target] {
-    guard ProcessInfo.processInfo.environment["AWS_SWIFT_SDK_ENABLE_SERVICE_TESTS"] != nil else { return [] }
+    guard env["AWS_SWIFT_SDK_ENABLE_SERVICE_TESTS"] != nil else { return [] }
     return selectedServiceClientData.filter { $0.serviceType == .awsServiceClient }.map(unitTestTarget(_:))
 }
 
@@ -2475,21 +2476,25 @@ private func unitTestTarget(_ service: ServiceClientData) -> Target {
 }
 
 private var selectedServiceClientData: [ServiceClientData] {
-    // If the batch env vars aren't set with valid values,
-    // then include all services
-    let env = ProcessInfo.processInfo.environment
-    guard let batchNumberString = env["AWS_SWIFT_SDK_BATCH_NUMBER"],
-          let batchNumber = UInt(batchNumberString),
-          let batchTotalString = env["AWS_SWIFT_SDK_BATCH_TOTAL"],
-          let batchTotal = UInt(batchTotalString) else {
-        return serviceClientData
+    if let (batchNumber, batchTotal) = batchInfo {
+        // If batching, select services to include, batching by their index
+        serviceClientData.enumerated().filter { $0.offset % batchTotal == batchNumber }.map { $0.element }
+    } else {
+        // If not batching, select all services
+        serviceClientData
     }
-
-    // Select services to include, batching services by their index
-    return serviceClientData.enumerated().filter {
-        UInt($0.offset) % batchTotal == batchNumber
-    }.map { $0.element }
 }
+
+let batchInfo: (Int, Int)? = {
+    guard let batchNumberString = env["AWS_SWIFT_SDK_BATCH_NUMBER"],
+          let batchNumber = Int(batchNumberString),
+          let batchTotalString = env["AWS_SWIFT_SDK_BATCH_TOTAL"],
+          let batchTotal = Int(batchTotalString),
+          batchNumber >= 0 && batchNumber < batchTotal else { return nil }
+    return (batchNumber, batchTotal)
+}()
+
+private var env = ProcessInfo.processInfo.environment
 
 // As of Swift 6.2, @unchecked is not needed, but for Swift 6.0 it is
 private struct ServiceClientData: @unchecked Sendable {
