@@ -1,0 +1,8 @@
+{
+    "service": "com.amazonaws.athena#AmazonAthena",
+    "module": "AWSAthena",
+    "sdkId": "Athena",
+    "internalClient": false,
+    "operations": [],
+    "modelPath": "codegen/sdk-codegen/aws-models/athena.json"
+}

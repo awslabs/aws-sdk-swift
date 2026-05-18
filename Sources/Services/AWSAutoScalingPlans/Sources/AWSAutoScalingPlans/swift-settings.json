@@ -1,0 +1,8 @@
+{
+    "service": "com.amazonaws.autoscalingplans#AnyScaleScalingPlannerFrontendService",
+    "module": "AWSAutoScalingPlans",
+    "sdkId": "Auto Scaling Plans",
+    "internalClient": false,
+    "operations": [],
+    "modelPath": "codegen/sdk-codegen/aws-models/auto-scaling-plans.json"
+}

@@ -1,0 +1,8 @@
+{
+    "service": "com.amazonaws.route53recoverycluster#ToggleCustomerAPI",
+    "module": "AWSRoute53RecoveryCluster",
+    "sdkId": "Route53 Recovery Cluster",
+    "internalClient": false,
+    "operations": [],
+    "modelPath": "codegen/sdk-codegen/aws-models/route53-recovery-cluster.json"
+}

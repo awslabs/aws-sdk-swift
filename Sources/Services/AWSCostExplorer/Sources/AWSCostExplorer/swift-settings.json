@@ -1,0 +1,8 @@
+{
+    "service": "com.amazonaws.costexplorer#AWSInsightsIndexService",
+    "module": "AWSCostExplorer",
+    "sdkId": "Cost Explorer",
+    "internalClient": false,
+    "operations": [],
+    "modelPath": "codegen/sdk-codegen/aws-models/cost-explorer.json"
+}

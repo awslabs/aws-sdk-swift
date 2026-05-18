@@ -1,0 +1,8 @@
+{
+    "service": "com.amazonaws.pinpointsmsvoicev2#PinpointSMSVoiceV2",
+    "module": "AWSPinpointSMSVoiceV2",
+    "sdkId": "Pinpoint SMS Voice V2",
+    "internalClient": false,
+    "operations": [],
+    "modelPath": "codegen/sdk-codegen/aws-models/pinpoint-sms-voice-v2.json"
+}

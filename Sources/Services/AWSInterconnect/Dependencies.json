@@ -7,11 +7,10 @@
     "AWSSDKIdentity",
     "ClientRuntime",
     "Smithy",
-    "SmithyCBOR",
     "SmithyHTTPAPI",
     "SmithyHTTPAuthAPI",
     "SmithyIdentity",
-    "SmithyReadWrite",
+    "SmithyRPCv2CBOR",
     "SmithyRetries",
     "SmithyRetriesAPI"
   ]

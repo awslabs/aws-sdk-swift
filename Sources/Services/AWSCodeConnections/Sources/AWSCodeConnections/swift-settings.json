@@ -1,0 +1,8 @@
+{
+    "service": "com.amazonaws.codeconnections#CodeConnections_20231201",
+    "module": "AWSCodeConnections",
+    "sdkId": "CodeConnections",
+    "internalClient": false,
+    "operations": [],
+    "modelPath": "codegen/sdk-codegen/aws-models/codeconnections.json"
+}

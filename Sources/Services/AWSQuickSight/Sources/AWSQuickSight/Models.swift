@@ -48,9 +48,9 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -965,6 +965,26 @@ extension QuickSightClientTypes {
             self.policyArn = policyArn
         }
     }
+}
+
+extension QuickSightClientTypes {
+
+    /// Additional notes that provide supplementary context for a column.
+    public struct AdditionalNotes: Swift.Sendable {
+        /// The additional notes text.
+        public var text: Swift.String?
+
+        public init(
+            text: Swift.String? = nil
+        ) {
+            self.text = text
+        }
+    }
+}
+
+extension QuickSightClientTypes.AdditionalNotes: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AdditionalNotes(text: \"CONTENT_REDACTED\")"}
 }
 
 extension QuickSightClientTypes {
@@ -25316,9 +25336,9 @@ public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRun
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -25343,9 +25363,9 @@ public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSCli
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -25422,9 +25442,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -25451,9 +25471,9 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -26586,9 +26606,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -27090,9 +27110,9 @@ public struct ResourceExistsException: ClientRuntime.ModeledError, AWSClientRunt
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -28582,6 +28602,44 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
+    /// The semantic type information for a column in the new data preparation experience.
+    public struct ColumnSemanticType: Swift.Sendable {
+        /// The geographical role of the column in the new data preparation experience.
+        public var geographicalRole: QuickSightClientTypes.GeoSpatialDataRole?
+
+        public init(
+            geographicalRole: QuickSightClientTypes.GeoSpatialDataRole? = nil
+        ) {
+            self.geographicalRole = geographicalRole
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A semantic property for a column.
+    public struct ColumnSemanticProperty: Swift.Sendable {
+        /// Additional notes for the column.
+        public var additionalNotes: QuickSightClientTypes.AdditionalNotes?
+        /// A description of the column.
+        public var description: QuickSightClientTypes.ColumnDescription?
+        /// The semantic type of the column.
+        public var semanticType: QuickSightClientTypes.ColumnSemanticType?
+
+        public init(
+            additionalNotes: QuickSightClientTypes.AdditionalNotes? = nil,
+            description: QuickSightClientTypes.ColumnDescription? = nil,
+            semanticType: QuickSightClientTypes.ColumnSemanticType? = nil
+        ) {
+            self.additionalNotes = additionalNotes
+            self.description = description
+            self.semanticType = semanticType
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     /// A tag for a column in a [TagColumnOperation](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_TagColumnOperation.html) structure. This is a variant type structure. For this structure to be valid, only one of the attributes can be non-null.
     public struct ColumnTag: Swift.Sendable {
         /// A description for a column.
@@ -28712,9 +28770,9 @@ public struct ConcurrentUpdatingException: ClientRuntime.ModeledError, AWSClient
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -28760,9 +28818,9 @@ public struct ResourceUnavailableException: ClientRuntime.ModeledError, AWSClien
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -28845,9 +28903,9 @@ public struct PreconditionNotMetException: ClientRuntime.ModeledError, AWSClient
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -29122,9 +29180,9 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -29151,9 +29209,9 @@ public struct UnsupportedUserEditionException: ClientRuntime.ModeledError, AWSCl
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -29434,9 +29492,9 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -29459,9 +29517,9 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -30125,9 +30183,9 @@ public struct InvalidDataSetParameterValueException: ClientRuntime.ModeledError,
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -32266,6 +32324,101 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
+    /// Metadata for an uploaded document associated with a custom instruction.
+    public struct UploadedDocumentMetadata: Swift.Sendable {
+        /// The name of the uploaded document.
+        public var name: Swift.String?
+
+        public init(
+            name: Swift.String? = nil
+        ) {
+            self.name = name
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// An inline custom instruction with text content and optional file upload metadata.
+    public struct InlineCustomInstruction: Swift.Sendable {
+        /// The instruction text content.
+        /// This member is required.
+        public var instructionText: Swift.String?
+        /// Metadata about an uploaded document associated with this instruction.
+        public var uploadedDocumentMetadata: QuickSightClientTypes.UploadedDocumentMetadata?
+
+        public init(
+            instructionText: Swift.String? = nil,
+            uploadedDocumentMetadata: QuickSightClientTypes.UploadedDocumentMetadata? = nil
+        ) {
+            self.instructionText = instructionText
+            self.uploadedDocumentMetadata = uploadedDocumentMetadata
+        }
+    }
+}
+
+extension QuickSightClientTypes.InlineCustomInstruction: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "InlineCustomInstruction(uploadedDocumentMetadata: \(Swift.String(describing: uploadedDocumentMetadata)), instructionText: \"CONTENT_REDACTED\")"}
+}
+
+extension QuickSightClientTypes {
+
+    /// A custom instruction that provides guidance on how the dataset should be consumed.
+    public struct CustomInstruction: Swift.Sendable {
+        /// An inline custom instruction containing text and optional uploaded document metadata.
+        public var inlineCustomInstruction: QuickSightClientTypes.InlineCustomInstruction?
+
+        public init(
+            inlineCustomInstruction: QuickSightClientTypes.InlineCustomInstruction? = nil
+        ) {
+            self.inlineCustomInstruction = inlineCustomInstruction
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A description structure for dataset-level semantic metadata.
+    public struct DataSetSemanticDescription: Swift.Sendable {
+        /// The descriptive text for the dataset.
+        /// This member is required.
+        public var text: Swift.String?
+
+        public init(
+            text: Swift.String? = nil
+        ) {
+            self.text = text
+        }
+    }
+}
+
+extension QuickSightClientTypes.DataSetSemanticDescription: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DataSetSemanticDescription(text: \"CONTENT_REDACTED\")"}
+}
+
+extension QuickSightClientTypes {
+
+    /// Semantic metadata for a dataset, including a description and custom instructions.
+    public struct DataSetSemanticMetadata: Swift.Sendable {
+        /// A list of custom instructions that guide how the dataset should be consumed.
+        public var customInstructions: [QuickSightClientTypes.CustomInstruction]?
+        /// A description of the dataset.
+        public var description: QuickSightClientTypes.DataSetSemanticDescription?
+
+        public init(
+            customInstructions: [QuickSightClientTypes.CustomInstruction]? = nil,
+            description: QuickSightClientTypes.DataSetSemanticDescription? = nil
+        ) {
+            self.customInstructions = customInstructions
+            self.description = description
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     /// Configuration for row level security.
     public struct RowLevelPermissionConfiguration: Swift.Sendable {
         /// Information about a dataset that contains permissions for row-level security (RLS). The permissions dataset maps fields to users or groups. For more information, see [Using Row-Level Security (RLS) to Restrict Access to a Dataset](https://docs.aws.amazon.com/quicksight/latest/user/restrict-access-to-a-data-set-using-row-level-security.html) in the Quick Sight User Guide. The option to deny permissions by setting PermissionPolicy to DENY_ACCESS is not supported for new RLS datasets.
@@ -32285,6 +32438,41 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
+    /// Semantic metadata shared across one or more columns.
+    public struct SharedColumnSemanticMetadata: Swift.Sendable {
+        /// The names of the columns this metadata applies to.
+        public var columnNames: [Swift.String]?
+        /// The semantic properties for the specified columns.
+        /// This member is required.
+        public var columnProperties: [QuickSightClientTypes.ColumnSemanticProperty]?
+
+        public init(
+            columnNames: [Swift.String]? = nil,
+            columnProperties: [QuickSightClientTypes.ColumnSemanticProperty]? = nil
+        ) {
+            self.columnNames = columnNames
+            self.columnProperties = columnProperties
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Column-level semantic metadata for a semantic table.
+    public struct TableSemanticMetadata: Swift.Sendable {
+        /// A list of column semantic metadata entries.
+        public var columnMetadata: [QuickSightClientTypes.SharedColumnSemanticMetadata]?
+
+        public init(
+            columnMetadata: [QuickSightClientTypes.SharedColumnSemanticMetadata]? = nil
+        ) {
+            self.columnMetadata = columnMetadata
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     /// A semantic table that represents the final analytical structure of the data.
     public struct SemanticTable: Swift.Sendable {
         /// Alias for the semantic table.
@@ -32295,15 +32483,19 @@ extension QuickSightClientTypes {
         public var destinationTableId: Swift.String?
         /// Configuration for row level security that control data access for this semantic table.
         public var rowLevelPermissionConfiguration: QuickSightClientTypes.RowLevelPermissionConfiguration?
+        /// The column-level semantic metadata for this semantic table.
+        public var semanticMetadata: QuickSightClientTypes.TableSemanticMetadata?
 
         public init(
             alias: Swift.String? = nil,
             destinationTableId: Swift.String? = nil,
-            rowLevelPermissionConfiguration: QuickSightClientTypes.RowLevelPermissionConfiguration? = nil
+            rowLevelPermissionConfiguration: QuickSightClientTypes.RowLevelPermissionConfiguration? = nil,
+            semanticMetadata: QuickSightClientTypes.TableSemanticMetadata? = nil
         ) {
             self.alias = alias
             self.destinationTableId = destinationTableId
             self.rowLevelPermissionConfiguration = rowLevelPermissionConfiguration
+            self.semanticMetadata = semanticMetadata
         }
     }
 }
@@ -32312,12 +32504,16 @@ extension QuickSightClientTypes {
 
     /// Configuration for the semantic model that defines how prepared data is structured for analysis and reporting.
     public struct SemanticModelConfiguration: Swift.Sendable {
+        /// The dataset-level semantic metadata, including a description and custom instructions.
+        public var semanticMetadata: [QuickSightClientTypes.DataSetSemanticMetadata]?
         /// A map of semantic tables that define the analytical structure.
         public var tableMap: [Swift.String: QuickSightClientTypes.SemanticTable]?
 
         public init(
+            semanticMetadata: [QuickSightClientTypes.DataSetSemanticMetadata]? = nil,
             tableMap: [Swift.String: QuickSightClientTypes.SemanticTable]? = nil
         ) {
+            self.semanticMetadata = semanticMetadata
             self.tableMap = tableMap
         }
     }
@@ -32489,9 +32685,9 @@ public struct CustomerManagedKeyUnavailableException: ClientRuntime.ModeledError
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -40110,9 +40306,9 @@ public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -41299,9 +41495,9 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -42680,9 +42876,9 @@ public struct DomainNotWhitelistedException: ClientRuntime.ModeledError, AWSClie
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -43125,9 +43321,9 @@ public struct SessionLifetimeInMinutesInvalidException: ClientRuntime.ModeledErr
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -43152,9 +43348,9 @@ public struct UnsupportedPricingPlanException: ClientRuntime.ModeledError, AWSCl
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -43287,9 +43483,9 @@ public struct QuickSightUserNotFoundException: ClientRuntime.ModeledError, AWSCl
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -43717,9 +43913,9 @@ public struct IdentityTypeNotSupportedException: ClientRuntime.ModeledError, AWS
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -63787,6 +63983,21 @@ extension QuickSightClientTypes.ActiveIAMPolicyAssignment {
     }
 }
 
+extension QuickSightClientTypes.AdditionalNotes {
+
+    static func write(value: QuickSightClientTypes.AdditionalNotes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Text"].write(value.text)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AdditionalNotes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.AdditionalNotes()
+        value.text = try reader["Text"].readIfPresent()
+        return value
+    }
+}
+
 extension QuickSightClientTypes.AdHocFilteringOption {
 
     static func write(value: QuickSightClientTypes.AdHocFilteringOption?, to writer: SmithyJSON.Writer) throws {
@@ -67281,6 +67492,40 @@ extension QuickSightClientTypes.ColumnSchema {
     }
 }
 
+extension QuickSightClientTypes.ColumnSemanticProperty {
+
+    static func write(value: QuickSightClientTypes.ColumnSemanticProperty?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AdditionalNotes"].write(value.additionalNotes, with: QuickSightClientTypes.AdditionalNotes.write(value:to:))
+        try writer["Description"].write(value.description, with: QuickSightClientTypes.ColumnDescription.write(value:to:))
+        try writer["SemanticType"].write(value.semanticType, with: QuickSightClientTypes.ColumnSemanticType.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ColumnSemanticProperty {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.ColumnSemanticProperty()
+        value.description = try reader["Description"].readIfPresent(with: QuickSightClientTypes.ColumnDescription.read(from:))
+        value.additionalNotes = try reader["AdditionalNotes"].readIfPresent(with: QuickSightClientTypes.AdditionalNotes.read(from:))
+        value.semanticType = try reader["SemanticType"].readIfPresent(with: QuickSightClientTypes.ColumnSemanticType.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.ColumnSemanticType {
+
+    static func write(value: QuickSightClientTypes.ColumnSemanticType?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["GeographicalRole"].write(value.geographicalRole)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ColumnSemanticType {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.ColumnSemanticType()
+        value.geographicalRole = try reader["GeographicalRole"].readIfPresent()
+        return value
+    }
+}
+
 extension QuickSightClientTypes.ColumnSort {
 
     static func write(value: QuickSightClientTypes.ColumnSort?, to writer: SmithyJSON.Writer) throws {
@@ -68202,6 +68447,21 @@ extension QuickSightClientTypes.CustomFilterListConfiguration {
         value.categoryValues = try reader["CategoryValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.selectAllOptions = try reader["SelectAllOptions"].readIfPresent()
         value.nullOption = try reader["NullOption"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension QuickSightClientTypes.CustomInstruction {
+
+    static func write(value: QuickSightClientTypes.CustomInstruction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["InlineCustomInstruction"].write(value.inlineCustomInstruction, with: QuickSightClientTypes.InlineCustomInstruction.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.CustomInstruction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.CustomInstruction()
+        value.inlineCustomInstruction = try reader["InlineCustomInstruction"].readIfPresent(with: QuickSightClientTypes.InlineCustomInstruction.read(from:))
         return value
     }
 }
@@ -69314,6 +69574,38 @@ extension QuickSightClientTypes.DataSetSearchFilter {
         try writer["Name"].write(value.name)
         try writer["Operator"].write(value.`operator`)
         try writer["Value"].write(value.value)
+    }
+}
+
+extension QuickSightClientTypes.DataSetSemanticDescription {
+
+    static func write(value: QuickSightClientTypes.DataSetSemanticDescription?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Text"].write(value.text)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DataSetSemanticDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.DataSetSemanticDescription()
+        value.text = try reader["Text"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension QuickSightClientTypes.DataSetSemanticMetadata {
+
+    static func write(value: QuickSightClientTypes.DataSetSemanticMetadata?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CustomInstructions"].writeList(value.customInstructions, memberWritingClosure: QuickSightClientTypes.CustomInstruction.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Description"].write(value.description, with: QuickSightClientTypes.DataSetSemanticDescription.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DataSetSemanticMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.DataSetSemanticMetadata()
+        value.description = try reader["Description"].readIfPresent(with: QuickSightClientTypes.DataSetSemanticDescription.read(from:))
+        value.customInstructions = try reader["CustomInstructions"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.CustomInstruction.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 
@@ -73813,6 +74105,23 @@ extension QuickSightClientTypes.Ingestion {
         value.ingestionSizeInBytes = try reader["IngestionSizeInBytes"].readIfPresent()
         value.requestSource = try reader["RequestSource"].readIfPresent()
         value.requestType = try reader["RequestType"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.InlineCustomInstruction {
+
+    static func write(value: QuickSightClientTypes.InlineCustomInstruction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["InstructionText"].write(value.instructionText)
+        try writer["UploadedDocumentMetadata"].write(value.uploadedDocumentMetadata, with: QuickSightClientTypes.UploadedDocumentMetadata.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.InlineCustomInstruction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.InlineCustomInstruction()
+        value.instructionText = try reader["InstructionText"].readIfPresent() ?? ""
+        value.uploadedDocumentMetadata = try reader["UploadedDocumentMetadata"].readIfPresent(with: QuickSightClientTypes.UploadedDocumentMetadata.read(from:))
         return value
     }
 }
@@ -78909,6 +79218,7 @@ extension QuickSightClientTypes.SemanticModelConfiguration {
 
     static func write(value: QuickSightClientTypes.SemanticModelConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["SemanticMetadata"].writeList(value.semanticMetadata, memberWritingClosure: QuickSightClientTypes.DataSetSemanticMetadata.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["TableMap"].writeMap(value.tableMap, valueWritingClosure: QuickSightClientTypes.SemanticTable.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 
@@ -78916,6 +79226,7 @@ extension QuickSightClientTypes.SemanticModelConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.SemanticModelConfiguration()
         value.tableMap = try reader["TableMap"].readMapIfPresent(valueReadingClosure: QuickSightClientTypes.SemanticTable.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.semanticMetadata = try reader["SemanticMetadata"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.DataSetSemanticMetadata.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -78927,6 +79238,7 @@ extension QuickSightClientTypes.SemanticTable {
         try writer["Alias"].write(value.alias)
         try writer["DestinationTableId"].write(value.destinationTableId)
         try writer["RowLevelPermissionConfiguration"].write(value.rowLevelPermissionConfiguration, with: QuickSightClientTypes.RowLevelPermissionConfiguration.write(value:to:))
+        try writer["SemanticMetadata"].write(value.semanticMetadata, with: QuickSightClientTypes.TableSemanticMetadata.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SemanticTable {
@@ -78935,6 +79247,7 @@ extension QuickSightClientTypes.SemanticTable {
         value.alias = try reader["Alias"].readIfPresent() ?? ""
         value.destinationTableId = try reader["DestinationTableId"].readIfPresent() ?? ""
         value.rowLevelPermissionConfiguration = try reader["RowLevelPermissionConfiguration"].readIfPresent(with: QuickSightClientTypes.RowLevelPermissionConfiguration.read(from:))
+        value.semanticMetadata = try reader["SemanticMetadata"].readIfPresent(with: QuickSightClientTypes.TableSemanticMetadata.read(from:))
         return value
     }
 }
@@ -79035,6 +79348,23 @@ extension QuickSightClientTypes.ShapeConditionalFormat {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.ShapeConditionalFormat()
         value.backgroundColor = try reader["BackgroundColor"].readIfPresent(with: QuickSightClientTypes.ConditionalFormattingColor.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.SharedColumnSemanticMetadata {
+
+    static func write(value: QuickSightClientTypes.SharedColumnSemanticMetadata?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ColumnNames"].writeList(value.columnNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ColumnProperties"].writeList(value.columnProperties, memberWritingClosure: QuickSightClientTypes.ColumnSemanticProperty.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SharedColumnSemanticMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.SharedColumnSemanticMetadata()
+        value.columnNames = try reader["ColumnNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.columnProperties = try reader["ColumnProperties"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ColumnSemanticProperty.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -80623,6 +80953,21 @@ extension QuickSightClientTypes.TableRowConditionalFormatting {
         var value = QuickSightClientTypes.TableRowConditionalFormatting()
         value.backgroundColor = try reader["BackgroundColor"].readIfPresent(with: QuickSightClientTypes.ConditionalFormattingColor.read(from:))
         value.textColor = try reader["TextColor"].readIfPresent(with: QuickSightClientTypes.ConditionalFormattingColor.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.TableSemanticMetadata {
+
+    static func write(value: QuickSightClientTypes.TableSemanticMetadata?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ColumnMetadata"].writeList(value.columnMetadata, memberWritingClosure: QuickSightClientTypes.SharedColumnSemanticMetadata.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TableSemanticMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.TableSemanticMetadata()
+        value.columnMetadata = try reader["ColumnMetadata"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.SharedColumnSemanticMetadata.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -82692,6 +83037,21 @@ extension QuickSightClientTypes.UntagColumnOperation {
         var value = QuickSightClientTypes.UntagColumnOperation()
         value.columnName = try reader["ColumnName"].readIfPresent() ?? ""
         value.tagNames = try reader["TagNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<QuickSightClientTypes.ColumnTagName>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension QuickSightClientTypes.UploadedDocumentMetadata {
+
+    static func write(value: QuickSightClientTypes.UploadedDocumentMetadata?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.UploadedDocumentMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.UploadedDocumentMetadata()
+        value.name = try reader["Name"].readIfPresent()
         return value
     }
 }

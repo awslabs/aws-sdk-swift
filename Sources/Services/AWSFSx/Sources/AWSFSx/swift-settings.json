@@ -1,0 +1,8 @@
+{
+    "service": "com.amazonaws.fsx#AWSSimbaAPIService_v20180301",
+    "module": "AWSFSx",
+    "sdkId": "FSx",
+    "internalClient": false,
+    "operations": [],
+    "modelPath": "codegen/sdk-codegen/aws-models/fsx.json"
+}

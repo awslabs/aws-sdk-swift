@@ -15,7 +15,7 @@ import class AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain
 import class ClientRuntime.ClientBuilder
 import class ClientRuntime.DefaultClientPlugin
 import class ClientRuntime.HttpClientConfiguration
-import class ClientRuntime.OrchestratorBuilder
+@_spi(SchemaBasedSerde) import class ClientRuntime.OrchestratorBuilder
 import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
@@ -1197,6 +1197,80 @@ extension AccessAnalyzerClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreateServiceLinkedAnalyzer` operation on the `AccessAnalyzer` service.
+    ///
+    /// Creates a service-linked analyzer managed by an Amazon Web Services service. This operation can only be invoked by authorized Amazon Web Services services. Direct customer invocation returns AccessDeniedException. Service-linked analyzers enable Amazon Web Services services to create and manage analyzers on behalf of customers. The lifecycle of these analyzers is managed by the calling service.
+    ///
+    /// - Parameter input: Creates a service-linked analyzer. (Type: `CreateServiceLinkedAnalyzerInput`)
+    ///
+    /// - Returns: The response to the request to create a service-linked analyzer. (Type: `CreateServiceLinkedAnalyzerOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : A conflict exception error.
+    /// - `InternalServerException` : Internal server error.
+    /// - `ServiceQuotaExceededException` : Service quote met error.
+    /// - `ThrottlingException` : Throttling limit exceeded error.
+    /// - `ValidationException` : Validation exception error.
+    public func createServiceLinkedAnalyzer(input: CreateServiceLinkedAnalyzerInput) async throws -> CreateServiceLinkedAnalyzerOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createServiceLinkedAnalyzer")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "access-analyzer")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateServiceLinkedAnalyzerInput, CreateServiceLinkedAnalyzerOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateServiceLinkedAnalyzerInput, CreateServiceLinkedAnalyzerOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateServiceLinkedAnalyzerInput, CreateServiceLinkedAnalyzerOutput>(CreateServiceLinkedAnalyzerInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateServiceLinkedAnalyzerInput, CreateServiceLinkedAnalyzerOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateServiceLinkedAnalyzerInput, CreateServiceLinkedAnalyzerOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateServiceLinkedAnalyzerInput, CreateServiceLinkedAnalyzerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateServiceLinkedAnalyzerInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateServiceLinkedAnalyzerInput, CreateServiceLinkedAnalyzerOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateServiceLinkedAnalyzerOutput>(CreateServiceLinkedAnalyzerOutput.httpOutput(from:), CreateServiceLinkedAnalyzerOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateServiceLinkedAnalyzerInput, CreateServiceLinkedAnalyzerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateServiceLinkedAnalyzerOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AccessAnalyzer", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateServiceLinkedAnalyzerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateServiceLinkedAnalyzerOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateServiceLinkedAnalyzerInput, CreateServiceLinkedAnalyzerOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateServiceLinkedAnalyzerInput, CreateServiceLinkedAnalyzerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateServiceLinkedAnalyzerInput, CreateServiceLinkedAnalyzerOutput>(serviceID: serviceName, version: AccessAnalyzerClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "AccessAnalyzer")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateServiceLinkedAnalyzer")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeleteAnalyzer` operation on the `AccessAnalyzer` service.
     ///
     /// Deletes the specified analyzer. When you delete an analyzer, IAM Access Analyzer is disabled for the account or organization in the current or specific Region. All findings that were generated by the analyzer are deleted. You cannot undo this action.
@@ -1327,6 +1401,78 @@ extension AccessAnalyzerClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "AccessAnalyzer")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteArchiveRule")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteServiceLinkedAnalyzer` operation on the `AccessAnalyzer` service.
+    ///
+    /// Deletes a service-linked analyzer. This operation can be invoked by both authorized Amazon Web Services services and customers. When invoked by a customer, IAM Access Analyzer performs a callback to the managing service to verify whether the analyzer is still in use and can be deleted. If the service indicates the analyzer is still in use, the deletion is rejected with ConflictException.
+    ///
+    /// - Parameter input: Deletes a service-linked analyzer. (Type: `DeleteServiceLinkedAnalyzerInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteServiceLinkedAnalyzerOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : A conflict exception error.
+    /// - `InternalServerException` : Internal server error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : Throttling limit exceeded error.
+    /// - `ValidationException` : Validation exception error.
+    public func deleteServiceLinkedAnalyzer(input: DeleteServiceLinkedAnalyzerInput) async throws -> DeleteServiceLinkedAnalyzerOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteServiceLinkedAnalyzer")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "access-analyzer")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteServiceLinkedAnalyzerInput, DeleteServiceLinkedAnalyzerOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<DeleteServiceLinkedAnalyzerInput, DeleteServiceLinkedAnalyzerOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteServiceLinkedAnalyzerInput, DeleteServiceLinkedAnalyzerOutput>(DeleteServiceLinkedAnalyzerInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteServiceLinkedAnalyzerInput, DeleteServiceLinkedAnalyzerOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteServiceLinkedAnalyzerInput, DeleteServiceLinkedAnalyzerOutput>(DeleteServiceLinkedAnalyzerInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteServiceLinkedAnalyzerOutput>(DeleteServiceLinkedAnalyzerOutput.httpOutput(from:), DeleteServiceLinkedAnalyzerOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteServiceLinkedAnalyzerInput, DeleteServiceLinkedAnalyzerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteServiceLinkedAnalyzerOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AccessAnalyzer", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteServiceLinkedAnalyzerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteServiceLinkedAnalyzerOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteServiceLinkedAnalyzerInput, DeleteServiceLinkedAnalyzerOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteServiceLinkedAnalyzerInput, DeleteServiceLinkedAnalyzerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteServiceLinkedAnalyzerInput, DeleteServiceLinkedAnalyzerOutput>(serviceID: serviceName, version: AccessAnalyzerClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "AccessAnalyzer")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteServiceLinkedAnalyzer")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
