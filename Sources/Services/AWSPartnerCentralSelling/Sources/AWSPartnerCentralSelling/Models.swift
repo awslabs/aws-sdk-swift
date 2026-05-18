@@ -2792,7 +2792,7 @@ extension PartnerCentralSellingClientTypes {
     public struct ExpectedCustomerSpend: Swift.Sendable {
         /// Represents the estimated monthly revenue that the partner expects to earn from the opportunity. This helps in forecasting financial returns.
         public var amount: Swift.String?
-        /// Currency code for the expected customer spend. Supported currencies: USD, EUR
+        /// Indicates the currency in which the revenue estimate is provided. This helps in understanding the financial impact across different markets. Accepted values are USD (US Dollars) and EUR (Euros). If the AWS Partition is aws-eusc (AWS European Sovereign Cloud), the currency code must be EUR.
         /// This member is required.
         public var currencyCode: PartnerCentralSellingClientTypes.CurrencyCode?
         /// A URL providing additional information or context about the spend estimation.
@@ -5964,6 +5964,54 @@ extension PartnerCentralSellingClientTypes {
 
 extension PartnerCentralSellingClientTypes {
 
+    /// The unit of measurement for the contract duration value. Currently accepts only Months.
+    public enum ExpectedContractDurationTerm: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case months
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExpectedContractDurationTerm] {
+            return [
+                .months
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .months: return "Months"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    /// The expected duration of a partner's contract with the customer. Used to convert Total Contract Value (TCV) to Monthly Recurring Revenue (MRR) for opportunity dealsizing calculations.
+    public struct ExpectedContractDuration: Swift.Sendable {
+        /// The unit of measurement for the contract duration value. Currently accepts only Months.
+        /// This member is required.
+        public var term: PartnerCentralSellingClientTypes.ExpectedContractDurationTerm?
+        /// A String representation of the contract duration as an integer, expressed in the unit defined by Term. Valid values range from 1 to 144.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            term: PartnerCentralSellingClientTypes.ExpectedContractDurationTerm? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.term = term
+            self.value = value
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
     public enum SalesActivity: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case agreedOnSolutionToBusinessProblem
         case completedActionPlan
@@ -6039,6 +6087,8 @@ extension PartnerCentralSellingClientTypes {
         ///
         /// * Other: Delivery model not described above.
         public var deliveryModels: [PartnerCentralSellingClientTypes.DeliveryModel]?
+        /// Optional. The expected duration of the contract associated with this opportunity. Partners use this value alongside expected customer spend to convert Total Contract Value (TCV) into Monthly Recurring Revenue (MRR).
+        public var expectedContractDuration: PartnerCentralSellingClientTypes.ExpectedContractDuration?
         /// Represents the estimated amount that the customer is expected to spend on AWS services related to the opportunity. This helps in evaluating the potential financial value of the opportunity for AWS.
         public var expectedCustomerSpend: [PartnerCentralSellingClientTypes.ExpectedCustomerSpend]?
         /// Only allowed when CompetitorNames has Other selected.
@@ -6076,6 +6126,7 @@ extension PartnerCentralSellingClientTypes {
             customerBusinessProblem: Swift.String? = nil,
             customerUseCase: Swift.String? = nil,
             deliveryModels: [PartnerCentralSellingClientTypes.DeliveryModel]? = nil,
+            expectedContractDuration: PartnerCentralSellingClientTypes.ExpectedContractDuration? = nil,
             expectedCustomerSpend: [PartnerCentralSellingClientTypes.ExpectedCustomerSpend]? = nil,
             otherCompetitorNames: Swift.String? = nil,
             otherSolutionDescription: Swift.String? = nil,
@@ -6090,6 +6141,7 @@ extension PartnerCentralSellingClientTypes {
             self.customerBusinessProblem = customerBusinessProblem
             self.customerUseCase = customerUseCase
             self.deliveryModels = deliveryModels
+            self.expectedContractDuration = expectedContractDuration
             self.expectedCustomerSpend = expectedCustomerSpend
             self.otherCompetitorNames = otherCompetitorNames
             self.otherSolutionDescription = otherSolutionDescription
@@ -6102,7 +6154,7 @@ extension PartnerCentralSellingClientTypes {
 
 extension PartnerCentralSellingClientTypes.Project: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Project(additionalComments: \(Swift.String(describing: additionalComments)), apnPrograms: \(Swift.String(describing: apnPrograms)), awsPartition: \(Swift.String(describing: awsPartition)), competitorName: \(Swift.String(describing: competitorName)), customerUseCase: \(Swift.String(describing: customerUseCase)), deliveryModels: \(Swift.String(describing: deliveryModels)), expectedCustomerSpend: \(Swift.String(describing: expectedCustomerSpend)), otherCompetitorNames: \(Swift.String(describing: otherCompetitorNames)), relatedOpportunityIdentifier: \(Swift.String(describing: relatedOpportunityIdentifier)), salesActivities: \(Swift.String(describing: salesActivities)), customerBusinessProblem: \"CONTENT_REDACTED\", otherSolutionDescription: \"CONTENT_REDACTED\", title: \"CONTENT_REDACTED\")"}
+        "Project(additionalComments: \(Swift.String(describing: additionalComments)), apnPrograms: \(Swift.String(describing: apnPrograms)), awsPartition: \(Swift.String(describing: awsPartition)), competitorName: \(Swift.String(describing: competitorName)), customerUseCase: \(Swift.String(describing: customerUseCase)), deliveryModels: \(Swift.String(describing: deliveryModels)), expectedContractDuration: \(Swift.String(describing: expectedContractDuration)), expectedCustomerSpend: \(Swift.String(describing: expectedCustomerSpend)), otherCompetitorNames: \(Swift.String(describing: otherCompetitorNames)), relatedOpportunityIdentifier: \(Swift.String(describing: relatedOpportunityIdentifier)), salesActivities: \(Swift.String(describing: salesActivities)), customerBusinessProblem: \"CONTENT_REDACTED\", otherSolutionDescription: \"CONTENT_REDACTED\", title: \"CONTENT_REDACTED\")"}
 }
 
 extension PartnerCentralSellingClientTypes {
@@ -6835,14 +6887,18 @@ extension PartnerCentralSellingClientTypes {
         ///
         /// * Other: Delivery model not described above.
         public var deliveryModels: [PartnerCentralSellingClientTypes.DeliveryModel]?
+        /// Optional. The expected contract duration for this opportunity, representing the anticipated length of the contract in the unit specified by Term.
+        public var expectedContractDuration: PartnerCentralSellingClientTypes.ExpectedContractDuration?
         /// Provides a summary of the expected customer spend for the project, offering a high-level view of the potential financial impact.
         public var expectedCustomerSpend: [PartnerCentralSellingClientTypes.ExpectedCustomerSpend]?
 
         public init(
             deliveryModels: [PartnerCentralSellingClientTypes.DeliveryModel]? = nil,
+            expectedContractDuration: PartnerCentralSellingClientTypes.ExpectedContractDuration? = nil,
             expectedCustomerSpend: [PartnerCentralSellingClientTypes.ExpectedCustomerSpend]? = nil
         ) {
             self.deliveryModels = deliveryModels
+            self.expectedContractDuration = expectedContractDuration
             self.expectedCustomerSpend = expectedCustomerSpend
         }
     }
@@ -7435,6 +7491,8 @@ extension PartnerCentralSellingClientTypes {
         public var customerUseCase: Swift.String?
         /// Describes the deployment or consumption model for the partner solution or offering. This field indicates how the project's solution will be delivered or implemented for the customer.
         public var deliveryModels: [PartnerCentralSellingClientTypes.DeliveryModel]?
+        /// Optional. The expected contract duration for this opportunity, representing the anticipated length of the contract in the unit specified by Term.
+        public var expectedContractDuration: PartnerCentralSellingClientTypes.ExpectedContractDuration?
         /// Provides information about the anticipated customer spend related to this project. This may include details such as amount, frequency, and currency of expected expenditure.
         public var expectedCustomerSpend: [PartnerCentralSellingClientTypes.ExpectedCustomerSpend]?
         /// Offers a description of other solutions if the standard solutions do not adequately cover the project's scope.
@@ -7445,12 +7503,14 @@ extension PartnerCentralSellingClientTypes {
         public init(
             customerUseCase: Swift.String? = nil,
             deliveryModels: [PartnerCentralSellingClientTypes.DeliveryModel]? = nil,
+            expectedContractDuration: PartnerCentralSellingClientTypes.ExpectedContractDuration? = nil,
             expectedCustomerSpend: [PartnerCentralSellingClientTypes.ExpectedCustomerSpend]? = nil,
             otherSolutionDescription: Swift.String? = nil,
             salesActivities: [PartnerCentralSellingClientTypes.SalesActivity]? = nil
         ) {
             self.customerUseCase = customerUseCase
             self.deliveryModels = deliveryModels
+            self.expectedContractDuration = expectedContractDuration
             self.expectedCustomerSpend = expectedCustomerSpend
             self.otherSolutionDescription = otherSolutionDescription
             self.salesActivities = salesActivities
@@ -7460,7 +7520,7 @@ extension PartnerCentralSellingClientTypes {
 
 extension PartnerCentralSellingClientTypes.ProjectView: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ProjectView(customerUseCase: \(Swift.String(describing: customerUseCase)), deliveryModels: \(Swift.String(describing: deliveryModels)), expectedCustomerSpend: \(Swift.String(describing: expectedCustomerSpend)), salesActivities: \(Swift.String(describing: salesActivities)), otherSolutionDescription: \"CONTENT_REDACTED\")"}
+        "ProjectView(customerUseCase: \(Swift.String(describing: customerUseCase)), deliveryModels: \(Swift.String(describing: deliveryModels)), expectedContractDuration: \(Swift.String(describing: expectedContractDuration)), expectedCustomerSpend: \(Swift.String(describing: expectedCustomerSpend)), salesActivities: \(Swift.String(describing: salesActivities)), otherSolutionDescription: \"CONTENT_REDACTED\")"}
 }
 
 extension PartnerCentralSellingClientTypes {
@@ -11215,6 +11275,23 @@ extension PartnerCentralSellingClientTypes.EngagementSummary {
     }
 }
 
+extension PartnerCentralSellingClientTypes.ExpectedContractDuration {
+
+    static func write(value: PartnerCentralSellingClientTypes.ExpectedContractDuration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Term"].write(value.term)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.ExpectedContractDuration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.ExpectedContractDuration()
+        value.term = try reader["Term"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension PartnerCentralSellingClientTypes.ExpectedCustomerSpend {
 
     static func write(value: PartnerCentralSellingClientTypes.ExpectedCustomerSpend?, to writer: SmithyJSON.Writer) throws {
@@ -11722,6 +11799,7 @@ extension PartnerCentralSellingClientTypes.Project {
         try writer["CustomerBusinessProblem"].write(value.customerBusinessProblem)
         try writer["CustomerUseCase"].write(value.customerUseCase)
         try writer["DeliveryModels"].writeList(value.deliveryModels, memberWritingClosure: SmithyReadWrite.WritingClosureBox<PartnerCentralSellingClientTypes.DeliveryModel>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ExpectedContractDuration"].write(value.expectedContractDuration, with: PartnerCentralSellingClientTypes.ExpectedContractDuration.write(value:to:))
         try writer["ExpectedCustomerSpend"].writeList(value.expectedCustomerSpend, memberWritingClosure: PartnerCentralSellingClientTypes.ExpectedCustomerSpend.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["OtherCompetitorNames"].write(value.otherCompetitorNames)
         try writer["OtherSolutionDescription"].write(value.otherSolutionDescription)
@@ -11735,6 +11813,7 @@ extension PartnerCentralSellingClientTypes.Project {
         var value = PartnerCentralSellingClientTypes.Project()
         value.deliveryModels = try reader["DeliveryModels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PartnerCentralSellingClientTypes.DeliveryModel>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.expectedCustomerSpend = try reader["ExpectedCustomerSpend"].readListIfPresent(memberReadingClosure: PartnerCentralSellingClientTypes.ExpectedCustomerSpend.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.expectedContractDuration = try reader["ExpectedContractDuration"].readIfPresent(with: PartnerCentralSellingClientTypes.ExpectedContractDuration.read(from:))
         value.title = try reader["Title"].readIfPresent()
         value.apnPrograms = try reader["ApnPrograms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.customerBusinessProblem = try reader["CustomerBusinessProblem"].readIfPresent()
@@ -11778,6 +11857,7 @@ extension PartnerCentralSellingClientTypes.ProjectSummary {
         var value = PartnerCentralSellingClientTypes.ProjectSummary()
         value.deliveryModels = try reader["DeliveryModels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PartnerCentralSellingClientTypes.DeliveryModel>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.expectedCustomerSpend = try reader["ExpectedCustomerSpend"].readListIfPresent(memberReadingClosure: PartnerCentralSellingClientTypes.ExpectedCustomerSpend.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.expectedContractDuration = try reader["ExpectedContractDuration"].readIfPresent(with: PartnerCentralSellingClientTypes.ExpectedContractDuration.read(from:))
         return value
     }
 }
@@ -11789,6 +11869,7 @@ extension PartnerCentralSellingClientTypes.ProjectView {
         var value = PartnerCentralSellingClientTypes.ProjectView()
         value.deliveryModels = try reader["DeliveryModels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PartnerCentralSellingClientTypes.DeliveryModel>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.expectedCustomerSpend = try reader["ExpectedCustomerSpend"].readListIfPresent(memberReadingClosure: PartnerCentralSellingClientTypes.ExpectedCustomerSpend.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.expectedContractDuration = try reader["ExpectedContractDuration"].readIfPresent(with: PartnerCentralSellingClientTypes.ExpectedContractDuration.read(from:))
         value.customerUseCase = try reader["CustomerUseCase"].readIfPresent()
         value.salesActivities = try reader["SalesActivities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PartnerCentralSellingClientTypes.SalesActivity>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.otherSolutionDescription = try reader["OtherSolutionDescription"].readIfPresent()

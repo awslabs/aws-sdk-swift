@@ -4806,7 +4806,7 @@ extension CloudFrontClientTypes {
         ///
         /// * vip – The distribution accepts HTTPS connections from all viewers including those that don't support SNI. This is not recommended, and results in additional monthly charges from CloudFront.
         ///
-        /// * static-ip - Do not specify this value unless your distribution has been enabled for this feature by the CloudFront team. If you have a use case that requires static IP addresses for a distribution, contact CloudFront through the [Amazon Web ServicesSupport Center](https://console.aws.amazon.com/support/home).
+        /// * static-ip - Do not specify this value unless your distribution has been enabled for this feature by the CloudFront team. If you have a use case that requires static IP addresses for a distribution, contact CloudFront through the [Amazon Web Services Support Center](https://console.aws.amazon.com/support/home).
         ///
         ///
         /// If the distribution uses the CloudFront domain name such as d111111abcdef8.cloudfront.net, don't set a value for this field.
@@ -4836,12 +4836,14 @@ extension CloudFrontClientTypes {
 
     public enum ViewerMtlsMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case `optional`
+        case passthrough
         case `required`
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ViewerMtlsMode] {
             return [
                 .optional,
+                .passthrough,
                 .required
             ]
         }
@@ -4854,6 +4856,7 @@ extension CloudFrontClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .optional: return "optional"
+            case .passthrough: return "passthrough"
             case .required: return "required"
             case let .sdkUnknown(s): return s
             }
@@ -10089,15 +10092,19 @@ public struct CreateTrustStoreInput: Swift.Sendable {
     public var name: Swift.String?
     /// A complex type that contains zero or more Tag elements.
     public var tags: CloudFrontClientTypes.Tags?
+    /// A Boolean that determines whether to use the CA certificate's OCSP endpoint to check certificate revocation status.
+    public var useClientCertificateOCSPEndpoint: Swift.Bool?
 
     public init(
         caCertificatesBundleSource: CloudFrontClientTypes.CaCertificatesBundleSource? = nil,
         name: Swift.String? = nil,
-        tags: CloudFrontClientTypes.Tags? = nil
+        tags: CloudFrontClientTypes.Tags? = nil,
+        useClientCertificateOCSPEndpoint: Swift.Bool? = nil
     ) {
         self.caCertificatesBundleSource = caCertificatesBundleSource
         self.name = name
         self.tags = tags
+        self.useClientCertificateOCSPEndpoint = useClientCertificateOCSPEndpoint
     }
 }
 
@@ -10151,6 +10158,8 @@ extension CloudFrontClientTypes {
         public var reason: Swift.String?
         /// The trust store's status.
         public var status: CloudFrontClientTypes.TrustStoreStatus?
+        /// A Boolean that determines whether the trust store uses the CA certificate's OCSP endpoint to check certificate revocation status.
+        public var useClientCertificateOCSPEndpoint: Swift.Bool?
 
         public init(
             arn: Swift.String? = nil,
@@ -10159,7 +10168,8 @@ extension CloudFrontClientTypes {
             name: Swift.String? = nil,
             numberOfCaCertificates: Swift.Int? = nil,
             reason: Swift.String? = nil,
-            status: CloudFrontClientTypes.TrustStoreStatus? = nil
+            status: CloudFrontClientTypes.TrustStoreStatus? = nil,
+            useClientCertificateOCSPEndpoint: Swift.Bool? = nil
         ) {
             self.arn = arn
             self.id = id
@@ -10168,6 +10178,7 @@ extension CloudFrontClientTypes {
             self.numberOfCaCertificates = numberOfCaCertificates
             self.reason = reason
             self.status = status
+            self.useClientCertificateOCSPEndpoint = useClientCertificateOCSPEndpoint
         }
     }
 }
@@ -16438,7 +16449,6 @@ public struct UpdateStreamingDistributionOutput: Swift.Sendable {
 
 public struct UpdateTrustStoreInput: Swift.Sendable {
     /// The CA certificates bundle source.
-    /// This member is required.
     public var caCertificatesBundleSource: CloudFrontClientTypes.CaCertificatesBundleSource?
     /// The trust store ID.
     /// This member is required.
@@ -16446,15 +16456,19 @@ public struct UpdateTrustStoreInput: Swift.Sendable {
     /// The current version (ETag value) of the trust store you are updating.
     /// This member is required.
     public var ifMatch: Swift.String?
+    /// A Boolean that determines whether to use the CA certificate's OCSP endpoint to check certificate revocation status.
+    public var useClientCertificateOCSPEndpoint: Swift.Bool?
 
     public init(
         caCertificatesBundleSource: CloudFrontClientTypes.CaCertificatesBundleSource? = nil,
         id: Swift.String? = nil,
-        ifMatch: Swift.String? = nil
+        ifMatch: Swift.String? = nil,
+        useClientCertificateOCSPEndpoint: Swift.Bool? = nil
     ) {
         self.caCertificatesBundleSource = caCertificatesBundleSource
         self.id = id
         self.ifMatch = ifMatch
+        self.useClientCertificateOCSPEndpoint = useClientCertificateOCSPEndpoint
     }
 }
 
@@ -19323,6 +19337,9 @@ extension UpdateTrustStoreInput {
         if let ifMatch = value.ifMatch {
             items.add(SmithyHTTPAPI.Header(name: "If-Match", value: Swift.String(ifMatch)))
         }
+        if let useClientCertificateOCSPEndpoint = value.useClientCertificateOCSPEndpoint {
+            items.add(SmithyHTTPAPI.Header(name: "UseClientCertificateOCSPEndpoint", value: Swift.String(useClientCertificateOCSPEndpoint)))
+        }
         return items
     }
 }
@@ -19607,6 +19624,7 @@ extension CreateTrustStoreInput {
         try writer["CaCertificatesBundleSource"].write(value.caCertificatesBundleSource, with: CloudFrontClientTypes.CaCertificatesBundleSource.write(value:to:))
         try writer["Name"].write(value.name)
         try writer["Tags"].write(value.tags, with: CloudFrontClientTypes.Tags.write(value:to:))
+        try writer["UseClientCertificateOCSPEndpoint"].write(value.useClientCertificateOCSPEndpoint)
     }
 }
 
@@ -30687,6 +30705,7 @@ extension CloudFrontClientTypes.TrustStore {
         value.numberOfCaCertificates = try reader["NumberOfCaCertificates"].readIfPresent()
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.reason = try reader["Reason"].readIfPresent()
+        value.useClientCertificateOCSPEndpoint = try reader["UseClientCertificateOCSPEndpoint"].readIfPresent()
         return value
     }
 }

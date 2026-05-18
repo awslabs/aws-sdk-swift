@@ -1263,6 +1263,16 @@ extension MediaPackageV2ClientTypes {
 
 extension MediaPackageV2ClientTypes {
 
+    /// The configuration for the DASH availabilityStartTime attribute of the Media Presentation Description (MPD). Use this configuration to set a custom availability start time for your DASH manifest.
+    public enum DashAvailabilityStartTimeConfiguration: Swift.Sendable {
+        /// The fixed availability start time for the DASH manifest, in ISO 8601 date-time format. The value must have hourly granularity, meaning that the minutes, seconds, and fractional seconds must be zero. The value must be on or after 2024-01-01T00:00:00Z and must be at least 14 days before the current time.
+        case fixedavailabilitystarttime(Foundation.Date)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension MediaPackageV2ClientTypes {
+
     /// The base URLs to use for retrieving segments. You can specify multiple locations and indicate the priority and weight for when each should be used, for use in mutli-CDN workflows.
     public struct DashBaseUrl: Swift.Sendable {
         /// For use with DVB-DASH profiles only. The priority of this location for servings segments. The lower the number, the higher the priority.
@@ -1764,6 +1774,8 @@ extension MediaPackageV2ClientTypes {
 
     /// Create a DASH manifest configuration.
     public struct CreateDashManifestConfiguration: Swift.Sendable {
+        /// The configuration for the DASH availabilityStartTime attribute of the Media Presentation Description (MPD). If you don't specify a value, MediaPackage uses the default availability start time of 2024-01-01T00:00:00Z.
+        public var availabilityStartTimeConfiguration: MediaPackageV2ClientTypes.DashAvailabilityStartTimeConfiguration?
         /// The base URLs to use for retrieving segments.
         public var baseUrls: [MediaPackageV2ClientTypes.DashBaseUrl]?
         /// The layout of the DASH manifest that MediaPackage produces. STANDARD indicates a default manifest, which is compacted. NONE indicates a full manifest. For information about compactness, see [DASH manifest compactness](https://docs.aws.amazon.com/mediapackage/latest/userguide/compacted.html) in the Elemental MediaPackage v2 User Guide.
@@ -1805,6 +1817,7 @@ extension MediaPackageV2ClientTypes {
         public var utcTiming: MediaPackageV2ClientTypes.DashUtcTiming?
 
         public init(
+            availabilityStartTimeConfiguration: MediaPackageV2ClientTypes.DashAvailabilityStartTimeConfiguration? = nil,
             baseUrls: [MediaPackageV2ClientTypes.DashBaseUrl]? = nil,
             compactness: MediaPackageV2ClientTypes.DashCompactness? = nil,
             drmSignaling: MediaPackageV2ClientTypes.DashDrmSignaling? = nil,
@@ -1824,6 +1837,7 @@ extension MediaPackageV2ClientTypes {
             uriPathType: MediaPackageV2ClientTypes.UriPathType? = nil,
             utcTiming: MediaPackageV2ClientTypes.DashUtcTiming? = nil
         ) {
+            self.availabilityStartTimeConfiguration = availabilityStartTimeConfiguration
             self.baseUrls = baseUrls
             self.compactness = compactness
             self.drmSignaling = drmSignaling
@@ -2791,6 +2805,8 @@ extension MediaPackageV2ClientTypes {
 
     /// Retrieve the DASH manifest configuration.
     public struct GetDashManifestConfiguration: Swift.Sendable {
+        /// The configuration for the DASH availabilityStartTime attribute of the Media Presentation Description (MPD).
+        public var availabilityStartTimeConfiguration: MediaPackageV2ClientTypes.DashAvailabilityStartTimeConfiguration?
         /// The base URL to use for retrieving segments.
         public var baseUrls: [MediaPackageV2ClientTypes.DashBaseUrl]?
         /// The layout of the DASH manifest that MediaPackage produces. STANDARD indicates a default manifest, which is compacted. NONE indicates a full manifest.
@@ -2835,6 +2851,7 @@ extension MediaPackageV2ClientTypes {
         public var utcTiming: MediaPackageV2ClientTypes.DashUtcTiming?
 
         public init(
+            availabilityStartTimeConfiguration: MediaPackageV2ClientTypes.DashAvailabilityStartTimeConfiguration? = nil,
             baseUrls: [MediaPackageV2ClientTypes.DashBaseUrl]? = nil,
             compactness: MediaPackageV2ClientTypes.DashCompactness? = nil,
             drmSignaling: MediaPackageV2ClientTypes.DashDrmSignaling? = nil,
@@ -2855,6 +2872,7 @@ extension MediaPackageV2ClientTypes {
             url: Swift.String? = nil,
             utcTiming: MediaPackageV2ClientTypes.DashUtcTiming? = nil
         ) {
+            self.availabilityStartTimeConfiguration = availabilityStartTimeConfiguration
             self.baseUrls = baseUrls
             self.compactness = compactness
             self.drmSignaling = drmSignaling
@@ -6568,6 +6586,7 @@ extension MediaPackageV2ClientTypes.CreateDashManifestConfiguration {
 
     static func write(value: MediaPackageV2ClientTypes.CreateDashManifestConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AvailabilityStartTimeConfiguration"].write(value.availabilityStartTimeConfiguration, with: MediaPackageV2ClientTypes.DashAvailabilityStartTimeConfiguration.write(value:to:))
         try writer["BaseUrls"].writeList(value.baseUrls, memberWritingClosure: MediaPackageV2ClientTypes.DashBaseUrl.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Compactness"].write(value.compactness)
         try writer["DrmSignaling"].write(value.drmSignaling)
@@ -6629,6 +6648,30 @@ extension MediaPackageV2ClientTypes.CreateMssManifestConfiguration {
         try writer["ManifestLayout"].write(value.manifestLayout)
         try writer["ManifestName"].write(value.manifestName)
         try writer["ManifestWindowSeconds"].write(value.manifestWindowSeconds)
+    }
+}
+
+extension MediaPackageV2ClientTypes.DashAvailabilityStartTimeConfiguration {
+
+    static func write(value: MediaPackageV2ClientTypes.DashAvailabilityStartTimeConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .fixedavailabilitystarttime(fixedavailabilitystarttime):
+                try writer["FixedAvailabilityStartTime"].writeTimestamp(fixedavailabilitystarttime, format: SmithyTimestamps.TimestampFormat.dateTime)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.DashAvailabilityStartTimeConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "FixedAvailabilityStartTime":
+                return .fixedavailabilitystarttime(try reader["FixedAvailabilityStartTime"].readTimestamp(format: SmithyTimestamps.TimestampFormat.dateTime))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
@@ -6914,6 +6957,7 @@ extension MediaPackageV2ClientTypes.GetDashManifestConfiguration {
         value.compactness = try reader["Compactness"].readIfPresent()
         value.subtitleConfiguration = try reader["SubtitleConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.DashSubtitleConfiguration.read(from:))
         value.uriPathType = try reader["UriPathType"].readIfPresent()
+        value.availabilityStartTimeConfiguration = try reader["AvailabilityStartTimeConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.DashAvailabilityStartTimeConfiguration.read(from:))
         return value
     }
 }

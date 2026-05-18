@@ -4536,7 +4536,7 @@ public struct CancelSubscriptionOutput: Swift.Sendable {
 
 extension DataZoneClientTypes {
 
-    /// The information about a cell in a notebook run in Amazon DataZone.
+    /// The information about a cell in a notebook run in Amazon SageMaker Unified Studio.
     public struct CellInformation: Swift.Sendable {
 
         public init() { }
@@ -4590,7 +4590,7 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes {
 
-    /// The compute configuration for a notebook run in Amazon DataZone.
+    /// The compute configuration for a notebook run in Amazon SageMaker Unified Studio.
     public struct ComputeConfig: Swift.Sendable {
         /// The environment version for the notebook run compute.
         public var environmentVersion: Swift.String?
@@ -9578,6 +9578,258 @@ public struct CreateListingChangeSetOutput: Swift.Sendable {
         self.listingRevision = listingRevision
         self.status = status
     }
+}
+
+public struct CreateNotebookInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier to ensure idempotency of the request. This field is automatically populated if not provided.
+    public var clientToken: Swift.String?
+    /// The description of the notebook.
+    public var description: Swift.String?
+    /// The identifier of the Amazon SageMaker Unified Studio domain in which to create the notebook.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The metadata for the notebook, specified as key-value pairs. You can specify up to 50 entries, with keys up to 128 characters and values up to 1024 characters.
+    public var metadata: [Swift.String: Swift.String]?
+    /// The name of the notebook. The name must be between 1 and 256 characters.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The identifier of the project that owns the notebook.
+    /// This member is required.
+    public var owningProjectIdentifier: Swift.String?
+    /// The sensitive parameters for the notebook, specified as key-value pairs. You can specify up to 50 entries, with keys up to 128 characters and values up to 1024 characters.
+    public var parameters: [Swift.String: Swift.String]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        domainIdentifier: Swift.String? = nil,
+        metadata: [Swift.String: Swift.String]? = nil,
+        name: Swift.String? = nil,
+        owningProjectIdentifier: Swift.String? = nil,
+        parameters: [Swift.String: Swift.String]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.description = description
+        self.domainIdentifier = domainIdentifier
+        self.metadata = metadata
+        self.name = name
+        self.owningProjectIdentifier = owningProjectIdentifier
+        self.parameters = parameters
+    }
+}
+
+extension CreateNotebookInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateNotebookInput(clientToken: \(Swift.String(describing: clientToken)), domainIdentifier: \(Swift.String(describing: domainIdentifier)), owningProjectIdentifier: \(Swift.String(describing: owningProjectIdentifier)), description: \"CONTENT_REDACTED\", metadata: [keys: \(Swift.String(describing: metadata?.keys)), values: \"CONTENT_REDACTED\"], name: \"CONTENT_REDACTED\", parameters: \"CONTENT_REDACTED\")"}
+}
+
+extension DataZoneClientTypes {
+
+    /// The package manager for a notebook run environment in Amazon SageMaker Unified Studio.
+    public enum PackageManager: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The UV package manager.
+        case uv
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PackageManager] {
+            return [
+                .uv
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .uv: return "UV"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The package configuration for a notebook run environment in Amazon SageMaker Unified Studio.
+    public struct PackageConfig: Swift.Sendable {
+        /// The package manager for the notebook run environment. The default value is UV.
+        /// This member is required.
+        public var packageManager: DataZoneClientTypes.PackageManager?
+        /// The package specification content for the notebook run environment. The maximum length is 10240 characters.
+        public var packageSpecification: Swift.String?
+
+        public init(
+            packageManager: DataZoneClientTypes.PackageManager? = .uv,
+            packageSpecification: Swift.String? = nil
+        ) {
+            self.packageManager = packageManager
+            self.packageSpecification = packageSpecification
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The environment configuration for a notebook run in Amazon SageMaker Unified Studio.
+    public struct EnvironmentConfig: Swift.Sendable {
+        /// The image version for the notebook run environment.
+        public var imageVersion: Swift.String?
+        /// The package configuration for the notebook run environment.
+        public var packageConfig: DataZoneClientTypes.PackageConfig?
+
+        public init(
+            imageVersion: Swift.String? = nil,
+            packageConfig: DataZoneClientTypes.PackageConfig? = nil
+        ) {
+            self.imageVersion = imageVersion
+            self.packageConfig = packageConfig
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The error details of a notebook in Amazon SageMaker Unified Studio.
+    public struct NotebookError: Swift.Sendable {
+        /// The error message. The maximum length is 256 characters.
+        /// This member is required.
+        public var message: Swift.String?
+
+        public init(
+            message: Swift.String? = nil
+        ) {
+            self.message = message
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The status of a notebook in Amazon SageMaker Unified Studio.
+    public enum NotebookStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The notebook is active.
+        case active
+        /// The notebook is archived.
+        case archived
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NotebookStatus] {
+            return [
+                .active,
+                .archived
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .archived: return "ARCHIVED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateNotebookOutput: Swift.Sendable {
+    /// The ordered list of cells in the notebook.
+    /// This member is required.
+    public var cellOrder: [DataZoneClientTypes.CellInformation]?
+    /// The identifier of the compute associated with the notebook.
+    public var computeId: Swift.String?
+    /// The timestamp of when the notebook was created.
+    public var createdAt: Foundation.Date?
+    /// The identifier of the user who created the notebook.
+    public var createdBy: Swift.String?
+    /// The description of the notebook.
+    public var description: Swift.String?
+    /// The identifier of the Amazon SageMaker Unified Studio domain.
+    /// This member is required.
+    public var domainId: Swift.String?
+    /// The environment configuration of the notebook.
+    public var environmentConfiguration: DataZoneClientTypes.EnvironmentConfig?
+    /// The error details if the notebook creation failed.
+    public var error: DataZoneClientTypes.NotebookError?
+    /// The identifier of the notebook.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The timestamp of when the notebook lock expires.
+    public var lockExpiresAt: Foundation.Date?
+    /// The timestamp of when the notebook was locked.
+    public var lockedAt: Foundation.Date?
+    /// The identifier of the user who locked the notebook.
+    public var lockedBy: Swift.String?
+    /// The metadata of the notebook.
+    public var metadata: [Swift.String: Swift.String]?
+    /// The name of the notebook.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The identifier of the project that owns the notebook.
+    /// This member is required.
+    public var owningProjectId: Swift.String?
+    /// The sensitive parameters of the notebook.
+    public var parameters: [Swift.String: Swift.String]?
+    /// The status of the notebook.
+    /// This member is required.
+    public var status: DataZoneClientTypes.NotebookStatus?
+    /// The timestamp of when the notebook was last updated.
+    public var updatedAt: Foundation.Date?
+    /// The identifier of the user who last updated the notebook.
+    public var updatedBy: Swift.String?
+
+    public init(
+        cellOrder: [DataZoneClientTypes.CellInformation]? = nil,
+        computeId: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        createdBy: Swift.String? = nil,
+        description: Swift.String? = nil,
+        domainId: Swift.String? = nil,
+        environmentConfiguration: DataZoneClientTypes.EnvironmentConfig? = nil,
+        error: DataZoneClientTypes.NotebookError? = nil,
+        id: Swift.String? = nil,
+        lockExpiresAt: Foundation.Date? = nil,
+        lockedAt: Foundation.Date? = nil,
+        lockedBy: Swift.String? = nil,
+        metadata: [Swift.String: Swift.String]? = nil,
+        name: Swift.String? = nil,
+        owningProjectId: Swift.String? = nil,
+        parameters: [Swift.String: Swift.String]? = nil,
+        status: DataZoneClientTypes.NotebookStatus? = nil,
+        updatedAt: Foundation.Date? = nil,
+        updatedBy: Swift.String? = nil
+    ) {
+        self.cellOrder = cellOrder
+        self.computeId = computeId
+        self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.description = description
+        self.domainId = domainId
+        self.environmentConfiguration = environmentConfiguration
+        self.error = error
+        self.id = id
+        self.lockExpiresAt = lockExpiresAt
+        self.lockedAt = lockedAt
+        self.lockedBy = lockedBy
+        self.metadata = metadata
+        self.name = name
+        self.owningProjectId = owningProjectId
+        self.parameters = parameters
+        self.status = status
+        self.updatedAt = updatedAt
+        self.updatedBy = updatedBy
+    }
+}
+
+extension CreateNotebookOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateNotebookOutput(cellOrder: \(Swift.String(describing: cellOrder)), computeId: \(Swift.String(describing: computeId)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), environmentConfiguration: \(Swift.String(describing: environmentConfiguration)), error: \(Swift.String(describing: error)), id: \(Swift.String(describing: id)), lockExpiresAt: \(Swift.String(describing: lockExpiresAt)), lockedAt: \(Swift.String(describing: lockedAt)), lockedBy: \(Swift.String(describing: lockedBy)), owningProjectId: \(Swift.String(describing: owningProjectId)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\", metadata: [keys: \(Swift.String(describing: metadata?.keys)), values: \"CONTENT_REDACTED\"], name: \"CONTENT_REDACTED\", parameters: \"CONTENT_REDACTED\")"}
 }
 
 extension DataZoneClientTypes {
@@ -20271,17 +20523,414 @@ public struct StartMetadataGenerationRunOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteNotebookInput: Swift.Sendable {
+    /// The identifier of the Amazon SageMaker Unified Studio domain in which the notebook exists.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The identifier of the notebook to delete.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        domainIdentifier: Swift.String? = nil,
+        identifier: Swift.String? = nil
+    ) {
+        self.domainIdentifier = domainIdentifier
+        self.identifier = identifier
+    }
+}
+
+public struct DeleteNotebookOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct GetNotebookInput: Swift.Sendable {
+    /// The identifier of the Amazon SageMaker Unified Studio domain in which the notebook exists.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The identifier of the notebook.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        domainIdentifier: Swift.String? = nil,
+        identifier: Swift.String? = nil
+    ) {
+        self.domainIdentifier = domainIdentifier
+        self.identifier = identifier
+    }
+}
+
+public struct GetNotebookOutput: Swift.Sendable {
+    /// The ordered list of cells in the notebook.
+    /// This member is required.
+    public var cellOrder: [DataZoneClientTypes.CellInformation]?
+    /// The identifier of the compute associated with the notebook.
+    public var computeId: Swift.String?
+    /// The timestamp of when the notebook was created.
+    public var createdAt: Foundation.Date?
+    /// The identifier of the user who created the notebook.
+    public var createdBy: Swift.String?
+    /// The description of the notebook.
+    public var description: Swift.String?
+    /// The identifier of the Amazon SageMaker Unified Studio domain.
+    /// This member is required.
+    public var domainId: Swift.String?
+    /// The environment configuration of the notebook.
+    public var environmentConfiguration: DataZoneClientTypes.EnvironmentConfig?
+    /// The error details if the notebook is in a failed state.
+    public var error: DataZoneClientTypes.NotebookError?
+    /// The identifier of the notebook.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The timestamp of when the notebook lock expires.
+    public var lockExpiresAt: Foundation.Date?
+    /// The timestamp of when the notebook was locked.
+    public var lockedAt: Foundation.Date?
+    /// The identifier of the user who locked the notebook.
+    public var lockedBy: Swift.String?
+    /// The metadata of the notebook.
+    public var metadata: [Swift.String: Swift.String]?
+    /// The name of the notebook.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The identifier of the project that owns the notebook.
+    /// This member is required.
+    public var owningProjectId: Swift.String?
+    /// The sensitive parameters of the notebook.
+    public var parameters: [Swift.String: Swift.String]?
+    /// The status of the notebook.
+    /// This member is required.
+    public var status: DataZoneClientTypes.NotebookStatus?
+    /// The timestamp of when the notebook was last updated.
+    public var updatedAt: Foundation.Date?
+    /// The identifier of the user who last updated the notebook.
+    public var updatedBy: Swift.String?
+
+    public init(
+        cellOrder: [DataZoneClientTypes.CellInformation]? = nil,
+        computeId: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        createdBy: Swift.String? = nil,
+        description: Swift.String? = nil,
+        domainId: Swift.String? = nil,
+        environmentConfiguration: DataZoneClientTypes.EnvironmentConfig? = nil,
+        error: DataZoneClientTypes.NotebookError? = nil,
+        id: Swift.String? = nil,
+        lockExpiresAt: Foundation.Date? = nil,
+        lockedAt: Foundation.Date? = nil,
+        lockedBy: Swift.String? = nil,
+        metadata: [Swift.String: Swift.String]? = nil,
+        name: Swift.String? = nil,
+        owningProjectId: Swift.String? = nil,
+        parameters: [Swift.String: Swift.String]? = nil,
+        status: DataZoneClientTypes.NotebookStatus? = nil,
+        updatedAt: Foundation.Date? = nil,
+        updatedBy: Swift.String? = nil
+    ) {
+        self.cellOrder = cellOrder
+        self.computeId = computeId
+        self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.description = description
+        self.domainId = domainId
+        self.environmentConfiguration = environmentConfiguration
+        self.error = error
+        self.id = id
+        self.lockExpiresAt = lockExpiresAt
+        self.lockedAt = lockedAt
+        self.lockedBy = lockedBy
+        self.metadata = metadata
+        self.name = name
+        self.owningProjectId = owningProjectId
+        self.parameters = parameters
+        self.status = status
+        self.updatedAt = updatedAt
+        self.updatedBy = updatedBy
+    }
+}
+
+extension GetNotebookOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetNotebookOutput(cellOrder: \(Swift.String(describing: cellOrder)), computeId: \(Swift.String(describing: computeId)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), environmentConfiguration: \(Swift.String(describing: environmentConfiguration)), error: \(Swift.String(describing: error)), id: \(Swift.String(describing: id)), lockExpiresAt: \(Swift.String(describing: lockExpiresAt)), lockedAt: \(Swift.String(describing: lockedAt)), lockedBy: \(Swift.String(describing: lockedBy)), owningProjectId: \(Swift.String(describing: owningProjectId)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\", metadata: [keys: \(Swift.String(describing: metadata?.keys)), values: \"CONTENT_REDACTED\"], name: \"CONTENT_REDACTED\", parameters: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListNotebooksInput: Swift.Sendable {
+    /// The identifier of the Amazon SageMaker Unified Studio domain in which to list notebooks.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The maximum number of notebooks to return in a single call. When the number of notebooks exceeds the value of MaxResults, the response contains a NextToken value.
+    public var maxResults: Swift.Int?
+    /// When the number of notebooks is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of notebooks, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListNotebooks to list the next set of notebooks.
+    public var nextToken: Swift.String?
+    /// The identifier of the project that owns the notebooks.
+    /// This member is required.
+    public var owningProjectIdentifier: Swift.String?
+    /// The field to sort the results by.
+    public var sortBy: DataZoneClientTypes.SortKey?
+    /// The sort order for the results.
+    public var sortOrder: DataZoneClientTypes.SortOrder?
+    /// The status to filter notebooks by.
+    public var status: DataZoneClientTypes.NotebookStatus?
+
+    public init(
+        domainIdentifier: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        owningProjectIdentifier: Swift.String? = nil,
+        sortBy: DataZoneClientTypes.SortKey? = nil,
+        sortOrder: DataZoneClientTypes.SortOrder? = nil,
+        status: DataZoneClientTypes.NotebookStatus? = nil
+    ) {
+        self.domainIdentifier = domainIdentifier
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.owningProjectIdentifier = owningProjectIdentifier
+        self.sortBy = sortBy
+        self.sortOrder = sortOrder
+        self.status = status
+    }
+}
+
 extension DataZoneClientTypes {
 
-    /// The package manager for a notebook run environment in Amazon DataZone.
-    public enum PackageManager: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        /// The UV package manager.
-        case uv
+    /// The summary of a notebook in Amazon SageMaker Unified Studio.
+    public struct NotebookSummary: Swift.Sendable {
+        /// The timestamp of when the notebook was created.
+        public var createdAt: Foundation.Date?
+        /// The identifier of the user who created the notebook.
+        public var createdBy: Swift.String?
+        /// The description of the notebook.
+        public var description: Swift.String?
+        /// The identifier of the Amazon SageMaker Unified Studio domain.
+        /// This member is required.
+        public var domainId: Swift.String?
+        /// The identifier of the notebook.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The name of the notebook.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The identifier of the project that owns the notebook.
+        /// This member is required.
+        public var owningProjectId: Swift.String?
+        /// The status of the notebook.
+        /// This member is required.
+        public var status: DataZoneClientTypes.NotebookStatus?
+        /// The timestamp of when the notebook was last updated.
+        public var updatedAt: Foundation.Date?
+        /// The identifier of the user who last updated the notebook.
+        public var updatedBy: Swift.String?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            createdBy: Swift.String? = nil,
+            description: Swift.String? = nil,
+            domainId: Swift.String? = nil,
+            id: Swift.String? = nil,
+            name: Swift.String? = nil,
+            owningProjectId: Swift.String? = nil,
+            status: DataZoneClientTypes.NotebookStatus? = nil,
+            updatedAt: Foundation.Date? = nil,
+            updatedBy: Swift.String? = nil
+        ) {
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.description = description
+            self.domainId = domainId
+            self.id = id
+            self.name = name
+            self.owningProjectId = owningProjectId
+            self.status = status
+            self.updatedAt = updatedAt
+            self.updatedBy = updatedBy
+        }
+    }
+}
+
+extension DataZoneClientTypes.NotebookSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "NotebookSummary(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), id: \(Swift.String(describing: id)), owningProjectId: \(Swift.String(describing: owningProjectId)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListNotebooksOutput: Swift.Sendable {
+    /// The results of the ListNotebooks action.
+    public var items: [DataZoneClientTypes.NotebookSummary]?
+    /// When the number of notebooks is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of notebooks, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListNotebooks to list the next set of notebooks.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [DataZoneClientTypes.NotebookSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+public struct UpdateNotebookInput: Swift.Sendable {
+    /// The updated ordered list of cells in the notebook.
+    public var cellOrder: [DataZoneClientTypes.CellInformation]?
+    /// A unique, case-sensitive identifier to ensure idempotency of the request. This field is automatically populated if not provided.
+    public var clientToken: Swift.String?
+    /// The updated description of the notebook.
+    public var description: Swift.String?
+    /// The identifier of the Amazon SageMaker Unified Studio domain in which the notebook exists.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The updated environment configuration for the notebook.
+    public var environmentConfiguration: DataZoneClientTypes.EnvironmentConfig?
+    /// The identifier of the notebook to update.
+    /// This member is required.
+    public var identifier: Swift.String?
+    /// The updated metadata for the notebook, specified as key-value pairs.
+    public var metadata: [Swift.String: Swift.String]?
+    /// The updated name of the notebook.
+    public var name: Swift.String?
+    /// The updated sensitive parameters for the notebook, specified as key-value pairs.
+    public var parameters: [Swift.String: Swift.String]?
+    /// The updated status of the notebook.
+    public var status: DataZoneClientTypes.NotebookStatus?
+
+    public init(
+        cellOrder: [DataZoneClientTypes.CellInformation]? = nil,
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        domainIdentifier: Swift.String? = nil,
+        environmentConfiguration: DataZoneClientTypes.EnvironmentConfig? = nil,
+        identifier: Swift.String? = nil,
+        metadata: [Swift.String: Swift.String]? = nil,
+        name: Swift.String? = nil,
+        parameters: [Swift.String: Swift.String]? = nil,
+        status: DataZoneClientTypes.NotebookStatus? = nil
+    ) {
+        self.cellOrder = cellOrder
+        self.clientToken = clientToken
+        self.description = description
+        self.domainIdentifier = domainIdentifier
+        self.environmentConfiguration = environmentConfiguration
+        self.identifier = identifier
+        self.metadata = metadata
+        self.name = name
+        self.parameters = parameters
+        self.status = status
+    }
+}
+
+extension UpdateNotebookInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateNotebookInput(cellOrder: \(Swift.String(describing: cellOrder)), clientToken: \(Swift.String(describing: clientToken)), domainIdentifier: \(Swift.String(describing: domainIdentifier)), environmentConfiguration: \(Swift.String(describing: environmentConfiguration)), identifier: \(Swift.String(describing: identifier)), status: \(Swift.String(describing: status)), description: \"CONTENT_REDACTED\", metadata: [keys: \(Swift.String(describing: metadata?.keys)), values: \"CONTENT_REDACTED\"], name: \"CONTENT_REDACTED\", parameters: \"CONTENT_REDACTED\")"}
+}
+
+public struct UpdateNotebookOutput: Swift.Sendable {
+    /// The ordered list of cells in the notebook.
+    /// This member is required.
+    public var cellOrder: [DataZoneClientTypes.CellInformation]?
+    /// The identifier of the compute associated with the notebook.
+    public var computeId: Swift.String?
+    /// The timestamp of when the notebook was created.
+    public var createdAt: Foundation.Date?
+    /// The identifier of the user who created the notebook.
+    public var createdBy: Swift.String?
+    /// The description of the notebook.
+    public var description: Swift.String?
+    /// The identifier of the Amazon SageMaker Unified Studio domain.
+    /// This member is required.
+    public var domainId: Swift.String?
+    /// The environment configuration of the notebook.
+    public var environmentConfiguration: DataZoneClientTypes.EnvironmentConfig?
+    /// The error details if the notebook is in a failed state.
+    public var error: DataZoneClientTypes.NotebookError?
+    /// The identifier of the notebook.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The timestamp of when the notebook lock expires.
+    public var lockExpiresAt: Foundation.Date?
+    /// The timestamp of when the notebook was locked.
+    public var lockedAt: Foundation.Date?
+    /// The identifier of the user who locked the notebook.
+    public var lockedBy: Swift.String?
+    /// The metadata of the notebook.
+    public var metadata: [Swift.String: Swift.String]?
+    /// The name of the notebook.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The identifier of the project that owns the notebook.
+    /// This member is required.
+    public var owningProjectId: Swift.String?
+    /// The sensitive parameters of the notebook.
+    public var parameters: [Swift.String: Swift.String]?
+    /// The status of the notebook.
+    /// This member is required.
+    public var status: DataZoneClientTypes.NotebookStatus?
+    /// The timestamp of when the notebook was last updated.
+    public var updatedAt: Foundation.Date?
+    /// The identifier of the user who last updated the notebook.
+    public var updatedBy: Swift.String?
+
+    public init(
+        cellOrder: [DataZoneClientTypes.CellInformation]? = nil,
+        computeId: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        createdBy: Swift.String? = nil,
+        description: Swift.String? = nil,
+        domainId: Swift.String? = nil,
+        environmentConfiguration: DataZoneClientTypes.EnvironmentConfig? = nil,
+        error: DataZoneClientTypes.NotebookError? = nil,
+        id: Swift.String? = nil,
+        lockExpiresAt: Foundation.Date? = nil,
+        lockedAt: Foundation.Date? = nil,
+        lockedBy: Swift.String? = nil,
+        metadata: [Swift.String: Swift.String]? = nil,
+        name: Swift.String? = nil,
+        owningProjectId: Swift.String? = nil,
+        parameters: [Swift.String: Swift.String]? = nil,
+        status: DataZoneClientTypes.NotebookStatus? = nil,
+        updatedAt: Foundation.Date? = nil,
+        updatedBy: Swift.String? = nil
+    ) {
+        self.cellOrder = cellOrder
+        self.computeId = computeId
+        self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.description = description
+        self.domainId = domainId
+        self.environmentConfiguration = environmentConfiguration
+        self.error = error
+        self.id = id
+        self.lockExpiresAt = lockExpiresAt
+        self.lockedAt = lockedAt
+        self.lockedBy = lockedBy
+        self.metadata = metadata
+        self.name = name
+        self.owningProjectId = owningProjectId
+        self.parameters = parameters
+        self.status = status
+        self.updatedAt = updatedAt
+        self.updatedBy = updatedBy
+    }
+}
+
+extension UpdateNotebookOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateNotebookOutput(cellOrder: \(Swift.String(describing: cellOrder)), computeId: \(Swift.String(describing: computeId)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), environmentConfiguration: \(Swift.String(describing: environmentConfiguration)), error: \(Swift.String(describing: error)), id: \(Swift.String(describing: id)), lockExpiresAt: \(Swift.String(describing: lockExpiresAt)), lockedAt: \(Swift.String(describing: lockedAt)), lockedBy: \(Swift.String(describing: lockedBy)), owningProjectId: \(Swift.String(describing: owningProjectId)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\", metadata: [keys: \(Swift.String(describing: metadata?.keys)), values: \"CONTENT_REDACTED\"], name: \"CONTENT_REDACTED\", parameters: \"CONTENT_REDACTED\")"}
+}
+
+extension DataZoneClientTypes {
+
+    /// The file format for a notebook export in Amazon SageMaker Unified Studio.
+    public enum FileFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Export the notebook as a Jupyter notebook (.ipynb) file.
+        case ipynb
+        /// Export the notebook as a PDF file.
+        case pdf
         case sdkUnknown(Swift.String)
 
-        public static var allCases: [PackageManager] {
+        public static var allCases: [FileFormat] {
             return [
-                .uv
+                .ipynb,
+                .pdf
             ]
         }
 
@@ -20292,54 +20941,248 @@ extension DataZoneClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
-            case .uv: return "UV"
+            case .ipynb: return "IPYNB"
+            case .pdf: return "PDF"
             case let .sdkUnknown(s): return s
             }
         }
     }
 }
 
+public struct GetNotebookExportInput: Swift.Sendable {
+    /// The identifier of the Amazon SageMaker Unified Studio domain in which the notebook export exists.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The identifier of the notebook export.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        domainIdentifier: Swift.String? = nil,
+        identifier: Swift.String? = nil
+    ) {
+        self.domainIdentifier = domainIdentifier
+        self.identifier = identifier
+    }
+}
+
 extension DataZoneClientTypes {
 
-    /// The package configuration for a notebook run environment in Amazon DataZone.
-    public struct PackageConfig: Swift.Sendable {
-        /// The package manager for the notebook run environment. The default value is UV.
+    /// The error details of a failed notebook export in Amazon SageMaker Unified Studio.
+    public struct NotebookExportError: Swift.Sendable {
+        /// The error message. The maximum length is 256 characters.
         /// This member is required.
-        public var packageManager: DataZoneClientTypes.PackageManager?
-        /// The package specification content for the notebook run environment. The maximum length is 10240 characters.
-        public var packageSpecification: Swift.String?
+        public var message: Swift.String?
 
         public init(
-            packageManager: DataZoneClientTypes.PackageManager? = .uv,
-            packageSpecification: Swift.String? = nil
+            message: Swift.String? = nil
         ) {
-            self.packageManager = packageManager
-            self.packageSpecification = packageSpecification
+            self.message = message
         }
     }
 }
 
 extension DataZoneClientTypes {
 
-    /// The environment configuration for a notebook run in Amazon DataZone.
-    public struct EnvironmentConfig: Swift.Sendable {
-        /// The image version for the notebook run environment.
-        public var imageVersion: Swift.String?
-        /// The package configuration for the notebook run environment.
-        public var packageConfig: DataZoneClientTypes.PackageConfig?
+    /// The Amazon Simple Storage Service destination for a notebook export in Amazon SageMaker Unified Studio.
+    public struct S3Destination: Swift.Sendable {
+        /// The Amazon Simple Storage Service URI of the exported notebook.
+        public var uri: Swift.String?
 
         public init(
-            imageVersion: Swift.String? = nil,
-            packageConfig: DataZoneClientTypes.PackageConfig? = nil
+            uri: Swift.String? = nil
         ) {
-            self.imageVersion = imageVersion
-            self.packageConfig = packageConfig
+            self.uri = uri
         }
+    }
+}
+
+extension DataZoneClientTypes.S3Destination: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "S3Destination(uri: \"CONTENT_REDACTED\")"}
+}
+
+extension DataZoneClientTypes {
+
+    /// The output location for a notebook export in Amazon SageMaker Unified Studio.
+    public enum OutputLocation: Swift.Sendable {
+        /// The Amazon Simple Storage Service destination for the notebook export.
+        case s3(DataZoneClientTypes.S3Destination)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The status of a notebook export in Amazon SageMaker Unified Studio.
+    public enum NotebookExportStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The notebook export failed.
+        case failed
+        /// The notebook export is in progress.
+        case inProgress
+        /// The notebook export succeeded.
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NotebookExportStatus] {
+            return [
+                .failed,
+                .inProgress,
+                .succeeded
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case .succeeded: return "SUCCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetNotebookExportOutput: Swift.Sendable {
+    /// The timestamp of when the notebook export completed.
+    public var completedAt: Foundation.Date?
+    /// The timestamp of when the notebook export was started.
+    public var createdAt: Foundation.Date?
+    /// The identifier of the user who started the notebook export.
+    public var createdBy: Swift.String?
+    /// The identifier of the Amazon SageMaker Unified Studio domain.
+    /// This member is required.
+    public var domainId: Swift.String?
+    /// The error details if the notebook export failed.
+    public var error: DataZoneClientTypes.NotebookExportError?
+    /// The file format of the notebook export.
+    /// This member is required.
+    public var fileFormat: DataZoneClientTypes.FileFormat?
+    /// The identifier of the notebook export.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The identifier of the notebook.
+    /// This member is required.
+    public var notebookId: Swift.String?
+    /// The output location of the exported notebook in Amazon Simple Storage Service.
+    public var outputLocation: DataZoneClientTypes.OutputLocation?
+    /// The identifier of the project that owns the notebook.
+    /// This member is required.
+    public var owningProjectId: Swift.String?
+    /// The status of the notebook export.
+    /// This member is required.
+    public var status: DataZoneClientTypes.NotebookExportStatus?
+
+    public init(
+        completedAt: Foundation.Date? = nil,
+        createdAt: Foundation.Date? = nil,
+        createdBy: Swift.String? = nil,
+        domainId: Swift.String? = nil,
+        error: DataZoneClientTypes.NotebookExportError? = nil,
+        fileFormat: DataZoneClientTypes.FileFormat? = nil,
+        id: Swift.String? = nil,
+        notebookId: Swift.String? = nil,
+        outputLocation: DataZoneClientTypes.OutputLocation? = nil,
+        owningProjectId: Swift.String? = nil,
+        status: DataZoneClientTypes.NotebookExportStatus? = nil
+    ) {
+        self.completedAt = completedAt
+        self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.domainId = domainId
+        self.error = error
+        self.fileFormat = fileFormat
+        self.id = id
+        self.notebookId = notebookId
+        self.outputLocation = outputLocation
+        self.owningProjectId = owningProjectId
+        self.status = status
+    }
+}
+
+public struct StartNotebookExportInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier to ensure idempotency of the request. This field is automatically populated if not provided.
+    public var clientToken: Swift.String?
+    /// The identifier of the Amazon SageMaker Unified Studio domain in which to export the notebook.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The file format for the notebook export. Valid values are PDF and IPYNB.
+    /// This member is required.
+    public var fileFormat: DataZoneClientTypes.FileFormat?
+    /// The identifier of the notebook to export.
+    /// This member is required.
+    public var notebookIdentifier: Swift.String?
+    /// The identifier of the project that owns the notebook.
+    /// This member is required.
+    public var owningProjectIdentifier: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        domainIdentifier: Swift.String? = nil,
+        fileFormat: DataZoneClientTypes.FileFormat? = nil,
+        notebookIdentifier: Swift.String? = nil,
+        owningProjectIdentifier: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.domainIdentifier = domainIdentifier
+        self.fileFormat = fileFormat
+        self.notebookIdentifier = notebookIdentifier
+        self.owningProjectIdentifier = owningProjectIdentifier
+    }
+}
+
+public struct StartNotebookExportOutput: Swift.Sendable {
+    /// The timestamp of when the notebook export was started.
+    public var createdAt: Foundation.Date?
+    /// The identifier of the user who started the notebook export.
+    public var createdBy: Swift.String?
+    /// The identifier of the Amazon SageMaker Unified Studio domain.
+    /// This member is required.
+    public var domainId: Swift.String?
+    /// The file format of the notebook export.
+    /// This member is required.
+    public var fileFormat: DataZoneClientTypes.FileFormat?
+    /// The identifier of the notebook export.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The identifier of the notebook.
+    /// This member is required.
+    public var notebookId: Swift.String?
+    /// The identifier of the project that owns the notebook.
+    /// This member is required.
+    public var owningProjectId: Swift.String?
+    /// The status of the notebook export.
+    /// This member is required.
+    public var status: DataZoneClientTypes.NotebookExportStatus?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        createdBy: Swift.String? = nil,
+        domainId: Swift.String? = nil,
+        fileFormat: DataZoneClientTypes.FileFormat? = nil,
+        id: Swift.String? = nil,
+        notebookId: Swift.String? = nil,
+        owningProjectId: Swift.String? = nil,
+        status: DataZoneClientTypes.NotebookExportStatus? = nil
+    ) {
+        self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.domainId = domainId
+        self.fileFormat = fileFormat
+        self.id = id
+        self.notebookId = notebookId
+        self.owningProjectId = owningProjectId
+        self.status = status
     }
 }
 
 public struct GetNotebookRunInput: Swift.Sendable {
-    /// The identifier of the Amazon DataZone domain in which the notebook run exists.
+    /// The identifier of the Amazon SageMaker Unified Studio domain in which the notebook run exists.
     /// This member is required.
     public var domainIdentifier: Swift.String?
     /// The identifier of the notebook run.
@@ -20357,7 +21200,7 @@ public struct GetNotebookRunInput: Swift.Sendable {
 
 extension DataZoneClientTypes {
 
-    /// The error details of a failed notebook run in Amazon DataZone.
+    /// The error details of a failed notebook run in Amazon SageMaker Unified Studio.
     public struct NotebookRunError: Swift.Sendable {
         /// The error message. The maximum length is 1024 characters.
         /// This member is required.
@@ -20373,7 +21216,7 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes {
 
-    /// The network access type for a notebook run in Amazon DataZone.
+    /// The network access type for a notebook run in Amazon SageMaker Unified Studio.
     public enum NetworkAccessType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         /// The notebook run uses public internet access only.
         case publicInternetOnly
@@ -20405,7 +21248,7 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes {
 
-    /// The network configuration for a notebook run in Amazon DataZone.
+    /// The network configuration for a notebook run in Amazon SageMaker Unified Studio.
     public struct NetworkConfig: Swift.Sendable {
         /// The network access type for the notebook run. Valid values are PUBLIC_INTERNET_ONLY and VPC_ONLY.
         /// This member is required.
@@ -20433,7 +21276,7 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes {
 
-    /// The status of a notebook run in Amazon DataZone.
+    /// The status of a notebook run in Amazon SageMaker Unified Studio.
     public enum NotebookRunStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         /// The notebook run failed.
         case failed
@@ -20485,7 +21328,7 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes {
 
-    /// The storage configuration for a notebook run in Amazon DataZone.
+    /// The storage configuration for a notebook run in Amazon SageMaker Unified Studio.
     public struct StorageConfig: Swift.Sendable {
         /// The ARN of the KMS key used for encryption.
         public var kmsKeyArn: Swift.String?
@@ -20504,7 +21347,7 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes {
 
-    /// The timeout configuration for a notebook run in Amazon DataZone.
+    /// The timeout configuration for a notebook run in Amazon SageMaker Unified Studio.
     public struct TimeoutConfig: Swift.Sendable {
         /// The timeout for the notebook run, in minutes. The minimum value is 60 minutes (1 hour), the maximum value is 1440 minutes (24 hours), and the default value is 720 minutes (12 hours).
         public var runTimeoutInMinutes: Swift.Int?
@@ -20519,7 +21362,7 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes {
 
-    /// The type of trigger source for a notebook run in Amazon DataZone.
+    /// The type of trigger source for a notebook run in Amazon SageMaker Unified Studio.
     public enum TriggerSourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         /// The notebook run was triggered manually.
         case manual
@@ -20555,7 +21398,7 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes {
 
-    /// The source that triggered a notebook run in Amazon DataZone.
+    /// The source that triggered a notebook run in Amazon SageMaker Unified Studio.
     public struct TriggerSource: Swift.Sendable {
         /// The name of the trigger source.
         public var name: Swift.String?
@@ -20583,7 +21426,7 @@ public struct GetNotebookRunOutput: Swift.Sendable {
     public var createdAt: Foundation.Date?
     /// The identifier of the user who created the notebook run.
     public var createdBy: Swift.String?
-    /// The identifier of the Amazon DataZone domain.
+    /// The identifier of the Amazon SageMaker Unified Studio domain.
     /// This member is required.
     public var domainId: Swift.String?
     /// The environment configuration of the notebook run, including image version and package settings.
@@ -20678,7 +21521,7 @@ extension GetNotebookRunOutput: Swift.CustomDebugStringConvertible {
 }
 
 public struct ListNotebookRunsInput: Swift.Sendable {
-    /// The identifier of the Amazon DataZone domain in which to list notebook runs.
+    /// The identifier of the Amazon SageMaker Unified Studio domain in which to list notebook runs.
     /// This member is required.
     public var domainIdentifier: Swift.String?
     /// The maximum number of notebook runs to return in a single call. When the number of notebook runs exceeds the value of MaxResults, the response contains a NextToken value.
@@ -20720,7 +21563,7 @@ public struct ListNotebookRunsInput: Swift.Sendable {
 
 extension DataZoneClientTypes {
 
-    /// The summary of a notebook run in Amazon DataZone.
+    /// The summary of a notebook run in Amazon SageMaker Unified Studio.
     public struct NotebookRunSummary: Swift.Sendable {
         /// The timestamp of when the notebook run completed.
         public var completedAt: Foundation.Date?
@@ -20728,7 +21571,7 @@ extension DataZoneClientTypes {
         public var createdAt: Foundation.Date?
         /// The identifier of the user who created the notebook run.
         public var createdBy: Swift.String?
-        /// The identifier of the Amazon DataZone domain.
+        /// The identifier of the Amazon SageMaker Unified Studio domain.
         /// This member is required.
         public var domainId: Swift.String?
         /// The identifier of the notebook run.
@@ -20806,7 +21649,7 @@ public struct StartNotebookRunInput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// The compute configuration for the notebook run, including instance type and environment version.
     public var computeConfiguration: DataZoneClientTypes.ComputeConfig?
-    /// The identifier of the Amazon DataZone domain in which the notebook run is started.
+    /// The identifier of the Amazon SageMaker Unified Studio domain in which the notebook run is started.
     /// This member is required.
     public var domainIdentifier: Swift.String?
     /// The metadata for the notebook run, specified as key-value pairs. You can specify up to 50 entries, with keys up to 128 characters and values up to 1024 characters.
@@ -20871,7 +21714,7 @@ public struct StartNotebookRunOutput: Swift.Sendable {
     public var createdAt: Foundation.Date?
     /// The identifier of the user who created the notebook run.
     public var createdBy: Swift.String?
-    /// The identifier of the Amazon DataZone domain.
+    /// The identifier of the Amazon SageMaker Unified Studio domain.
     /// This member is required.
     public var domainId: Swift.String?
     /// The environment configuration of the notebook run, including image version and package settings.
@@ -20968,7 +21811,7 @@ extension StartNotebookRunOutput: Swift.CustomDebugStringConvertible {
 public struct StopNotebookRunInput: Swift.Sendable {
     /// A unique, case-sensitive identifier to ensure idempotency of the request. This field is automatically populated if not provided.
     public var clientToken: Swift.String?
-    /// The identifier of the Amazon DataZone domain in which the notebook run is stopped.
+    /// The identifier of the Amazon SageMaker Unified Studio domain in which the notebook run is stopped.
     /// This member is required.
     public var domainIdentifier: Swift.String?
     /// The identifier of the notebook run to stop.
@@ -20987,7 +21830,7 @@ public struct StopNotebookRunInput: Swift.Sendable {
 }
 
 public struct StopNotebookRunOutput: Swift.Sendable {
-    /// The identifier of the Amazon DataZone domain.
+    /// The identifier of the Amazon SageMaker Unified Studio domain.
     /// This member is required.
     public var domainId: Swift.String?
     /// The identifier of the notebook run.
@@ -22965,6 +23808,104 @@ public struct SearchUserProfilesOutput: Swift.Sendable {
         self.items = items
         self.nextToken = nextToken
     }
+}
+
+extension DataZoneClientTypes {
+
+    /// The source location for a notebook import in Amazon SageMaker Unified Studio.
+    public enum SourceLocation: Swift.Sendable {
+        /// The Amazon Simple Storage Service URI of the notebook source file.
+        case s3(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct StartNotebookImportInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier to ensure idempotency of the request. This field is automatically populated if not provided.
+    public var clientToken: Swift.String?
+    /// The description of the imported notebook.
+    public var description: Swift.String?
+    /// The identifier of the Amazon SageMaker Unified Studio domain in which to import the notebook.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The name of the imported notebook. The name must be between 1 and 256 characters.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The identifier of the project that will own the imported notebook.
+    /// This member is required.
+    public var owningProjectIdentifier: Swift.String?
+    /// The source location of the notebook to import. This specifies the Amazon Simple Storage Service URI of the notebook file.
+    /// This member is required.
+    public var sourceLocation: DataZoneClientTypes.SourceLocation?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        domainIdentifier: Swift.String? = nil,
+        name: Swift.String? = nil,
+        owningProjectIdentifier: Swift.String? = nil,
+        sourceLocation: DataZoneClientTypes.SourceLocation? = nil
+    ) {
+        self.clientToken = clientToken
+        self.description = description
+        self.domainIdentifier = domainIdentifier
+        self.name = name
+        self.owningProjectIdentifier = owningProjectIdentifier
+        self.sourceLocation = sourceLocation
+    }
+}
+
+extension StartNotebookImportInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "StartNotebookImportInput(clientToken: \(Swift.String(describing: clientToken)), domainIdentifier: \(Swift.String(describing: domainIdentifier)), owningProjectIdentifier: \(Swift.String(describing: owningProjectIdentifier)), sourceLocation: \(Swift.String(describing: sourceLocation)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
+public struct StartNotebookImportOutput: Swift.Sendable {
+    /// The timestamp of when the notebook import was started.
+    public var createdAt: Foundation.Date?
+    /// The identifier of the user who started the notebook import.
+    public var createdBy: Swift.String?
+    /// The description of the imported notebook.
+    public var description: Swift.String?
+    /// The identifier of the Amazon SageMaker Unified Studio domain.
+    public var domainId: Swift.String?
+    /// The name of the imported notebook.
+    public var name: Swift.String?
+    /// The identifier of the imported notebook.
+    public var notebookId: Swift.String?
+    /// The identifier of the project that owns the imported notebook.
+    public var owningProjectId: Swift.String?
+    /// The source location from which the notebook was imported.
+    public var sourceLocation: DataZoneClientTypes.SourceLocation?
+    /// The status of the notebook import.
+    public var status: DataZoneClientTypes.NotebookStatus?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        createdBy: Swift.String? = nil,
+        description: Swift.String? = nil,
+        domainId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        notebookId: Swift.String? = nil,
+        owningProjectId: Swift.String? = nil,
+        sourceLocation: DataZoneClientTypes.SourceLocation? = nil,
+        status: DataZoneClientTypes.NotebookStatus? = nil
+    ) {
+        self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.description = description
+        self.domainId = domainId
+        self.name = name
+        self.notebookId = notebookId
+        self.owningProjectId = owningProjectId
+        self.sourceLocation = sourceLocation
+        self.status = status
+    }
+}
+
+extension StartNotebookImportOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "StartNotebookImportOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), notebookId: \(Swift.String(describing: notebookId)), owningProjectId: \(Swift.String(describing: owningProjectId)), sourceLocation: \(Swift.String(describing: sourceLocation)), status: \(Swift.String(describing: status)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct TagResourceInput: Swift.Sendable {
@@ -25316,6 +26257,16 @@ extension CreateListingChangeSetInput {
     }
 }
 
+extension CreateNotebookInput {
+
+    static func urlPathProvider(_ value: CreateNotebookInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/notebooks"
+    }
+}
+
 extension CreateProjectInput {
 
     static func urlPathProvider(_ value: CreateProjectInput) -> Swift.String? {
@@ -25678,6 +26629,19 @@ extension DeleteListingInput {
             return nil
         }
         return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/listings/\(identifier.urlPercentEncoding())"
+    }
+}
+
+extension DeleteNotebookInput {
+
+    static func urlPathProvider(_ value: DeleteNotebookInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/notebooks/\(identifier.urlPercentEncoding())"
     }
 }
 
@@ -26294,6 +27258,32 @@ extension GetMetadataGenerationRunInput {
             items.append(typeQueryItem)
         }
         return items
+    }
+}
+
+extension GetNotebookInput {
+
+    static func urlPathProvider(_ value: GetNotebookInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/notebooks/\(identifier.urlPercentEncoding())"
+    }
+}
+
+extension GetNotebookExportInput {
+
+    static func urlPathProvider(_ value: GetNotebookExportInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/notebook-exports/\(identifier.urlPercentEncoding())"
     }
 }
 
@@ -27304,6 +28294,50 @@ extension ListNotebookRunsInput {
     }
 }
 
+extension ListNotebooksInput {
+
+    static func urlPathProvider(_ value: ListNotebooksInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/notebooks"
+    }
+}
+
+extension ListNotebooksInput {
+
+    static func queryItemProvider(_ value: ListNotebooksInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let owningProjectIdentifier = value.owningProjectIdentifier else {
+            let message = "Creating a URL Query Item failed. owningProjectIdentifier is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let owningProjectIdentifierQueryItem = Smithy.URIQueryItem(name: "owningProjectIdentifier".urlPercentEncoding(), value: Swift.String(owningProjectIdentifier).urlPercentEncoding())
+        items.append(owningProjectIdentifierQueryItem)
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let sortOrder = value.sortOrder {
+            let sortOrderQueryItem = Smithy.URIQueryItem(name: "sortOrder".urlPercentEncoding(), value: Swift.String(sortOrder.rawValue).urlPercentEncoding())
+            items.append(sortOrderQueryItem)
+        }
+        if let sortBy = value.sortBy {
+            let sortByQueryItem = Smithy.URIQueryItem(name: "sortBy".urlPercentEncoding(), value: Swift.String(sortBy.rawValue).urlPercentEncoding())
+            items.append(sortByQueryItem)
+        }
+        if let status = value.status {
+            let statusQueryItem = Smithy.URIQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+            items.append(statusQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListNotificationsInput {
 
     static func urlPathProvider(_ value: ListNotificationsInput) -> Swift.String? {
@@ -28098,6 +29132,26 @@ extension StartMetadataGenerationRunInput {
     }
 }
 
+extension StartNotebookExportInput {
+
+    static func urlPathProvider(_ value: StartNotebookExportInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/notebook-exports"
+    }
+}
+
+extension StartNotebookImportInput {
+
+    static func urlPathProvider(_ value: StartNotebookImportInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/notebook-imports"
+    }
+}
+
 extension StartNotebookRunInput {
 
     static func urlPathProvider(_ value: StartNotebookRunInput) -> Swift.String? {
@@ -28338,6 +29392,19 @@ extension UpdateGroupProfileInput {
             return nil
         }
         return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/group-profiles/\(groupIdentifier.urlPercentEncoding())"
+    }
+}
+
+extension UpdateNotebookInput {
+
+    static func urlPathProvider(_ value: UpdateNotebookInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/notebooks/\(identifier.urlPercentEncoding())"
     }
 }
 
@@ -28774,6 +29841,19 @@ extension CreateListingChangeSetInput {
     }
 }
 
+extension CreateNotebookInput {
+
+    static func write(value: CreateNotebookInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["description"].write(value.description)
+        try writer["metadata"].writeMap(value.metadata, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["name"].write(value.name)
+        try writer["owningProjectIdentifier"].write(value.owningProjectIdentifier)
+        try writer["parameters"].writeMap(value.parameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
 extension CreateProjectInput {
 
     static func write(value: CreateProjectInput?, to writer: SmithyJSON.Writer) throws {
@@ -29082,6 +30162,29 @@ extension StartMetadataGenerationRunInput {
     }
 }
 
+extension StartNotebookExportInput {
+
+    static func write(value: StartNotebookExportInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["fileFormat"].write(value.fileFormat)
+        try writer["notebookIdentifier"].write(value.notebookIdentifier)
+        try writer["owningProjectIdentifier"].write(value.owningProjectIdentifier)
+    }
+}
+
+extension StartNotebookImportInput {
+
+    static func write(value: StartNotebookImportInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["description"].write(value.description)
+        try writer["name"].write(value.name)
+        try writer["owningProjectIdentifier"].write(value.owningProjectIdentifier)
+        try writer["sourceLocation"].write(value.sourceLocation, with: DataZoneClientTypes.SourceLocation.write(value:to:))
+    }
+}
+
 extension StartNotebookRunInput {
 
     static func write(value: StartNotebookRunInput?, to writer: SmithyJSON.Writer) throws {
@@ -29257,6 +30360,21 @@ extension UpdateGroupProfileInput {
 
     static func write(value: UpdateGroupProfileInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["status"].write(value.status)
+    }
+}
+
+extension UpdateNotebookInput {
+
+    static func write(value: UpdateNotebookInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["cellOrder"].writeList(value.cellOrder, memberWritingClosure: DataZoneClientTypes.CellInformation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["clientToken"].write(value.clientToken)
+        try writer["description"].write(value.description)
+        try writer["environmentConfiguration"].write(value.environmentConfiguration, with: DataZoneClientTypes.EnvironmentConfig.write(value:to:))
+        try writer["metadata"].writeMap(value.metadata, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["name"].write(value.name)
+        try writer["parameters"].writeMap(value.parameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["status"].write(value.status)
     }
 }
@@ -29942,6 +31060,36 @@ extension CreateListingChangeSetOutput {
     }
 }
 
+extension CreateNotebookOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateNotebookOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateNotebookOutput()
+        value.cellOrder = try reader["cellOrder"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.CellInformation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.computeId = try reader["computeId"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.environmentConfiguration = try reader["environmentConfiguration"].readIfPresent(with: DataZoneClientTypes.EnvironmentConfig.read(from:))
+        value.error = try reader["error"].readIfPresent(with: DataZoneClientTypes.NotebookError.read(from:))
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.lockExpiresAt = try reader["lockExpiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lockedAt = try reader["lockedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lockedBy = try reader["lockedBy"].readIfPresent()
+        value.metadata = try reader["metadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""
+        value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedBy = try reader["updatedBy"].readIfPresent()
+        return value
+    }
+}
+
 extension CreateProjectOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateProjectOutput {
@@ -30279,6 +31427,13 @@ extension DeleteListingOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteListingOutput {
         return DeleteListingOutput()
+    }
+}
+
+extension DeleteNotebookOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteNotebookOutput {
+        return DeleteNotebookOutput()
     }
 }
 
@@ -30994,6 +32149,58 @@ extension GetMetadataGenerationRunOutput {
     }
 }
 
+extension GetNotebookOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetNotebookOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetNotebookOutput()
+        value.cellOrder = try reader["cellOrder"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.CellInformation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.computeId = try reader["computeId"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.environmentConfiguration = try reader["environmentConfiguration"].readIfPresent(with: DataZoneClientTypes.EnvironmentConfig.read(from:))
+        value.error = try reader["error"].readIfPresent(with: DataZoneClientTypes.NotebookError.read(from:))
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.lockExpiresAt = try reader["lockExpiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lockedAt = try reader["lockedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lockedBy = try reader["lockedBy"].readIfPresent()
+        value.metadata = try reader["metadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""
+        value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedBy = try reader["updatedBy"].readIfPresent()
+        return value
+    }
+}
+
+extension GetNotebookExportOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetNotebookExportOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetNotebookExportOutput()
+        value.completedAt = try reader["completedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.error = try reader["error"].readIfPresent(with: DataZoneClientTypes.NotebookExportError.read(from:))
+        value.fileFormat = try reader["fileFormat"].readIfPresent() ?? .sdkUnknown("")
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.notebookId = try reader["notebookId"].readIfPresent() ?? ""
+        value.outputLocation = try reader["outputLocation"].readIfPresent(with: DataZoneClientTypes.OutputLocation.read(from:))
+        value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension GetNotebookRunOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetNotebookRunOutput {
@@ -31518,6 +32725,19 @@ extension ListNotebookRunsOutput {
     }
 }
 
+extension ListNotebooksOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListNotebooksOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListNotebooksOutput()
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.NotebookSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListNotificationsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListNotificationsOutput {
@@ -31929,6 +33149,45 @@ extension StartMetadataGenerationRunOutput {
     }
 }
 
+extension StartNotebookExportOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartNotebookExportOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartNotebookExportOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.fileFormat = try reader["fileFormat"].readIfPresent() ?? .sdkUnknown("")
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.notebookId = try reader["notebookId"].readIfPresent() ?? ""
+        value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension StartNotebookImportOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartNotebookImportOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartNotebookImportOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.notebookId = try reader["notebookId"].readIfPresent()
+        value.owningProjectId = try reader["owningProjectId"].readIfPresent()
+        value.sourceLocation = try reader["sourceLocation"].readIfPresent(with: DataZoneClientTypes.SourceLocation.read(from:))
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
 extension StartNotebookRunOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartNotebookRunOutput {
@@ -32278,6 +33537,36 @@ extension UpdateGroupProfileOutput {
         value.rolePrincipalArn = try reader["rolePrincipalArn"].readIfPresent()
         value.rolePrincipalId = try reader["rolePrincipalId"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
+extension UpdateNotebookOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateNotebookOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateNotebookOutput()
+        value.cellOrder = try reader["cellOrder"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.CellInformation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.computeId = try reader["computeId"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.environmentConfiguration = try reader["environmentConfiguration"].readIfPresent(with: DataZoneClientTypes.EnvironmentConfig.read(from:))
+        value.error = try reader["error"].readIfPresent(with: DataZoneClientTypes.NotebookError.read(from:))
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.lockExpiresAt = try reader["lockExpiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lockedAt = try reader["lockedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lockedBy = try reader["lockedBy"].readIfPresent()
+        value.metadata = try reader["metadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""
+        value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedBy = try reader["updatedBy"].readIfPresent()
         return value
     }
 }
@@ -33074,6 +34363,27 @@ enum CreateListingChangeSetOutputError {
     }
 }
 
+enum CreateNotebookOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateProjectOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -33601,6 +34911,25 @@ enum DeleteListingOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteNotebookOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -34322,6 +35651,44 @@ enum GetMetadataGenerationRunOutputError {
     }
 }
 
+enum GetNotebookOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetNotebookExportOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetNotebookRunOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -34927,6 +36294,24 @@ enum ListNotebookRunsOutputError {
     }
 }
 
+enum ListNotebooksOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListNotificationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -35478,6 +36863,48 @@ enum StartMetadataGenerationRunOutputError {
     }
 }
 
+enum StartNotebookExportOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartNotebookImportOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum StartNotebookRunOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -35810,6 +37237,26 @@ enum UpdateGroupProfileOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateNotebookOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -36762,6 +38209,11 @@ extension DataZoneClientTypes.BusinessNameGenerationConfiguration {
 
 extension DataZoneClientTypes.CellInformation {
 
+    static func write(value: DataZoneClientTypes.CellInformation?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.CellInformation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         return DataZoneClientTypes.CellInformation()
@@ -37637,6 +39089,12 @@ extension DataZoneClientTypes.EnvironmentBlueprintSummary {
 }
 
 extension DataZoneClientTypes.EnvironmentConfig {
+
+    static func write(value: DataZoneClientTypes.EnvironmentConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["imageVersion"].write(value.imageVersion)
+        try writer["packageConfig"].write(value.packageConfig, with: DataZoneClientTypes.PackageConfig.write(value:to:))
+    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.EnvironmentConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -39054,6 +40512,26 @@ extension DataZoneClientTypes.NetworkConfig {
     }
 }
 
+extension DataZoneClientTypes.NotebookError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.NotebookError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.NotebookError()
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DataZoneClientTypes.NotebookExportError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.NotebookExportError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.NotebookExportError()
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension DataZoneClientTypes.NotebookRunError {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.NotebookRunError {
@@ -39082,6 +40560,25 @@ extension DataZoneClientTypes.NotebookRunSummary {
         value.updatedBy = try reader["updatedBy"].readIfPresent()
         value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.completedAt = try reader["completedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension DataZoneClientTypes.NotebookSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.NotebookSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.NotebookSummary()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.description = try reader["description"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedBy = try reader["updatedBy"].readIfPresent()
         return value
     }
 }
@@ -39225,6 +40722,20 @@ extension DataZoneClientTypes.OpenLineageRunEventSummary {
     }
 }
 
+extension DataZoneClientTypes.OutputLocation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.OutputLocation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "s3":
+                return .s3(try reader["s3"].read(with: DataZoneClientTypes.S3Destination.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
 extension DataZoneClientTypes.OverrideDomainUnitOwnersPolicyGrantDetail {
 
     static func write(value: DataZoneClientTypes.OverrideDomainUnitOwnersPolicyGrantDetail?, to writer: SmithyJSON.Writer) throws {
@@ -39323,6 +40834,12 @@ extension DataZoneClientTypes.OwnerUserPropertiesOutput {
 }
 
 extension DataZoneClientTypes.PackageConfig {
+
+    static func write(value: DataZoneClientTypes.PackageConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["packageManager"].write(value.packageManager)
+        try writer["packageSpecification"].write(value.packageSpecification)
+    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.PackageConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -40313,6 +41830,16 @@ extension DataZoneClientTypes.RunStatisticsForAssets {
     }
 }
 
+extension DataZoneClientTypes.S3Destination {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.S3Destination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.S3Destination()
+        value.uri = try reader["uri"].readIfPresent()
+        return value
+    }
+}
+
 extension DataZoneClientTypes.S3PropertiesInput {
 
     static func write(value: DataZoneClientTypes.S3PropertiesInput?, to writer: SmithyJSON.Writer) throws {
@@ -40500,6 +42027,30 @@ extension DataZoneClientTypes.SingleSignOn {
         value.userAssignment = try reader["userAssignment"].readIfPresent()
         value.idcInstanceArn = try reader["idcInstanceArn"].readIfPresent()
         return value
+    }
+}
+
+extension DataZoneClientTypes.SourceLocation {
+
+    static func write(value: DataZoneClientTypes.SourceLocation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .s3(s3):
+                try writer["s3"].write(s3)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SourceLocation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "s3":
+                return .s3(try reader["s3"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 

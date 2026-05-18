@@ -5122,6 +5122,8 @@ extension MgnClientTypes {
         public var networkMigrationDefinitionID: Swift.String?
         /// The unique identifier of the network migration execution.
         public var networkMigrationExecutionID: Swift.String?
+        /// A list of other segments that this segment depends on or references.
+        public var referencedSegments: [Swift.String]?
         /// The unique identifier of the segment.
         public var segmentID: Swift.String?
         /// The type of the segment.
@@ -5135,6 +5137,7 @@ extension MgnClientTypes {
             mapperSegmentID: Swift.String? = nil,
             networkMigrationDefinitionID: Swift.String? = nil,
             networkMigrationExecutionID: Swift.String? = nil,
+            referencedSegments: [Swift.String]? = nil,
             segmentID: Swift.String? = nil,
             segmentType: MgnClientTypes.NetworkMigrationCodeGenerationSegmentType? = nil
         ) {
@@ -5145,6 +5148,7 @@ extension MgnClientTypes {
             self.mapperSegmentID = mapperSegmentID
             self.networkMigrationDefinitionID = networkMigrationDefinitionID
             self.networkMigrationExecutionID = networkMigrationExecutionID
+            self.referencedSegments = referencedSegments
             self.segmentID = segmentID
             self.segmentType = segmentType
         }
@@ -6260,12 +6264,14 @@ extension MgnClientTypes {
 
     public enum SecurityGroupMappingStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case map
+        case mapDhcp
         case skip
         case sdkUnknown(Swift.String)
 
         public static var allCases: [SecurityGroupMappingStrategy] {
             return [
                 .map,
+                .mapDhcp,
                 .skip
             ]
         }
@@ -6278,6 +6284,7 @@ extension MgnClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .map: return "MAP"
+            case .mapDhcp: return "MAP_DHCP"
             case .skip: return "SKIP"
             case let .sdkUnknown(s): return s
             }
@@ -16911,6 +16918,7 @@ extension MgnClientTypes.NetworkMigrationCodeGenerationSegment {
         value.logicalID = try reader["logicalID"].readIfPresent()
         value.mapperSegmentID = try reader["mapperSegmentID"].readIfPresent()
         value.artifacts = try reader["artifacts"].readListIfPresent(memberReadingClosure: MgnClientTypes.NetworkMigrationCodeGenerationArtifact.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.referencedSegments = try reader["referencedSegments"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }

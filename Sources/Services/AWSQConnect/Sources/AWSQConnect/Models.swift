@@ -5148,6 +5148,156 @@ public struct ListAssistantsOutput: Swift.Sendable {
     }
 }
 
+extension QConnectClientTypes {
+
+    public enum ModelLifecycle: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case legacy
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ModelLifecycle] {
+            return [
+                .active,
+                .legacy
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .legacy: return "LEGACY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct ListModelsInput: Swift.Sendable {
+    /// The type of the AI Prompt to filter models by. When specified, only models that support the given AI Prompt type are returned.
+    public var aiPromptType: QConnectClientTypes.AIPromptType?
+    /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN. The assistant's region determines which models are available.
+    /// This member is required.
+    public var assistantId: Swift.String?
+    /// The maximum number of results to return per page.
+    public var maxResults: Swift.Int?
+    /// The lifecycle status of models to filter by. When specified, only models with the given lifecycle status are returned.
+    public var modelLifecycle: QConnectClientTypes.ModelLifecycle?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        aiPromptType: QConnectClientTypes.AIPromptType? = nil,
+        assistantId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        modelLifecycle: QConnectClientTypes.ModelLifecycle? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.aiPromptType = aiPromptType
+        self.assistantId = assistantId
+        self.maxResults = maxResults
+        self.modelLifecycle = modelLifecycle
+        self.nextToken = nextToken
+    }
+}
+
+extension QConnectClientTypes {
+
+    public enum CrossRegionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case global
+        case `none`
+        case regional
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CrossRegionStatus] {
+            return [
+                .global,
+                .none,
+                .regional
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .global: return "GLOBAL"
+            case .none: return "NONE"
+            case .regional: return "REGIONAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QConnectClientTypes {
+
+    /// The summary of a model available to an Amazon Q in Connect assistant.
+    public struct ModelSummary: Swift.Sendable {
+        /// The cross-region availability status of the model. NONE indicates the model is only available in a single region, REGIONAL indicates the model is available through regional inference, and GLOBAL indicates the model is available through global cross-region inference.
+        public var crossRegionStatus: QConnectClientTypes.CrossRegionStatus?
+        /// The display name of the model.
+        /// This member is required.
+        public var displayName: Swift.String?
+        /// The timestamp when the model will reach end of life and no longer be available for use.
+        public var endOfLifeTimestamp: Foundation.Date?
+        /// The timestamp when the model lifecycle will transition from ACTIVE to LEGACY.
+        public var legacyTimestamp: Foundation.Date?
+        /// The identifier of the model.
+        /// This member is required.
+        public var modelId: Swift.String?
+        /// The current lifecycle of the model. ACTIVE indicates the model is recommended for use and LEGACY indicates the model is still usable but is deprecated.
+        public var modelLifecycle: QConnectClientTypes.ModelLifecycle?
+        /// The list of AI Prompt types that the model supports.
+        public var supportedAIPromptTypes: [QConnectClientTypes.AIPromptType]?
+        /// Whether the model supports prompt caching.
+        public var supportsPromptCaching: Swift.Bool?
+
+        public init(
+            crossRegionStatus: QConnectClientTypes.CrossRegionStatus? = nil,
+            displayName: Swift.String? = nil,
+            endOfLifeTimestamp: Foundation.Date? = nil,
+            legacyTimestamp: Foundation.Date? = nil,
+            modelId: Swift.String? = nil,
+            modelLifecycle: QConnectClientTypes.ModelLifecycle? = nil,
+            supportedAIPromptTypes: [QConnectClientTypes.AIPromptType]? = nil,
+            supportsPromptCaching: Swift.Bool? = nil
+        ) {
+            self.crossRegionStatus = crossRegionStatus
+            self.displayName = displayName
+            self.endOfLifeTimestamp = endOfLifeTimestamp
+            self.legacyTimestamp = legacyTimestamp
+            self.modelId = modelId
+            self.modelLifecycle = modelLifecycle
+            self.supportedAIPromptTypes = supportedAIPromptTypes
+            self.supportsPromptCaching = supportsPromptCaching
+        }
+    }
+}
+
+public struct ListModelsOutput: Swift.Sendable {
+    /// The summaries of the models available to the assistant.
+    /// This member is required.
+    public var modelSummaries: [QConnectClientTypes.ModelSummary]?
+    /// If there are additional results, this is the token for the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        modelSummaries: [QConnectClientTypes.ModelSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.modelSummaries = modelSummaries
+        self.nextToken = nextToken
+    }
+}
+
 public struct NotifyRecommendationsReceivedInput: Swift.Sendable {
     /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
@@ -14146,6 +14296,40 @@ extension ListMessageTemplateVersionsInput {
     }
 }
 
+extension ListModelsInput {
+
+    static func urlPathProvider(_ value: ListModelsInput) -> Swift.String? {
+        guard let assistantId = value.assistantId else {
+            return nil
+        }
+        return "/assistants/\(assistantId.urlPercentEncoding())/models"
+    }
+}
+
+extension ListModelsInput {
+
+    static func queryItemProvider(_ value: ListModelsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let modelLifecycle = value.modelLifecycle {
+            let modelLifecycleQueryItem = Smithy.URIQueryItem(name: "modelLifecycle".urlPercentEncoding(), value: Swift.String(modelLifecycle.rawValue).urlPercentEncoding())
+            items.append(modelLifecycleQueryItem)
+        }
+        if let aiPromptType = value.aiPromptType {
+            let aiPromptTypeQueryItem = Smithy.URIQueryItem(name: "aiPromptType".urlPercentEncoding(), value: Swift.String(aiPromptType.rawValue).urlPercentEncoding())
+            items.append(aiPromptTypeQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListQuickResponsesInput {
 
     static func urlPathProvider(_ value: ListQuickResponsesInput) -> Swift.String? {
@@ -15817,6 +16001,19 @@ extension ListMessageTemplateVersionsOutput {
     }
 }
 
+extension ListModelsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListModelsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListModelsOutput()
+        value.modelSummaries = try reader["modelSummaries"].readListIfPresent(memberReadingClosure: QConnectClientTypes.ModelSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListQuickResponsesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListQuickResponsesOutput {
@@ -17299,6 +17496,25 @@ enum ListMessageTemplateVersionsOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListModelsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -20178,6 +20394,23 @@ extension QConnectClientTypes.MessageTemplateVersionSummary {
         value.channelSubtype = try reader["channelSubtype"].readIfPresent() ?? .sdkUnknown("")
         value.isActive = try reader["isActive"].readIfPresent() ?? false
         value.versionNumber = try reader["versionNumber"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension QConnectClientTypes.ModelSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ModelSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.ModelSummary()
+        value.modelId = try reader["modelId"].readIfPresent() ?? ""
+        value.displayName = try reader["displayName"].readIfPresent() ?? ""
+        value.crossRegionStatus = try reader["crossRegionStatus"].readIfPresent()
+        value.supportsPromptCaching = try reader["supportsPromptCaching"].readIfPresent()
+        value.supportedAIPromptTypes = try reader["supportedAIPromptTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<QConnectClientTypes.AIPromptType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.modelLifecycle = try reader["modelLifecycle"].readIfPresent()
+        value.legacyTimestamp = try reader["legacyTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endOfLifeTimestamp = try reader["endOfLifeTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }

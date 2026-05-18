@@ -18089,6 +18089,8 @@ public struct GetCatalogImportStatusOutput: Swift.Sendable {
 }
 
 public struct GetCatalogsInput: Swift.Sendable {
+    /// When true, the response only includes catalogs that can contain databases. Some catalogs are organizational containers that hold only other catalogs, not databases. When this parameter is set to true, those container-only catalogs are excluded, and only catalogs capable of containing databases are returned. Defaults to false.
+    public var hasDatabases: Swift.Bool?
     /// Whether to list the default catalog in the account and region in the response. Defaults to false. When true and ParentCatalogId = NULL | Amazon Web Services Account ID, all catalogs and the default catalog are enumerated in the response. When the ParentCatalogId is not equal to null, and this attribute is passed as false or true, an InvalidInputException is thrown.
     public var includeRoot: Swift.Bool?
     /// The maximum number of catalogs to return in one response.
@@ -18101,12 +18103,14 @@ public struct GetCatalogsInput: Swift.Sendable {
     public var recursive: Swift.Bool?
 
     public init(
+        hasDatabases: Swift.Bool? = nil,
         includeRoot: Swift.Bool? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         parentCatalogId: Swift.String? = nil,
         recursive: Swift.Bool? = false
     ) {
+        self.hasDatabases = hasDatabases
         self.includeRoot = includeRoot
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -34035,6 +34039,7 @@ extension GetCatalogsInput {
 
     static func write(value: GetCatalogsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["HasDatabases"].write(value.hasDatabases)
         try writer["IncludeRoot"].write(value.includeRoot)
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
