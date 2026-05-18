@@ -96,7 +96,6 @@ jobs:
         if: matrix.group == '4'
         run: cd aws-sdk-swift && AWS_SWIFT_SDK_BATCH_NUMBER=7 swift test
 
-jobs:
   codegen-build-test-complete:
     needs: codegen-build-test
     runs-on: ubuntu-latest
