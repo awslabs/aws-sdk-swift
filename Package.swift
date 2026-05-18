@@ -2404,7 +2404,8 @@ private var internalServiceTargets: [Target] {
 }
 
 private var runtimeTestTargets: [Target] {
-    guard !excludeRuntimeUnitTests else { return [] }
+    if excludeRuntimeUnitTests { return [] }
+    if let batch, batch.number != 0 { return [] } // only run these tests with batch 0 if batching
     return [
         .testTarget(
             name: "AWSClientRuntimeTests",
@@ -2482,20 +2483,29 @@ private func unitTestTarget(_ service: ServiceClientData) -> Target {
 }
 
 private var selectedServiceClientData: [ServiceClientData] {
-    // If the batch env vars aren't set with valid values,
-    // then include all services
-    let env = ProcessInfo.processInfo.environment
-    guard let batchNumberString = env["AWS_SWIFT_SDK_BATCH_NUMBER"],
-          let batchNumber = UInt(batchNumberString),
-          let batchTotalString = env["AWS_SWIFT_SDK_BATCH_TOTAL"],
-          let batchTotal = UInt(batchTotalString) else {
+    if let batch {
+        // If batching, select services to include, batching by their index
+        return serviceClientData.enumerated().filter { $0.offset % batch.total == batch.number }.map { $0.element }
+    } else {
+        // If not batching, select all services
         return serviceClientData
     }
+}
 
-    // Select services to include, batching services by their index
-    return serviceClientData.enumerated().filter {
-        UInt($0.offset) % batchTotal == batchNumber
-    }.map { $0.element }
+private var batch: Batch? {
+    let env = ProcessInfo.processInfo.environment
+    guard let numberString = env["AWS_SWIFT_SDK_BATCH_NUMBER"],
+          let totalString = env["AWS_SWIFT_SDK_BATCH_TOTAL"],
+          let number = Int(numberString),
+          let total = Int(totalString),
+          number >= 0 && number < total
+        else { return nil }
+    return Batch(number: number, total: total)
+}
+
+private struct Batch {
+    let number: Int
+    let total: Int
 }
 
 // As of Swift 6.2, @unchecked is not needed, but for Swift 6.0 it is

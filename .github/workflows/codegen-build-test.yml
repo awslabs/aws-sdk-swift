@@ -14,6 +14,7 @@ permissions:
 env:
   AWS_SWIFT_SDK_USE_LOCAL_DEPS: 1
   AWS_SWIFT_SDK_ENABLE_SERVICE_TESTS: 1
+  AWS_SWIFT_SDK_BATCH_TOTAL: 8
 
 jobs:
   codegen-build-test:
@@ -62,11 +63,19 @@ jobs:
         run: |
           cd aws-sdk-swift
           ./scripts/ci_steps/codegen_sdk.sh
-      - name: Build SDK with Unit Tests
-        run: |
-          cd aws-sdk-swift
-          swift build --build-tests
-      - name: Run Unit Tests
-        run: |
-          cd aws-sdk-swift
-          swift test --skip-build
+      - name: Test Batch 1/8
+        run: cd aws-sdk-swift && AWS_SWIFT_SDK_BATCH_NUMBER=0 swift test
+      - name: Test Batch 2/8
+        run: cd aws-sdk-swift && AWS_SWIFT_SDK_BATCH_NUMBER=1 swift test
+      - name: Test Batch 3/8
+        run: cd aws-sdk-swift && AWS_SWIFT_SDK_BATCH_NUMBER=2 swift test
+      - name: Test Batch 4/8
+        run: cd aws-sdk-swift && AWS_SWIFT_SDK_BATCH_NUMBER=3 swift test
+      - name: Test Batch 5/8
+        run: cd aws-sdk-swift && AWS_SWIFT_SDK_BATCH_NUMBER=4 swift test
+      - name: Test Batch 6/8
+        run: cd aws-sdk-swift && AWS_SWIFT_SDK_BATCH_NUMBER=5 swift test
+      - name: Test Batch 7/8
+        run: cd aws-sdk-swift && AWS_SWIFT_SDK_BATCH_NUMBER=6 swift test
+      - name: Test Batch 8/8
+        run: cd aws-sdk-swift && AWS_SWIFT_SDK_BATCH_NUMBER=7 swift test
