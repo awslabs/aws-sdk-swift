@@ -20,15 +20,17 @@ jobs:
   codegen-build-test:
     if: github.repository == 'awslabs/aws-sdk-swift' || github.event_name == 'pull_request'
     runs-on: macos-26
-    env:
-      DEVELOPER_DIR: /Applications/Xcode_26.4.app/Contents/Developer
     strategy:
       fail-fast: false
       matrix:
         group:
           - 1
           - 2
+          - 3
+          - 4
     steps:
+      - name: Configure Xcode
+        run: sudo xcode-select -s /Applications/Xcode_26.4.app
       - name: Checkout aws-sdk-swift
         uses: actions/checkout@v6
         with:
@@ -76,20 +78,28 @@ jobs:
         if: matrix.group == '1'
         run: cd aws-sdk-swift && AWS_SWIFT_SDK_BATCH_NUMBER=1 swift test
       - name: Test Batch 3/8
-        if: matrix.group == '1'
+        if: matrix.group == '2'
         run: cd aws-sdk-swift && AWS_SWIFT_SDK_BATCH_NUMBER=2 swift test
       - name: Test Batch 4/8
-        if: matrix.group == '1'
+        if: matrix.group == '2'
         run: cd aws-sdk-swift && AWS_SWIFT_SDK_BATCH_NUMBER=3 swift test
       - name: Test Batch 5/8
-        if: matrix.group == '2'
+        if: matrix.group == '3'
         run: cd aws-sdk-swift && AWS_SWIFT_SDK_BATCH_NUMBER=4 swift test
       - name: Test Batch 6/8
-        if: matrix.group == '2'
+        if: matrix.group == '3'
         run: cd aws-sdk-swift && AWS_SWIFT_SDK_BATCH_NUMBER=5 swift test
       - name: Test Batch 7/8
-        if: matrix.group == '2'
+        if: matrix.group == '4'
         run: cd aws-sdk-swift && AWS_SWIFT_SDK_BATCH_NUMBER=6 swift test
       - name: Test Batch 8/8
-        if: matrix.group == '2'
+        if: matrix.group == '4'
         run: cd aws-sdk-swift && AWS_SWIFT_SDK_BATCH_NUMBER=7 swift test
+
+jobs:
+  codegen-build-test-complete:
+    needs: codegen-build-test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Succeeded
+        run: echo "codegen-build-test succeeded"
