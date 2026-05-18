@@ -70,26 +70,26 @@ jobs:
           cd aws-sdk-swift
           ./scripts/ci_steps/codegen_sdk.sh
       - name: Test Batch 1/8
-        if: ${{ matrix.group == '1' }}
+        if: matrix.group == '1'
         run: cd aws-sdk-swift && AWS_SWIFT_SDK_BATCH_NUMBER=0 swift test
       - name: Test Batch 2/8
-        if: ${{ matrix.group == '1' }}
+        if: matrix.group == '1'
         run: cd aws-sdk-swift && AWS_SWIFT_SDK_BATCH_NUMBER=1 swift test
       - name: Test Batch 3/8
-        if: ${{ matrix.group == '1' }}
+        if: matrix.group == '1'
         run: cd aws-sdk-swift && AWS_SWIFT_SDK_BATCH_NUMBER=2 swift test
       - name: Test Batch 4/8
-        if: ${{ matrix.group == '1' }}
+        if: matrix.group == '1'
         run: cd aws-sdk-swift && AWS_SWIFT_SDK_BATCH_NUMBER=3 swift test
       - name: Test Batch 5/8
-        if: ${{ matrix.group == '2' }}
+        if: matrix.group == '2'
         run: cd aws-sdk-swift && AWS_SWIFT_SDK_BATCH_NUMBER=4 swift test
       - name: Test Batch 6/8
-        if: ${{ matrix.group == '2' }}
+        if: matrix.group == '2'
         run: cd aws-sdk-swift && AWS_SWIFT_SDK_BATCH_NUMBER=5 swift test
       - name: Test Batch 7/8
-        if: ${{ matrix.group == '2' }}
+        if: matrix.group == '2'
         run: cd aws-sdk-swift && AWS_SWIFT_SDK_BATCH_NUMBER=6 swift test
       - name: Test Batch 8/8
-        if: ${{ matrix.group == '2' }}
+        if: matrix.group == '2'
         run: cd aws-sdk-swift && AWS_SWIFT_SDK_BATCH_NUMBER=7 swift test
