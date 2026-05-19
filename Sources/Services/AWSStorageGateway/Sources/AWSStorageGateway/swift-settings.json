@@ -1,0 +1,8 @@
+{
+    "service": "com.amazonaws.storagegateway#StorageGateway_20130630",
+    "module": "AWSStorageGateway",
+    "sdkId": "Storage Gateway",
+    "internalClient": false,
+    "operations": [],
+    "modelPath": "codegen/sdk-codegen/aws-models/storage-gateway.json"
+}

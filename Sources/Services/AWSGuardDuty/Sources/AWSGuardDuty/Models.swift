@@ -62,9 +62,9 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -90,9 +90,9 @@ public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClien
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -193,9 +193,9 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -1899,9 +1899,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -5376,9 +5376,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -7347,7 +7347,11 @@ extension GuardDutyClientTypes {
         case maliciousDomain
         case maliciousFile
         case maliciousIp
+        case maliciousPackage
         case maliciousProcess
+        case misconfiguration
+        case reachability
+        case sensitiveData
         case suspiciousNetwork
         case suspiciousProcess
         case suspiciousUserAgent
@@ -7355,6 +7359,7 @@ extension GuardDutyClientTypes {
         case unusualApiForAccount
         case unusualAsnForAccount
         case unusualAsnForUser
+        case vulnerability
         case sdkUnknown(Swift.String)
 
         public static var allCases: [IndicatorType] {
@@ -7368,14 +7373,19 @@ extension GuardDutyClientTypes {
                 .maliciousDomain,
                 .maliciousFile,
                 .maliciousIp,
+                .maliciousPackage,
                 .maliciousProcess,
+                .misconfiguration,
+                .reachability,
+                .sensitiveData,
                 .suspiciousNetwork,
                 .suspiciousProcess,
                 .suspiciousUserAgent,
                 .torIp,
                 .unusualApiForAccount,
                 .unusualAsnForAccount,
-                .unusualAsnForUser
+                .unusualAsnForUser,
+                .vulnerability
             ]
         }
 
@@ -7395,7 +7405,11 @@ extension GuardDutyClientTypes {
             case .maliciousDomain: return "MALICIOUS_DOMAIN"
             case .maliciousFile: return "MALICIOUS_FILE"
             case .maliciousIp: return "MALICIOUS_IP"
+            case .maliciousPackage: return "MALICIOUS_PACKAGE"
             case .maliciousProcess: return "MALICIOUS_PROCESS"
+            case .misconfiguration: return "MISCONFIGURATION"
+            case .reachability: return "REACHABILITY"
+            case .sensitiveData: return "SENSITIVE_DATA"
             case .suspiciousNetwork: return "SUSPICIOUS_NETWORK"
             case .suspiciousProcess: return "SUSPICIOUS_PROCESS"
             case .suspiciousUserAgent: return "SUSPICIOUS_USER_AGENT"
@@ -7403,6 +7417,7 @@ extension GuardDutyClientTypes {
             case .unusualApiForAccount: return "UNUSUAL_API_FOR_ACCOUNT"
             case .unusualAsnForAccount: return "UNUSUAL_ASN_FOR_ACCOUNT"
             case .unusualAsnForUser: return "UNUSUAL_ASN_FOR_USER"
+            case .vulnerability: return "VULNERABILITY"
             case let .sdkUnknown(s): return s
             }
         }

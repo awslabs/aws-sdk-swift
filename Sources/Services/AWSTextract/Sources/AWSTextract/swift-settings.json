@@ -1,0 +1,8 @@
+{
+    "service": "com.amazonaws.textract#Textract",
+    "module": "AWSTextract",
+    "sdkId": "Textract",
+    "internalClient": false,
+    "operations": [],
+    "modelPath": "codegen/sdk-codegen/aws-models/textract.json"
+}

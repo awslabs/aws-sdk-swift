@@ -1,0 +1,8 @@
+{
+    "service": "com.amazonaws.snowball#AWSIESnowballJobManagementService",
+    "module": "AWSSnowball",
+    "sdkId": "Snowball",
+    "internalClient": false,
+    "operations": [],
+    "modelPath": "codegen/sdk-codegen/aws-models/snowball.json"
+}

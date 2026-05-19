@@ -1,0 +1,8 @@
+{
+    "service": "com.amazonaws.applicationinsights#EC2WindowsBarleyService",
+    "module": "AWSApplicationInsights",
+    "sdkId": "Application Insights",
+    "internalClient": false,
+    "operations": [],
+    "modelPath": "codegen/sdk-codegen/aws-models/application-insights.json"
+}

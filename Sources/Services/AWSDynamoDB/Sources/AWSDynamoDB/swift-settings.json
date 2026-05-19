@@ -1,0 +1,8 @@
+{
+    "service": "com.amazonaws.dynamodb#DynamoDB_20120810",
+    "module": "AWSDynamoDB",
+    "sdkId": "DynamoDB",
+    "internalClient": false,
+    "operations": [],
+    "modelPath": "codegen/sdk-codegen/aws-models/dynamodb.json"
+}

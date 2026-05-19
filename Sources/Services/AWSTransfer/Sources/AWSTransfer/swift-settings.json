@@ -1,0 +1,8 @@
+{
+    "service": "com.amazonaws.transfer#TransferService",
+    "module": "AWSTransfer",
+    "sdkId": "Transfer",
+    "internalClient": false,
+    "operations": [],
+    "modelPath": "codegen/sdk-codegen/aws-models/transfer.json"
+}

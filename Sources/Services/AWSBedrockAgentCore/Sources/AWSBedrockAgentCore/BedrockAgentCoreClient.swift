@@ -15,7 +15,7 @@ import class AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain
 import class ClientRuntime.ClientBuilder
 import class ClientRuntime.DefaultClientPlugin
 import class ClientRuntime.HttpClientConfiguration
-import class ClientRuntime.OrchestratorBuilder
+@_spi(SchemaBasedSerde) import class ClientRuntime.OrchestratorBuilder
 import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
@@ -1065,11 +1065,11 @@ extension BedrockAgentCoreClient {
 
     /// Performs the `CreatePaymentInstrument` operation on the `BedrockAgentCore` service.
     ///
-    /// Create a new payment instrument for a connector
+    /// Create a new payment instrument for a connector.
     ///
-    /// - Parameter input: Request structure for creating a payment instrument (Type: `CreatePaymentInstrumentInput`)
+    /// - Parameter input: Request structure for creating a payment instrument. (Type: `CreatePaymentInstrumentInput`)
     ///
-    /// - Returns: Response structure for creating a payment instrument (Type: `CreatePaymentInstrumentOutput`)
+    /// - Returns: Response structure for creating a payment instrument. (Type: `CreatePaymentInstrumentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1140,11 +1140,11 @@ extension BedrockAgentCoreClient {
 
     /// Performs the `CreatePaymentSession` operation on the `BedrockAgentCore` service.
     ///
-    /// Create a new payment manager session
+    /// Create a new payment session.
     ///
-    /// - Parameter input: Request structure for creating a payment session (Type: `CreatePaymentSessionInput`)
+    /// - Parameter input: Request structure for creating a payment session. (Type: `CreatePaymentSessionInput`)
     ///
-    /// - Returns: Response structure for creating a payment session (Type: `CreatePaymentSessionOutput`)
+    /// - Returns: Response structure for creating a payment session. (Type: `CreatePaymentSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1499,19 +1499,11 @@ extension BedrockAgentCoreClient {
 
     /// Performs the `DeletePaymentInstrument` operation on the `BedrockAgentCore` service.
     ///
-    /// Delete a payment instrument Marks a payment instrument as deleted by updating its status to DELETED. This is a soft delete operation that preserves the record in the database for audit and compliance purposes. The record remains queryable for audit purposes but is excluded from normal list and get operations. Deleting an already-deleted or non-existent instrument returns ResourceNotFoundException (404). Authorization: The caller must own the instrument (accountId, userId, and paymentManagerId must match). If authorization fails, a 403 Forbidden error is returned. Timestamp Management: The updatedAt timestamp is set to the current time, while createdAt is preserved. The version field is incremented for optimistic locking. Errors:
+    /// Deletes a payment instrument. This is a soft delete operation that preserves the record for audit and compliance purposes.
     ///
-    /// * ResourceNotFoundException: The instrument does not exist or is already deleted
+    /// - Parameter input: Request structure for deleting a payment instrument. (Type: `DeletePaymentInstrumentInput`)
     ///
-    /// * AccessDeniedException: The caller is not authorized to delete this instrument
-    ///
-    /// * ValidationException: Required fields are missing or invalid
-    ///
-    /// * InternalServerException: An unexpected server error occurred
-    ///
-    /// - Parameter input: Request structure for deleting a payment instrument All fields are required and must match the instrument owner's identifiers for authorization to succeed. (Type: `DeletePaymentInstrumentInput`)
-    ///
-    /// - Returns: Response structure for deleting a payment instrument Returns the deletion status with HTTP 200 OK status code on successful soft deletion. (Type: `DeletePaymentInstrumentOutput`)
+    /// - Returns: Response structure for deleting a payment instrument. (Type: `DeletePaymentInstrumentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1580,19 +1572,11 @@ extension BedrockAgentCoreClient {
 
     /// Performs the `DeletePaymentSession` operation on the `BedrockAgentCore` service.
     ///
-    /// Delete a payment manager session Permanently removes a payment session record from the database. This is a hard delete operation that removes the session completely. Deleting a non-existent or already-deleted session returns ResourceNotFoundException (404). Authorization: The caller must own the session (accountId, userId, and paymentManagerId must match). If authorization fails, a 403 Forbidden error is returned. Errors:
+    /// Deletes a payment session. This permanently removes the payment session record.
     ///
-    /// * ResourceNotFoundException: The session does not exist or has already been deleted
+    /// - Parameter input: Request structure for deleting a payment session. (Type: `DeletePaymentSessionInput`)
     ///
-    /// * AccessDeniedException: The caller is not authorized to delete this session
-    ///
-    /// * ValidationException: Required fields are missing or invalid
-    ///
-    /// * InternalServerException: An unexpected server error occurred
-    ///
-    /// - Parameter input: Request structure for deleting a payment session All fields are required and must match the session owner's identifiers for authorization to succeed. (Type: `DeletePaymentSessionInput`)
-    ///
-    /// - Returns: Response structure for deleting a payment session Returns the deletion status with HTTP 200 status code on successful deletion. (Type: `DeletePaymentSessionOutput`)
+    /// - Returns: Response structure for deleting a payment session. (Type: `DeletePaymentSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2315,11 +2299,11 @@ extension BedrockAgentCoreClient {
 
     /// Performs the `GetPaymentInstrument` operation on the `BedrockAgentCore` service.
     ///
-    /// Get a payment instrument by ID
+    /// Get a payment instrument by ID.
     ///
-    /// - Parameter input: Request structure for getting a payment instrument (Type: `GetPaymentInstrumentInput`)
+    /// - Parameter input: Request structure for getting a payment instrument. (Type: `GetPaymentInstrumentInput`)
     ///
-    /// - Returns: Response structure for getting a payment instrument (Type: `GetPaymentInstrumentOutput`)
+    /// - Returns: Response structure for getting a payment instrument. (Type: `GetPaymentInstrumentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2388,11 +2372,11 @@ extension BedrockAgentCoreClient {
 
     /// Performs the `GetPaymentInstrumentBalance` operation on the `BedrockAgentCore` service.
     ///
-    /// Get the balance of a payment instrument
+    /// Get the balance of a payment instrument.
     ///
-    /// - Parameter input: Request structure for getting payment instrument balance (Type: `GetPaymentInstrumentBalanceInput`)
+    /// - Parameter input: Request structure for getting payment instrument balance. (Type: `GetPaymentInstrumentBalanceInput`)
     ///
-    /// - Returns: Response structure for getting payment instrument balance (Type: `GetPaymentInstrumentBalanceOutput`)
+    /// - Returns: Response structure for getting payment instrument balance. (Type: `GetPaymentInstrumentBalanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2461,11 +2445,11 @@ extension BedrockAgentCoreClient {
 
     /// Performs the `GetPaymentSession` operation on the `BedrockAgentCore` service.
     ///
-    /// Get a payment session
+    /// Get a payment session.
     ///
-    /// - Parameter input: Request structure for getting a payment session (Type: `GetPaymentSessionInput`)
+    /// - Parameter input: Request structure for getting a payment session. (Type: `GetPaymentSessionInput`)
     ///
-    /// - Returns: Response structure for getting a payment session (Type: `GetPaymentSessionOutput`)
+    /// - Returns: Response structure for getting a payment session. (Type: `GetPaymentSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3053,6 +3037,7 @@ extension BedrockAgentCoreClient {
     /// - `AccessDeniedException` : The exception that occurs when you do not have sufficient permissions to perform an action. Verify that your IAM policy includes the necessary permissions for the operation you are trying to perform.
     /// - `InternalServerException` : The exception that occurs when the service encounters an unexpected internal error. This is a temporary condition that will resolve itself with retries. We recommend implementing exponential backoff retry logic in your application.
     /// - `ResourceNotFoundException` : The exception that occurs when the specified resource does not exist. This can happen when using an invalid identifier or when trying to access a resource that has been deleted.
+    /// - `RetryableConflictException` : The exception that occurs when there is a retryable conflict performing an operation. This is a temporary condition that may resolve itself with retries. We recommend implementing exponential backoff retry logic in your application.
     /// - `RuntimeClientError` : The exception that occurs when there is an error in the runtime client. This can happen due to network issues, invalid configuration, or other client-side problems. Check the error message for specific details about the error.
     /// - `ServiceQuotaExceededException` : The exception that occurs when the request would cause a service quota to be exceeded. Review your service quotas and either reduce your request rate or request a quota increase.
     /// - `ThrottlingException` : The exception that occurs when the request was denied due to request throttling. This happens when you exceed the allowed request rate for an operation. Reduce the frequency of requests or implement exponential backoff retry logic in your application.
@@ -4015,11 +4000,11 @@ extension BedrockAgentCoreClient {
 
     /// Performs the `ListPaymentInstruments` operation on the `BedrockAgentCore` service.
     ///
-    /// List payment instruments for a manager
+    /// List payment instruments for a manager.
     ///
-    /// - Parameter input: Request structure for listing payment instruments (Type: `ListPaymentInstrumentsInput`)
+    /// - Parameter input: Request structure for listing payment instruments. (Type: `ListPaymentInstrumentsInput`)
     ///
-    /// - Returns: Response structure for listing payment instruments (Type: `ListPaymentInstrumentsOutput`)
+    /// - Returns: Response structure for listing payment instruments. (Type: `ListPaymentInstrumentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4087,11 +4072,11 @@ extension BedrockAgentCoreClient {
 
     /// Performs the `ListPaymentSessions` operation on the `BedrockAgentCore` service.
     ///
-    /// List payment manager sessions
+    /// List payment sessions.
     ///
-    /// - Parameter input: Request structure for listing payment sessions (Type: `ListPaymentSessionsInput`)
+    /// - Parameter input: Request structure for listing payment sessions. (Type: `ListPaymentSessionsInput`)
     ///
-    /// - Returns: Response structure for listing payment sessions (Type: `ListPaymentSessionsOutput`)
+    /// - Returns: Response structure for listing payment sessions. (Type: `ListPaymentSessionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4302,11 +4287,11 @@ extension BedrockAgentCoreClient {
 
     /// Performs the `ProcessPayment` operation on the `BedrockAgentCore` service.
     ///
-    /// Process a payment transaction
+    /// Processes a payment using a payment instrument within a payment session.
     ///
-    /// - Parameter input: Request structure for processing a payment (Type: `ProcessPaymentInput`)
+    /// - Parameter input: Request structure for processing a payment. (Type: `ProcessPaymentInput`)
     ///
-    /// - Returns: Response structure for processing a payment (Type: `ProcessPaymentOutput`)
+    /// - Returns: Response structure for processing a payment. (Type: `ProcessPaymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5240,6 +5225,7 @@ extension BedrockAgentCoreClient {
     /// - `ConflictException` : The exception that occurs when the request conflicts with the current state of the resource. This can happen when trying to modify a resource that is currently being modified by another request, or when trying to create a resource that already exists.
     /// - `InternalServerException` : The exception that occurs when the service encounters an unexpected internal error. This is a temporary condition that will resolve itself with retries. We recommend implementing exponential backoff retry logic in your application.
     /// - `ResourceNotFoundException` : The exception that occurs when the specified resource does not exist. This can happen when using an invalid identifier or when trying to access a resource that has been deleted.
+    /// - `RetryableConflictException` : The exception that occurs when there is a retryable conflict performing an operation. This is a temporary condition that may resolve itself with retries. We recommend implementing exponential backoff retry logic in your application.
     /// - `RuntimeClientError` : The exception that occurs when there is an error in the runtime client. This can happen due to network issues, invalid configuration, or other client-side problems. Check the error message for specific details about the error.
     /// - `ServiceQuotaExceededException` : The exception that occurs when the request would cause a service quota to be exceeded. Review your service quotas and either reduce your request rate or request a quota increase.
     /// - `ThrottlingException` : The exception that occurs when the request was denied due to request throttling. This happens when you exceed the allowed request rate for an operation. Reduce the frequency of requests or implement exponential backoff retry logic in your application.

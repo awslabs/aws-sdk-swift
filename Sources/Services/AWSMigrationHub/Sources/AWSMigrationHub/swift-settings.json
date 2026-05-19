@@ -1,0 +1,8 @@
+{
+    "service": "com.amazonaws.migrationhub#AWSMigrationHub",
+    "module": "AWSMigrationHub",
+    "sdkId": "Migration Hub",
+    "internalClient": false,
+    "operations": [],
+    "modelPath": "codegen/sdk-codegen/aws-models/migration-hub.json"
+}

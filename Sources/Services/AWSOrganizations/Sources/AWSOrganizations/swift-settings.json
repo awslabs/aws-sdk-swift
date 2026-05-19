@@ -1,0 +1,8 @@
+{
+    "service": "com.amazonaws.organizations#AWSOrganizationsV20161128",
+    "module": "AWSOrganizations",
+    "sdkId": "Organizations",
+    "internalClient": false,
+    "operations": [],
+    "modelPath": "codegen/sdk-codegen/aws-models/organizations.json"
+}

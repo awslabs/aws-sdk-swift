@@ -1,0 +1,8 @@
+{
+    "service": "com.amazonaws.translate#AWSShineFrontendService_20170701",
+    "module": "AWSTranslate",
+    "sdkId": "Translate",
+    "internalClient": false,
+    "operations": [],
+    "modelPath": "codegen/sdk-codegen/aws-models/translate.json"
+}

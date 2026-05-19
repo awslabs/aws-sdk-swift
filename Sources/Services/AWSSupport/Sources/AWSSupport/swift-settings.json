@@ -1,0 +1,8 @@
+{
+    "service": "com.amazonaws.support#AWSSupport_20130415",
+    "module": "AWSSupport",
+    "sdkId": "Support",
+    "internalClient": false,
+    "operations": [],
+    "modelPath": "codegen/sdk-codegen/aws-models/support.json"
+}
