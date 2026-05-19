@@ -7347,7 +7347,11 @@ extension GuardDutyClientTypes {
         case maliciousDomain
         case maliciousFile
         case maliciousIp
+        case maliciousPackage
         case maliciousProcess
+        case misconfiguration
+        case reachability
+        case sensitiveData
         case suspiciousNetwork
         case suspiciousProcess
         case suspiciousUserAgent
@@ -7355,6 +7359,7 @@ extension GuardDutyClientTypes {
         case unusualApiForAccount
         case unusualAsnForAccount
         case unusualAsnForUser
+        case vulnerability
         case sdkUnknown(Swift.String)
 
         public static var allCases: [IndicatorType] {
@@ -7368,14 +7373,19 @@ extension GuardDutyClientTypes {
                 .maliciousDomain,
                 .maliciousFile,
                 .maliciousIp,
+                .maliciousPackage,
                 .maliciousProcess,
+                .misconfiguration,
+                .reachability,
+                .sensitiveData,
                 .suspiciousNetwork,
                 .suspiciousProcess,
                 .suspiciousUserAgent,
                 .torIp,
                 .unusualApiForAccount,
                 .unusualAsnForAccount,
-                .unusualAsnForUser
+                .unusualAsnForUser,
+                .vulnerability
             ]
         }
 
@@ -7395,7 +7405,11 @@ extension GuardDutyClientTypes {
             case .maliciousDomain: return "MALICIOUS_DOMAIN"
             case .maliciousFile: return "MALICIOUS_FILE"
             case .maliciousIp: return "MALICIOUS_IP"
+            case .maliciousPackage: return "MALICIOUS_PACKAGE"
             case .maliciousProcess: return "MALICIOUS_PROCESS"
+            case .misconfiguration: return "MISCONFIGURATION"
+            case .reachability: return "REACHABILITY"
+            case .sensitiveData: return "SENSITIVE_DATA"
             case .suspiciousNetwork: return "SUSPICIOUS_NETWORK"
             case .suspiciousProcess: return "SUSPICIOUS_PROCESS"
             case .suspiciousUserAgent: return "SUSPICIOUS_USER_AGENT"
@@ -7403,6 +7417,7 @@ extension GuardDutyClientTypes {
             case .unusualApiForAccount: return "UNUSUAL_API_FOR_ACCOUNT"
             case .unusualAsnForAccount: return "UNUSUAL_ASN_FOR_ACCOUNT"
             case .unusualAsnForUser: return "UNUSUAL_ASN_FOR_USER"
+            case .vulnerability: return "VULNERABILITY"
             case let .sdkUnknown(s): return s
             }
         }

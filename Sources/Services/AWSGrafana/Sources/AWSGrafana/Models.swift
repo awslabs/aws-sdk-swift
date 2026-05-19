@@ -793,6 +793,8 @@ extension GrafanaClientTypes {
         case creating
         /// Workspace creation failed.
         case creationFailed
+        /// Workspace is degraded.
+        case degraded
         /// Workspace is being deleted.
         case deleting
         /// Workspace deletion failed.
@@ -820,6 +822,7 @@ extension GrafanaClientTypes {
                 .active,
                 .creating,
                 .creationFailed,
+                .degraded,
                 .deleting,
                 .deletionFailed,
                 .failed,
@@ -843,6 +846,7 @@ extension GrafanaClientTypes {
             case .active: return "ACTIVE"
             case .creating: return "CREATING"
             case .creationFailed: return "CREATION_FAILED"
+            case .degraded: return "DEGRADED"
             case .deleting: return "DELETING"
             case .deletionFailed: return "DELETION_FAILED"
             case .failed: return "FAILED"
@@ -895,6 +899,8 @@ extension GrafanaClientTypes {
         /// Specifies the Amazon Web Services data sources that have been configured to have IAM roles and permissions created to allow Amazon Managed Grafana to read data from these sources. This list is only used when the workspace was created through the Amazon Web Services console, and the permissionType is SERVICE_MANAGED.
         /// This member is required.
         public var dataSources: [GrafanaClientTypes.DataSourceType]?
+        /// If the workspace is in the DEGRADED status, this field describes the reason the workspace is degraded.
+        public var degradedWorkspaceReason: Swift.String?
         /// The user-defined description of the workspace.
         public var description: Swift.String?
         /// The URL that users can use to access the Grafana console in the workspace.
@@ -952,6 +958,7 @@ extension GrafanaClientTypes {
             authentication: GrafanaClientTypes.AuthenticationSummary? = nil,
             created: Foundation.Date? = nil,
             dataSources: [GrafanaClientTypes.DataSourceType]? = nil,
+            degradedWorkspaceReason: Swift.String? = nil,
             description: Swift.String? = nil,
             endpoint: Swift.String? = nil,
             freeTrialConsumed: Swift.Bool? = nil,
@@ -980,6 +987,7 @@ extension GrafanaClientTypes {
             self.authentication = authentication
             self.created = created
             self.dataSources = dataSources
+            self.degradedWorkspaceReason = degradedWorkspaceReason
             self.description = description
             self.endpoint = endpoint
             self.freeTrialConsumed = freeTrialConsumed
@@ -1009,7 +1017,7 @@ extension GrafanaClientTypes {
 
 extension GrafanaClientTypes.WorkspaceDescription: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "WorkspaceDescription(accountAccessType: \(Swift.String(describing: accountAccessType)), authentication: \(Swift.String(describing: authentication)), created: \(Swift.String(describing: created)), dataSources: \(Swift.String(describing: dataSources)), endpoint: \(Swift.String(describing: endpoint)), freeTrialConsumed: \(Swift.String(describing: freeTrialConsumed)), freeTrialExpiration: \(Swift.String(describing: freeTrialExpiration)), grafanaToken: \(Swift.String(describing: grafanaToken)), grafanaVersion: \(Swift.String(describing: grafanaVersion)), id: \(Swift.String(describing: id)), ipAddressType: \(Swift.String(describing: ipAddressType)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), licenseExpiration: \(Swift.String(describing: licenseExpiration)), licenseType: \(Swift.String(describing: licenseType)), modified: \(Swift.String(describing: modified)), networkAccessControl: \(Swift.String(describing: networkAccessControl)), notificationDestinations: \(Swift.String(describing: notificationDestinations)), permissionType: \(Swift.String(describing: permissionType)), stackSetName: \(Swift.String(describing: stackSetName)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), vpcConfiguration: \(Swift.String(describing: vpcConfiguration)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", organizationRoleName: \"CONTENT_REDACTED\", organizationalUnits: \"CONTENT_REDACTED\", workspaceRoleArn: \"CONTENT_REDACTED\")"}
+        "WorkspaceDescription(accountAccessType: \(Swift.String(describing: accountAccessType)), authentication: \(Swift.String(describing: authentication)), created: \(Swift.String(describing: created)), dataSources: \(Swift.String(describing: dataSources)), degradedWorkspaceReason: \(Swift.String(describing: degradedWorkspaceReason)), endpoint: \(Swift.String(describing: endpoint)), freeTrialConsumed: \(Swift.String(describing: freeTrialConsumed)), freeTrialExpiration: \(Swift.String(describing: freeTrialExpiration)), grafanaToken: \(Swift.String(describing: grafanaToken)), grafanaVersion: \(Swift.String(describing: grafanaVersion)), id: \(Swift.String(describing: id)), ipAddressType: \(Swift.String(describing: ipAddressType)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), licenseExpiration: \(Swift.String(describing: licenseExpiration)), licenseType: \(Swift.String(describing: licenseType)), modified: \(Swift.String(describing: modified)), networkAccessControl: \(Swift.String(describing: networkAccessControl)), notificationDestinations: \(Swift.String(describing: notificationDestinations)), permissionType: \(Swift.String(describing: permissionType)), stackSetName: \(Swift.String(describing: stackSetName)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), vpcConfiguration: \(Swift.String(describing: vpcConfiguration)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", organizationRoleName: \"CONTENT_REDACTED\", organizationalUnits: \"CONTENT_REDACTED\", workspaceRoleArn: \"CONTENT_REDACTED\")"}
 }
 
 public struct AssociateLicenseOutput: Swift.Sendable {
@@ -4061,6 +4069,7 @@ extension GrafanaClientTypes.WorkspaceDescription {
         value.grafanaToken = try reader["grafanaToken"].readIfPresent()
         value.ipAddressType = try reader["ipAddressType"].readIfPresent()
         value.kmsKeyId = try reader["kmsKeyId"].readIfPresent()
+        value.degradedWorkspaceReason = try reader["degradedWorkspaceReason"].readIfPresent()
         return value
     }
 }

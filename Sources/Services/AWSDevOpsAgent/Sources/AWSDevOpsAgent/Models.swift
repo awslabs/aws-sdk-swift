@@ -394,6 +394,55 @@ extension DevOpsAgentClientTypes.RegisteredNewRelicDetails: Swift.CustomDebugStr
 
 extension DevOpsAgentClientTypes {
 
+    /// Details specific to a registered SigV4-authenticated MCP server.
+    public struct RegisteredMCPServerSigV4Details: Swift.Sendable {
+        /// Custom headers for the SigV4 MCP server.
+        public var customHeaders: [Swift.String: Swift.String]?
+        /// Optional description for the MCP server.
+        public var description: Swift.String?
+        /// MCP server endpoint URL.
+        /// This member is required.
+        public var endpoint: Swift.String?
+        /// MCP server name.
+        /// This member is required.
+        public var name: Swift.String?
+        /// AWS region for SigV4 signing. Use '*' for SigV4a multi-region signing.
+        /// This member is required.
+        public var region: Swift.String?
+        /// IAM role ARN to assume for SigV4 signing.
+        /// This member is required.
+        public var roleArn: Swift.String?
+        /// AWS service name for SigV4 signing.
+        /// This member is required.
+        public var service: Swift.String?
+
+        public init(
+            customHeaders: [Swift.String: Swift.String]? = nil,
+            description: Swift.String? = nil,
+            endpoint: Swift.String? = nil,
+            name: Swift.String? = nil,
+            region: Swift.String? = nil,
+            roleArn: Swift.String? = nil,
+            service: Swift.String? = nil
+        ) {
+            self.customHeaders = customHeaders
+            self.description = description
+            self.endpoint = endpoint
+            self.name = name
+            self.region = region
+            self.roleArn = roleArn
+            self.service = service
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes.RegisteredMCPServerSigV4Details: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RegisteredMCPServerSigV4Details(endpoint: \(Swift.String(describing: endpoint)), name: \(Swift.String(describing: name)), region: \(Swift.String(describing: region)), roleArn: \(Swift.String(describing: roleArn)), service: \(Swift.String(describing: service)), customHeaders: [keys: \(Swift.String(describing: customHeaders?.keys)), values: \"CONTENT_REDACTED\"], description: \"CONTENT_REDACTED\")"}
+}
+
+extension DevOpsAgentClientTypes {
+
     /// Details specific to a registered PagerDuty service.
     public struct RegisteredPagerDutyDetails: Swift.Sendable {
         /// The scopes that were assigned to the service
@@ -472,6 +521,8 @@ extension DevOpsAgentClientTypes {
         case mcpservergrafana(DevOpsAgentClientTypes.RegisteredGrafanaServerDetails)
         /// Pagerduty service details.
         case pagerduty(DevOpsAgentClientTypes.RegisteredPagerDutyDetails)
+        /// SigV4-authenticated MCP server-specific service details.
+        case mcpserversigv4(DevOpsAgentClientTypes.RegisteredMCPServerSigV4Details)
         case sdkUnknown(Swift.String)
     }
 }
@@ -695,7 +746,7 @@ extension DevOpsAgentClientTypes {
     }
 }
 
-/// A standard error for input validation failures. This should be thrown by services when a member of the input structure falls outside of the modeled or documented constraints.
+/// The input fails to satisfy the constraints specified by the service.
 public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -980,6 +1031,22 @@ extension DevOpsAgentClientTypes {
 
 extension DevOpsAgentClientTypes {
 
+    /// Configuration for SigV4-authenticated MCP server integration.
+    public struct MCPServerSigV4Configuration: Swift.Sendable {
+        /// List of MCP tools available for the association.
+        /// This member is required.
+        public var tools: [Swift.String]?
+
+        public init(
+            tools: [Swift.String]? = nil
+        ) {
+            self.tools = tools
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
     /// Mixin for webhook update support.
     public struct MCPServerSplunkConfiguration: Swift.Sendable {
 
@@ -1191,6 +1258,8 @@ extension DevOpsAgentClientTypes {
         case mcpservergrafana(DevOpsAgentClientTypes.MCPServerGrafanaConfiguration)
         /// PagerDuty integration configuration
         case pagerduty(DevOpsAgentClientTypes.PagerDutyConfiguration)
+        /// SigV4-authenticated MCP server integration configuration.
+        case mcpserversigv4(DevOpsAgentClientTypes.MCPServerSigV4Configuration)
         case sdkUnknown(Swift.String)
     }
 }
@@ -3282,6 +3351,10 @@ extension DevOpsAgentClientTypes {
         /// Priority level of the recommendation
         /// This member is required.
         public var priority: DevOpsAgentClientTypes.RecommendationPriority?
+        /// Position in ranked list (1 = highest priority)
+        public var rankPosition: Swift.Int?
+        /// Timestamp when the recommendation was last ranked
+        public var rankedAt: Foundation.Date?
         /// The unique identifier for this recommendation
         /// This member is required.
         public var recommendationId: Swift.String?
@@ -3309,6 +3382,8 @@ extension DevOpsAgentClientTypes {
             goalId: Swift.String? = nil,
             goalVersion: Swift.Int? = nil,
             priority: DevOpsAgentClientTypes.RecommendationPriority? = nil,
+            rankPosition: Swift.Int? = nil,
+            rankedAt: Foundation.Date? = nil,
             recommendationId: Swift.String? = nil,
             status: DevOpsAgentClientTypes.RecommendationStatus? = nil,
             taskId: Swift.String? = nil,
@@ -3323,6 +3398,8 @@ extension DevOpsAgentClientTypes {
             self.goalId = goalId
             self.goalVersion = goalVersion
             self.priority = priority
+            self.rankPosition = rankPosition
+            self.rankedAt = rankedAt
             self.recommendationId = recommendationId
             self.status = status
             self.taskId = taskId
@@ -3450,13 +3527,7 @@ public struct ListBacklogTasksInput: Swift.Sendable {
     /// The unique identifier for the agent space containing the tasks
     /// This member is required.
     public var agentSpaceId: Swift.String?
-    /// Filter criteria to apply when listing tasks Filtering restrictions:
-    ///
-    /// * Each filter field list is limited to a single value
-    ///
-    /// * Filtering by Priority and Status at the same time when not filtering by Type is not permitted
-    ///
-    /// * Timestamp filters (createdAfter, createdBefore) can be combined with other filters when not sorting by priority
+    /// Filter criteria to apply when listing tasks Filtering restrictions: - Each filter field list is limited to a single value - Filtering by Priority and Status at the same time when not filtering by Type is not permitted - Timestamp filters (createdAfter, createdBefore) can be combined with other filters when not sorting by priority
     public var filter: DevOpsAgentClientTypes.TaskFilter?
     /// Maximum number of tasks to return in a single response (1-1000, default: 100)
     public var limit: Swift.Int?
@@ -3464,11 +3535,7 @@ public struct ListBacklogTasksInput: Swift.Sendable {
     public var nextToken: Swift.String?
     /// Sort order for the tasks based on sortField (default: DESC)
     public var order: DevOpsAgentClientTypes.TaskSortOrder?
-    /// Field to sort by Sorting restrictions:
-    ///
-    /// * Only sorting on createdAt is supported when using priority or status filters alone.
-    ///
-    /// * Sorting by priority is not supported when using Timestamp filters (createdAfter, createdBefore)
+    /// Field to sort by Sorting restrictions: - Only sorting on createdAt is supported when using priority or status filters alone. - Sorting by priority is not supported when using Timestamp filters (createdAfter, createdBefore)
     public var sortField: DevOpsAgentClientTypes.TaskSortField?
 
     public init(
@@ -4784,6 +4851,8 @@ extension DevOpsAgentClientTypes {
         case mcpServerGrafana
         /// NewRelic MCP server.
         case mcpServerNewrelic
+        /// SigV4-authenticated MCP server.
+        case mcpServerSigv4
         /// Splunk MCP server.
         case mcpServerSplunk
         case pagerduty
@@ -4804,6 +4873,7 @@ extension DevOpsAgentClientTypes {
                 .mcpServerDatadog,
                 .mcpServerGrafana,
                 .mcpServerNewrelic,
+                .mcpServerSigv4,
                 .mcpServerSplunk,
                 .pagerduty,
                 .servicenow,
@@ -4829,6 +4899,7 @@ extension DevOpsAgentClientTypes {
             case .mcpServerDatadog: return "mcpserverdatadog"
             case .mcpServerGrafana: return "mcpservergrafana"
             case .mcpServerNewrelic: return "mcpservernewrelic"
+            case .mcpServerSigv4: return "mcpserversigv4"
             case .mcpServerSplunk: return "mcpserversplunk"
             case .pagerduty: return "pagerduty"
             case .servicenow: return "servicenow"
@@ -4951,6 +5022,8 @@ extension DevOpsAgentClientTypes {
         case mcpServerGrafana
         /// NewRelic MCP server.
         case mcpServerNewrelic
+        /// SigV4-authenticated MCP server.
+        case mcpServerSigv4
         /// Splunk MCP server.
         case mcpServerSplunk
         case pagerduty
@@ -4967,6 +5040,7 @@ extension DevOpsAgentClientTypes {
                 .mcpServerDatadog,
                 .mcpServerGrafana,
                 .mcpServerNewrelic,
+                .mcpServerSigv4,
                 .mcpServerSplunk,
                 .pagerduty,
                 .servicenow
@@ -4988,6 +5062,7 @@ extension DevOpsAgentClientTypes {
             case .mcpServerDatadog: return "mcpserverdatadog"
             case .mcpServerGrafana: return "mcpservergrafana"
             case .mcpServerNewrelic: return "mcpservernewrelic"
+            case .mcpServerSigv4: return "mcpserversigv4"
             case .mcpServerSplunk: return "mcpserversplunk"
             case .pagerduty: return "pagerduty"
             case .servicenow: return "servicenow"
@@ -5463,6 +5538,76 @@ extension DevOpsAgentClientTypes {
 
 extension DevOpsAgentClientTypes {
 
+    /// Authorization configuration for SigV4-authenticated MCP server.
+    public struct MCPServerSigV4AuthorizationConfig: Swift.Sendable {
+        /// Custom headers for the SigV4 MCP server.
+        public var customHeaders: [Swift.String: Swift.String]?
+        /// AWS region for SigV4 signing. Use '*' for SigV4a multi-region signing.
+        /// This member is required.
+        public var region: Swift.String?
+        /// IAM role ARN to assume for SigV4 signing.
+        /// This member is required.
+        public var roleArn: Swift.String?
+        /// AWS service name for SigV4 signing.
+        /// This member is required.
+        public var service: Swift.String?
+
+        public init(
+            customHeaders: [Swift.String: Swift.String]? = nil,
+            region: Swift.String? = nil,
+            roleArn: Swift.String? = nil,
+            service: Swift.String? = nil
+        ) {
+            self.customHeaders = customHeaders
+            self.region = region
+            self.roleArn = roleArn
+            self.service = service
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes.MCPServerSigV4AuthorizationConfig: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "MCPServerSigV4AuthorizationConfig(region: \(Swift.String(describing: region)), roleArn: \(Swift.String(describing: roleArn)), service: \(Swift.String(describing: service)), customHeaders: [keys: \(Swift.String(describing: customHeaders?.keys)), values: \"CONTENT_REDACTED\"])"}
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// Complete service details for SigV4-authenticated MCP server integration.
+    public struct MCPServerSigV4ServiceDetails: Swift.Sendable {
+        /// MCP Server SigV4 authorization configuration.
+        /// This member is required.
+        public var authorizationConfig: DevOpsAgentClientTypes.MCPServerSigV4AuthorizationConfig?
+        /// Optional description for the MCP server.
+        public var description: Swift.String?
+        /// MCP server endpoint URL.
+        /// This member is required.
+        public var endpoint: Swift.String?
+        /// MCP server name.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            authorizationConfig: DevOpsAgentClientTypes.MCPServerSigV4AuthorizationConfig? = nil,
+            description: Swift.String? = nil,
+            endpoint: Swift.String? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.authorizationConfig = authorizationConfig
+            self.description = description
+            self.endpoint = endpoint
+            self.name = name
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes.MCPServerSigV4ServiceDetails: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "MCPServerSigV4ServiceDetails(authorizationConfig: \(Swift.String(describing: authorizationConfig)), endpoint: \(Swift.String(describing: endpoint)), name: \(Swift.String(describing: name)), description: \"CONTENT_REDACTED\")"}
+}
+
+extension DevOpsAgentClientTypes {
+
     /// OAuth client credentials configuration for PagerDuty.
     public struct PagerDutyOAuthClientCredentialsConfig: Swift.Sendable {
         /// OAuth client ID for authenticating with the service.
@@ -5616,6 +5761,8 @@ extension DevOpsAgentClientTypes {
         case pagerduty(DevOpsAgentClientTypes.PagerDutyDetails)
         /// Azure integration with AWS Outbound Identity Federation specific service details.
         case azureidentity(DevOpsAgentClientTypes.RegisteredAzureIdentityDetails)
+        /// SigV4-authenticated MCP server-specific service details.
+        case mcpserversigv4(DevOpsAgentClientTypes.MCPServerSigV4ServiceDetails)
         case sdkUnknown(Swift.String)
     }
 }
@@ -8255,6 +8402,8 @@ extension DevOpsAgentClientTypes.AdditionalServiceDetails {
                 return .mcpservergrafana(try reader["mcpservergrafana"].read(with: DevOpsAgentClientTypes.RegisteredGrafanaServerDetails.read(from:)))
             case "pagerduty":
                 return .pagerduty(try reader["pagerduty"].read(with: DevOpsAgentClientTypes.RegisteredPagerDutyDetails.read(from:)))
+            case "mcpserversigv4":
+                return .mcpserversigv4(try reader["mcpserversigv4"].read(with: DevOpsAgentClientTypes.RegisteredMCPServerSigV4Details.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -8842,6 +8991,43 @@ extension DevOpsAgentClientTypes.MCPServerOAuthClientCredentialsConfig {
     }
 }
 
+extension DevOpsAgentClientTypes.MCPServerSigV4AuthorizationConfig {
+
+    static func write(value: DevOpsAgentClientTypes.MCPServerSigV4AuthorizationConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["customHeaders"].writeMap(value.customHeaders, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["region"].write(value.region)
+        try writer["roleArn"].write(value.roleArn)
+        try writer["service"].write(value.service)
+    }
+}
+
+extension DevOpsAgentClientTypes.MCPServerSigV4Configuration {
+
+    static func write(value: DevOpsAgentClientTypes.MCPServerSigV4Configuration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["tools"].writeList(value.tools, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.MCPServerSigV4Configuration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DevOpsAgentClientTypes.MCPServerSigV4Configuration()
+        value.tools = try reader["tools"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension DevOpsAgentClientTypes.MCPServerSigV4ServiceDetails {
+
+    static func write(value: DevOpsAgentClientTypes.MCPServerSigV4ServiceDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["authorizationConfig"].write(value.authorizationConfig, with: DevOpsAgentClientTypes.MCPServerSigV4AuthorizationConfig.write(value:to:))
+        try writer["description"].write(value.description)
+        try writer["endpoint"].write(value.endpoint)
+        try writer["name"].write(value.name)
+    }
+}
+
 extension DevOpsAgentClientTypes.MCPServerSplunkConfiguration {
 
     static func write(value: DevOpsAgentClientTypes.MCPServerSplunkConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -9023,6 +9209,8 @@ extension DevOpsAgentClientTypes.Recommendation {
         value.priority = try reader["priority"].readIfPresent() ?? .sdkUnknown("")
         value.goalVersion = try reader["goalVersion"].readIfPresent()
         value.additionalContext = try reader["additionalContext"].readIfPresent()
+        value.rankPosition = try reader["rankPosition"].readIfPresent()
+        value.rankedAt = try reader["rankedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.version = try reader["version"].readIfPresent() ?? 0
@@ -9143,6 +9331,22 @@ extension DevOpsAgentClientTypes.RegisteredMCPServerDetails {
         value.authorizationMethod = try reader["authorizationMethod"].readIfPresent() ?? .sdkUnknown("")
         value.description = try reader["description"].readIfPresent()
         value.apiKeyHeader = try reader["apiKeyHeader"].readIfPresent()
+        return value
+    }
+}
+
+extension DevOpsAgentClientTypes.RegisteredMCPServerSigV4Details {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.RegisteredMCPServerSigV4Details {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DevOpsAgentClientTypes.RegisteredMCPServerSigV4Details()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.endpoint = try reader["endpoint"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.region = try reader["region"].readIfPresent() ?? ""
+        value.service = try reader["service"].readIfPresent() ?? ""
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.customHeaders = try reader["customHeaders"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -9406,6 +9610,8 @@ extension DevOpsAgentClientTypes.ServiceConfiguration {
                 try writer["mcpservergrafana"].write(mcpservergrafana, with: DevOpsAgentClientTypes.MCPServerGrafanaConfiguration.write(value:to:))
             case let .mcpservernewrelic(mcpservernewrelic):
                 try writer["mcpservernewrelic"].write(mcpservernewrelic, with: DevOpsAgentClientTypes.MCPServerNewRelicConfiguration.write(value:to:))
+            case let .mcpserversigv4(mcpserversigv4):
+                try writer["mcpserversigv4"].write(mcpserversigv4, with: DevOpsAgentClientTypes.MCPServerSigV4Configuration.write(value:to:))
             case let .mcpserversplunk(mcpserversplunk):
                 try writer["mcpserversplunk"].write(mcpserversplunk, with: DevOpsAgentClientTypes.MCPServerSplunkConfiguration.write(value:to:))
             case let .pagerduty(pagerduty):
@@ -9457,6 +9663,8 @@ extension DevOpsAgentClientTypes.ServiceConfiguration {
                 return .mcpservergrafana(try reader["mcpservergrafana"].read(with: DevOpsAgentClientTypes.MCPServerGrafanaConfiguration.read(from:)))
             case "pagerduty":
                 return .pagerduty(try reader["pagerduty"].read(with: DevOpsAgentClientTypes.PagerDutyConfiguration.read(from:)))
+            case "mcpserversigv4":
+                return .mcpserversigv4(try reader["mcpserversigv4"].read(with: DevOpsAgentClientTypes.MCPServerSigV4Configuration.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -9484,6 +9692,8 @@ extension DevOpsAgentClientTypes.ServiceDetails {
                 try writer["mcpservergrafana"].write(mcpservergrafana, with: DevOpsAgentClientTypes.GrafanaServiceDetails.write(value:to:))
             case let .mcpservernewrelic(mcpservernewrelic):
                 try writer["mcpservernewrelic"].write(mcpservernewrelic, with: DevOpsAgentClientTypes.NewRelicServiceDetails.write(value:to:))
+            case let .mcpserversigv4(mcpserversigv4):
+                try writer["mcpserversigv4"].write(mcpserversigv4, with: DevOpsAgentClientTypes.MCPServerSigV4ServiceDetails.write(value:to:))
             case let .mcpserversplunk(mcpserversplunk):
                 try writer["mcpserversplunk"].write(mcpserversplunk, with: DevOpsAgentClientTypes.MCPServerDetails.write(value:to:))
             case let .pagerduty(pagerduty):

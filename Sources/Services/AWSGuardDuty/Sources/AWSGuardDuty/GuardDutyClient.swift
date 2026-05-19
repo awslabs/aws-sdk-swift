@@ -1321,7 +1321,7 @@ extension GuardDutyClient {
 
     /// Performs the `CreateThreatEntitySet` operation on the `GuardDuty` service.
     ///
-    /// Creates a new threat entity set. In a threat entity set, you can provide known malicious IP addresses and domains for your Amazon Web Services environment. GuardDuty generates findings based on the entries in the threat entity sets. Only users of the administrator account can manage entity sets, which automatically apply to member accounts.
+    /// Creates a new threat entity set. In a threat entity set, you can provide known malicious threat entities for your Amazon Web Services environment. GuardDuty generates findings based on the entries in the threat entity sets. Only users of the administrator account can manage entity sets, which automatically apply to member accounts.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateThreatEntitySetInput`)
     ///
