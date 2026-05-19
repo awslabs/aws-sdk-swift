@@ -1,6 +1,7 @@
 software.amazon.smithy.aws.swift.codegen.AddProtocols
 software.amazon.smithy.aws.swift.codegen.customization.s3.S3ErrorIntegration
 software.amazon.smithy.aws.swift.codegen.customization.s3.S3ErrorWith200StatusIntegration
+software.amazon.smithy.aws.swift.codegen.customization.s3.S3RestXMLErrorResolverIntegration
 software.amazon.smithy.aws.swift.codegen.customization.s3.S3Expires
 software.amazon.smithy.aws.swift.codegen.customization.s3.S3ExpressIntegration
 software.amazon.smithy.aws.swift.codegen.customization.s3.TruncatablePaginationIntegration
