@@ -162,16 +162,16 @@ struct PrepareRelease {
         return newVersion
     }
 
-    /// Returns true if the `main` branch has changes since the previous release, otherwise returns false.
+    /// Returns true if `HEAD` has changes since the previous release, otherwise returns false.
     ///
     /// - Parameter previousVersion: The version of the previous release
-    /// - Returns: True if the `main` branch has changes since the previous release, otherwise returns false.
+    /// - Returns: True if `HEAD` has changes since the previous release, otherwise returns false.
     func repoHasChanges(_ previousVersion: Version) throws -> Bool {
-        let hasChanges = try diffChecker("main", previousVersion)
+        let hasChanges = try diffChecker("HEAD", previousVersion)
         if hasChanges {
-            log("Changes detected between 'main' and the previous release \(previousVersion)")
+            log("Changes detected between 'HEAD' and the previous release \(previousVersion)")
         } else {
-            log("No changes detected between 'main' and the previous release \(previousVersion)")
+            log("No changes detected between 'HEAD' and the previous release \(previousVersion)")
         }
         return hasChanges
     }
