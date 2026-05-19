@@ -1,0 +1,8 @@
+{
+    "service": "com.amazonaws.freetier#AWSFreeTierService",
+    "module": "AWSFreeTier",
+    "sdkId": "FreeTier",
+    "internalClient": false,
+    "operations": [],
+    "modelPath": "codegen/sdk-codegen/aws-models/freetier.json"
+}

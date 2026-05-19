@@ -15,7 +15,7 @@ import class AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain
 import class ClientRuntime.ClientBuilder
 import class ClientRuntime.DefaultClientPlugin
 import class ClientRuntime.HttpClientConfiguration
-import class ClientRuntime.OrchestratorBuilder
+@_spi(SchemaBasedSerde) import class ClientRuntime.OrchestratorBuilder
 import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
@@ -30,6 +30,7 @@ import enum AWSSDKChecksums.AWSChecksumCalculationMode
 import enum ClientRuntime.ClientLogMode
 import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
+import func ClientRuntime.initialize
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
 import protocol AWSClientRuntime.AWSServiceClient
@@ -56,6 +57,8 @@ import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.QueryItemMiddleware
+import struct ClientRuntime.SendableHttpInterceptorProviderBox
+import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
 import struct ClientRuntime.URLPathMiddleware
@@ -66,31 +69,49 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class LexModelsV2Client: AWSClientRuntime.AWSServiceClient {
+public final class LexModelsV2Client: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "LexModelsV2Client"
     let client: ClientRuntime.SdkHttpClient
-    let config: LexModelsV2Client.LexModelsV2ClientConfiguration
+    public let config: LexModelsV2Client.LexModelsV2ClientConfig
     let serviceName = "Lex Models V2"
 
-    public required init(config: LexModelsV2Client.LexModelsV2ClientConfiguration) {
+    @available(*, deprecated, message: "Use LexModelsV2Client.LexModelsV2ClientConfig instead")
+    public typealias Config = LexModelsV2Client.LexModelsV2ClientConfiguration
+    public typealias Configuration = LexModelsV2Client.LexModelsV2ClientConfig
+
+    public required init(config: LexModelsV2Client.LexModelsV2ClientConfig) {
+        ClientRuntime.initialize()
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         self.config = config
     }
 
+    @available(*, deprecated, message: "Use init(config: LexModelsV2Client.LexModelsV2ClientConfig) instead")
+    public convenience init(config: LexModelsV2Client.LexModelsV2ClientConfiguration) {
+        do {
+            try self.init(config: config.toSendable())
+        } catch {
+            // This should never happen since all values are already initialized in the class
+            fatalError("Failed to convert deprecated configuration: \(error)")
+        }
+    }
+
     public convenience init(region: Swift.String) throws {
-        let config = try LexModelsV2Client.LexModelsV2ClientConfiguration(region: region)
+        let config = try LexModelsV2Client.LexModelsV2ClientConfig(region: region)
         self.init(config: config)
     }
 
-    public convenience required init() async throws {
-        let config = try await LexModelsV2Client.LexModelsV2ClientConfiguration()
+    public convenience init() async throws {
+        let config = try await LexModelsV2Client.LexModelsV2ClientConfig()
         self.init(config: config)
     }
 }
 
 extension LexModelsV2Client {
 
-    public class LexModelsV2ClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
+    /// Client configuration for LexModelsV2Client
+    ///
+    /// Conforms to `Sendable` for safe concurrent access across threads.
+    public struct LexModelsV2ClientConfig: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Swift.Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?
@@ -114,66 +135,29 @@ extension LexModelsV2Client {
         public var authSchemePreference: [String]?
         public var authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver
         public var bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver
-        public private(set) var interceptorProviders: [ClientRuntime.InterceptorProvider]
-        public private(set) var httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]
-        public let logger: Smithy.LogAgent
-
-        private init(
-            _ useFIPS: Swift.Bool?,
-            _ useDualStack: Swift.Bool?,
-            _ appID: Swift.String?,
-            _ awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver,
-            _ awsRetryMode: AWSClientRuntime.AWSRetryMode,
-            _ maxAttempts: Swift.Int?,
-            _ requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode,
-            _ responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode,
-            _ ignoreConfiguredEndpointURLs: Swift.Bool?,
-            _ region: Swift.String?,
-            _ signingRegion: Swift.String?,
-            _ endpointResolver: EndpointResolver,
-            _ telemetryProvider: ClientRuntime.TelemetryProvider,
-            _ retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions,
-            _ clientLogMode: ClientRuntime.ClientLogMode,
-            _ endpoint: Swift.String?,
-            _ idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator,
-            _ httpClientEngine: SmithyHTTPAPI.HTTPClient,
-            _ httpClientConfiguration: ClientRuntime.HttpClientConfiguration,
-            _ authSchemes: SmithyHTTPAuthAPI.AuthSchemes?,
-            _ authSchemePreference: [String]?,
-            _ authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver,
-            _ bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver,
-            _ interceptorProviders: [ClientRuntime.InterceptorProvider],
-            _ httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]
-        ) {
-            self.useFIPS = useFIPS
-            self.useDualStack = useDualStack
-            self.appID = appID
-            self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
-            self.awsRetryMode = awsRetryMode
-            self.maxAttempts = maxAttempts
-            self.requestChecksumCalculation = requestChecksumCalculation
-            self.responseChecksumValidation = responseChecksumValidation
-            self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
-            self.region = region
-            self.signingRegion = signingRegion
-            self.endpointResolver = endpointResolver
-            self.telemetryProvider = telemetryProvider
-            self.retryStrategyOptions = retryStrategyOptions
-            self.clientLogMode = clientLogMode
-            self.endpoint = endpoint
-            self.idempotencyTokenGenerator = idempotencyTokenGenerator
-            self.httpClientEngine = httpClientEngine
-            self.httpClientConfiguration = httpClientConfiguration
-            self.authSchemes = authSchemes
-            self.authSchemePreference = authSchemePreference
-            self.authSchemeResolver = authSchemeResolver
-            self.bearerTokenIdentityResolver = bearerTokenIdentityResolver
-            self.interceptorProviders = interceptorProviders
-            self.httpInterceptorProviders = httpInterceptorProviders
-            self.logger = telemetryProvider.loggerProvider.getLogger(name: LexModelsV2Client.clientName)
+        // Interceptor providers with Sendable-safe internal storage
+        private var _interceptorProviders: [ClientRuntime.SendableInterceptorProviderBox] = []
+        public var interceptorProviders: [ClientRuntime.InterceptorProvider] {
+            get {
+                return _interceptorProviders
+            }
+            set {
+                _interceptorProviders = newValue.map { ClientRuntime.SendableInterceptorProviderBox($0) }
+            }
         }
 
-        public convenience init(
+        private var _httpInterceptorProviders: [ClientRuntime.SendableHttpInterceptorProviderBox] = []
+        public var httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider] {
+            get {
+                return _httpInterceptorProviders
+            }
+            set {
+                _httpInterceptorProviders = newValue.map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
+            }
+        }
+        public var logger: Smithy.LogAgent
+
+        public init(
             useFIPS: Swift.Bool? = nil,
             useDualStack: Swift.Bool? = nil,
             appID: Swift.String? = nil,
@@ -200,36 +184,35 @@ extension LexModelsV2Client {
             interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
             httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil
         ) throws {
-            self.init(
-                useFIPS,
-                useDualStack,
-                try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
-                awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
-                try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
-                maxAttempts,
-                try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation),
-                try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation),
-                ignoreConfiguredEndpointURLs,
-                region,
-                signingRegion,
-                try endpointResolver ?? DefaultEndpointResolver(),
-                telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider,
-                try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts),
-                clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(),
-                endpoint,
-                idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
-                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration),
-                httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
-                authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
-                authSchemePreference ?? nil,
-                authSchemeResolver ?? DefaultLexModelsV2AuthSchemeResolver(),
-                bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
-                interceptorProviders ?? [],
-                httpInterceptorProviders ?? []
-            )
+            self.useFIPS = useFIPS
+            self.useDualStack = useDualStack
+            self.appID = try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID()
+            self.awsCredentialIdentityResolver = awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain()
+            self.awsRetryMode = try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode()
+            self.maxAttempts = maxAttempts
+            self.requestChecksumCalculation = try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation)
+            self.responseChecksumValidation = try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation)
+            self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
+            self.region = region
+            self.signingRegion = signingRegion
+            self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
+            self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
+            self.endpoint = endpoint
+            self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
+            self.httpClientEngine = httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration)
+            self.httpClientConfiguration = httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration()
+            self.authSchemes = authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()]
+            self.authSchemePreference = authSchemePreference ?? nil
+            self.authSchemeResolver = authSchemeResolver ?? DefaultLexModelsV2AuthSchemeResolver()
+            self.bearerTokenIdentityResolver = bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
+            self._interceptorProviders = (interceptorProviders ?? []).map { ClientRuntime.SendableInterceptorProviderBox($0) }
+            self._httpInterceptorProviders = (httpInterceptorProviders ?? []).map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
+            self.logger = (telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider).loggerProvider.getLogger(name: LexModelsV2Client.clientName)
         }
 
-        public convenience init(
+        public init(
             useFIPS: Swift.Bool? = nil,
             useDualStack: Swift.Bool? = nil,
             appID: Swift.String? = nil,
@@ -256,36 +239,266 @@ extension LexModelsV2Client {
             interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
             httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil
         ) async throws {
-            self.init(
-                useFIPS,
-                useDualStack,
-                try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
-                awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
-                try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
-                maxAttempts,
-                try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation),
-                try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation),
-                ignoreConfiguredEndpointURLs,
-                try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region),
-                try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region),
-                try endpointResolver ?? DefaultEndpointResolver(),
-                telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider,
-                try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts),
-                clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(),
-                endpoint,
-                idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
-                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration),
-                httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
-                authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
-                authSchemePreference ?? nil,
-                authSchemeResolver ?? DefaultLexModelsV2AuthSchemeResolver(),
-                bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
-                interceptorProviders ?? [],
-                httpInterceptorProviders ?? []
+            self.useFIPS = useFIPS
+            self.useDualStack = useDualStack
+            self.appID = try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID()
+            self.awsCredentialIdentityResolver = awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain()
+            self.awsRetryMode = try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode()
+            self.maxAttempts = maxAttempts
+            self.requestChecksumCalculation = try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation)
+            self.responseChecksumValidation = try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation)
+            self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
+            self.region = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
+            self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
+            self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
+            self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
+            self.endpoint = endpoint
+            self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
+            self.httpClientEngine = httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration)
+            self.httpClientConfiguration = httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration()
+            self.authSchemes = authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()]
+            self.authSchemePreference = authSchemePreference ?? nil
+            self.authSchemeResolver = authSchemeResolver ?? DefaultLexModelsV2AuthSchemeResolver()
+            self.bearerTokenIdentityResolver = bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
+            self._interceptorProviders = (interceptorProviders ?? []).map { ClientRuntime.SendableInterceptorProviderBox($0) }
+            self._httpInterceptorProviders = (httpInterceptorProviders ?? []).map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
+            self.logger = (telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider).loggerProvider.getLogger(name: LexModelsV2Client.clientName)
+        }
+
+        public init() async throws {
+            try await self.init(
+                useFIPS: nil,
+                useDualStack: nil,
+                appID: nil,
+                awsCredentialIdentityResolver: nil,
+                awsRetryMode: nil,
+                maxAttempts: nil,
+                requestChecksumCalculation: nil,
+                responseChecksumValidation: nil,
+                ignoreConfiguredEndpointURLs: nil,
+                region: nil,
+                signingRegion: nil,
+                endpointResolver: nil,
+                telemetryProvider: nil,
+                retryStrategyOptions: nil,
+                clientLogMode: nil,
+                endpoint: nil,
+                idempotencyTokenGenerator: nil,
+                httpClientEngine: nil,
+                httpClientConfiguration: nil,
+                authSchemes: nil,
+                authSchemePreference: nil,
+                authSchemeResolver: nil,
+                bearerTokenIdentityResolver: nil,
+                interceptorProviders: nil,
+                httpInterceptorProviders: nil
             )
         }
 
-        public convenience required init() async throws {
+        public init(region: Swift.String) throws {
+            try self.init(
+                useFIPS: nil,
+                useDualStack: nil,
+                appID: try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
+                awsCredentialIdentityResolver: AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
+                awsRetryMode: try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
+                maxAttempts: nil,
+                requestChecksumCalculation: try AWSClientConfigDefaultsProvider.requestChecksumCalculation(),
+                responseChecksumValidation: try AWSClientConfigDefaultsProvider.responseChecksumValidation(),
+                ignoreConfiguredEndpointURLs: nil,
+                region: region,
+                signingRegion: region,
+                endpointResolver: try DefaultEndpointResolver(),
+                telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
+                endpoint: nil,
+                idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
+                httpClientEngine: AWSClientConfigDefaultsProvider.httpClientEngine(),
+                httpClientConfiguration: AWSClientConfigDefaultsProvider.httpClientConfiguration(),
+                authSchemes: [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                authSchemePreference: nil,
+                authSchemeResolver: DefaultLexModelsV2AuthSchemeResolver(),
+                bearerTokenIdentityResolver: SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
+                interceptorProviders: [],
+                httpInterceptorProviders: []
+            )
+        }
+
+        public var partitionID: String? {
+            return "\(LexModelsV2Client.clientName) - \(region ?? "")"
+        }
+
+        public mutating func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
+            self._interceptorProviders.append(ClientRuntime.SendableInterceptorProviderBox(provider))
+        }
+
+        public mutating func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
+            self._httpInterceptorProviders.append(ClientRuntime.SendableHttpInterceptorProviderBox(provider))
+        }
+
+    }
+
+    @available(*, deprecated, message: "Use LexModelsV2ClientConfig instead. This class will be removed in a future version.")
+    public final class LexModelsV2ClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
+        public var useFIPS: Swift.Bool?
+        public var useDualStack: Swift.Bool?
+        public var appID: Swift.String?
+        public var awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver
+        public var awsRetryMode: AWSClientRuntime.AWSRetryMode
+        public var maxAttempts: Swift.Int?
+        public var requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode
+        public var responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode
+        public var ignoreConfiguredEndpointURLs: Swift.Bool?
+        public var region: Swift.String?
+        public var signingRegion: Swift.String?
+        public var endpointResolver: EndpointResolver
+        public var telemetryProvider: ClientRuntime.TelemetryProvider
+        public var retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions
+        public var clientLogMode: ClientRuntime.ClientLogMode
+        public var endpoint: Swift.String?
+        public var idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator
+        public var httpClientEngine: SmithyHTTPAPI.HTTPClient
+        public var httpClientConfiguration: ClientRuntime.HttpClientConfiguration
+        public var authSchemes: SmithyHTTPAuthAPI.AuthSchemes?
+        public var authSchemePreference: [String]?
+        public var authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver
+        public var bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver
+        // Interceptor providers with Sendable-safe internal storage
+        private var _interceptorProviders: [ClientRuntime.SendableInterceptorProviderBox] = []
+        public var interceptorProviders: [ClientRuntime.InterceptorProvider] {
+            get {
+                return _interceptorProviders
+            }
+            set {
+                _interceptorProviders = newValue.map { ClientRuntime.SendableInterceptorProviderBox($0) }
+            }
+        }
+
+        private var _httpInterceptorProviders: [ClientRuntime.SendableHttpInterceptorProviderBox] = []
+        public var httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider] {
+            get {
+                return _httpInterceptorProviders
+            }
+            set {
+                _httpInterceptorProviders = newValue.map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
+            }
+        }
+        public var logger: Smithy.LogAgent
+
+        public init(
+            useFIPS: Swift.Bool? = nil,
+            useDualStack: Swift.Bool? = nil,
+            appID: Swift.String? = nil,
+            awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil,
+            awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil,
+            maxAttempts: Swift.Int? = nil,
+            requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
+            region: Swift.String? = nil,
+            signingRegion: Swift.String? = nil,
+            endpointResolver: EndpointResolver? = nil,
+            telemetryProvider: ClientRuntime.TelemetryProvider? = nil,
+            retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil,
+            clientLogMode: ClientRuntime.ClientLogMode? = nil,
+            endpoint: Swift.String? = nil,
+            idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil,
+            httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil,
+            httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil,
+            authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil,
+            authSchemePreference: [String]? = nil,
+            authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil,
+            bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil,
+            interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
+            httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil
+        ) throws {
+            self.useFIPS = useFIPS
+            self.useDualStack = useDualStack
+            self.appID = try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID()
+            self.awsCredentialIdentityResolver = awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain()
+            self.awsRetryMode = try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode()
+            self.maxAttempts = maxAttempts
+            self.requestChecksumCalculation = try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation)
+            self.responseChecksumValidation = try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation)
+            self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
+            self.region = region
+            self.signingRegion = signingRegion
+            self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
+            self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
+            self.endpoint = endpoint
+            self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
+            self.httpClientEngine = httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration)
+            self.httpClientConfiguration = httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration()
+            self.authSchemes = authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()]
+            self.authSchemePreference = authSchemePreference ?? nil
+            self.authSchemeResolver = authSchemeResolver ?? DefaultLexModelsV2AuthSchemeResolver()
+            self.bearerTokenIdentityResolver = bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
+            self._interceptorProviders = (interceptorProviders ?? []).map { ClientRuntime.SendableInterceptorProviderBox($0) }
+            self._httpInterceptorProviders = (httpInterceptorProviders ?? []).map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
+            self.logger = (telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider).loggerProvider.getLogger(name: LexModelsV2Client.clientName)
+        }
+
+        public init(
+            useFIPS: Swift.Bool? = nil,
+            useDualStack: Swift.Bool? = nil,
+            appID: Swift.String? = nil,
+            awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil,
+            awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil,
+            maxAttempts: Swift.Int? = nil,
+            requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
+            region: Swift.String? = nil,
+            signingRegion: Swift.String? = nil,
+            endpointResolver: EndpointResolver? = nil,
+            telemetryProvider: ClientRuntime.TelemetryProvider? = nil,
+            retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil,
+            clientLogMode: ClientRuntime.ClientLogMode? = nil,
+            endpoint: Swift.String? = nil,
+            idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil,
+            httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil,
+            httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil,
+            authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil,
+            authSchemePreference: [String]? = nil,
+            authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil,
+            bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil,
+            interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
+            httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil
+        ) async throws {
+            self.useFIPS = useFIPS
+            self.useDualStack = useDualStack
+            self.appID = try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID()
+            self.awsCredentialIdentityResolver = awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain()
+            self.awsRetryMode = try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode()
+            self.maxAttempts = maxAttempts
+            self.requestChecksumCalculation = try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation)
+            self.responseChecksumValidation = try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation)
+            self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
+            self.region = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
+            self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
+            self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
+            self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
+            self.endpoint = endpoint
+            self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
+            self.httpClientEngine = httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration)
+            self.httpClientConfiguration = httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration()
+            self.authSchemes = authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()]
+            self.authSchemePreference = authSchemePreference ?? nil
+            self.authSchemeResolver = authSchemeResolver ?? DefaultLexModelsV2AuthSchemeResolver()
+            self.bearerTokenIdentityResolver = bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
+            self._interceptorProviders = (interceptorProviders ?? []).map { ClientRuntime.SendableInterceptorProviderBox($0) }
+            self._httpInterceptorProviders = (httpInterceptorProviders ?? []).map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
+            self.logger = (telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider).loggerProvider.getLogger(name: LexModelsV2Client.clientName)
+        }
+
+        public convenience init() async throws {
             try await self.init(
                 useFIPS: nil,
                 useDualStack: nil,
@@ -316,32 +529,32 @@ extension LexModelsV2Client {
         }
 
         public convenience init(region: Swift.String) throws {
-            self.init(
-                nil,
-                nil,
-                try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
-                AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
-                try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
-                nil,
-                try AWSClientConfigDefaultsProvider.requestChecksumCalculation(),
-                try AWSClientConfigDefaultsProvider.responseChecksumValidation(),
-                nil,
-                region,
-                region,
-                try DefaultEndpointResolver(),
-                ClientRuntime.DefaultTelemetry.provider,
-                try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
-                AWSClientConfigDefaultsProvider.clientLogMode(),
-                nil,
-                AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
-                AWSClientConfigDefaultsProvider.httpClientEngine(),
-                AWSClientConfigDefaultsProvider.httpClientConfiguration(),
-                [AWSSDKHTTPAuth.SigV4AuthScheme()],
-                nil,
-                DefaultLexModelsV2AuthSchemeResolver(),
-                SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
-                [],
-                []
+            try self.init(
+                useFIPS: nil,
+                useDualStack: nil,
+                appID: try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
+                awsCredentialIdentityResolver: AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
+                awsRetryMode: try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
+                maxAttempts: nil,
+                requestChecksumCalculation: try AWSClientConfigDefaultsProvider.requestChecksumCalculation(),
+                responseChecksumValidation: try AWSClientConfigDefaultsProvider.responseChecksumValidation(),
+                ignoreConfiguredEndpointURLs: nil,
+                region: region,
+                signingRegion: region,
+                endpointResolver: try DefaultEndpointResolver(),
+                telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
+                endpoint: nil,
+                idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
+                httpClientEngine: AWSClientConfigDefaultsProvider.httpClientEngine(),
+                httpClientConfiguration: AWSClientConfigDefaultsProvider.httpClientConfiguration(),
+                authSchemes: [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                authSchemePreference: nil,
+                authSchemeResolver: DefaultLexModelsV2AuthSchemeResolver(),
+                bearerTokenIdentityResolver: SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
+                interceptorProviders: [],
+                httpInterceptorProviders: []
             )
         }
 
@@ -349,12 +562,42 @@ extension LexModelsV2Client {
             return "\(LexModelsV2Client.clientName) - \(region ?? "")"
         }
 
+        public func toSendable() throws -> LexModelsV2ClientConfig {
+            return try LexModelsV2ClientConfig(
+                useFIPS: self.useFIPS,
+                useDualStack: self.useDualStack,
+                appID: self.appID,
+                awsCredentialIdentityResolver: self.awsCredentialIdentityResolver,
+                awsRetryMode: self.awsRetryMode,
+                maxAttempts: self.maxAttempts,
+                requestChecksumCalculation: self.requestChecksumCalculation,
+                responseChecksumValidation: self.responseChecksumValidation,
+                ignoreConfiguredEndpointURLs: self.ignoreConfiguredEndpointURLs,
+                region: self.region,
+                signingRegion: self.signingRegion,
+                endpointResolver: self.endpointResolver,
+                telemetryProvider: self.telemetryProvider,
+                retryStrategyOptions: self.retryStrategyOptions,
+                clientLogMode: self.clientLogMode,
+                endpoint: self.endpoint,
+                idempotencyTokenGenerator: self.idempotencyTokenGenerator,
+                httpClientEngine: self.httpClientEngine,
+                httpClientConfiguration: self.httpClientConfiguration,
+                authSchemes: self.authSchemes,
+                authSchemePreference: self.authSchemePreference,
+                authSchemeResolver: self.authSchemeResolver,
+                bearerTokenIdentityResolver: self.bearerTokenIdentityResolver,
+                interceptorProviders: self.interceptorProviders,
+                httpInterceptorProviders: self.httpInterceptorProviders
+            )
+        }
+
         public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
-            self.interceptorProviders.append(provider)
+            self._interceptorProviders.append(ClientRuntime.SendableInterceptorProviderBox(provider))
         }
 
         public func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
-            self.httpInterceptorProviders.append(provider)
+            self._httpInterceptorProviders.append(ClientRuntime.SendableHttpInterceptorProviderBox(provider))
         }
 
     }
@@ -1756,6 +1999,74 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DeleteBotAnalyzerRecommendation` operation on the `LexModelsV2` service.
+    ///
+    /// Permanently deletes the recommendations and analysis results for a specific bot analysis request. This operation is provided for GDPR compliance and cannot be undone. After deletion, the analysis results cannot be retrieved. The analysis request ID will still appear in the history list, but attempting to describe the recommendations will return a ResourceNotFoundException.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteBotAnalyzerRecommendationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteBotAnalyzerRecommendationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
+    public func deleteBotAnalyzerRecommendation(input: DeleteBotAnalyzerRecommendationInput) async throws -> DeleteBotAnalyzerRecommendationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteBotAnalyzerRecommendation")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "lex")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteBotAnalyzerRecommendationInput, DeleteBotAnalyzerRecommendationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteBotAnalyzerRecommendationInput, DeleteBotAnalyzerRecommendationOutput>(DeleteBotAnalyzerRecommendationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteBotAnalyzerRecommendationInput, DeleteBotAnalyzerRecommendationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBotAnalyzerRecommendationOutput>(DeleteBotAnalyzerRecommendationOutput.httpOutput(from:), DeleteBotAnalyzerRecommendationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBotAnalyzerRecommendationInput, DeleteBotAnalyzerRecommendationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBotAnalyzerRecommendationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Lex Models V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteBotAnalyzerRecommendationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteBotAnalyzerRecommendationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteBotAnalyzerRecommendationInput, DeleteBotAnalyzerRecommendationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteBotAnalyzerRecommendationInput, DeleteBotAnalyzerRecommendationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteBotAnalyzerRecommendationInput, DeleteBotAnalyzerRecommendationOutput>(serviceID: serviceName, version: LexModelsV2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "LexModelsV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteBotAnalyzerRecommendation")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeleteBotLocale` operation on the `LexModelsV2` service.
     ///
     /// Removes a locale from a bot. When you delete a locale, all intents, slots, and slot types defined for the locale are also deleted.
@@ -2788,6 +3099,77 @@ extension LexModelsV2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "LexModelsV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeBotAlias")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DescribeBotAnalyzerRecommendation` operation on the `LexModelsV2` service.
+    ///
+    /// Retrieves the analysis results and recommendations for bot optimization. The analysis must be in Available status before recommendations can be retrieved. Recommendations are returned with pagination support. Each recommendation includes the issue location, priority level, detailed description, and proposed fix.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeBotAnalyzerRecommendationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeBotAnalyzerRecommendationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
+    public func describeBotAnalyzerRecommendation(input: DescribeBotAnalyzerRecommendationInput) async throws -> DescribeBotAnalyzerRecommendationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeBotAnalyzerRecommendation")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "lex")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeBotAnalyzerRecommendationInput, DescribeBotAnalyzerRecommendationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeBotAnalyzerRecommendationInput, DescribeBotAnalyzerRecommendationOutput>(DescribeBotAnalyzerRecommendationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeBotAnalyzerRecommendationInput, DescribeBotAnalyzerRecommendationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeBotAnalyzerRecommendationInput, DescribeBotAnalyzerRecommendationOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeBotAnalyzerRecommendationInput, DescribeBotAnalyzerRecommendationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeBotAnalyzerRecommendationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeBotAnalyzerRecommendationInput, DescribeBotAnalyzerRecommendationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeBotAnalyzerRecommendationOutput>(DescribeBotAnalyzerRecommendationOutput.httpOutput(from:), DescribeBotAnalyzerRecommendationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeBotAnalyzerRecommendationInput, DescribeBotAnalyzerRecommendationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeBotAnalyzerRecommendationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Lex Models V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeBotAnalyzerRecommendationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeBotAnalyzerRecommendationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeBotAnalyzerRecommendationInput, DescribeBotAnalyzerRecommendationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeBotAnalyzerRecommendationInput, DescribeBotAnalyzerRecommendationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeBotAnalyzerRecommendationInput, DescribeBotAnalyzerRecommendationOutput>(serviceID: serviceName, version: LexModelsV2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "LexModelsV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeBotAnalyzerRecommendation")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -4248,6 +4630,77 @@ extension LexModelsV2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "LexModelsV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListBotAliases")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListBotAnalyzerHistory` operation on the `LexModelsV2` service.
+    ///
+    /// Retrieves a list of historical bot analysis executions for a specific bot. You can filter the results by locale and bot version. The history includes all analysis executions regardless of their status, allowing you to track past analyses and their outcomes.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListBotAnalyzerHistoryInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListBotAnalyzerHistoryOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
+    public func listBotAnalyzerHistory(input: ListBotAnalyzerHistoryInput) async throws -> ListBotAnalyzerHistoryOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listBotAnalyzerHistory")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "lex")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListBotAnalyzerHistoryInput, ListBotAnalyzerHistoryOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListBotAnalyzerHistoryInput, ListBotAnalyzerHistoryOutput>(ListBotAnalyzerHistoryInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListBotAnalyzerHistoryInput, ListBotAnalyzerHistoryOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBotAnalyzerHistoryInput, ListBotAnalyzerHistoryOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListBotAnalyzerHistoryInput, ListBotAnalyzerHistoryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListBotAnalyzerHistoryInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBotAnalyzerHistoryInput, ListBotAnalyzerHistoryOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBotAnalyzerHistoryOutput>(ListBotAnalyzerHistoryOutput.httpOutput(from:), ListBotAnalyzerHistoryOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBotAnalyzerHistoryInput, ListBotAnalyzerHistoryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListBotAnalyzerHistoryOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Lex Models V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListBotAnalyzerHistoryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListBotAnalyzerHistoryOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListBotAnalyzerHistoryInput, ListBotAnalyzerHistoryOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListBotAnalyzerHistoryInput, ListBotAnalyzerHistoryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListBotAnalyzerHistoryInput, ListBotAnalyzerHistoryOutput>(serviceID: serviceName, version: LexModelsV2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "LexModelsV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListBotAnalyzerHistory")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -6399,6 +6852,78 @@ extension LexModelsV2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `StartBotAnalyzer` operation on the `LexModelsV2` service.
+    ///
+    /// Initiates an asynchronous analysis of your bot configuration using AI-powered analysis to identify potential issues and recommend improvements based on AWS best practices. The analysis examines your bot's configuration, including intents, utterances, slots, and conversation flows, to provide actionable recommendations for optimization.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `StartBotAnalyzerInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `StartBotAnalyzerOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The action that you tried to perform couldn't be completed because the resource is in a conflicting state. For example, deleting a bot that is in the CREATING state. Try your request again.
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
+    public func startBotAnalyzer(input: StartBotAnalyzerInput) async throws -> StartBotAnalyzerOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startBotAnalyzer")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "lex")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<StartBotAnalyzerInput, StartBotAnalyzerOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartBotAnalyzerInput, StartBotAnalyzerOutput>(StartBotAnalyzerInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartBotAnalyzerInput, StartBotAnalyzerOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartBotAnalyzerInput, StartBotAnalyzerOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StartBotAnalyzerInput, StartBotAnalyzerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartBotAnalyzerInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartBotAnalyzerInput, StartBotAnalyzerOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartBotAnalyzerOutput>(StartBotAnalyzerOutput.httpOutput(from:), StartBotAnalyzerOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartBotAnalyzerInput, StartBotAnalyzerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<StartBotAnalyzerOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Lex Models V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartBotAnalyzerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartBotAnalyzerOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartBotAnalyzerInput, StartBotAnalyzerOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartBotAnalyzerInput, StartBotAnalyzerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartBotAnalyzerInput, StartBotAnalyzerOutput>(serviceID: serviceName, version: LexModelsV2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "LexModelsV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartBotAnalyzer")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `StartBotRecommendation` operation on the `LexModelsV2` service.
     ///
     /// Use this to provide your transcript data, and to start the bot recommendation process.
@@ -6753,6 +7278,74 @@ extension LexModelsV2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "LexModelsV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartTestSetGeneration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `StopBotAnalyzer` operation on the `LexModelsV2` service.
+    ///
+    /// Cancels an ongoing bot analysis execution. Once stopped, the analysis cannot be resumed and no recommendations will be generated.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `StopBotAnalyzerInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `StopBotAnalyzerOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
+    public func stopBotAnalyzer(input: StopBotAnalyzerInput) async throws -> StopBotAnalyzerOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "stopBotAnalyzer")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "lex")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<StopBotAnalyzerInput, StopBotAnalyzerOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StopBotAnalyzerInput, StopBotAnalyzerOutput>(StopBotAnalyzerInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopBotAnalyzerInput, StopBotAnalyzerOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StopBotAnalyzerOutput>(StopBotAnalyzerOutput.httpOutput(from:), StopBotAnalyzerOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopBotAnalyzerInput, StopBotAnalyzerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<StopBotAnalyzerOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Lex Models V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopBotAnalyzerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopBotAnalyzerOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopBotAnalyzerInput, StopBotAnalyzerOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopBotAnalyzerInput, StopBotAnalyzerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopBotAnalyzerInput, StopBotAnalyzerOutput>(serviceID: serviceName, version: LexModelsV2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "LexModelsV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StopBotAnalyzer")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

@@ -22,8 +22,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
 import struct SmithyHTTPAPI.Header
 import struct SmithyHTTPAPI.Headers
@@ -48,9 +48,9 @@ public struct AlreadyStreamedException: ClientRuntime.ModeledError, AWSClientRun
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -73,9 +73,9 @@ public struct DuplicateRequestException: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -98,9 +98,9 @@ public struct InternalErrorException: ClientRuntime.ModeledError, AWSClientRunti
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -123,9 +123,9 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -148,9 +148,9 @@ public struct NotAuthorizedException: ClientRuntime.ModeledError, AWSClientRunti
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -173,9 +173,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -223,9 +223,9 @@ public struct ResourceConflictException: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -248,9 +248,9 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -903,9 +903,9 @@ public struct InvalidConfigurationException: ClientRuntime.ModeledError, AWSClie
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -1021,9 +1021,9 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSCl
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -1155,9 +1155,9 @@ public struct InvalidLambdaFunctionOutputException: ClientRuntime.ModeledError, 
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -1180,9 +1180,9 @@ public struct LambdaThrottledException: ClientRuntime.ModeledError, AWSClientRun
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -1205,9 +1205,9 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -1867,7 +1867,7 @@ enum BulkPublishOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AlreadyStreamed": return try AlreadyStreamedException.makeError(baseError: baseError)
@@ -1886,7 +1886,7 @@ enum DeleteDatasetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalError": return try InternalErrorException.makeError(baseError: baseError)
@@ -1905,7 +1905,7 @@ enum DescribeDatasetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalError": return try InternalErrorException.makeError(baseError: baseError)
@@ -1923,7 +1923,7 @@ enum DescribeIdentityPoolUsageOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalError": return try InternalErrorException.makeError(baseError: baseError)
@@ -1941,7 +1941,7 @@ enum DescribeIdentityUsageOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalError": return try InternalErrorException.makeError(baseError: baseError)
@@ -1959,7 +1959,7 @@ enum GetBulkPublishDetailsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalError": return try InternalErrorException.makeError(baseError: baseError)
@@ -1976,7 +1976,7 @@ enum GetCognitoEventsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalError": return try InternalErrorException.makeError(baseError: baseError)
@@ -1994,7 +1994,7 @@ enum GetIdentityPoolConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalError": return try InternalErrorException.makeError(baseError: baseError)
@@ -2012,7 +2012,7 @@ enum ListDatasetsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalError": return try InternalErrorException.makeError(baseError: baseError)
@@ -2029,7 +2029,7 @@ enum ListIdentityPoolUsageOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalError": return try InternalErrorException.makeError(baseError: baseError)
@@ -2046,7 +2046,7 @@ enum ListRecordsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalError": return try InternalErrorException.makeError(baseError: baseError)
@@ -2063,7 +2063,7 @@ enum RegisterDeviceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalError": return try InternalErrorException.makeError(baseError: baseError)
@@ -2082,7 +2082,7 @@ enum SetCognitoEventsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalError": return try InternalErrorException.makeError(baseError: baseError)
@@ -2100,7 +2100,7 @@ enum SetIdentityPoolConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -2119,7 +2119,7 @@ enum SubscribeToDatasetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalError": return try InternalErrorException.makeError(baseError: baseError)
@@ -2138,7 +2138,7 @@ enum UnsubscribeFromDatasetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalError": return try InternalErrorException.makeError(baseError: baseError)
@@ -2157,7 +2157,7 @@ enum UpdateRecordsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalError": return try InternalErrorException.makeError(baseError: baseError)
@@ -2176,7 +2176,7 @@ enum UpdateRecordsOutputError {
 
 extension AlreadyStreamedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AlreadyStreamedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AlreadyStreamedException {
         let reader = baseError.errorBodyReader
         var value = AlreadyStreamedException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -2189,7 +2189,7 @@ extension AlreadyStreamedException {
 
 extension DuplicateRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DuplicateRequestException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> DuplicateRequestException {
         let reader = baseError.errorBodyReader
         var value = DuplicateRequestException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -2202,7 +2202,7 @@ extension DuplicateRequestException {
 
 extension InternalErrorException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalErrorException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalErrorException {
         let reader = baseError.errorBodyReader
         var value = InternalErrorException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -2215,7 +2215,7 @@ extension InternalErrorException {
 
 extension InvalidParameterException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidParameterException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidParameterException {
         let reader = baseError.errorBodyReader
         var value = InvalidParameterException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -2228,7 +2228,7 @@ extension InvalidParameterException {
 
 extension NotAuthorizedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> NotAuthorizedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> NotAuthorizedException {
         let reader = baseError.errorBodyReader
         var value = NotAuthorizedException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -2241,7 +2241,7 @@ extension NotAuthorizedException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -2254,7 +2254,7 @@ extension ResourceNotFoundException {
 
 extension ResourceConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceConflictException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceConflictException {
         let reader = baseError.errorBodyReader
         var value = ResourceConflictException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -2267,7 +2267,7 @@ extension ResourceConflictException {
 
 extension TooManyRequestsException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TooManyRequestsException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> TooManyRequestsException {
         let reader = baseError.errorBodyReader
         var value = TooManyRequestsException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -2280,7 +2280,7 @@ extension TooManyRequestsException {
 
 extension InvalidConfigurationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidConfigurationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidConfigurationException {
         let reader = baseError.errorBodyReader
         var value = InvalidConfigurationException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -2293,7 +2293,7 @@ extension InvalidConfigurationException {
 
 extension ConcurrentModificationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConcurrentModificationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConcurrentModificationException {
         let reader = baseError.errorBodyReader
         var value = ConcurrentModificationException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -2306,7 +2306,7 @@ extension ConcurrentModificationException {
 
 extension InvalidLambdaFunctionOutputException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidLambdaFunctionOutputException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidLambdaFunctionOutputException {
         let reader = baseError.errorBodyReader
         var value = InvalidLambdaFunctionOutputException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -2319,7 +2319,7 @@ extension InvalidLambdaFunctionOutputException {
 
 extension LambdaThrottledException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> LambdaThrottledException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> LambdaThrottledException {
         let reader = baseError.errorBodyReader
         var value = LambdaThrottledException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -2332,13 +2332,32 @@ extension LambdaThrottledException {
 
 extension LimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> LimitExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> LimitExceededException {
         let reader = baseError.errorBodyReader
         var value = LimitExceededException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
+        return value
+    }
+}
+
+extension CognitoSyncClientTypes.CognitoStreams {
+
+    static func write(value: CognitoSyncClientTypes.CognitoStreams?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RoleArn"].write(value.roleArn)
+        try writer["StreamName"].write(value.streamName)
+        try writer["StreamingStatus"].write(value.streamingStatus)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CognitoSyncClientTypes.CognitoStreams {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CognitoSyncClientTypes.CognitoStreams()
+        value.streamName = try reader["StreamName"].readIfPresent()
+        value.roleArn = try reader["RoleArn"].readIfPresent()
+        value.streamingStatus = try reader["StreamingStatus"].readIfPresent()
         return value
     }
 }
@@ -2399,25 +2418,6 @@ extension CognitoSyncClientTypes.PushSync {
         var value = CognitoSyncClientTypes.PushSync()
         value.applicationArns = try reader["ApplicationArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.roleArn = try reader["RoleArn"].readIfPresent()
-        return value
-    }
-}
-
-extension CognitoSyncClientTypes.CognitoStreams {
-
-    static func write(value: CognitoSyncClientTypes.CognitoStreams?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RoleArn"].write(value.roleArn)
-        try writer["StreamName"].write(value.streamName)
-        try writer["StreamingStatus"].write(value.streamingStatus)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CognitoSyncClientTypes.CognitoStreams {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CognitoSyncClientTypes.CognitoStreams()
-        value.streamName = try reader["StreamName"].readIfPresent()
-        value.roleArn = try reader["RoleArn"].readIfPresent()
-        value.streamingStatus = try reader["StreamingStatus"].readIfPresent()
         return value
     }
 }

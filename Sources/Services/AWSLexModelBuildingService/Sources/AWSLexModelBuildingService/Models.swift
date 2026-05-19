@@ -23,8 +23,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 
@@ -86,9 +86,9 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -109,9 +109,9 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -132,9 +132,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -155,9 +155,9 @@ public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRun
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -179,9 +179,9 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -204,9 +204,9 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -227,9 +227,9 @@ public struct PreconditionFailedException: ClientRuntime.ModeledError, AWSClient
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -238,6 +238,7 @@ public struct PreconditionFailedException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct CreateBotVersionInput: Swift.Sendable {
     /// Identifies a specific revision of the $LATEST version of the bot. If you specify a checksum and the $LATEST version of the bot has a different checksum, a PreconditionFailedException exception is returned and Amazon Lex doesn't publish a new version. If you don't specify a checksum, Amazon Lex publishes the $LATEST version.
     public var checksum: Swift.String?
@@ -477,6 +478,7 @@ extension LexModelBuildingClientTypes {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct CreateBotVersionOutput: Swift.Sendable {
     /// The message that Amazon Lex uses to cancel a conversation. For more information, see [PutBot].
     public var abortStatement: LexModelBuildingClientTypes.Statement?
@@ -552,6 +554,7 @@ public struct CreateBotVersionOutput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct CreateIntentVersionInput: Swift.Sendable {
     /// Checksum of the $LATEST version of the intent that should be used to create the new version. If you specify a checksum and the $LATEST version of the intent has a different checksum, Amazon Lex returns a PreconditionFailedException exception and doesn't publish a new version. If you don't specify a checksum, Amazon Lex publishes the $LATEST version.
     public var checksum: Swift.String?
@@ -883,6 +886,7 @@ extension LexModelBuildingClientTypes {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct CreateIntentVersionOutput: Swift.Sendable {
     /// Checksum of the intent version created.
     public var checksum: Swift.String?
@@ -962,6 +966,7 @@ public struct CreateIntentVersionOutput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct CreateSlotTypeVersionInput: Swift.Sendable {
     /// Checksum for the $LATEST version of the slot type that you want to publish. If you specify a checksum and the $LATEST version of the slot type has a different checksum, Amazon Lex returns a PreconditionFailedException exception and doesn't publish the new version. If you don't specify a checksum, Amazon Lex publishes the $LATEST version.
     public var checksum: Swift.String?
@@ -1077,6 +1082,7 @@ extension LexModelBuildingClientTypes {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct CreateSlotTypeVersionOutput: Swift.Sendable {
     /// Checksum of the $LATEST version of the slot type.
     public var checksum: Swift.String?
@@ -1196,9 +1202,9 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         exampleReference: LexModelBuildingClientTypes.ResourceReference? = nil,
@@ -1209,6 +1215,7 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct DeleteBotInput: Swift.Sendable {
     /// The name of the bot. The name is case sensitive.
     /// This member is required.
@@ -1221,6 +1228,7 @@ public struct DeleteBotInput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct DeleteBotAliasInput: Swift.Sendable {
     /// The name of the bot that the alias points to.
     /// This member is required.
@@ -1238,6 +1246,7 @@ public struct DeleteBotAliasInput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct DeleteBotChannelAssociationInput: Swift.Sendable {
     /// An alias that points to the specific version of the Amazon Lex bot to which this association is being made.
     /// This member is required.
@@ -1260,6 +1269,7 @@ public struct DeleteBotChannelAssociationInput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct DeleteBotVersionInput: Swift.Sendable {
     /// The name of the bot.
     /// This member is required.
@@ -1277,6 +1287,7 @@ public struct DeleteBotVersionInput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct DeleteIntentInput: Swift.Sendable {
     /// The name of the intent. The name is case sensitive.
     /// This member is required.
@@ -1289,6 +1300,7 @@ public struct DeleteIntentInput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct DeleteIntentVersionInput: Swift.Sendable {
     /// The name of the intent.
     /// This member is required.
@@ -1306,6 +1318,7 @@ public struct DeleteIntentVersionInput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct DeleteSlotTypeInput: Swift.Sendable {
     /// The name of the slot type. The name is case sensitive.
     /// This member is required.
@@ -1318,6 +1331,7 @@ public struct DeleteSlotTypeInput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct DeleteSlotTypeVersionInput: Swift.Sendable {
     /// The name of the slot type.
     /// This member is required.
@@ -1335,6 +1349,7 @@ public struct DeleteSlotTypeVersionInput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct DeleteUtterancesInput: Swift.Sendable {
     /// The name of the bot that stored the utterances.
     /// This member is required.
@@ -1352,6 +1367,7 @@ public struct DeleteUtterancesInput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetBotInput: Swift.Sendable {
     /// The name of the bot. The name is case sensitive.
     /// This member is required.
@@ -1369,6 +1385,7 @@ public struct GetBotInput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetBotOutput: Swift.Sendable {
     /// The message that Amazon Lex returns when the user elects to end the conversation without completing it. For more information, see [PutBot].
     public var abortStatement: LexModelBuildingClientTypes.Statement?
@@ -1448,6 +1465,7 @@ public struct GetBotOutput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetBotAliasInput: Swift.Sendable {
     /// The name of the bot.
     /// This member is required.
@@ -1573,6 +1591,7 @@ extension LexModelBuildingClientTypes {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetBotAliasOutput: Swift.Sendable {
     /// The name of the bot that the alias points to.
     public var botName: Swift.String?
@@ -1612,6 +1631,7 @@ public struct GetBotAliasOutput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetBotAliasesInput: Swift.Sendable {
     /// The name of the bot.
     /// This member is required.
@@ -1679,6 +1699,7 @@ extension LexModelBuildingClientTypes {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetBotAliasesOutput: Swift.Sendable {
     /// An array of BotAliasMetadata objects, each describing a bot alias.
     public var botAliases: [LexModelBuildingClientTypes.BotAliasMetadata]?
@@ -1694,6 +1715,7 @@ public struct GetBotAliasesOutput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetBotChannelAssociationInput: Swift.Sendable {
     /// An alias pointing to the specific version of the Amazon Lex bot to which this association is being made.
     /// This member is required.
@@ -1783,6 +1805,7 @@ extension LexModelBuildingClientTypes {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetBotChannelAssociationOutput: Swift.Sendable {
     /// An alias pointing to the specific version of the Amazon Lex bot to which this association is being made.
     public var botAlias: Swift.String?
@@ -1837,6 +1860,7 @@ extension GetBotChannelAssociationOutput: Swift.CustomDebugStringConvertible {
         "GetBotChannelAssociationOutput(botAlias: \(Swift.String(describing: botAlias)), botName: \(Swift.String(describing: botName)), createdDate: \(Swift.String(describing: createdDate)), description: \(Swift.String(describing: description)), failureReason: \(Swift.String(describing: failureReason)), name: \(Swift.String(describing: name)), status: \(Swift.String(describing: status)), type: \(Swift.String(describing: type)), botConfiguration: \"CONTENT_REDACTED\")"}
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetBotChannelAssociationsInput: Swift.Sendable {
     /// An alias pointing to the specific version of the Amazon Lex bot to which this association is being made.
     /// This member is required.
@@ -1924,6 +1948,7 @@ extension LexModelBuildingClientTypes.BotChannelAssociation: Swift.CustomDebugSt
         "BotChannelAssociation(botAlias: \(Swift.String(describing: botAlias)), botName: \(Swift.String(describing: botName)), createdDate: \(Swift.String(describing: createdDate)), description: \(Swift.String(describing: description)), failureReason: \(Swift.String(describing: failureReason)), name: \(Swift.String(describing: name)), status: \(Swift.String(describing: status)), type: \(Swift.String(describing: type)), botConfiguration: \"CONTENT_REDACTED\")"}
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetBotChannelAssociationsOutput: Swift.Sendable {
     /// An array of objects, one for each association, that provides information about the Amazon Lex bot and its association with the channel.
     public var botChannelAssociations: [LexModelBuildingClientTypes.BotChannelAssociation]?
@@ -1939,6 +1964,7 @@ public struct GetBotChannelAssociationsOutput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetBotsInput: Swift.Sendable {
     /// The maximum number of bots to return in the response that the request will return. The default is 10.
     public var maxResults: Swift.Int?
@@ -1993,6 +2019,7 @@ extension LexModelBuildingClientTypes {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetBotsOutput: Swift.Sendable {
     /// An array of botMetadata objects, with one entry for each bot.
     public var bots: [LexModelBuildingClientTypes.BotMetadata]?
@@ -2008,6 +2035,7 @@ public struct GetBotsOutput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetBotVersionsInput: Swift.Sendable {
     /// The maximum number of bot versions to return in the response. The default is 10.
     public var maxResults: Swift.Int?
@@ -2028,6 +2056,7 @@ public struct GetBotVersionsInput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetBotVersionsOutput: Swift.Sendable {
     /// An array of BotMetadata objects, one for each numbered version of the bot plus one for the $LATEST version.
     public var bots: [LexModelBuildingClientTypes.BotMetadata]?
@@ -2043,6 +2072,7 @@ public struct GetBotVersionsOutput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetBuiltinIntentInput: Swift.Sendable {
     /// The unique identifier for a built-in intent. To find the signature for an intent, see [Standard Built-in Intents](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/built-in-intent-ref/standard-intents) in the Alexa Skills Kit.
     /// This member is required.
@@ -2070,6 +2100,7 @@ extension LexModelBuildingClientTypes {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetBuiltinIntentOutput: Swift.Sendable {
     /// The unique identifier for a built-in intent.
     public var signature: Swift.String?
@@ -2089,6 +2120,7 @@ public struct GetBuiltinIntentOutput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetBuiltinIntentsInput: Swift.Sendable {
     /// A list of locales that the intent supports.
     public var locale: LexModelBuildingClientTypes.Locale?
@@ -2131,6 +2163,7 @@ extension LexModelBuildingClientTypes {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetBuiltinIntentsOutput: Swift.Sendable {
     /// An array of builtinIntentMetadata objects, one for each intent in the response.
     public var intents: [LexModelBuildingClientTypes.BuiltinIntentMetadata]?
@@ -2146,6 +2179,7 @@ public struct GetBuiltinIntentsOutput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetBuiltinSlotTypesInput: Swift.Sendable {
     /// A list of locales that the slot type supports.
     public var locale: LexModelBuildingClientTypes.Locale?
@@ -2188,6 +2222,7 @@ extension LexModelBuildingClientTypes {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetBuiltinSlotTypesOutput: Swift.Sendable {
     /// If the response is truncated, the response includes a pagination token that you can use in your next request to fetch the next page of slot types.
     public var nextToken: Swift.String?
@@ -2264,6 +2299,7 @@ extension LexModelBuildingClientTypes {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetExportInput: Swift.Sendable {
     /// The format of the exported data.
     /// This member is required.
@@ -2323,6 +2359,7 @@ extension LexModelBuildingClientTypes {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetExportOutput: Swift.Sendable {
     /// The status of the export.
     ///
@@ -2364,6 +2401,7 @@ public struct GetExportOutput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetImportInput: Swift.Sendable {
     /// The identifier of the import job information to return.
     /// This member is required.
@@ -2437,6 +2475,7 @@ extension LexModelBuildingClientTypes {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetImportOutput: Swift.Sendable {
     /// A timestamp for the date and time that the import job was created.
     public var createdDate: Foundation.Date?
@@ -2472,6 +2511,7 @@ public struct GetImportOutput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetIntentInput: Swift.Sendable {
     /// The name of the intent. The name is case sensitive.
     /// This member is required.
@@ -2489,6 +2529,7 @@ public struct GetIntentInput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetIntentOutput: Swift.Sendable {
     /// Checksum of the intent.
     public var checksum: Swift.String?
@@ -2568,6 +2609,7 @@ public struct GetIntentOutput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetIntentsInput: Swift.Sendable {
     /// The maximum number of intents to return in the response. The default is 10.
     public var maxResults: Swift.Int?
@@ -2618,6 +2660,7 @@ extension LexModelBuildingClientTypes {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetIntentsOutput: Swift.Sendable {
     /// An array of Intent objects. For more information, see [PutBot].
     public var intents: [LexModelBuildingClientTypes.IntentMetadata]?
@@ -2633,6 +2676,7 @@ public struct GetIntentsOutput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetIntentVersionsInput: Swift.Sendable {
     /// The maximum number of intent versions to return in the response. The default is 10.
     public var maxResults: Swift.Int?
@@ -2653,6 +2697,7 @@ public struct GetIntentVersionsInput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetIntentVersionsOutput: Swift.Sendable {
     /// An array of IntentMetadata objects, one for each numbered version of the intent plus one for the $LATEST version.
     public var intents: [LexModelBuildingClientTypes.IntentMetadata]?
@@ -2668,6 +2713,7 @@ public struct GetIntentVersionsOutput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetMigrationInput: Swift.Sendable {
     /// The unique identifier of the migration to view. The migrationID is returned by the operation.
     /// This member is required.
@@ -2801,6 +2847,7 @@ extension LexModelBuildingClientTypes {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetMigrationOutput: Swift.Sendable {
     /// A list of alerts and warnings that indicate issues with the migration for the Amazon Lex V1 bot to Amazon Lex V2. You receive a warning when an Amazon Lex V1 feature has a different implementation if Amazon Lex V2. For more information, see [Migrating a bot](https://docs.aws.amazon.com/lexv2/latest/dg/migrate.html) in the Amazon Lex V2 developer guide.
     public var alerts: [LexModelBuildingClientTypes.MigrationAlert]?
@@ -2910,6 +2957,7 @@ extension LexModelBuildingClientTypes {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetMigrationsInput: Swift.Sendable {
     /// The maximum number of migrations to return in the response. The default is 10.
     public var maxResults: Swift.Int?
@@ -2988,6 +3036,7 @@ extension LexModelBuildingClientTypes {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetMigrationsOutput: Swift.Sendable {
     /// An array of summaries for migrations from Amazon Lex V1 to Amazon Lex V2. To see details of the migration, use the migrationId from the summary in a call to the operation.
     public var migrationSummaries: [LexModelBuildingClientTypes.MigrationSummary]?
@@ -3003,6 +3052,7 @@ public struct GetMigrationsOutput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetSlotTypeInput: Swift.Sendable {
     /// The name of the slot type. The name is case sensitive.
     /// This member is required.
@@ -3020,6 +3070,7 @@ public struct GetSlotTypeInput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetSlotTypeOutput: Swift.Sendable {
     /// Checksum of the $LATEST version of the slot type.
     public var checksum: Swift.String?
@@ -3067,6 +3118,7 @@ public struct GetSlotTypeOutput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetSlotTypesInput: Swift.Sendable {
     /// The maximum number of slot types to return in the response. The default is 10.
     public var maxResults: Swift.Int?
@@ -3117,6 +3169,7 @@ extension LexModelBuildingClientTypes {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetSlotTypesOutput: Swift.Sendable {
     /// If the response is truncated, it includes a pagination token that you can specify in your next request to fetch the next page of slot types.
     public var nextToken: Swift.String?
@@ -3132,6 +3185,7 @@ public struct GetSlotTypesOutput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetSlotTypeVersionsInput: Swift.Sendable {
     /// The maximum number of slot type versions to return in the response. The default is 10.
     public var maxResults: Swift.Int?
@@ -3152,6 +3206,7 @@ public struct GetSlotTypeVersionsInput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetSlotTypeVersionsOutput: Swift.Sendable {
     /// A pagination token for fetching the next page of slot type versions. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of versions, specify the pagination token in the next request.
     public var nextToken: Swift.String?
@@ -3196,6 +3251,7 @@ extension LexModelBuildingClientTypes {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetUtterancesViewInput: Swift.Sendable {
     /// The name of the bot for which utterance information should be returned.
     /// This member is required.
@@ -3268,6 +3324,7 @@ extension LexModelBuildingClientTypes {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct GetUtterancesViewOutput: Swift.Sendable {
     /// The name of the bot for which utterance information was returned.
     public var botName: Swift.String?
@@ -3283,6 +3340,7 @@ public struct GetUtterancesViewOutput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct ListTagsForResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the resource to get a list of tags for.
     /// This member is required.
@@ -3316,6 +3374,7 @@ extension LexModelBuildingClientTypes {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct ListTagsForResourceOutput: Swift.Sendable {
     /// The tags associated with a resource.
     public var tags: [LexModelBuildingClientTypes.Tag]?
@@ -3356,6 +3415,7 @@ extension LexModelBuildingClientTypes {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct PutBotInput: Swift.Sendable {
     /// When Amazon Lex can't understand the user's input in context, it tries to elicit the information a few times. After that, Amazon Lex sends the message defined in abortStatement to the user, and then cancels the conversation. To set the number of retries, use the valueElicitationPrompt field for the slot type. For example, in a pizza ordering bot, Amazon Lex might ask a user "What type of crust would you like?" If the user's response is not one of the expected responses (for example, "thin crust, "deep dish," etc.), Amazon Lex tries to elicit a correct response a few more times. For example, in a pizza ordering application, OrderPizza might be one of the intents. This intent might require the CrustType slot. You specify the valueElicitationPrompt field when you create the CrustType slot. If you have defined a fallback intent the cancel statement will not be sent to the user, the fallback intent is used instead. For more information, see [ AMAZON.FallbackIntent](https://docs.aws.amazon.com/lex/latest/dg/built-in-intent-fallback.html).
     public var abortStatement: LexModelBuildingClientTypes.Statement?
@@ -3466,6 +3526,7 @@ public struct PutBotInput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct PutBotOutput: Swift.Sendable {
     /// The message that Amazon Lex uses to cancel a conversation. For more information, see [PutBot].
     public var abortStatement: LexModelBuildingClientTypes.Statement?
@@ -3604,6 +3665,7 @@ extension LexModelBuildingClientTypes {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct PutBotAliasInput: Swift.Sendable {
     /// The name of the bot.
     /// This member is required.
@@ -3642,6 +3704,7 @@ public struct PutBotAliasInput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct PutBotAliasOutput: Swift.Sendable {
     /// The name of the bot that the alias points to.
     public var botName: Swift.String?
@@ -3685,6 +3748,7 @@ public struct PutBotAliasOutput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct PutIntentInput: Swift.Sendable {
     /// Identifies a specific revision of the $LATEST version. When you create a new intent, leave the checksum field blank. If you specify a checksum you get a BadRequestException exception. When you want to update a intent, set the checksum field to the checksum of the most recent revision of the $LATEST version. If you don't specify the  checksum field, or if the checksum does not match the $LATEST version, you get a PreconditionFailedException exception.
     public var checksum: Swift.String?
@@ -3768,6 +3832,7 @@ public struct PutIntentInput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct PutIntentOutput: Swift.Sendable {
     /// Checksum of the $LATESTversion of the intent created or updated.
     public var checksum: Swift.String?
@@ -3851,6 +3916,7 @@ public struct PutIntentOutput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct PutSlotTypeInput: Swift.Sendable {
     /// Identifies a specific revision of the $LATEST version. When you create a new slot type, leave the checksum field blank. If you specify a checksum you get a BadRequestException exception. When you want to update a slot type, set the checksum field to the checksum of the most recent revision of the $LATEST version. If you don't specify the  checksum field, or if the checksum does not match the $LATEST version, you get a PreconditionFailedException exception.
     public var checksum: Swift.String?
@@ -3898,6 +3964,7 @@ public struct PutSlotTypeInput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct PutSlotTypeOutput: Swift.Sendable {
     /// Checksum of the $LATEST version of the slot type.
     public var checksum: Swift.String?
@@ -3949,6 +4016,7 @@ public struct PutSlotTypeOutput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct StartImportInput: Swift.Sendable {
     /// Specifies the action that the StartImport operation should take when there is an existing resource with the same name.
     ///
@@ -3981,6 +4049,7 @@ public struct StartImportInput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct StartImportOutput: Swift.Sendable {
     /// A timestamp for the date and time that the import job was requested.
     public var createdDate: Foundation.Date?
@@ -4016,6 +4085,7 @@ public struct StartImportOutput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct StartMigrationInput: Swift.Sendable {
     /// The strategy used to conduct the migration.
     ///
@@ -4056,6 +4126,7 @@ public struct StartMigrationInput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct StartMigrationOutput: Swift.Sendable {
     /// The unique identifier that Amazon Lex assigned to the migration.
     public var migrationId: Swift.String?
@@ -4095,6 +4166,7 @@ public struct StartMigrationOutput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct TagResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the bot, bot alias, or bot channel to tag.
     /// This member is required.
@@ -4112,11 +4184,13 @@ public struct TagResourceInput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct TagResourceOutput: Swift.Sendable {
 
     public init() { }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct UntagResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the resource to remove the tags from.
     /// This member is required.
@@ -4134,6 +4208,7 @@ public struct UntagResourceInput: Swift.Sendable {
     }
 }
 
+@available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead. API deprecated since 2025-09-08")
 public struct UntagResourceOutput: Swift.Sendable {
 
     public init() { }
@@ -5658,7 +5733,7 @@ enum CreateBotVersionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5677,7 +5752,7 @@ enum CreateIntentVersionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5696,7 +5771,7 @@ enum CreateSlotTypeVersionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5715,7 +5790,7 @@ enum DeleteBotOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5734,7 +5809,7 @@ enum DeleteBotAliasOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5753,7 +5828,7 @@ enum DeleteBotChannelAssociationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5771,7 +5846,7 @@ enum DeleteBotVersionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5790,7 +5865,7 @@ enum DeleteIntentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5809,7 +5884,7 @@ enum DeleteIntentVersionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5828,7 +5903,7 @@ enum DeleteSlotTypeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5847,7 +5922,7 @@ enum DeleteSlotTypeVersionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5866,7 +5941,7 @@ enum DeleteUtterancesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5883,7 +5958,7 @@ enum GetBotOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5900,7 +5975,7 @@ enum GetBotAliasOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5917,7 +5992,7 @@ enum GetBotAliasesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5933,7 +6008,7 @@ enum GetBotChannelAssociationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5950,7 +6025,7 @@ enum GetBotChannelAssociationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5966,7 +6041,7 @@ enum GetBotsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5983,7 +6058,7 @@ enum GetBotVersionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6000,7 +6075,7 @@ enum GetBuiltinIntentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6017,7 +6092,7 @@ enum GetBuiltinIntentsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6033,7 +6108,7 @@ enum GetBuiltinSlotTypesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6049,7 +6124,7 @@ enum GetExportOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6066,7 +6141,7 @@ enum GetImportOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6083,7 +6158,7 @@ enum GetIntentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6100,7 +6175,7 @@ enum GetIntentsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6117,7 +6192,7 @@ enum GetIntentVersionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6134,7 +6209,7 @@ enum GetMigrationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6151,7 +6226,7 @@ enum GetMigrationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6167,7 +6242,7 @@ enum GetSlotTypeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6184,7 +6259,7 @@ enum GetSlotTypesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6201,7 +6276,7 @@ enum GetSlotTypeVersionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6218,7 +6293,7 @@ enum GetUtterancesViewOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6234,7 +6309,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6251,7 +6326,7 @@ enum PutBotOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6269,7 +6344,7 @@ enum PutBotAliasOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6287,7 +6362,7 @@ enum PutIntentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6305,7 +6380,7 @@ enum PutSlotTypeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6323,7 +6398,7 @@ enum StartImportOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6339,7 +6414,7 @@ enum StartMigrationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6357,7 +6432,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6375,7 +6450,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -6390,7 +6465,7 @@ enum UntagResourceOutputError {
 
 extension BadRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> BadRequestException {
         let reader = baseError.errorBodyReader
         var value = BadRequestException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -6403,7 +6478,7 @@ extension BadRequestException {
 
 extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -6416,7 +6491,7 @@ extension ConflictException {
 
 extension InternalFailureException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalFailureException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalFailureException {
         let reader = baseError.errorBodyReader
         var value = InternalFailureException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -6429,7 +6504,7 @@ extension InternalFailureException {
 
 extension LimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> LimitExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> LimitExceededException {
         let reader = baseError.errorBodyReader
         let httpResponse = baseError.httpResponse
         var value = LimitExceededException()
@@ -6446,7 +6521,7 @@ extension LimitExceededException {
 
 extension NotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> NotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> NotFoundException {
         let reader = baseError.errorBodyReader
         var value = NotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -6459,7 +6534,7 @@ extension NotFoundException {
 
 extension PreconditionFailedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> PreconditionFailedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> PreconditionFailedException {
         let reader = baseError.errorBodyReader
         var value = PreconditionFailedException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -6472,7 +6547,7 @@ extension PreconditionFailedException {
 
 extension ResourceInUseException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceInUseException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceInUseException {
         let reader = baseError.errorBodyReader
         var value = ResourceInUseException()
         value.properties.exampleReference = try reader["exampleReference"].readIfPresent(with: LexModelBuildingClientTypes.ResourceReference.read(from:))
@@ -6486,326 +6561,13 @@ extension ResourceInUseException {
 
 extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension LexModelBuildingClientTypes.Intent {
-
-    static func write(value: LexModelBuildingClientTypes.Intent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["intentName"].write(value.intentName)
-        try writer["intentVersion"].write(value.intentVersion)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.Intent {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelBuildingClientTypes.Intent()
-        value.intentName = try reader["intentName"].readIfPresent() ?? ""
-        value.intentVersion = try reader["intentVersion"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension LexModelBuildingClientTypes.Prompt {
-
-    static func write(value: LexModelBuildingClientTypes.Prompt?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["maxAttempts"].write(value.maxAttempts)
-        try writer["messages"].writeList(value.messages, memberWritingClosure: LexModelBuildingClientTypes.Message.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["responseCard"].write(value.responseCard)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.Prompt {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelBuildingClientTypes.Prompt()
-        value.messages = try reader["messages"].readListIfPresent(memberReadingClosure: LexModelBuildingClientTypes.Message.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.maxAttempts = try reader["maxAttempts"].readIfPresent() ?? 0
-        value.responseCard = try reader["responseCard"].readIfPresent()
-        return value
-    }
-}
-
-extension LexModelBuildingClientTypes.Message {
-
-    static func write(value: LexModelBuildingClientTypes.Message?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["content"].write(value.content)
-        try writer["contentType"].write(value.contentType)
-        try writer["groupNumber"].write(value.groupNumber)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.Message {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelBuildingClientTypes.Message()
-        value.contentType = try reader["contentType"].readIfPresent() ?? .sdkUnknown("")
-        value.content = try reader["content"].readIfPresent() ?? ""
-        value.groupNumber = try reader["groupNumber"].readIfPresent()
-        return value
-    }
-}
-
-extension LexModelBuildingClientTypes.Statement {
-
-    static func write(value: LexModelBuildingClientTypes.Statement?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["messages"].writeList(value.messages, memberWritingClosure: LexModelBuildingClientTypes.Message.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["responseCard"].write(value.responseCard)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.Statement {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelBuildingClientTypes.Statement()
-        value.messages = try reader["messages"].readListIfPresent(memberReadingClosure: LexModelBuildingClientTypes.Message.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.responseCard = try reader["responseCard"].readIfPresent()
-        return value
-    }
-}
-
-extension LexModelBuildingClientTypes.Slot {
-
-    static func write(value: LexModelBuildingClientTypes.Slot?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["defaultValueSpec"].write(value.defaultValueSpec, with: LexModelBuildingClientTypes.SlotDefaultValueSpec.write(value:to:))
-        try writer["description"].write(value.description)
-        try writer["name"].write(value.name)
-        try writer["obfuscationSetting"].write(value.obfuscationSetting)
-        try writer["priority"].write(value.priority)
-        try writer["responseCard"].write(value.responseCard)
-        try writer["sampleUtterances"].writeList(value.sampleUtterances, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["slotConstraint"].write(value.slotConstraint)
-        try writer["slotType"].write(value.slotType)
-        try writer["slotTypeVersion"].write(value.slotTypeVersion)
-        try writer["valueElicitationPrompt"].write(value.valueElicitationPrompt, with: LexModelBuildingClientTypes.Prompt.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.Slot {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelBuildingClientTypes.Slot()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.description = try reader["description"].readIfPresent()
-        value.slotConstraint = try reader["slotConstraint"].readIfPresent() ?? .sdkUnknown("")
-        value.slotType = try reader["slotType"].readIfPresent()
-        value.slotTypeVersion = try reader["slotTypeVersion"].readIfPresent()
-        value.valueElicitationPrompt = try reader["valueElicitationPrompt"].readIfPresent(with: LexModelBuildingClientTypes.Prompt.read(from:))
-        value.priority = try reader["priority"].readIfPresent()
-        value.sampleUtterances = try reader["sampleUtterances"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.responseCard = try reader["responseCard"].readIfPresent()
-        value.obfuscationSetting = try reader["obfuscationSetting"].readIfPresent()
-        value.defaultValueSpec = try reader["defaultValueSpec"].readIfPresent(with: LexModelBuildingClientTypes.SlotDefaultValueSpec.read(from:))
-        return value
-    }
-}
-
-extension LexModelBuildingClientTypes.SlotDefaultValueSpec {
-
-    static func write(value: LexModelBuildingClientTypes.SlotDefaultValueSpec?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["defaultValueList"].writeList(value.defaultValueList, memberWritingClosure: LexModelBuildingClientTypes.SlotDefaultValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.SlotDefaultValueSpec {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelBuildingClientTypes.SlotDefaultValueSpec()
-        value.defaultValueList = try reader["defaultValueList"].readListIfPresent(memberReadingClosure: LexModelBuildingClientTypes.SlotDefaultValue.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension LexModelBuildingClientTypes.SlotDefaultValue {
-
-    static func write(value: LexModelBuildingClientTypes.SlotDefaultValue?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["defaultValue"].write(value.defaultValue)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.SlotDefaultValue {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelBuildingClientTypes.SlotDefaultValue()
-        value.defaultValue = try reader["defaultValue"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension LexModelBuildingClientTypes.FollowUpPrompt {
-
-    static func write(value: LexModelBuildingClientTypes.FollowUpPrompt?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["prompt"].write(value.prompt, with: LexModelBuildingClientTypes.Prompt.write(value:to:))
-        try writer["rejectionStatement"].write(value.rejectionStatement, with: LexModelBuildingClientTypes.Statement.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.FollowUpPrompt {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelBuildingClientTypes.FollowUpPrompt()
-        value.prompt = try reader["prompt"].readIfPresent(with: LexModelBuildingClientTypes.Prompt.read(from:))
-        value.rejectionStatement = try reader["rejectionStatement"].readIfPresent(with: LexModelBuildingClientTypes.Statement.read(from:))
-        return value
-    }
-}
-
-extension LexModelBuildingClientTypes.CodeHook {
-
-    static func write(value: LexModelBuildingClientTypes.CodeHook?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["messageVersion"].write(value.messageVersion)
-        try writer["uri"].write(value.uri)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.CodeHook {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelBuildingClientTypes.CodeHook()
-        value.uri = try reader["uri"].readIfPresent() ?? ""
-        value.messageVersion = try reader["messageVersion"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension LexModelBuildingClientTypes.FulfillmentActivity {
-
-    static func write(value: LexModelBuildingClientTypes.FulfillmentActivity?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["codeHook"].write(value.codeHook, with: LexModelBuildingClientTypes.CodeHook.write(value:to:))
-        try writer["type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.FulfillmentActivity {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelBuildingClientTypes.FulfillmentActivity()
-        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
-        value.codeHook = try reader["codeHook"].readIfPresent(with: LexModelBuildingClientTypes.CodeHook.read(from:))
-        return value
-    }
-}
-
-extension LexModelBuildingClientTypes.KendraConfiguration {
-
-    static func write(value: LexModelBuildingClientTypes.KendraConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["kendraIndex"].write(value.kendraIndex)
-        try writer["queryFilterString"].write(value.queryFilterString)
-        try writer["role"].write(value.role)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.KendraConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelBuildingClientTypes.KendraConfiguration()
-        value.kendraIndex = try reader["kendraIndex"].readIfPresent() ?? ""
-        value.queryFilterString = try reader["queryFilterString"].readIfPresent()
-        value.role = try reader["role"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension LexModelBuildingClientTypes.InputContext {
-
-    static func write(value: LexModelBuildingClientTypes.InputContext?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.InputContext {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelBuildingClientTypes.InputContext()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension LexModelBuildingClientTypes.OutputContext {
-
-    static func write(value: LexModelBuildingClientTypes.OutputContext?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["timeToLiveInSeconds"].write(value.timeToLiveInSeconds)
-        try writer["turnsToLive"].write(value.turnsToLive)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.OutputContext {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelBuildingClientTypes.OutputContext()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.timeToLiveInSeconds = try reader["timeToLiveInSeconds"].readIfPresent() ?? 0
-        value.turnsToLive = try reader["turnsToLive"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension LexModelBuildingClientTypes.EnumerationValue {
-
-    static func write(value: LexModelBuildingClientTypes.EnumerationValue?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["synonyms"].writeList(value.synonyms, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.EnumerationValue {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelBuildingClientTypes.EnumerationValue()
-        value.value = try reader["value"].readIfPresent() ?? ""
-        value.synonyms = try reader["synonyms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension LexModelBuildingClientTypes.SlotTypeConfiguration {
-
-    static func write(value: LexModelBuildingClientTypes.SlotTypeConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["regexConfiguration"].write(value.regexConfiguration, with: LexModelBuildingClientTypes.SlotTypeRegexConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.SlotTypeConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelBuildingClientTypes.SlotTypeConfiguration()
-        value.regexConfiguration = try reader["regexConfiguration"].readIfPresent(with: LexModelBuildingClientTypes.SlotTypeRegexConfiguration.read(from:))
-        return value
-    }
-}
-
-extension LexModelBuildingClientTypes.SlotTypeRegexConfiguration {
-
-    static func write(value: LexModelBuildingClientTypes.SlotTypeRegexConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["pattern"].write(value.pattern)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.SlotTypeRegexConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelBuildingClientTypes.SlotTypeRegexConfiguration()
-        value.pattern = try reader["pattern"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension LexModelBuildingClientTypes.ConversationLogsResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.ConversationLogsResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelBuildingClientTypes.ConversationLogsResponse()
-        value.logSettings = try reader["logSettings"].readListIfPresent(memberReadingClosure: LexModelBuildingClientTypes.LogSettingsResponse.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.iamRoleArn = try reader["iamRoleArn"].readIfPresent()
-        return value
-    }
-}
-
-extension LexModelBuildingClientTypes.LogSettingsResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.LogSettingsResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelBuildingClientTypes.LogSettingsResponse()
-        value.logType = try reader["logType"].readIfPresent()
-        value.destination = try reader["destination"].readIfPresent()
-        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
-        value.resourceArn = try reader["resourceArn"].readIfPresent()
-        value.resourcePrefix = try reader["resourcePrefix"].readIfPresent()
         return value
     }
 }
@@ -6860,16 +6622,6 @@ extension LexModelBuildingClientTypes.BotMetadata {
     }
 }
 
-extension LexModelBuildingClientTypes.BuiltinIntentSlot {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.BuiltinIntentSlot {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelBuildingClientTypes.BuiltinIntentSlot()
-        value.name = try reader["name"].readIfPresent()
-        return value
-    }
-}
-
 extension LexModelBuildingClientTypes.BuiltinIntentMetadata {
 
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.BuiltinIntentMetadata {
@@ -6877,6 +6629,16 @@ extension LexModelBuildingClientTypes.BuiltinIntentMetadata {
         var value = LexModelBuildingClientTypes.BuiltinIntentMetadata()
         value.signature = try reader["signature"].readIfPresent()
         value.supportedLocales = try reader["supportedLocales"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<LexModelBuildingClientTypes.Locale>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension LexModelBuildingClientTypes.BuiltinIntentSlot {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.BuiltinIntentSlot {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexModelBuildingClientTypes.BuiltinIntentSlot()
+        value.name = try reader["name"].readIfPresent()
         return value
     }
 }
@@ -6892,6 +6654,126 @@ extension LexModelBuildingClientTypes.BuiltinSlotTypeMetadata {
     }
 }
 
+extension LexModelBuildingClientTypes.CodeHook {
+
+    static func write(value: LexModelBuildingClientTypes.CodeHook?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["messageVersion"].write(value.messageVersion)
+        try writer["uri"].write(value.uri)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.CodeHook {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexModelBuildingClientTypes.CodeHook()
+        value.uri = try reader["uri"].readIfPresent() ?? ""
+        value.messageVersion = try reader["messageVersion"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension LexModelBuildingClientTypes.ConversationLogsRequest {
+
+    static func write(value: LexModelBuildingClientTypes.ConversationLogsRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["iamRoleArn"].write(value.iamRoleArn)
+        try writer["logSettings"].writeList(value.logSettings, memberWritingClosure: LexModelBuildingClientTypes.LogSettingsRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension LexModelBuildingClientTypes.ConversationLogsResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.ConversationLogsResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexModelBuildingClientTypes.ConversationLogsResponse()
+        value.logSettings = try reader["logSettings"].readListIfPresent(memberReadingClosure: LexModelBuildingClientTypes.LogSettingsResponse.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.iamRoleArn = try reader["iamRoleArn"].readIfPresent()
+        return value
+    }
+}
+
+extension LexModelBuildingClientTypes.EnumerationValue {
+
+    static func write(value: LexModelBuildingClientTypes.EnumerationValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["synonyms"].writeList(value.synonyms, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.EnumerationValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexModelBuildingClientTypes.EnumerationValue()
+        value.value = try reader["value"].readIfPresent() ?? ""
+        value.synonyms = try reader["synonyms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension LexModelBuildingClientTypes.FollowUpPrompt {
+
+    static func write(value: LexModelBuildingClientTypes.FollowUpPrompt?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["prompt"].write(value.prompt, with: LexModelBuildingClientTypes.Prompt.write(value:to:))
+        try writer["rejectionStatement"].write(value.rejectionStatement, with: LexModelBuildingClientTypes.Statement.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.FollowUpPrompt {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexModelBuildingClientTypes.FollowUpPrompt()
+        value.prompt = try reader["prompt"].readIfPresent(with: LexModelBuildingClientTypes.Prompt.read(from:))
+        value.rejectionStatement = try reader["rejectionStatement"].readIfPresent(with: LexModelBuildingClientTypes.Statement.read(from:))
+        return value
+    }
+}
+
+extension LexModelBuildingClientTypes.FulfillmentActivity {
+
+    static func write(value: LexModelBuildingClientTypes.FulfillmentActivity?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["codeHook"].write(value.codeHook, with: LexModelBuildingClientTypes.CodeHook.write(value:to:))
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.FulfillmentActivity {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexModelBuildingClientTypes.FulfillmentActivity()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.codeHook = try reader["codeHook"].readIfPresent(with: LexModelBuildingClientTypes.CodeHook.read(from:))
+        return value
+    }
+}
+
+extension LexModelBuildingClientTypes.InputContext {
+
+    static func write(value: LexModelBuildingClientTypes.InputContext?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.InputContext {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexModelBuildingClientTypes.InputContext()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension LexModelBuildingClientTypes.Intent {
+
+    static func write(value: LexModelBuildingClientTypes.Intent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["intentName"].write(value.intentName)
+        try writer["intentVersion"].write(value.intentVersion)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.Intent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexModelBuildingClientTypes.Intent()
+        value.intentName = try reader["intentName"].readIfPresent() ?? ""
+        value.intentVersion = try reader["intentVersion"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension LexModelBuildingClientTypes.IntentMetadata {
 
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.IntentMetadata {
@@ -6902,6 +6784,69 @@ extension LexModelBuildingClientTypes.IntentMetadata {
         value.lastUpdatedDate = try reader["lastUpdatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.createdDate = try reader["createdDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.version = try reader["version"].readIfPresent()
+        return value
+    }
+}
+
+extension LexModelBuildingClientTypes.KendraConfiguration {
+
+    static func write(value: LexModelBuildingClientTypes.KendraConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["kendraIndex"].write(value.kendraIndex)
+        try writer["queryFilterString"].write(value.queryFilterString)
+        try writer["role"].write(value.role)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.KendraConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexModelBuildingClientTypes.KendraConfiguration()
+        value.kendraIndex = try reader["kendraIndex"].readIfPresent() ?? ""
+        value.queryFilterString = try reader["queryFilterString"].readIfPresent()
+        value.role = try reader["role"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension LexModelBuildingClientTypes.LogSettingsRequest {
+
+    static func write(value: LexModelBuildingClientTypes.LogSettingsRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["destination"].write(value.destination)
+        try writer["kmsKeyArn"].write(value.kmsKeyArn)
+        try writer["logType"].write(value.logType)
+        try writer["resourceArn"].write(value.resourceArn)
+    }
+}
+
+extension LexModelBuildingClientTypes.LogSettingsResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.LogSettingsResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexModelBuildingClientTypes.LogSettingsResponse()
+        value.logType = try reader["logType"].readIfPresent()
+        value.destination = try reader["destination"].readIfPresent()
+        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
+        value.resourceArn = try reader["resourceArn"].readIfPresent()
+        value.resourcePrefix = try reader["resourcePrefix"].readIfPresent()
+        return value
+    }
+}
+
+extension LexModelBuildingClientTypes.Message {
+
+    static func write(value: LexModelBuildingClientTypes.Message?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["content"].write(value.content)
+        try writer["contentType"].write(value.contentType)
+        try writer["groupNumber"].write(value.groupNumber)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.Message {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexModelBuildingClientTypes.Message()
+        value.contentType = try reader["contentType"].readIfPresent() ?? .sdkUnknown("")
+        value.content = try reader["content"].readIfPresent() ?? ""
+        value.groupNumber = try reader["groupNumber"].readIfPresent()
         return value
     }
 }
@@ -6937,6 +6882,135 @@ extension LexModelBuildingClientTypes.MigrationSummary {
     }
 }
 
+extension LexModelBuildingClientTypes.OutputContext {
+
+    static func write(value: LexModelBuildingClientTypes.OutputContext?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["timeToLiveInSeconds"].write(value.timeToLiveInSeconds)
+        try writer["turnsToLive"].write(value.turnsToLive)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.OutputContext {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexModelBuildingClientTypes.OutputContext()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.timeToLiveInSeconds = try reader["timeToLiveInSeconds"].readIfPresent() ?? 0
+        value.turnsToLive = try reader["turnsToLive"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension LexModelBuildingClientTypes.Prompt {
+
+    static func write(value: LexModelBuildingClientTypes.Prompt?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxAttempts"].write(value.maxAttempts)
+        try writer["messages"].writeList(value.messages, memberWritingClosure: LexModelBuildingClientTypes.Message.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["responseCard"].write(value.responseCard)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.Prompt {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexModelBuildingClientTypes.Prompt()
+        value.messages = try reader["messages"].readListIfPresent(memberReadingClosure: LexModelBuildingClientTypes.Message.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.maxAttempts = try reader["maxAttempts"].readIfPresent() ?? 0
+        value.responseCard = try reader["responseCard"].readIfPresent()
+        return value
+    }
+}
+
+extension LexModelBuildingClientTypes.ResourceReference {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.ResourceReference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexModelBuildingClientTypes.ResourceReference()
+        value.name = try reader["name"].readIfPresent()
+        value.version = try reader["version"].readIfPresent()
+        return value
+    }
+}
+
+extension LexModelBuildingClientTypes.Slot {
+
+    static func write(value: LexModelBuildingClientTypes.Slot?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["defaultValueSpec"].write(value.defaultValueSpec, with: LexModelBuildingClientTypes.SlotDefaultValueSpec.write(value:to:))
+        try writer["description"].write(value.description)
+        try writer["name"].write(value.name)
+        try writer["obfuscationSetting"].write(value.obfuscationSetting)
+        try writer["priority"].write(value.priority)
+        try writer["responseCard"].write(value.responseCard)
+        try writer["sampleUtterances"].writeList(value.sampleUtterances, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["slotConstraint"].write(value.slotConstraint)
+        try writer["slotType"].write(value.slotType)
+        try writer["slotTypeVersion"].write(value.slotTypeVersion)
+        try writer["valueElicitationPrompt"].write(value.valueElicitationPrompt, with: LexModelBuildingClientTypes.Prompt.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.Slot {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexModelBuildingClientTypes.Slot()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.slotConstraint = try reader["slotConstraint"].readIfPresent() ?? .sdkUnknown("")
+        value.slotType = try reader["slotType"].readIfPresent()
+        value.slotTypeVersion = try reader["slotTypeVersion"].readIfPresent()
+        value.valueElicitationPrompt = try reader["valueElicitationPrompt"].readIfPresent(with: LexModelBuildingClientTypes.Prompt.read(from:))
+        value.priority = try reader["priority"].readIfPresent()
+        value.sampleUtterances = try reader["sampleUtterances"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.responseCard = try reader["responseCard"].readIfPresent()
+        value.obfuscationSetting = try reader["obfuscationSetting"].readIfPresent()
+        value.defaultValueSpec = try reader["defaultValueSpec"].readIfPresent(with: LexModelBuildingClientTypes.SlotDefaultValueSpec.read(from:))
+        return value
+    }
+}
+
+extension LexModelBuildingClientTypes.SlotDefaultValue {
+
+    static func write(value: LexModelBuildingClientTypes.SlotDefaultValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["defaultValue"].write(value.defaultValue)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.SlotDefaultValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexModelBuildingClientTypes.SlotDefaultValue()
+        value.defaultValue = try reader["defaultValue"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension LexModelBuildingClientTypes.SlotDefaultValueSpec {
+
+    static func write(value: LexModelBuildingClientTypes.SlotDefaultValueSpec?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["defaultValueList"].writeList(value.defaultValueList, memberWritingClosure: LexModelBuildingClientTypes.SlotDefaultValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.SlotDefaultValueSpec {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexModelBuildingClientTypes.SlotDefaultValueSpec()
+        value.defaultValueList = try reader["defaultValueList"].readListIfPresent(memberReadingClosure: LexModelBuildingClientTypes.SlotDefaultValue.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension LexModelBuildingClientTypes.SlotTypeConfiguration {
+
+    static func write(value: LexModelBuildingClientTypes.SlotTypeConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["regexConfiguration"].write(value.regexConfiguration, with: LexModelBuildingClientTypes.SlotTypeRegexConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.SlotTypeConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexModelBuildingClientTypes.SlotTypeConfiguration()
+        value.regexConfiguration = try reader["regexConfiguration"].readIfPresent(with: LexModelBuildingClientTypes.SlotTypeRegexConfiguration.read(from:))
+        return value
+    }
+}
+
 extension LexModelBuildingClientTypes.SlotTypeMetadata {
 
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.SlotTypeMetadata {
@@ -6951,27 +7025,34 @@ extension LexModelBuildingClientTypes.SlotTypeMetadata {
     }
 }
 
-extension LexModelBuildingClientTypes.UtteranceList {
+extension LexModelBuildingClientTypes.SlotTypeRegexConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.UtteranceList {
+    static func write(value: LexModelBuildingClientTypes.SlotTypeRegexConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["pattern"].write(value.pattern)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.SlotTypeRegexConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelBuildingClientTypes.UtteranceList()
-        value.botVersion = try reader["botVersion"].readIfPresent()
-        value.utterances = try reader["utterances"].readListIfPresent(memberReadingClosure: LexModelBuildingClientTypes.UtteranceData.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = LexModelBuildingClientTypes.SlotTypeRegexConfiguration()
+        value.pattern = try reader["pattern"].readIfPresent() ?? ""
         return value
     }
 }
 
-extension LexModelBuildingClientTypes.UtteranceData {
+extension LexModelBuildingClientTypes.Statement {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.UtteranceData {
+    static func write(value: LexModelBuildingClientTypes.Statement?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["messages"].writeList(value.messages, memberWritingClosure: LexModelBuildingClientTypes.Message.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["responseCard"].write(value.responseCard)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.Statement {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelBuildingClientTypes.UtteranceData()
-        value.utteranceString = try reader["utteranceString"].readIfPresent()
-        value.count = try reader["count"].readIfPresent()
-        value.distinctUsers = try reader["distinctUsers"].readIfPresent()
-        value.firstUtteredDate = try reader["firstUtteredDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUtteredDate = try reader["lastUtteredDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        var value = LexModelBuildingClientTypes.Statement()
+        value.messages = try reader["messages"].readListIfPresent(memberReadingClosure: LexModelBuildingClientTypes.Message.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.responseCard = try reader["responseCard"].readIfPresent()
         return value
     }
 }
@@ -6993,34 +7074,28 @@ extension LexModelBuildingClientTypes.Tag {
     }
 }
 
-extension LexModelBuildingClientTypes.ResourceReference {
+extension LexModelBuildingClientTypes.UtteranceData {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.ResourceReference {
+    static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.UtteranceData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexModelBuildingClientTypes.ResourceReference()
-        value.name = try reader["name"].readIfPresent()
-        value.version = try reader["version"].readIfPresent()
+        var value = LexModelBuildingClientTypes.UtteranceData()
+        value.utteranceString = try reader["utteranceString"].readIfPresent()
+        value.count = try reader["count"].readIfPresent()
+        value.distinctUsers = try reader["distinctUsers"].readIfPresent()
+        value.firstUtteredDate = try reader["firstUtteredDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUtteredDate = try reader["lastUtteredDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
 
-extension LexModelBuildingClientTypes.ConversationLogsRequest {
+extension LexModelBuildingClientTypes.UtteranceList {
 
-    static func write(value: LexModelBuildingClientTypes.ConversationLogsRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["iamRoleArn"].write(value.iamRoleArn)
-        try writer["logSettings"].writeList(value.logSettings, memberWritingClosure: LexModelBuildingClientTypes.LogSettingsRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension LexModelBuildingClientTypes.LogSettingsRequest {
-
-    static func write(value: LexModelBuildingClientTypes.LogSettingsRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["destination"].write(value.destination)
-        try writer["kmsKeyArn"].write(value.kmsKeyArn)
-        try writer["logType"].write(value.logType)
-        try writer["resourceArn"].write(value.resourceArn)
+    static func read(from reader: SmithyJSON.Reader) throws -> LexModelBuildingClientTypes.UtteranceList {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexModelBuildingClientTypes.UtteranceList()
+        value.botVersion = try reader["botVersion"].readIfPresent()
+        value.utterances = try reader["utterances"].readListIfPresent(memberReadingClosure: LexModelBuildingClientTypes.UtteranceData.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 

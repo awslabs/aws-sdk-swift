@@ -119,6 +119,7 @@ public struct DefaultS3AuthSchemeResolver: S3AuthSchemeResolver {
                     var sigV4Option = SmithyHTTPAuthAPI.AuthOption(schemeID: "aws.auth#sigv4a")
                     sigV4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingName, value: param.signingName)
                     sigV4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingRegion, value: param.signingRegionSet?[0])
+                    sigV4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.sigV4aSigningRegionSet, value: param.signingRegionSet)
                     validAuthOptions.append(sigV4Option)
                 case .sigV4S3Express(let param):
                     var authOption = SmithyHTTPAuthAPI.AuthOption(schemeID: "aws.auth#sigv4-s3express")

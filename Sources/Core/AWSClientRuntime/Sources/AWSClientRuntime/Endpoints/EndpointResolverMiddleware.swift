@@ -63,6 +63,7 @@ extension AWSEndpointResolverMiddleware: ApplyEndpoint {
         var signingName: String?
         var signingAlgorithm: String?
         var signingRegion: String?
+        var disableDoubleEncoding: Bool?
         if let authSchemes = endpoint.authSchemes() {
             let schemes = try authSchemes.map { try EndpointsAuthScheme(from: $0) }
             let authScheme = try authSchemeResolver.resolve(authSchemes: schemes)
@@ -71,9 +72,11 @@ extension AWSEndpointResolverMiddleware: ApplyEndpoint {
             case .sigV4(let param), .sigV4S3Express(let param):
                 signingName = param.signingName
                 signingRegion = param.signingRegion
+                disableDoubleEncoding = param.disableDoubleEncoding
             case .sigV4A(let param):
                 signingName = param.signingName
                 signingRegion = param.signingRegionSet?.first
+                disableDoubleEncoding = param.disableDoubleEncoding
             case .none:
                 break
             }
@@ -90,6 +93,32 @@ extension AWSEndpointResolverMiddleware: ApplyEndpoint {
 
         if let protocolType = awsEndpoint.endpoint.protocolType {
             builder.withProtocol(protocolType)
+        }
+
+        if let signingRegion = signingRegion {
+            attributes.signingRegion = signingRegion
+            attributes.selectedAuthScheme = (
+                attributes.selectedAuthScheme ?? selectedAuthScheme
+            )?.getCopyWithUpdatedSigningProperty(
+                key: SigningPropertyKeys.signingRegion, value: signingRegion
+            )
+        }
+
+        if let signingName = signingName {
+            attributes.signingName = signingName
+            attributes.selectedAuthScheme = (
+                attributes.selectedAuthScheme ?? selectedAuthScheme
+            )?.getCopyWithUpdatedSigningProperty(
+                key: SigningPropertyKeys.signingName, value: signingName
+            )
+        }
+
+        if let disableDoubleEncoding = disableDoubleEncoding {
+            attributes.selectedAuthScheme = (
+                attributes.selectedAuthScheme ?? selectedAuthScheme
+            )?.getCopyWithUpdatedSigningProperty(
+                key: SigningPropertyKeys.useDoubleURIEncode, value: !disableDoubleEncoding
+            )
         }
 
         if let signingAlgorithm = signingAlgorithm {

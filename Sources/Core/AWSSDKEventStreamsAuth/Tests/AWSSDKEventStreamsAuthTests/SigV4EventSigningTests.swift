@@ -14,7 +14,7 @@ import SmithyIdentity
 import SmithyTestUtil
 import struct AwsCommonRuntimeKit.CommonRuntimeKit
 import SmithyTimestamps
-import SmithyEventStreams
+@_spi(SmithyEventStreams) import SmithyEventStreams
 import SmithyEventStreamsAPI
 import AWSSDKIdentity
 import AWSSDKHTTPAuth

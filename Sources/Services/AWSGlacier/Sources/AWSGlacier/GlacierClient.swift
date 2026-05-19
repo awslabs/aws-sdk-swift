@@ -14,7 +14,7 @@ import class AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain
 import class ClientRuntime.ClientBuilder
 import class ClientRuntime.DefaultClientPlugin
 import class ClientRuntime.HttpClientConfiguration
-import class ClientRuntime.OrchestratorBuilder
+@_spi(SchemaBasedSerde) import class ClientRuntime.OrchestratorBuilder
 import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
@@ -31,6 +31,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import enum Smithy.ByteStream
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
+import func ClientRuntime.initialize
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
 import protocol AWSClientRuntime.AWSServiceClient
@@ -62,6 +63,8 @@ import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.PayloadBodyMiddleware
 import struct ClientRuntime.QueryItemMiddleware
+import struct ClientRuntime.SendableHttpInterceptorProviderBox
+import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
 import struct ClientRuntime.URLPathMiddleware
@@ -72,31 +75,49 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class GlacierClient: AWSClientRuntime.AWSServiceClient {
+public final class GlacierClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "GlacierClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: GlacierClient.GlacierClientConfiguration
+    public let config: GlacierClient.GlacierClientConfig
     let serviceName = "Glacier"
 
-    public required init(config: GlacierClient.GlacierClientConfiguration) {
+    @available(*, deprecated, message: "Use GlacierClient.GlacierClientConfig instead")
+    public typealias Config = GlacierClient.GlacierClientConfiguration
+    public typealias Configuration = GlacierClient.GlacierClientConfig
+
+    public required init(config: GlacierClient.GlacierClientConfig) {
+        ClientRuntime.initialize()
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         self.config = config
     }
 
+    @available(*, deprecated, message: "Use init(config: GlacierClient.GlacierClientConfig) instead")
+    public convenience init(config: GlacierClient.GlacierClientConfiguration) {
+        do {
+            try self.init(config: config.toSendable())
+        } catch {
+            // This should never happen since all values are already initialized in the class
+            fatalError("Failed to convert deprecated configuration: \(error)")
+        }
+    }
+
     public convenience init(region: Swift.String) throws {
-        let config = try GlacierClient.GlacierClientConfiguration(region: region)
+        let config = try GlacierClient.GlacierClientConfig(region: region)
         self.init(config: config)
     }
 
-    public convenience required init() async throws {
-        let config = try await GlacierClient.GlacierClientConfiguration()
+    public convenience init() async throws {
+        let config = try await GlacierClient.GlacierClientConfig()
         self.init(config: config)
     }
 }
 
 extension GlacierClient {
 
-    public class GlacierClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
+    /// Client configuration for GlacierClient
+    ///
+    /// Conforms to `Sendable` for safe concurrent access across threads.
+    public struct GlacierClientConfig: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Swift.Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?
@@ -120,66 +141,29 @@ extension GlacierClient {
         public var authSchemePreference: [String]?
         public var authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver
         public var bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver
-        public private(set) var interceptorProviders: [ClientRuntime.InterceptorProvider]
-        public private(set) var httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]
-        public let logger: Smithy.LogAgent
-
-        private init(
-            _ useFIPS: Swift.Bool?,
-            _ useDualStack: Swift.Bool?,
-            _ appID: Swift.String?,
-            _ awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver,
-            _ awsRetryMode: AWSClientRuntime.AWSRetryMode,
-            _ maxAttempts: Swift.Int?,
-            _ requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode,
-            _ responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode,
-            _ ignoreConfiguredEndpointURLs: Swift.Bool?,
-            _ region: Swift.String?,
-            _ signingRegion: Swift.String?,
-            _ endpointResolver: EndpointResolver,
-            _ telemetryProvider: ClientRuntime.TelemetryProvider,
-            _ retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions,
-            _ clientLogMode: ClientRuntime.ClientLogMode,
-            _ endpoint: Swift.String?,
-            _ idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator,
-            _ httpClientEngine: SmithyHTTPAPI.HTTPClient,
-            _ httpClientConfiguration: ClientRuntime.HttpClientConfiguration,
-            _ authSchemes: SmithyHTTPAuthAPI.AuthSchemes?,
-            _ authSchemePreference: [String]?,
-            _ authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver,
-            _ bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver,
-            _ interceptorProviders: [ClientRuntime.InterceptorProvider],
-            _ httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]
-        ) {
-            self.useFIPS = useFIPS
-            self.useDualStack = useDualStack
-            self.appID = appID
-            self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
-            self.awsRetryMode = awsRetryMode
-            self.maxAttempts = maxAttempts
-            self.requestChecksumCalculation = requestChecksumCalculation
-            self.responseChecksumValidation = responseChecksumValidation
-            self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
-            self.region = region
-            self.signingRegion = signingRegion
-            self.endpointResolver = endpointResolver
-            self.telemetryProvider = telemetryProvider
-            self.retryStrategyOptions = retryStrategyOptions
-            self.clientLogMode = clientLogMode
-            self.endpoint = endpoint
-            self.idempotencyTokenGenerator = idempotencyTokenGenerator
-            self.httpClientEngine = httpClientEngine
-            self.httpClientConfiguration = httpClientConfiguration
-            self.authSchemes = authSchemes
-            self.authSchemePreference = authSchemePreference
-            self.authSchemeResolver = authSchemeResolver
-            self.bearerTokenIdentityResolver = bearerTokenIdentityResolver
-            self.interceptorProviders = interceptorProviders
-            self.httpInterceptorProviders = httpInterceptorProviders
-            self.logger = telemetryProvider.loggerProvider.getLogger(name: GlacierClient.clientName)
+        // Interceptor providers with Sendable-safe internal storage
+        private var _interceptorProviders: [ClientRuntime.SendableInterceptorProviderBox] = []
+        public var interceptorProviders: [ClientRuntime.InterceptorProvider] {
+            get {
+                return _interceptorProviders
+            }
+            set {
+                _interceptorProviders = newValue.map { ClientRuntime.SendableInterceptorProviderBox($0) }
+            }
         }
 
-        public convenience init(
+        private var _httpInterceptorProviders: [ClientRuntime.SendableHttpInterceptorProviderBox] = []
+        public var httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider] {
+            get {
+                return _httpInterceptorProviders
+            }
+            set {
+                _httpInterceptorProviders = newValue.map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
+            }
+        }
+        public var logger: Smithy.LogAgent
+
+        public init(
             useFIPS: Swift.Bool? = nil,
             useDualStack: Swift.Bool? = nil,
             appID: Swift.String? = nil,
@@ -206,36 +190,35 @@ extension GlacierClient {
             interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
             httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil
         ) throws {
-            self.init(
-                useFIPS,
-                useDualStack,
-                try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
-                awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
-                try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
-                maxAttempts,
-                try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation),
-                try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation),
-                ignoreConfiguredEndpointURLs,
-                region,
-                signingRegion,
-                try endpointResolver ?? DefaultEndpointResolver(),
-                telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider,
-                try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts),
-                clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(),
-                endpoint,
-                idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
-                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration),
-                httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
-                authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
-                authSchemePreference ?? nil,
-                authSchemeResolver ?? DefaultGlacierAuthSchemeResolver(),
-                bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
-                interceptorProviders ?? [],
-                httpInterceptorProviders ?? []
-            )
+            self.useFIPS = useFIPS
+            self.useDualStack = useDualStack
+            self.appID = try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID()
+            self.awsCredentialIdentityResolver = awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain()
+            self.awsRetryMode = try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode()
+            self.maxAttempts = maxAttempts
+            self.requestChecksumCalculation = try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation)
+            self.responseChecksumValidation = try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation)
+            self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
+            self.region = region
+            self.signingRegion = signingRegion
+            self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
+            self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
+            self.endpoint = endpoint
+            self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
+            self.httpClientEngine = httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration)
+            self.httpClientConfiguration = httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration()
+            self.authSchemes = authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()]
+            self.authSchemePreference = authSchemePreference ?? nil
+            self.authSchemeResolver = authSchemeResolver ?? DefaultGlacierAuthSchemeResolver()
+            self.bearerTokenIdentityResolver = bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
+            self._interceptorProviders = (interceptorProviders ?? []).map { ClientRuntime.SendableInterceptorProviderBox($0) }
+            self._httpInterceptorProviders = (httpInterceptorProviders ?? []).map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
+            self.logger = (telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider).loggerProvider.getLogger(name: GlacierClient.clientName)
         }
 
-        public convenience init(
+        public init(
             useFIPS: Swift.Bool? = nil,
             useDualStack: Swift.Bool? = nil,
             appID: Swift.String? = nil,
@@ -262,36 +245,266 @@ extension GlacierClient {
             interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
             httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil
         ) async throws {
-            self.init(
-                useFIPS,
-                useDualStack,
-                try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
-                awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
-                try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
-                maxAttempts,
-                try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation),
-                try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation),
-                ignoreConfiguredEndpointURLs,
-                try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region),
-                try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region),
-                try endpointResolver ?? DefaultEndpointResolver(),
-                telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider,
-                try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts),
-                clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(),
-                endpoint,
-                idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
-                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration),
-                httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
-                authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
-                authSchemePreference ?? nil,
-                authSchemeResolver ?? DefaultGlacierAuthSchemeResolver(),
-                bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
-                interceptorProviders ?? [],
-                httpInterceptorProviders ?? []
+            self.useFIPS = useFIPS
+            self.useDualStack = useDualStack
+            self.appID = try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID()
+            self.awsCredentialIdentityResolver = awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain()
+            self.awsRetryMode = try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode()
+            self.maxAttempts = maxAttempts
+            self.requestChecksumCalculation = try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation)
+            self.responseChecksumValidation = try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation)
+            self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
+            self.region = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
+            self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
+            self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
+            self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
+            self.endpoint = endpoint
+            self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
+            self.httpClientEngine = httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration)
+            self.httpClientConfiguration = httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration()
+            self.authSchemes = authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()]
+            self.authSchemePreference = authSchemePreference ?? nil
+            self.authSchemeResolver = authSchemeResolver ?? DefaultGlacierAuthSchemeResolver()
+            self.bearerTokenIdentityResolver = bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
+            self._interceptorProviders = (interceptorProviders ?? []).map { ClientRuntime.SendableInterceptorProviderBox($0) }
+            self._httpInterceptorProviders = (httpInterceptorProviders ?? []).map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
+            self.logger = (telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider).loggerProvider.getLogger(name: GlacierClient.clientName)
+        }
+
+        public init() async throws {
+            try await self.init(
+                useFIPS: nil,
+                useDualStack: nil,
+                appID: nil,
+                awsCredentialIdentityResolver: nil,
+                awsRetryMode: nil,
+                maxAttempts: nil,
+                requestChecksumCalculation: nil,
+                responseChecksumValidation: nil,
+                ignoreConfiguredEndpointURLs: nil,
+                region: nil,
+                signingRegion: nil,
+                endpointResolver: nil,
+                telemetryProvider: nil,
+                retryStrategyOptions: nil,
+                clientLogMode: nil,
+                endpoint: nil,
+                idempotencyTokenGenerator: nil,
+                httpClientEngine: nil,
+                httpClientConfiguration: nil,
+                authSchemes: nil,
+                authSchemePreference: nil,
+                authSchemeResolver: nil,
+                bearerTokenIdentityResolver: nil,
+                interceptorProviders: nil,
+                httpInterceptorProviders: nil
             )
         }
 
-        public convenience required init() async throws {
+        public init(region: Swift.String) throws {
+            try self.init(
+                useFIPS: nil,
+                useDualStack: nil,
+                appID: try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
+                awsCredentialIdentityResolver: AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
+                awsRetryMode: try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
+                maxAttempts: nil,
+                requestChecksumCalculation: try AWSClientConfigDefaultsProvider.requestChecksumCalculation(),
+                responseChecksumValidation: try AWSClientConfigDefaultsProvider.responseChecksumValidation(),
+                ignoreConfiguredEndpointURLs: nil,
+                region: region,
+                signingRegion: region,
+                endpointResolver: try DefaultEndpointResolver(),
+                telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
+                endpoint: nil,
+                idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
+                httpClientEngine: AWSClientConfigDefaultsProvider.httpClientEngine(),
+                httpClientConfiguration: AWSClientConfigDefaultsProvider.httpClientConfiguration(),
+                authSchemes: [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                authSchemePreference: nil,
+                authSchemeResolver: DefaultGlacierAuthSchemeResolver(),
+                bearerTokenIdentityResolver: SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
+                interceptorProviders: [],
+                httpInterceptorProviders: []
+            )
+        }
+
+        public var partitionID: String? {
+            return "\(GlacierClient.clientName) - \(region ?? "")"
+        }
+
+        public mutating func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
+            self._interceptorProviders.append(ClientRuntime.SendableInterceptorProviderBox(provider))
+        }
+
+        public mutating func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
+            self._httpInterceptorProviders.append(ClientRuntime.SendableHttpInterceptorProviderBox(provider))
+        }
+
+    }
+
+    @available(*, deprecated, message: "Use GlacierClientConfig instead. This class will be removed in a future version.")
+    public final class GlacierClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
+        public var useFIPS: Swift.Bool?
+        public var useDualStack: Swift.Bool?
+        public var appID: Swift.String?
+        public var awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver
+        public var awsRetryMode: AWSClientRuntime.AWSRetryMode
+        public var maxAttempts: Swift.Int?
+        public var requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode
+        public var responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode
+        public var ignoreConfiguredEndpointURLs: Swift.Bool?
+        public var region: Swift.String?
+        public var signingRegion: Swift.String?
+        public var endpointResolver: EndpointResolver
+        public var telemetryProvider: ClientRuntime.TelemetryProvider
+        public var retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions
+        public var clientLogMode: ClientRuntime.ClientLogMode
+        public var endpoint: Swift.String?
+        public var idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator
+        public var httpClientEngine: SmithyHTTPAPI.HTTPClient
+        public var httpClientConfiguration: ClientRuntime.HttpClientConfiguration
+        public var authSchemes: SmithyHTTPAuthAPI.AuthSchemes?
+        public var authSchemePreference: [String]?
+        public var authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver
+        public var bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver
+        // Interceptor providers with Sendable-safe internal storage
+        private var _interceptorProviders: [ClientRuntime.SendableInterceptorProviderBox] = []
+        public var interceptorProviders: [ClientRuntime.InterceptorProvider] {
+            get {
+                return _interceptorProviders
+            }
+            set {
+                _interceptorProviders = newValue.map { ClientRuntime.SendableInterceptorProviderBox($0) }
+            }
+        }
+
+        private var _httpInterceptorProviders: [ClientRuntime.SendableHttpInterceptorProviderBox] = []
+        public var httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider] {
+            get {
+                return _httpInterceptorProviders
+            }
+            set {
+                _httpInterceptorProviders = newValue.map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
+            }
+        }
+        public var logger: Smithy.LogAgent
+
+        public init(
+            useFIPS: Swift.Bool? = nil,
+            useDualStack: Swift.Bool? = nil,
+            appID: Swift.String? = nil,
+            awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil,
+            awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil,
+            maxAttempts: Swift.Int? = nil,
+            requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
+            region: Swift.String? = nil,
+            signingRegion: Swift.String? = nil,
+            endpointResolver: EndpointResolver? = nil,
+            telemetryProvider: ClientRuntime.TelemetryProvider? = nil,
+            retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil,
+            clientLogMode: ClientRuntime.ClientLogMode? = nil,
+            endpoint: Swift.String? = nil,
+            idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil,
+            httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil,
+            httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil,
+            authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil,
+            authSchemePreference: [String]? = nil,
+            authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil,
+            bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil,
+            interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
+            httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil
+        ) throws {
+            self.useFIPS = useFIPS
+            self.useDualStack = useDualStack
+            self.appID = try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID()
+            self.awsCredentialIdentityResolver = awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain()
+            self.awsRetryMode = try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode()
+            self.maxAttempts = maxAttempts
+            self.requestChecksumCalculation = try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation)
+            self.responseChecksumValidation = try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation)
+            self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
+            self.region = region
+            self.signingRegion = signingRegion
+            self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
+            self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
+            self.endpoint = endpoint
+            self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
+            self.httpClientEngine = httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration)
+            self.httpClientConfiguration = httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration()
+            self.authSchemes = authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()]
+            self.authSchemePreference = authSchemePreference ?? nil
+            self.authSchemeResolver = authSchemeResolver ?? DefaultGlacierAuthSchemeResolver()
+            self.bearerTokenIdentityResolver = bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
+            self._interceptorProviders = (interceptorProviders ?? []).map { ClientRuntime.SendableInterceptorProviderBox($0) }
+            self._httpInterceptorProviders = (httpInterceptorProviders ?? []).map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
+            self.logger = (telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider).loggerProvider.getLogger(name: GlacierClient.clientName)
+        }
+
+        public init(
+            useFIPS: Swift.Bool? = nil,
+            useDualStack: Swift.Bool? = nil,
+            appID: Swift.String? = nil,
+            awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil,
+            awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil,
+            maxAttempts: Swift.Int? = nil,
+            requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
+            region: Swift.String? = nil,
+            signingRegion: Swift.String? = nil,
+            endpointResolver: EndpointResolver? = nil,
+            telemetryProvider: ClientRuntime.TelemetryProvider? = nil,
+            retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil,
+            clientLogMode: ClientRuntime.ClientLogMode? = nil,
+            endpoint: Swift.String? = nil,
+            idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil,
+            httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil,
+            httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil,
+            authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil,
+            authSchemePreference: [String]? = nil,
+            authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil,
+            bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil,
+            interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
+            httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil
+        ) async throws {
+            self.useFIPS = useFIPS
+            self.useDualStack = useDualStack
+            self.appID = try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID()
+            self.awsCredentialIdentityResolver = awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain()
+            self.awsRetryMode = try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode()
+            self.maxAttempts = maxAttempts
+            self.requestChecksumCalculation = try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation)
+            self.responseChecksumValidation = try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation)
+            self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
+            self.region = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
+            self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
+            self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
+            self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
+            self.endpoint = endpoint
+            self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
+            self.httpClientEngine = httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration)
+            self.httpClientConfiguration = httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration()
+            self.authSchemes = authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()]
+            self.authSchemePreference = authSchemePreference ?? nil
+            self.authSchemeResolver = authSchemeResolver ?? DefaultGlacierAuthSchemeResolver()
+            self.bearerTokenIdentityResolver = bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
+            self._interceptorProviders = (interceptorProviders ?? []).map { ClientRuntime.SendableInterceptorProviderBox($0) }
+            self._httpInterceptorProviders = (httpInterceptorProviders ?? []).map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
+            self.logger = (telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider).loggerProvider.getLogger(name: GlacierClient.clientName)
+        }
+
+        public convenience init() async throws {
             try await self.init(
                 useFIPS: nil,
                 useDualStack: nil,
@@ -322,32 +535,32 @@ extension GlacierClient {
         }
 
         public convenience init(region: Swift.String) throws {
-            self.init(
-                nil,
-                nil,
-                try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
-                AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
-                try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
-                nil,
-                try AWSClientConfigDefaultsProvider.requestChecksumCalculation(),
-                try AWSClientConfigDefaultsProvider.responseChecksumValidation(),
-                nil,
-                region,
-                region,
-                try DefaultEndpointResolver(),
-                ClientRuntime.DefaultTelemetry.provider,
-                try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
-                AWSClientConfigDefaultsProvider.clientLogMode(),
-                nil,
-                AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
-                AWSClientConfigDefaultsProvider.httpClientEngine(),
-                AWSClientConfigDefaultsProvider.httpClientConfiguration(),
-                [AWSSDKHTTPAuth.SigV4AuthScheme()],
-                nil,
-                DefaultGlacierAuthSchemeResolver(),
-                SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
-                [],
-                []
+            try self.init(
+                useFIPS: nil,
+                useDualStack: nil,
+                appID: try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
+                awsCredentialIdentityResolver: AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
+                awsRetryMode: try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
+                maxAttempts: nil,
+                requestChecksumCalculation: try AWSClientConfigDefaultsProvider.requestChecksumCalculation(),
+                responseChecksumValidation: try AWSClientConfigDefaultsProvider.responseChecksumValidation(),
+                ignoreConfiguredEndpointURLs: nil,
+                region: region,
+                signingRegion: region,
+                endpointResolver: try DefaultEndpointResolver(),
+                telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
+                endpoint: nil,
+                idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
+                httpClientEngine: AWSClientConfigDefaultsProvider.httpClientEngine(),
+                httpClientConfiguration: AWSClientConfigDefaultsProvider.httpClientConfiguration(),
+                authSchemes: [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                authSchemePreference: nil,
+                authSchemeResolver: DefaultGlacierAuthSchemeResolver(),
+                bearerTokenIdentityResolver: SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
+                interceptorProviders: [],
+                httpInterceptorProviders: []
             )
         }
 
@@ -355,12 +568,42 @@ extension GlacierClient {
             return "\(GlacierClient.clientName) - \(region ?? "")"
         }
 
+        public func toSendable() throws -> GlacierClientConfig {
+            return try GlacierClientConfig(
+                useFIPS: self.useFIPS,
+                useDualStack: self.useDualStack,
+                appID: self.appID,
+                awsCredentialIdentityResolver: self.awsCredentialIdentityResolver,
+                awsRetryMode: self.awsRetryMode,
+                maxAttempts: self.maxAttempts,
+                requestChecksumCalculation: self.requestChecksumCalculation,
+                responseChecksumValidation: self.responseChecksumValidation,
+                ignoreConfiguredEndpointURLs: self.ignoreConfiguredEndpointURLs,
+                region: self.region,
+                signingRegion: self.signingRegion,
+                endpointResolver: self.endpointResolver,
+                telemetryProvider: self.telemetryProvider,
+                retryStrategyOptions: self.retryStrategyOptions,
+                clientLogMode: self.clientLogMode,
+                endpoint: self.endpoint,
+                idempotencyTokenGenerator: self.idempotencyTokenGenerator,
+                httpClientEngine: self.httpClientEngine,
+                httpClientConfiguration: self.httpClientConfiguration,
+                authSchemes: self.authSchemes,
+                authSchemePreference: self.authSchemePreference,
+                authSchemeResolver: self.authSchemeResolver,
+                bearerTokenIdentityResolver: self.bearerTokenIdentityResolver,
+                interceptorProviders: self.interceptorProviders,
+                httpInterceptorProviders: self.httpInterceptorProviders
+            )
+        }
+
         public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
-            self.interceptorProviders.append(provider)
+            self._interceptorProviders.append(ClientRuntime.SendableInterceptorProviderBox(provider))
         }
 
         public func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
-            self.httpInterceptorProviders.append(provider)
+            self._httpInterceptorProviders.append(ClientRuntime.SendableHttpInterceptorProviderBox(provider))
         }
 
     }
@@ -388,7 +631,7 @@ extension GlacierClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
     public func abortMultipartUpload(input: AbortMultipartUploadInput) async throws -> AbortMultipartUploadOutput {
@@ -468,7 +711,7 @@ extension GlacierClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
     public func abortVaultLock(input: AbortVaultLockInput) async throws -> AbortVaultLockOutput {
@@ -549,7 +792,7 @@ extension GlacierClient {
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `LimitExceededException` : Returned if the request results in a vault or account limit being exceeded.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
     public func addTagsToVault(input: AddTagsToVaultInput) async throws -> AddTagsToVaultOutput {
@@ -633,7 +876,7 @@ extension GlacierClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
     public func completeMultipartUpload(input: CompleteMultipartUploadInput) async throws -> CompleteMultipartUploadOutput {
@@ -714,7 +957,7 @@ extension GlacierClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
     public func completeVaultLock(input: CompleteVaultLockInput) async throws -> CompleteVaultLockOutput {
@@ -802,7 +1045,7 @@ extension GlacierClient {
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `LimitExceededException` : Returned if the request results in a vault or account limit being exceeded.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
     public func createVault(input: CreateVaultInput) async throws -> CreateVaultOutput {
         let context = Smithy.ContextBuilder()
@@ -888,7 +1131,7 @@ extension GlacierClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
     public func deleteArchive(input: DeleteArchiveInput) async throws -> DeleteArchiveOutput {
@@ -968,7 +1211,7 @@ extension GlacierClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
     public func deleteVault(input: DeleteVaultInput) async throws -> DeleteVaultOutput {
@@ -1048,7 +1291,7 @@ extension GlacierClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
     public func deleteVaultAccessPolicy(input: DeleteVaultAccessPolicyInput) async throws -> DeleteVaultAccessPolicyOutput {
@@ -1128,7 +1371,7 @@ extension GlacierClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
     public func deleteVaultNotifications(input: DeleteVaultNotificationsInput) async throws -> DeleteVaultNotificationsOutput {
@@ -1208,7 +1451,7 @@ extension GlacierClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
     public func describeJob(input: DescribeJobInput) async throws -> DescribeJobOutput {
@@ -1288,7 +1531,7 @@ extension GlacierClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
     public func describeVault(input: DescribeVaultInput) async throws -> DescribeVaultOutput {
@@ -1368,7 +1611,7 @@ extension GlacierClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
     public func getDataRetrievalPolicy(input: GetDataRetrievalPolicyInput) async throws -> GetDataRetrievalPolicyOutput {
         let context = Smithy.ContextBuilder()
@@ -1447,7 +1690,7 @@ extension GlacierClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
     public func getJobOutput(input: GetJobOutputInput) async throws -> GetJobOutputOutput {
@@ -1528,7 +1771,7 @@ extension GlacierClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
     public func getVaultAccessPolicy(input: GetVaultAccessPolicyInput) async throws -> GetVaultAccessPolicyOutput {
@@ -1619,7 +1862,7 @@ extension GlacierClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
     public func getVaultLock(input: GetVaultLockInput) async throws -> GetVaultLockOutput {
@@ -1699,7 +1942,7 @@ extension GlacierClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
     public func getVaultNotifications(input: GetVaultNotificationsInput) async throws -> GetVaultNotificationsOutput {
@@ -1780,7 +2023,7 @@ extension GlacierClient {
     /// - `InsufficientCapacityException` : Returned if there is insufficient capacity to process this expedited request. This error only applies to expedited retrievals and not to standard or bulk retrievals.
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `PolicyEnforcedException` : Returned if a retrieval job would exceed the current data policy's retrieval rate limit. For more information about data retrieval policies,
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
@@ -1864,7 +2107,7 @@ extension GlacierClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
     public func initiateMultipartUpload(input: InitiateMultipartUploadInput) async throws -> InitiateMultipartUploadOutput {
@@ -1954,7 +2197,7 @@ extension GlacierClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
     public func initiateVaultLock(input: InitiateVaultLockInput) async throws -> InitiateVaultLockOutput {
@@ -2037,7 +2280,7 @@ extension GlacierClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
     public func listJobs(input: ListJobsInput) async throws -> ListJobsOutput {
@@ -2118,7 +2361,7 @@ extension GlacierClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
     public func listMultipartUploads(input: ListMultipartUploadsInput) async throws -> ListMultipartUploadsOutput {
@@ -2199,7 +2442,7 @@ extension GlacierClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
     public func listParts(input: ListPartsInput) async throws -> ListPartsOutput {
@@ -2280,7 +2523,7 @@ extension GlacierClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
     public func listProvisionedCapacity(input: ListProvisionedCapacityInput) async throws -> ListProvisionedCapacityOutput {
         let context = Smithy.ContextBuilder()
@@ -2359,7 +2602,7 @@ extension GlacierClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
     public func listTagsForVault(input: ListTagsForVaultInput) async throws -> ListTagsForVaultOutput {
@@ -2439,7 +2682,7 @@ extension GlacierClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
     public func listVaults(input: ListVaultsInput) async throws -> ListVaultsOutput {
@@ -2521,7 +2764,7 @@ extension GlacierClient {
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `LimitExceededException` : Returned if the request results in a vault or account limit being exceeded.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
     public func purchaseProvisionedCapacity(input: PurchaseProvisionedCapacityInput) async throws -> PurchaseProvisionedCapacityOutput {
         let context = Smithy.ContextBuilder()
@@ -2600,7 +2843,7 @@ extension GlacierClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
     public func removeTagsFromVault(input: RemoveTagsFromVaultInput) async throws -> RemoveTagsFromVaultOutput {
@@ -2684,7 +2927,7 @@ extension GlacierClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
     public func setDataRetrievalPolicy(input: SetDataRetrievalPolicyInput) async throws -> SetDataRetrievalPolicyOutput {
         let context = Smithy.ContextBuilder()
@@ -2766,7 +3009,7 @@ extension GlacierClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
     public func setVaultAccessPolicy(input: SetVaultAccessPolicyInput) async throws -> SetVaultAccessPolicyOutput {
@@ -2856,7 +3099,7 @@ extension GlacierClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
     public func setVaultNotifications(input: SetVaultNotificationsInput) async throws -> SetVaultNotificationsOutput {
@@ -2939,7 +3182,7 @@ extension GlacierClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `RequestTimeoutException` : Returned if, when uploading an archive, Amazon Glacier times out while receiving the upload.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
@@ -3033,7 +3276,7 @@ extension GlacierClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `RequestTimeoutException` : Returned if, when uploading an archive, Amazon Glacier times out while receiving the upload.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.

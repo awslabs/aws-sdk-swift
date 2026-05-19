@@ -14,7 +14,7 @@ import class AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain
 import class ClientRuntime.ClientBuilder
 import class ClientRuntime.DefaultClientPlugin
 import class ClientRuntime.HttpClientConfiguration
-import class ClientRuntime.OrchestratorBuilder
+@_spi(SchemaBasedSerde) import class ClientRuntime.OrchestratorBuilder
 import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
@@ -29,6 +29,7 @@ import enum AWSSDKChecksums.AWSChecksumCalculationMode
 import enum ClientRuntime.ClientLogMode
 import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
+import func ClientRuntime.initialize
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
 import protocol AWSClientRuntime.AWSServiceClient
@@ -55,6 +56,8 @@ import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.QueryItemMiddleware
+import struct ClientRuntime.SendableHttpInterceptorProviderBox
+import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
 import struct ClientRuntime.URLPathMiddleware
@@ -65,31 +68,49 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class IvsClient: AWSClientRuntime.AWSServiceClient {
+public final class IvsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "IvsClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: IvsClient.IvsClientConfiguration
+    public let config: IvsClient.IvsClientConfig
     let serviceName = "ivs"
 
-    public required init(config: IvsClient.IvsClientConfiguration) {
+    @available(*, deprecated, message: "Use IvsClient.IvsClientConfig instead")
+    public typealias Config = IvsClient.IvsClientConfiguration
+    public typealias Configuration = IvsClient.IvsClientConfig
+
+    public required init(config: IvsClient.IvsClientConfig) {
+        ClientRuntime.initialize()
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         self.config = config
     }
 
+    @available(*, deprecated, message: "Use init(config: IvsClient.IvsClientConfig) instead")
+    public convenience init(config: IvsClient.IvsClientConfiguration) {
+        do {
+            try self.init(config: config.toSendable())
+        } catch {
+            // This should never happen since all values are already initialized in the class
+            fatalError("Failed to convert deprecated configuration: \(error)")
+        }
+    }
+
     public convenience init(region: Swift.String) throws {
-        let config = try IvsClient.IvsClientConfiguration(region: region)
+        let config = try IvsClient.IvsClientConfig(region: region)
         self.init(config: config)
     }
 
-    public convenience required init() async throws {
-        let config = try await IvsClient.IvsClientConfiguration()
+    public convenience init() async throws {
+        let config = try await IvsClient.IvsClientConfig()
         self.init(config: config)
     }
 }
 
 extension IvsClient {
 
-    public class IvsClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
+    /// Client configuration for IvsClient
+    ///
+    /// Conforms to `Sendable` for safe concurrent access across threads.
+    public struct IvsClientConfig: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Swift.Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?
@@ -113,66 +134,29 @@ extension IvsClient {
         public var authSchemePreference: [String]?
         public var authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver
         public var bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver
-        public private(set) var interceptorProviders: [ClientRuntime.InterceptorProvider]
-        public private(set) var httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]
-        public let logger: Smithy.LogAgent
-
-        private init(
-            _ useFIPS: Swift.Bool?,
-            _ useDualStack: Swift.Bool?,
-            _ appID: Swift.String?,
-            _ awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver,
-            _ awsRetryMode: AWSClientRuntime.AWSRetryMode,
-            _ maxAttempts: Swift.Int?,
-            _ requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode,
-            _ responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode,
-            _ ignoreConfiguredEndpointURLs: Swift.Bool?,
-            _ region: Swift.String?,
-            _ signingRegion: Swift.String?,
-            _ endpointResolver: EndpointResolver,
-            _ telemetryProvider: ClientRuntime.TelemetryProvider,
-            _ retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions,
-            _ clientLogMode: ClientRuntime.ClientLogMode,
-            _ endpoint: Swift.String?,
-            _ idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator,
-            _ httpClientEngine: SmithyHTTPAPI.HTTPClient,
-            _ httpClientConfiguration: ClientRuntime.HttpClientConfiguration,
-            _ authSchemes: SmithyHTTPAuthAPI.AuthSchemes?,
-            _ authSchemePreference: [String]?,
-            _ authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver,
-            _ bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver,
-            _ interceptorProviders: [ClientRuntime.InterceptorProvider],
-            _ httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]
-        ) {
-            self.useFIPS = useFIPS
-            self.useDualStack = useDualStack
-            self.appID = appID
-            self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
-            self.awsRetryMode = awsRetryMode
-            self.maxAttempts = maxAttempts
-            self.requestChecksumCalculation = requestChecksumCalculation
-            self.responseChecksumValidation = responseChecksumValidation
-            self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
-            self.region = region
-            self.signingRegion = signingRegion
-            self.endpointResolver = endpointResolver
-            self.telemetryProvider = telemetryProvider
-            self.retryStrategyOptions = retryStrategyOptions
-            self.clientLogMode = clientLogMode
-            self.endpoint = endpoint
-            self.idempotencyTokenGenerator = idempotencyTokenGenerator
-            self.httpClientEngine = httpClientEngine
-            self.httpClientConfiguration = httpClientConfiguration
-            self.authSchemes = authSchemes
-            self.authSchemePreference = authSchemePreference
-            self.authSchemeResolver = authSchemeResolver
-            self.bearerTokenIdentityResolver = bearerTokenIdentityResolver
-            self.interceptorProviders = interceptorProviders
-            self.httpInterceptorProviders = httpInterceptorProviders
-            self.logger = telemetryProvider.loggerProvider.getLogger(name: IvsClient.clientName)
+        // Interceptor providers with Sendable-safe internal storage
+        private var _interceptorProviders: [ClientRuntime.SendableInterceptorProviderBox] = []
+        public var interceptorProviders: [ClientRuntime.InterceptorProvider] {
+            get {
+                return _interceptorProviders
+            }
+            set {
+                _interceptorProviders = newValue.map { ClientRuntime.SendableInterceptorProviderBox($0) }
+            }
         }
 
-        public convenience init(
+        private var _httpInterceptorProviders: [ClientRuntime.SendableHttpInterceptorProviderBox] = []
+        public var httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider] {
+            get {
+                return _httpInterceptorProviders
+            }
+            set {
+                _httpInterceptorProviders = newValue.map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
+            }
+        }
+        public var logger: Smithy.LogAgent
+
+        public init(
             useFIPS: Swift.Bool? = nil,
             useDualStack: Swift.Bool? = nil,
             appID: Swift.String? = nil,
@@ -199,36 +183,35 @@ extension IvsClient {
             interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
             httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil
         ) throws {
-            self.init(
-                useFIPS,
-                useDualStack,
-                try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
-                awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
-                try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
-                maxAttempts,
-                try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation),
-                try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation),
-                ignoreConfiguredEndpointURLs,
-                region,
-                signingRegion,
-                try endpointResolver ?? DefaultEndpointResolver(),
-                telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider,
-                try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts),
-                clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(),
-                endpoint,
-                idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
-                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration),
-                httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
-                authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
-                authSchemePreference ?? nil,
-                authSchemeResolver ?? DefaultIvsAuthSchemeResolver(),
-                bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
-                interceptorProviders ?? [],
-                httpInterceptorProviders ?? []
-            )
+            self.useFIPS = useFIPS
+            self.useDualStack = useDualStack
+            self.appID = try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID()
+            self.awsCredentialIdentityResolver = awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain()
+            self.awsRetryMode = try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode()
+            self.maxAttempts = maxAttempts
+            self.requestChecksumCalculation = try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation)
+            self.responseChecksumValidation = try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation)
+            self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
+            self.region = region
+            self.signingRegion = signingRegion
+            self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
+            self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
+            self.endpoint = endpoint
+            self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
+            self.httpClientEngine = httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration)
+            self.httpClientConfiguration = httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration()
+            self.authSchemes = authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()]
+            self.authSchemePreference = authSchemePreference ?? nil
+            self.authSchemeResolver = authSchemeResolver ?? DefaultIvsAuthSchemeResolver()
+            self.bearerTokenIdentityResolver = bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
+            self._interceptorProviders = (interceptorProviders ?? []).map { ClientRuntime.SendableInterceptorProviderBox($0) }
+            self._httpInterceptorProviders = (httpInterceptorProviders ?? []).map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
+            self.logger = (telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider).loggerProvider.getLogger(name: IvsClient.clientName)
         }
 
-        public convenience init(
+        public init(
             useFIPS: Swift.Bool? = nil,
             useDualStack: Swift.Bool? = nil,
             appID: Swift.String? = nil,
@@ -255,36 +238,266 @@ extension IvsClient {
             interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
             httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil
         ) async throws {
-            self.init(
-                useFIPS,
-                useDualStack,
-                try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
-                awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
-                try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
-                maxAttempts,
-                try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation),
-                try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation),
-                ignoreConfiguredEndpointURLs,
-                try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region),
-                try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region),
-                try endpointResolver ?? DefaultEndpointResolver(),
-                telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider,
-                try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts),
-                clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(),
-                endpoint,
-                idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
-                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration),
-                httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
-                authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
-                authSchemePreference ?? nil,
-                authSchemeResolver ?? DefaultIvsAuthSchemeResolver(),
-                bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
-                interceptorProviders ?? [],
-                httpInterceptorProviders ?? []
+            self.useFIPS = useFIPS
+            self.useDualStack = useDualStack
+            self.appID = try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID()
+            self.awsCredentialIdentityResolver = awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain()
+            self.awsRetryMode = try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode()
+            self.maxAttempts = maxAttempts
+            self.requestChecksumCalculation = try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation)
+            self.responseChecksumValidation = try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation)
+            self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
+            self.region = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
+            self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
+            self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
+            self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
+            self.endpoint = endpoint
+            self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
+            self.httpClientEngine = httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration)
+            self.httpClientConfiguration = httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration()
+            self.authSchemes = authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()]
+            self.authSchemePreference = authSchemePreference ?? nil
+            self.authSchemeResolver = authSchemeResolver ?? DefaultIvsAuthSchemeResolver()
+            self.bearerTokenIdentityResolver = bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
+            self._interceptorProviders = (interceptorProviders ?? []).map { ClientRuntime.SendableInterceptorProviderBox($0) }
+            self._httpInterceptorProviders = (httpInterceptorProviders ?? []).map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
+            self.logger = (telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider).loggerProvider.getLogger(name: IvsClient.clientName)
+        }
+
+        public init() async throws {
+            try await self.init(
+                useFIPS: nil,
+                useDualStack: nil,
+                appID: nil,
+                awsCredentialIdentityResolver: nil,
+                awsRetryMode: nil,
+                maxAttempts: nil,
+                requestChecksumCalculation: nil,
+                responseChecksumValidation: nil,
+                ignoreConfiguredEndpointURLs: nil,
+                region: nil,
+                signingRegion: nil,
+                endpointResolver: nil,
+                telemetryProvider: nil,
+                retryStrategyOptions: nil,
+                clientLogMode: nil,
+                endpoint: nil,
+                idempotencyTokenGenerator: nil,
+                httpClientEngine: nil,
+                httpClientConfiguration: nil,
+                authSchemes: nil,
+                authSchemePreference: nil,
+                authSchemeResolver: nil,
+                bearerTokenIdentityResolver: nil,
+                interceptorProviders: nil,
+                httpInterceptorProviders: nil
             )
         }
 
-        public convenience required init() async throws {
+        public init(region: Swift.String) throws {
+            try self.init(
+                useFIPS: nil,
+                useDualStack: nil,
+                appID: try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
+                awsCredentialIdentityResolver: AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
+                awsRetryMode: try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
+                maxAttempts: nil,
+                requestChecksumCalculation: try AWSClientConfigDefaultsProvider.requestChecksumCalculation(),
+                responseChecksumValidation: try AWSClientConfigDefaultsProvider.responseChecksumValidation(),
+                ignoreConfiguredEndpointURLs: nil,
+                region: region,
+                signingRegion: region,
+                endpointResolver: try DefaultEndpointResolver(),
+                telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
+                endpoint: nil,
+                idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
+                httpClientEngine: AWSClientConfigDefaultsProvider.httpClientEngine(),
+                httpClientConfiguration: AWSClientConfigDefaultsProvider.httpClientConfiguration(),
+                authSchemes: [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                authSchemePreference: nil,
+                authSchemeResolver: DefaultIvsAuthSchemeResolver(),
+                bearerTokenIdentityResolver: SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
+                interceptorProviders: [],
+                httpInterceptorProviders: []
+            )
+        }
+
+        public var partitionID: String? {
+            return "\(IvsClient.clientName) - \(region ?? "")"
+        }
+
+        public mutating func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
+            self._interceptorProviders.append(ClientRuntime.SendableInterceptorProviderBox(provider))
+        }
+
+        public mutating func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
+            self._httpInterceptorProviders.append(ClientRuntime.SendableHttpInterceptorProviderBox(provider))
+        }
+
+    }
+
+    @available(*, deprecated, message: "Use IvsClientConfig instead. This class will be removed in a future version.")
+    public final class IvsClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
+        public var useFIPS: Swift.Bool?
+        public var useDualStack: Swift.Bool?
+        public var appID: Swift.String?
+        public var awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver
+        public var awsRetryMode: AWSClientRuntime.AWSRetryMode
+        public var maxAttempts: Swift.Int?
+        public var requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode
+        public var responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode
+        public var ignoreConfiguredEndpointURLs: Swift.Bool?
+        public var region: Swift.String?
+        public var signingRegion: Swift.String?
+        public var endpointResolver: EndpointResolver
+        public var telemetryProvider: ClientRuntime.TelemetryProvider
+        public var retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions
+        public var clientLogMode: ClientRuntime.ClientLogMode
+        public var endpoint: Swift.String?
+        public var idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator
+        public var httpClientEngine: SmithyHTTPAPI.HTTPClient
+        public var httpClientConfiguration: ClientRuntime.HttpClientConfiguration
+        public var authSchemes: SmithyHTTPAuthAPI.AuthSchemes?
+        public var authSchemePreference: [String]?
+        public var authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver
+        public var bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver
+        // Interceptor providers with Sendable-safe internal storage
+        private var _interceptorProviders: [ClientRuntime.SendableInterceptorProviderBox] = []
+        public var interceptorProviders: [ClientRuntime.InterceptorProvider] {
+            get {
+                return _interceptorProviders
+            }
+            set {
+                _interceptorProviders = newValue.map { ClientRuntime.SendableInterceptorProviderBox($0) }
+            }
+        }
+
+        private var _httpInterceptorProviders: [ClientRuntime.SendableHttpInterceptorProviderBox] = []
+        public var httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider] {
+            get {
+                return _httpInterceptorProviders
+            }
+            set {
+                _httpInterceptorProviders = newValue.map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
+            }
+        }
+        public var logger: Smithy.LogAgent
+
+        public init(
+            useFIPS: Swift.Bool? = nil,
+            useDualStack: Swift.Bool? = nil,
+            appID: Swift.String? = nil,
+            awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil,
+            awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil,
+            maxAttempts: Swift.Int? = nil,
+            requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
+            region: Swift.String? = nil,
+            signingRegion: Swift.String? = nil,
+            endpointResolver: EndpointResolver? = nil,
+            telemetryProvider: ClientRuntime.TelemetryProvider? = nil,
+            retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil,
+            clientLogMode: ClientRuntime.ClientLogMode? = nil,
+            endpoint: Swift.String? = nil,
+            idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil,
+            httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil,
+            httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil,
+            authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil,
+            authSchemePreference: [String]? = nil,
+            authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil,
+            bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil,
+            interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
+            httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil
+        ) throws {
+            self.useFIPS = useFIPS
+            self.useDualStack = useDualStack
+            self.appID = try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID()
+            self.awsCredentialIdentityResolver = awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain()
+            self.awsRetryMode = try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode()
+            self.maxAttempts = maxAttempts
+            self.requestChecksumCalculation = try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation)
+            self.responseChecksumValidation = try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation)
+            self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
+            self.region = region
+            self.signingRegion = signingRegion
+            self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
+            self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
+            self.endpoint = endpoint
+            self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
+            self.httpClientEngine = httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration)
+            self.httpClientConfiguration = httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration()
+            self.authSchemes = authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()]
+            self.authSchemePreference = authSchemePreference ?? nil
+            self.authSchemeResolver = authSchemeResolver ?? DefaultIvsAuthSchemeResolver()
+            self.bearerTokenIdentityResolver = bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
+            self._interceptorProviders = (interceptorProviders ?? []).map { ClientRuntime.SendableInterceptorProviderBox($0) }
+            self._httpInterceptorProviders = (httpInterceptorProviders ?? []).map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
+            self.logger = (telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider).loggerProvider.getLogger(name: IvsClient.clientName)
+        }
+
+        public init(
+            useFIPS: Swift.Bool? = nil,
+            useDualStack: Swift.Bool? = nil,
+            appID: Swift.String? = nil,
+            awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil,
+            awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil,
+            maxAttempts: Swift.Int? = nil,
+            requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
+            region: Swift.String? = nil,
+            signingRegion: Swift.String? = nil,
+            endpointResolver: EndpointResolver? = nil,
+            telemetryProvider: ClientRuntime.TelemetryProvider? = nil,
+            retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil,
+            clientLogMode: ClientRuntime.ClientLogMode? = nil,
+            endpoint: Swift.String? = nil,
+            idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil,
+            httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil,
+            httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil,
+            authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil,
+            authSchemePreference: [String]? = nil,
+            authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil,
+            bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil,
+            interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
+            httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil
+        ) async throws {
+            self.useFIPS = useFIPS
+            self.useDualStack = useDualStack
+            self.appID = try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID()
+            self.awsCredentialIdentityResolver = awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain()
+            self.awsRetryMode = try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode()
+            self.maxAttempts = maxAttempts
+            self.requestChecksumCalculation = try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation)
+            self.responseChecksumValidation = try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation)
+            self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
+            self.region = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
+            self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
+            self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
+            self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
+            self.endpoint = endpoint
+            self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
+            self.httpClientEngine = httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration)
+            self.httpClientConfiguration = httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration()
+            self.authSchemes = authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()]
+            self.authSchemePreference = authSchemePreference ?? nil
+            self.authSchemeResolver = authSchemeResolver ?? DefaultIvsAuthSchemeResolver()
+            self.bearerTokenIdentityResolver = bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
+            self._interceptorProviders = (interceptorProviders ?? []).map { ClientRuntime.SendableInterceptorProviderBox($0) }
+            self._httpInterceptorProviders = (httpInterceptorProviders ?? []).map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
+            self.logger = (telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider).loggerProvider.getLogger(name: IvsClient.clientName)
+        }
+
+        public convenience init() async throws {
             try await self.init(
                 useFIPS: nil,
                 useDualStack: nil,
@@ -315,32 +528,32 @@ extension IvsClient {
         }
 
         public convenience init(region: Swift.String) throws {
-            self.init(
-                nil,
-                nil,
-                try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
-                AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
-                try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
-                nil,
-                try AWSClientConfigDefaultsProvider.requestChecksumCalculation(),
-                try AWSClientConfigDefaultsProvider.responseChecksumValidation(),
-                nil,
-                region,
-                region,
-                try DefaultEndpointResolver(),
-                ClientRuntime.DefaultTelemetry.provider,
-                try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
-                AWSClientConfigDefaultsProvider.clientLogMode(),
-                nil,
-                AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
-                AWSClientConfigDefaultsProvider.httpClientEngine(),
-                AWSClientConfigDefaultsProvider.httpClientConfiguration(),
-                [AWSSDKHTTPAuth.SigV4AuthScheme()],
-                nil,
-                DefaultIvsAuthSchemeResolver(),
-                SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
-                [],
-                []
+            try self.init(
+                useFIPS: nil,
+                useDualStack: nil,
+                appID: try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
+                awsCredentialIdentityResolver: AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
+                awsRetryMode: try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
+                maxAttempts: nil,
+                requestChecksumCalculation: try AWSClientConfigDefaultsProvider.requestChecksumCalculation(),
+                responseChecksumValidation: try AWSClientConfigDefaultsProvider.responseChecksumValidation(),
+                ignoreConfiguredEndpointURLs: nil,
+                region: region,
+                signingRegion: region,
+                endpointResolver: try DefaultEndpointResolver(),
+                telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
+                endpoint: nil,
+                idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
+                httpClientEngine: AWSClientConfigDefaultsProvider.httpClientEngine(),
+                httpClientConfiguration: AWSClientConfigDefaultsProvider.httpClientConfiguration(),
+                authSchemes: [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                authSchemePreference: nil,
+                authSchemeResolver: DefaultIvsAuthSchemeResolver(),
+                bearerTokenIdentityResolver: SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
+                interceptorProviders: [],
+                httpInterceptorProviders: []
             )
         }
 
@@ -348,12 +561,42 @@ extension IvsClient {
             return "\(IvsClient.clientName) - \(region ?? "")"
         }
 
+        public func toSendable() throws -> IvsClientConfig {
+            return try IvsClientConfig(
+                useFIPS: self.useFIPS,
+                useDualStack: self.useDualStack,
+                appID: self.appID,
+                awsCredentialIdentityResolver: self.awsCredentialIdentityResolver,
+                awsRetryMode: self.awsRetryMode,
+                maxAttempts: self.maxAttempts,
+                requestChecksumCalculation: self.requestChecksumCalculation,
+                responseChecksumValidation: self.responseChecksumValidation,
+                ignoreConfiguredEndpointURLs: self.ignoreConfiguredEndpointURLs,
+                region: self.region,
+                signingRegion: self.signingRegion,
+                endpointResolver: self.endpointResolver,
+                telemetryProvider: self.telemetryProvider,
+                retryStrategyOptions: self.retryStrategyOptions,
+                clientLogMode: self.clientLogMode,
+                endpoint: self.endpoint,
+                idempotencyTokenGenerator: self.idempotencyTokenGenerator,
+                httpClientEngine: self.httpClientEngine,
+                httpClientConfiguration: self.httpClientConfiguration,
+                authSchemes: self.authSchemes,
+                authSchemePreference: self.authSchemePreference,
+                authSchemeResolver: self.authSchemeResolver,
+                bearerTokenIdentityResolver: self.bearerTokenIdentityResolver,
+                interceptorProviders: self.interceptorProviders,
+                httpInterceptorProviders: self.httpInterceptorProviders
+            )
+        }
+
         public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
-            self.interceptorProviders.append(provider)
+            self._interceptorProviders.append(ClientRuntime.SendableInterceptorProviderBox(provider))
         }
 
         public func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
-            self.httpInterceptorProviders.append(provider)
+            self._httpInterceptorProviders.append(ClientRuntime.SendableHttpInterceptorProviderBox(provider))
         }
 
     }
@@ -375,6 +618,13 @@ extension IvsClient {
     /// - Parameter input: [no documentation found] (Type: `BatchGetChannelInput`)
     ///
     /// - Returns: [no documentation found] (Type: `BatchGetChannelOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `ServiceUnavailable` :
+    /// - `ValidationException` :
     public func batchGetChannel(input: BatchGetChannelInput) async throws -> BatchGetChannelOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -438,6 +688,13 @@ extension IvsClient {
     /// - Parameter input: [no documentation found] (Type: `BatchGetStreamKeyInput`)
     ///
     /// - Returns: [no documentation found] (Type: `BatchGetStreamKeyOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `ServiceUnavailable` :
+    /// - `ValidationException` :
     public func batchGetStreamKey(input: BatchGetStreamKeyInput) async throws -> BatchGetStreamKeyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -553,6 +810,81 @@ extension IvsClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Ivs")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchStartViewerSessionRevocation")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateAdConfiguration` operation on the `Ivs` service.
+    ///
+    /// Creates a new ad configuration to be used for server-side ad insertion.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateAdConfigurationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateAdConfigurationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `ConflictException` :
+    /// - `InternalServerException` :
+    /// - `PendingVerification` :
+    /// - `ResourceNotFoundException` :
+    /// - `ServiceQuotaExceededException` :
+    /// - `ThrottlingException` :
+    /// - `ValidationException` :
+    public func createAdConfiguration(input: CreateAdConfigurationInput) async throws -> CreateAdConfigurationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createAdConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ivs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateAdConfigurationInput, CreateAdConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateAdConfigurationInput, CreateAdConfigurationOutput>(CreateAdConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateAdConfigurationInput, CreateAdConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAdConfigurationInput, CreateAdConfigurationOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateAdConfigurationInput, CreateAdConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateAdConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAdConfigurationInput, CreateAdConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAdConfigurationOutput>(CreateAdConfigurationOutput.httpOutput(from:), CreateAdConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAdConfigurationInput, CreateAdConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateAdConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ivs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateAdConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateAdConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateAdConfigurationInput, CreateAdConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateAdConfigurationInput, CreateAdConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateAdConfigurationInput, CreateAdConfigurationOutput>(serviceID: serviceName, version: IvsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Ivs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateAdConfiguration")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -842,6 +1174,78 @@ extension IvsClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Ivs")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateStreamKey")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteAdConfiguration` operation on the `Ivs` service.
+    ///
+    /// Deletes the specified ad configuration.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteAdConfigurationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteAdConfigurationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `ConflictException` :
+    /// - `InternalServerException` :
+    /// - `ResourceNotFoundException` :
+    /// - `ValidationException` :
+    public func deleteAdConfiguration(input: DeleteAdConfigurationInput) async throws -> DeleteAdConfigurationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteAdConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ivs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteAdConfigurationInput, DeleteAdConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteAdConfigurationInput, DeleteAdConfigurationOutput>(DeleteAdConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAdConfigurationInput, DeleteAdConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAdConfigurationInput, DeleteAdConfigurationOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteAdConfigurationInput, DeleteAdConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteAdConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAdConfigurationInput, DeleteAdConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAdConfigurationOutput>(DeleteAdConfigurationOutput.httpOutput(from:), DeleteAdConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAdConfigurationInput, DeleteAdConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAdConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ivs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteAdConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAdConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteAdConfigurationInput, DeleteAdConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteAdConfigurationInput, DeleteAdConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteAdConfigurationInput, DeleteAdConfigurationOutput>(serviceID: serviceName, version: IvsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Ivs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteAdConfiguration")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -1200,6 +1604,77 @@ extension IvsClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Ivs")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteStreamKey")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetAdConfiguration` operation on the `Ivs` service.
+    ///
+    /// Gets the ad configuration represented by the specified ARN.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetAdConfigurationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetAdConfigurationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `InternalServerException` :
+    /// - `ResourceNotFoundException` :
+    /// - `ValidationException` :
+    public func getAdConfiguration(input: GetAdConfigurationInput) async throws -> GetAdConfigurationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getAdConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ivs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetAdConfigurationInput, GetAdConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetAdConfigurationInput, GetAdConfigurationOutput>(GetAdConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAdConfigurationInput, GetAdConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAdConfigurationInput, GetAdConfigurationOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetAdConfigurationInput, GetAdConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetAdConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAdConfigurationInput, GetAdConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAdConfigurationOutput>(GetAdConfigurationOutput.httpOutput(from:), GetAdConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAdConfigurationInput, GetAdConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetAdConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ivs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAdConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAdConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAdConfigurationInput, GetAdConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAdConfigurationInput, GetAdConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAdConfigurationInput, GetAdConfigurationOutput>(serviceID: serviceName, version: IvsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Ivs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetAdConfiguration")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -1765,6 +2240,150 @@ extension IvsClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Ivs")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ImportPlaybackKeyPair")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `InsertAdBreak` operation on the `Ivs` service.
+    ///
+    /// Inserts an ad marker in the playlist for the specified channel and duration using the ad configuration associated with the channel. Note: AWS Elemental MediaTailor (EMT), the service that handles ad requests, provides CloudWatch metrics to help you monitor the success or failure of each InsertAdBreak operation. See [Monitoring AWS Elemental MediaTailor with Amazon CloudWatch](https://docs.aws.amazon.com/mediatailor/latest/ug/monitoring-cloudwatch-metrics.html) metrics in the AWS Elemental MediaTailor User Guide for details on available metrics.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `InsertAdBreakInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `InsertAdBreakOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `ChannelNotBroadcasting` :
+    /// - `ConflictException` :
+    /// - `InternalServerException` :
+    /// - `ResourceNotFoundException` :
+    /// - `ThrottlingException` :
+    /// - `ValidationException` :
+    public func insertAdBreak(input: InsertAdBreakInput) async throws -> InsertAdBreakOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "insertAdBreak")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ivs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<InsertAdBreakInput, InsertAdBreakOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<InsertAdBreakInput, InsertAdBreakOutput>(InsertAdBreakInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<InsertAdBreakInput, InsertAdBreakOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<InsertAdBreakInput, InsertAdBreakOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<InsertAdBreakInput, InsertAdBreakOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: InsertAdBreakInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InsertAdBreakInput, InsertAdBreakOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<InsertAdBreakOutput>(InsertAdBreakOutput.httpOutput(from:), InsertAdBreakOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<InsertAdBreakInput, InsertAdBreakOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<InsertAdBreakOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ivs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<InsertAdBreakOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<InsertAdBreakOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<InsertAdBreakInput, InsertAdBreakOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<InsertAdBreakInput, InsertAdBreakOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<InsertAdBreakInput, InsertAdBreakOutput>(serviceID: serviceName, version: IvsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Ivs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "InsertAdBreak")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListAdConfigurations` operation on the `Ivs` service.
+    ///
+    /// Gets summary information about all ad configurations in your account, in the AWS region where the API request is processed.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListAdConfigurationsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListAdConfigurationsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `InternalServerException` :
+    /// - `ValidationException` :
+    public func listAdConfigurations(input: ListAdConfigurationsInput) async throws -> ListAdConfigurationsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listAdConfigurations")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ivs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListAdConfigurationsInput, ListAdConfigurationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListAdConfigurationsInput, ListAdConfigurationsOutput>(ListAdConfigurationsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAdConfigurationsInput, ListAdConfigurationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAdConfigurationsInput, ListAdConfigurationsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListAdConfigurationsInput, ListAdConfigurationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAdConfigurationsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAdConfigurationsInput, ListAdConfigurationsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAdConfigurationsOutput>(ListAdConfigurationsOutput.httpOutput(from:), ListAdConfigurationsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAdConfigurationsInput, ListAdConfigurationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListAdConfigurationsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ivs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAdConfigurationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAdConfigurationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAdConfigurationsInput, ListAdConfigurationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAdConfigurationsInput, ListAdConfigurationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAdConfigurationsInput, ListAdConfigurationsOutput>(serviceID: serviceName, version: IvsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Ivs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListAdConfigurations")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

@@ -23,8 +23,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
@@ -160,7 +160,7 @@ extension BackupClientTypes {
 
     /// The backup options for each resource type.
     public struct AdvancedBackupSetting: Swift.Sendable {
-        /// Specifies the backup option for a selected resource. This option is available for Windows VSS backup jobs and S3 backups. Valid values: Set to "WindowsVSS":"enabled" to enable the WindowsVSS backup option and create a Windows VSS backup. Set to "WindowsVSS":"disabled" to create a regular backup. The WindowsVSS option is not enabled by default. For S3 backups, set to "S3BackupACLs":"disabled" to exclude ACLs from the backup, or "S3BackupObjectTags":"disabled" to exclude object tags from the backup. By default, both ACLs and object tags are included in S3 backups. If you specify an invalid option, you get an InvalidParameterValueException exception. For more information about Windows VSS backups, see [Creating a VSS-Enabled Windows Backup](https://docs.aws.amazon.com/aws-backup/latest/devguide/windows-backups.html).
+        /// Specifies the backup option for a selected resource. This option is available for Windows VSS backup jobs and S3 backups. Valid values: Set to "WindowsVSS":"enabled" to enable the WindowsVSS backup option and create a Windows VSS backup. Set to "WindowsVSS":"disabled" to create a regular backup. The WindowsVSS option is not enabled by default. For S3 backups, set to "BackupACLs":"disabled" to exclude ACLs from the backup, or "BackupObjectTags":"disabled" to exclude object tags from the backup. By default, both ACLs and object tags are included in S3 backups. If you specify an invalid option, you get an InvalidParameterValueException exception. For more information about Windows VSS backups, see [Creating a VSS-Enabled Windows Backup](https://docs.aws.amazon.com/aws-backup/latest/devguide/windows-backups.html).
         public var backupOptions: [Swift.String: Swift.String]?
         /// Specifies an object containing resource type and backup options. The only supported resource type is Amazon EC2 instances with Windows Volume Shadow Copy Service (VSS). For a CloudFormation example, see the [sample CloudFormation template to enable Windows VSS](https://docs.aws.amazon.com/aws-backup/latest/devguide/integrate-cloudformation-with-aws-backup.html) in the Backup User Guide. Valid values: EC2.
         public var resourceType: Swift.String?
@@ -277,9 +277,9 @@ public struct AlreadyExistsException: ClientRuntime.ModeledError, AWSClientRunti
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         arn: Swift.String? = nil,
@@ -315,9 +315,9 @@ public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSCli
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         code: Swift.String? = nil,
@@ -349,9 +349,9 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         code: Swift.String? = nil,
@@ -383,9 +383,9 @@ public struct MissingParameterValueException: ClientRuntime.ModeledError, AWSCli
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         code: Swift.String? = nil,
@@ -417,9 +417,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         code: Swift.String? = nil,
@@ -451,9 +451,9 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         code: Swift.String? = nil,
@@ -659,6 +659,8 @@ extension BackupClientTypes {
         /// * Amazon EC2 and Amazon EBS show volume size (provisioned storage) returned as part of this value. Amazon EBS does not return backup size information; snapshot size will have the same value as the original resource that was backed up.
         ///
         /// * For Amazon EFS, this value refers to the delta bytes transferred during a backup.
+        ///
+        /// * For Amazon EKS, this value refers to the size of your nested EKS recovery point.
         ///
         /// * Amazon FSx does not populate this value from the operation GetBackupJobStatus for FSx file systems.
         ///
@@ -1403,7 +1405,7 @@ extension BackupClientTypes {
         public var listOfTags: [BackupClientTypes.Condition]?
         /// The Amazon Resource Names (ARNs) of the resources to exclude from a backup plan. The maximum number of ARNs is 500 without wildcards, or 30 ARNs with wildcards. If you need to exclude many resources from a backup plan, consider a different resource selection strategy, such as assigning only one or a few resource types or refining your resource selection using tags.
         public var notResources: [Swift.String]?
-        /// The Amazon Resource Names (ARNs) of the resources to assign to a backup plan. The maximum number of ARNs is 500 without wildcards, or 30 ARNs with wildcards. If you need to assign many resources to a backup plan, consider a different resource selection strategy, such as assigning all resources of a resource type or refining your resource selection using tags. If you specify multiple ARNs, the resources much match any of the ARNs (OR logic).
+        /// The Amazon Resource Names (ARNs) of the resources to assign to a backup plan. The maximum number of ARNs is 500 without wildcards, or 30 ARNs with wildcards. If you need to assign many resources to a backup plan, consider a different resource selection strategy, such as assigning all resources of a resource type or refining your resource selection using tags. If you specify multiple ARNs, the resources much match any of the ARNs (OR logic). When using wildcards in ARN patterns for backup selections, the asterisk (*) must appear at the end of the ARN string (prefix pattern). For example, arn:aws:s3:::my-bucket-* is valid, but arn:aws:s3:::*-logs is not supported.
         public var resources: [Swift.String]?
         /// The display name of a resource selection document. Must contain 1 to 50 alphanumeric or '-_.' characters.
         /// This member is required.
@@ -1476,6 +1478,9 @@ extension BackupClientTypes {
         case copyJobFailed
         case copyJobStarted
         case copyJobSuccessful
+        case eksBackupObjectFailed
+        case eksRestoreObjectFailed
+        case eksRestoreObjectSkipped
         case recoveryPointIndexingFailed
         case recoveryPointIndexCompleted
         case recoveryPointIndexDeleted
@@ -1501,6 +1506,9 @@ extension BackupClientTypes {
                 .copyJobFailed,
                 .copyJobStarted,
                 .copyJobSuccessful,
+                .eksBackupObjectFailed,
+                .eksRestoreObjectFailed,
+                .eksRestoreObjectSkipped,
                 .recoveryPointIndexingFailed,
                 .recoveryPointIndexCompleted,
                 .recoveryPointIndexDeleted,
@@ -1532,6 +1540,9 @@ extension BackupClientTypes {
             case .copyJobFailed: return "COPY_JOB_FAILED"
             case .copyJobStarted: return "COPY_JOB_STARTED"
             case .copyJobSuccessful: return "COPY_JOB_SUCCESSFUL"
+            case .eksBackupObjectFailed: return "EKS_BACKUP_OBJECT_FAILED"
+            case .eksRestoreObjectFailed: return "EKS_RESTORE_OBJECT_FAILED"
+            case .eksRestoreObjectSkipped: return "EKS_RESTORE_OBJECT_SKIPPED"
             case .recoveryPointIndexingFailed: return "RECOVERY_POINT_INDEXING_FAILED"
             case .recoveryPointIndexCompleted: return "RECOVERY_POINT_INDEX_COMPLETED"
             case .recoveryPointIndexDeleted: return "RECOVERY_POINT_INDEX_DELETED"
@@ -1740,9 +1751,9 @@ public struct InvalidResourceStateException: ClientRuntime.ModeledError, AWSClie
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         code: Swift.String? = nil,
@@ -1800,9 +1811,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         code: Swift.String? = nil,
@@ -2132,9 +2143,9 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         code: Swift.String? = nil,
@@ -3375,9 +3386,9 @@ public struct DependencyFailureException: ClientRuntime.ModeledError, AWSClientR
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         code: Swift.String? = nil,
@@ -3420,6 +3431,8 @@ public struct DescribeBackupJobOutput: Swift.Sendable {
     /// * Amazon EC2 and Amazon EBS show volume size (provisioned storage) returned as part of this value. Amazon EBS does not return backup size information; snapshot size will have the same value as the original resource that was backed up.
     ///
     /// * For Amazon EFS, this value refers to the delta bytes transferred during a backup.
+    ///
+    /// * For Amazon EKS, this value refers to the size of your nested EKS recovery point.
     ///
     /// * Amazon FSx does not populate this value from the operation GetBackupJobStatus for FSx file systems.
     ///
@@ -3796,8 +3809,14 @@ public struct DescribeGlobalSettingsInput: Swift.Sendable {
 
 public struct DescribeGlobalSettingsOutput: Swift.Sendable {
     /// The status of the flags isCrossAccountBackupEnabled, isMpaEnabled ('Mpa' refers to multi-party approval), and isDelegatedAdministratorEnabled.
+    ///
+    /// * isCrossAccountBackupEnabled: Allow accounts in your organization to copy backups to other accounts.
+    ///
+    /// * isMpaEnabled: Add cross-account access to your organization with the option to assign a Multi-party approval team to a logically air-gapped vault.
+    ///
+    /// * isDelegatedAdministratorEnabled: Allow Backup to automatically synchronize delegated administrator permissions with Organizations.
     public var globalSettings: [Swift.String: Swift.String]?
-    /// The date and time that the flag isCrossAccountBackupEnabled was last updated. This update is in Unix format and Coordinated Universal Time (UTC). The value of LastUpdateTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+    /// The date and time that the supported flags were last updated. This update is in Unix format and Coordinated Universal Time (UTC). The value of LastUpdateTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
     public var lastUpdateTime: Foundation.Date?
 
     public init(
@@ -5636,6 +5655,8 @@ public struct GetSupportedResourceTypesOutput: Swift.Sendable {
     ///
     /// * EFS for Amazon Elastic File System
     ///
+    /// * EKS for Amazon Elastic Kubernetes Service
+    ///
     /// * FSx for Amazon FSx
     ///
     /// * Neptune for Amazon Neptune
@@ -5761,6 +5782,8 @@ public struct ListBackupJobsInput: Swift.Sendable {
     /// * EC2 for Amazon Elastic Compute Cloud
     ///
     /// * EFS for Amazon Elastic File System
+    ///
+    /// * EKS for Amazon Elastic Kubernetes Service
     ///
     /// * FSx for Amazon FSx
     ///
@@ -6105,6 +6128,8 @@ public struct ListCopyJobsInput: Swift.Sendable {
     /// * EC2 for Amazon Elastic Compute Cloud
     ///
     /// * EFS for Amazon Elastic File System
+    ///
+    /// * EKS for Amazon Elastic Kubernetes Service
     ///
     /// * FSx for Amazon FSx
     ///
@@ -6621,6 +6646,8 @@ public struct ListRecoveryPointsByBackupVaultInput: Swift.Sendable {
     /// * EC2 for Amazon Elastic Compute Cloud
     ///
     /// * EFS for Amazon Elastic File System
+    ///
+    /// * EKS for Amazon Elastic Kubernetes Service
     ///
     /// * FSx for Amazon FSx
     ///
@@ -7210,6 +7237,8 @@ public struct ListRestoreJobsInput: Swift.Sendable {
     /// * EC2 for Amazon Elastic Compute Cloud
     ///
     /// * EFS for Amazon Elastic File System
+    ///
+    /// * EKS for Amazon Elastic Kubernetes Service
     ///
     /// * FSx for Amazon FSx
     ///
@@ -8209,7 +8238,7 @@ public struct PutBackupVaultLockConfigurationInput: Swift.Sendable {
     /// The Backup Vault Lock configuration that specifies the name of the backup vault it protects.
     /// This member is required.
     public var backupVaultName: Swift.String?
-    /// The Backup Vault Lock configuration that specifies the number of days before the lock date. For example, setting ChangeableForDays to 30 on Jan. 1, 2022 at 8pm UTC will set the lock date to Jan. 31, 2022 at 8pm UTC. Backup enforces a 72-hour cooling-off period before Vault Lock takes effect and becomes immutable. Therefore, you must set ChangeableForDays to 3 or greater. Before the lock date, you can delete Vault Lock from the vault using DeleteBackupVaultLockConfiguration or change the Vault Lock configuration using PutBackupVaultLockConfiguration. On and after the lock date, the Vault Lock becomes immutable and cannot be changed or deleted. If this parameter is not specified, you can delete Vault Lock from the vault using DeleteBackupVaultLockConfiguration or change the Vault Lock configuration using PutBackupVaultLockConfiguration at any time.
+    /// The Backup Vault Lock configuration that specifies the number of days before the lock date. For example, setting ChangeableForDays to 30 on Jan. 1, 2022 at 8pm UTC will set the lock date to Jan. 31, 2022 at 8pm UTC. Backup enforces a 72-hour cooling-off period before Vault Lock takes effect and becomes immutable. Therefore, you must set ChangeableForDays to 3 or greater. The maximum value you can specify is 36,500 days (approximately 100 years). Before the lock date, you can delete Vault Lock from the vault using DeleteBackupVaultLockConfiguration or change the Vault Lock configuration using PutBackupVaultLockConfiguration. On and after the lock date, the Vault Lock becomes immutable and cannot be changed or deleted. If this parameter is not specified, you can delete Vault Lock from the vault using DeleteBackupVaultLockConfiguration or change the Vault Lock configuration using PutBackupVaultLockConfiguration at any time.
     public var changeableForDays: Swift.Int?
     /// The Backup Vault Lock configuration that specifies the maximum retention period that the vault retains its recovery points. This setting can be useful if, for example, your organization's policies require you to destroy certain data after retaining it for four years (1460 days). If this parameter is not included, Vault Lock does not enforce a maximum retention period on the recovery points in the vault. If this parameter is included without a value, Vault Lock will not enforce a maximum retention period. If this parameter is specified, any backup or copy job to the vault must have a lifecycle policy with a retention period equal to or shorter than the maximum retention period. If the job's retention period is longer than that maximum retention period, then the vault fails the backup or copy job, and you should either modify your lifecycle settings or use a different vault. The longest maximum retention period you can specify is 36500 days (approximately 100 years). Recovery points already saved in the vault prior to Vault Lock are not affected.
     public var maxRetentionDays: Swift.Int?
@@ -8520,6 +8549,8 @@ public struct StartRestoreJobInput: Swift.Sendable {
     ///
     /// * [Metadata for Amazon EFS](https://docs.aws.amazon.com/aws-backup/latest/devguide/restoring-efs.html#efs-restore-cli)
     ///
+    /// * [Metadata for Amazon EKS](https://docs.aws.amazon.com/aws-backup/latest/devguide/restoring-eks.html#eks-restore-backup-section)
+    ///
     /// * [Metadata for Amazon FSx](https://docs.aws.amazon.com/aws-backup/latest/devguide/restoring-fsx.html#fsx-restore-cli)
     ///
     /// * [Metadata for Amazon Neptune](https://docs.aws.amazon.com/aws-backup/latest/devguide/restoring-nep.html#nep-restore-cli)
@@ -8555,6 +8586,8 @@ public struct StartRestoreJobInput: Swift.Sendable {
     /// * EC2 - Amazon Elastic Compute Cloud
     ///
     /// * EFS - Amazon Elastic File System
+    ///
+    /// * EKS - Amazon Elastic Kubernetes Service
     ///
     /// * FSx - Amazon FSx
     ///
@@ -8820,7 +8853,7 @@ public struct UpdateFrameworkOutput: Swift.Sendable {
 }
 
 public struct UpdateGlobalSettingsInput: Swift.Sendable {
-    /// Inputs can include: A value for isCrossAccountBackupEnabled and a Region. Example: update-global-settings --global-settings isCrossAccountBackupEnabled=false --region us-west-2. A value for Multi-party approval, styled as "Mpa": isMpaEnabled. Values can be true or false. Example: update-global-settings --global-settings isMpaEnabled=false --region us-west-2. A value for Backup Service-Linked Role creation, styled asisDelegatedAdministratorEnabled. Values can be true or false. Example: update-global-settings --global-settings isDelegatedAdministratorEnabled=false --region us-west-2.
+    /// Inputs can include: A value for isCrossAccountBackupEnabled. Values can be true or false. Example: update-global-settings --global-settings isCrossAccountBackupEnabled=false. A value for Multi-party approval, styled as isMpaEnabled. Values can be true or false. Example: update-global-settings --global-settings isMpaEnabled=false. A value for Backup Service-Linked Role creation, styled as isDelegatedAdministratorEnabled. Values can be true or false. Example: update-global-settings --global-settings isDelegatedAdministratorEnabled=false.
     public var globalSettings: [Swift.String: Swift.String]?
 
     public init(
@@ -12931,7 +12964,7 @@ enum AssociateBackupVaultMpaApprovalTeamOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -12949,7 +12982,7 @@ enum CancelLegalHoldOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -12967,7 +13000,7 @@ enum CreateBackupPlanOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AlreadyExistsException": return try AlreadyExistsException.makeError(baseError: baseError)
@@ -12985,7 +13018,7 @@ enum CreateBackupSelectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AlreadyExistsException": return try AlreadyExistsException.makeError(baseError: baseError)
@@ -13003,7 +13036,7 @@ enum CreateBackupVaultOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AlreadyExistsException": return try AlreadyExistsException.makeError(baseError: baseError)
@@ -13021,7 +13054,7 @@ enum CreateFrameworkOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AlreadyExistsException": return try AlreadyExistsException.makeError(baseError: baseError)
@@ -13039,7 +13072,7 @@ enum CreateLegalHoldOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -13056,7 +13089,7 @@ enum CreateLogicallyAirGappedBackupVaultOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AlreadyExistsException": return try AlreadyExistsException.makeError(baseError: baseError)
@@ -13075,7 +13108,7 @@ enum CreateReportPlanOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AlreadyExistsException": return try AlreadyExistsException.makeError(baseError: baseError)
@@ -13093,7 +13126,7 @@ enum CreateRestoreAccessBackupVaultOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AlreadyExistsException": return try AlreadyExistsException.makeError(baseError: baseError)
@@ -13113,7 +13146,7 @@ enum CreateRestoreTestingPlanOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AlreadyExistsException": return try AlreadyExistsException.makeError(baseError: baseError)
@@ -13132,7 +13165,7 @@ enum CreateRestoreTestingSelectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AlreadyExistsException": return try AlreadyExistsException.makeError(baseError: baseError)
@@ -13151,7 +13184,7 @@ enum CreateTieringConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AlreadyExistsException": return try AlreadyExistsException.makeError(baseError: baseError)
@@ -13170,7 +13203,7 @@ enum DeleteBackupPlanOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -13188,7 +13221,7 @@ enum DeleteBackupSelectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -13205,7 +13238,7 @@ enum DeleteBackupVaultOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -13223,7 +13256,7 @@ enum DeleteBackupVaultAccessPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -13240,7 +13273,7 @@ enum DeleteBackupVaultLockConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -13258,7 +13291,7 @@ enum DeleteBackupVaultNotificationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -13275,7 +13308,7 @@ enum DeleteFrameworkOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -13293,7 +13326,7 @@ enum DeleteRecoveryPointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -13312,7 +13345,7 @@ enum DeleteReportPlanOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -13330,7 +13363,7 @@ enum DeleteRestoreTestingPlanOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
@@ -13345,7 +13378,7 @@ enum DeleteRestoreTestingSelectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -13360,7 +13393,7 @@ enum DeleteTieringConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -13377,7 +13410,7 @@ enum DescribeBackupJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DependencyFailureException": return try DependencyFailureException.makeError(baseError: baseError)
@@ -13395,7 +13428,7 @@ enum DescribeBackupVaultOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -13412,7 +13445,7 @@ enum DescribeCopyJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -13429,7 +13462,7 @@ enum DescribeFrameworkOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -13446,7 +13479,7 @@ enum DescribeGlobalSettingsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
@@ -13461,7 +13494,7 @@ enum DescribeProtectedResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -13478,7 +13511,7 @@ enum DescribeRecoveryPointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -13495,7 +13528,7 @@ enum DescribeRegionSettingsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
@@ -13509,7 +13542,7 @@ enum DescribeReportJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "MissingParameterValueException": return try MissingParameterValueException.makeError(baseError: baseError)
@@ -13525,7 +13558,7 @@ enum DescribeReportPlanOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -13542,7 +13575,7 @@ enum DescribeRestoreJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DependencyFailureException": return try DependencyFailureException.makeError(baseError: baseError)
@@ -13560,7 +13593,7 @@ enum DescribeScanJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -13577,7 +13610,7 @@ enum DisassociateBackupVaultMpaApprovalTeamOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -13595,7 +13628,7 @@ enum DisassociateRecoveryPointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -13614,7 +13647,7 @@ enum DisassociateRecoveryPointFromParentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -13632,7 +13665,7 @@ enum ExportBackupPlanTemplateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -13649,7 +13682,7 @@ enum GetBackupPlanOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -13666,7 +13699,7 @@ enum GetBackupPlanFromJSONOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -13684,7 +13717,7 @@ enum GetBackupPlanFromTemplateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -13701,7 +13734,7 @@ enum GetBackupSelectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -13718,7 +13751,7 @@ enum GetBackupVaultAccessPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -13735,7 +13768,7 @@ enum GetBackupVaultNotificationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -13752,7 +13785,7 @@ enum GetLegalHoldOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -13769,7 +13802,7 @@ enum GetRecoveryPointIndexDetailsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -13786,7 +13819,7 @@ enum GetRecoveryPointRestoreMetadataOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -13803,7 +13836,7 @@ enum GetRestoreJobMetadataOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -13820,7 +13853,7 @@ enum GetRestoreTestingInferredMetadataOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -13837,7 +13870,7 @@ enum GetRestoreTestingPlanOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -13852,7 +13885,7 @@ enum GetRestoreTestingSelectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -13867,7 +13900,7 @@ enum GetSupportedResourceTypesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
@@ -13881,7 +13914,7 @@ enum GetTieringConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -13898,7 +13931,7 @@ enum ListBackupJobsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -13913,7 +13946,7 @@ enum ListBackupJobSummariesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -13928,7 +13961,7 @@ enum ListBackupPlansOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -13945,7 +13978,7 @@ enum ListBackupPlanTemplatesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -13962,7 +13995,7 @@ enum ListBackupPlanVersionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -13979,7 +14012,7 @@ enum ListBackupSelectionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -13996,7 +14029,7 @@ enum ListBackupVaultsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -14013,7 +14046,7 @@ enum ListCopyJobsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -14028,7 +14061,7 @@ enum ListCopyJobSummariesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -14043,7 +14076,7 @@ enum ListFrameworksOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -14058,7 +14091,7 @@ enum ListIndexedRecoveryPointsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -14074,7 +14107,7 @@ enum ListLegalHoldsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -14089,7 +14122,7 @@ enum ListProtectedResourcesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -14104,7 +14137,7 @@ enum ListProtectedResourcesByBackupVaultOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -14120,7 +14153,7 @@ enum ListRecoveryPointsByBackupVaultOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -14137,7 +14170,7 @@ enum ListRecoveryPointsByLegalHoldOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -14153,7 +14186,7 @@ enum ListRecoveryPointsByResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -14170,7 +14203,7 @@ enum ListReportJobsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -14186,7 +14219,7 @@ enum ListReportPlansOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -14201,7 +14234,7 @@ enum ListRestoreAccessBackupVaultsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -14218,7 +14251,7 @@ enum ListRestoreJobsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -14235,7 +14268,7 @@ enum ListRestoreJobsByProtectedResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -14252,7 +14285,7 @@ enum ListRestoreJobSummariesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -14267,7 +14300,7 @@ enum ListRestoreTestingPlansOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -14282,7 +14315,7 @@ enum ListRestoreTestingSelectionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -14298,7 +14331,7 @@ enum ListScanJobsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -14313,7 +14346,7 @@ enum ListScanJobSummariesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -14328,7 +14361,7 @@ enum ListTagsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -14345,7 +14378,7 @@ enum ListTieringConfigurationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -14360,7 +14393,7 @@ enum PutBackupVaultAccessPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -14377,7 +14410,7 @@ enum PutBackupVaultLockConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -14395,7 +14428,7 @@ enum PutBackupVaultNotificationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -14412,7 +14445,7 @@ enum PutRestoreValidationResultOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -14430,7 +14463,7 @@ enum RevokeRestoreAccessBackupVaultOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -14448,7 +14481,7 @@ enum StartBackupJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -14467,7 +14500,7 @@ enum StartCopyJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -14486,7 +14519,7 @@ enum StartReportJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -14503,7 +14536,7 @@ enum StartRestoreJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -14521,7 +14554,7 @@ enum StartScanJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -14540,7 +14573,7 @@ enum StopBackupJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -14558,7 +14591,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -14576,7 +14609,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -14593,7 +14626,7 @@ enum UpdateBackupPlanOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -14610,7 +14643,7 @@ enum UpdateFrameworkOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AlreadyExistsException": return try AlreadyExistsException.makeError(baseError: baseError)
@@ -14630,7 +14663,7 @@ enum UpdateGlobalSettingsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -14647,7 +14680,7 @@ enum UpdateRecoveryPointIndexSettingsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -14665,7 +14698,7 @@ enum UpdateRecoveryPointLifecycleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -14683,7 +14716,7 @@ enum UpdateRegionSettingsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -14699,7 +14732,7 @@ enum UpdateReportPlanOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -14717,7 +14750,7 @@ enum UpdateRestoreTestingPlanOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -14735,7 +14768,7 @@ enum UpdateRestoreTestingSelectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -14753,7 +14786,7 @@ enum UpdateTieringConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AlreadyExistsException": return try AlreadyExistsException.makeError(baseError: baseError)
@@ -14770,7 +14803,7 @@ enum UpdateTieringConfigurationOutputError {
 
 extension InvalidParameterValueException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidParameterValueException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidParameterValueException {
         let reader = baseError.errorBodyReader
         var value = InvalidParameterValueException()
         value.properties.code = try reader["Code"].readIfPresent()
@@ -14786,7 +14819,7 @@ extension InvalidParameterValueException {
 
 extension InvalidRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidRequestException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidRequestException {
         let reader = baseError.errorBodyReader
         var value = InvalidRequestException()
         value.properties.code = try reader["Code"].readIfPresent()
@@ -14802,7 +14835,7 @@ extension InvalidRequestException {
 
 extension MissingParameterValueException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MissingParameterValueException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> MissingParameterValueException {
         let reader = baseError.errorBodyReader
         var value = MissingParameterValueException()
         value.properties.code = try reader["Code"].readIfPresent()
@@ -14818,7 +14851,7 @@ extension MissingParameterValueException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.code = try reader["Code"].readIfPresent()
@@ -14834,7 +14867,7 @@ extension ResourceNotFoundException {
 
 extension ServiceUnavailableException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
         let reader = baseError.errorBodyReader
         var value = ServiceUnavailableException()
         value.properties.code = try reader["Code"].readIfPresent()
@@ -14850,7 +14883,7 @@ extension ServiceUnavailableException {
 
 extension InvalidResourceStateException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidResourceStateException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidResourceStateException {
         let reader = baseError.errorBodyReader
         var value = InvalidResourceStateException()
         value.properties.code = try reader["Code"].readIfPresent()
@@ -14866,7 +14899,7 @@ extension InvalidResourceStateException {
 
 extension AlreadyExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AlreadyExistsException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AlreadyExistsException {
         let reader = baseError.errorBodyReader
         var value = AlreadyExistsException()
         value.properties.arn = try reader["Arn"].readIfPresent()
@@ -14884,7 +14917,7 @@ extension AlreadyExistsException {
 
 extension LimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> LimitExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> LimitExceededException {
         let reader = baseError.errorBodyReader
         var value = LimitExceededException()
         value.properties.code = try reader["Code"].readIfPresent()
@@ -14900,7 +14933,7 @@ extension LimitExceededException {
 
 extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.code = try reader["Code"].readIfPresent()
@@ -14916,7 +14949,7 @@ extension ConflictException {
 
 extension DependencyFailureException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DependencyFailureException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> DependencyFailureException {
         let reader = baseError.errorBodyReader
         var value = DependencyFailureException()
         value.properties.code = try reader["Code"].readIfPresent()
@@ -14947,656 +14980,14 @@ extension BackupClientTypes.AdvancedBackupSetting {
     }
 }
 
-extension BackupClientTypes.RecoveryPointSelection {
+extension BackupClientTypes.AggregatedScanResult {
 
-    static func write(value: BackupClientTypes.RecoveryPointSelection?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DateRange"].write(value.dateRange, with: BackupClientTypes.DateRange.write(value:to:))
-        try writer["ResourceIdentifiers"].writeList(value.resourceIdentifiers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["VaultNames"].writeList(value.vaultNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.RecoveryPointSelection {
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.AggregatedScanResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupClientTypes.RecoveryPointSelection()
-        value.vaultNames = try reader["VaultNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.resourceIdentifiers = try reader["ResourceIdentifiers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.dateRange = try reader["DateRange"].readIfPresent(with: BackupClientTypes.DateRange.read(from:))
-        return value
-    }
-}
-
-extension BackupClientTypes.DateRange {
-
-    static func write(value: BackupClientTypes.DateRange?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FromDate"].writeTimestamp(value.fromDate, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["ToDate"].writeTimestamp(value.toDate, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.DateRange {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupClientTypes.DateRange()
-        value.fromDate = try reader["FromDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.toDate = try reader["ToDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension BackupClientTypes.Lifecycle {
-
-    static func write(value: BackupClientTypes.Lifecycle?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DeleteAfterDays"].write(value.deleteAfterDays)
-        try writer["DeleteAfterEvent"].write(value.deleteAfterEvent)
-        try writer["MoveToColdStorageAfterDays"].write(value.moveToColdStorageAfterDays)
-        try writer["OptInToArchiveForSupportedResources"].write(value.optInToArchiveForSupportedResources)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.Lifecycle {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupClientTypes.Lifecycle()
-        value.moveToColdStorageAfterDays = try reader["MoveToColdStorageAfterDays"].readIfPresent()
-        value.deleteAfterDays = try reader["DeleteAfterDays"].readIfPresent()
-        value.optInToArchiveForSupportedResources = try reader["OptInToArchiveForSupportedResources"].readIfPresent()
-        value.deleteAfterEvent = try reader["DeleteAfterEvent"].readIfPresent()
-        return value
-    }
-}
-
-extension BackupClientTypes.RecoveryPointCreator {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.RecoveryPointCreator {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupClientTypes.RecoveryPointCreator()
-        value.backupPlanId = try reader["BackupPlanId"].readIfPresent()
-        value.backupPlanArn = try reader["BackupPlanArn"].readIfPresent()
-        value.backupPlanName = try reader["BackupPlanName"].readIfPresent()
-        value.backupPlanVersion = try reader["BackupPlanVersion"].readIfPresent()
-        value.backupRuleId = try reader["BackupRuleId"].readIfPresent()
-        value.backupRuleName = try reader["BackupRuleName"].readIfPresent()
-        value.backupRuleCron = try reader["BackupRuleCron"].readIfPresent()
-        value.backupRuleTimezone = try reader["BackupRuleTimezone"].readIfPresent()
-        return value
-    }
-}
-
-extension BackupClientTypes.LatestMpaApprovalTeamUpdate {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.LatestMpaApprovalTeamUpdate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupClientTypes.LatestMpaApprovalTeamUpdate()
-        value.mpaSessionArn = try reader["MpaSessionArn"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.statusMessage = try reader["StatusMessage"].readIfPresent()
-        value.initiationDate = try reader["InitiationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.expiryDate = try reader["ExpiryDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension BackupClientTypes.CopyJob {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.CopyJob {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupClientTypes.CopyJob()
-        value.accountId = try reader["AccountId"].readIfPresent()
-        value.copyJobId = try reader["CopyJobId"].readIfPresent()
-        value.sourceBackupVaultArn = try reader["SourceBackupVaultArn"].readIfPresent()
-        value.sourceRecoveryPointArn = try reader["SourceRecoveryPointArn"].readIfPresent()
-        value.destinationBackupVaultArn = try reader["DestinationBackupVaultArn"].readIfPresent()
-        value.destinationVaultType = try reader["DestinationVaultType"].readIfPresent()
-        value.destinationVaultLockState = try reader["DestinationVaultLockState"].readIfPresent()
-        value.destinationRecoveryPointArn = try reader["DestinationRecoveryPointArn"].readIfPresent()
-        value.destinationEncryptionKeyArn = try reader["DestinationEncryptionKeyArn"].readIfPresent()
-        value.destinationRecoveryPointLifecycle = try reader["DestinationRecoveryPointLifecycle"].readIfPresent(with: BackupClientTypes.Lifecycle.read(from:))
-        value.resourceArn = try reader["ResourceArn"].readIfPresent()
-        value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.completionDate = try reader["CompletionDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.state = try reader["State"].readIfPresent()
-        value.statusMessage = try reader["StatusMessage"].readIfPresent()
-        value.backupSizeInBytes = try reader["BackupSizeInBytes"].readIfPresent()
-        value.iamRoleArn = try reader["IamRoleArn"].readIfPresent()
-        value.createdBy = try reader["CreatedBy"].readIfPresent(with: BackupClientTypes.RecoveryPointCreator.read(from:))
-        value.createdByBackupJobId = try reader["CreatedByBackupJobId"].readIfPresent()
-        value.resourceType = try reader["ResourceType"].readIfPresent()
-        value.parentJobId = try reader["ParentJobId"].readIfPresent()
-        value.isParent = try reader["IsParent"].readIfPresent() ?? false
-        value.compositeMemberIdentifier = try reader["CompositeMemberIdentifier"].readIfPresent()
-        value.numberOfChildJobs = try reader["NumberOfChildJobs"].readIfPresent()
-        value.childJobsInState = try reader["ChildJobsInState"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.resourceName = try reader["ResourceName"].readIfPresent()
-        value.messageCategory = try reader["MessageCategory"].readIfPresent()
-        return value
-    }
-}
-
-extension BackupClientTypes.FrameworkControl {
-
-    static func write(value: BackupClientTypes.FrameworkControl?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ControlInputParameters"].writeList(value.controlInputParameters, memberWritingClosure: BackupClientTypes.ControlInputParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ControlName"].write(value.controlName)
-        try writer["ControlScope"].write(value.controlScope, with: BackupClientTypes.ControlScope.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.FrameworkControl {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupClientTypes.FrameworkControl()
-        value.controlName = try reader["ControlName"].readIfPresent() ?? ""
-        value.controlInputParameters = try reader["ControlInputParameters"].readListIfPresent(memberReadingClosure: BackupClientTypes.ControlInputParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.controlScope = try reader["ControlScope"].readIfPresent(with: BackupClientTypes.ControlScope.read(from:))
-        return value
-    }
-}
-
-extension BackupClientTypes.ControlScope {
-
-    static func write(value: BackupClientTypes.ControlScope?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ComplianceResourceIds"].writeList(value.complianceResourceIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ComplianceResourceTypes"].writeList(value.complianceResourceTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.ControlScope {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupClientTypes.ControlScope()
-        value.complianceResourceIds = try reader["ComplianceResourceIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.complianceResourceTypes = try reader["ComplianceResourceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension BackupClientTypes.ControlInputParameter {
-
-    static func write(value: BackupClientTypes.ControlInputParameter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ParameterName"].write(value.parameterName)
-        try writer["ParameterValue"].write(value.parameterValue)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.ControlInputParameter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupClientTypes.ControlInputParameter()
-        value.parameterName = try reader["ParameterName"].readIfPresent()
-        value.parameterValue = try reader["ParameterValue"].readIfPresent()
-        return value
-    }
-}
-
-extension BackupClientTypes.CalculatedLifecycle {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.CalculatedLifecycle {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupClientTypes.CalculatedLifecycle()
-        value.moveToColdStorageAt = try reader["MoveToColdStorageAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.deleteAt = try reader["DeleteAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension BackupClientTypes.ScanResult {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.ScanResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupClientTypes.ScanResult()
-        value.malwareScanner = try reader["MalwareScanner"].readIfPresent()
-        value.scanJobState = try reader["ScanJobState"].readIfPresent()
-        value.lastScanTimestamp = try reader["LastScanTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        var value = BackupClientTypes.AggregatedScanResult()
+        value.failedScan = try reader["FailedScan"].readIfPresent()
         value.findings = try reader["Findings"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BackupClientTypes.ScanFinding>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension BackupClientTypes.ReportJob {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.ReportJob {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupClientTypes.ReportJob()
-        value.reportJobId = try reader["ReportJobId"].readIfPresent()
-        value.reportPlanArn = try reader["ReportPlanArn"].readIfPresent()
-        value.reportTemplate = try reader["ReportTemplate"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.completionTime = try reader["CompletionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.status = try reader["Status"].readIfPresent()
-        value.statusMessage = try reader["StatusMessage"].readIfPresent()
-        value.reportDestination = try reader["ReportDestination"].readIfPresent(with: BackupClientTypes.ReportDestination.read(from:))
-        return value
-    }
-}
-
-extension BackupClientTypes.ReportDestination {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.ReportDestination {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupClientTypes.ReportDestination()
-        value.s3BucketName = try reader["S3BucketName"].readIfPresent()
-        value.s3Keys = try reader["S3Keys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension BackupClientTypes.ReportPlan {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.ReportPlan {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupClientTypes.ReportPlan()
-        value.reportPlanArn = try reader["ReportPlanArn"].readIfPresent()
-        value.reportPlanName = try reader["ReportPlanName"].readIfPresent()
-        value.reportPlanDescription = try reader["ReportPlanDescription"].readIfPresent()
-        value.reportSetting = try reader["ReportSetting"].readIfPresent(with: BackupClientTypes.ReportSetting.read(from:))
-        value.reportDeliveryChannel = try reader["ReportDeliveryChannel"].readIfPresent(with: BackupClientTypes.ReportDeliveryChannel.read(from:))
-        value.deploymentStatus = try reader["DeploymentStatus"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastAttemptedExecutionTime = try reader["LastAttemptedExecutionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastSuccessfulExecutionTime = try reader["LastSuccessfulExecutionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension BackupClientTypes.ReportDeliveryChannel {
-
-    static func write(value: BackupClientTypes.ReportDeliveryChannel?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Formats"].writeList(value.formats, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["S3BucketName"].write(value.s3BucketName)
-        try writer["S3KeyPrefix"].write(value.s3KeyPrefix)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.ReportDeliveryChannel {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupClientTypes.ReportDeliveryChannel()
-        value.s3BucketName = try reader["S3BucketName"].readIfPresent() ?? ""
-        value.s3KeyPrefix = try reader["S3KeyPrefix"].readIfPresent()
-        value.formats = try reader["Formats"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension BackupClientTypes.ReportSetting {
-
-    static func write(value: BackupClientTypes.ReportSetting?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Accounts"].writeList(value.accounts, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["FrameworkArns"].writeList(value.frameworkArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["NumberOfFrameworks"].write(value.numberOfFrameworks)
-        try writer["OrganizationUnits"].writeList(value.organizationUnits, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Regions"].writeList(value.regions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ReportTemplate"].write(value.reportTemplate)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.ReportSetting {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupClientTypes.ReportSetting()
-        value.reportTemplate = try reader["ReportTemplate"].readIfPresent() ?? ""
-        value.frameworkArns = try reader["FrameworkArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.numberOfFrameworks = try reader["NumberOfFrameworks"].readIfPresent() ?? 0
-        value.accounts = try reader["Accounts"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.organizationUnits = try reader["OrganizationUnits"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.regions = try reader["Regions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension BackupClientTypes.RestoreJobCreator {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.RestoreJobCreator {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupClientTypes.RestoreJobCreator()
-        value.restoreTestingPlanArn = try reader["RestoreTestingPlanArn"].readIfPresent()
-        return value
-    }
-}
-
-extension BackupClientTypes.ScanJobCreator {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.ScanJobCreator {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupClientTypes.ScanJobCreator()
-        value.backupPlanArn = try reader["BackupPlanArn"].readIfPresent() ?? ""
-        value.backupPlanId = try reader["BackupPlanId"].readIfPresent() ?? ""
-        value.backupPlanVersion = try reader["BackupPlanVersion"].readIfPresent() ?? ""
-        value.backupRuleId = try reader["BackupRuleId"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension BackupClientTypes.ScanResultInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.ScanResultInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupClientTypes.ScanResultInfo()
-        value.scanResultStatus = try reader["ScanResultStatus"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension BackupClientTypes.BackupPlan {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.BackupPlan {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupClientTypes.BackupPlan()
-        value.backupPlanName = try reader["BackupPlanName"].readIfPresent() ?? ""
-        value.rules = try reader["Rules"].readListIfPresent(memberReadingClosure: BackupClientTypes.BackupRule.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.advancedBackupSettings = try reader["AdvancedBackupSettings"].readListIfPresent(memberReadingClosure: BackupClientTypes.AdvancedBackupSetting.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.scanSettings = try reader["ScanSettings"].readListIfPresent(memberReadingClosure: BackupClientTypes.ScanSetting.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension BackupClientTypes.ScanSetting {
-
-    static func write(value: BackupClientTypes.ScanSetting?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MalwareScanner"].write(value.malwareScanner)
-        try writer["ResourceTypes"].writeList(value.resourceTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ScannerRoleArn"].write(value.scannerRoleArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.ScanSetting {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupClientTypes.ScanSetting()
-        value.malwareScanner = try reader["MalwareScanner"].readIfPresent()
-        value.resourceTypes = try reader["ResourceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.scannerRoleArn = try reader["ScannerRoleArn"].readIfPresent()
-        return value
-    }
-}
-
-extension BackupClientTypes.BackupRule {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.BackupRule {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupClientTypes.BackupRule()
-        value.ruleName = try reader["RuleName"].readIfPresent() ?? ""
-        value.targetBackupVaultName = try reader["TargetBackupVaultName"].readIfPresent() ?? ""
-        value.targetLogicallyAirGappedBackupVaultArn = try reader["TargetLogicallyAirGappedBackupVaultArn"].readIfPresent()
-        value.scheduleExpression = try reader["ScheduleExpression"].readIfPresent()
-        value.startWindowMinutes = try reader["StartWindowMinutes"].readIfPresent()
-        value.completionWindowMinutes = try reader["CompletionWindowMinutes"].readIfPresent()
-        value.lifecycle = try reader["Lifecycle"].readIfPresent(with: BackupClientTypes.Lifecycle.read(from:))
-        value.recoveryPointTags = try reader["RecoveryPointTags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.ruleId = try reader["RuleId"].readIfPresent()
-        value.copyActions = try reader["CopyActions"].readListIfPresent(memberReadingClosure: BackupClientTypes.CopyAction.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.enableContinuousBackup = try reader["EnableContinuousBackup"].readIfPresent()
-        value.scheduleExpressionTimezone = try reader["ScheduleExpressionTimezone"].readIfPresent()
-        value.indexActions = try reader["IndexActions"].readListIfPresent(memberReadingClosure: BackupClientTypes.IndexAction.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.scanActions = try reader["ScanActions"].readListIfPresent(memberReadingClosure: BackupClientTypes.ScanAction.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension BackupClientTypes.ScanAction {
-
-    static func write(value: BackupClientTypes.ScanAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MalwareScanner"].write(value.malwareScanner)
-        try writer["ScanMode"].write(value.scanMode)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.ScanAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupClientTypes.ScanAction()
-        value.malwareScanner = try reader["MalwareScanner"].readIfPresent()
-        value.scanMode = try reader["ScanMode"].readIfPresent()
-        return value
-    }
-}
-
-extension BackupClientTypes.IndexAction {
-
-    static func write(value: BackupClientTypes.IndexAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ResourceTypes"].writeList(value.resourceTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.IndexAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupClientTypes.IndexAction()
-        value.resourceTypes = try reader["ResourceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension BackupClientTypes.CopyAction {
-
-    static func write(value: BackupClientTypes.CopyAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DestinationBackupVaultArn"].write(value.destinationBackupVaultArn)
-        try writer["Lifecycle"].write(value.lifecycle, with: BackupClientTypes.Lifecycle.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.CopyAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupClientTypes.CopyAction()
-        value.lifecycle = try reader["Lifecycle"].readIfPresent(with: BackupClientTypes.Lifecycle.read(from:))
-        value.destinationBackupVaultArn = try reader["DestinationBackupVaultArn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension BackupClientTypes.ScheduledPlanExecutionMember {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.ScheduledPlanExecutionMember {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupClientTypes.ScheduledPlanExecutionMember()
-        value.executionTime = try reader["ExecutionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.ruleId = try reader["RuleId"].readIfPresent()
-        value.ruleExecutionType = try reader["RuleExecutionType"].readIfPresent()
-        return value
-    }
-}
-
-extension BackupClientTypes.BackupSelection {
-
-    static func write(value: BackupClientTypes.BackupSelection?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Conditions"].write(value.conditions, with: BackupClientTypes.Conditions.write(value:to:))
-        try writer["IamRoleArn"].write(value.iamRoleArn)
-        try writer["ListOfTags"].writeList(value.listOfTags, memberWritingClosure: BackupClientTypes.Condition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["NotResources"].writeList(value.notResources, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Resources"].writeList(value.resources, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SelectionName"].write(value.selectionName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.BackupSelection {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupClientTypes.BackupSelection()
-        value.selectionName = try reader["SelectionName"].readIfPresent() ?? ""
-        value.iamRoleArn = try reader["IamRoleArn"].readIfPresent() ?? ""
-        value.resources = try reader["Resources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.listOfTags = try reader["ListOfTags"].readListIfPresent(memberReadingClosure: BackupClientTypes.Condition.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.notResources = try reader["NotResources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.conditions = try reader["Conditions"].readIfPresent(with: BackupClientTypes.Conditions.read(from:))
-        return value
-    }
-}
-
-extension BackupClientTypes.Conditions {
-
-    static func write(value: BackupClientTypes.Conditions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["StringEquals"].writeList(value.stringEquals, memberWritingClosure: BackupClientTypes.ConditionParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["StringLike"].writeList(value.stringLike, memberWritingClosure: BackupClientTypes.ConditionParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["StringNotEquals"].writeList(value.stringNotEquals, memberWritingClosure: BackupClientTypes.ConditionParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["StringNotLike"].writeList(value.stringNotLike, memberWritingClosure: BackupClientTypes.ConditionParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.Conditions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupClientTypes.Conditions()
-        value.stringEquals = try reader["StringEquals"].readListIfPresent(memberReadingClosure: BackupClientTypes.ConditionParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.stringNotEquals = try reader["StringNotEquals"].readListIfPresent(memberReadingClosure: BackupClientTypes.ConditionParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.stringLike = try reader["StringLike"].readListIfPresent(memberReadingClosure: BackupClientTypes.ConditionParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.stringNotLike = try reader["StringNotLike"].readListIfPresent(memberReadingClosure: BackupClientTypes.ConditionParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension BackupClientTypes.ConditionParameter {
-
-    static func write(value: BackupClientTypes.ConditionParameter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConditionKey"].write(value.conditionKey)
-        try writer["ConditionValue"].write(value.conditionValue)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.ConditionParameter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupClientTypes.ConditionParameter()
-        value.conditionKey = try reader["ConditionKey"].readIfPresent()
-        value.conditionValue = try reader["ConditionValue"].readIfPresent()
-        return value
-    }
-}
-
-extension BackupClientTypes.Condition {
-
-    static func write(value: BackupClientTypes.Condition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConditionKey"].write(value.conditionKey)
-        try writer["ConditionType"].write(value.conditionType)
-        try writer["ConditionValue"].write(value.conditionValue)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.Condition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupClientTypes.Condition()
-        value.conditionType = try reader["ConditionType"].readIfPresent() ?? .sdkUnknown("")
-        value.conditionKey = try reader["ConditionKey"].readIfPresent() ?? ""
-        value.conditionValue = try reader["ConditionValue"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension BackupClientTypes.RestoreTestingPlanForGet {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.RestoreTestingPlanForGet {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupClientTypes.RestoreTestingPlanForGet()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.creatorRequestId = try reader["CreatorRequestId"].readIfPresent()
-        value.lastExecutionTime = try reader["LastExecutionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdateTime = try reader["LastUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.recoveryPointSelection = try reader["RecoveryPointSelection"].readIfPresent(with: BackupClientTypes.RestoreTestingRecoveryPointSelection.read(from:))
-        value.restoreTestingPlanArn = try reader["RestoreTestingPlanArn"].readIfPresent() ?? ""
-        value.restoreTestingPlanName = try reader["RestoreTestingPlanName"].readIfPresent() ?? ""
-        value.scheduleExpression = try reader["ScheduleExpression"].readIfPresent() ?? ""
-        value.scheduleExpressionTimezone = try reader["ScheduleExpressionTimezone"].readIfPresent()
-        value.startWindowHours = try reader["StartWindowHours"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension BackupClientTypes.RestoreTestingRecoveryPointSelection {
-
-    static func write(value: BackupClientTypes.RestoreTestingRecoveryPointSelection?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Algorithm"].write(value.algorithm)
-        try writer["ExcludeVaults"].writeList(value.excludeVaults, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["IncludeVaults"].writeList(value.includeVaults, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["RecoveryPointTypes"].writeList(value.recoveryPointTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BackupClientTypes.RestoreTestingRecoveryPointType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SelectionWindowDays"].write(value.selectionWindowDays)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.RestoreTestingRecoveryPointSelection {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupClientTypes.RestoreTestingRecoveryPointSelection()
-        value.algorithm = try reader["Algorithm"].readIfPresent()
-        value.excludeVaults = try reader["ExcludeVaults"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.includeVaults = try reader["IncludeVaults"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.recoveryPointTypes = try reader["RecoveryPointTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BackupClientTypes.RestoreTestingRecoveryPointType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.selectionWindowDays = try reader["SelectionWindowDays"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension BackupClientTypes.RestoreTestingSelectionForGet {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.RestoreTestingSelectionForGet {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupClientTypes.RestoreTestingSelectionForGet()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.creatorRequestId = try reader["CreatorRequestId"].readIfPresent()
-        value.iamRoleArn = try reader["IamRoleArn"].readIfPresent() ?? ""
-        value.protectedResourceArns = try reader["ProtectedResourceArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.protectedResourceConditions = try reader["ProtectedResourceConditions"].readIfPresent(with: BackupClientTypes.ProtectedResourceConditions.read(from:))
-        value.protectedResourceType = try reader["ProtectedResourceType"].readIfPresent() ?? ""
-        value.restoreMetadataOverrides = try reader["RestoreMetadataOverrides"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.restoreTestingPlanName = try reader["RestoreTestingPlanName"].readIfPresent() ?? ""
-        value.restoreTestingSelectionName = try reader["RestoreTestingSelectionName"].readIfPresent() ?? ""
-        value.validationWindowHours = try reader["ValidationWindowHours"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension BackupClientTypes.ProtectedResourceConditions {
-
-    static func write(value: BackupClientTypes.ProtectedResourceConditions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["StringEquals"].writeList(value.stringEquals, memberWritingClosure: BackupClientTypes.KeyValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["StringNotEquals"].writeList(value.stringNotEquals, memberWritingClosure: BackupClientTypes.KeyValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.ProtectedResourceConditions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupClientTypes.ProtectedResourceConditions()
-        value.stringEquals = try reader["StringEquals"].readListIfPresent(memberReadingClosure: BackupClientTypes.KeyValue.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.stringNotEquals = try reader["StringNotEquals"].readListIfPresent(memberReadingClosure: BackupClientTypes.KeyValue.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension BackupClientTypes.KeyValue {
-
-    static func write(value: BackupClientTypes.KeyValue?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.KeyValue {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupClientTypes.KeyValue()
-        value.key = try reader["Key"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension BackupClientTypes.TieringConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.TieringConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupClientTypes.TieringConfiguration()
-        value.tieringConfigurationName = try reader["TieringConfigurationName"].readIfPresent() ?? ""
-        value.tieringConfigurationArn = try reader["TieringConfigurationArn"].readIfPresent()
-        value.backupVaultName = try reader["BackupVaultName"].readIfPresent() ?? ""
-        value.resourceSelection = try reader["ResourceSelection"].readListIfPresent(memberReadingClosure: BackupClientTypes.ResourceSelection.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.creatorRequestId = try reader["CreatorRequestId"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension BackupClientTypes.ResourceSelection {
-
-    static func write(value: BackupClientTypes.ResourceSelection?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ResourceType"].write(value.resourceType)
-        try writer["Resources"].writeList(value.resources, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["TieringDownSettingsInDays"].write(value.tieringDownSettingsInDays)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.ResourceSelection {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupClientTypes.ResourceSelection()
-        value.resources = try reader["Resources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.tieringDownSettingsInDays = try reader["TieringDownSettingsInDays"].readIfPresent() ?? 0
-        value.resourceType = try reader["ResourceType"].readIfPresent() ?? ""
+        value.lastComputed = try reader["LastComputed"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -15657,6 +15048,30 @@ extension BackupClientTypes.BackupJobSummary {
     }
 }
 
+extension BackupClientTypes.BackupPlan {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.BackupPlan {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupClientTypes.BackupPlan()
+        value.backupPlanName = try reader["BackupPlanName"].readIfPresent() ?? ""
+        value.rules = try reader["Rules"].readListIfPresent(memberReadingClosure: BackupClientTypes.BackupRule.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.advancedBackupSettings = try reader["AdvancedBackupSettings"].readListIfPresent(memberReadingClosure: BackupClientTypes.AdvancedBackupSetting.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.scanSettings = try reader["ScanSettings"].readListIfPresent(memberReadingClosure: BackupClientTypes.ScanSetting.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BackupClientTypes.BackupPlanInput {
+
+    static func write(value: BackupClientTypes.BackupPlanInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AdvancedBackupSettings"].writeList(value.advancedBackupSettings, memberWritingClosure: BackupClientTypes.AdvancedBackupSetting.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["BackupPlanName"].write(value.backupPlanName)
+        try writer["Rules"].writeList(value.rules, memberWritingClosure: BackupClientTypes.BackupRuleInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ScanSettings"].writeList(value.scanSettings, memberWritingClosure: BackupClientTypes.ScanSetting.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension BackupClientTypes.BackupPlansListMember {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.BackupPlansListMember {
@@ -15682,6 +15097,74 @@ extension BackupClientTypes.BackupPlanTemplatesListMember {
         var value = BackupClientTypes.BackupPlanTemplatesListMember()
         value.backupPlanTemplateId = try reader["BackupPlanTemplateId"].readIfPresent()
         value.backupPlanTemplateName = try reader["BackupPlanTemplateName"].readIfPresent()
+        return value
+    }
+}
+
+extension BackupClientTypes.BackupRule {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.BackupRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupClientTypes.BackupRule()
+        value.ruleName = try reader["RuleName"].readIfPresent() ?? ""
+        value.targetBackupVaultName = try reader["TargetBackupVaultName"].readIfPresent() ?? ""
+        value.targetLogicallyAirGappedBackupVaultArn = try reader["TargetLogicallyAirGappedBackupVaultArn"].readIfPresent()
+        value.scheduleExpression = try reader["ScheduleExpression"].readIfPresent()
+        value.startWindowMinutes = try reader["StartWindowMinutes"].readIfPresent()
+        value.completionWindowMinutes = try reader["CompletionWindowMinutes"].readIfPresent()
+        value.lifecycle = try reader["Lifecycle"].readIfPresent(with: BackupClientTypes.Lifecycle.read(from:))
+        value.recoveryPointTags = try reader["RecoveryPointTags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.ruleId = try reader["RuleId"].readIfPresent()
+        value.copyActions = try reader["CopyActions"].readListIfPresent(memberReadingClosure: BackupClientTypes.CopyAction.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.enableContinuousBackup = try reader["EnableContinuousBackup"].readIfPresent()
+        value.scheduleExpressionTimezone = try reader["ScheduleExpressionTimezone"].readIfPresent()
+        value.indexActions = try reader["IndexActions"].readListIfPresent(memberReadingClosure: BackupClientTypes.IndexAction.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.scanActions = try reader["ScanActions"].readListIfPresent(memberReadingClosure: BackupClientTypes.ScanAction.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BackupClientTypes.BackupRuleInput {
+
+    static func write(value: BackupClientTypes.BackupRuleInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CompletionWindowMinutes"].write(value.completionWindowMinutes)
+        try writer["CopyActions"].writeList(value.copyActions, memberWritingClosure: BackupClientTypes.CopyAction.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["EnableContinuousBackup"].write(value.enableContinuousBackup)
+        try writer["IndexActions"].writeList(value.indexActions, memberWritingClosure: BackupClientTypes.IndexAction.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Lifecycle"].write(value.lifecycle, with: BackupClientTypes.Lifecycle.write(value:to:))
+        try writer["RecoveryPointTags"].writeMap(value.recoveryPointTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["RuleName"].write(value.ruleName)
+        try writer["ScanActions"].writeList(value.scanActions, memberWritingClosure: BackupClientTypes.ScanAction.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ScheduleExpression"].write(value.scheduleExpression)
+        try writer["ScheduleExpressionTimezone"].write(value.scheduleExpressionTimezone)
+        try writer["StartWindowMinutes"].write(value.startWindowMinutes)
+        try writer["TargetBackupVaultName"].write(value.targetBackupVaultName)
+        try writer["TargetLogicallyAirGappedBackupVaultArn"].write(value.targetLogicallyAirGappedBackupVaultArn)
+    }
+}
+
+extension BackupClientTypes.BackupSelection {
+
+    static func write(value: BackupClientTypes.BackupSelection?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Conditions"].write(value.conditions, with: BackupClientTypes.Conditions.write(value:to:))
+        try writer["IamRoleArn"].write(value.iamRoleArn)
+        try writer["ListOfTags"].writeList(value.listOfTags, memberWritingClosure: BackupClientTypes.Condition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["NotResources"].writeList(value.notResources, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Resources"].writeList(value.resources, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SelectionName"].write(value.selectionName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.BackupSelection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupClientTypes.BackupSelection()
+        value.selectionName = try reader["SelectionName"].readIfPresent() ?? ""
+        value.iamRoleArn = try reader["IamRoleArn"].readIfPresent() ?? ""
+        value.resources = try reader["Resources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.listOfTags = try reader["ListOfTags"].readListIfPresent(memberReadingClosure: BackupClientTypes.Condition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.notResources = try reader["NotResources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.conditions = try reader["Conditions"].readIfPresent(with: BackupClientTypes.Conditions.read(from:))
         return value
     }
 }
@@ -15723,6 +15206,163 @@ extension BackupClientTypes.BackupVaultListMember {
     }
 }
 
+extension BackupClientTypes.CalculatedLifecycle {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.CalculatedLifecycle {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupClientTypes.CalculatedLifecycle()
+        value.moveToColdStorageAt = try reader["MoveToColdStorageAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.deleteAt = try reader["DeleteAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension BackupClientTypes.Condition {
+
+    static func write(value: BackupClientTypes.Condition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConditionKey"].write(value.conditionKey)
+        try writer["ConditionType"].write(value.conditionType)
+        try writer["ConditionValue"].write(value.conditionValue)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.Condition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupClientTypes.Condition()
+        value.conditionType = try reader["ConditionType"].readIfPresent() ?? .sdkUnknown("")
+        value.conditionKey = try reader["ConditionKey"].readIfPresent() ?? ""
+        value.conditionValue = try reader["ConditionValue"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BackupClientTypes.ConditionParameter {
+
+    static func write(value: BackupClientTypes.ConditionParameter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConditionKey"].write(value.conditionKey)
+        try writer["ConditionValue"].write(value.conditionValue)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.ConditionParameter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupClientTypes.ConditionParameter()
+        value.conditionKey = try reader["ConditionKey"].readIfPresent()
+        value.conditionValue = try reader["ConditionValue"].readIfPresent()
+        return value
+    }
+}
+
+extension BackupClientTypes.Conditions {
+
+    static func write(value: BackupClientTypes.Conditions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["StringEquals"].writeList(value.stringEquals, memberWritingClosure: BackupClientTypes.ConditionParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["StringLike"].writeList(value.stringLike, memberWritingClosure: BackupClientTypes.ConditionParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["StringNotEquals"].writeList(value.stringNotEquals, memberWritingClosure: BackupClientTypes.ConditionParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["StringNotLike"].writeList(value.stringNotLike, memberWritingClosure: BackupClientTypes.ConditionParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.Conditions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupClientTypes.Conditions()
+        value.stringEquals = try reader["StringEquals"].readListIfPresent(memberReadingClosure: BackupClientTypes.ConditionParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.stringNotEquals = try reader["StringNotEquals"].readListIfPresent(memberReadingClosure: BackupClientTypes.ConditionParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.stringLike = try reader["StringLike"].readListIfPresent(memberReadingClosure: BackupClientTypes.ConditionParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.stringNotLike = try reader["StringNotLike"].readListIfPresent(memberReadingClosure: BackupClientTypes.ConditionParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BackupClientTypes.ControlInputParameter {
+
+    static func write(value: BackupClientTypes.ControlInputParameter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ParameterName"].write(value.parameterName)
+        try writer["ParameterValue"].write(value.parameterValue)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.ControlInputParameter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupClientTypes.ControlInputParameter()
+        value.parameterName = try reader["ParameterName"].readIfPresent()
+        value.parameterValue = try reader["ParameterValue"].readIfPresent()
+        return value
+    }
+}
+
+extension BackupClientTypes.ControlScope {
+
+    static func write(value: BackupClientTypes.ControlScope?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ComplianceResourceIds"].writeList(value.complianceResourceIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ComplianceResourceTypes"].writeList(value.complianceResourceTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.ControlScope {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupClientTypes.ControlScope()
+        value.complianceResourceIds = try reader["ComplianceResourceIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.complianceResourceTypes = try reader["ComplianceResourceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension BackupClientTypes.CopyAction {
+
+    static func write(value: BackupClientTypes.CopyAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DestinationBackupVaultArn"].write(value.destinationBackupVaultArn)
+        try writer["Lifecycle"].write(value.lifecycle, with: BackupClientTypes.Lifecycle.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.CopyAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupClientTypes.CopyAction()
+        value.lifecycle = try reader["Lifecycle"].readIfPresent(with: BackupClientTypes.Lifecycle.read(from:))
+        value.destinationBackupVaultArn = try reader["DestinationBackupVaultArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BackupClientTypes.CopyJob {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.CopyJob {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupClientTypes.CopyJob()
+        value.accountId = try reader["AccountId"].readIfPresent()
+        value.copyJobId = try reader["CopyJobId"].readIfPresent()
+        value.sourceBackupVaultArn = try reader["SourceBackupVaultArn"].readIfPresent()
+        value.sourceRecoveryPointArn = try reader["SourceRecoveryPointArn"].readIfPresent()
+        value.destinationBackupVaultArn = try reader["DestinationBackupVaultArn"].readIfPresent()
+        value.destinationVaultType = try reader["DestinationVaultType"].readIfPresent()
+        value.destinationVaultLockState = try reader["DestinationVaultLockState"].readIfPresent()
+        value.destinationRecoveryPointArn = try reader["DestinationRecoveryPointArn"].readIfPresent()
+        value.destinationEncryptionKeyArn = try reader["DestinationEncryptionKeyArn"].readIfPresent()
+        value.destinationRecoveryPointLifecycle = try reader["DestinationRecoveryPointLifecycle"].readIfPresent(with: BackupClientTypes.Lifecycle.read(from:))
+        value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.completionDate = try reader["CompletionDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.state = try reader["State"].readIfPresent()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        value.backupSizeInBytes = try reader["BackupSizeInBytes"].readIfPresent()
+        value.iamRoleArn = try reader["IamRoleArn"].readIfPresent()
+        value.createdBy = try reader["CreatedBy"].readIfPresent(with: BackupClientTypes.RecoveryPointCreator.read(from:))
+        value.createdByBackupJobId = try reader["CreatedByBackupJobId"].readIfPresent()
+        value.resourceType = try reader["ResourceType"].readIfPresent()
+        value.parentJobId = try reader["ParentJobId"].readIfPresent()
+        value.isParent = try reader["IsParent"].readIfPresent() ?? false
+        value.compositeMemberIdentifier = try reader["CompositeMemberIdentifier"].readIfPresent()
+        value.numberOfChildJobs = try reader["NumberOfChildJobs"].readIfPresent()
+        value.childJobsInState = try reader["ChildJobsInState"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.resourceName = try reader["ResourceName"].readIfPresent()
+        value.messageCategory = try reader["MessageCategory"].readIfPresent()
+        return value
+    }
+}
+
 extension BackupClientTypes.CopyJobSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.CopyJobSummary {
@@ -15740,6 +15380,23 @@ extension BackupClientTypes.CopyJobSummary {
     }
 }
 
+extension BackupClientTypes.DateRange {
+
+    static func write(value: BackupClientTypes.DateRange?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FromDate"].writeTimestamp(value.fromDate, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["ToDate"].writeTimestamp(value.toDate, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.DateRange {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupClientTypes.DateRange()
+        value.fromDate = try reader["FromDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.toDate = try reader["ToDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
 extension BackupClientTypes.Framework {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.Framework {
@@ -15751,6 +15408,40 @@ extension BackupClientTypes.Framework {
         value.numberOfControls = try reader["NumberOfControls"].readIfPresent() ?? 0
         value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.deploymentStatus = try reader["DeploymentStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension BackupClientTypes.FrameworkControl {
+
+    static func write(value: BackupClientTypes.FrameworkControl?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ControlInputParameters"].writeList(value.controlInputParameters, memberWritingClosure: BackupClientTypes.ControlInputParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ControlName"].write(value.controlName)
+        try writer["ControlScope"].write(value.controlScope, with: BackupClientTypes.ControlScope.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.FrameworkControl {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupClientTypes.FrameworkControl()
+        value.controlName = try reader["ControlName"].readIfPresent() ?? ""
+        value.controlInputParameters = try reader["ControlInputParameters"].readListIfPresent(memberReadingClosure: BackupClientTypes.ControlInputParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.controlScope = try reader["ControlScope"].readIfPresent(with: BackupClientTypes.ControlScope.read(from:))
+        return value
+    }
+}
+
+extension BackupClientTypes.IndexAction {
+
+    static func write(value: BackupClientTypes.IndexAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceTypes"].writeList(value.resourceTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.IndexAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupClientTypes.IndexAction()
+        value.resourceTypes = try reader["ResourceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -15773,6 +15464,51 @@ extension BackupClientTypes.IndexedRecoveryPoint {
     }
 }
 
+extension BackupClientTypes.KeyValue {
+
+    static func write(value: BackupClientTypes.KeyValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.KeyValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupClientTypes.KeyValue()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BackupClientTypes.LatestMpaApprovalTeamUpdate {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.LatestMpaApprovalTeamUpdate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupClientTypes.LatestMpaApprovalTeamUpdate()
+        value.mpaSessionArn = try reader["MpaSessionArn"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        value.initiationDate = try reader["InitiationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.expiryDate = try reader["ExpiryDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension BackupClientTypes.LatestRevokeRequest {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.LatestRevokeRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupClientTypes.LatestRevokeRequest()
+        value.mpaSessionArn = try reader["MpaSessionArn"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        value.initiationDate = try reader["InitiationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.expiryDate = try reader["ExpiryDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
 extension BackupClientTypes.LegalHold {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.LegalHold {
@@ -15789,6 +15525,27 @@ extension BackupClientTypes.LegalHold {
     }
 }
 
+extension BackupClientTypes.Lifecycle {
+
+    static func write(value: BackupClientTypes.Lifecycle?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DeleteAfterDays"].write(value.deleteAfterDays)
+        try writer["DeleteAfterEvent"].write(value.deleteAfterEvent)
+        try writer["MoveToColdStorageAfterDays"].write(value.moveToColdStorageAfterDays)
+        try writer["OptInToArchiveForSupportedResources"].write(value.optInToArchiveForSupportedResources)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.Lifecycle {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupClientTypes.Lifecycle()
+        value.moveToColdStorageAfterDays = try reader["MoveToColdStorageAfterDays"].readIfPresent()
+        value.deleteAfterDays = try reader["DeleteAfterDays"].readIfPresent()
+        value.optInToArchiveForSupportedResources = try reader["OptInToArchiveForSupportedResources"].readIfPresent()
+        value.deleteAfterEvent = try reader["DeleteAfterEvent"].readIfPresent()
+        return value
+    }
+}
+
 extension BackupClientTypes.ProtectedResource {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.ProtectedResource {
@@ -15800,6 +15557,23 @@ extension BackupClientTypes.ProtectedResource {
         value.resourceName = try reader["ResourceName"].readIfPresent()
         value.lastBackupVaultArn = try reader["LastBackupVaultArn"].readIfPresent()
         value.lastRecoveryPointArn = try reader["LastRecoveryPointArn"].readIfPresent()
+        return value
+    }
+}
+
+extension BackupClientTypes.ProtectedResourceConditions {
+
+    static func write(value: BackupClientTypes.ProtectedResourceConditions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["StringEquals"].writeList(value.stringEquals, memberWritingClosure: BackupClientTypes.KeyValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["StringNotEquals"].writeList(value.stringNotEquals, memberWritingClosure: BackupClientTypes.KeyValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.ProtectedResourceConditions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupClientTypes.ProtectedResourceConditions()
+        value.stringEquals = try reader["StringEquals"].readListIfPresent(memberReadingClosure: BackupClientTypes.KeyValue.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.stringNotEquals = try reader["StringNotEquals"].readListIfPresent(memberReadingClosure: BackupClientTypes.KeyValue.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -15841,31 +15615,6 @@ extension BackupClientTypes.RecoveryPointByBackupVault {
     }
 }
 
-extension BackupClientTypes.AggregatedScanResult {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.AggregatedScanResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupClientTypes.AggregatedScanResult()
-        value.failedScan = try reader["FailedScan"].readIfPresent()
-        value.findings = try reader["Findings"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BackupClientTypes.ScanFinding>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.lastComputed = try reader["LastComputed"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension BackupClientTypes.RecoveryPointMember {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.RecoveryPointMember {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupClientTypes.RecoveryPointMember()
-        value.recoveryPointArn = try reader["RecoveryPointArn"].readIfPresent()
-        value.resourceArn = try reader["ResourceArn"].readIfPresent()
-        value.resourceType = try reader["ResourceType"].readIfPresent()
-        value.backupVaultName = try reader["BackupVaultName"].readIfPresent()
-        return value
-    }
-}
-
 extension BackupClientTypes.RecoveryPointByResource {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.RecoveryPointByResource {
@@ -15890,6 +15639,164 @@ extension BackupClientTypes.RecoveryPointByResource {
     }
 }
 
+extension BackupClientTypes.RecoveryPointCreator {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.RecoveryPointCreator {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupClientTypes.RecoveryPointCreator()
+        value.backupPlanId = try reader["BackupPlanId"].readIfPresent()
+        value.backupPlanArn = try reader["BackupPlanArn"].readIfPresent()
+        value.backupPlanName = try reader["BackupPlanName"].readIfPresent()
+        value.backupPlanVersion = try reader["BackupPlanVersion"].readIfPresent()
+        value.backupRuleId = try reader["BackupRuleId"].readIfPresent()
+        value.backupRuleName = try reader["BackupRuleName"].readIfPresent()
+        value.backupRuleCron = try reader["BackupRuleCron"].readIfPresent()
+        value.backupRuleTimezone = try reader["BackupRuleTimezone"].readIfPresent()
+        return value
+    }
+}
+
+extension BackupClientTypes.RecoveryPointMember {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.RecoveryPointMember {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupClientTypes.RecoveryPointMember()
+        value.recoveryPointArn = try reader["RecoveryPointArn"].readIfPresent()
+        value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        value.resourceType = try reader["ResourceType"].readIfPresent()
+        value.backupVaultName = try reader["BackupVaultName"].readIfPresent()
+        return value
+    }
+}
+
+extension BackupClientTypes.RecoveryPointSelection {
+
+    static func write(value: BackupClientTypes.RecoveryPointSelection?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DateRange"].write(value.dateRange, with: BackupClientTypes.DateRange.write(value:to:))
+        try writer["ResourceIdentifiers"].writeList(value.resourceIdentifiers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["VaultNames"].writeList(value.vaultNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.RecoveryPointSelection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupClientTypes.RecoveryPointSelection()
+        value.vaultNames = try reader["VaultNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resourceIdentifiers = try reader["ResourceIdentifiers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dateRange = try reader["DateRange"].readIfPresent(with: BackupClientTypes.DateRange.read(from:))
+        return value
+    }
+}
+
+extension BackupClientTypes.ReportDeliveryChannel {
+
+    static func write(value: BackupClientTypes.ReportDeliveryChannel?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Formats"].writeList(value.formats, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["S3BucketName"].write(value.s3BucketName)
+        try writer["S3KeyPrefix"].write(value.s3KeyPrefix)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.ReportDeliveryChannel {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupClientTypes.ReportDeliveryChannel()
+        value.s3BucketName = try reader["S3BucketName"].readIfPresent() ?? ""
+        value.s3KeyPrefix = try reader["S3KeyPrefix"].readIfPresent()
+        value.formats = try reader["Formats"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BackupClientTypes.ReportDestination {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.ReportDestination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupClientTypes.ReportDestination()
+        value.s3BucketName = try reader["S3BucketName"].readIfPresent()
+        value.s3Keys = try reader["S3Keys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BackupClientTypes.ReportJob {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.ReportJob {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupClientTypes.ReportJob()
+        value.reportJobId = try reader["ReportJobId"].readIfPresent()
+        value.reportPlanArn = try reader["ReportPlanArn"].readIfPresent()
+        value.reportTemplate = try reader["ReportTemplate"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.completionTime = try reader["CompletionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["Status"].readIfPresent()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        value.reportDestination = try reader["ReportDestination"].readIfPresent(with: BackupClientTypes.ReportDestination.read(from:))
+        return value
+    }
+}
+
+extension BackupClientTypes.ReportPlan {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.ReportPlan {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupClientTypes.ReportPlan()
+        value.reportPlanArn = try reader["ReportPlanArn"].readIfPresent()
+        value.reportPlanName = try reader["ReportPlanName"].readIfPresent()
+        value.reportPlanDescription = try reader["ReportPlanDescription"].readIfPresent()
+        value.reportSetting = try reader["ReportSetting"].readIfPresent(with: BackupClientTypes.ReportSetting.read(from:))
+        value.reportDeliveryChannel = try reader["ReportDeliveryChannel"].readIfPresent(with: BackupClientTypes.ReportDeliveryChannel.read(from:))
+        value.deploymentStatus = try reader["DeploymentStatus"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastAttemptedExecutionTime = try reader["LastAttemptedExecutionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastSuccessfulExecutionTime = try reader["LastSuccessfulExecutionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension BackupClientTypes.ReportSetting {
+
+    static func write(value: BackupClientTypes.ReportSetting?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Accounts"].writeList(value.accounts, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["FrameworkArns"].writeList(value.frameworkArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["NumberOfFrameworks"].write(value.numberOfFrameworks)
+        try writer["OrganizationUnits"].writeList(value.organizationUnits, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Regions"].writeList(value.regions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ReportTemplate"].write(value.reportTemplate)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.ReportSetting {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupClientTypes.ReportSetting()
+        value.reportTemplate = try reader["ReportTemplate"].readIfPresent() ?? ""
+        value.frameworkArns = try reader["FrameworkArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.numberOfFrameworks = try reader["NumberOfFrameworks"].readIfPresent() ?? 0
+        value.accounts = try reader["Accounts"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.organizationUnits = try reader["OrganizationUnits"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.regions = try reader["Regions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BackupClientTypes.ResourceSelection {
+
+    static func write(value: BackupClientTypes.ResourceSelection?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceType"].write(value.resourceType)
+        try writer["Resources"].writeList(value.resources, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TieringDownSettingsInDays"].write(value.tieringDownSettingsInDays)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.ResourceSelection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupClientTypes.ResourceSelection()
+        value.resources = try reader["Resources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.tieringDownSettingsInDays = try reader["TieringDownSettingsInDays"].readIfPresent() ?? 0
+        value.resourceType = try reader["ResourceType"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension BackupClientTypes.RestoreAccessBackupVaultListMember {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.RestoreAccessBackupVaultListMember {
@@ -15904,16 +15811,12 @@ extension BackupClientTypes.RestoreAccessBackupVaultListMember {
     }
 }
 
-extension BackupClientTypes.LatestRevokeRequest {
+extension BackupClientTypes.RestoreJobCreator {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.LatestRevokeRequest {
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.RestoreJobCreator {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupClientTypes.LatestRevokeRequest()
-        value.mpaSessionArn = try reader["MpaSessionArn"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.statusMessage = try reader["StatusMessage"].readIfPresent()
-        value.initiationDate = try reader["InitiationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.expiryDate = try reader["ExpiryDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        var value = BackupClientTypes.RestoreJobCreator()
+        value.restoreTestingPlanArn = try reader["RestoreTestingPlanArn"].readIfPresent()
         return value
     }
 }
@@ -15966,6 +15869,37 @@ extension BackupClientTypes.RestoreJobSummary {
     }
 }
 
+extension BackupClientTypes.RestoreTestingPlanForCreate {
+
+    static func write(value: BackupClientTypes.RestoreTestingPlanForCreate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RecoveryPointSelection"].write(value.recoveryPointSelection, with: BackupClientTypes.RestoreTestingRecoveryPointSelection.write(value:to:))
+        try writer["RestoreTestingPlanName"].write(value.restoreTestingPlanName)
+        try writer["ScheduleExpression"].write(value.scheduleExpression)
+        try writer["ScheduleExpressionTimezone"].write(value.scheduleExpressionTimezone)
+        try writer["StartWindowHours"].write(value.startWindowHours)
+    }
+}
+
+extension BackupClientTypes.RestoreTestingPlanForGet {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.RestoreTestingPlanForGet {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupClientTypes.RestoreTestingPlanForGet()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.creatorRequestId = try reader["CreatorRequestId"].readIfPresent()
+        value.lastExecutionTime = try reader["LastExecutionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdateTime = try reader["LastUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.recoveryPointSelection = try reader["RecoveryPointSelection"].readIfPresent(with: BackupClientTypes.RestoreTestingRecoveryPointSelection.read(from:))
+        value.restoreTestingPlanArn = try reader["RestoreTestingPlanArn"].readIfPresent() ?? ""
+        value.restoreTestingPlanName = try reader["RestoreTestingPlanName"].readIfPresent() ?? ""
+        value.scheduleExpression = try reader["ScheduleExpression"].readIfPresent() ?? ""
+        value.scheduleExpressionTimezone = try reader["ScheduleExpressionTimezone"].readIfPresent()
+        value.startWindowHours = try reader["StartWindowHours"].readIfPresent() ?? 0
+        return value
+    }
+}
+
 extension BackupClientTypes.RestoreTestingPlanForList {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.RestoreTestingPlanForList {
@@ -15983,6 +15917,73 @@ extension BackupClientTypes.RestoreTestingPlanForList {
     }
 }
 
+extension BackupClientTypes.RestoreTestingPlanForUpdate {
+
+    static func write(value: BackupClientTypes.RestoreTestingPlanForUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RecoveryPointSelection"].write(value.recoveryPointSelection, with: BackupClientTypes.RestoreTestingRecoveryPointSelection.write(value:to:))
+        try writer["ScheduleExpression"].write(value.scheduleExpression)
+        try writer["ScheduleExpressionTimezone"].write(value.scheduleExpressionTimezone)
+        try writer["StartWindowHours"].write(value.startWindowHours)
+    }
+}
+
+extension BackupClientTypes.RestoreTestingRecoveryPointSelection {
+
+    static func write(value: BackupClientTypes.RestoreTestingRecoveryPointSelection?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Algorithm"].write(value.algorithm)
+        try writer["ExcludeVaults"].writeList(value.excludeVaults, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["IncludeVaults"].writeList(value.includeVaults, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["RecoveryPointTypes"].writeList(value.recoveryPointTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BackupClientTypes.RestoreTestingRecoveryPointType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SelectionWindowDays"].write(value.selectionWindowDays)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.RestoreTestingRecoveryPointSelection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupClientTypes.RestoreTestingRecoveryPointSelection()
+        value.algorithm = try reader["Algorithm"].readIfPresent()
+        value.excludeVaults = try reader["ExcludeVaults"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.includeVaults = try reader["IncludeVaults"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.recoveryPointTypes = try reader["RecoveryPointTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BackupClientTypes.RestoreTestingRecoveryPointType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.selectionWindowDays = try reader["SelectionWindowDays"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension BackupClientTypes.RestoreTestingSelectionForCreate {
+
+    static func write(value: BackupClientTypes.RestoreTestingSelectionForCreate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IamRoleArn"].write(value.iamRoleArn)
+        try writer["ProtectedResourceArns"].writeList(value.protectedResourceArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ProtectedResourceConditions"].write(value.protectedResourceConditions, with: BackupClientTypes.ProtectedResourceConditions.write(value:to:))
+        try writer["ProtectedResourceType"].write(value.protectedResourceType)
+        try writer["RestoreMetadataOverrides"].writeMap(value.restoreMetadataOverrides, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["RestoreTestingSelectionName"].write(value.restoreTestingSelectionName)
+        try writer["ValidationWindowHours"].write(value.validationWindowHours)
+    }
+}
+
+extension BackupClientTypes.RestoreTestingSelectionForGet {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.RestoreTestingSelectionForGet {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupClientTypes.RestoreTestingSelectionForGet()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.creatorRequestId = try reader["CreatorRequestId"].readIfPresent()
+        value.iamRoleArn = try reader["IamRoleArn"].readIfPresent() ?? ""
+        value.protectedResourceArns = try reader["ProtectedResourceArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.protectedResourceConditions = try reader["ProtectedResourceConditions"].readIfPresent(with: BackupClientTypes.ProtectedResourceConditions.read(from:))
+        value.protectedResourceType = try reader["ProtectedResourceType"].readIfPresent() ?? ""
+        value.restoreMetadataOverrides = try reader["RestoreMetadataOverrides"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.restoreTestingPlanName = try reader["RestoreTestingPlanName"].readIfPresent() ?? ""
+        value.restoreTestingSelectionName = try reader["RestoreTestingSelectionName"].readIfPresent() ?? ""
+        value.validationWindowHours = try reader["ValidationWindowHours"].readIfPresent() ?? 0
+        return value
+    }
+}
+
 extension BackupClientTypes.RestoreTestingSelectionForList {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.RestoreTestingSelectionForList {
@@ -15994,6 +15995,35 @@ extension BackupClientTypes.RestoreTestingSelectionForList {
         value.restoreTestingPlanName = try reader["RestoreTestingPlanName"].readIfPresent() ?? ""
         value.restoreTestingSelectionName = try reader["RestoreTestingSelectionName"].readIfPresent() ?? ""
         value.validationWindowHours = try reader["ValidationWindowHours"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension BackupClientTypes.RestoreTestingSelectionForUpdate {
+
+    static func write(value: BackupClientTypes.RestoreTestingSelectionForUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IamRoleArn"].write(value.iamRoleArn)
+        try writer["ProtectedResourceArns"].writeList(value.protectedResourceArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ProtectedResourceConditions"].write(value.protectedResourceConditions, with: BackupClientTypes.ProtectedResourceConditions.write(value:to:))
+        try writer["RestoreMetadataOverrides"].writeMap(value.restoreMetadataOverrides, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["ValidationWindowHours"].write(value.validationWindowHours)
+    }
+}
+
+extension BackupClientTypes.ScanAction {
+
+    static func write(value: BackupClientTypes.ScanAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MalwareScanner"].write(value.malwareScanner)
+        try writer["ScanMode"].write(value.scanMode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.ScanAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupClientTypes.ScanAction()
+        value.malwareScanner = try reader["MalwareScanner"].readIfPresent()
+        value.scanMode = try reader["ScanMode"].readIfPresent()
         return value
     }
 }
@@ -16027,6 +16057,19 @@ extension BackupClientTypes.ScanJob {
     }
 }
 
+extension BackupClientTypes.ScanJobCreator {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.ScanJobCreator {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupClientTypes.ScanJobCreator()
+        value.backupPlanArn = try reader["BackupPlanArn"].readIfPresent() ?? ""
+        value.backupPlanId = try reader["BackupPlanId"].readIfPresent() ?? ""
+        value.backupPlanVersion = try reader["BackupPlanVersion"].readIfPresent() ?? ""
+        value.backupRuleId = try reader["BackupRuleId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension BackupClientTypes.ScanJobSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.ScanJobSummary {
@@ -16045,74 +16088,73 @@ extension BackupClientTypes.ScanJobSummary {
     }
 }
 
-extension BackupClientTypes.TieringConfigurationsListMember {
+extension BackupClientTypes.ScanResult {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.TieringConfigurationsListMember {
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.ScanResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupClientTypes.TieringConfigurationsListMember()
-        value.tieringConfigurationArn = try reader["TieringConfigurationArn"].readIfPresent()
-        value.tieringConfigurationName = try reader["TieringConfigurationName"].readIfPresent()
-        value.backupVaultName = try reader["BackupVaultName"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        var value = BackupClientTypes.ScanResult()
+        value.malwareScanner = try reader["MalwareScanner"].readIfPresent()
+        value.scanJobState = try reader["ScanJobState"].readIfPresent()
+        value.lastScanTimestamp = try reader["LastScanTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.findings = try reader["Findings"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BackupClientTypes.ScanFinding>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension BackupClientTypes.BackupPlanInput {
+extension BackupClientTypes.ScanResultInfo {
 
-    static func write(value: BackupClientTypes.BackupPlanInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AdvancedBackupSettings"].writeList(value.advancedBackupSettings, memberWritingClosure: BackupClientTypes.AdvancedBackupSetting.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["BackupPlanName"].write(value.backupPlanName)
-        try writer["Rules"].writeList(value.rules, memberWritingClosure: BackupClientTypes.BackupRuleInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ScanSettings"].writeList(value.scanSettings, memberWritingClosure: BackupClientTypes.ScanSetting.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.ScanResultInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupClientTypes.ScanResultInfo()
+        value.scanResultStatus = try reader["ScanResultStatus"].readIfPresent() ?? .sdkUnknown("")
+        return value
     }
 }
 
-extension BackupClientTypes.BackupRuleInput {
+extension BackupClientTypes.ScanSetting {
 
-    static func write(value: BackupClientTypes.BackupRuleInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: BackupClientTypes.ScanSetting?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["CompletionWindowMinutes"].write(value.completionWindowMinutes)
-        try writer["CopyActions"].writeList(value.copyActions, memberWritingClosure: BackupClientTypes.CopyAction.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["EnableContinuousBackup"].write(value.enableContinuousBackup)
-        try writer["IndexActions"].writeList(value.indexActions, memberWritingClosure: BackupClientTypes.IndexAction.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Lifecycle"].write(value.lifecycle, with: BackupClientTypes.Lifecycle.write(value:to:))
-        try writer["RecoveryPointTags"].writeMap(value.recoveryPointTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["RuleName"].write(value.ruleName)
-        try writer["ScanActions"].writeList(value.scanActions, memberWritingClosure: BackupClientTypes.ScanAction.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ScheduleExpression"].write(value.scheduleExpression)
-        try writer["ScheduleExpressionTimezone"].write(value.scheduleExpressionTimezone)
-        try writer["StartWindowMinutes"].write(value.startWindowMinutes)
-        try writer["TargetBackupVaultName"].write(value.targetBackupVaultName)
-        try writer["TargetLogicallyAirGappedBackupVaultArn"].write(value.targetLogicallyAirGappedBackupVaultArn)
+        try writer["MalwareScanner"].write(value.malwareScanner)
+        try writer["ResourceTypes"].writeList(value.resourceTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ScannerRoleArn"].write(value.scannerRoleArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.ScanSetting {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupClientTypes.ScanSetting()
+        value.malwareScanner = try reader["MalwareScanner"].readIfPresent()
+        value.resourceTypes = try reader["ResourceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.scannerRoleArn = try reader["ScannerRoleArn"].readIfPresent()
+        return value
     }
 }
 
-extension BackupClientTypes.RestoreTestingPlanForCreate {
+extension BackupClientTypes.ScheduledPlanExecutionMember {
 
-    static func write(value: BackupClientTypes.RestoreTestingPlanForCreate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RecoveryPointSelection"].write(value.recoveryPointSelection, with: BackupClientTypes.RestoreTestingRecoveryPointSelection.write(value:to:))
-        try writer["RestoreTestingPlanName"].write(value.restoreTestingPlanName)
-        try writer["ScheduleExpression"].write(value.scheduleExpression)
-        try writer["ScheduleExpressionTimezone"].write(value.scheduleExpressionTimezone)
-        try writer["StartWindowHours"].write(value.startWindowHours)
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.ScheduledPlanExecutionMember {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupClientTypes.ScheduledPlanExecutionMember()
+        value.executionTime = try reader["ExecutionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.ruleId = try reader["RuleId"].readIfPresent()
+        value.ruleExecutionType = try reader["RuleExecutionType"].readIfPresent()
+        return value
     }
 }
 
-extension BackupClientTypes.RestoreTestingSelectionForCreate {
+extension BackupClientTypes.TieringConfiguration {
 
-    static func write(value: BackupClientTypes.RestoreTestingSelectionForCreate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["IamRoleArn"].write(value.iamRoleArn)
-        try writer["ProtectedResourceArns"].writeList(value.protectedResourceArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ProtectedResourceConditions"].write(value.protectedResourceConditions, with: BackupClientTypes.ProtectedResourceConditions.write(value:to:))
-        try writer["ProtectedResourceType"].write(value.protectedResourceType)
-        try writer["RestoreMetadataOverrides"].writeMap(value.restoreMetadataOverrides, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["RestoreTestingSelectionName"].write(value.restoreTestingSelectionName)
-        try writer["ValidationWindowHours"].write(value.validationWindowHours)
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.TieringConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupClientTypes.TieringConfiguration()
+        value.tieringConfigurationName = try reader["TieringConfigurationName"].readIfPresent() ?? ""
+        value.tieringConfigurationArn = try reader["TieringConfigurationArn"].readIfPresent()
+        value.backupVaultName = try reader["BackupVaultName"].readIfPresent() ?? ""
+        value.resourceSelection = try reader["ResourceSelection"].readListIfPresent(memberReadingClosure: BackupClientTypes.ResourceSelection.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.creatorRequestId = try reader["CreatorRequestId"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
     }
 }
 
@@ -16126,35 +16168,26 @@ extension BackupClientTypes.TieringConfigurationInputForCreate {
     }
 }
 
-extension BackupClientTypes.RestoreTestingPlanForUpdate {
-
-    static func write(value: BackupClientTypes.RestoreTestingPlanForUpdate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RecoveryPointSelection"].write(value.recoveryPointSelection, with: BackupClientTypes.RestoreTestingRecoveryPointSelection.write(value:to:))
-        try writer["ScheduleExpression"].write(value.scheduleExpression)
-        try writer["ScheduleExpressionTimezone"].write(value.scheduleExpressionTimezone)
-        try writer["StartWindowHours"].write(value.startWindowHours)
-    }
-}
-
-extension BackupClientTypes.RestoreTestingSelectionForUpdate {
-
-    static func write(value: BackupClientTypes.RestoreTestingSelectionForUpdate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["IamRoleArn"].write(value.iamRoleArn)
-        try writer["ProtectedResourceArns"].writeList(value.protectedResourceArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ProtectedResourceConditions"].write(value.protectedResourceConditions, with: BackupClientTypes.ProtectedResourceConditions.write(value:to:))
-        try writer["RestoreMetadataOverrides"].writeMap(value.restoreMetadataOverrides, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["ValidationWindowHours"].write(value.validationWindowHours)
-    }
-}
-
 extension BackupClientTypes.TieringConfigurationInputForUpdate {
 
     static func write(value: BackupClientTypes.TieringConfigurationInputForUpdate?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["BackupVaultName"].write(value.backupVaultName)
         try writer["ResourceSelection"].writeList(value.resourceSelection, memberWritingClosure: BackupClientTypes.ResourceSelection.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BackupClientTypes.TieringConfigurationsListMember {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.TieringConfigurationsListMember {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupClientTypes.TieringConfigurationsListMember()
+        value.tieringConfigurationArn = try reader["TieringConfigurationArn"].readIfPresent()
+        value.tieringConfigurationName = try reader["TieringConfigurationName"].readIfPresent()
+        value.backupVaultName = try reader["BackupVaultName"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
     }
 }
 

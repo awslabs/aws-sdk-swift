@@ -15,7 +15,7 @@ import class AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain
 import class ClientRuntime.ClientBuilder
 import class ClientRuntime.DefaultClientPlugin
 import class ClientRuntime.HttpClientConfiguration
-import class ClientRuntime.OrchestratorBuilder
+@_spi(SchemaBasedSerde) import class ClientRuntime.OrchestratorBuilder
 import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
@@ -30,6 +30,7 @@ import enum AWSSDKChecksums.AWSChecksumCalculationMode
 import enum ClientRuntime.ClientLogMode
 import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
+import func ClientRuntime.initialize
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
 import protocol AWSClientRuntime.AWSServiceClient
@@ -58,6 +59,8 @@ import struct ClientRuntime.HeaderMiddleware
 import struct ClientRuntime.IdempotencyTokenMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.QueryItemMiddleware
+import struct ClientRuntime.SendableHttpInterceptorProviderBox
+import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
 import struct ClientRuntime.URLPathMiddleware
@@ -69,31 +72,49 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class DeadlineClient: AWSClientRuntime.AWSServiceClient {
+public final class DeadlineClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "DeadlineClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: DeadlineClient.DeadlineClientConfiguration
+    public let config: DeadlineClient.DeadlineClientConfig
     let serviceName = "deadline"
 
-    public required init(config: DeadlineClient.DeadlineClientConfiguration) {
+    @available(*, deprecated, message: "Use DeadlineClient.DeadlineClientConfig instead")
+    public typealias Config = DeadlineClient.DeadlineClientConfiguration
+    public typealias Configuration = DeadlineClient.DeadlineClientConfig
+
+    public required init(config: DeadlineClient.DeadlineClientConfig) {
+        ClientRuntime.initialize()
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         self.config = config
     }
 
+    @available(*, deprecated, message: "Use init(config: DeadlineClient.DeadlineClientConfig) instead")
+    public convenience init(config: DeadlineClient.DeadlineClientConfiguration) {
+        do {
+            try self.init(config: config.toSendable())
+        } catch {
+            // This should never happen since all values are already initialized in the class
+            fatalError("Failed to convert deprecated configuration: \(error)")
+        }
+    }
+
     public convenience init(region: Swift.String) throws {
-        let config = try DeadlineClient.DeadlineClientConfiguration(region: region)
+        let config = try DeadlineClient.DeadlineClientConfig(region: region)
         self.init(config: config)
     }
 
-    public convenience required init() async throws {
-        let config = try await DeadlineClient.DeadlineClientConfiguration()
+    public convenience init() async throws {
+        let config = try await DeadlineClient.DeadlineClientConfig()
         self.init(config: config)
     }
 }
 
 extension DeadlineClient {
 
-    public class DeadlineClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
+    /// Client configuration for DeadlineClient
+    ///
+    /// Conforms to `Sendable` for safe concurrent access across threads.
+    public struct DeadlineClientConfig: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Swift.Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?
@@ -117,66 +138,29 @@ extension DeadlineClient {
         public var authSchemePreference: [String]?
         public var authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver
         public var bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver
-        public private(set) var interceptorProviders: [ClientRuntime.InterceptorProvider]
-        public private(set) var httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]
-        public let logger: Smithy.LogAgent
-
-        private init(
-            _ useFIPS: Swift.Bool?,
-            _ useDualStack: Swift.Bool?,
-            _ appID: Swift.String?,
-            _ awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver,
-            _ awsRetryMode: AWSClientRuntime.AWSRetryMode,
-            _ maxAttempts: Swift.Int?,
-            _ requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode,
-            _ responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode,
-            _ ignoreConfiguredEndpointURLs: Swift.Bool?,
-            _ region: Swift.String?,
-            _ signingRegion: Swift.String?,
-            _ endpointResolver: EndpointResolver,
-            _ telemetryProvider: ClientRuntime.TelemetryProvider,
-            _ retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions,
-            _ clientLogMode: ClientRuntime.ClientLogMode,
-            _ endpoint: Swift.String?,
-            _ idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator,
-            _ httpClientEngine: SmithyHTTPAPI.HTTPClient,
-            _ httpClientConfiguration: ClientRuntime.HttpClientConfiguration,
-            _ authSchemes: SmithyHTTPAuthAPI.AuthSchemes?,
-            _ authSchemePreference: [String]?,
-            _ authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver,
-            _ bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver,
-            _ interceptorProviders: [ClientRuntime.InterceptorProvider],
-            _ httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]
-        ) {
-            self.useFIPS = useFIPS
-            self.useDualStack = useDualStack
-            self.appID = appID
-            self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
-            self.awsRetryMode = awsRetryMode
-            self.maxAttempts = maxAttempts
-            self.requestChecksumCalculation = requestChecksumCalculation
-            self.responseChecksumValidation = responseChecksumValidation
-            self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
-            self.region = region
-            self.signingRegion = signingRegion
-            self.endpointResolver = endpointResolver
-            self.telemetryProvider = telemetryProvider
-            self.retryStrategyOptions = retryStrategyOptions
-            self.clientLogMode = clientLogMode
-            self.endpoint = endpoint
-            self.idempotencyTokenGenerator = idempotencyTokenGenerator
-            self.httpClientEngine = httpClientEngine
-            self.httpClientConfiguration = httpClientConfiguration
-            self.authSchemes = authSchemes
-            self.authSchemePreference = authSchemePreference
-            self.authSchemeResolver = authSchemeResolver
-            self.bearerTokenIdentityResolver = bearerTokenIdentityResolver
-            self.interceptorProviders = interceptorProviders
-            self.httpInterceptorProviders = httpInterceptorProviders
-            self.logger = telemetryProvider.loggerProvider.getLogger(name: DeadlineClient.clientName)
+        // Interceptor providers with Sendable-safe internal storage
+        private var _interceptorProviders: [ClientRuntime.SendableInterceptorProviderBox] = []
+        public var interceptorProviders: [ClientRuntime.InterceptorProvider] {
+            get {
+                return _interceptorProviders
+            }
+            set {
+                _interceptorProviders = newValue.map { ClientRuntime.SendableInterceptorProviderBox($0) }
+            }
         }
 
-        public convenience init(
+        private var _httpInterceptorProviders: [ClientRuntime.SendableHttpInterceptorProviderBox] = []
+        public var httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider] {
+            get {
+                return _httpInterceptorProviders
+            }
+            set {
+                _httpInterceptorProviders = newValue.map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
+            }
+        }
+        public var logger: Smithy.LogAgent
+
+        public init(
             useFIPS: Swift.Bool? = nil,
             useDualStack: Swift.Bool? = nil,
             appID: Swift.String? = nil,
@@ -203,36 +187,35 @@ extension DeadlineClient {
             interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
             httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil
         ) throws {
-            self.init(
-                useFIPS,
-                useDualStack,
-                try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
-                awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
-                try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
-                maxAttempts,
-                try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation),
-                try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation),
-                ignoreConfiguredEndpointURLs,
-                region,
-                signingRegion,
-                try endpointResolver ?? DefaultEndpointResolver(),
-                telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider,
-                try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts),
-                clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(),
-                endpoint,
-                idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
-                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration),
-                httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
-                authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
-                authSchemePreference ?? nil,
-                authSchemeResolver ?? DefaultDeadlineAuthSchemeResolver(),
-                bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
-                interceptorProviders ?? [],
-                httpInterceptorProviders ?? []
-            )
+            self.useFIPS = useFIPS
+            self.useDualStack = useDualStack
+            self.appID = try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID()
+            self.awsCredentialIdentityResolver = awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain()
+            self.awsRetryMode = try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode()
+            self.maxAttempts = maxAttempts
+            self.requestChecksumCalculation = try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation)
+            self.responseChecksumValidation = try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation)
+            self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
+            self.region = region
+            self.signingRegion = signingRegion
+            self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
+            self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
+            self.endpoint = endpoint
+            self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
+            self.httpClientEngine = httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration)
+            self.httpClientConfiguration = httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration()
+            self.authSchemes = authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()]
+            self.authSchemePreference = authSchemePreference ?? nil
+            self.authSchemeResolver = authSchemeResolver ?? DefaultDeadlineAuthSchemeResolver()
+            self.bearerTokenIdentityResolver = bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
+            self._interceptorProviders = (interceptorProviders ?? []).map { ClientRuntime.SendableInterceptorProviderBox($0) }
+            self._httpInterceptorProviders = (httpInterceptorProviders ?? []).map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
+            self.logger = (telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider).loggerProvider.getLogger(name: DeadlineClient.clientName)
         }
 
-        public convenience init(
+        public init(
             useFIPS: Swift.Bool? = nil,
             useDualStack: Swift.Bool? = nil,
             appID: Swift.String? = nil,
@@ -259,36 +242,266 @@ extension DeadlineClient {
             interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
             httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil
         ) async throws {
-            self.init(
-                useFIPS,
-                useDualStack,
-                try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
-                awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
-                try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
-                maxAttempts,
-                try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation),
-                try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation),
-                ignoreConfiguredEndpointURLs,
-                try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region),
-                try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region),
-                try endpointResolver ?? DefaultEndpointResolver(),
-                telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider,
-                try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts),
-                clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(),
-                endpoint,
-                idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
-                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration),
-                httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
-                authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
-                authSchemePreference ?? nil,
-                authSchemeResolver ?? DefaultDeadlineAuthSchemeResolver(),
-                bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
-                interceptorProviders ?? [],
-                httpInterceptorProviders ?? []
+            self.useFIPS = useFIPS
+            self.useDualStack = useDualStack
+            self.appID = try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID()
+            self.awsCredentialIdentityResolver = awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain()
+            self.awsRetryMode = try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode()
+            self.maxAttempts = maxAttempts
+            self.requestChecksumCalculation = try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation)
+            self.responseChecksumValidation = try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation)
+            self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
+            self.region = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
+            self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
+            self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
+            self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
+            self.endpoint = endpoint
+            self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
+            self.httpClientEngine = httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration)
+            self.httpClientConfiguration = httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration()
+            self.authSchemes = authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()]
+            self.authSchemePreference = authSchemePreference ?? nil
+            self.authSchemeResolver = authSchemeResolver ?? DefaultDeadlineAuthSchemeResolver()
+            self.bearerTokenIdentityResolver = bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
+            self._interceptorProviders = (interceptorProviders ?? []).map { ClientRuntime.SendableInterceptorProviderBox($0) }
+            self._httpInterceptorProviders = (httpInterceptorProviders ?? []).map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
+            self.logger = (telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider).loggerProvider.getLogger(name: DeadlineClient.clientName)
+        }
+
+        public init() async throws {
+            try await self.init(
+                useFIPS: nil,
+                useDualStack: nil,
+                appID: nil,
+                awsCredentialIdentityResolver: nil,
+                awsRetryMode: nil,
+                maxAttempts: nil,
+                requestChecksumCalculation: nil,
+                responseChecksumValidation: nil,
+                ignoreConfiguredEndpointURLs: nil,
+                region: nil,
+                signingRegion: nil,
+                endpointResolver: nil,
+                telemetryProvider: nil,
+                retryStrategyOptions: nil,
+                clientLogMode: nil,
+                endpoint: nil,
+                idempotencyTokenGenerator: nil,
+                httpClientEngine: nil,
+                httpClientConfiguration: nil,
+                authSchemes: nil,
+                authSchemePreference: nil,
+                authSchemeResolver: nil,
+                bearerTokenIdentityResolver: nil,
+                interceptorProviders: nil,
+                httpInterceptorProviders: nil
             )
         }
 
-        public convenience required init() async throws {
+        public init(region: Swift.String) throws {
+            try self.init(
+                useFIPS: nil,
+                useDualStack: nil,
+                appID: try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
+                awsCredentialIdentityResolver: AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
+                awsRetryMode: try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
+                maxAttempts: nil,
+                requestChecksumCalculation: try AWSClientConfigDefaultsProvider.requestChecksumCalculation(),
+                responseChecksumValidation: try AWSClientConfigDefaultsProvider.responseChecksumValidation(),
+                ignoreConfiguredEndpointURLs: nil,
+                region: region,
+                signingRegion: region,
+                endpointResolver: try DefaultEndpointResolver(),
+                telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
+                endpoint: nil,
+                idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
+                httpClientEngine: AWSClientConfigDefaultsProvider.httpClientEngine(),
+                httpClientConfiguration: AWSClientConfigDefaultsProvider.httpClientConfiguration(),
+                authSchemes: [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                authSchemePreference: nil,
+                authSchemeResolver: DefaultDeadlineAuthSchemeResolver(),
+                bearerTokenIdentityResolver: SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
+                interceptorProviders: [],
+                httpInterceptorProviders: []
+            )
+        }
+
+        public var partitionID: String? {
+            return "\(DeadlineClient.clientName) - \(region ?? "")"
+        }
+
+        public mutating func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
+            self._interceptorProviders.append(ClientRuntime.SendableInterceptorProviderBox(provider))
+        }
+
+        public mutating func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
+            self._httpInterceptorProviders.append(ClientRuntime.SendableHttpInterceptorProviderBox(provider))
+        }
+
+    }
+
+    @available(*, deprecated, message: "Use DeadlineClientConfig instead. This class will be removed in a future version.")
+    public final class DeadlineClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
+        public var useFIPS: Swift.Bool?
+        public var useDualStack: Swift.Bool?
+        public var appID: Swift.String?
+        public var awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver
+        public var awsRetryMode: AWSClientRuntime.AWSRetryMode
+        public var maxAttempts: Swift.Int?
+        public var requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode
+        public var responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode
+        public var ignoreConfiguredEndpointURLs: Swift.Bool?
+        public var region: Swift.String?
+        public var signingRegion: Swift.String?
+        public var endpointResolver: EndpointResolver
+        public var telemetryProvider: ClientRuntime.TelemetryProvider
+        public var retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions
+        public var clientLogMode: ClientRuntime.ClientLogMode
+        public var endpoint: Swift.String?
+        public var idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator
+        public var httpClientEngine: SmithyHTTPAPI.HTTPClient
+        public var httpClientConfiguration: ClientRuntime.HttpClientConfiguration
+        public var authSchemes: SmithyHTTPAuthAPI.AuthSchemes?
+        public var authSchemePreference: [String]?
+        public var authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver
+        public var bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver
+        // Interceptor providers with Sendable-safe internal storage
+        private var _interceptorProviders: [ClientRuntime.SendableInterceptorProviderBox] = []
+        public var interceptorProviders: [ClientRuntime.InterceptorProvider] {
+            get {
+                return _interceptorProviders
+            }
+            set {
+                _interceptorProviders = newValue.map { ClientRuntime.SendableInterceptorProviderBox($0) }
+            }
+        }
+
+        private var _httpInterceptorProviders: [ClientRuntime.SendableHttpInterceptorProviderBox] = []
+        public var httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider] {
+            get {
+                return _httpInterceptorProviders
+            }
+            set {
+                _httpInterceptorProviders = newValue.map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
+            }
+        }
+        public var logger: Smithy.LogAgent
+
+        public init(
+            useFIPS: Swift.Bool? = nil,
+            useDualStack: Swift.Bool? = nil,
+            appID: Swift.String? = nil,
+            awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil,
+            awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil,
+            maxAttempts: Swift.Int? = nil,
+            requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
+            region: Swift.String? = nil,
+            signingRegion: Swift.String? = nil,
+            endpointResolver: EndpointResolver? = nil,
+            telemetryProvider: ClientRuntime.TelemetryProvider? = nil,
+            retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil,
+            clientLogMode: ClientRuntime.ClientLogMode? = nil,
+            endpoint: Swift.String? = nil,
+            idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil,
+            httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil,
+            httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil,
+            authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil,
+            authSchemePreference: [String]? = nil,
+            authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil,
+            bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil,
+            interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
+            httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil
+        ) throws {
+            self.useFIPS = useFIPS
+            self.useDualStack = useDualStack
+            self.appID = try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID()
+            self.awsCredentialIdentityResolver = awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain()
+            self.awsRetryMode = try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode()
+            self.maxAttempts = maxAttempts
+            self.requestChecksumCalculation = try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation)
+            self.responseChecksumValidation = try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation)
+            self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
+            self.region = region
+            self.signingRegion = signingRegion
+            self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
+            self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
+            self.endpoint = endpoint
+            self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
+            self.httpClientEngine = httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration)
+            self.httpClientConfiguration = httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration()
+            self.authSchemes = authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()]
+            self.authSchemePreference = authSchemePreference ?? nil
+            self.authSchemeResolver = authSchemeResolver ?? DefaultDeadlineAuthSchemeResolver()
+            self.bearerTokenIdentityResolver = bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
+            self._interceptorProviders = (interceptorProviders ?? []).map { ClientRuntime.SendableInterceptorProviderBox($0) }
+            self._httpInterceptorProviders = (httpInterceptorProviders ?? []).map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
+            self.logger = (telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider).loggerProvider.getLogger(name: DeadlineClient.clientName)
+        }
+
+        public init(
+            useFIPS: Swift.Bool? = nil,
+            useDualStack: Swift.Bool? = nil,
+            appID: Swift.String? = nil,
+            awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil,
+            awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil,
+            maxAttempts: Swift.Int? = nil,
+            requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
+            region: Swift.String? = nil,
+            signingRegion: Swift.String? = nil,
+            endpointResolver: EndpointResolver? = nil,
+            telemetryProvider: ClientRuntime.TelemetryProvider? = nil,
+            retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil,
+            clientLogMode: ClientRuntime.ClientLogMode? = nil,
+            endpoint: Swift.String? = nil,
+            idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil,
+            httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil,
+            httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil,
+            authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil,
+            authSchemePreference: [String]? = nil,
+            authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil,
+            bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil,
+            interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
+            httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil
+        ) async throws {
+            self.useFIPS = useFIPS
+            self.useDualStack = useDualStack
+            self.appID = try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID()
+            self.awsCredentialIdentityResolver = awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain()
+            self.awsRetryMode = try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode()
+            self.maxAttempts = maxAttempts
+            self.requestChecksumCalculation = try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation)
+            self.responseChecksumValidation = try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation)
+            self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
+            self.region = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
+            self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
+            self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
+            self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
+            self.endpoint = endpoint
+            self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
+            self.httpClientEngine = httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration)
+            self.httpClientConfiguration = httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration()
+            self.authSchemes = authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()]
+            self.authSchemePreference = authSchemePreference ?? nil
+            self.authSchemeResolver = authSchemeResolver ?? DefaultDeadlineAuthSchemeResolver()
+            self.bearerTokenIdentityResolver = bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
+            self._interceptorProviders = (interceptorProviders ?? []).map { ClientRuntime.SendableInterceptorProviderBox($0) }
+            self._httpInterceptorProviders = (httpInterceptorProviders ?? []).map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
+            self.logger = (telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider).loggerProvider.getLogger(name: DeadlineClient.clientName)
+        }
+
+        public convenience init() async throws {
             try await self.init(
                 useFIPS: nil,
                 useDualStack: nil,
@@ -319,32 +532,32 @@ extension DeadlineClient {
         }
 
         public convenience init(region: Swift.String) throws {
-            self.init(
-                nil,
-                nil,
-                try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
-                AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
-                try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
-                nil,
-                try AWSClientConfigDefaultsProvider.requestChecksumCalculation(),
-                try AWSClientConfigDefaultsProvider.responseChecksumValidation(),
-                nil,
-                region,
-                region,
-                try DefaultEndpointResolver(),
-                ClientRuntime.DefaultTelemetry.provider,
-                try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
-                AWSClientConfigDefaultsProvider.clientLogMode(),
-                nil,
-                AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
-                AWSClientConfigDefaultsProvider.httpClientEngine(),
-                AWSClientConfigDefaultsProvider.httpClientConfiguration(),
-                [AWSSDKHTTPAuth.SigV4AuthScheme()],
-                nil,
-                DefaultDeadlineAuthSchemeResolver(),
-                SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
-                [],
-                []
+            try self.init(
+                useFIPS: nil,
+                useDualStack: nil,
+                appID: try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
+                awsCredentialIdentityResolver: AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
+                awsRetryMode: try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
+                maxAttempts: nil,
+                requestChecksumCalculation: try AWSClientConfigDefaultsProvider.requestChecksumCalculation(),
+                responseChecksumValidation: try AWSClientConfigDefaultsProvider.responseChecksumValidation(),
+                ignoreConfiguredEndpointURLs: nil,
+                region: region,
+                signingRegion: region,
+                endpointResolver: try DefaultEndpointResolver(),
+                telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
+                endpoint: nil,
+                idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
+                httpClientEngine: AWSClientConfigDefaultsProvider.httpClientEngine(),
+                httpClientConfiguration: AWSClientConfigDefaultsProvider.httpClientConfiguration(),
+                authSchemes: [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                authSchemePreference: nil,
+                authSchemeResolver: DefaultDeadlineAuthSchemeResolver(),
+                bearerTokenIdentityResolver: SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
+                interceptorProviders: [],
+                httpInterceptorProviders: []
             )
         }
 
@@ -352,12 +565,42 @@ extension DeadlineClient {
             return "\(DeadlineClient.clientName) - \(region ?? "")"
         }
 
+        public func toSendable() throws -> DeadlineClientConfig {
+            return try DeadlineClientConfig(
+                useFIPS: self.useFIPS,
+                useDualStack: self.useDualStack,
+                appID: self.appID,
+                awsCredentialIdentityResolver: self.awsCredentialIdentityResolver,
+                awsRetryMode: self.awsRetryMode,
+                maxAttempts: self.maxAttempts,
+                requestChecksumCalculation: self.requestChecksumCalculation,
+                responseChecksumValidation: self.responseChecksumValidation,
+                ignoreConfiguredEndpointURLs: self.ignoreConfiguredEndpointURLs,
+                region: self.region,
+                signingRegion: self.signingRegion,
+                endpointResolver: self.endpointResolver,
+                telemetryProvider: self.telemetryProvider,
+                retryStrategyOptions: self.retryStrategyOptions,
+                clientLogMode: self.clientLogMode,
+                endpoint: self.endpoint,
+                idempotencyTokenGenerator: self.idempotencyTokenGenerator,
+                httpClientEngine: self.httpClientEngine,
+                httpClientConfiguration: self.httpClientConfiguration,
+                authSchemes: self.authSchemes,
+                authSchemePreference: self.authSchemePreference,
+                authSchemeResolver: self.authSchemeResolver,
+                bearerTokenIdentityResolver: self.bearerTokenIdentityResolver,
+                interceptorProviders: self.interceptorProviders,
+                httpInterceptorProviders: self.httpInterceptorProviders
+            )
+        }
+
         public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
-            self.interceptorProviders.append(provider)
+            self._interceptorProviders.append(ClientRuntime.SendableInterceptorProviderBox(provider))
         }
 
         public func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
-            self.httpInterceptorProviders.append(provider)
+            self._httpInterceptorProviders.append(ClientRuntime.SendableHttpInterceptorProviderBox(provider))
         }
 
     }
@@ -376,7 +619,7 @@ extension DeadlineClient {
     ///
     /// Assigns a farm membership level to a member.
     ///
-    /// - Parameter input: [no documentation found] (Type: `AssociateMemberToFarmInput`)
+    /// - Parameter input: Shared member fields for Associate inputs and {Resource}Member response structures. principalId is excluded because it has @httpLabel on inputs but not on responses. (Type: `AssociateMemberToFarmInput`)
     ///
     /// - Returns: [no documentation found] (Type: `AssociateMemberToFarmOutput`)
     ///
@@ -449,7 +692,7 @@ extension DeadlineClient {
     ///
     /// Assigns a fleet membership level to a member.
     ///
-    /// - Parameter input: [no documentation found] (Type: `AssociateMemberToFleetInput`)
+    /// - Parameter input: Shared member fields for Associate inputs and {Resource}Member response structures. principalId is excluded because it has @httpLabel on inputs but not on responses. (Type: `AssociateMemberToFleetInput`)
     ///
     /// - Returns: [no documentation found] (Type: `AssociateMemberToFleetOutput`)
     ///
@@ -522,7 +765,7 @@ extension DeadlineClient {
     ///
     /// Assigns a job membership level to a member
     ///
-    /// - Parameter input: [no documentation found] (Type: `AssociateMemberToJobInput`)
+    /// - Parameter input: Shared member fields for Associate inputs and {Resource}Member response structures. principalId is excluded because it has @httpLabel on inputs but not on responses. (Type: `AssociateMemberToJobInput`)
     ///
     /// - Returns: [no documentation found] (Type: `AssociateMemberToJobOutput`)
     ///
@@ -595,7 +838,7 @@ extension DeadlineClient {
     ///
     /// Assigns a queue membership level to a member
     ///
-    /// - Parameter input: [no documentation found] (Type: `AssociateMemberToQueueInput`)
+    /// - Parameter input: Shared member fields for Associate inputs and {Resource}Member response structures. principalId is excluded because it has @httpLabel on inputs but not on responses. (Type: `AssociateMemberToQueueInput`)
     ///
     /// - Returns: [no documentation found] (Type: `AssociateMemberToQueueOutput`)
     ///
@@ -670,7 +913,7 @@ extension DeadlineClient {
     ///
     /// - Parameter input: [no documentation found] (Type: `AssumeFleetRoleForReadInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `AssumeFleetRoleForReadOutput`)
+    /// - Returns: Shared response body for AssumeRole operations where credentials are required. AssumeQueueRoleForWorkerResponse is excluded because credentials is optional there because Queue.roleArn is optional, so the mixin's @required trait would be incorrect. (Type: `AssumeFleetRoleForReadOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -739,7 +982,7 @@ extension DeadlineClient {
     ///
     /// - Parameter input: [no documentation found] (Type: `AssumeFleetRoleForWorkerInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `AssumeFleetRoleForWorkerOutput`)
+    /// - Returns: Shared response body for AssumeRole operations where credentials are required. AssumeQueueRoleForWorkerResponse is excluded because credentials is optional there because Queue.roleArn is optional, so the mixin's @required trait would be incorrect. (Type: `AssumeFleetRoleForWorkerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -809,7 +1052,7 @@ extension DeadlineClient {
     ///
     /// - Parameter input: [no documentation found] (Type: `AssumeQueueRoleForReadInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `AssumeQueueRoleForReadOutput`)
+    /// - Returns: Shared response body for AssumeRole operations where credentials are required. AssumeQueueRoleForWorkerResponse is excluded because credentials is optional there because Queue.roleArn is optional, so the mixin's @required trait would be incorrect. (Type: `AssumeQueueRoleForReadOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -878,7 +1121,7 @@ extension DeadlineClient {
     ///
     /// - Parameter input: [no documentation found] (Type: `AssumeQueueRoleForUserInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `AssumeQueueRoleForUserOutput`)
+    /// - Returns: Shared response body for AssumeRole operations where credentials are required. AssumeQueueRoleForWorkerResponse is excluded because credentials is optional there because Queue.roleArn is optional, so the mixin's @required trait would be incorrect. (Type: `AssumeQueueRoleForUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1012,6 +1255,77 @@ extension DeadlineClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `BatchGetJob` operation on the `Deadline` service.
+    ///
+    /// Retrieves multiple jobs in a single request. This is a batch version of the GetJob API. The result of getting each job is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `BatchGetJobInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `BatchGetJobOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permission to perform the action.
+    /// - `InternalServerErrorException` : Deadline Cloud can't process your request right now. Try again later.
+    /// - `ThrottlingException` : Your request exceeded a request rate quota.
+    /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
+    public func batchGetJob(input: BatchGetJobInput) async throws -> BatchGetJobOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "batchGetJob")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "deadline")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<BatchGetJobInput, BatchGetJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchGetJobInput, BatchGetJobOutput>(BatchGetJobInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchGetJobInput, BatchGetJobOutput>(hostPrefix: "management."))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetJobInput, BatchGetJobOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<BatchGetJobInput, BatchGetJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchGetJobInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetJobInput, BatchGetJobOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetJobOutput>(BatchGetJobOutput.httpOutput(from:), BatchGetJobOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetJobInput, BatchGetJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetJobOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("deadline", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetJobInput, BatchGetJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetJobInput, BatchGetJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetJobInput, BatchGetJobOutput>(serviceID: serviceName, version: DeadlineClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Deadline")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchGetJob")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `BatchGetJobEntity` operation on the `Deadline` service.
     ///
     /// Get batched job details for a worker.
@@ -1072,6 +1386,507 @@ extension DeadlineClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Deadline")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchGetJobEntity")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `BatchGetSession` operation on the `Deadline` service.
+    ///
+    /// Retrieves multiple sessions in a single request. This is a batch version of the GetSession API. The result of getting each session is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `BatchGetSessionInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `BatchGetSessionOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permission to perform the action.
+    /// - `InternalServerErrorException` : Deadline Cloud can't process your request right now. Try again later.
+    /// - `ThrottlingException` : Your request exceeded a request rate quota.
+    /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
+    public func batchGetSession(input: BatchGetSessionInput) async throws -> BatchGetSessionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "batchGetSession")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "deadline")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<BatchGetSessionInput, BatchGetSessionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchGetSessionInput, BatchGetSessionOutput>(BatchGetSessionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchGetSessionInput, BatchGetSessionOutput>(hostPrefix: "management."))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetSessionInput, BatchGetSessionOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<BatchGetSessionInput, BatchGetSessionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchGetSessionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetSessionInput, BatchGetSessionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetSessionOutput>(BatchGetSessionOutput.httpOutput(from:), BatchGetSessionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetSessionInput, BatchGetSessionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetSessionOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("deadline", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetSessionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetSessionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetSessionInput, BatchGetSessionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetSessionInput, BatchGetSessionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetSessionInput, BatchGetSessionOutput>(serviceID: serviceName, version: DeadlineClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Deadline")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchGetSession")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `BatchGetSessionAction` operation on the `Deadline` service.
+    ///
+    /// Retrieves multiple session actions in a single request. This is a batch version of the GetSessionAction API. The result of getting each session action is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `BatchGetSessionActionInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `BatchGetSessionActionOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permission to perform the action.
+    /// - `InternalServerErrorException` : Deadline Cloud can't process your request right now. Try again later.
+    /// - `ThrottlingException` : Your request exceeded a request rate quota.
+    /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
+    public func batchGetSessionAction(input: BatchGetSessionActionInput) async throws -> BatchGetSessionActionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "batchGetSessionAction")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "deadline")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<BatchGetSessionActionInput, BatchGetSessionActionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchGetSessionActionInput, BatchGetSessionActionOutput>(BatchGetSessionActionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchGetSessionActionInput, BatchGetSessionActionOutput>(hostPrefix: "management."))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetSessionActionInput, BatchGetSessionActionOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<BatchGetSessionActionInput, BatchGetSessionActionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchGetSessionActionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetSessionActionInput, BatchGetSessionActionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetSessionActionOutput>(BatchGetSessionActionOutput.httpOutput(from:), BatchGetSessionActionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetSessionActionInput, BatchGetSessionActionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetSessionActionOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("deadline", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetSessionActionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetSessionActionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetSessionActionInput, BatchGetSessionActionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetSessionActionInput, BatchGetSessionActionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetSessionActionInput, BatchGetSessionActionOutput>(serviceID: serviceName, version: DeadlineClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Deadline")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchGetSessionAction")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `BatchGetStep` operation on the `Deadline` service.
+    ///
+    /// Retrieves multiple steps in a single request. This is a batch version of the GetStep API. The result of getting each step is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `BatchGetStepInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `BatchGetStepOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permission to perform the action.
+    /// - `InternalServerErrorException` : Deadline Cloud can't process your request right now. Try again later.
+    /// - `ThrottlingException` : Your request exceeded a request rate quota.
+    /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
+    public func batchGetStep(input: BatchGetStepInput) async throws -> BatchGetStepOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "batchGetStep")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "deadline")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<BatchGetStepInput, BatchGetStepOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchGetStepInput, BatchGetStepOutput>(BatchGetStepInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchGetStepInput, BatchGetStepOutput>(hostPrefix: "management."))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetStepInput, BatchGetStepOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<BatchGetStepInput, BatchGetStepOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchGetStepInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetStepInput, BatchGetStepOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetStepOutput>(BatchGetStepOutput.httpOutput(from:), BatchGetStepOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetStepInput, BatchGetStepOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetStepOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("deadline", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetStepOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetStepOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetStepInput, BatchGetStepOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetStepInput, BatchGetStepOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetStepInput, BatchGetStepOutput>(serviceID: serviceName, version: DeadlineClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Deadline")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchGetStep")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `BatchGetTask` operation on the `Deadline` service.
+    ///
+    /// Retrieves multiple tasks in a single request. This is a batch version of the GetTask API. The result of getting each task is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `BatchGetTaskInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `BatchGetTaskOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permission to perform the action.
+    /// - `InternalServerErrorException` : Deadline Cloud can't process your request right now. Try again later.
+    /// - `ThrottlingException` : Your request exceeded a request rate quota.
+    /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
+    public func batchGetTask(input: BatchGetTaskInput) async throws -> BatchGetTaskOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "batchGetTask")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "deadline")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<BatchGetTaskInput, BatchGetTaskOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchGetTaskInput, BatchGetTaskOutput>(BatchGetTaskInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchGetTaskInput, BatchGetTaskOutput>(hostPrefix: "management."))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetTaskInput, BatchGetTaskOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<BatchGetTaskInput, BatchGetTaskOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchGetTaskInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetTaskInput, BatchGetTaskOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetTaskOutput>(BatchGetTaskOutput.httpOutput(from:), BatchGetTaskOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetTaskInput, BatchGetTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetTaskOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("deadline", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetTaskOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetTaskOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetTaskInput, BatchGetTaskOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetTaskInput, BatchGetTaskOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetTaskInput, BatchGetTaskOutput>(serviceID: serviceName, version: DeadlineClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Deadline")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchGetTask")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `BatchGetWorker` operation on the `Deadline` service.
+    ///
+    /// Retrieves multiple workers in a single request. This is a batch version of the GetWorker API. The result of getting each worker is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `BatchGetWorkerInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `BatchGetWorkerOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permission to perform the action.
+    /// - `InternalServerErrorException` : Deadline Cloud can't process your request right now. Try again later.
+    /// - `ThrottlingException` : Your request exceeded a request rate quota.
+    /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
+    public func batchGetWorker(input: BatchGetWorkerInput) async throws -> BatchGetWorkerOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "batchGetWorker")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "deadline")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<BatchGetWorkerInput, BatchGetWorkerOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchGetWorkerInput, BatchGetWorkerOutput>(BatchGetWorkerInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchGetWorkerInput, BatchGetWorkerOutput>(hostPrefix: "management."))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetWorkerInput, BatchGetWorkerOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<BatchGetWorkerInput, BatchGetWorkerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchGetWorkerInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetWorkerInput, BatchGetWorkerOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetWorkerOutput>(BatchGetWorkerOutput.httpOutput(from:), BatchGetWorkerOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetWorkerInput, BatchGetWorkerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetWorkerOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("deadline", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetWorkerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetWorkerOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetWorkerInput, BatchGetWorkerOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetWorkerInput, BatchGetWorkerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetWorkerInput, BatchGetWorkerOutput>(serviceID: serviceName, version: DeadlineClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Deadline")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchGetWorker")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `BatchUpdateJob` operation on the `Deadline` service.
+    ///
+    /// Updates multiple jobs in a single request. This is a batch version of the UpdateJob API. The result of updating each job is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200. When you change the status of a job to ARCHIVED, the job can't be scheduled or archived. An archived job and its steps and tasks are deleted after 120 days. The job can't be recovered.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `BatchUpdateJobInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `BatchUpdateJobOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permission to perform the action.
+    /// - `InternalServerErrorException` : Deadline Cloud can't process your request right now. Try again later.
+    /// - `ThrottlingException` : Your request exceeded a request rate quota.
+    /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
+    public func batchUpdateJob(input: BatchUpdateJobInput) async throws -> BatchUpdateJobOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .patch)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "batchUpdateJob")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "deadline")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<BatchUpdateJobInput, BatchUpdateJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<BatchUpdateJobInput, BatchUpdateJobOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchUpdateJobInput, BatchUpdateJobOutput>(BatchUpdateJobInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchUpdateJobInput, BatchUpdateJobOutput>(hostPrefix: "management."))
+        builder.serialize(ClientRuntime.HeaderMiddleware<BatchUpdateJobInput, BatchUpdateJobOutput>(BatchUpdateJobInput.headerProvider(_:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchUpdateJobInput, BatchUpdateJobOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<BatchUpdateJobInput, BatchUpdateJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchUpdateJobInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchUpdateJobInput, BatchUpdateJobOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchUpdateJobOutput>(BatchUpdateJobOutput.httpOutput(from:), BatchUpdateJobOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchUpdateJobInput, BatchUpdateJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<BatchUpdateJobOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("deadline", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchUpdateJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchUpdateJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchUpdateJobInput, BatchUpdateJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchUpdateJobInput, BatchUpdateJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchUpdateJobInput, BatchUpdateJobOutput>(serviceID: serviceName, version: DeadlineClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Deadline")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchUpdateJob")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `BatchUpdateTask` operation on the `Deadline` service.
+    ///
+    /// Updates multiple tasks in a single request. This is a batch version of the UpdateTask API. The result of updating each task is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `BatchUpdateTaskInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `BatchUpdateTaskOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permission to perform the action.
+    /// - `InternalServerErrorException` : Deadline Cloud can't process your request right now. Try again later.
+    /// - `ThrottlingException` : Your request exceeded a request rate quota.
+    /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
+    public func batchUpdateTask(input: BatchUpdateTaskInput) async throws -> BatchUpdateTaskOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .patch)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "batchUpdateTask")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "deadline")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<BatchUpdateTaskInput, BatchUpdateTaskOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<BatchUpdateTaskInput, BatchUpdateTaskOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchUpdateTaskInput, BatchUpdateTaskOutput>(BatchUpdateTaskInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchUpdateTaskInput, BatchUpdateTaskOutput>(hostPrefix: "management."))
+        builder.serialize(ClientRuntime.HeaderMiddleware<BatchUpdateTaskInput, BatchUpdateTaskOutput>(BatchUpdateTaskInput.headerProvider(_:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchUpdateTaskInput, BatchUpdateTaskOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<BatchUpdateTaskInput, BatchUpdateTaskOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchUpdateTaskInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchUpdateTaskInput, BatchUpdateTaskOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchUpdateTaskOutput>(BatchUpdateTaskOutput.httpOutput(from:), BatchUpdateTaskOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchUpdateTaskInput, BatchUpdateTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<BatchUpdateTaskOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("deadline", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchUpdateTaskOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchUpdateTaskOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchUpdateTaskInput, BatchUpdateTaskOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchUpdateTaskInput, BatchUpdateTaskOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchUpdateTaskInput, BatchUpdateTaskOutput>(serviceID: serviceName, version: DeadlineClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Deadline")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchUpdateTask")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -1160,9 +1975,9 @@ extension DeadlineClient {
     ///
     /// Creates a budget to set spending thresholds for your rendering activity.
     ///
-    /// - Parameter input: [no documentation found] (Type: `CreateBudgetInput`)
+    /// - Parameter input: Shared displayName + description for Create operations where both are present. displayName is @required here - this mixin is Create-only by design (Update has optional displayName). (Type: `CreateBudgetInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `CreateBudgetOutput`)
+    /// - Returns: Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs. (Type: `CreateBudgetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1235,9 +2050,9 @@ extension DeadlineClient {
     ///
     /// Creates a farm to allow space for queues and fleets. Farms are the space where the components of your renders gather and are pieced together in the cloud. Farms contain budgets and allow you to enforce permissions. Deadline Cloud farms are a useful container for large projects.
     ///
-    /// - Parameter input: [no documentation found] (Type: `CreateFarmInput`)
+    /// - Parameter input: Shared displayName + description for Create operations where both are present. displayName is @required here - this mixin is Create-only by design (Update has optional displayName). (Type: `CreateFarmInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `CreateFarmOutput`)
+    /// - Returns: Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs. (Type: `CreateFarmOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1310,9 +2125,9 @@ extension DeadlineClient {
     ///
     /// Creates a fleet. Fleets gather information relating to compute, or capacity, for renders within your farms. You can choose to manage your own capacity or opt to have fleets fully managed by Deadline Cloud.
     ///
-    /// - Parameter input: [no documentation found] (Type: `CreateFleetInput`)
+    /// - Parameter input: Shared displayName + description for Create operations where both are present. displayName is @required here - this mixin is Create-only by design (Update has optional displayName). (Type: `CreateFleetInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `CreateFleetOutput`)
+    /// - Returns: Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs. (Type: `CreateFleetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1387,7 +2202,7 @@ extension DeadlineClient {
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateJobInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `CreateJobOutput`)
+    /// - Returns: Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs. (Type: `CreateJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1462,7 +2277,7 @@ extension DeadlineClient {
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateLicenseEndpointInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `CreateLicenseEndpointOutput`)
+    /// - Returns: Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs. (Type: `CreateLicenseEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1612,7 +2427,7 @@ extension DeadlineClient {
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateMonitorInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `CreateMonitorOutput`)
+    /// - Returns: Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs. (Type: `CreateMonitorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1684,9 +2499,9 @@ extension DeadlineClient {
     ///
     /// Creates a queue to coordinate the order in which jobs run on a farm. A queue can also specify where to pull resources and indicate where to output completed jobs.
     ///
-    /// - Parameter input: [no documentation found] (Type: `CreateQueueInput`)
+    /// - Parameter input: Shared displayName + description for Create operations where both are present. displayName is @required here - this mixin is Create-only by design (Update has optional displayName). (Type: `CreateQueueInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `CreateQueueOutput`)
+    /// - Returns: Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs. (Type: `CreateQueueOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2055,7 +2870,7 @@ extension DeadlineClient {
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateWorkerInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `CreateWorkerOutput`)
+    /// - Returns: Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs. (Type: `CreateWorkerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2752,7 +3567,7 @@ extension DeadlineClient {
     ///
     /// Deletes a queue-fleet association.
     ///
-    /// - Parameter input: [no documentation found] (Type: `DeleteQueueFleetAssociationInput`)
+    /// - Parameter input: Identifier mixin for queue-fleet association operations. Composes QueueIdentifierMixin (farmId + queueId) and adds fleetId. (Type: `DeleteQueueFleetAssociationInput`)
     ///
     /// - Returns: [no documentation found] (Type: `DeleteQueueFleetAssociationOutput`)
     ///
@@ -3310,7 +4125,7 @@ extension DeadlineClient {
     ///
     /// - Parameter input: [no documentation found] (Type: `GetBudgetInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `GetBudgetOutput`)
+    /// - Returns: Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs. (Type: `GetBudgetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3379,7 +4194,7 @@ extension DeadlineClient {
     ///
     /// - Parameter input: [no documentation found] (Type: `GetFarmInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `GetFarmOutput`)
+    /// - Returns: Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs. (Type: `GetFarmOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3448,7 +4263,7 @@ extension DeadlineClient {
     ///
     /// - Parameter input: [no documentation found] (Type: `GetFleetInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `GetFleetOutput`)
+    /// - Returns: Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs. (Type: `GetFleetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3517,7 +4332,7 @@ extension DeadlineClient {
     ///
     /// - Parameter input: [no documentation found] (Type: `GetJobInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `GetJobOutput`)
+    /// - Returns: Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs. (Type: `GetJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3586,7 +4401,7 @@ extension DeadlineClient {
     ///
     /// - Parameter input: [no documentation found] (Type: `GetLicenseEndpointInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `GetLicenseEndpointOutput`)
+    /// - Returns: Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs. (Type: `GetLicenseEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3655,7 +4470,7 @@ extension DeadlineClient {
     ///
     /// - Parameter input: [no documentation found] (Type: `GetLimitInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `GetLimitOutput`)
+    /// - Returns: Domain fields for Limit summary/response shapes, ordered before timestamps. (Type: `GetLimitOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3724,7 +4539,7 @@ extension DeadlineClient {
     ///
     /// - Parameter input: [no documentation found] (Type: `GetMonitorInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `GetMonitorOutput`)
+    /// - Returns: Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs. (Type: `GetMonitorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3787,13 +4602,82 @@ extension DeadlineClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetMonitorSettings` operation on the `Deadline` service.
+    ///
+    /// Gets the settings for a Deadline Cloud monitor.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetMonitorSettingsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetMonitorSettingsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permission to perform the action.
+    /// - `InternalServerErrorException` : Deadline Cloud can't process your request right now. Try again later.
+    /// - `ResourceNotFoundException` : The requested resource can't be found.
+    /// - `ThrottlingException` : Your request exceeded a request rate quota.
+    /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
+    public func getMonitorSettings(input: GetMonitorSettingsInput) async throws -> GetMonitorSettingsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getMonitorSettings")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "deadline")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetMonitorSettingsInput, GetMonitorSettingsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetMonitorSettingsInput, GetMonitorSettingsOutput>(GetMonitorSettingsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetMonitorSettingsInput, GetMonitorSettingsOutput>(hostPrefix: "management."))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMonitorSettingsOutput>(GetMonitorSettingsOutput.httpOutput(from:), GetMonitorSettingsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMonitorSettingsInput, GetMonitorSettingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetMonitorSettingsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("deadline", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetMonitorSettingsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetMonitorSettingsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetMonitorSettingsInput, GetMonitorSettingsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetMonitorSettingsInput, GetMonitorSettingsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetMonitorSettingsInput, GetMonitorSettingsOutput>(serviceID: serviceName, version: DeadlineClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Deadline")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetMonitorSettings")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetQueue` operation on the `Deadline` service.
     ///
     /// Gets a queue.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetQueueInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `GetQueueOutput`)
+    /// - Returns: Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs. (Type: `GetQueueOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3929,9 +4813,9 @@ extension DeadlineClient {
     ///
     /// Gets a queue-fleet association.
     ///
-    /// - Parameter input: [no documentation found] (Type: `GetQueueFleetAssociationInput`)
+    /// - Parameter input: Identifier mixin for queue-fleet association operations. Composes QueueIdentifierMixin (farmId + queueId) and adds fleetId. (Type: `GetQueueFleetAssociationInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `GetQueueFleetAssociationOutput`)
+    /// - Returns: Domain fields for QueueFleetAssociation summary/response shapes, ordered before timestamps. (Type: `GetQueueFleetAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4000,7 +4884,7 @@ extension DeadlineClient {
     ///
     /// - Parameter input: [no documentation found] (Type: `GetQueueLimitAssociationInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `GetQueueLimitAssociationOutput`)
+    /// - Returns: Domain fields for QueueLimitAssociation summary/response shapes, ordered before timestamps. (Type: `GetQueueLimitAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4069,7 +4953,7 @@ extension DeadlineClient {
     ///
     /// - Parameter input: [no documentation found] (Type: `GetSessionInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `GetSessionOutput`)
+    /// - Returns: Session lifecycle/status fields, ordered after IDs in session shapes. (Type: `GetSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4205,9 +5089,9 @@ extension DeadlineClient {
     ///
     /// Gets a set of statistics for queues or farms. Before you can call the GetSessionStatisticsAggregation operation, you must first call the StartSessionsStatisticsAggregation operation. Statistics are available for 1 hour after you call the StartSessionsStatisticsAggregation operation.
     ///
-    /// - Parameter input: [no documentation found] (Type: `GetSessionsStatisticsAggregationInput`)
+    /// - Parameter input: Shared pagination fields for List operation inputs (nextToken + maxResults). (Type: `GetSessionsStatisticsAggregationInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `GetSessionsStatisticsAggregationOutput`)
+    /// - Returns: Shared pagination field for List operation outputs (nextToken). (Type: `GetSessionsStatisticsAggregationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4553,7 +5437,7 @@ extension DeadlineClient {
     ///
     /// - Parameter input: [no documentation found] (Type: `GetWorkerInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `GetWorkerOutput`)
+    /// - Returns: Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs. (Type: `GetWorkerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4620,9 +5504,9 @@ extension DeadlineClient {
     ///
     /// A list of the available metered products.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListAvailableMeteredProductsInput`)
+    /// - Parameter input: Shared pagination fields for List operation inputs (nextToken + maxResults). (Type: `ListAvailableMeteredProductsInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListAvailableMeteredProductsOutput`)
+    /// - Returns: Shared pagination field for List operation outputs (nextToken). (Type: `ListAvailableMeteredProductsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4687,9 +5571,9 @@ extension DeadlineClient {
     ///
     /// A list of budgets in a farm.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListBudgetsInput`)
+    /// - Parameter input: Shared pagination fields for List operation inputs (nextToken + maxResults). (Type: `ListBudgetsInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListBudgetsOutput`)
+    /// - Returns: Shared pagination field for List operation outputs (nextToken). (Type: `ListBudgetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4757,9 +5641,9 @@ extension DeadlineClient {
     ///
     /// Lists the members of a farm.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListFarmMembersInput`)
+    /// - Parameter input: Shared pagination fields for List operation inputs (nextToken + maxResults). (Type: `ListFarmMembersInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListFarmMembersOutput`)
+    /// - Returns: Shared pagination field for List operation outputs (nextToken). (Type: `ListFarmMembersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4827,9 +5711,9 @@ extension DeadlineClient {
     ///
     /// Lists farms.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListFarmsInput`)
+    /// - Parameter input: Shared pagination fields for List operation inputs (nextToken + maxResults). (Type: `ListFarmsInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListFarmsOutput`)
+    /// - Returns: Shared pagination field for List operation outputs (nextToken). (Type: `ListFarmsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4896,9 +5780,9 @@ extension DeadlineClient {
     ///
     /// Lists fleet members.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListFleetMembersInput`)
+    /// - Parameter input: Shared pagination fields for List operation inputs (nextToken + maxResults). (Type: `ListFleetMembersInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListFleetMembersOutput`)
+    /// - Returns: Shared pagination field for List operation outputs (nextToken). (Type: `ListFleetMembersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4966,9 +5850,9 @@ extension DeadlineClient {
     ///
     /// Lists fleets.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListFleetsInput`)
+    /// - Parameter input: Shared pagination fields for List operation inputs (nextToken + maxResults). (Type: `ListFleetsInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListFleetsOutput`)
+    /// - Returns: Shared pagination field for List operation outputs (nextToken). (Type: `ListFleetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5036,9 +5920,9 @@ extension DeadlineClient {
     ///
     /// Lists members on a job.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListJobMembersInput`)
+    /// - Parameter input: Shared pagination fields for List operation inputs (nextToken + maxResults). (Type: `ListJobMembersInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListJobMembersOutput`)
+    /// - Returns: Shared pagination field for List operation outputs (nextToken). (Type: `ListJobMembersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5106,9 +5990,9 @@ extension DeadlineClient {
     ///
     /// Lists parameter definitions of a job.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListJobParameterDefinitionsInput`)
+    /// - Parameter input: Shared pagination fields for List operation inputs (nextToken + maxResults). (Type: `ListJobParameterDefinitionsInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListJobParameterDefinitionsOutput`)
+    /// - Returns: Shared pagination field for List operation outputs (nextToken). (Type: `ListJobParameterDefinitionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5176,9 +6060,9 @@ extension DeadlineClient {
     ///
     /// Lists jobs.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListJobsInput`)
+    /// - Parameter input: Shared pagination fields for List operation inputs (nextToken + maxResults). (Type: `ListJobsInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListJobsOutput`)
+    /// - Returns: Shared pagination field for List operation outputs (nextToken). (Type: `ListJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5246,9 +6130,9 @@ extension DeadlineClient {
     ///
     /// Lists license endpoints.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListLicenseEndpointsInput`)
+    /// - Parameter input: Shared pagination fields for List operation inputs (nextToken + maxResults). (Type: `ListLicenseEndpointsInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListLicenseEndpointsOutput`)
+    /// - Returns: Shared pagination field for List operation outputs (nextToken). (Type: `ListLicenseEndpointsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5316,9 +6200,9 @@ extension DeadlineClient {
     ///
     /// Gets a list of limits defined in the specified farm.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListLimitsInput`)
+    /// - Parameter input: Shared pagination fields for List operation inputs (nextToken + maxResults). (Type: `ListLimitsInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListLimitsOutput`)
+    /// - Returns: Shared pagination field for List operation outputs (nextToken). (Type: `ListLimitsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5386,9 +6270,9 @@ extension DeadlineClient {
     ///
     /// Lists metered products.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListMeteredProductsInput`)
+    /// - Parameter input: Shared pagination fields for List operation inputs (nextToken + maxResults). (Type: `ListMeteredProductsInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListMeteredProductsOutput`)
+    /// - Returns: Shared pagination field for List operation outputs (nextToken). (Type: `ListMeteredProductsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5456,9 +6340,9 @@ extension DeadlineClient {
     ///
     /// Gets a list of your monitors in Deadline Cloud.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListMonitorsInput`)
+    /// - Parameter input: Shared pagination fields for List operation inputs (nextToken + maxResults). (Type: `ListMonitorsInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListMonitorsOutput`)
+    /// - Returns: Shared pagination field for List operation outputs (nextToken). (Type: `ListMonitorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5525,9 +6409,9 @@ extension DeadlineClient {
     ///
     /// Lists queue environments.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListQueueEnvironmentsInput`)
+    /// - Parameter input: Shared pagination fields for List operation inputs (nextToken + maxResults). (Type: `ListQueueEnvironmentsInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListQueueEnvironmentsOutput`)
+    /// - Returns: Shared pagination field for List operation outputs (nextToken). (Type: `ListQueueEnvironmentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5595,9 +6479,9 @@ extension DeadlineClient {
     ///
     /// Lists queue-fleet associations.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListQueueFleetAssociationsInput`)
+    /// - Parameter input: Shared pagination fields for List operation inputs (nextToken + maxResults). (Type: `ListQueueFleetAssociationsInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListQueueFleetAssociationsOutput`)
+    /// - Returns: Shared pagination field for List operation outputs (nextToken). (Type: `ListQueueFleetAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5664,9 +6548,9 @@ extension DeadlineClient {
     ///
     /// Gets a list of the associations between queues and limits defined in a farm.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListQueueLimitAssociationsInput`)
+    /// - Parameter input: Shared pagination fields for List operation inputs (nextToken + maxResults). (Type: `ListQueueLimitAssociationsInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListQueueLimitAssociationsOutput`)
+    /// - Returns: Shared pagination field for List operation outputs (nextToken). (Type: `ListQueueLimitAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5733,9 +6617,9 @@ extension DeadlineClient {
     ///
     /// Lists the members in a queue.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListQueueMembersInput`)
+    /// - Parameter input: Shared pagination fields for List operation inputs (nextToken + maxResults). (Type: `ListQueueMembersInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListQueueMembersOutput`)
+    /// - Returns: Shared pagination field for List operation outputs (nextToken). (Type: `ListQueueMembersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5803,9 +6687,9 @@ extension DeadlineClient {
     ///
     /// Lists queues.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListQueuesInput`)
+    /// - Parameter input: Shared pagination fields for List operation inputs (nextToken + maxResults). (Type: `ListQueuesInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListQueuesOutput`)
+    /// - Returns: Shared pagination field for List operation outputs (nextToken). (Type: `ListQueuesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5873,9 +6757,9 @@ extension DeadlineClient {
     ///
     /// Lists session actions.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListSessionActionsInput`)
+    /// - Parameter input: Shared pagination fields for List operation inputs (nextToken + maxResults). (Type: `ListSessionActionsInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListSessionActionsOutput`)
+    /// - Returns: Shared pagination field for List operation outputs (nextToken). (Type: `ListSessionActionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5943,9 +6827,9 @@ extension DeadlineClient {
     ///
     /// Lists sessions.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListSessionsInput`)
+    /// - Parameter input: Shared pagination fields for List operation inputs (nextToken + maxResults). (Type: `ListSessionsInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListSessionsOutput`)
+    /// - Returns: Shared pagination field for List operation outputs (nextToken). (Type: `ListSessionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6013,9 +6897,9 @@ extension DeadlineClient {
     ///
     /// Lists sessions for a worker.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListSessionsForWorkerInput`)
+    /// - Parameter input: Shared pagination fields for List operation inputs (nextToken + maxResults). (Type: `ListSessionsForWorkerInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListSessionsForWorkerOutput`)
+    /// - Returns: Shared pagination field for List operation outputs (nextToken). (Type: `ListSessionsForWorkerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6085,7 +6969,7 @@ extension DeadlineClient {
     ///
     /// - Parameter input: [no documentation found] (Type: `ListStepConsumersInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListStepConsumersOutput`)
+    /// - Returns: Shared pagination field for List operation outputs (nextToken). (Type: `ListStepConsumersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6155,7 +7039,7 @@ extension DeadlineClient {
     ///
     /// - Parameter input: [no documentation found] (Type: `ListStepDependenciesInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListStepDependenciesOutput`)
+    /// - Returns: Shared pagination field for List operation outputs (nextToken). (Type: `ListStepDependenciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6223,9 +7107,9 @@ extension DeadlineClient {
     ///
     /// Lists steps for a job.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListStepsInput`)
+    /// - Parameter input: Shared pagination fields for List operation inputs (nextToken + maxResults). (Type: `ListStepsInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListStepsOutput`)
+    /// - Returns: Shared pagination field for List operation outputs (nextToken). (Type: `ListStepsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6293,9 +7177,9 @@ extension DeadlineClient {
     ///
     /// Lists storage profiles.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListStorageProfilesInput`)
+    /// - Parameter input: Shared pagination fields for List operation inputs (nextToken + maxResults). (Type: `ListStorageProfilesInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListStorageProfilesOutput`)
+    /// - Returns: Shared pagination field for List operation outputs (nextToken). (Type: `ListStorageProfilesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6363,9 +7247,9 @@ extension DeadlineClient {
     ///
     /// Lists storage profiles for a queue.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListStorageProfilesForQueueInput`)
+    /// - Parameter input: Shared pagination fields for List operation inputs (nextToken + maxResults). (Type: `ListStorageProfilesForQueueInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListStorageProfilesForQueueOutput`)
+    /// - Returns: Shared pagination field for List operation outputs (nextToken). (Type: `ListStorageProfilesForQueueOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6502,9 +7386,9 @@ extension DeadlineClient {
     ///
     /// Lists tasks for a job.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListTasksInput`)
+    /// - Parameter input: Shared pagination fields for List operation inputs (nextToken + maxResults). (Type: `ListTasksInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListTasksOutput`)
+    /// - Returns: Shared pagination field for List operation outputs (nextToken). (Type: `ListTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6572,9 +7456,9 @@ extension DeadlineClient {
     ///
     /// Lists workers.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListWorkersInput`)
+    /// - Parameter input: Shared pagination fields for List operation inputs (nextToken + maxResults). (Type: `ListWorkersInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListWorkersOutput`)
+    /// - Returns: Shared pagination field for List operation outputs (nextToken). (Type: `ListWorkersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6711,9 +7595,9 @@ extension DeadlineClient {
     ///
     /// Searches for jobs.
     ///
-    /// - Parameter input: [no documentation found] (Type: `SearchJobsInput`)
+    /// - Parameter input: Shared input fields for all Search operations (filterExpressions, sortExpressions, itemOffset, pageSize). (Type: `SearchJobsInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `SearchJobsOutput`)
+    /// - Returns: Shared output fields for all Search operations (nextItemOffset, totalResults). (Type: `SearchJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6783,9 +7667,9 @@ extension DeadlineClient {
     ///
     /// Searches for steps.
     ///
-    /// - Parameter input: [no documentation found] (Type: `SearchStepsInput`)
+    /// - Parameter input: Shared input fields for all Search operations (filterExpressions, sortExpressions, itemOffset, pageSize). (Type: `SearchStepsInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `SearchStepsOutput`)
+    /// - Returns: Shared output fields for all Search operations (nextItemOffset, totalResults). (Type: `SearchStepsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6855,9 +7739,9 @@ extension DeadlineClient {
     ///
     /// Searches for tasks.
     ///
-    /// - Parameter input: [no documentation found] (Type: `SearchTasksInput`)
+    /// - Parameter input: Shared input fields for all Search operations (filterExpressions, sortExpressions, itemOffset, pageSize). (Type: `SearchTasksInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `SearchTasksOutput`)
+    /// - Returns: Shared output fields for all Search operations (nextItemOffset, totalResults). (Type: `SearchTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6927,9 +7811,9 @@ extension DeadlineClient {
     ///
     /// Searches for workers.
     ///
-    /// - Parameter input: [no documentation found] (Type: `SearchWorkersInput`)
+    /// - Parameter input: Shared input fields for all Search operations (filterExpressions, sortExpressions, itemOffset, pageSize). (Type: `SearchWorkersInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `SearchWorkersOutput`)
+    /// - Returns: Shared output fields for all Search operations (nextItemOffset, totalResults). (Type: `SearchWorkersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7651,6 +8535,78 @@ extension DeadlineClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `UpdateMonitorSettings` operation on the `Deadline` service.
+    ///
+    /// Updates the settings for a Deadline Cloud monitor. Keys present in the request are upserted; keys absent are left unchanged. Send an empty string value to delete a key.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateMonitorSettingsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateMonitorSettingsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permission to perform the action.
+    /// - `InternalServerErrorException` : Deadline Cloud can't process your request right now. Try again later.
+    /// - `ResourceNotFoundException` : The requested resource can't be found.
+    /// - `ThrottlingException` : Your request exceeded a request rate quota.
+    /// - `ValidationException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
+    public func updateMonitorSettings(input: UpdateMonitorSettingsInput) async throws -> UpdateMonitorSettingsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .patch)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateMonitorSettings")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "deadline")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateMonitorSettingsInput, UpdateMonitorSettingsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateMonitorSettingsInput, UpdateMonitorSettingsOutput>(UpdateMonitorSettingsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateMonitorSettingsInput, UpdateMonitorSettingsOutput>(hostPrefix: "management."))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateMonitorSettingsInput, UpdateMonitorSettingsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateMonitorSettingsInput, UpdateMonitorSettingsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateMonitorSettingsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateMonitorSettingsInput, UpdateMonitorSettingsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateMonitorSettingsOutput>(UpdateMonitorSettingsOutput.httpOutput(from:), UpdateMonitorSettingsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateMonitorSettingsInput, UpdateMonitorSettingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateMonitorSettingsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("deadline", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateMonitorSettingsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateMonitorSettingsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateMonitorSettingsInput, UpdateMonitorSettingsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateMonitorSettingsInput, UpdateMonitorSettingsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateMonitorSettingsInput, UpdateMonitorSettingsOutput>(serviceID: serviceName, version: DeadlineClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Deadline")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateMonitorSettings")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `UpdateQueue` operation on the `Deadline` service.
     ///
     /// Updates a queue.
@@ -7803,7 +8759,7 @@ extension DeadlineClient {
     ///
     /// Updates a queue-fleet association.
     ///
-    /// - Parameter input: [no documentation found] (Type: `UpdateQueueFleetAssociationInput`)
+    /// - Parameter input: Identifier mixin for queue-fleet association operations. Composes QueueIdentifierMixin (farmId + queueId) and adds fleetId. (Type: `UpdateQueueFleetAssociationInput`)
     ///
     /// - Returns: [no documentation found] (Type: `UpdateQueueFleetAssociationOutput`)
     ///

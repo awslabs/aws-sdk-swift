@@ -1,0 +1,8 @@
+{
+    "service": "com.amazonaws.b2bi#B2BI",
+    "module": "AWSB2bi",
+    "sdkId": "b2bi",
+    "internalClient": false,
+    "operations": [],
+    "modelPath": "codegen/sdk-codegen/aws-models/b2bi.json"
+}

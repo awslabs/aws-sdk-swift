@@ -12,6 +12,7 @@ import protocol ClientRuntime.Plugin
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 @_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
+import struct AWSSDKHTTPAuth.SigV4AAuthScheme
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 @_spi(StaticAWSCredentialIdentityResolver) import struct SmithyIdentity.StaticAWSCredentialIdentityResolver
 @_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
@@ -28,10 +29,11 @@ package class STSClientEndpointPlugin: Plugin {
         self.init(endpointResolver: try DefaultEndpointResolver())
     }
 
-    public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if let config = clientConfiguration as? STSClient.STSClientConfiguration {
-            config.endpointResolver = self.endpointResolver
-        }
+    public func configureClient<Config: ClientRuntime.ClientConfiguration>(clientConfiguration: inout Config) async throws {
+        guard var config = clientConfiguration as? STSClient.STSClientConfig else { return }
+        config.endpointResolver = self.endpointResolver
+        guard let modifiedConfig = config as? Config else { return }
+        clientConfiguration = modifiedConfig
     }
 }
 
@@ -39,12 +41,14 @@ package class DefaultAWSAuthSchemePlugin: ClientRuntime.Plugin {
 
     public init() {}
 
-    public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if let config = clientConfiguration as? STSClient.STSClientConfiguration {
+    public func configureClient<Config: ClientRuntime.ClientConfiguration>(clientConfiguration: inout Config) async throws {
+        if var config = clientConfiguration as? STSClient.STSClientConfig {
             config.authSchemeResolver = DefaultSTSAuthSchemeResolver()
-            config.authSchemes = [AWSSDKHTTPAuth.SigV4AuthScheme()]
+            config.authSchemes = [AWSSDKHTTPAuth.SigV4AuthScheme(), AWSSDKHTTPAuth.SigV4AAuthScheme()]
             config.awsCredentialIdentityResolver = SmithyIdentity.StaticAWSCredentialIdentityResolver()
             config.bearerTokenIdentityResolver = SmithyIdentity.StaticBearerTokenIdentityResolver()
+            guard let modifiedConfig = config as? Config else { return }
+            clientConfiguration = modifiedConfig
         }
     }
 }
@@ -64,8 +68,8 @@ package class STSClientAuthSchemePlugin: ClientRuntime.Plugin {
         self.bearerTokenIdentityResolver = bearerTokenIdentityResolver
     }
 
-    public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if let config = clientConfiguration as? STSClient.STSClientConfiguration {
+    public func configureClient<Config: ClientRuntime.ClientConfiguration>(clientConfiguration: inout Config) async throws {
+        if var config = clientConfiguration as? STSClient.STSClientConfig {
             if (self.authSchemes != nil) {
                 config.authSchemes = self.authSchemes
             }
@@ -79,6 +83,8 @@ package class STSClientAuthSchemePlugin: ClientRuntime.Plugin {
             if (self.bearerTokenIdentityResolver != nil) {
                 config.bearerTokenIdentityResolver = self.bearerTokenIdentityResolver!
             }
+            guard let modifiedConfig = config as? Config else { return }
+            clientConfiguration = modifiedConfig
         }
     }
 }

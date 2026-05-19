@@ -23,8 +23,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
 import struct SmithyHTTPAPI.Header
 import struct SmithyHTTPAPI.Headers
@@ -116,9 +116,9 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -186,9 +186,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -215,9 +215,9 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -244,9 +244,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -273,9 +273,9 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -329,9 +329,9 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         exceptionCause: DataExchangeClientTypes.ExceptionCause? = nil,
@@ -653,6 +653,42 @@ extension DataExchangeClientTypes {
             self.apiSpecificationDownloadUrlExpiresAt = apiSpecificationDownloadUrlExpiresAt
             self.protocolType = protocolType
             self.stage = stage
+        }
+    }
+}
+
+extension DataExchangeClientTypes {
+
+    /// A tag consisting of a key-value pair that can be applied to a resource.
+    public struct Tag: Swift.Sendable {
+        /// The key of the tag.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The value of the tag.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.key = key
+            self.value = value
+        }
+    }
+}
+
+extension DataExchangeClientTypes {
+
+    /// The configuration for the asset, which can include tags.
+    public struct AssetConfiguration: Swift.Sendable {
+        /// The tags to be applied to assets created by the job.
+        public var tags: [DataExchangeClientTypes.Tag]?
+
+        public init(
+            tags: [DataExchangeClientTypes.Tag]? = nil
+        ) {
+            self.tags = tags
         }
     }
 }
@@ -1330,9 +1366,9 @@ public struct ServiceLimitExceededException: ClientRuntime.ModeledError, AWSClie
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         limitName: DataExchangeClientTypes.LimitName? = nil,
@@ -2221,6 +2257,8 @@ extension DataExchangeClientTypes {
 }
 
 public struct CreateJobInput: Swift.Sendable {
+    /// The configuration for the asset, including tags to be applied to assets created by the job.
+    public var assetConfiguration: DataExchangeClientTypes.AssetConfiguration?
     /// The details for the CreateJob request.
     /// This member is required.
     public var details: DataExchangeClientTypes.RequestDetails?
@@ -2229,9 +2267,11 @@ public struct CreateJobInput: Swift.Sendable {
     public var type: DataExchangeClientTypes.ModelType?
 
     public init(
+        assetConfiguration: DataExchangeClientTypes.AssetConfiguration? = nil,
         details: DataExchangeClientTypes.RequestDetails? = nil,
         type: DataExchangeClientTypes.ModelType? = nil
     ) {
+        self.assetConfiguration = assetConfiguration
         self.details = details
         self.type = type
     }
@@ -2786,6 +2826,8 @@ extension DataExchangeClientTypes {
 public struct CreateJobOutput: Swift.Sendable {
     /// The ARN for the job.
     public var arn: Swift.String?
+    /// The configuration for the asset, including tags applied to assets created by the job.
+    public var assetConfiguration: DataExchangeClientTypes.AssetConfiguration?
     /// The date and time that the job was created, in ISO 8601 format.
     public var createdAt: Foundation.Date?
     /// Details about the job.
@@ -2803,6 +2845,7 @@ public struct CreateJobOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil,
+        assetConfiguration: DataExchangeClientTypes.AssetConfiguration? = nil,
         createdAt: Foundation.Date? = nil,
         details: DataExchangeClientTypes.ResponseDetails? = nil,
         errors: [DataExchangeClientTypes.JobError]? = nil,
@@ -2812,6 +2855,7 @@ public struct CreateJobOutput: Swift.Sendable {
         updatedAt: Foundation.Date? = nil
     ) {
         self.arn = arn
+        self.assetConfiguration = assetConfiguration
         self.createdAt = createdAt
         self.details = details
         self.errors = errors
@@ -3013,6 +3057,8 @@ public struct GetAssetOutput: Swift.Sendable {
     public var revisionId: Swift.String?
     /// The asset ID of the owned asset corresponding to the entitled asset being viewed. This parameter is returned when an asset owner is viewing the entitled copy of its owned asset.
     public var sourceId: Swift.String?
+    /// The tags for the asset.
+    public var tags: [Swift.String: Swift.String]?
     /// The date and time that the asset was last updated, in ISO 8601 format.
     public var updatedAt: Foundation.Date?
 
@@ -3026,6 +3072,7 @@ public struct GetAssetOutput: Swift.Sendable {
         name: Swift.String? = nil,
         revisionId: Swift.String? = nil,
         sourceId: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
         updatedAt: Foundation.Date? = nil
     ) {
         self.arn = arn
@@ -3037,6 +3084,7 @@ public struct GetAssetOutput: Swift.Sendable {
         self.name = name
         self.revisionId = revisionId
         self.sourceId = sourceId
+        self.tags = tags
         self.updatedAt = updatedAt
     }
 }
@@ -3256,6 +3304,8 @@ public struct GetJobInput: Swift.Sendable {
 public struct GetJobOutput: Swift.Sendable {
     /// The ARN for the job.
     public var arn: Swift.String?
+    /// The configuration for the asset, including tags applied to assets created by the job.
+    public var assetConfiguration: DataExchangeClientTypes.AssetConfiguration?
     /// The date and time that the job was created, in ISO 8601 format.
     public var createdAt: Foundation.Date?
     /// Details about the job.
@@ -3273,6 +3323,7 @@ public struct GetJobOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil,
+        assetConfiguration: DataExchangeClientTypes.AssetConfiguration? = nil,
         createdAt: Foundation.Date? = nil,
         details: DataExchangeClientTypes.ResponseDetails? = nil,
         errors: [DataExchangeClientTypes.JobError]? = nil,
@@ -3282,6 +3333,7 @@ public struct GetJobOutput: Swift.Sendable {
         updatedAt: Foundation.Date? = nil
     ) {
         self.arn = arn
+        self.assetConfiguration = assetConfiguration
         self.createdAt = createdAt
         self.details = details
         self.errors = errors
@@ -3836,6 +3888,8 @@ extension DataExchangeClientTypes {
         /// The ARN for the job.
         /// This member is required.
         public var arn: Swift.String?
+        /// The configuration for the asset, including tags applied to assets created by the job.
+        public var assetConfiguration: DataExchangeClientTypes.AssetConfiguration?
         /// The date and time that the job was created, in ISO 8601 format.
         /// This member is required.
         public var createdAt: Foundation.Date?
@@ -3859,6 +3913,7 @@ extension DataExchangeClientTypes {
 
         public init(
             arn: Swift.String? = nil,
+            assetConfiguration: DataExchangeClientTypes.AssetConfiguration? = nil,
             createdAt: Foundation.Date? = nil,
             details: DataExchangeClientTypes.ResponseDetails? = nil,
             errors: [DataExchangeClientTypes.JobError]? = nil,
@@ -3868,6 +3923,7 @@ extension DataExchangeClientTypes {
             updatedAt: Foundation.Date? = nil
         ) {
             self.arn = arn
+            self.assetConfiguration = assetConfiguration
             self.createdAt = createdAt
             self.details = details
             self.errors = errors
@@ -5410,6 +5466,7 @@ extension CreateJobInput {
 
     static func write(value: CreateJobInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AssetConfiguration"].write(value.assetConfiguration, with: DataExchangeClientTypes.AssetConfiguration.write(value:to:))
         try writer["Details"].write(value.details, with: DataExchangeClientTypes.RequestDetails.write(value:to:))
         try writer["Type"].write(value.type)
     }
@@ -5599,6 +5656,7 @@ extension CreateJobOutput {
         let reader = responseReader
         var value = CreateJobOutput()
         value.arn = try reader["Arn"].readIfPresent()
+        value.assetConfiguration = try reader["AssetConfiguration"].readIfPresent(with: DataExchangeClientTypes.AssetConfiguration.read(from:))
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.details = try reader["Details"].readIfPresent(with: DataExchangeClientTypes.ResponseDetails.read(from:))
         value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: DataExchangeClientTypes.JobError.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -5684,6 +5742,7 @@ extension GetAssetOutput {
         value.name = try reader["Name"].readIfPresent()
         value.revisionId = try reader["RevisionId"].readIfPresent()
         value.sourceId = try reader["SourceId"].readIfPresent()
+        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
@@ -5763,6 +5822,7 @@ extension GetJobOutput {
         let reader = responseReader
         var value = GetJobOutput()
         value.arn = try reader["Arn"].readIfPresent()
+        value.assetConfiguration = try reader["AssetConfiguration"].readIfPresent(with: DataExchangeClientTypes.AssetConfiguration.read(from:))
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.details = try reader["Details"].readIfPresent(with: DataExchangeClientTypes.ResponseDetails.read(from:))
         value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: DataExchangeClientTypes.JobError.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -6082,7 +6142,7 @@ enum AcceptDataGrantOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6101,7 +6161,7 @@ enum CancelJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -6119,7 +6179,7 @@ enum CreateDataGrantOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6138,7 +6198,7 @@ enum CreateDataSetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6156,7 +6216,7 @@ enum CreateEventActionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6174,7 +6234,7 @@ enum CreateJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6193,7 +6253,7 @@ enum CreateRevisionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6211,7 +6271,7 @@ enum DeleteAssetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6230,7 +6290,7 @@ enum DeleteDataGrantOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6248,7 +6308,7 @@ enum DeleteDataSetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6267,7 +6327,7 @@ enum DeleteEventActionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -6284,7 +6344,7 @@ enum DeleteRevisionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6303,7 +6363,7 @@ enum GetAssetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -6320,7 +6380,7 @@ enum GetDataGrantOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6338,7 +6398,7 @@ enum GetDataSetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -6355,7 +6415,7 @@ enum GetEventActionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -6372,7 +6432,7 @@ enum GetJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -6389,7 +6449,7 @@ enum GetReceivedDataGrantOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6407,7 +6467,7 @@ enum GetRevisionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -6424,7 +6484,7 @@ enum ListDataGrantsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6442,7 +6502,7 @@ enum ListDataSetRevisionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -6459,7 +6519,7 @@ enum ListDataSetsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -6476,7 +6536,7 @@ enum ListEventActionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -6493,7 +6553,7 @@ enum ListJobsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -6510,7 +6570,7 @@ enum ListReceivedDataGrantsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6528,7 +6588,7 @@ enum ListRevisionAssetsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -6545,7 +6605,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -6558,7 +6618,7 @@ enum RevokeRevisionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6577,7 +6637,7 @@ enum SendApiAssetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6595,7 +6655,7 @@ enum SendDataSetNotificationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6614,7 +6674,7 @@ enum StartJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6633,7 +6693,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -6646,7 +6706,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -6659,7 +6719,7 @@ enum UpdateAssetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6678,7 +6738,7 @@ enum UpdateDataSetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6696,7 +6756,7 @@ enum UpdateEventActionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6714,7 +6774,7 @@ enum UpdateRevisionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6730,7 +6790,7 @@ enum UpdateRevisionOutputError {
 
 extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
@@ -6743,7 +6803,7 @@ extension AccessDeniedException {
 
 extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
@@ -6758,7 +6818,7 @@ extension ConflictException {
 
 extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
@@ -6771,7 +6831,7 @@ extension InternalServerException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
@@ -6786,7 +6846,7 @@ extension ResourceNotFoundException {
 
 extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
@@ -6799,7 +6859,7 @@ extension ThrottlingException {
 
 extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.exceptionCause = try reader["ExceptionCause"].readIfPresent()
@@ -6813,7 +6873,7 @@ extension ValidationException {
 
 extension ServiceLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceLimitExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceLimitExceededException()
         value.properties.limitName = try reader["LimitName"].readIfPresent()
@@ -6822,17 +6882,6 @@ extension ServiceLimitExceededException {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension DataExchangeClientTypes.OriginDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.OriginDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataExchangeClientTypes.OriginDetails()
-        value.productId = try reader["ProductId"].readIfPresent()
-        value.dataGrantId = try reader["DataGrantId"].readIfPresent()
         return value
     }
 }
@@ -6852,351 +6901,35 @@ extension DataExchangeClientTypes.Action {
     }
 }
 
-extension DataExchangeClientTypes.AutoExportRevisionToS3RequestDetails {
+extension DataExchangeClientTypes.ApiGatewayApiAsset {
 
-    static func write(value: DataExchangeClientTypes.AutoExportRevisionToS3RequestDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Encryption"].write(value.encryption, with: DataExchangeClientTypes.ExportServerSideEncryption.write(value:to:))
-        try writer["RevisionDestination"].write(value.revisionDestination, with: DataExchangeClientTypes.AutoExportRevisionDestinationEntry.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.AutoExportRevisionToS3RequestDetails {
+    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.ApiGatewayApiAsset {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataExchangeClientTypes.AutoExportRevisionToS3RequestDetails()
-        value.encryption = try reader["Encryption"].readIfPresent(with: DataExchangeClientTypes.ExportServerSideEncryption.read(from:))
-        value.revisionDestination = try reader["RevisionDestination"].readIfPresent(with: DataExchangeClientTypes.AutoExportRevisionDestinationEntry.read(from:))
-        return value
-    }
-}
-
-extension DataExchangeClientTypes.AutoExportRevisionDestinationEntry {
-
-    static func write(value: DataExchangeClientTypes.AutoExportRevisionDestinationEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Bucket"].write(value.bucket)
-        try writer["KeyPattern"].write(value.keyPattern)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.AutoExportRevisionDestinationEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataExchangeClientTypes.AutoExportRevisionDestinationEntry()
-        value.bucket = try reader["Bucket"].readIfPresent() ?? ""
-        value.keyPattern = try reader["KeyPattern"].readIfPresent()
-        return value
-    }
-}
-
-extension DataExchangeClientTypes.ExportServerSideEncryption {
-
-    static func write(value: DataExchangeClientTypes.ExportServerSideEncryption?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["KmsKeyArn"].write(value.kmsKeyArn)
-        try writer["Type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.ExportServerSideEncryption {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataExchangeClientTypes.ExportServerSideEncryption()
-        value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension DataExchangeClientTypes.Event {
-
-    static func write(value: DataExchangeClientTypes.Event?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RevisionPublished"].write(value.revisionPublished, with: DataExchangeClientTypes.RevisionPublished.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.Event {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataExchangeClientTypes.Event()
-        value.revisionPublished = try reader["RevisionPublished"].readIfPresent(with: DataExchangeClientTypes.RevisionPublished.read(from:))
-        return value
-    }
-}
-
-extension DataExchangeClientTypes.RevisionPublished {
-
-    static func write(value: DataExchangeClientTypes.RevisionPublished?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataSetId"].write(value.dataSetId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.RevisionPublished {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataExchangeClientTypes.RevisionPublished()
-        value.dataSetId = try reader["DataSetId"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension DataExchangeClientTypes.ResponseDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.ResponseDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataExchangeClientTypes.ResponseDetails()
-        value.exportAssetToSignedUrl = try reader["ExportAssetToSignedUrl"].readIfPresent(with: DataExchangeClientTypes.ExportAssetToSignedUrlResponseDetails.read(from:))
-        value.exportAssetsToS3 = try reader["ExportAssetsToS3"].readIfPresent(with: DataExchangeClientTypes.ExportAssetsToS3ResponseDetails.read(from:))
-        value.exportRevisionsToS3 = try reader["ExportRevisionsToS3"].readIfPresent(with: DataExchangeClientTypes.ExportRevisionsToS3ResponseDetails.read(from:))
-        value.importAssetFromSignedUrl = try reader["ImportAssetFromSignedUrl"].readIfPresent(with: DataExchangeClientTypes.ImportAssetFromSignedUrlResponseDetails.read(from:))
-        value.importAssetsFromS3 = try reader["ImportAssetsFromS3"].readIfPresent(with: DataExchangeClientTypes.ImportAssetsFromS3ResponseDetails.read(from:))
-        value.importAssetsFromRedshiftDataShares = try reader["ImportAssetsFromRedshiftDataShares"].readIfPresent(with: DataExchangeClientTypes.ImportAssetsFromRedshiftDataSharesResponseDetails.read(from:))
-        value.importAssetFromApiGatewayApi = try reader["ImportAssetFromApiGatewayApi"].readIfPresent(with: DataExchangeClientTypes.ImportAssetFromApiGatewayApiResponseDetails.read(from:))
-        value.createS3DataAccessFromS3Bucket = try reader["CreateS3DataAccessFromS3Bucket"].readIfPresent(with: DataExchangeClientTypes.CreateS3DataAccessFromS3BucketResponseDetails.read(from:))
-        value.importAssetsFromLakeFormationTagPolicy = try reader["ImportAssetsFromLakeFormationTagPolicy"].readIfPresent(with: DataExchangeClientTypes.ImportAssetsFromLakeFormationTagPolicyResponseDetails.read(from:))
-        return value
-    }
-}
-
-extension DataExchangeClientTypes.ImportAssetsFromLakeFormationTagPolicyResponseDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.ImportAssetsFromLakeFormationTagPolicyResponseDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataExchangeClientTypes.ImportAssetsFromLakeFormationTagPolicyResponseDetails()
-        value.catalogId = try reader["CatalogId"].readIfPresent() ?? ""
-        value.database = try reader["Database"].readIfPresent(with: DataExchangeClientTypes.DatabaseLFTagPolicyAndPermissions.read(from:))
-        value.table = try reader["Table"].readIfPresent(with: DataExchangeClientTypes.TableLFTagPolicyAndPermissions.read(from:))
-        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
-        value.dataSetId = try reader["DataSetId"].readIfPresent() ?? ""
-        value.revisionId = try reader["RevisionId"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension DataExchangeClientTypes.TableLFTagPolicyAndPermissions {
-
-    static func write(value: DataExchangeClientTypes.TableLFTagPolicyAndPermissions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Expression"].writeList(value.expression, memberWritingClosure: DataExchangeClientTypes.LFTag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Permissions"].writeList(value.permissions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<DataExchangeClientTypes.TableTagPolicyLFPermission>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.TableLFTagPolicyAndPermissions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataExchangeClientTypes.TableLFTagPolicyAndPermissions()
-        value.expression = try reader["Expression"].readListIfPresent(memberReadingClosure: DataExchangeClientTypes.LFTag.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.permissions = try reader["Permissions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<DataExchangeClientTypes.TableTagPolicyLFPermission>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension DataExchangeClientTypes.LFTag {
-
-    static func write(value: DataExchangeClientTypes.LFTag?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["TagKey"].write(value.tagKey)
-        try writer["TagValues"].writeList(value.tagValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.LFTag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataExchangeClientTypes.LFTag()
-        value.tagKey = try reader["TagKey"].readIfPresent() ?? ""
-        value.tagValues = try reader["TagValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension DataExchangeClientTypes.DatabaseLFTagPolicyAndPermissions {
-
-    static func write(value: DataExchangeClientTypes.DatabaseLFTagPolicyAndPermissions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Expression"].writeList(value.expression, memberWritingClosure: DataExchangeClientTypes.LFTag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Permissions"].writeList(value.permissions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<DataExchangeClientTypes.DatabaseLFTagPolicyPermission>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.DatabaseLFTagPolicyAndPermissions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataExchangeClientTypes.DatabaseLFTagPolicyAndPermissions()
-        value.expression = try reader["Expression"].readListIfPresent(memberReadingClosure: DataExchangeClientTypes.LFTag.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.permissions = try reader["Permissions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<DataExchangeClientTypes.DatabaseLFTagPolicyPermission>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension DataExchangeClientTypes.CreateS3DataAccessFromS3BucketResponseDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.CreateS3DataAccessFromS3BucketResponseDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataExchangeClientTypes.CreateS3DataAccessFromS3BucketResponseDetails()
-        value.assetSource = try reader["AssetSource"].readIfPresent(with: DataExchangeClientTypes.S3DataAccessAssetSourceEntry.read(from:))
-        value.dataSetId = try reader["DataSetId"].readIfPresent() ?? ""
-        value.revisionId = try reader["RevisionId"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension DataExchangeClientTypes.S3DataAccessAssetSourceEntry {
-
-    static func write(value: DataExchangeClientTypes.S3DataAccessAssetSourceEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Bucket"].write(value.bucket)
-        try writer["KeyPrefixes"].writeList(value.keyPrefixes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Keys"].writeList(value.keys, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["KmsKeysToGrant"].writeList(value.kmsKeysToGrant, memberWritingClosure: DataExchangeClientTypes.KmsKeyToGrant.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.S3DataAccessAssetSourceEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataExchangeClientTypes.S3DataAccessAssetSourceEntry()
-        value.bucket = try reader["Bucket"].readIfPresent() ?? ""
-        value.keyPrefixes = try reader["KeyPrefixes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.keys = try reader["Keys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.kmsKeysToGrant = try reader["KmsKeysToGrant"].readListIfPresent(memberReadingClosure: DataExchangeClientTypes.KmsKeyToGrant.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DataExchangeClientTypes.KmsKeyToGrant {
-
-    static func write(value: DataExchangeClientTypes.KmsKeyToGrant?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["KmsKeyArn"].write(value.kmsKeyArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.KmsKeyToGrant {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataExchangeClientTypes.KmsKeyToGrant()
-        value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension DataExchangeClientTypes.ImportAssetFromApiGatewayApiResponseDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.ImportAssetFromApiGatewayApiResponseDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataExchangeClientTypes.ImportAssetFromApiGatewayApiResponseDetails()
+        var value = DataExchangeClientTypes.ApiGatewayApiAsset()
         value.apiDescription = try reader["ApiDescription"].readIfPresent()
-        value.apiId = try reader["ApiId"].readIfPresent() ?? ""
+        value.apiEndpoint = try reader["ApiEndpoint"].readIfPresent()
+        value.apiId = try reader["ApiId"].readIfPresent()
         value.apiKey = try reader["ApiKey"].readIfPresent()
-        value.apiName = try reader["ApiName"].readIfPresent() ?? ""
-        value.apiSpecificationMd5Hash = try reader["ApiSpecificationMd5Hash"].readIfPresent() ?? ""
-        value.apiSpecificationUploadUrl = try reader["ApiSpecificationUploadUrl"].readIfPresent() ?? ""
-        value.apiSpecificationUploadUrlExpiresAt = try reader["ApiSpecificationUploadUrlExpiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.dataSetId = try reader["DataSetId"].readIfPresent() ?? ""
-        value.protocolType = try reader["ProtocolType"].readIfPresent() ?? .sdkUnknown("")
-        value.revisionId = try reader["RevisionId"].readIfPresent() ?? ""
-        value.stage = try reader["Stage"].readIfPresent() ?? ""
+        value.apiName = try reader["ApiName"].readIfPresent()
+        value.apiSpecificationDownloadUrl = try reader["ApiSpecificationDownloadUrl"].readIfPresent()
+        value.apiSpecificationDownloadUrlExpiresAt = try reader["ApiSpecificationDownloadUrlExpiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.protocolType = try reader["ProtocolType"].readIfPresent()
+        value.stage = try reader["Stage"].readIfPresent()
         return value
     }
 }
 
-extension DataExchangeClientTypes.ImportAssetsFromRedshiftDataSharesResponseDetails {
+extension DataExchangeClientTypes.AssetConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.ImportAssetsFromRedshiftDataSharesResponseDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataExchangeClientTypes.ImportAssetsFromRedshiftDataSharesResponseDetails()
-        value.assetSources = try reader["AssetSources"].readListIfPresent(memberReadingClosure: DataExchangeClientTypes.RedshiftDataShareAssetSourceEntry.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.dataSetId = try reader["DataSetId"].readIfPresent() ?? ""
-        value.revisionId = try reader["RevisionId"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension DataExchangeClientTypes.RedshiftDataShareAssetSourceEntry {
-
-    static func write(value: DataExchangeClientTypes.RedshiftDataShareAssetSourceEntry?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DataExchangeClientTypes.AssetConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["DataShareArn"].write(value.dataShareArn)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: DataExchangeClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.RedshiftDataShareAssetSourceEntry {
+    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.AssetConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataExchangeClientTypes.RedshiftDataShareAssetSourceEntry()
-        value.dataShareArn = try reader["DataShareArn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension DataExchangeClientTypes.ImportAssetsFromS3ResponseDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.ImportAssetsFromS3ResponseDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataExchangeClientTypes.ImportAssetsFromS3ResponseDetails()
-        value.assetSources = try reader["AssetSources"].readListIfPresent(memberReadingClosure: DataExchangeClientTypes.AssetSourceEntry.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.dataSetId = try reader["DataSetId"].readIfPresent() ?? ""
-        value.revisionId = try reader["RevisionId"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension DataExchangeClientTypes.AssetSourceEntry {
-
-    static func write(value: DataExchangeClientTypes.AssetSourceEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Bucket"].write(value.bucket)
-        try writer["Key"].write(value.key)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.AssetSourceEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataExchangeClientTypes.AssetSourceEntry()
-        value.bucket = try reader["Bucket"].readIfPresent() ?? ""
-        value.key = try reader["Key"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension DataExchangeClientTypes.ImportAssetFromSignedUrlResponseDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.ImportAssetFromSignedUrlResponseDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataExchangeClientTypes.ImportAssetFromSignedUrlResponseDetails()
-        value.assetName = try reader["AssetName"].readIfPresent() ?? ""
-        value.dataSetId = try reader["DataSetId"].readIfPresent() ?? ""
-        value.md5Hash = try reader["Md5Hash"].readIfPresent()
-        value.revisionId = try reader["RevisionId"].readIfPresent() ?? ""
-        value.signedUrl = try reader["SignedUrl"].readIfPresent()
-        value.signedUrlExpiresAt = try reader["SignedUrlExpiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension DataExchangeClientTypes.ExportRevisionsToS3ResponseDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.ExportRevisionsToS3ResponseDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataExchangeClientTypes.ExportRevisionsToS3ResponseDetails()
-        value.dataSetId = try reader["DataSetId"].readIfPresent() ?? ""
-        value.encryption = try reader["Encryption"].readIfPresent(with: DataExchangeClientTypes.ExportServerSideEncryption.read(from:))
-        value.revisionDestinations = try reader["RevisionDestinations"].readListIfPresent(memberReadingClosure: DataExchangeClientTypes.RevisionDestinationEntry.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.eventActionArn = try reader["EventActionArn"].readIfPresent()
-        return value
-    }
-}
-
-extension DataExchangeClientTypes.RevisionDestinationEntry {
-
-    static func write(value: DataExchangeClientTypes.RevisionDestinationEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Bucket"].write(value.bucket)
-        try writer["KeyPattern"].write(value.keyPattern)
-        try writer["RevisionId"].write(value.revisionId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.RevisionDestinationEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataExchangeClientTypes.RevisionDestinationEntry()
-        value.bucket = try reader["Bucket"].readIfPresent() ?? ""
-        value.keyPattern = try reader["KeyPattern"].readIfPresent()
-        value.revisionId = try reader["RevisionId"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension DataExchangeClientTypes.ExportAssetsToS3ResponseDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.ExportAssetsToS3ResponseDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataExchangeClientTypes.ExportAssetsToS3ResponseDetails()
-        value.assetDestinations = try reader["AssetDestinations"].readListIfPresent(memberReadingClosure: DataExchangeClientTypes.AssetDestinationEntry.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.dataSetId = try reader["DataSetId"].readIfPresent() ?? ""
-        value.encryption = try reader["Encryption"].readIfPresent(with: DataExchangeClientTypes.ExportServerSideEncryption.read(from:))
-        value.revisionId = try reader["RevisionId"].readIfPresent() ?? ""
+        var value = DataExchangeClientTypes.AssetConfiguration()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: DataExchangeClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -7220,6 +6953,270 @@ extension DataExchangeClientTypes.AssetDestinationEntry {
     }
 }
 
+extension DataExchangeClientTypes.AssetDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.AssetDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataExchangeClientTypes.AssetDetails()
+        value.s3SnapshotAsset = try reader["S3SnapshotAsset"].readIfPresent(with: DataExchangeClientTypes.S3SnapshotAsset.read(from:))
+        value.redshiftDataShareAsset = try reader["RedshiftDataShareAsset"].readIfPresent(with: DataExchangeClientTypes.RedshiftDataShareAsset.read(from:))
+        value.apiGatewayApiAsset = try reader["ApiGatewayApiAsset"].readIfPresent(with: DataExchangeClientTypes.ApiGatewayApiAsset.read(from:))
+        value.s3DataAccessAsset = try reader["S3DataAccessAsset"].readIfPresent(with: DataExchangeClientTypes.S3DataAccessAsset.read(from:))
+        value.lakeFormationDataPermissionAsset = try reader["LakeFormationDataPermissionAsset"].readIfPresent(with: DataExchangeClientTypes.LakeFormationDataPermissionAsset.read(from:))
+        return value
+    }
+}
+
+extension DataExchangeClientTypes.AssetEntry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.AssetEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataExchangeClientTypes.AssetEntry()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.assetDetails = try reader["AssetDetails"].readIfPresent(with: DataExchangeClientTypes.AssetDetails.read(from:))
+        value.assetType = try reader["AssetType"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.dataSetId = try reader["DataSetId"].readIfPresent() ?? ""
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.revisionId = try reader["RevisionId"].readIfPresent() ?? ""
+        value.sourceId = try reader["SourceId"].readIfPresent()
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension DataExchangeClientTypes.AssetSourceEntry {
+
+    static func write(value: DataExchangeClientTypes.AssetSourceEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Bucket"].write(value.bucket)
+        try writer["Key"].write(value.key)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.AssetSourceEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataExchangeClientTypes.AssetSourceEntry()
+        value.bucket = try reader["Bucket"].readIfPresent() ?? ""
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DataExchangeClientTypes.AutoExportRevisionDestinationEntry {
+
+    static func write(value: DataExchangeClientTypes.AutoExportRevisionDestinationEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Bucket"].write(value.bucket)
+        try writer["KeyPattern"].write(value.keyPattern)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.AutoExportRevisionDestinationEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataExchangeClientTypes.AutoExportRevisionDestinationEntry()
+        value.bucket = try reader["Bucket"].readIfPresent() ?? ""
+        value.keyPattern = try reader["KeyPattern"].readIfPresent()
+        return value
+    }
+}
+
+extension DataExchangeClientTypes.AutoExportRevisionToS3RequestDetails {
+
+    static func write(value: DataExchangeClientTypes.AutoExportRevisionToS3RequestDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Encryption"].write(value.encryption, with: DataExchangeClientTypes.ExportServerSideEncryption.write(value:to:))
+        try writer["RevisionDestination"].write(value.revisionDestination, with: DataExchangeClientTypes.AutoExportRevisionDestinationEntry.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.AutoExportRevisionToS3RequestDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataExchangeClientTypes.AutoExportRevisionToS3RequestDetails()
+        value.encryption = try reader["Encryption"].readIfPresent(with: DataExchangeClientTypes.ExportServerSideEncryption.read(from:))
+        value.revisionDestination = try reader["RevisionDestination"].readIfPresent(with: DataExchangeClientTypes.AutoExportRevisionDestinationEntry.read(from:))
+        return value
+    }
+}
+
+extension DataExchangeClientTypes.CreateS3DataAccessFromS3BucketRequestDetails {
+
+    static func write(value: DataExchangeClientTypes.CreateS3DataAccessFromS3BucketRequestDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AssetSource"].write(value.assetSource, with: DataExchangeClientTypes.S3DataAccessAssetSourceEntry.write(value:to:))
+        try writer["DataSetId"].write(value.dataSetId)
+        try writer["RevisionId"].write(value.revisionId)
+    }
+}
+
+extension DataExchangeClientTypes.CreateS3DataAccessFromS3BucketResponseDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.CreateS3DataAccessFromS3BucketResponseDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataExchangeClientTypes.CreateS3DataAccessFromS3BucketResponseDetails()
+        value.assetSource = try reader["AssetSource"].readIfPresent(with: DataExchangeClientTypes.S3DataAccessAssetSourceEntry.read(from:))
+        value.dataSetId = try reader["DataSetId"].readIfPresent() ?? ""
+        value.revisionId = try reader["RevisionId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DataExchangeClientTypes.DatabaseLFTagPolicy {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.DatabaseLFTagPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataExchangeClientTypes.DatabaseLFTagPolicy()
+        value.expression = try reader["Expression"].readListIfPresent(memberReadingClosure: DataExchangeClientTypes.LFTag.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension DataExchangeClientTypes.DatabaseLFTagPolicyAndPermissions {
+
+    static func write(value: DataExchangeClientTypes.DatabaseLFTagPolicyAndPermissions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Expression"].writeList(value.expression, memberWritingClosure: DataExchangeClientTypes.LFTag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Permissions"].writeList(value.permissions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<DataExchangeClientTypes.DatabaseLFTagPolicyPermission>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.DatabaseLFTagPolicyAndPermissions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataExchangeClientTypes.DatabaseLFTagPolicyAndPermissions()
+        value.expression = try reader["Expression"].readListIfPresent(memberReadingClosure: DataExchangeClientTypes.LFTag.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.permissions = try reader["Permissions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<DataExchangeClientTypes.DatabaseLFTagPolicyPermission>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension DataExchangeClientTypes.DataGrantSummaryEntry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.DataGrantSummaryEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataExchangeClientTypes.DataGrantSummaryEntry()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.senderPrincipal = try reader["SenderPrincipal"].readIfPresent() ?? ""
+        value.receiverPrincipal = try reader["ReceiverPrincipal"].readIfPresent() ?? ""
+        value.acceptanceState = try reader["AcceptanceState"].readIfPresent() ?? .sdkUnknown("")
+        value.acceptedAt = try reader["AcceptedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.endsAt = try reader["EndsAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.dataSetId = try reader["DataSetId"].readIfPresent() ?? ""
+        value.sourceDataSetId = try reader["SourceDataSetId"].readIfPresent() ?? ""
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension DataExchangeClientTypes.DataSetEntry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.DataSetEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataExchangeClientTypes.DataSetEntry()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.assetType = try reader["AssetType"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.description = try reader["Description"].readIfPresent() ?? ""
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.origin = try reader["Origin"].readIfPresent() ?? .sdkUnknown("")
+        value.originDetails = try reader["OriginDetails"].readIfPresent(with: DataExchangeClientTypes.OriginDetails.read(from:))
+        value.sourceId = try reader["SourceId"].readIfPresent()
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension DataExchangeClientTypes.DataUpdateRequestDetails {
+
+    static func write(value: DataExchangeClientTypes.DataUpdateRequestDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataUpdatedAt"].writeTimestamp(value.dataUpdatedAt, format: SmithyTimestamps.TimestampFormat.dateTime)
+    }
+}
+
+extension DataExchangeClientTypes.DeprecationRequestDetails {
+
+    static func write(value: DataExchangeClientTypes.DeprecationRequestDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DeprecationAt"].writeTimestamp(value.deprecationAt, format: SmithyTimestamps.TimestampFormat.dateTime)
+    }
+}
+
+extension DataExchangeClientTypes.Details {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.Details {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataExchangeClientTypes.Details()
+        value.importAssetFromSignedUrlJobErrorDetails = try reader["ImportAssetFromSignedUrlJobErrorDetails"].readIfPresent(with: DataExchangeClientTypes.ImportAssetFromSignedUrlJobErrorDetails.read(from:))
+        value.importAssetsFromS3JobErrorDetails = try reader["ImportAssetsFromS3JobErrorDetails"].readListIfPresent(memberReadingClosure: DataExchangeClientTypes.AssetSourceEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DataExchangeClientTypes.Event {
+
+    static func write(value: DataExchangeClientTypes.Event?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RevisionPublished"].write(value.revisionPublished, with: DataExchangeClientTypes.RevisionPublished.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.Event {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataExchangeClientTypes.Event()
+        value.revisionPublished = try reader["RevisionPublished"].readIfPresent(with: DataExchangeClientTypes.RevisionPublished.read(from:))
+        return value
+    }
+}
+
+extension DataExchangeClientTypes.EventActionEntry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.EventActionEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataExchangeClientTypes.EventActionEntry()
+        value.action = try reader["Action"].readIfPresent(with: DataExchangeClientTypes.Action.read(from:))
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.event = try reader["Event"].readIfPresent(with: DataExchangeClientTypes.Event.read(from:))
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension DataExchangeClientTypes.ExportAssetsToS3RequestDetails {
+
+    static func write(value: DataExchangeClientTypes.ExportAssetsToS3RequestDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AssetDestinations"].writeList(value.assetDestinations, memberWritingClosure: DataExchangeClientTypes.AssetDestinationEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["DataSetId"].write(value.dataSetId)
+        try writer["Encryption"].write(value.encryption, with: DataExchangeClientTypes.ExportServerSideEncryption.write(value:to:))
+        try writer["RevisionId"].write(value.revisionId)
+    }
+}
+
+extension DataExchangeClientTypes.ExportAssetsToS3ResponseDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.ExportAssetsToS3ResponseDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataExchangeClientTypes.ExportAssetsToS3ResponseDetails()
+        value.assetDestinations = try reader["AssetDestinations"].readListIfPresent(memberReadingClosure: DataExchangeClientTypes.AssetDestinationEntry.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.dataSetId = try reader["DataSetId"].readIfPresent() ?? ""
+        value.encryption = try reader["Encryption"].readIfPresent(with: DataExchangeClientTypes.ExportServerSideEncryption.read(from:))
+        value.revisionId = try reader["RevisionId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DataExchangeClientTypes.ExportAssetToSignedUrlRequestDetails {
+
+    static func write(value: DataExchangeClientTypes.ExportAssetToSignedUrlRequestDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AssetId"].write(value.assetId)
+        try writer["DataSetId"].write(value.dataSetId)
+        try writer["RevisionId"].write(value.revisionId)
+    }
+}
+
 extension DataExchangeClientTypes.ExportAssetToSignedUrlResponseDetails {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.ExportAssetToSignedUrlResponseDetails {
@@ -7230,6 +7227,208 @@ extension DataExchangeClientTypes.ExportAssetToSignedUrlResponseDetails {
         value.revisionId = try reader["RevisionId"].readIfPresent() ?? ""
         value.signedUrl = try reader["SignedUrl"].readIfPresent()
         value.signedUrlExpiresAt = try reader["SignedUrlExpiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension DataExchangeClientTypes.ExportRevisionsToS3RequestDetails {
+
+    static func write(value: DataExchangeClientTypes.ExportRevisionsToS3RequestDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataSetId"].write(value.dataSetId)
+        try writer["Encryption"].write(value.encryption, with: DataExchangeClientTypes.ExportServerSideEncryption.write(value:to:))
+        try writer["RevisionDestinations"].writeList(value.revisionDestinations, memberWritingClosure: DataExchangeClientTypes.RevisionDestinationEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension DataExchangeClientTypes.ExportRevisionsToS3ResponseDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.ExportRevisionsToS3ResponseDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataExchangeClientTypes.ExportRevisionsToS3ResponseDetails()
+        value.dataSetId = try reader["DataSetId"].readIfPresent() ?? ""
+        value.encryption = try reader["Encryption"].readIfPresent(with: DataExchangeClientTypes.ExportServerSideEncryption.read(from:))
+        value.revisionDestinations = try reader["RevisionDestinations"].readListIfPresent(memberReadingClosure: DataExchangeClientTypes.RevisionDestinationEntry.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.eventActionArn = try reader["EventActionArn"].readIfPresent()
+        return value
+    }
+}
+
+extension DataExchangeClientTypes.ExportServerSideEncryption {
+
+    static func write(value: DataExchangeClientTypes.ExportServerSideEncryption?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["KmsKeyArn"].write(value.kmsKeyArn)
+        try writer["Type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.ExportServerSideEncryption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataExchangeClientTypes.ExportServerSideEncryption()
+        value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension DataExchangeClientTypes.ImportAssetFromApiGatewayApiRequestDetails {
+
+    static func write(value: DataExchangeClientTypes.ImportAssetFromApiGatewayApiRequestDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ApiDescription"].write(value.apiDescription)
+        try writer["ApiId"].write(value.apiId)
+        try writer["ApiKey"].write(value.apiKey)
+        try writer["ApiName"].write(value.apiName)
+        try writer["ApiSpecificationMd5Hash"].write(value.apiSpecificationMd5Hash)
+        try writer["DataSetId"].write(value.dataSetId)
+        try writer["ProtocolType"].write(value.protocolType)
+        try writer["RevisionId"].write(value.revisionId)
+        try writer["Stage"].write(value.stage)
+    }
+}
+
+extension DataExchangeClientTypes.ImportAssetFromApiGatewayApiResponseDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.ImportAssetFromApiGatewayApiResponseDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataExchangeClientTypes.ImportAssetFromApiGatewayApiResponseDetails()
+        value.apiDescription = try reader["ApiDescription"].readIfPresent()
+        value.apiId = try reader["ApiId"].readIfPresent() ?? ""
+        value.apiKey = try reader["ApiKey"].readIfPresent()
+        value.apiName = try reader["ApiName"].readIfPresent() ?? ""
+        value.apiSpecificationMd5Hash = try reader["ApiSpecificationMd5Hash"].readIfPresent() ?? ""
+        value.apiSpecificationUploadUrl = try reader["ApiSpecificationUploadUrl"].readIfPresent() ?? ""
+        value.apiSpecificationUploadUrlExpiresAt = try reader["ApiSpecificationUploadUrlExpiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.dataSetId = try reader["DataSetId"].readIfPresent() ?? ""
+        value.protocolType = try reader["ProtocolType"].readIfPresent() ?? .sdkUnknown("")
+        value.revisionId = try reader["RevisionId"].readIfPresent() ?? ""
+        value.stage = try reader["Stage"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DataExchangeClientTypes.ImportAssetFromSignedUrlJobErrorDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.ImportAssetFromSignedUrlJobErrorDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataExchangeClientTypes.ImportAssetFromSignedUrlJobErrorDetails()
+        value.assetName = try reader["AssetName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DataExchangeClientTypes.ImportAssetFromSignedUrlRequestDetails {
+
+    static func write(value: DataExchangeClientTypes.ImportAssetFromSignedUrlRequestDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AssetName"].write(value.assetName)
+        try writer["DataSetId"].write(value.dataSetId)
+        try writer["Md5Hash"].write(value.md5Hash)
+        try writer["RevisionId"].write(value.revisionId)
+    }
+}
+
+extension DataExchangeClientTypes.ImportAssetFromSignedUrlResponseDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.ImportAssetFromSignedUrlResponseDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataExchangeClientTypes.ImportAssetFromSignedUrlResponseDetails()
+        value.assetName = try reader["AssetName"].readIfPresent() ?? ""
+        value.dataSetId = try reader["DataSetId"].readIfPresent() ?? ""
+        value.md5Hash = try reader["Md5Hash"].readIfPresent()
+        value.revisionId = try reader["RevisionId"].readIfPresent() ?? ""
+        value.signedUrl = try reader["SignedUrl"].readIfPresent()
+        value.signedUrlExpiresAt = try reader["SignedUrlExpiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension DataExchangeClientTypes.ImportAssetsFromLakeFormationTagPolicyRequestDetails {
+
+    static func write(value: DataExchangeClientTypes.ImportAssetsFromLakeFormationTagPolicyRequestDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CatalogId"].write(value.catalogId)
+        try writer["DataSetId"].write(value.dataSetId)
+        try writer["Database"].write(value.database, with: DataExchangeClientTypes.DatabaseLFTagPolicyAndPermissions.write(value:to:))
+        try writer["RevisionId"].write(value.revisionId)
+        try writer["RoleArn"].write(value.roleArn)
+        try writer["Table"].write(value.table, with: DataExchangeClientTypes.TableLFTagPolicyAndPermissions.write(value:to:))
+    }
+}
+
+extension DataExchangeClientTypes.ImportAssetsFromLakeFormationTagPolicyResponseDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.ImportAssetsFromLakeFormationTagPolicyResponseDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataExchangeClientTypes.ImportAssetsFromLakeFormationTagPolicyResponseDetails()
+        value.catalogId = try reader["CatalogId"].readIfPresent() ?? ""
+        value.database = try reader["Database"].readIfPresent(with: DataExchangeClientTypes.DatabaseLFTagPolicyAndPermissions.read(from:))
+        value.table = try reader["Table"].readIfPresent(with: DataExchangeClientTypes.TableLFTagPolicyAndPermissions.read(from:))
+        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
+        value.dataSetId = try reader["DataSetId"].readIfPresent() ?? ""
+        value.revisionId = try reader["RevisionId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DataExchangeClientTypes.ImportAssetsFromRedshiftDataSharesRequestDetails {
+
+    static func write(value: DataExchangeClientTypes.ImportAssetsFromRedshiftDataSharesRequestDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AssetSources"].writeList(value.assetSources, memberWritingClosure: DataExchangeClientTypes.RedshiftDataShareAssetSourceEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["DataSetId"].write(value.dataSetId)
+        try writer["RevisionId"].write(value.revisionId)
+    }
+}
+
+extension DataExchangeClientTypes.ImportAssetsFromRedshiftDataSharesResponseDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.ImportAssetsFromRedshiftDataSharesResponseDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataExchangeClientTypes.ImportAssetsFromRedshiftDataSharesResponseDetails()
+        value.assetSources = try reader["AssetSources"].readListIfPresent(memberReadingClosure: DataExchangeClientTypes.RedshiftDataShareAssetSourceEntry.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.dataSetId = try reader["DataSetId"].readIfPresent() ?? ""
+        value.revisionId = try reader["RevisionId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DataExchangeClientTypes.ImportAssetsFromS3RequestDetails {
+
+    static func write(value: DataExchangeClientTypes.ImportAssetsFromS3RequestDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AssetSources"].writeList(value.assetSources, memberWritingClosure: DataExchangeClientTypes.AssetSourceEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["DataSetId"].write(value.dataSetId)
+        try writer["RevisionId"].write(value.revisionId)
+    }
+}
+
+extension DataExchangeClientTypes.ImportAssetsFromS3ResponseDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.ImportAssetsFromS3ResponseDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataExchangeClientTypes.ImportAssetsFromS3ResponseDetails()
+        value.assetSources = try reader["AssetSources"].readListIfPresent(memberReadingClosure: DataExchangeClientTypes.AssetSourceEntry.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.dataSetId = try reader["DataSetId"].readIfPresent() ?? ""
+        value.revisionId = try reader["RevisionId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DataExchangeClientTypes.JobEntry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.JobEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataExchangeClientTypes.JobEntry()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.assetConfiguration = try reader["AssetConfiguration"].readIfPresent(with: DataExchangeClientTypes.AssetConfiguration.read(from:))
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.details = try reader["Details"].readIfPresent(with: DataExchangeClientTypes.ResponseDetails.read(from:))
+        value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: DataExchangeClientTypes.JobError.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.state = try reader["State"].readIfPresent() ?? .sdkUnknown("")
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -7250,37 +7449,17 @@ extension DataExchangeClientTypes.JobError {
     }
 }
 
-extension DataExchangeClientTypes.Details {
+extension DataExchangeClientTypes.KmsKeyToGrant {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.Details {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataExchangeClientTypes.Details()
-        value.importAssetFromSignedUrlJobErrorDetails = try reader["ImportAssetFromSignedUrlJobErrorDetails"].readIfPresent(with: DataExchangeClientTypes.ImportAssetFromSignedUrlJobErrorDetails.read(from:))
-        value.importAssetsFromS3JobErrorDetails = try reader["ImportAssetsFromS3JobErrorDetails"].readListIfPresent(memberReadingClosure: DataExchangeClientTypes.AssetSourceEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
+    static func write(value: DataExchangeClientTypes.KmsKeyToGrant?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["KmsKeyArn"].write(value.kmsKeyArn)
     }
-}
 
-extension DataExchangeClientTypes.ImportAssetFromSignedUrlJobErrorDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.ImportAssetFromSignedUrlJobErrorDetails {
+    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.KmsKeyToGrant {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataExchangeClientTypes.ImportAssetFromSignedUrlJobErrorDetails()
-        value.assetName = try reader["AssetName"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension DataExchangeClientTypes.AssetDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.AssetDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataExchangeClientTypes.AssetDetails()
-        value.s3SnapshotAsset = try reader["S3SnapshotAsset"].readIfPresent(with: DataExchangeClientTypes.S3SnapshotAsset.read(from:))
-        value.redshiftDataShareAsset = try reader["RedshiftDataShareAsset"].readIfPresent(with: DataExchangeClientTypes.RedshiftDataShareAsset.read(from:))
-        value.apiGatewayApiAsset = try reader["ApiGatewayApiAsset"].readIfPresent(with: DataExchangeClientTypes.ApiGatewayApiAsset.read(from:))
-        value.s3DataAccessAsset = try reader["S3DataAccessAsset"].readIfPresent(with: DataExchangeClientTypes.S3DataAccessAsset.read(from:))
-        value.lakeFormationDataPermissionAsset = try reader["LakeFormationDataPermissionAsset"].readIfPresent(with: DataExchangeClientTypes.LakeFormationDataPermissionAsset.read(from:))
+        var value = DataExchangeClientTypes.KmsKeyToGrant()
+        value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7308,15 +7487,12 @@ extension DataExchangeClientTypes.LakeFormationDataPermissionDetails {
     }
 }
 
-extension DataExchangeClientTypes.LFTagPolicyDetails {
+extension DataExchangeClientTypes.LakeFormationTagPolicyDetails {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.LFTagPolicyDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataExchangeClientTypes.LFTagPolicyDetails()
-        value.catalogId = try reader["CatalogId"].readIfPresent() ?? ""
-        value.resourceType = try reader["ResourceType"].readIfPresent() ?? .sdkUnknown("")
-        value.resourceDetails = try reader["ResourceDetails"].readIfPresent(with: DataExchangeClientTypes.LFResourceDetails.read(from:))
-        return value
+    static func write(value: DataExchangeClientTypes.LakeFormationTagPolicyDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Database"].write(value.database)
+        try writer["Table"].write(value.table)
     }
 }
 
@@ -7331,167 +7507,52 @@ extension DataExchangeClientTypes.LFResourceDetails {
     }
 }
 
-extension DataExchangeClientTypes.TableLFTagPolicy {
+extension DataExchangeClientTypes.LFTag {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.TableLFTagPolicy {
+    static func write(value: DataExchangeClientTypes.LFTag?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TagKey"].write(value.tagKey)
+        try writer["TagValues"].writeList(value.tagValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.LFTag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataExchangeClientTypes.TableLFTagPolicy()
-        value.expression = try reader["Expression"].readListIfPresent(memberReadingClosure: DataExchangeClientTypes.LFTag.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        var value = DataExchangeClientTypes.LFTag()
+        value.tagKey = try reader["TagKey"].readIfPresent() ?? ""
+        value.tagValues = try reader["TagValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
 
-extension DataExchangeClientTypes.DatabaseLFTagPolicy {
+extension DataExchangeClientTypes.LFTagPolicyDetails {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.DatabaseLFTagPolicy {
+    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.LFTagPolicyDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataExchangeClientTypes.DatabaseLFTagPolicy()
-        value.expression = try reader["Expression"].readListIfPresent(memberReadingClosure: DataExchangeClientTypes.LFTag.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        var value = DataExchangeClientTypes.LFTagPolicyDetails()
+        value.catalogId = try reader["CatalogId"].readIfPresent() ?? ""
+        value.resourceType = try reader["ResourceType"].readIfPresent() ?? .sdkUnknown("")
+        value.resourceDetails = try reader["ResourceDetails"].readIfPresent(with: DataExchangeClientTypes.LFResourceDetails.read(from:))
         return value
     }
 }
 
-extension DataExchangeClientTypes.S3DataAccessAsset {
+extension DataExchangeClientTypes.NotificationDetails {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.S3DataAccessAsset {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataExchangeClientTypes.S3DataAccessAsset()
-        value.bucket = try reader["Bucket"].readIfPresent() ?? ""
-        value.keyPrefixes = try reader["KeyPrefixes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.keys = try reader["Keys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.s3AccessPointAlias = try reader["S3AccessPointAlias"].readIfPresent()
-        value.s3AccessPointArn = try reader["S3AccessPointArn"].readIfPresent()
-        value.kmsKeysToGrant = try reader["KmsKeysToGrant"].readListIfPresent(memberReadingClosure: DataExchangeClientTypes.KmsKeyToGrant.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
+    static func write(value: DataExchangeClientTypes.NotificationDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataUpdate"].write(value.dataUpdate, with: DataExchangeClientTypes.DataUpdateRequestDetails.write(value:to:))
+        try writer["Deprecation"].write(value.deprecation, with: DataExchangeClientTypes.DeprecationRequestDetails.write(value:to:))
+        try writer["SchemaChange"].write(value.schemaChange, with: DataExchangeClientTypes.SchemaChangeRequestDetails.write(value:to:))
     }
 }
 
-extension DataExchangeClientTypes.ApiGatewayApiAsset {
+extension DataExchangeClientTypes.OriginDetails {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.ApiGatewayApiAsset {
+    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.OriginDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataExchangeClientTypes.ApiGatewayApiAsset()
-        value.apiDescription = try reader["ApiDescription"].readIfPresent()
-        value.apiEndpoint = try reader["ApiEndpoint"].readIfPresent()
-        value.apiId = try reader["ApiId"].readIfPresent()
-        value.apiKey = try reader["ApiKey"].readIfPresent()
-        value.apiName = try reader["ApiName"].readIfPresent()
-        value.apiSpecificationDownloadUrl = try reader["ApiSpecificationDownloadUrl"].readIfPresent()
-        value.apiSpecificationDownloadUrlExpiresAt = try reader["ApiSpecificationDownloadUrlExpiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.protocolType = try reader["ProtocolType"].readIfPresent()
-        value.stage = try reader["Stage"].readIfPresent()
-        return value
-    }
-}
-
-extension DataExchangeClientTypes.RedshiftDataShareAsset {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.RedshiftDataShareAsset {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataExchangeClientTypes.RedshiftDataShareAsset()
-        value.arn = try reader["Arn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension DataExchangeClientTypes.S3SnapshotAsset {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.S3SnapshotAsset {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataExchangeClientTypes.S3SnapshotAsset()
-        value.size = try reader["Size"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension DataExchangeClientTypes.DataGrantSummaryEntry {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.DataGrantSummaryEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataExchangeClientTypes.DataGrantSummaryEntry()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.senderPrincipal = try reader["SenderPrincipal"].readIfPresent() ?? ""
-        value.receiverPrincipal = try reader["ReceiverPrincipal"].readIfPresent() ?? ""
-        value.acceptanceState = try reader["AcceptanceState"].readIfPresent() ?? .sdkUnknown("")
-        value.acceptedAt = try reader["AcceptedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.endsAt = try reader["EndsAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.dataSetId = try reader["DataSetId"].readIfPresent() ?? ""
-        value.sourceDataSetId = try reader["SourceDataSetId"].readIfPresent() ?? ""
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        value.arn = try reader["Arn"].readIfPresent() ?? ""
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension DataExchangeClientTypes.RevisionEntry {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.RevisionEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataExchangeClientTypes.RevisionEntry()
-        value.arn = try reader["Arn"].readIfPresent() ?? ""
-        value.comment = try reader["Comment"].readIfPresent()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.dataSetId = try reader["DataSetId"].readIfPresent() ?? ""
-        value.finalized = try reader["Finalized"].readIfPresent() ?? false
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        value.sourceId = try reader["SourceId"].readIfPresent()
-        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.revocationComment = try reader["RevocationComment"].readIfPresent()
-        value.revoked = try reader["Revoked"].readIfPresent() ?? false
-        value.revokedAt = try reader["RevokedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension DataExchangeClientTypes.DataSetEntry {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.DataSetEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataExchangeClientTypes.DataSetEntry()
-        value.arn = try reader["Arn"].readIfPresent() ?? ""
-        value.assetType = try reader["AssetType"].readIfPresent() ?? .sdkUnknown("")
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.description = try reader["Description"].readIfPresent() ?? ""
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.origin = try reader["Origin"].readIfPresent() ?? .sdkUnknown("")
-        value.originDetails = try reader["OriginDetails"].readIfPresent(with: DataExchangeClientTypes.OriginDetails.read(from:))
-        value.sourceId = try reader["SourceId"].readIfPresent()
-        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension DataExchangeClientTypes.EventActionEntry {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.EventActionEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataExchangeClientTypes.EventActionEntry()
-        value.action = try reader["Action"].readIfPresent(with: DataExchangeClientTypes.Action.read(from:))
-        value.arn = try reader["Arn"].readIfPresent() ?? ""
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.event = try reader["Event"].readIfPresent(with: DataExchangeClientTypes.Event.read(from:))
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension DataExchangeClientTypes.JobEntry {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.JobEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataExchangeClientTypes.JobEntry()
-        value.arn = try reader["Arn"].readIfPresent() ?? ""
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.details = try reader["Details"].readIfPresent(with: DataExchangeClientTypes.ResponseDetails.read(from:))
-        value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: DataExchangeClientTypes.JobError.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        value.state = try reader["State"].readIfPresent() ?? .sdkUnknown("")
-        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
-        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        var value = DataExchangeClientTypes.OriginDetails()
+        value.productId = try reader["ProductId"].readIfPresent()
+        value.dataGrantId = try reader["DataGrantId"].readIfPresent()
         return value
     }
 }
@@ -7516,22 +7577,41 @@ extension DataExchangeClientTypes.ReceivedDataGrantSummariesEntry {
     }
 }
 
-extension DataExchangeClientTypes.AssetEntry {
+extension DataExchangeClientTypes.RedshiftDataShareAsset {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.AssetEntry {
+    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.RedshiftDataShareAsset {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataExchangeClientTypes.AssetEntry()
+        var value = DataExchangeClientTypes.RedshiftDataShareAsset()
         value.arn = try reader["Arn"].readIfPresent() ?? ""
-        value.assetDetails = try reader["AssetDetails"].readIfPresent(with: DataExchangeClientTypes.AssetDetails.read(from:))
-        value.assetType = try reader["AssetType"].readIfPresent() ?? .sdkUnknown("")
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.dataSetId = try reader["DataSetId"].readIfPresent() ?? ""
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.revisionId = try reader["RevisionId"].readIfPresent() ?? ""
-        value.sourceId = try reader["SourceId"].readIfPresent()
-        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
+    }
+}
+
+extension DataExchangeClientTypes.RedshiftDataShareAssetSourceEntry {
+
+    static func write(value: DataExchangeClientTypes.RedshiftDataShareAssetSourceEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataShareArn"].write(value.dataShareArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.RedshiftDataShareAssetSourceEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataExchangeClientTypes.RedshiftDataShareAssetSourceEntry()
+        value.dataShareArn = try reader["DataShareArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DataExchangeClientTypes.RedshiftDataShareDetails {
+
+    static func write(value: DataExchangeClientTypes.RedshiftDataShareDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Arn"].write(value.arn)
+        try writer["Database"].write(value.database)
+        try writer["Function"].write(value.function)
+        try writer["Schema"].write(value.schema)
+        try writer["Table"].write(value.table)
+        try writer["View"].write(value.view)
     }
 }
 
@@ -7551,114 +7631,111 @@ extension DataExchangeClientTypes.RequestDetails {
     }
 }
 
-extension DataExchangeClientTypes.ImportAssetsFromLakeFormationTagPolicyRequestDetails {
+extension DataExchangeClientTypes.ResponseDetails {
 
-    static func write(value: DataExchangeClientTypes.ImportAssetsFromLakeFormationTagPolicyRequestDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CatalogId"].write(value.catalogId)
-        try writer["DataSetId"].write(value.dataSetId)
-        try writer["Database"].write(value.database, with: DataExchangeClientTypes.DatabaseLFTagPolicyAndPermissions.write(value:to:))
-        try writer["RevisionId"].write(value.revisionId)
-        try writer["RoleArn"].write(value.roleArn)
-        try writer["Table"].write(value.table, with: DataExchangeClientTypes.TableLFTagPolicyAndPermissions.write(value:to:))
+    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.ResponseDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataExchangeClientTypes.ResponseDetails()
+        value.exportAssetToSignedUrl = try reader["ExportAssetToSignedUrl"].readIfPresent(with: DataExchangeClientTypes.ExportAssetToSignedUrlResponseDetails.read(from:))
+        value.exportAssetsToS3 = try reader["ExportAssetsToS3"].readIfPresent(with: DataExchangeClientTypes.ExportAssetsToS3ResponseDetails.read(from:))
+        value.exportRevisionsToS3 = try reader["ExportRevisionsToS3"].readIfPresent(with: DataExchangeClientTypes.ExportRevisionsToS3ResponseDetails.read(from:))
+        value.importAssetFromSignedUrl = try reader["ImportAssetFromSignedUrl"].readIfPresent(with: DataExchangeClientTypes.ImportAssetFromSignedUrlResponseDetails.read(from:))
+        value.importAssetsFromS3 = try reader["ImportAssetsFromS3"].readIfPresent(with: DataExchangeClientTypes.ImportAssetsFromS3ResponseDetails.read(from:))
+        value.importAssetsFromRedshiftDataShares = try reader["ImportAssetsFromRedshiftDataShares"].readIfPresent(with: DataExchangeClientTypes.ImportAssetsFromRedshiftDataSharesResponseDetails.read(from:))
+        value.importAssetFromApiGatewayApi = try reader["ImportAssetFromApiGatewayApi"].readIfPresent(with: DataExchangeClientTypes.ImportAssetFromApiGatewayApiResponseDetails.read(from:))
+        value.createS3DataAccessFromS3Bucket = try reader["CreateS3DataAccessFromS3Bucket"].readIfPresent(with: DataExchangeClientTypes.CreateS3DataAccessFromS3BucketResponseDetails.read(from:))
+        value.importAssetsFromLakeFormationTagPolicy = try reader["ImportAssetsFromLakeFormationTagPolicy"].readIfPresent(with: DataExchangeClientTypes.ImportAssetsFromLakeFormationTagPolicyResponseDetails.read(from:))
+        return value
     }
 }
 
-extension DataExchangeClientTypes.CreateS3DataAccessFromS3BucketRequestDetails {
+extension DataExchangeClientTypes.RevisionDestinationEntry {
 
-    static func write(value: DataExchangeClientTypes.CreateS3DataAccessFromS3BucketRequestDetails?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DataExchangeClientTypes.RevisionDestinationEntry?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["AssetSource"].write(value.assetSource, with: DataExchangeClientTypes.S3DataAccessAssetSourceEntry.write(value:to:))
-        try writer["DataSetId"].write(value.dataSetId)
-        try writer["RevisionId"].write(value.revisionId)
-    }
-}
-
-extension DataExchangeClientTypes.ImportAssetFromApiGatewayApiRequestDetails {
-
-    static func write(value: DataExchangeClientTypes.ImportAssetFromApiGatewayApiRequestDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApiDescription"].write(value.apiDescription)
-        try writer["ApiId"].write(value.apiId)
-        try writer["ApiKey"].write(value.apiKey)
-        try writer["ApiName"].write(value.apiName)
-        try writer["ApiSpecificationMd5Hash"].write(value.apiSpecificationMd5Hash)
-        try writer["DataSetId"].write(value.dataSetId)
-        try writer["ProtocolType"].write(value.protocolType)
-        try writer["RevisionId"].write(value.revisionId)
-        try writer["Stage"].write(value.stage)
-    }
-}
-
-extension DataExchangeClientTypes.ImportAssetsFromRedshiftDataSharesRequestDetails {
-
-    static func write(value: DataExchangeClientTypes.ImportAssetsFromRedshiftDataSharesRequestDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AssetSources"].writeList(value.assetSources, memberWritingClosure: DataExchangeClientTypes.RedshiftDataShareAssetSourceEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["DataSetId"].write(value.dataSetId)
+        try writer["Bucket"].write(value.bucket)
+        try writer["KeyPattern"].write(value.keyPattern)
         try writer["RevisionId"].write(value.revisionId)
     }
-}
 
-extension DataExchangeClientTypes.ImportAssetsFromS3RequestDetails {
-
-    static func write(value: DataExchangeClientTypes.ImportAssetsFromS3RequestDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AssetSources"].writeList(value.assetSources, memberWritingClosure: DataExchangeClientTypes.AssetSourceEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["DataSetId"].write(value.dataSetId)
-        try writer["RevisionId"].write(value.revisionId)
+    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.RevisionDestinationEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataExchangeClientTypes.RevisionDestinationEntry()
+        value.bucket = try reader["Bucket"].readIfPresent() ?? ""
+        value.keyPattern = try reader["KeyPattern"].readIfPresent()
+        value.revisionId = try reader["RevisionId"].readIfPresent() ?? ""
+        return value
     }
 }
 
-extension DataExchangeClientTypes.ImportAssetFromSignedUrlRequestDetails {
+extension DataExchangeClientTypes.RevisionEntry {
 
-    static func write(value: DataExchangeClientTypes.ImportAssetFromSignedUrlRequestDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AssetName"].write(value.assetName)
-        try writer["DataSetId"].write(value.dataSetId)
-        try writer["Md5Hash"].write(value.md5Hash)
-        try writer["RevisionId"].write(value.revisionId)
+    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.RevisionEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataExchangeClientTypes.RevisionEntry()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.comment = try reader["Comment"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.dataSetId = try reader["DataSetId"].readIfPresent() ?? ""
+        value.finalized = try reader["Finalized"].readIfPresent() ?? false
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.sourceId = try reader["SourceId"].readIfPresent()
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.revocationComment = try reader["RevocationComment"].readIfPresent()
+        value.revoked = try reader["Revoked"].readIfPresent() ?? false
+        value.revokedAt = try reader["RevokedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
     }
 }
 
-extension DataExchangeClientTypes.ExportRevisionsToS3RequestDetails {
+extension DataExchangeClientTypes.RevisionPublished {
 
-    static func write(value: DataExchangeClientTypes.ExportRevisionsToS3RequestDetails?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DataExchangeClientTypes.RevisionPublished?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["DataSetId"].write(value.dataSetId)
-        try writer["Encryption"].write(value.encryption, with: DataExchangeClientTypes.ExportServerSideEncryption.write(value:to:))
-        try writer["RevisionDestinations"].writeList(value.revisionDestinations, memberWritingClosure: DataExchangeClientTypes.RevisionDestinationEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.RevisionPublished {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataExchangeClientTypes.RevisionPublished()
+        value.dataSetId = try reader["DataSetId"].readIfPresent() ?? ""
+        return value
     }
 }
 
-extension DataExchangeClientTypes.ExportAssetsToS3RequestDetails {
+extension DataExchangeClientTypes.S3DataAccessAsset {
 
-    static func write(value: DataExchangeClientTypes.ExportAssetsToS3RequestDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AssetDestinations"].writeList(value.assetDestinations, memberWritingClosure: DataExchangeClientTypes.AssetDestinationEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["DataSetId"].write(value.dataSetId)
-        try writer["Encryption"].write(value.encryption, with: DataExchangeClientTypes.ExportServerSideEncryption.write(value:to:))
-        try writer["RevisionId"].write(value.revisionId)
+    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.S3DataAccessAsset {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataExchangeClientTypes.S3DataAccessAsset()
+        value.bucket = try reader["Bucket"].readIfPresent() ?? ""
+        value.keyPrefixes = try reader["KeyPrefixes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.keys = try reader["Keys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.s3AccessPointAlias = try reader["S3AccessPointAlias"].readIfPresent()
+        value.s3AccessPointArn = try reader["S3AccessPointArn"].readIfPresent()
+        value.kmsKeysToGrant = try reader["KmsKeysToGrant"].readListIfPresent(memberReadingClosure: DataExchangeClientTypes.KmsKeyToGrant.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 
-extension DataExchangeClientTypes.ExportAssetToSignedUrlRequestDetails {
+extension DataExchangeClientTypes.S3DataAccessAssetSourceEntry {
 
-    static func write(value: DataExchangeClientTypes.ExportAssetToSignedUrlRequestDetails?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DataExchangeClientTypes.S3DataAccessAssetSourceEntry?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["AssetId"].write(value.assetId)
-        try writer["DataSetId"].write(value.dataSetId)
-        try writer["RevisionId"].write(value.revisionId)
+        try writer["Bucket"].write(value.bucket)
+        try writer["KeyPrefixes"].writeList(value.keyPrefixes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Keys"].writeList(value.keys, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["KmsKeysToGrant"].writeList(value.kmsKeysToGrant, memberWritingClosure: DataExchangeClientTypes.KmsKeyToGrant.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-}
 
-extension DataExchangeClientTypes.ScopeDetails {
-
-    static func write(value: DataExchangeClientTypes.ScopeDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LakeFormationTagPolicies"].writeList(value.lakeFormationTagPolicies, memberWritingClosure: DataExchangeClientTypes.LakeFormationTagPolicyDetails.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["RedshiftDataShares"].writeList(value.redshiftDataShares, memberWritingClosure: DataExchangeClientTypes.RedshiftDataShareDetails.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["S3DataAccesses"].writeList(value.s3DataAccesses, memberWritingClosure: DataExchangeClientTypes.S3DataAccessDetails.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.S3DataAccessAssetSourceEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataExchangeClientTypes.S3DataAccessAssetSourceEntry()
+        value.bucket = try reader["Bucket"].readIfPresent() ?? ""
+        value.keyPrefixes = try reader["KeyPrefixes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.keys = try reader["Keys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.kmsKeysToGrant = try reader["KmsKeysToGrant"].readListIfPresent(memberReadingClosure: DataExchangeClientTypes.KmsKeyToGrant.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 
@@ -7671,44 +7748,13 @@ extension DataExchangeClientTypes.S3DataAccessDetails {
     }
 }
 
-extension DataExchangeClientTypes.RedshiftDataShareDetails {
+extension DataExchangeClientTypes.S3SnapshotAsset {
 
-    static func write(value: DataExchangeClientTypes.RedshiftDataShareDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["Database"].write(value.database)
-        try writer["Function"].write(value.function)
-        try writer["Schema"].write(value.schema)
-        try writer["Table"].write(value.table)
-        try writer["View"].write(value.view)
-    }
-}
-
-extension DataExchangeClientTypes.LakeFormationTagPolicyDetails {
-
-    static func write(value: DataExchangeClientTypes.LakeFormationTagPolicyDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Database"].write(value.database)
-        try writer["Table"].write(value.table)
-    }
-}
-
-extension DataExchangeClientTypes.NotificationDetails {
-
-    static func write(value: DataExchangeClientTypes.NotificationDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataUpdate"].write(value.dataUpdate, with: DataExchangeClientTypes.DataUpdateRequestDetails.write(value:to:))
-        try writer["Deprecation"].write(value.deprecation, with: DataExchangeClientTypes.DeprecationRequestDetails.write(value:to:))
-        try writer["SchemaChange"].write(value.schemaChange, with: DataExchangeClientTypes.SchemaChangeRequestDetails.write(value:to:))
-    }
-}
-
-extension DataExchangeClientTypes.SchemaChangeRequestDetails {
-
-    static func write(value: DataExchangeClientTypes.SchemaChangeRequestDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Changes"].writeList(value.changes, memberWritingClosure: DataExchangeClientTypes.SchemaChangeDetails.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SchemaChangeAt"].writeTimestamp(value.schemaChangeAt, format: SmithyTimestamps.TimestampFormat.dateTime)
+    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.S3SnapshotAsset {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataExchangeClientTypes.S3SnapshotAsset()
+        value.size = try reader["Size"].readIfPresent() ?? 0
+        return value
     }
 }
 
@@ -7722,19 +7768,66 @@ extension DataExchangeClientTypes.SchemaChangeDetails {
     }
 }
 
-extension DataExchangeClientTypes.DeprecationRequestDetails {
+extension DataExchangeClientTypes.SchemaChangeRequestDetails {
 
-    static func write(value: DataExchangeClientTypes.DeprecationRequestDetails?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DataExchangeClientTypes.SchemaChangeRequestDetails?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["DeprecationAt"].writeTimestamp(value.deprecationAt, format: SmithyTimestamps.TimestampFormat.dateTime)
+        try writer["Changes"].writeList(value.changes, memberWritingClosure: DataExchangeClientTypes.SchemaChangeDetails.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SchemaChangeAt"].writeTimestamp(value.schemaChangeAt, format: SmithyTimestamps.TimestampFormat.dateTime)
     }
 }
 
-extension DataExchangeClientTypes.DataUpdateRequestDetails {
+extension DataExchangeClientTypes.ScopeDetails {
 
-    static func write(value: DataExchangeClientTypes.DataUpdateRequestDetails?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DataExchangeClientTypes.ScopeDetails?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["DataUpdatedAt"].writeTimestamp(value.dataUpdatedAt, format: SmithyTimestamps.TimestampFormat.dateTime)
+        try writer["LakeFormationTagPolicies"].writeList(value.lakeFormationTagPolicies, memberWritingClosure: DataExchangeClientTypes.LakeFormationTagPolicyDetails.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["RedshiftDataShares"].writeList(value.redshiftDataShares, memberWritingClosure: DataExchangeClientTypes.RedshiftDataShareDetails.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["S3DataAccesses"].writeList(value.s3DataAccesses, memberWritingClosure: DataExchangeClientTypes.S3DataAccessDetails.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension DataExchangeClientTypes.TableLFTagPolicy {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.TableLFTagPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataExchangeClientTypes.TableLFTagPolicy()
+        value.expression = try reader["Expression"].readListIfPresent(memberReadingClosure: DataExchangeClientTypes.LFTag.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension DataExchangeClientTypes.TableLFTagPolicyAndPermissions {
+
+    static func write(value: DataExchangeClientTypes.TableLFTagPolicyAndPermissions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Expression"].writeList(value.expression, memberWritingClosure: DataExchangeClientTypes.LFTag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Permissions"].writeList(value.permissions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<DataExchangeClientTypes.TableTagPolicyLFPermission>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.TableLFTagPolicyAndPermissions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataExchangeClientTypes.TableLFTagPolicyAndPermissions()
+        value.expression = try reader["Expression"].readListIfPresent(memberReadingClosure: DataExchangeClientTypes.LFTag.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.permissions = try reader["Permissions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<DataExchangeClientTypes.TableTagPolicyLFPermission>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension DataExchangeClientTypes.Tag {
+
+    static func write(value: DataExchangeClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataExchangeClientTypes.Tag()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
     }
 }
 

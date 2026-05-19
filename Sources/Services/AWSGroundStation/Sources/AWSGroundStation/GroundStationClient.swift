@@ -15,7 +15,7 @@ import class AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain
 import class ClientRuntime.ClientBuilder
 import class ClientRuntime.DefaultClientPlugin
 import class ClientRuntime.HttpClientConfiguration
-import class ClientRuntime.OrchestratorBuilder
+@_spi(SchemaBasedSerde) import class ClientRuntime.OrchestratorBuilder
 import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
@@ -30,6 +30,7 @@ import enum AWSSDKChecksums.AWSChecksumCalculationMode
 import enum ClientRuntime.ClientLogMode
 import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
+import func ClientRuntime.initialize
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
 import protocol AWSClientRuntime.AWSServiceClient
@@ -54,8 +55,11 @@ import struct ClientRuntime.AuthSchemeMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
+import struct ClientRuntime.IdempotencyTokenMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.QueryItemMiddleware
+import struct ClientRuntime.SendableHttpInterceptorProviderBox
+import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
 import struct ClientRuntime.URLPathMiddleware
@@ -66,31 +70,49 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class GroundStationClient: AWSClientRuntime.AWSServiceClient {
+public final class GroundStationClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "GroundStationClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: GroundStationClient.GroundStationClientConfiguration
+    public let config: GroundStationClient.GroundStationClientConfig
     let serviceName = "GroundStation"
 
-    public required init(config: GroundStationClient.GroundStationClientConfiguration) {
+    @available(*, deprecated, message: "Use GroundStationClient.GroundStationClientConfig instead")
+    public typealias Config = GroundStationClient.GroundStationClientConfiguration
+    public typealias Configuration = GroundStationClient.GroundStationClientConfig
+
+    public required init(config: GroundStationClient.GroundStationClientConfig) {
+        ClientRuntime.initialize()
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         self.config = config
     }
 
+    @available(*, deprecated, message: "Use init(config: GroundStationClient.GroundStationClientConfig) instead")
+    public convenience init(config: GroundStationClient.GroundStationClientConfiguration) {
+        do {
+            try self.init(config: config.toSendable())
+        } catch {
+            // This should never happen since all values are already initialized in the class
+            fatalError("Failed to convert deprecated configuration: \(error)")
+        }
+    }
+
     public convenience init(region: Swift.String) throws {
-        let config = try GroundStationClient.GroundStationClientConfiguration(region: region)
+        let config = try GroundStationClient.GroundStationClientConfig(region: region)
         self.init(config: config)
     }
 
-    public convenience required init() async throws {
-        let config = try await GroundStationClient.GroundStationClientConfiguration()
+    public convenience init() async throws {
+        let config = try await GroundStationClient.GroundStationClientConfig()
         self.init(config: config)
     }
 }
 
 extension GroundStationClient {
 
-    public class GroundStationClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
+    /// Client configuration for GroundStationClient
+    ///
+    /// Conforms to `Sendable` for safe concurrent access across threads.
+    public struct GroundStationClientConfig: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Swift.Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?
@@ -114,66 +136,29 @@ extension GroundStationClient {
         public var authSchemePreference: [String]?
         public var authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver
         public var bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver
-        public private(set) var interceptorProviders: [ClientRuntime.InterceptorProvider]
-        public private(set) var httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]
-        public let logger: Smithy.LogAgent
-
-        private init(
-            _ useFIPS: Swift.Bool?,
-            _ useDualStack: Swift.Bool?,
-            _ appID: Swift.String?,
-            _ awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver,
-            _ awsRetryMode: AWSClientRuntime.AWSRetryMode,
-            _ maxAttempts: Swift.Int?,
-            _ requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode,
-            _ responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode,
-            _ ignoreConfiguredEndpointURLs: Swift.Bool?,
-            _ region: Swift.String?,
-            _ signingRegion: Swift.String?,
-            _ endpointResolver: EndpointResolver,
-            _ telemetryProvider: ClientRuntime.TelemetryProvider,
-            _ retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions,
-            _ clientLogMode: ClientRuntime.ClientLogMode,
-            _ endpoint: Swift.String?,
-            _ idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator,
-            _ httpClientEngine: SmithyHTTPAPI.HTTPClient,
-            _ httpClientConfiguration: ClientRuntime.HttpClientConfiguration,
-            _ authSchemes: SmithyHTTPAuthAPI.AuthSchemes?,
-            _ authSchemePreference: [String]?,
-            _ authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver,
-            _ bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver,
-            _ interceptorProviders: [ClientRuntime.InterceptorProvider],
-            _ httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]
-        ) {
-            self.useFIPS = useFIPS
-            self.useDualStack = useDualStack
-            self.appID = appID
-            self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
-            self.awsRetryMode = awsRetryMode
-            self.maxAttempts = maxAttempts
-            self.requestChecksumCalculation = requestChecksumCalculation
-            self.responseChecksumValidation = responseChecksumValidation
-            self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
-            self.region = region
-            self.signingRegion = signingRegion
-            self.endpointResolver = endpointResolver
-            self.telemetryProvider = telemetryProvider
-            self.retryStrategyOptions = retryStrategyOptions
-            self.clientLogMode = clientLogMode
-            self.endpoint = endpoint
-            self.idempotencyTokenGenerator = idempotencyTokenGenerator
-            self.httpClientEngine = httpClientEngine
-            self.httpClientConfiguration = httpClientConfiguration
-            self.authSchemes = authSchemes
-            self.authSchemePreference = authSchemePreference
-            self.authSchemeResolver = authSchemeResolver
-            self.bearerTokenIdentityResolver = bearerTokenIdentityResolver
-            self.interceptorProviders = interceptorProviders
-            self.httpInterceptorProviders = httpInterceptorProviders
-            self.logger = telemetryProvider.loggerProvider.getLogger(name: GroundStationClient.clientName)
+        // Interceptor providers with Sendable-safe internal storage
+        private var _interceptorProviders: [ClientRuntime.SendableInterceptorProviderBox] = []
+        public var interceptorProviders: [ClientRuntime.InterceptorProvider] {
+            get {
+                return _interceptorProviders
+            }
+            set {
+                _interceptorProviders = newValue.map { ClientRuntime.SendableInterceptorProviderBox($0) }
+            }
         }
 
-        public convenience init(
+        private var _httpInterceptorProviders: [ClientRuntime.SendableHttpInterceptorProviderBox] = []
+        public var httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider] {
+            get {
+                return _httpInterceptorProviders
+            }
+            set {
+                _httpInterceptorProviders = newValue.map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
+            }
+        }
+        public var logger: Smithy.LogAgent
+
+        public init(
             useFIPS: Swift.Bool? = nil,
             useDualStack: Swift.Bool? = nil,
             appID: Swift.String? = nil,
@@ -200,36 +185,35 @@ extension GroundStationClient {
             interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
             httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil
         ) throws {
-            self.init(
-                useFIPS,
-                useDualStack,
-                try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
-                awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
-                try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
-                maxAttempts,
-                try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation),
-                try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation),
-                ignoreConfiguredEndpointURLs,
-                region,
-                signingRegion,
-                try endpointResolver ?? DefaultEndpointResolver(),
-                telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider,
-                try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts),
-                clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(),
-                endpoint,
-                idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
-                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration),
-                httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
-                authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
-                authSchemePreference ?? nil,
-                authSchemeResolver ?? DefaultGroundStationAuthSchemeResolver(),
-                bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
-                interceptorProviders ?? [],
-                httpInterceptorProviders ?? []
-            )
+            self.useFIPS = useFIPS
+            self.useDualStack = useDualStack
+            self.appID = try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID()
+            self.awsCredentialIdentityResolver = awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain()
+            self.awsRetryMode = try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode()
+            self.maxAttempts = maxAttempts
+            self.requestChecksumCalculation = try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation)
+            self.responseChecksumValidation = try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation)
+            self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
+            self.region = region
+            self.signingRegion = signingRegion
+            self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
+            self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
+            self.endpoint = endpoint
+            self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
+            self.httpClientEngine = httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration)
+            self.httpClientConfiguration = httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration()
+            self.authSchemes = authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()]
+            self.authSchemePreference = authSchemePreference ?? nil
+            self.authSchemeResolver = authSchemeResolver ?? DefaultGroundStationAuthSchemeResolver()
+            self.bearerTokenIdentityResolver = bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
+            self._interceptorProviders = (interceptorProviders ?? []).map { ClientRuntime.SendableInterceptorProviderBox($0) }
+            self._httpInterceptorProviders = (httpInterceptorProviders ?? []).map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
+            self.logger = (telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider).loggerProvider.getLogger(name: GroundStationClient.clientName)
         }
 
-        public convenience init(
+        public init(
             useFIPS: Swift.Bool? = nil,
             useDualStack: Swift.Bool? = nil,
             appID: Swift.String? = nil,
@@ -256,36 +240,266 @@ extension GroundStationClient {
             interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
             httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil
         ) async throws {
-            self.init(
-                useFIPS,
-                useDualStack,
-                try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
-                awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
-                try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
-                maxAttempts,
-                try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation),
-                try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation),
-                ignoreConfiguredEndpointURLs,
-                try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region),
-                try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region),
-                try endpointResolver ?? DefaultEndpointResolver(),
-                telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider,
-                try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts),
-                clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(),
-                endpoint,
-                idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
-                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration),
-                httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
-                authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
-                authSchemePreference ?? nil,
-                authSchemeResolver ?? DefaultGroundStationAuthSchemeResolver(),
-                bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
-                interceptorProviders ?? [],
-                httpInterceptorProviders ?? []
+            self.useFIPS = useFIPS
+            self.useDualStack = useDualStack
+            self.appID = try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID()
+            self.awsCredentialIdentityResolver = awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain()
+            self.awsRetryMode = try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode()
+            self.maxAttempts = maxAttempts
+            self.requestChecksumCalculation = try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation)
+            self.responseChecksumValidation = try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation)
+            self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
+            self.region = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
+            self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
+            self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
+            self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
+            self.endpoint = endpoint
+            self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
+            self.httpClientEngine = httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration)
+            self.httpClientConfiguration = httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration()
+            self.authSchemes = authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()]
+            self.authSchemePreference = authSchemePreference ?? nil
+            self.authSchemeResolver = authSchemeResolver ?? DefaultGroundStationAuthSchemeResolver()
+            self.bearerTokenIdentityResolver = bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
+            self._interceptorProviders = (interceptorProviders ?? []).map { ClientRuntime.SendableInterceptorProviderBox($0) }
+            self._httpInterceptorProviders = (httpInterceptorProviders ?? []).map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
+            self.logger = (telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider).loggerProvider.getLogger(name: GroundStationClient.clientName)
+        }
+
+        public init() async throws {
+            try await self.init(
+                useFIPS: nil,
+                useDualStack: nil,
+                appID: nil,
+                awsCredentialIdentityResolver: nil,
+                awsRetryMode: nil,
+                maxAttempts: nil,
+                requestChecksumCalculation: nil,
+                responseChecksumValidation: nil,
+                ignoreConfiguredEndpointURLs: nil,
+                region: nil,
+                signingRegion: nil,
+                endpointResolver: nil,
+                telemetryProvider: nil,
+                retryStrategyOptions: nil,
+                clientLogMode: nil,
+                endpoint: nil,
+                idempotencyTokenGenerator: nil,
+                httpClientEngine: nil,
+                httpClientConfiguration: nil,
+                authSchemes: nil,
+                authSchemePreference: nil,
+                authSchemeResolver: nil,
+                bearerTokenIdentityResolver: nil,
+                interceptorProviders: nil,
+                httpInterceptorProviders: nil
             )
         }
 
-        public convenience required init() async throws {
+        public init(region: Swift.String) throws {
+            try self.init(
+                useFIPS: nil,
+                useDualStack: nil,
+                appID: try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
+                awsCredentialIdentityResolver: AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
+                awsRetryMode: try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
+                maxAttempts: nil,
+                requestChecksumCalculation: try AWSClientConfigDefaultsProvider.requestChecksumCalculation(),
+                responseChecksumValidation: try AWSClientConfigDefaultsProvider.responseChecksumValidation(),
+                ignoreConfiguredEndpointURLs: nil,
+                region: region,
+                signingRegion: region,
+                endpointResolver: try DefaultEndpointResolver(),
+                telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
+                endpoint: nil,
+                idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
+                httpClientEngine: AWSClientConfigDefaultsProvider.httpClientEngine(),
+                httpClientConfiguration: AWSClientConfigDefaultsProvider.httpClientConfiguration(),
+                authSchemes: [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                authSchemePreference: nil,
+                authSchemeResolver: DefaultGroundStationAuthSchemeResolver(),
+                bearerTokenIdentityResolver: SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
+                interceptorProviders: [],
+                httpInterceptorProviders: []
+            )
+        }
+
+        public var partitionID: String? {
+            return "\(GroundStationClient.clientName) - \(region ?? "")"
+        }
+
+        public mutating func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
+            self._interceptorProviders.append(ClientRuntime.SendableInterceptorProviderBox(provider))
+        }
+
+        public mutating func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
+            self._httpInterceptorProviders.append(ClientRuntime.SendableHttpInterceptorProviderBox(provider))
+        }
+
+    }
+
+    @available(*, deprecated, message: "Use GroundStationClientConfig instead. This class will be removed in a future version.")
+    public final class GroundStationClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
+        public var useFIPS: Swift.Bool?
+        public var useDualStack: Swift.Bool?
+        public var appID: Swift.String?
+        public var awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver
+        public var awsRetryMode: AWSClientRuntime.AWSRetryMode
+        public var maxAttempts: Swift.Int?
+        public var requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode
+        public var responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode
+        public var ignoreConfiguredEndpointURLs: Swift.Bool?
+        public var region: Swift.String?
+        public var signingRegion: Swift.String?
+        public var endpointResolver: EndpointResolver
+        public var telemetryProvider: ClientRuntime.TelemetryProvider
+        public var retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions
+        public var clientLogMode: ClientRuntime.ClientLogMode
+        public var endpoint: Swift.String?
+        public var idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator
+        public var httpClientEngine: SmithyHTTPAPI.HTTPClient
+        public var httpClientConfiguration: ClientRuntime.HttpClientConfiguration
+        public var authSchemes: SmithyHTTPAuthAPI.AuthSchemes?
+        public var authSchemePreference: [String]?
+        public var authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver
+        public var bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver
+        // Interceptor providers with Sendable-safe internal storage
+        private var _interceptorProviders: [ClientRuntime.SendableInterceptorProviderBox] = []
+        public var interceptorProviders: [ClientRuntime.InterceptorProvider] {
+            get {
+                return _interceptorProviders
+            }
+            set {
+                _interceptorProviders = newValue.map { ClientRuntime.SendableInterceptorProviderBox($0) }
+            }
+        }
+
+        private var _httpInterceptorProviders: [ClientRuntime.SendableHttpInterceptorProviderBox] = []
+        public var httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider] {
+            get {
+                return _httpInterceptorProviders
+            }
+            set {
+                _httpInterceptorProviders = newValue.map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
+            }
+        }
+        public var logger: Smithy.LogAgent
+
+        public init(
+            useFIPS: Swift.Bool? = nil,
+            useDualStack: Swift.Bool? = nil,
+            appID: Swift.String? = nil,
+            awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil,
+            awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil,
+            maxAttempts: Swift.Int? = nil,
+            requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
+            region: Swift.String? = nil,
+            signingRegion: Swift.String? = nil,
+            endpointResolver: EndpointResolver? = nil,
+            telemetryProvider: ClientRuntime.TelemetryProvider? = nil,
+            retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil,
+            clientLogMode: ClientRuntime.ClientLogMode? = nil,
+            endpoint: Swift.String? = nil,
+            idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil,
+            httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil,
+            httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil,
+            authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil,
+            authSchemePreference: [String]? = nil,
+            authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil,
+            bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil,
+            interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
+            httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil
+        ) throws {
+            self.useFIPS = useFIPS
+            self.useDualStack = useDualStack
+            self.appID = try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID()
+            self.awsCredentialIdentityResolver = awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain()
+            self.awsRetryMode = try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode()
+            self.maxAttempts = maxAttempts
+            self.requestChecksumCalculation = try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation)
+            self.responseChecksumValidation = try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation)
+            self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
+            self.region = region
+            self.signingRegion = signingRegion
+            self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
+            self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
+            self.endpoint = endpoint
+            self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
+            self.httpClientEngine = httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration)
+            self.httpClientConfiguration = httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration()
+            self.authSchemes = authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()]
+            self.authSchemePreference = authSchemePreference ?? nil
+            self.authSchemeResolver = authSchemeResolver ?? DefaultGroundStationAuthSchemeResolver()
+            self.bearerTokenIdentityResolver = bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
+            self._interceptorProviders = (interceptorProviders ?? []).map { ClientRuntime.SendableInterceptorProviderBox($0) }
+            self._httpInterceptorProviders = (httpInterceptorProviders ?? []).map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
+            self.logger = (telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider).loggerProvider.getLogger(name: GroundStationClient.clientName)
+        }
+
+        public init(
+            useFIPS: Swift.Bool? = nil,
+            useDualStack: Swift.Bool? = nil,
+            appID: Swift.String? = nil,
+            awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil,
+            awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil,
+            maxAttempts: Swift.Int? = nil,
+            requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
+            region: Swift.String? = nil,
+            signingRegion: Swift.String? = nil,
+            endpointResolver: EndpointResolver? = nil,
+            telemetryProvider: ClientRuntime.TelemetryProvider? = nil,
+            retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil,
+            clientLogMode: ClientRuntime.ClientLogMode? = nil,
+            endpoint: Swift.String? = nil,
+            idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil,
+            httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil,
+            httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil,
+            authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil,
+            authSchemePreference: [String]? = nil,
+            authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil,
+            bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil,
+            interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
+            httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil
+        ) async throws {
+            self.useFIPS = useFIPS
+            self.useDualStack = useDualStack
+            self.appID = try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID()
+            self.awsCredentialIdentityResolver = awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain()
+            self.awsRetryMode = try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode()
+            self.maxAttempts = maxAttempts
+            self.requestChecksumCalculation = try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation)
+            self.responseChecksumValidation = try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation)
+            self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
+            self.region = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
+            self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
+            self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
+            self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
+            self.endpoint = endpoint
+            self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
+            self.httpClientEngine = httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration)
+            self.httpClientConfiguration = httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration()
+            self.authSchemes = authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()]
+            self.authSchemePreference = authSchemePreference ?? nil
+            self.authSchemeResolver = authSchemeResolver ?? DefaultGroundStationAuthSchemeResolver()
+            self.bearerTokenIdentityResolver = bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
+            self._interceptorProviders = (interceptorProviders ?? []).map { ClientRuntime.SendableInterceptorProviderBox($0) }
+            self._httpInterceptorProviders = (httpInterceptorProviders ?? []).map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
+            self.logger = (telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider).loggerProvider.getLogger(name: GroundStationClient.clientName)
+        }
+
+        public convenience init() async throws {
             try await self.init(
                 useFIPS: nil,
                 useDualStack: nil,
@@ -316,32 +530,32 @@ extension GroundStationClient {
         }
 
         public convenience init(region: Swift.String) throws {
-            self.init(
-                nil,
-                nil,
-                try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
-                AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
-                try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
-                nil,
-                try AWSClientConfigDefaultsProvider.requestChecksumCalculation(),
-                try AWSClientConfigDefaultsProvider.responseChecksumValidation(),
-                nil,
-                region,
-                region,
-                try DefaultEndpointResolver(),
-                ClientRuntime.DefaultTelemetry.provider,
-                try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
-                AWSClientConfigDefaultsProvider.clientLogMode(),
-                nil,
-                AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
-                AWSClientConfigDefaultsProvider.httpClientEngine(),
-                AWSClientConfigDefaultsProvider.httpClientConfiguration(),
-                [AWSSDKHTTPAuth.SigV4AuthScheme()],
-                nil,
-                DefaultGroundStationAuthSchemeResolver(),
-                SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
-                [],
-                []
+            try self.init(
+                useFIPS: nil,
+                useDualStack: nil,
+                appID: try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
+                awsCredentialIdentityResolver: AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
+                awsRetryMode: try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
+                maxAttempts: nil,
+                requestChecksumCalculation: try AWSClientConfigDefaultsProvider.requestChecksumCalculation(),
+                responseChecksumValidation: try AWSClientConfigDefaultsProvider.responseChecksumValidation(),
+                ignoreConfiguredEndpointURLs: nil,
+                region: region,
+                signingRegion: region,
+                endpointResolver: try DefaultEndpointResolver(),
+                telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
+                endpoint: nil,
+                idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
+                httpClientEngine: AWSClientConfigDefaultsProvider.httpClientEngine(),
+                httpClientConfiguration: AWSClientConfigDefaultsProvider.httpClientConfiguration(),
+                authSchemes: [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                authSchemePreference: nil,
+                authSchemeResolver: DefaultGroundStationAuthSchemeResolver(),
+                bearerTokenIdentityResolver: SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
+                interceptorProviders: [],
+                httpInterceptorProviders: []
             )
         }
 
@@ -349,12 +563,42 @@ extension GroundStationClient {
             return "\(GroundStationClient.clientName) - \(region ?? "")"
         }
 
+        public func toSendable() throws -> GroundStationClientConfig {
+            return try GroundStationClientConfig(
+                useFIPS: self.useFIPS,
+                useDualStack: self.useDualStack,
+                appID: self.appID,
+                awsCredentialIdentityResolver: self.awsCredentialIdentityResolver,
+                awsRetryMode: self.awsRetryMode,
+                maxAttempts: self.maxAttempts,
+                requestChecksumCalculation: self.requestChecksumCalculation,
+                responseChecksumValidation: self.responseChecksumValidation,
+                ignoreConfiguredEndpointURLs: self.ignoreConfiguredEndpointURLs,
+                region: self.region,
+                signingRegion: self.signingRegion,
+                endpointResolver: self.endpointResolver,
+                telemetryProvider: self.telemetryProvider,
+                retryStrategyOptions: self.retryStrategyOptions,
+                clientLogMode: self.clientLogMode,
+                endpoint: self.endpoint,
+                idempotencyTokenGenerator: self.idempotencyTokenGenerator,
+                httpClientEngine: self.httpClientEngine,
+                httpClientConfiguration: self.httpClientConfiguration,
+                authSchemes: self.authSchemes,
+                authSchemePreference: self.authSchemePreference,
+                authSchemeResolver: self.authSchemeResolver,
+                bearerTokenIdentityResolver: self.bearerTokenIdentityResolver,
+                interceptorProviders: self.interceptorProviders,
+                httpInterceptorProviders: self.httpInterceptorProviders
+            )
+        }
+
         public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
-            self.interceptorProviders.append(provider)
+            self._interceptorProviders.append(ClientRuntime.SendableInterceptorProviderBox(provider))
         }
 
         public func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
-            self.httpInterceptorProviders.append(provider)
+            self._httpInterceptorProviders.append(ClientRuntime.SendableHttpInterceptorProviderBox(provider))
         }
 
     }
@@ -371,11 +615,15 @@ extension GroundStationClient {
 extension GroundStationClient {
     /// Performs the `CancelContact` operation on the `GroundStation` service.
     ///
-    /// Cancels a contact with a specified contact ID.
+    /// Cancels or stops a contact with a specified contact ID based on its position in the [contact lifecycle](https://docs.aws.amazon.com/ground-station/latest/ug/contacts.lifecycle.html). For contacts that:
     ///
-    /// - Parameter input: (Type: `CancelContactInput`)
+    /// * Have yet to start, the contact will be cancelled.
     ///
-    /// - Returns: (Type: `CancelContactOutput`)
+    /// * Have started but have yet to finish, the contact will be stopped.
+    ///
+    /// - Parameter input: Input for the CancelContact operation. (Type: `CancelContactInput`)
+    ///
+    /// - Returns: Response containing the ID of a contact. (Type: `CancelContactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -440,9 +688,9 @@ extension GroundStationClient {
     ///
     /// Creates a Config with the specified configData parameters. Only one type of configData can be specified.
     ///
-    /// - Parameter input: (Type: `CreateConfigInput`)
+    /// - Parameter input: Input for the CreateConfig operation. (Type: `CreateConfigInput`)
     ///
-    /// - Returns: (Type: `CreateConfigOutput`)
+    /// - Returns: Response containing the ARN, ID, and type of a Config. (Type: `CreateConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -509,11 +757,11 @@ extension GroundStationClient {
 
     /// Performs the `CreateDataflowEndpointGroup` operation on the `GroundStation` service.
     ///
-    /// Creates a DataflowEndpoint group containing the specified list of DataflowEndpoint objects. The name field in each endpoint is used in your mission profile DataflowEndpointConfig to specify which endpoints to use during a contact. When a contact uses multiple DataflowEndpointConfig objects, each Config must match a DataflowEndpoint in the same group.
+    /// Creates a DataflowEndpoint group containing the specified list of  DataflowEndpoint objects. The name field in each endpoint is used in your mission profile  DataflowEndpointConfig to specify which endpoints to use during a contact. When a contact uses multiple DataflowEndpointConfig objects, each  Config must match a DataflowEndpoint in the same group.
     ///
-    /// - Parameter input: (Type: `CreateDataflowEndpointGroupInput`)
+    /// - Parameter input: Input for the CreateDataflowEndpointGroup operation. (Type: `CreateDataflowEndpointGroupInput`)
     ///
-    /// - Returns: (Type: `CreateDataflowEndpointGroupOutput`)
+    /// - Returns: Response containing the ID of a dataflow endpoint group. (Type: `CreateDataflowEndpointGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -579,7 +827,7 @@ extension GroundStationClient {
 
     /// Performs the `CreateDataflowEndpointGroupV2` operation on the `GroundStation` service.
     ///
-    /// Creates a DataflowEndpointGroupV2 containing the specified list of DataflowEndpoint objects. The name field in each endpoint is used in your mission profile DataflowEndpointConfig to specify which endpoints to use during a contact. When a contact uses multiple DataflowEndpointConfig objects, each Config must match a DataflowEndpoint in the same group.
+    /// Creates a DataflowEndpoint group containing the specified list of Ground Station Agent based endpoints. The name field in each endpoint is used in your mission profile  DataflowEndpointConfig to specify which endpoints to use during a contact. When a contact uses multiple DataflowEndpointConfig objects, each  Config must match a DataflowEndpoint in the same group.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateDataflowEndpointGroupV2Input`)
     ///
@@ -722,9 +970,9 @@ extension GroundStationClient {
     ///
     /// Creates a mission profile. dataflowEdges is a list of lists of strings. Each lower level list of strings has two elements: a from ARN and a to ARN.
     ///
-    /// - Parameter input: (Type: `CreateMissionProfileInput`)
+    /// - Parameter input: Input for the CreateMissionProfile operation. (Type: `CreateMissionProfileInput`)
     ///
-    /// - Returns: (Type: `CreateMissionProfileOutput`)
+    /// - Returns: Response containing the ID of a mission profile. (Type: `CreateMissionProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -792,9 +1040,9 @@ extension GroundStationClient {
     ///
     /// Deletes a Config.
     ///
-    /// - Parameter input: (Type: `DeleteConfigInput`)
+    /// - Parameter input: Input for the DeleteConfig operation. (Type: `DeleteConfigInput`)
     ///
-    /// - Returns: (Type: `DeleteConfigOutput`)
+    /// - Returns: Response containing the ARN, ID, and type of a Config. (Type: `DeleteConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -859,9 +1107,9 @@ extension GroundStationClient {
     ///
     /// Deletes a dataflow endpoint group.
     ///
-    /// - Parameter input: (Type: `DeleteDataflowEndpointGroupInput`)
+    /// - Parameter input: Input for the DeleteDataflowEndpointGroup operation. (Type: `DeleteDataflowEndpointGroupInput`)
     ///
-    /// - Returns: (Type: `DeleteDataflowEndpointGroupOutput`)
+    /// - Returns: Response containing the ID of a dataflow endpoint group. (Type: `DeleteDataflowEndpointGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -994,9 +1242,9 @@ extension GroundStationClient {
     ///
     /// Deletes a mission profile.
     ///
-    /// - Parameter input: (Type: `DeleteMissionProfileInput`)
+    /// - Parameter input: Input for the DeleteMissionProfile operation. (Type: `DeleteMissionProfileInput`)
     ///
-    /// - Returns: (Type: `DeleteMissionProfileOutput`)
+    /// - Returns: Response containing the ID of a mission profile. (Type: `DeleteMissionProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1061,9 +1309,9 @@ extension GroundStationClient {
     ///
     /// Describes an existing contact.
     ///
-    /// - Parameter input: (Type: `DescribeContactInput`)
+    /// - Parameter input: Input for the DescribeContact operation. (Type: `DescribeContactInput`)
     ///
-    /// - Returns: (Type: `DescribeContactOutput`)
+    /// - Returns: Output for the DescribeContact operation. (Type: `DescribeContactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1112,6 +1360,73 @@ extension GroundStationClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GroundStation")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeContact")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DescribeContactVersion` operation on the `GroundStation` service.
+    ///
+    /// Describes a specific version of a contact.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeContactVersionInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeContactVersionOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
+    public func describeContactVersion(input: DescribeContactVersionInput) async throws -> DescribeContactVersionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeContactVersion")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "groundstation")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeContactVersionInput, DescribeContactVersionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeContactVersionInput, DescribeContactVersionOutput>(DescribeContactVersionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeContactVersionInput, DescribeContactVersionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeContactVersionOutput>(DescribeContactVersionOutput.httpOutput(from:), DescribeContactVersionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeContactVersionInput, DescribeContactVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeContactVersionOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GroundStation", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeContactVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeContactVersionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeContactVersionInput, DescribeContactVersionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeContactVersionInput, DescribeContactVersionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeContactVersionInput, DescribeContactVersionOutput>(serviceID: serviceName, version: GroundStationClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GroundStation")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeContactVersion")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -1329,9 +1644,9 @@ extension GroundStationClient {
     ///
     /// Returns Config information. Only one Config response can be returned.
     ///
-    /// - Parameter input: (Type: `GetConfigInput`)
+    /// - Parameter input: Input for the GetConfig operation. (Type: `GetConfigInput`)
     ///
-    /// - Returns: (Type: `GetConfigOutput`)
+    /// - Returns: Output for the GetConfig operation. (Type: `GetConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1396,9 +1711,9 @@ extension GroundStationClient {
     ///
     /// Returns the dataflow endpoint group.
     ///
-    /// - Parameter input: (Type: `GetDataflowEndpointGroupInput`)
+    /// - Parameter input: Input for the GetDataflowEndpointGroup operation. (Type: `GetDataflowEndpointGroupInput`)
     ///
-    /// - Returns: (Type: `GetDataflowEndpointGroupOutput`)
+    /// - Returns: Output for the GetDataflowEndpointGroup operation. (Type: `GetDataflowEndpointGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1463,9 +1778,9 @@ extension GroundStationClient {
     ///
     /// Returns the number of reserved minutes used by account.
     ///
-    /// - Parameter input: (Type: `GetMinuteUsageInput`)
+    /// - Parameter input: Input for the GetMinuteUsage operation. (Type: `GetMinuteUsageInput`)
     ///
-    /// - Returns: (Type: `GetMinuteUsageOutput`)
+    /// - Returns: Output for the GetMinuteUsage operation. (Type: `GetMinuteUsageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1533,9 +1848,9 @@ extension GroundStationClient {
     ///
     /// Returns a mission profile.
     ///
-    /// - Parameter input: (Type: `GetMissionProfileInput`)
+    /// - Parameter input: Input for the GetMissionProfile operation. (Type: `GetMissionProfileInput`)
     ///
-    /// - Returns: (Type: `GetMissionProfileOutput`)
+    /// - Returns: Output for the GetMissionProfile operation. (Type: `GetMissionProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1600,9 +1915,9 @@ extension GroundStationClient {
     ///
     /// Returns a satellite.
     ///
-    /// - Parameter input: (Type: `GetSatelliteInput`)
+    /// - Parameter input: Input for the GetSatellite operation. (Type: `GetSatelliteInput`)
     ///
-    /// - Returns: (Type: `GetSatelliteOutput`)
+    /// - Returns: Output for the GetSatellite operation. (Type: `GetSatelliteOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1663,13 +1978,80 @@ extension GroundStationClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListAntennas` operation on the `GroundStation` service.
+    ///
+    /// Returns a list of antennas at a specified ground station.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListAntennasInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListAntennasOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    public func listAntennas(input: ListAntennasInput) async throws -> ListAntennasOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listAntennas")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "groundstation")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListAntennasInput, ListAntennasOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListAntennasInput, ListAntennasOutput>(ListAntennasInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAntennasInput, ListAntennasOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListAntennasInput, ListAntennasOutput>(ListAntennasInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAntennasOutput>(ListAntennasOutput.httpOutput(from:), ListAntennasOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAntennasInput, ListAntennasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListAntennasOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GroundStation", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAntennasOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAntennasOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAntennasInput, ListAntennasOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAntennasInput, ListAntennasOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAntennasInput, ListAntennasOutput>(serviceID: serviceName, version: GroundStationClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GroundStation")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListAntennas")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListConfigs` operation on the `GroundStation` service.
     ///
     /// Returns a list of Config objects.
     ///
-    /// - Parameter input: (Type: `ListConfigsInput`)
+    /// - Parameter input: Input for the ListConfigs operation. (Type: `ListConfigsInput`)
     ///
-    /// - Returns: (Type: `ListConfigsOutput`)
+    /// - Returns: Output for the ListConfigs operation. (Type: `ListConfigsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1731,13 +2113,81 @@ extension GroundStationClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListContactVersions` operation on the `GroundStation` service.
+    ///
+    /// Returns a list of versions for a specified contact.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListContactVersionsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListContactVersionsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
+    public func listContactVersions(input: ListContactVersionsInput) async throws -> ListContactVersionsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listContactVersions")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "groundstation")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListContactVersionsInput, ListContactVersionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListContactVersionsInput, ListContactVersionsOutput>(ListContactVersionsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListContactVersionsInput, ListContactVersionsOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListContactVersionsInput, ListContactVersionsOutput>(ListContactVersionsInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListContactVersionsOutput>(ListContactVersionsOutput.httpOutput(from:), ListContactVersionsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListContactVersionsInput, ListContactVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListContactVersionsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GroundStation", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListContactVersionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListContactVersionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListContactVersionsInput, ListContactVersionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListContactVersionsInput, ListContactVersionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListContactVersionsInput, ListContactVersionsOutput>(serviceID: serviceName, version: GroundStationClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GroundStation")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListContactVersions")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListContacts` operation on the `GroundStation` service.
     ///
-    /// Returns a list of contacts. If statusList contains AVAILABLE, the request must include groundStation, missionprofileArn, and satelliteArn.
+    /// Returns a list of contacts. If statusList contains AVAILABLE, the request must include  groundStation, missionprofileArn, and satelliteArn.
     ///
-    /// - Parameter input: (Type: `ListContactsInput`)
+    /// - Parameter input: Input for the ListContacts operation. (Type: `ListContactsInput`)
     ///
-    /// - Returns: (Type: `ListContactsOutput`)
+    /// - Returns: Output for the ListContacts operation. (Type: `ListContactsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1805,9 +2255,9 @@ extension GroundStationClient {
     ///
     /// Returns a list of DataflowEndpoint groups.
     ///
-    /// - Parameter input: (Type: `ListDataflowEndpointGroupsInput`)
+    /// - Parameter input: Input for the ListDataflowEndpointGroups operation. (Type: `ListDataflowEndpointGroupsInput`)
     ///
-    /// - Returns: (Type: `ListDataflowEndpointGroupsOutput`)
+    /// - Returns: Output for the ListDataflowEndpointGroups operation. (Type: `ListDataflowEndpointGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1940,13 +2390,80 @@ extension GroundStationClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListGroundStationReservations` operation on the `GroundStation` service.
+    ///
+    /// Returns a list of reservations for a specified ground station.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListGroundStationReservationsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListGroundStationReservationsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    public func listGroundStationReservations(input: ListGroundStationReservationsInput) async throws -> ListGroundStationReservationsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listGroundStationReservations")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "groundstation")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListGroundStationReservationsInput, ListGroundStationReservationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListGroundStationReservationsInput, ListGroundStationReservationsOutput>(ListGroundStationReservationsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListGroundStationReservationsInput, ListGroundStationReservationsOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListGroundStationReservationsInput, ListGroundStationReservationsOutput>(ListGroundStationReservationsInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListGroundStationReservationsOutput>(ListGroundStationReservationsOutput.httpOutput(from:), ListGroundStationReservationsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGroundStationReservationsInput, ListGroundStationReservationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListGroundStationReservationsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GroundStation", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListGroundStationReservationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListGroundStationReservationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListGroundStationReservationsInput, ListGroundStationReservationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListGroundStationReservationsInput, ListGroundStationReservationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListGroundStationReservationsInput, ListGroundStationReservationsOutput>(serviceID: serviceName, version: GroundStationClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GroundStation")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListGroundStationReservations")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListGroundStations` operation on the `GroundStation` service.
     ///
     /// Returns a list of ground stations.
     ///
-    /// - Parameter input: (Type: `ListGroundStationsInput`)
+    /// - Parameter input: Input for the ListGroundStations operation. (Type: `ListGroundStationsInput`)
     ///
-    /// - Returns: (Type: `ListGroundStationsOutput`)
+    /// - Returns: Output for the ListGroundStations operation. (Type: `ListGroundStationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2012,9 +2529,9 @@ extension GroundStationClient {
     ///
     /// Returns a list of mission profiles.
     ///
-    /// - Parameter input: (Type: `ListMissionProfilesInput`)
+    /// - Parameter input: Input for the ListMissionProfiles operation. (Type: `ListMissionProfilesInput`)
     ///
-    /// - Returns: (Type: `ListMissionProfilesOutput`)
+    /// - Returns: Output for the ListMissionProfiles operation. (Type: `ListMissionProfilesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2080,9 +2597,9 @@ extension GroundStationClient {
     ///
     /// Returns a list of satellites.
     ///
-    /// - Parameter input: (Type: `ListSatellitesInput`)
+    /// - Parameter input: Input for the ListSatellites operation. (Type: `ListSatellitesInput`)
     ///
-    /// - Returns: (Type: `ListSatellitesOutput`)
+    /// - Returns: Output for the ListSatellites operation. (Type: `ListSatellitesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2148,9 +2665,9 @@ extension GroundStationClient {
     ///
     /// Returns a list of tags for a specified resource.
     ///
-    /// - Parameter input: (Type: `ListTagsForResourceInput`)
+    /// - Parameter input: Input for the ListTagsForResource operation. (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: (Type: `ListTagsForResourceOutput`)
+    /// - Returns: Output for the ListTagsForResource operation. (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2285,9 +2802,9 @@ extension GroundStationClient {
     ///
     /// Reserves a contact using specified parameters.
     ///
-    /// - Parameter input: (Type: `ReserveContactInput`)
+    /// - Parameter input: Input for the ReserveContact operation. (Type: `ReserveContactInput`)
     ///
-    /// - Returns: (Type: `ReserveContactOutput`)
+    /// - Returns: Response containing the ID of a contact. (Type: `ReserveContactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2356,9 +2873,9 @@ extension GroundStationClient {
     ///
     /// Assigns a tag to a resource.
     ///
-    /// - Parameter input: (Type: `TagResourceInput`)
+    /// - Parameter input: Input for the TagResource operation. (Type: `TagResourceInput`)
     ///
-    /// - Returns: (Type: `TagResourceOutput`)
+    /// - Returns: Output for the TagResource operation. (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2426,9 +2943,9 @@ extension GroundStationClient {
     ///
     /// Deassigns a resource tag.
     ///
-    /// - Parameter input: (Type: `UntagResourceInput`)
+    /// - Parameter input: Input for the UntagResource operation. (Type: `UntagResourceInput`)
     ///
-    /// - Returns: (Type: `UntagResourceOutput`)
+    /// - Returns: Output for the UntagResource operation. (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2564,9 +3081,9 @@ extension GroundStationClient {
     ///
     /// Updates the Config used when scheduling contacts. Updating a Config will not update the execution parameters for existing future contacts scheduled with this Config.
     ///
-    /// - Parameter input: (Type: `UpdateConfigInput`)
+    /// - Parameter input: Input for the UpdateConfig operation. (Type: `UpdateConfigInput`)
     ///
-    /// - Returns: (Type: `UpdateConfigOutput`)
+    /// - Returns: Response containing the ARN, ID, and type of a Config. (Type: `UpdateConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2618,6 +3135,78 @@ extension GroundStationClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GroundStation")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateConfig")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateContact` operation on the `GroundStation` service.
+    ///
+    /// Updates a specific contact.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateContactInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateContactOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceLimitExceededException` : Account limits for this resource have been exceeded.
+    /// - `ResourceNotFoundException` : Resource was not found.
+    public func updateContact(input: UpdateContactInput) async throws -> UpdateContactOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateContact")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "groundstation")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateContactInput, UpdateContactOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<UpdateContactInput, UpdateContactOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateContactInput, UpdateContactOutput>(UpdateContactInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateContactInput, UpdateContactOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateContactInput, UpdateContactOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateContactInput, UpdateContactOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateContactInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateContactInput, UpdateContactOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateContactOutput>(UpdateContactOutput.httpOutput(from:), UpdateContactOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateContactInput, UpdateContactOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateContactOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GroundStation", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateContactOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateContactOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateContactInput, UpdateContactOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateContactInput, UpdateContactOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateContactInput, UpdateContactOutput>(serviceID: serviceName, version: GroundStationClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GroundStation")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateContact")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -2704,9 +3293,9 @@ extension GroundStationClient {
     ///
     /// Updates a mission profile. Updating a mission profile will not update the execution parameters for existing future contacts.
     ///
-    /// - Parameter input: (Type: `UpdateMissionProfileInput`)
+    /// - Parameter input: Input for the UpdateMissionProfile operation. (Type: `UpdateMissionProfileInput`)
     ///
-    /// - Returns: (Type: `UpdateMissionProfileOutput`)
+    /// - Returns: Response containing the ID of a mission profile. (Type: `UpdateMissionProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

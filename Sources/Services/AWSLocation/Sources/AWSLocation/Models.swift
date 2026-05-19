@@ -25,9 +25,11 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
+@_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
+@_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
@@ -43,9 +45,9 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -58,10 +60,10 @@ extension LocationClientTypes {
 
     /// Unique identifying information for an Android app. Consists of a package name and a 20 byte SHA-1 certificate fingerprint.
     public struct AndroidApp: Swift.Sendable {
-        /// 20 byte SHA-1 certificate fingerprint associated with the Android app signing certificate.
+        /// 20 byte SHA-1 certificate fingerprint associated with the Android app signing certificate. Example: BB:0D:AC:74:D3:21:E1:43:67:71:9B:62:91:AF:A1:66:6E:44:5D:75
         /// This member is required.
         public var certificateFingerprint: Swift.String?
-        /// Unique package name for an Android app.
+        /// Unique package name identifier for an Android app. Example: com.mydomain.appname
         /// This member is required.
         public var `package`: Swift.String?
 
@@ -134,9 +136,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -158,9 +160,9 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { true }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -183,9 +185,9 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -207,9 +209,9 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { true }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -305,9 +307,9 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         fieldList: [LocationClientTypes.ValidationExceptionField]? = nil,
@@ -324,7 +326,7 @@ extension LocationClientTypes {
 
     /// Unique identifying information for an Apple app (iOS, macOS, tvOS and watchOS). Consists of an Apple Bundle ID.
     public struct AppleApp: Swift.Sendable {
-        /// The unique identifier of the app across all Apple platforms (iOS, macOS, tvOS, watchOS, etc.)
+        /// The unique identifier of the app across all Apple platforms (iOS, macOS, tvOS and watchOS). Example: com.mydomain.appname
         /// This member is required.
         public var bundleId: Swift.String?
 
@@ -562,9 +564,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -2313,6 +2315,87 @@ public struct CalculateRouteMatrixOutput: Swift.Sendable {
 extension CalculateRouteMatrixOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "CalculateRouteMatrixOutput(routeMatrix: \(Swift.String(describing: routeMatrix)), summary: \(Swift.String(describing: summary)), snappedDeparturePositions: \"CONTENT_REDACTED\", snappedDestinationPositions: \"CONTENT_REDACTED\")"}
+}
+
+public struct CancelJobInput: Swift.Sendable {
+    /// The unique identifier of the job to cancel.
+    /// This member is required.
+    public var jobId: Swift.String?
+
+    public init(
+        jobId: Swift.String? = nil
+    ) {
+        self.jobId = jobId
+    }
+}
+
+extension LocationClientTypes {
+
+    public enum JobStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The job has been cancelled and cannot be resumed.
+        case cancelled
+        /// The job is being cancelled.
+        case cancelling
+        /// The job has processed all records and is complete.
+        case completed
+        /// The job has failed to process all records.
+        case failed
+        /// The job has not yet started.
+        case pending
+        /// The job is currently running.
+        case running
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [JobStatus] {
+            return [
+                .cancelled,
+                .cancelling,
+                .completed,
+                .failed,
+                .pending,
+                .running
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cancelled: return "Cancelled"
+            case .cancelling: return "Cancelling"
+            case .completed: return "Completed"
+            case .failed: return "Failed"
+            case .pending: return "Pending"
+            case .running: return "Running"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CancelJobOutput: Swift.Sendable {
+    /// Amazon Resource Name (ARN) of the cancelled job.
+    /// This member is required.
+    public var jobArn: Swift.String?
+    /// Unique job identifier.
+    /// This member is required.
+    public var jobId: Swift.String?
+    /// Job status after cancellation request.
+    /// This member is required.
+    public var status: LocationClientTypes.JobStatus?
+
+    public init(
+        jobArn: Swift.String? = nil,
+        jobId: Swift.String? = nil,
+        status: LocationClientTypes.JobStatus? = nil
+    ) {
+        self.jobArn = jobArn
+        self.jobId = jobId
+        self.status = status
+    }
 }
 
 extension LocationClientTypes {
@@ -4271,6 +4354,328 @@ public struct GetDevicePositionHistoryOutput: Swift.Sendable {
     }
 }
 
+public struct GetJobInput: Swift.Sendable {
+    /// The unique identifier of the job to retrieve.
+    /// This member is required.
+    public var jobId: Swift.String?
+
+    public init(
+        jobId: Swift.String? = nil
+    ) {
+        self.jobId = jobId
+    }
+}
+
+extension LocationClientTypes {
+
+    public enum JobAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The job will perform address validation over the job's input.
+        case validateAddress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [JobAction] {
+            return [
+                .validateAddress
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .validateAddress: return "ValidateAddress"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LocationClientTypes {
+
+    public enum ValidateAddressAdditionalFeature: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case countrySpecificAttributes
+        case position
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ValidateAddressAdditionalFeature] {
+            return [
+                .countrySpecificAttributes,
+                .position
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .countrySpecificAttributes: return "CountrySpecificAttributes"
+            case .position: return "Position"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LocationClientTypes {
+
+    /// Options specific to address validation jobs.
+    public struct ValidateAddressActionOptions: Swift.Sendable {
+        /// A list of optional additional parameters that can be requested for each result. Values:
+        ///
+        /// * Position - Return the position coordinates of the address if available.
+        ///
+        /// * CountrySpecificAttributes - Return additional information about the address specific to the country of origin.
+        public var additionalFeatures: [LocationClientTypes.ValidateAddressAdditionalFeature]?
+
+        public init(
+            additionalFeatures: [LocationClientTypes.ValidateAddressAdditionalFeature]? = nil
+        ) {
+            self.additionalFeatures = additionalFeatures
+        }
+    }
+}
+
+extension LocationClientTypes {
+
+    /// Additional options for configuring job action parameters.
+    public struct JobActionOptions: Swift.Sendable {
+        /// Options specific to address validation jobs.
+        public var validateAddress: LocationClientTypes.ValidateAddressActionOptions?
+
+        public init(
+            validateAddress: LocationClientTypes.ValidateAddressActionOptions? = nil
+        ) {
+            self.validateAddress = validateAddress
+        }
+    }
+}
+
+extension LocationClientTypes {
+
+    public enum JobErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case internalServerError
+        case validationError
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [JobErrorCode] {
+            return [
+                .internalServerError,
+                .validationError
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .internalServerError: return "InternalServerError"
+            case .validationError: return "ValidationError"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LocationClientTypes {
+
+    /// Error information for failed jobs.
+    public struct JobError: Swift.Sendable {
+        /// Error code indicating the type of error that occurred.
+        /// This member is required.
+        public var code: LocationClientTypes.JobErrorCode?
+        /// Error messages providing details about the failure.
+        public var messages: [Swift.String]?
+
+        public init(
+            code: LocationClientTypes.JobErrorCode? = nil,
+            messages: [Swift.String]? = nil
+        ) {
+            self.code = code
+            self.messages = messages
+        }
+    }
+}
+
+extension LocationClientTypes {
+
+    public enum JobInputFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case parquet
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [JobInputFormat] {
+            return [
+                .parquet
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .parquet: return "Parquet"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LocationClientTypes {
+
+    /// Configuration for input data location and format. Input files have a limitation of 10gb per file, and 1gb per Parquet row-group within the file.
+    public struct JobInputOptions: Swift.Sendable {
+        /// Input data format. Currently only Parquet is supported. Input files have a limitation of 10gb per file, and 1gb per Parquet row-group within the file.
+        /// This member is required.
+        public var format: LocationClientTypes.JobInputFormat?
+        /// S3 ARN or URI where input files are stored. The Amazon S3 bucket must be created in the same Amazon Web Services region where you plan to run your job.
+        /// This member is required.
+        public var location: Swift.String?
+
+        public init(
+            format: LocationClientTypes.JobInputFormat? = nil,
+            location: Swift.String? = nil
+        ) {
+            self.format = format
+            self.location = location
+        }
+    }
+}
+
+extension LocationClientTypes {
+
+    public enum JobOutputFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case parquet
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [JobOutputFormat] {
+            return [
+                .parquet
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .parquet: return "Parquet"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LocationClientTypes {
+
+    /// Configuration for output data location and format.
+    public struct JobOutputOptions: Swift.Sendable {
+        /// Output data format. Currently only "Parquet" is supported.
+        /// This member is required.
+        public var format: LocationClientTypes.JobOutputFormat?
+        /// S3 ARN or URI where output files will be written. The Amazon S3 bucket must exist in the same Amazon Web Services region where you plan to run your job.
+        /// This member is required.
+        public var location: Swift.String?
+
+        public init(
+            format: LocationClientTypes.JobOutputFormat? = nil,
+            location: Swift.String? = nil
+        ) {
+            self.format = format
+            self.location = location
+        }
+    }
+}
+
+public struct GetJobOutput: Swift.Sendable {
+    /// Action performed by the job.
+    /// This member is required.
+    public var action: LocationClientTypes.JobAction?
+    /// Additional options for configuring job action parameters.
+    public var actionOptions: LocationClientTypes.JobActionOptions?
+    /// Job creation time in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sss.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// Job completion time in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sss. Only returned for jobs in a terminal status: Completed | Failed | Cancelled.
+    public var endedAt: Foundation.Date?
+    /// Error information if the job failed.
+    public var error: LocationClientTypes.JobError?
+    /// IAM role used for permissions when running the job.
+    /// This member is required.
+    public var executionRoleArn: Swift.String?
+    /// Input configuration.
+    /// This member is required.
+    public var inputOptions: LocationClientTypes.JobInputOptions?
+    /// Amazon Resource Name (ARN) of the specified job.
+    /// This member is required.
+    public var jobArn: Swift.String?
+    /// Unique job identifier.
+    /// This member is required.
+    public var jobId: Swift.String?
+    /// Job name (if provided during creation).
+    public var name: Swift.String?
+    /// Output configuration.
+    /// This member is required.
+    public var outputOptions: LocationClientTypes.JobOutputOptions?
+    /// Current job status.
+    /// This member is required.
+    public var status: LocationClientTypes.JobStatus?
+    /// Tags and corresponding values associated with the specified job.
+    public var tags: [Swift.String: Swift.String]?
+    /// Last update time in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sss.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        action: LocationClientTypes.JobAction? = nil,
+        actionOptions: LocationClientTypes.JobActionOptions? = nil,
+        createdAt: Foundation.Date? = nil,
+        endedAt: Foundation.Date? = nil,
+        error: LocationClientTypes.JobError? = nil,
+        executionRoleArn: Swift.String? = nil,
+        inputOptions: LocationClientTypes.JobInputOptions? = nil,
+        jobArn: Swift.String? = nil,
+        jobId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        outputOptions: LocationClientTypes.JobOutputOptions? = nil,
+        status: LocationClientTypes.JobStatus? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.action = action
+        self.actionOptions = actionOptions
+        self.createdAt = createdAt
+        self.endedAt = endedAt
+        self.error = error
+        self.executionRoleArn = executionRoleArn
+        self.inputOptions = inputOptions
+        self.jobArn = jobArn
+        self.jobId = jobId
+        self.name = name
+        self.outputOptions = outputOptions
+        self.status = status
+        self.tags = tags
+        self.updatedAt = updatedAt
+    }
+}
+
+extension GetJobOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetJobOutput(action: \(Swift.String(describing: action)), actionOptions: \(Swift.String(describing: actionOptions)), error: \(Swift.String(describing: error)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), inputOptions: \(Swift.String(describing: inputOptions)), jobArn: \(Swift.String(describing: jobArn)), jobId: \(Swift.String(describing: jobId)), name: \(Swift.String(describing: name)), outputOptions: \(Swift.String(describing: outputOptions)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), createdAt: \"CONTENT_REDACTED\", endedAt: \"CONTENT_REDACTED\", updatedAt: \"CONTENT_REDACTED\")"}
+}
+
 public struct GetMapGlyphsInput: Swift.Sendable {
     /// A comma-separated list of fonts to load glyphs from in order of preference. For example, Noto Sans Regular, Arial Unicode. Valid font stacks for [Esri](https://docs.aws.amazon.com/location/previous/developerguide/esri.html) styles:
     ///
@@ -4709,6 +5114,208 @@ extension LocationClientTypes {
 extension LocationClientTypes.InferredState: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "InferredState(accuracy: \(Swift.String(describing: accuracy)), deviationDistance: \(Swift.String(describing: deviationDistance)), proxyDetected: \(Swift.String(describing: proxyDetected)), position: \"CONTENT_REDACTED\")"}
+}
+
+extension LocationClientTypes {
+
+    /// Criteria for filtering jobs.
+    public struct JobsFilter: Swift.Sendable {
+        /// Filter by job status.
+        public var jobStatus: LocationClientTypes.JobStatus?
+
+        public init(
+            jobStatus: LocationClientTypes.JobStatus? = nil
+        ) {
+            self.jobStatus = jobStatus
+        }
+    }
+}
+
+public struct ListJobsInput: Swift.Sendable {
+    /// An optional structure containing criteria by which to filter job results.
+    public var filter: LocationClientTypes.JobsFilter?
+    /// Maximum number of jobs to return.
+    public var maxResults: Swift.Int?
+    /// The pagination token specifying which page of results to return in the response. If no token is provided, the default page is the first page.
+    public var nextToken: Swift.String?
+
+    public init(
+        filter: LocationClientTypes.JobsFilter? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.filter = filter
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension LocationClientTypes {
+
+    /// Job summary information returned in list operations.
+    public struct ListJobsResponseEntry: Swift.Sendable {
+        /// Action performed by the job.
+        /// This member is required.
+        public var action: LocationClientTypes.JobAction?
+        /// Additional options for configuring job action parameters.
+        public var actionOptions: LocationClientTypes.JobActionOptions?
+        /// Job creation time in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sss.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// Job completion time in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sss. Only returned for jobs in a terminal status: Completed | Failed | Cancelled.
+        public var endedAt: Foundation.Date?
+        /// Error information if the job failed.
+        public var error: LocationClientTypes.JobError?
+        /// IAM role used for job execution.
+        /// This member is required.
+        public var executionRoleArn: Swift.String?
+        /// Input configuration.
+        /// This member is required.
+        public var inputOptions: LocationClientTypes.JobInputOptions?
+        /// Amazon Resource Name (ARN) of the job.
+        /// This member is required.
+        public var jobArn: Swift.String?
+        /// Unique job identifier.
+        /// This member is required.
+        public var jobId: Swift.String?
+        /// Job name (if provided during creation).
+        public var name: Swift.String?
+        /// Output configuration.
+        /// This member is required.
+        public var outputOptions: LocationClientTypes.JobOutputOptions?
+        /// Current job status.
+        /// This member is required.
+        public var status: LocationClientTypes.JobStatus?
+        /// Last update time in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sss.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            action: LocationClientTypes.JobAction? = nil,
+            actionOptions: LocationClientTypes.JobActionOptions? = nil,
+            createdAt: Foundation.Date? = nil,
+            endedAt: Foundation.Date? = nil,
+            error: LocationClientTypes.JobError? = nil,
+            executionRoleArn: Swift.String? = nil,
+            inputOptions: LocationClientTypes.JobInputOptions? = nil,
+            jobArn: Swift.String? = nil,
+            jobId: Swift.String? = nil,
+            name: Swift.String? = nil,
+            outputOptions: LocationClientTypes.JobOutputOptions? = nil,
+            status: LocationClientTypes.JobStatus? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.action = action
+            self.actionOptions = actionOptions
+            self.createdAt = createdAt
+            self.endedAt = endedAt
+            self.error = error
+            self.executionRoleArn = executionRoleArn
+            self.inputOptions = inputOptions
+            self.jobArn = jobArn
+            self.jobId = jobId
+            self.name = name
+            self.outputOptions = outputOptions
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension LocationClientTypes.ListJobsResponseEntry: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ListJobsResponseEntry(action: \(Swift.String(describing: action)), actionOptions: \(Swift.String(describing: actionOptions)), error: \(Swift.String(describing: error)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), inputOptions: \(Swift.String(describing: inputOptions)), jobArn: \(Swift.String(describing: jobArn)), jobId: \(Swift.String(describing: jobId)), name: \(Swift.String(describing: name)), outputOptions: \(Swift.String(describing: outputOptions)), status: \(Swift.String(describing: status)), createdAt: \"CONTENT_REDACTED\", endedAt: \"CONTENT_REDACTED\", updatedAt: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListJobsOutput: Swift.Sendable {
+    /// List of jobs in your Amazon Web Services account.
+    /// This member is required.
+    public var entries: [LocationClientTypes.ListJobsResponseEntry]?
+    /// Token for retrieving the next page (present if more results available).
+    public var nextToken: Swift.String?
+
+    public init(
+        entries: [LocationClientTypes.ListJobsResponseEntry]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.entries = entries
+        self.nextToken = nextToken
+    }
+}
+
+public struct StartJobInput: Swift.Sendable {
+    /// The action to perform on the input data.
+    /// This member is required.
+    public var action: LocationClientTypes.JobAction?
+    /// Additional parameters that can be requested for each result.
+    public var actionOptions: LocationClientTypes.JobActionOptions?
+    /// A unique identifier for this request to ensure idempotency.
+    public var clientToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the IAM role that Amazon Location Service assumes during job processing. Amazon Location Service uses this role to access the input and output locations specified for the job. The IAM role must be created in the same Amazon Web Services account where you plan to run your job. For more information about configuring IAM roles for Amazon Location jobs, see [Configure IAM permissions](https://docs.aws.amazon.com/location/latest/developerguide/configure-iam-role-policy-credentials.html) in the Amazon Location Service Developer Guide.
+    /// This member is required.
+    public var executionRoleArn: Swift.String?
+    /// Configuration for input data location and format. Input files have a limitation of 10gb per file, and 1gb per Parquet row-group within the file.
+    /// This member is required.
+    public var inputOptions: LocationClientTypes.JobInputOptions?
+    /// An optional name for the job resource.
+    public var name: Swift.String?
+    /// Configuration for output data location and format.
+    /// This member is required.
+    public var outputOptions: LocationClientTypes.JobOutputOptions?
+    /// Tags and corresponding values to be associated with the job.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        action: LocationClientTypes.JobAction? = nil,
+        actionOptions: LocationClientTypes.JobActionOptions? = nil,
+        clientToken: Swift.String? = nil,
+        executionRoleArn: Swift.String? = nil,
+        inputOptions: LocationClientTypes.JobInputOptions? = nil,
+        name: Swift.String? = nil,
+        outputOptions: LocationClientTypes.JobOutputOptions? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.action = action
+        self.actionOptions = actionOptions
+        self.clientToken = clientToken
+        self.executionRoleArn = executionRoleArn
+        self.inputOptions = inputOptions
+        self.name = name
+        self.outputOptions = outputOptions
+        self.tags = tags
+    }
+}
+
+public struct StartJobOutput: Swift.Sendable {
+    /// Job creation time in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sss.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The Amazon Resource Name (ARN) for the job resource. Used when you need to specify a resource across all Amazon Web Services. Format example: arn:aws:geo:region:account-id:job/ExampleJob
+    /// This member is required.
+    public var jobArn: Swift.String?
+    /// Unique job identifier.
+    /// This member is required.
+    public var jobId: Swift.String?
+    /// Initial job status (always "Pending" for new jobs).
+    /// This member is required.
+    public var status: LocationClientTypes.JobStatus?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        jobArn: Swift.String? = nil,
+        jobId: Swift.String? = nil,
+        status: LocationClientTypes.JobStatus? = nil
+    ) {
+        self.createdAt = createdAt
+        self.jobArn = jobArn
+        self.jobId = jobId
+        self.status = status
+    }
+}
+
+extension StartJobOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "StartJobOutput(jobArn: \(Swift.String(describing: jobArn)), jobId: \(Swift.String(describing: jobId)), status: \(Swift.String(describing: status)), createdAt: \"CONTENT_REDACTED\")"}
 }
 
 extension LocationClientTypes {
@@ -6003,6 +6610,13 @@ extension CalculateRouteMatrixInput {
     }
 }
 
+extension CancelJobInput {
+
+    static func urlPathProvider(_ value: CancelJobInput) -> Swift.String? {
+        return "/metadata/v0/jobs/cancel-job"
+    }
+}
+
 extension CreateGeofenceCollectionInput {
 
     static func urlPathProvider(_ value: CreateGeofenceCollectionInput) -> Swift.String? {
@@ -6239,6 +6853,16 @@ extension GetGeofenceInput {
     }
 }
 
+extension GetJobInput {
+
+    static func urlPathProvider(_ value: GetJobInput) -> Swift.String? {
+        guard let jobId = value.jobId else {
+            return nil
+        }
+        return "/metadata/v0/jobs/\(jobId.urlPercentEncoding())"
+    }
+}
+
 extension GetMapGlyphsInput {
 
     static func urlPathProvider(_ value: GetMapGlyphsInput) -> Swift.String? {
@@ -6401,6 +7025,13 @@ extension ListGeofencesInput {
     }
 }
 
+extension ListJobsInput {
+
+    static func urlPathProvider(_ value: ListJobsInput) -> Swift.String? {
+        return "/metadata/v0/jobs/list-jobs"
+    }
+}
+
 extension ListKeysInput {
 
     static func urlPathProvider(_ value: ListKeysInput) -> Swift.String? {
@@ -6532,6 +7163,13 @@ extension SearchPlaceIndexForTextInput {
             items.append(keyQueryItem)
         }
         return items
+    }
+}
+
+extension StartJobInput {
+
+    static func urlPathProvider(_ value: StartJobInput) -> Swift.String? {
+        return "/metadata/v0/jobs"
     }
 }
 
@@ -6731,6 +7369,14 @@ extension CalculateRouteMatrixInput {
     }
 }
 
+extension CancelJobInput {
+
+    static func write(value: CancelJobInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["JobId"].write(value.jobId)
+    }
+}
+
 extension CreateGeofenceCollectionInput {
 
     static func write(value: CreateGeofenceCollectionInput?, to writer: SmithyJSON.Writer) throws {
@@ -6855,6 +7501,16 @@ extension ListGeofencesInput {
     }
 }
 
+extension ListJobsInput {
+
+    static func write(value: ListJobsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Filter"].write(value.filter, with: LocationClientTypes.JobsFilter.write(value:to:))
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+    }
+}
+
 extension ListKeysInput {
 
     static func write(value: ListKeysInput?, to writer: SmithyJSON.Writer) throws {
@@ -6954,6 +7610,21 @@ extension SearchPlaceIndexForTextInput {
         try writer["Language"].write(value.language)
         try writer["MaxResults"].write(value.maxResults)
         try writer["Text"].write(value.text)
+    }
+}
+
+extension StartJobInput {
+
+    static func write(value: StartJobInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Action"].write(value.action)
+        try writer["ActionOptions"].write(value.actionOptions, with: LocationClientTypes.JobActionOptions.write(value:to:))
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["ExecutionRoleArn"].write(value.executionRoleArn)
+        try writer["InputOptions"].write(value.inputOptions, with: LocationClientTypes.JobInputOptions.write(value:to:))
+        try writer["Name"].write(value.name)
+        try writer["OutputOptions"].write(value.outputOptions, with: LocationClientTypes.JobOutputOptions.write(value:to:))
+        try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -7136,6 +7807,20 @@ extension CalculateRouteMatrixOutput {
         value.snappedDeparturePositions = try reader["SnappedDeparturePositions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
         value.snappedDestinationPositions = try reader["SnappedDestinationPositions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
         value.summary = try reader["Summary"].readIfPresent(with: LocationClientTypes.CalculateRouteMatrixSummary.read(from:))
+        return value
+    }
+}
+
+extension CancelJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CancelJobOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CancelJobOutput()
+        value.jobArn = try reader["JobArn"].readIfPresent() ?? ""
+        value.jobId = try reader["JobId"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -7452,6 +8137,31 @@ extension GetGeofenceOutput {
     }
 }
 
+extension GetJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetJobOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetJobOutput()
+        value.action = try reader["Action"].readIfPresent() ?? .sdkUnknown("")
+        value.actionOptions = try reader["ActionOptions"].readIfPresent(with: LocationClientTypes.JobActionOptions.read(from:))
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.endedAt = try reader["EndedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.error = try reader["Error"].readIfPresent(with: LocationClientTypes.JobError.read(from:))
+        value.executionRoleArn = try reader["ExecutionRoleArn"].readIfPresent() ?? ""
+        value.inputOptions = try reader["InputOptions"].readIfPresent(with: LocationClientTypes.JobInputOptions.read(from:))
+        value.jobArn = try reader["JobArn"].readIfPresent() ?? ""
+        value.jobId = try reader["JobId"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent()
+        value.outputOptions = try reader["OutputOptions"].readIfPresent(with: LocationClientTypes.JobOutputOptions.read(from:))
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
 extension GetMapGlyphsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetMapGlyphsOutput {
@@ -7586,6 +8296,19 @@ extension ListGeofencesOutput {
         let reader = responseReader
         var value = ListGeofencesOutput()
         value.entries = try reader["Entries"].readListIfPresent(memberReadingClosure: LocationClientTypes.ListGeofenceResponseEntry.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListJobsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListJobsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListJobsOutput()
+        value.entries = try reader["Entries"].readListIfPresent(memberReadingClosure: LocationClientTypes.ListJobsResponseEntry.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -7734,6 +8457,21 @@ extension SearchPlaceIndexForTextOutput {
     }
 }
 
+extension StartJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartJobOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartJobOutput()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.jobArn = try reader["JobArn"].readIfPresent() ?? ""
+        value.jobId = try reader["JobId"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension TagResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> TagResourceOutput {
@@ -7853,7 +8591,7 @@ enum AssociateTrackerConsumerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7873,7 +8611,7 @@ enum BatchDeleteDevicePositionHistoryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7891,7 +8629,7 @@ enum BatchDeleteGeofenceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7909,7 +8647,7 @@ enum BatchEvaluateGeofencesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7927,7 +8665,7 @@ enum BatchGetDevicePositionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7945,7 +8683,7 @@ enum BatchPutGeofenceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7963,7 +8701,7 @@ enum BatchUpdateDevicePositionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7981,7 +8719,7 @@ enum CalculateRouteOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7999,7 +8737,7 @@ enum CalculateRouteMatrixOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8012,12 +8750,29 @@ enum CalculateRouteMatrixOutputError {
     }
 }
 
+enum CancelJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateGeofenceCollectionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8036,7 +8791,7 @@ enum CreateKeyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8055,7 +8810,7 @@ enum CreateMapOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8074,7 +8829,7 @@ enum CreatePlaceIndexOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8093,7 +8848,7 @@ enum CreateRouteCalculatorOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8112,7 +8867,7 @@ enum CreateTrackerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8131,7 +8886,7 @@ enum DeleteGeofenceCollectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8149,7 +8904,7 @@ enum DeleteKeyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8167,7 +8922,7 @@ enum DeleteMapOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8185,7 +8940,7 @@ enum DeletePlaceIndexOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8203,7 +8958,7 @@ enum DeleteRouteCalculatorOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8221,7 +8976,7 @@ enum DeleteTrackerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8239,7 +8994,7 @@ enum DescribeGeofenceCollectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8257,7 +9012,7 @@ enum DescribeKeyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8275,7 +9030,7 @@ enum DescribeMapOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8293,7 +9048,7 @@ enum DescribePlaceIndexOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8311,7 +9066,7 @@ enum DescribeRouteCalculatorOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8329,7 +9084,7 @@ enum DescribeTrackerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8347,7 +9102,7 @@ enum DisassociateTrackerConsumerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8365,7 +9120,7 @@ enum ForecastGeofenceEventsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8383,7 +9138,7 @@ enum GetDevicePositionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8401,7 +9156,7 @@ enum GetDevicePositionHistoryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8419,7 +9174,25 @@ enum GetGeofenceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8437,7 +9210,7 @@ enum GetMapGlyphsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8455,7 +9228,7 @@ enum GetMapSpritesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8473,7 +9246,7 @@ enum GetMapStyleDescriptorOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8491,7 +9264,7 @@ enum GetMapTileOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8509,7 +9282,7 @@ enum GetPlaceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8527,7 +9300,7 @@ enum ListDevicePositionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8544,7 +9317,7 @@ enum ListGeofenceCollectionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8561,7 +9334,7 @@ enum ListGeofencesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8574,12 +9347,29 @@ enum ListGeofencesOutputError {
     }
 }
 
+enum ListJobsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListKeysOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8596,7 +9386,7 @@ enum ListMapsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8613,7 +9403,7 @@ enum ListPlaceIndexesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8630,7 +9420,7 @@ enum ListRouteCalculatorsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8647,7 +9437,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8665,7 +9455,7 @@ enum ListTrackerConsumersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8683,7 +9473,7 @@ enum ListTrackersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8700,7 +9490,7 @@ enum PutGeofenceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8719,7 +9509,7 @@ enum SearchPlaceIndexForPositionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8737,7 +9527,7 @@ enum SearchPlaceIndexForSuggestionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8755,7 +9545,7 @@ enum SearchPlaceIndexForTextOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8768,12 +9558,29 @@ enum SearchPlaceIndexForTextOutputError {
     }
 }
 
+enum StartJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum TagResourceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8791,7 +9598,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8809,7 +9616,7 @@ enum UpdateGeofenceCollectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8827,7 +9634,7 @@ enum UpdateKeyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8845,7 +9652,7 @@ enum UpdateMapOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8863,7 +9670,7 @@ enum UpdatePlaceIndexOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8881,7 +9688,7 @@ enum UpdateRouteCalculatorOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8899,7 +9706,7 @@ enum UpdateTrackerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8917,7 +9724,7 @@ enum VerifyDevicePositionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8932,7 +9739,7 @@ enum VerifyDevicePositionOutputError {
 
 extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -8945,7 +9752,7 @@ extension AccessDeniedException {
 
 extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -8958,7 +9765,7 @@ extension ConflictException {
 
 extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -8971,7 +9778,7 @@ extension InternalServerException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -8984,7 +9791,7 @@ extension ResourceNotFoundException {
 
 extension ServiceQuotaExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -8997,7 +9804,7 @@ extension ServiceQuotaExceededException {
 
 extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -9010,7 +9817,7 @@ extension ThrottlingException {
 
 extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: LocationClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
@@ -9023,213 +9830,28 @@ extension ValidationException {
     }
 }
 
-extension LocationClientTypes.BatchDeleteDevicePositionHistoryError {
+extension LocationClientTypes.AndroidApp {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.BatchDeleteDevicePositionHistoryError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LocationClientTypes.BatchDeleteDevicePositionHistoryError()
-        value.deviceId = try reader["DeviceId"].readIfPresent() ?? ""
-        value.error = try reader["Error"].readIfPresent(with: LocationClientTypes.BatchItemError.read(from:))
-        return value
-    }
-}
-
-extension LocationClientTypes.BatchItemError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.BatchItemError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LocationClientTypes.BatchItemError()
-        value.code = try reader["Code"].readIfPresent()
-        value.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
-extension LocationClientTypes.BatchDeleteGeofenceError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.BatchDeleteGeofenceError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LocationClientTypes.BatchDeleteGeofenceError()
-        value.geofenceId = try reader["GeofenceId"].readIfPresent() ?? ""
-        value.error = try reader["Error"].readIfPresent(with: LocationClientTypes.BatchItemError.read(from:))
-        return value
-    }
-}
-
-extension LocationClientTypes.BatchEvaluateGeofencesError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.BatchEvaluateGeofencesError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LocationClientTypes.BatchEvaluateGeofencesError()
-        value.deviceId = try reader["DeviceId"].readIfPresent() ?? ""
-        value.sampleTime = try reader["SampleTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.error = try reader["Error"].readIfPresent(with: LocationClientTypes.BatchItemError.read(from:))
-        return value
-    }
-}
-
-extension LocationClientTypes.BatchGetDevicePositionError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.BatchGetDevicePositionError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LocationClientTypes.BatchGetDevicePositionError()
-        value.deviceId = try reader["DeviceId"].readIfPresent() ?? ""
-        value.error = try reader["Error"].readIfPresent(with: LocationClientTypes.BatchItemError.read(from:))
-        return value
-    }
-}
-
-extension LocationClientTypes.DevicePosition {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.DevicePosition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LocationClientTypes.DevicePosition()
-        value.deviceId = try reader["DeviceId"].readIfPresent()
-        value.sampleTime = try reader["SampleTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.receivedTime = try reader["ReceivedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.position = try reader["Position"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.accuracy = try reader["Accuracy"].readIfPresent(with: LocationClientTypes.PositionalAccuracy.read(from:))
-        value.positionProperties = try reader["PositionProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension LocationClientTypes.PositionalAccuracy {
-
-    static func write(value: LocationClientTypes.PositionalAccuracy?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: LocationClientTypes.AndroidApp?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Horizontal"].write(value.horizontal)
+        try writer["CertificateFingerprint"].write(value.certificateFingerprint)
+        try writer["Package"].write(value.`package`)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.PositionalAccuracy {
+    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.AndroidApp {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LocationClientTypes.PositionalAccuracy()
-        value.horizontal = try reader["Horizontal"].readIfPresent() ?? 0.0
+        var value = LocationClientTypes.AndroidApp()
+        value.`package` = try reader["Package"].readIfPresent() ?? ""
+        value.certificateFingerprint = try reader["CertificateFingerprint"].readIfPresent() ?? ""
         return value
     }
 }
 
-extension LocationClientTypes.BatchPutGeofenceSuccess {
+extension LocationClientTypes.ApiKeyFilter {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.BatchPutGeofenceSuccess {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LocationClientTypes.BatchPutGeofenceSuccess()
-        value.geofenceId = try reader["GeofenceId"].readIfPresent() ?? ""
-        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension LocationClientTypes.BatchPutGeofenceError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.BatchPutGeofenceError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LocationClientTypes.BatchPutGeofenceError()
-        value.geofenceId = try reader["GeofenceId"].readIfPresent() ?? ""
-        value.error = try reader["Error"].readIfPresent(with: LocationClientTypes.BatchItemError.read(from:))
-        return value
-    }
-}
-
-extension LocationClientTypes.BatchUpdateDevicePositionError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.BatchUpdateDevicePositionError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LocationClientTypes.BatchUpdateDevicePositionError()
-        value.deviceId = try reader["DeviceId"].readIfPresent() ?? ""
-        value.sampleTime = try reader["SampleTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.error = try reader["Error"].readIfPresent(with: LocationClientTypes.BatchItemError.read(from:))
-        return value
-    }
-}
-
-extension LocationClientTypes.Leg {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.Leg {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LocationClientTypes.Leg()
-        value.startPosition = try reader["StartPosition"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.endPosition = try reader["EndPosition"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.distance = try reader["Distance"].readIfPresent() ?? 0.0
-        value.durationSeconds = try reader["DurationSeconds"].readIfPresent() ?? 0.0
-        value.geometry = try reader["Geometry"].readIfPresent(with: LocationClientTypes.LegGeometry.read(from:))
-        value.steps = try reader["Steps"].readListIfPresent(memberReadingClosure: LocationClientTypes.Step.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension LocationClientTypes.Step {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.Step {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LocationClientTypes.Step()
-        value.startPosition = try reader["StartPosition"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.endPosition = try reader["EndPosition"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.distance = try reader["Distance"].readIfPresent() ?? 0.0
-        value.durationSeconds = try reader["DurationSeconds"].readIfPresent() ?? 0.0
-        value.geometryOffset = try reader["GeometryOffset"].readIfPresent()
-        return value
-    }
-}
-
-extension LocationClientTypes.LegGeometry {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.LegGeometry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LocationClientTypes.LegGeometry()
-        value.lineString = try reader["LineString"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension LocationClientTypes.CalculateRouteSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.CalculateRouteSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LocationClientTypes.CalculateRouteSummary()
-        value.routeBBox = try reader["RouteBBox"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.dataSource = try reader["DataSource"].readIfPresent() ?? ""
-        value.distance = try reader["Distance"].readIfPresent() ?? 0.0
-        value.durationSeconds = try reader["DurationSeconds"].readIfPresent() ?? 0.0
-        value.distanceUnit = try reader["DistanceUnit"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension LocationClientTypes.RouteMatrixEntry {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.RouteMatrixEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LocationClientTypes.RouteMatrixEntry()
-        value.distance = try reader["Distance"].readIfPresent()
-        value.durationSeconds = try reader["DurationSeconds"].readIfPresent()
-        value.error = try reader["Error"].readIfPresent(with: LocationClientTypes.RouteMatrixEntryError.read(from:))
-        return value
-    }
-}
-
-extension LocationClientTypes.RouteMatrixEntryError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.RouteMatrixEntryError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LocationClientTypes.RouteMatrixEntryError()
-        value.code = try reader["Code"].readIfPresent() ?? .sdkUnknown("")
-        value.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
-extension LocationClientTypes.CalculateRouteMatrixSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.CalculateRouteMatrixSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LocationClientTypes.CalculateRouteMatrixSummary()
-        value.dataSource = try reader["DataSource"].readIfPresent() ?? ""
-        value.routeCount = try reader["RouteCount"].readIfPresent() ?? 0
-        value.errorCount = try reader["ErrorCount"].readIfPresent() ?? 0
-        value.distanceUnit = try reader["DistanceUnit"].readIfPresent() ?? .sdkUnknown("")
-        return value
+    static func write(value: LocationClientTypes.ApiKeyFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["KeyStatus"].write(value.keyStatus)
     }
 }
 
@@ -9271,38 +9893,175 @@ extension LocationClientTypes.AppleApp {
     }
 }
 
-extension LocationClientTypes.AndroidApp {
+extension LocationClientTypes.BatchDeleteDevicePositionHistoryError {
 
-    static func write(value: LocationClientTypes.AndroidApp?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CertificateFingerprint"].write(value.certificateFingerprint)
-        try writer["Package"].write(value.`package`)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.AndroidApp {
+    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.BatchDeleteDevicePositionHistoryError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LocationClientTypes.AndroidApp()
-        value.`package` = try reader["Package"].readIfPresent() ?? ""
-        value.certificateFingerprint = try reader["CertificateFingerprint"].readIfPresent() ?? ""
+        var value = LocationClientTypes.BatchDeleteDevicePositionHistoryError()
+        value.deviceId = try reader["DeviceId"].readIfPresent() ?? ""
+        value.error = try reader["Error"].readIfPresent(with: LocationClientTypes.BatchItemError.read(from:))
         return value
     }
 }
 
-extension LocationClientTypes.MapConfiguration {
+extension LocationClientTypes.BatchDeleteGeofenceError {
 
-    static func write(value: LocationClientTypes.MapConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.BatchDeleteGeofenceError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LocationClientTypes.BatchDeleteGeofenceError()
+        value.geofenceId = try reader["GeofenceId"].readIfPresent() ?? ""
+        value.error = try reader["Error"].readIfPresent(with: LocationClientTypes.BatchItemError.read(from:))
+        return value
+    }
+}
+
+extension LocationClientTypes.BatchEvaluateGeofencesError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.BatchEvaluateGeofencesError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LocationClientTypes.BatchEvaluateGeofencesError()
+        value.deviceId = try reader["DeviceId"].readIfPresent() ?? ""
+        value.sampleTime = try reader["SampleTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.error = try reader["Error"].readIfPresent(with: LocationClientTypes.BatchItemError.read(from:))
+        return value
+    }
+}
+
+extension LocationClientTypes.BatchGetDevicePositionError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.BatchGetDevicePositionError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LocationClientTypes.BatchGetDevicePositionError()
+        value.deviceId = try reader["DeviceId"].readIfPresent() ?? ""
+        value.error = try reader["Error"].readIfPresent(with: LocationClientTypes.BatchItemError.read(from:))
+        return value
+    }
+}
+
+extension LocationClientTypes.BatchItemError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.BatchItemError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LocationClientTypes.BatchItemError()
+        value.code = try reader["Code"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
+        return value
+    }
+}
+
+extension LocationClientTypes.BatchPutGeofenceError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.BatchPutGeofenceError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LocationClientTypes.BatchPutGeofenceError()
+        value.geofenceId = try reader["GeofenceId"].readIfPresent() ?? ""
+        value.error = try reader["Error"].readIfPresent(with: LocationClientTypes.BatchItemError.read(from:))
+        return value
+    }
+}
+
+extension LocationClientTypes.BatchPutGeofenceRequestEntry {
+
+    static func write(value: LocationClientTypes.BatchPutGeofenceRequestEntry?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["CustomLayers"].writeList(value.customLayers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PoliticalView"].write(value.politicalView)
-        try writer["Style"].write(value.style)
+        try writer["GeofenceId"].write(value.geofenceId)
+        try writer["GeofenceProperties"].writeMap(value.geofenceProperties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["Geometry"].write(value.geometry, with: LocationClientTypes.GeofenceGeometry.write(value:to:))
+    }
+}
+
+extension LocationClientTypes.BatchPutGeofenceSuccess {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.BatchPutGeofenceSuccess {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LocationClientTypes.BatchPutGeofenceSuccess()
+        value.geofenceId = try reader["GeofenceId"].readIfPresent() ?? ""
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension LocationClientTypes.BatchUpdateDevicePositionError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.BatchUpdateDevicePositionError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LocationClientTypes.BatchUpdateDevicePositionError()
+        value.deviceId = try reader["DeviceId"].readIfPresent() ?? ""
+        value.sampleTime = try reader["SampleTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.error = try reader["Error"].readIfPresent(with: LocationClientTypes.BatchItemError.read(from:))
+        return value
+    }
+}
+
+extension LocationClientTypes.CalculateRouteCarModeOptions {
+
+    static func write(value: LocationClientTypes.CalculateRouteCarModeOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AvoidFerries"].write(value.avoidFerries)
+        try writer["AvoidTolls"].write(value.avoidTolls)
+    }
+}
+
+extension LocationClientTypes.CalculateRouteMatrixSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.CalculateRouteMatrixSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LocationClientTypes.CalculateRouteMatrixSummary()
+        value.dataSource = try reader["DataSource"].readIfPresent() ?? ""
+        value.routeCount = try reader["RouteCount"].readIfPresent() ?? 0
+        value.errorCount = try reader["ErrorCount"].readIfPresent() ?? 0
+        value.distanceUnit = try reader["DistanceUnit"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension LocationClientTypes.CalculateRouteSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.CalculateRouteSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LocationClientTypes.CalculateRouteSummary()
+        value.routeBBox = try reader["RouteBBox"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.dataSource = try reader["DataSource"].readIfPresent() ?? ""
+        value.distance = try reader["Distance"].readIfPresent() ?? 0.0
+        value.durationSeconds = try reader["DurationSeconds"].readIfPresent() ?? 0.0
+        value.distanceUnit = try reader["DistanceUnit"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension LocationClientTypes.CalculateRouteTruckModeOptions {
+
+    static func write(value: LocationClientTypes.CalculateRouteTruckModeOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AvoidFerries"].write(value.avoidFerries)
+        try writer["AvoidTolls"].write(value.avoidTolls)
+        try writer["Dimensions"].write(value.dimensions, with: LocationClientTypes.TruckDimensions.write(value:to:))
+        try writer["Weight"].write(value.weight, with: LocationClientTypes.TruckWeight.write(value:to:))
+    }
+}
+
+extension LocationClientTypes.CellSignals {
+
+    static func write(value: LocationClientTypes.CellSignals?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LteCellDetails"].writeList(value.lteCellDetails, memberWritingClosure: LocationClientTypes.LteCellDetails.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension LocationClientTypes.Circle {
+
+    static func write(value: LocationClientTypes.Circle?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Center"].writeList(value.center, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Radius"].write(value.radius)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.MapConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.Circle {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LocationClientTypes.MapConfiguration()
-        value.style = try reader["Style"].readIfPresent() ?? ""
-        value.politicalView = try reader["PoliticalView"].readIfPresent()
-        value.customLayers = try reader["CustomLayers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = LocationClientTypes.Circle()
+        value.center = try reader["Center"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.radius = try reader["Radius"].readIfPresent() ?? 0.0
         return value
     }
 }
@@ -9322,6 +10081,47 @@ extension LocationClientTypes.DataSourceConfiguration {
     }
 }
 
+extension LocationClientTypes.DevicePosition {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.DevicePosition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LocationClientTypes.DevicePosition()
+        value.deviceId = try reader["DeviceId"].readIfPresent()
+        value.sampleTime = try reader["SampleTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.receivedTime = try reader["ReceivedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.position = try reader["Position"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.accuracy = try reader["Accuracy"].readIfPresent(with: LocationClientTypes.PositionalAccuracy.read(from:))
+        value.positionProperties = try reader["PositionProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension LocationClientTypes.DevicePositionUpdate {
+
+    static func write(value: LocationClientTypes.DevicePositionUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Accuracy"].write(value.accuracy, with: LocationClientTypes.PositionalAccuracy.write(value:to:))
+        try writer["DeviceId"].write(value.deviceId)
+        try writer["Position"].writeList(value.position, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["PositionProperties"].writeMap(value.positionProperties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["SampleTime"].writeTimestamp(value.sampleTime, format: SmithyTimestamps.TimestampFormat.dateTime)
+    }
+}
+
+extension LocationClientTypes.DeviceState {
+
+    static func write(value: LocationClientTypes.DeviceState?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Accuracy"].write(value.accuracy, with: LocationClientTypes.PositionalAccuracy.write(value:to:))
+        try writer["CellSignals"].write(value.cellSignals, with: LocationClientTypes.CellSignals.write(value:to:))
+        try writer["DeviceId"].write(value.deviceId)
+        try writer["Ipv4Address"].write(value.ipv4Address)
+        try writer["Position"].writeList(value.position, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SampleTime"].writeTimestamp(value.sampleTime, format: SmithyTimestamps.TimestampFormat.dateTime)
+        try writer["WiFiAccessPoints"].writeList(value.wiFiAccessPoints, memberWritingClosure: LocationClientTypes.WiFiAccessPoint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension LocationClientTypes.ForecastedEvent {
 
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.ForecastedEvent {
@@ -9335,6 +10135,15 @@ extension LocationClientTypes.ForecastedEvent {
         value.forecastedBreachTime = try reader["ForecastedBreachTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.geofenceProperties = try reader["GeofenceProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
+    }
+}
+
+extension LocationClientTypes.ForecastGeofenceEventsDeviceState {
+
+    static func write(value: LocationClientTypes.ForecastGeofenceEventsDeviceState?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Position"].writeList(value.position, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Speed"].write(value.speed)
     }
 }
 
@@ -9359,66 +10168,108 @@ extension LocationClientTypes.GeofenceGeometry {
     }
 }
 
-extension LocationClientTypes.Circle {
+extension LocationClientTypes.InferredState {
 
-    static func write(value: LocationClientTypes.Circle?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.InferredState {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LocationClientTypes.InferredState()
+        value.position = try reader["Position"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
+        value.accuracy = try reader["Accuracy"].readIfPresent(with: LocationClientTypes.PositionalAccuracy.read(from:))
+        value.deviationDistance = try reader["DeviationDistance"].readIfPresent()
+        value.proxyDetected = try reader["ProxyDetected"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension LocationClientTypes.JobActionOptions {
+
+    static func write(value: LocationClientTypes.JobActionOptions?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Center"].writeList(value.center, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Radius"].write(value.radius)
+        try writer["ValidateAddress"].write(value.validateAddress, with: LocationClientTypes.ValidateAddressActionOptions.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.Circle {
+    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.JobActionOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LocationClientTypes.Circle()
-        value.center = try reader["Center"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.radius = try reader["Radius"].readIfPresent() ?? 0.0
+        var value = LocationClientTypes.JobActionOptions()
+        value.validateAddress = try reader["ValidateAddress"].readIfPresent(with: LocationClientTypes.ValidateAddressActionOptions.read(from:))
         return value
     }
 }
 
-extension LocationClientTypes.Place {
+extension LocationClientTypes.JobError {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.Place {
+    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.JobError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LocationClientTypes.Place()
-        value.label = try reader["Label"].readIfPresent()
-        value.geometry = try reader["Geometry"].readIfPresent(with: LocationClientTypes.PlaceGeometry.read(from:))
-        value.addressNumber = try reader["AddressNumber"].readIfPresent()
-        value.street = try reader["Street"].readIfPresent()
-        value.neighborhood = try reader["Neighborhood"].readIfPresent()
-        value.municipality = try reader["Municipality"].readIfPresent()
-        value.subRegion = try reader["SubRegion"].readIfPresent()
-        value.region = try reader["Region"].readIfPresent()
-        value.country = try reader["Country"].readIfPresent()
-        value.postalCode = try reader["PostalCode"].readIfPresent()
-        value.interpolated = try reader["Interpolated"].readIfPresent()
-        value.timeZone = try reader["TimeZone"].readIfPresent(with: LocationClientTypes.TimeZone.read(from:))
-        value.unitType = try reader["UnitType"].readIfPresent()
-        value.unitNumber = try reader["UnitNumber"].readIfPresent()
-        value.categories = try reader["Categories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.supplementalCategories = try reader["SupplementalCategories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.subMunicipality = try reader["SubMunicipality"].readIfPresent()
+        var value = LocationClientTypes.JobError()
+        value.code = try reader["Code"].readIfPresent() ?? .sdkUnknown("")
+        value.messages = try reader["Messages"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension LocationClientTypes.TimeZone {
+extension LocationClientTypes.JobInputOptions {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.TimeZone {
+    static func write(value: LocationClientTypes.JobInputOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Format"].write(value.format)
+        try writer["Location"].write(value.location)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.JobInputOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LocationClientTypes.TimeZone()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.offset = try reader["Offset"].readIfPresent()
+        var value = LocationClientTypes.JobInputOptions()
+        value.location = try reader["Location"].readIfPresent() ?? ""
+        value.format = try reader["Format"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
 
-extension LocationClientTypes.PlaceGeometry {
+extension LocationClientTypes.JobOutputOptions {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.PlaceGeometry {
+    static func write(value: LocationClientTypes.JobOutputOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Format"].write(value.format)
+        try writer["Location"].write(value.location)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.JobOutputOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LocationClientTypes.PlaceGeometry()
-        value.point = try reader["Point"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = LocationClientTypes.JobOutputOptions()
+        value.format = try reader["Format"].readIfPresent() ?? .sdkUnknown("")
+        value.location = try reader["Location"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension LocationClientTypes.JobsFilter {
+
+    static func write(value: LocationClientTypes.JobsFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["JobStatus"].write(value.jobStatus)
+    }
+}
+
+extension LocationClientTypes.Leg {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.Leg {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LocationClientTypes.Leg()
+        value.startPosition = try reader["StartPosition"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.endPosition = try reader["EndPosition"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.distance = try reader["Distance"].readIfPresent() ?? 0.0
+        value.durationSeconds = try reader["DurationSeconds"].readIfPresent() ?? 0.0
+        value.geometry = try reader["Geometry"].readIfPresent(with: LocationClientTypes.LegGeometry.read(from:))
+        value.steps = try reader["Steps"].readListIfPresent(memberReadingClosure: LocationClientTypes.Step.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension LocationClientTypes.LegGeometry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.LegGeometry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LocationClientTypes.LegGeometry()
+        value.lineString = try reader["LineString"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -9461,6 +10312,28 @@ extension LocationClientTypes.ListGeofenceResponseEntry {
         value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.geofenceProperties = try reader["GeofenceProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension LocationClientTypes.ListJobsResponseEntry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.ListJobsResponseEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LocationClientTypes.ListJobsResponseEntry()
+        value.action = try reader["Action"].readIfPresent() ?? .sdkUnknown("")
+        value.actionOptions = try reader["ActionOptions"].readIfPresent(with: LocationClientTypes.JobActionOptions.read(from:))
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.executionRoleArn = try reader["ExecutionRoleArn"].readIfPresent() ?? ""
+        value.endedAt = try reader["EndedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.error = try reader["Error"].readIfPresent(with: LocationClientTypes.JobError.read(from:))
+        value.inputOptions = try reader["InputOptions"].readIfPresent(with: LocationClientTypes.JobInputOptions.read(from:))
+        value.jobId = try reader["JobId"].readIfPresent() ?? ""
+        value.jobArn = try reader["JobArn"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent()
+        value.outputOptions = try reader["OutputOptions"].readIfPresent(with: LocationClientTypes.JobOutputOptions.read(from:))
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -9535,15 +10408,142 @@ extension LocationClientTypes.ListTrackersResponseEntry {
     }
 }
 
-extension LocationClientTypes.SearchPlaceIndexForPositionSummary {
+extension LocationClientTypes.LteCellDetails {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.SearchPlaceIndexForPositionSummary {
+    static func write(value: LocationClientTypes.LteCellDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CellId"].write(value.cellId)
+        try writer["LocalId"].write(value.localId, with: LocationClientTypes.LteLocalId.write(value:to:))
+        try writer["Mcc"].write(value.mcc)
+        try writer["Mnc"].write(value.mnc)
+        try writer["NetworkMeasurements"].writeList(value.networkMeasurements, memberWritingClosure: LocationClientTypes.LteNetworkMeasurements.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["NrCapable"].write(value.nrCapable)
+        try writer["Rsrp"].write(value.rsrp)
+        try writer["Rsrq"].write(value.rsrq)
+        try writer["Tac"].write(value.tac)
+        try writer["TimingAdvance"].write(value.timingAdvance)
+    }
+}
+
+extension LocationClientTypes.LteLocalId {
+
+    static func write(value: LocationClientTypes.LteLocalId?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Earfcn"].write(value.earfcn)
+        try writer["Pci"].write(value.pci)
+    }
+}
+
+extension LocationClientTypes.LteNetworkMeasurements {
+
+    static func write(value: LocationClientTypes.LteNetworkMeasurements?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CellId"].write(value.cellId)
+        try writer["Earfcn"].write(value.earfcn)
+        try writer["Pci"].write(value.pci)
+        try writer["Rsrp"].write(value.rsrp)
+        try writer["Rsrq"].write(value.rsrq)
+    }
+}
+
+extension LocationClientTypes.MapConfiguration {
+
+    static func write(value: LocationClientTypes.MapConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CustomLayers"].writeList(value.customLayers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["PoliticalView"].write(value.politicalView)
+        try writer["Style"].write(value.style)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.MapConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LocationClientTypes.SearchPlaceIndexForPositionSummary()
-        value.position = try reader["Position"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.maxResults = try reader["MaxResults"].readIfPresent()
-        value.dataSource = try reader["DataSource"].readIfPresent() ?? ""
-        value.language = try reader["Language"].readIfPresent()
+        var value = LocationClientTypes.MapConfiguration()
+        value.style = try reader["Style"].readIfPresent() ?? ""
+        value.politicalView = try reader["PoliticalView"].readIfPresent()
+        value.customLayers = try reader["CustomLayers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension LocationClientTypes.MapConfigurationUpdate {
+
+    static func write(value: LocationClientTypes.MapConfigurationUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CustomLayers"].writeList(value.customLayers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["PoliticalView"].write(value.politicalView)
+    }
+}
+
+extension LocationClientTypes.Place {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.Place {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LocationClientTypes.Place()
+        value.label = try reader["Label"].readIfPresent()
+        value.geometry = try reader["Geometry"].readIfPresent(with: LocationClientTypes.PlaceGeometry.read(from:))
+        value.addressNumber = try reader["AddressNumber"].readIfPresent()
+        value.street = try reader["Street"].readIfPresent()
+        value.neighborhood = try reader["Neighborhood"].readIfPresent()
+        value.municipality = try reader["Municipality"].readIfPresent()
+        value.subRegion = try reader["SubRegion"].readIfPresent()
+        value.region = try reader["Region"].readIfPresent()
+        value.country = try reader["Country"].readIfPresent()
+        value.postalCode = try reader["PostalCode"].readIfPresent()
+        value.interpolated = try reader["Interpolated"].readIfPresent()
+        value.timeZone = try reader["TimeZone"].readIfPresent(with: LocationClientTypes.TimeZone.read(from:))
+        value.unitType = try reader["UnitType"].readIfPresent()
+        value.unitNumber = try reader["UnitNumber"].readIfPresent()
+        value.categories = try reader["Categories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.supplementalCategories = try reader["SupplementalCategories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.subMunicipality = try reader["SubMunicipality"].readIfPresent()
+        return value
+    }
+}
+
+extension LocationClientTypes.PlaceGeometry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.PlaceGeometry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LocationClientTypes.PlaceGeometry()
+        value.point = try reader["Point"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension LocationClientTypes.PositionalAccuracy {
+
+    static func write(value: LocationClientTypes.PositionalAccuracy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Horizontal"].write(value.horizontal)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.PositionalAccuracy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LocationClientTypes.PositionalAccuracy()
+        value.horizontal = try reader["Horizontal"].readIfPresent() ?? 0.0
+        return value
+    }
+}
+
+extension LocationClientTypes.RouteMatrixEntry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.RouteMatrixEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LocationClientTypes.RouteMatrixEntry()
+        value.distance = try reader["Distance"].readIfPresent()
+        value.durationSeconds = try reader["DurationSeconds"].readIfPresent()
+        value.error = try reader["Error"].readIfPresent(with: LocationClientTypes.RouteMatrixEntryError.read(from:))
+        return value
+    }
+}
+
+extension LocationClientTypes.RouteMatrixEntryError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.RouteMatrixEntryError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LocationClientTypes.RouteMatrixEntryError()
+        value.code = try reader["Code"].readIfPresent() ?? .sdkUnknown("")
+        value.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -9556,6 +10556,45 @@ extension LocationClientTypes.SearchForPositionResult {
         value.place = try reader["Place"].readIfPresent(with: LocationClientTypes.Place.read(from:))
         value.distance = try reader["Distance"].readIfPresent() ?? 0.0
         value.placeId = try reader["PlaceId"].readIfPresent()
+        return value
+    }
+}
+
+extension LocationClientTypes.SearchForSuggestionsResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.SearchForSuggestionsResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LocationClientTypes.SearchForSuggestionsResult()
+        value.text = try reader["Text"].readIfPresent() ?? ""
+        value.placeId = try reader["PlaceId"].readIfPresent()
+        value.categories = try reader["Categories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.supplementalCategories = try reader["SupplementalCategories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension LocationClientTypes.SearchForTextResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.SearchForTextResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LocationClientTypes.SearchForTextResult()
+        value.place = try reader["Place"].readIfPresent(with: LocationClientTypes.Place.read(from:))
+        value.distance = try reader["Distance"].readIfPresent()
+        value.relevance = try reader["Relevance"].readIfPresent()
+        value.placeId = try reader["PlaceId"].readIfPresent()
+        return value
+    }
+}
+
+extension LocationClientTypes.SearchPlaceIndexForPositionSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.SearchPlaceIndexForPositionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LocationClientTypes.SearchPlaceIndexForPositionSummary()
+        value.position = try reader["Position"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.maxResults = try reader["MaxResults"].readIfPresent()
+        value.dataSource = try reader["DataSource"].readIfPresent() ?? ""
+        value.language = try reader["Language"].readIfPresent()
         return value
     }
 }
@@ -9573,19 +10612,6 @@ extension LocationClientTypes.SearchPlaceIndexForSuggestionsSummary {
         value.dataSource = try reader["DataSource"].readIfPresent() ?? ""
         value.language = try reader["Language"].readIfPresent()
         value.filterCategories = try reader["FilterCategories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension LocationClientTypes.SearchForSuggestionsResult {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.SearchForSuggestionsResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LocationClientTypes.SearchForSuggestionsResult()
-        value.text = try reader["Text"].readIfPresent() ?? ""
-        value.placeId = try reader["PlaceId"].readIfPresent()
-        value.categories = try reader["Categories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.supplementalCategories = try reader["SupplementalCategories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -9608,91 +10634,36 @@ extension LocationClientTypes.SearchPlaceIndexForTextSummary {
     }
 }
 
-extension LocationClientTypes.SearchForTextResult {
+extension LocationClientTypes.Step {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.SearchForTextResult {
+    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.Step {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LocationClientTypes.SearchForTextResult()
-        value.place = try reader["Place"].readIfPresent(with: LocationClientTypes.Place.read(from:))
-        value.distance = try reader["Distance"].readIfPresent()
-        value.relevance = try reader["Relevance"].readIfPresent()
-        value.placeId = try reader["PlaceId"].readIfPresent()
+        var value = LocationClientTypes.Step()
+        value.startPosition = try reader["StartPosition"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.endPosition = try reader["EndPosition"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.distance = try reader["Distance"].readIfPresent() ?? 0.0
+        value.durationSeconds = try reader["DurationSeconds"].readIfPresent() ?? 0.0
+        value.geometryOffset = try reader["GeometryOffset"].readIfPresent()
         return value
     }
 }
 
-extension LocationClientTypes.InferredState {
+extension LocationClientTypes.TimeZone {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.InferredState {
+    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.TimeZone {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LocationClientTypes.InferredState()
-        value.position = try reader["Position"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
-        value.accuracy = try reader["Accuracy"].readIfPresent(with: LocationClientTypes.PositionalAccuracy.read(from:))
-        value.deviationDistance = try reader["DeviationDistance"].readIfPresent()
-        value.proxyDetected = try reader["ProxyDetected"].readIfPresent() ?? false
+        var value = LocationClientTypes.TimeZone()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.offset = try reader["Offset"].readIfPresent()
         return value
     }
 }
 
-extension LocationClientTypes.ValidationExceptionField {
+extension LocationClientTypes.TrackingFilterGeometry {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.ValidationExceptionField {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LocationClientTypes.ValidationExceptionField()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.message = try reader["message"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension LocationClientTypes.DevicePositionUpdate {
-
-    static func write(value: LocationClientTypes.DevicePositionUpdate?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: LocationClientTypes.TrackingFilterGeometry?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Accuracy"].write(value.accuracy, with: LocationClientTypes.PositionalAccuracy.write(value:to:))
-        try writer["DeviceId"].write(value.deviceId)
-        try writer["Position"].writeList(value.position, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PositionProperties"].writeMap(value.positionProperties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["SampleTime"].writeTimestamp(value.sampleTime, format: SmithyTimestamps.TimestampFormat.dateTime)
-    }
-}
-
-extension LocationClientTypes.BatchPutGeofenceRequestEntry {
-
-    static func write(value: LocationClientTypes.BatchPutGeofenceRequestEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["GeofenceId"].write(value.geofenceId)
-        try writer["GeofenceProperties"].writeMap(value.geofenceProperties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Geometry"].write(value.geometry, with: LocationClientTypes.GeofenceGeometry.write(value:to:))
-    }
-}
-
-extension LocationClientTypes.CalculateRouteCarModeOptions {
-
-    static func write(value: LocationClientTypes.CalculateRouteCarModeOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AvoidFerries"].write(value.avoidFerries)
-        try writer["AvoidTolls"].write(value.avoidTolls)
-    }
-}
-
-extension LocationClientTypes.CalculateRouteTruckModeOptions {
-
-    static func write(value: LocationClientTypes.CalculateRouteTruckModeOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AvoidFerries"].write(value.avoidFerries)
-        try writer["AvoidTolls"].write(value.avoidTolls)
-        try writer["Dimensions"].write(value.dimensions, with: LocationClientTypes.TruckDimensions.write(value:to:))
-        try writer["Weight"].write(value.weight, with: LocationClientTypes.TruckWeight.write(value:to:))
-    }
-}
-
-extension LocationClientTypes.TruckWeight {
-
-    static func write(value: LocationClientTypes.TruckWeight?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Total"].write(value.total)
-        try writer["Unit"].write(value.unit)
+        try writer["Polygon"].writeList(value.polygon, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -9707,97 +10678,38 @@ extension LocationClientTypes.TruckDimensions {
     }
 }
 
-extension LocationClientTypes.ForecastGeofenceEventsDeviceState {
+extension LocationClientTypes.TruckWeight {
 
-    static func write(value: LocationClientTypes.ForecastGeofenceEventsDeviceState?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: LocationClientTypes.TruckWeight?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Position"].writeList(value.position, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Speed"].write(value.speed)
+        try writer["Total"].write(value.total)
+        try writer["Unit"].write(value.unit)
     }
 }
 
-extension LocationClientTypes.TrackingFilterGeometry {
+extension LocationClientTypes.ValidateAddressActionOptions {
 
-    static func write(value: LocationClientTypes.TrackingFilterGeometry?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: LocationClientTypes.ValidateAddressActionOptions?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Polygon"].writeList(value.polygon, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        try writer["AdditionalFeatures"].writeList(value.additionalFeatures, memberWritingClosure: SmithyReadWrite.WritingClosureBox<LocationClientTypes.ValidateAddressAdditionalFeature>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.ValidateAddressActionOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LocationClientTypes.ValidateAddressActionOptions()
+        value.additionalFeatures = try reader["AdditionalFeatures"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<LocationClientTypes.ValidateAddressAdditionalFeature>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 
-extension LocationClientTypes.ApiKeyFilter {
+extension LocationClientTypes.ValidationExceptionField {
 
-    static func write(value: LocationClientTypes.ApiKeyFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["KeyStatus"].write(value.keyStatus)
-    }
-}
-
-extension LocationClientTypes.MapConfigurationUpdate {
-
-    static func write(value: LocationClientTypes.MapConfigurationUpdate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CustomLayers"].writeList(value.customLayers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PoliticalView"].write(value.politicalView)
-    }
-}
-
-extension LocationClientTypes.DeviceState {
-
-    static func write(value: LocationClientTypes.DeviceState?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Accuracy"].write(value.accuracy, with: LocationClientTypes.PositionalAccuracy.write(value:to:))
-        try writer["CellSignals"].write(value.cellSignals, with: LocationClientTypes.CellSignals.write(value:to:))
-        try writer["DeviceId"].write(value.deviceId)
-        try writer["Ipv4Address"].write(value.ipv4Address)
-        try writer["Position"].writeList(value.position, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SampleTime"].writeTimestamp(value.sampleTime, format: SmithyTimestamps.TimestampFormat.dateTime)
-        try writer["WiFiAccessPoints"].writeList(value.wiFiAccessPoints, memberWritingClosure: LocationClientTypes.WiFiAccessPoint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension LocationClientTypes.CellSignals {
-
-    static func write(value: LocationClientTypes.CellSignals?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LteCellDetails"].writeList(value.lteCellDetails, memberWritingClosure: LocationClientTypes.LteCellDetails.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension LocationClientTypes.LteCellDetails {
-
-    static func write(value: LocationClientTypes.LteCellDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CellId"].write(value.cellId)
-        try writer["LocalId"].write(value.localId, with: LocationClientTypes.LteLocalId.write(value:to:))
-        try writer["Mcc"].write(value.mcc)
-        try writer["Mnc"].write(value.mnc)
-        try writer["NetworkMeasurements"].writeList(value.networkMeasurements, memberWritingClosure: LocationClientTypes.LteNetworkMeasurements.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["NrCapable"].write(value.nrCapable)
-        try writer["Rsrp"].write(value.rsrp)
-        try writer["Rsrq"].write(value.rsrq)
-        try writer["Tac"].write(value.tac)
-        try writer["TimingAdvance"].write(value.timingAdvance)
-    }
-}
-
-extension LocationClientTypes.LteNetworkMeasurements {
-
-    static func write(value: LocationClientTypes.LteNetworkMeasurements?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CellId"].write(value.cellId)
-        try writer["Earfcn"].write(value.earfcn)
-        try writer["Pci"].write(value.pci)
-        try writer["Rsrp"].write(value.rsrp)
-        try writer["Rsrq"].write(value.rsrq)
-    }
-}
-
-extension LocationClientTypes.LteLocalId {
-
-    static func write(value: LocationClientTypes.LteLocalId?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Earfcn"].write(value.earfcn)
-        try writer["Pci"].write(value.pci)
+    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.ValidationExceptionField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LocationClientTypes.ValidationExceptionField()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
     }
 }
 

@@ -28,10 +28,11 @@ public class ConfigClientEndpointPlugin: Plugin {
         self.init(endpointResolver: try DefaultEndpointResolver())
     }
 
-    public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if let config = clientConfiguration as? ConfigClient.ConfigClientConfiguration {
-            config.endpointResolver = self.endpointResolver
-        }
+    public func configureClient<Config: ClientRuntime.ClientConfiguration>(clientConfiguration: inout Config) async throws {
+        guard var config = clientConfiguration as? ConfigClient.ConfigClientConfig else { return }
+        config.endpointResolver = self.endpointResolver
+        guard let modifiedConfig = config as? Config else { return }
+        clientConfiguration = modifiedConfig
     }
 }
 
@@ -39,12 +40,14 @@ public class DefaultAWSAuthSchemePlugin: ClientRuntime.Plugin {
 
     public init() {}
 
-    public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if let config = clientConfiguration as? ConfigClient.ConfigClientConfiguration {
+    public func configureClient<Config: ClientRuntime.ClientConfiguration>(clientConfiguration: inout Config) async throws {
+        if var config = clientConfiguration as? ConfigClient.ConfigClientConfig {
             config.authSchemeResolver = DefaultConfigServiceAuthSchemeResolver()
             config.authSchemes = [AWSSDKHTTPAuth.SigV4AuthScheme()]
             config.awsCredentialIdentityResolver = AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain()
             config.bearerTokenIdentityResolver = SmithyIdentity.StaticBearerTokenIdentityResolver()
+            guard let modifiedConfig = config as? Config else { return }
+            clientConfiguration = modifiedConfig
         }
     }
 }
@@ -64,8 +67,8 @@ public class ConfigClientAuthSchemePlugin: ClientRuntime.Plugin {
         self.bearerTokenIdentityResolver = bearerTokenIdentityResolver
     }
 
-    public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if let config = clientConfiguration as? ConfigClient.ConfigClientConfiguration {
+    public func configureClient<Config: ClientRuntime.ClientConfiguration>(clientConfiguration: inout Config) async throws {
+        if var config = clientConfiguration as? ConfigClient.ConfigClientConfig {
             if (self.authSchemes != nil) {
                 config.authSchemes = self.authSchemes
             }
@@ -79,6 +82,8 @@ public class ConfigClientAuthSchemePlugin: ClientRuntime.Plugin {
             if (self.bearerTokenIdentityResolver != nil) {
                 config.bearerTokenIdentityResolver = self.bearerTokenIdentityResolver!
             }
+            guard let modifiedConfig = config as? Config else { return }
+            clientConfiguration = modifiedConfig
         }
     }
 }

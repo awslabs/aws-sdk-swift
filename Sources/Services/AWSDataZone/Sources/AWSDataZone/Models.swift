@@ -27,8 +27,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
 import struct SmithyHTTPAPI.Header
 import struct SmithyHTTPAPI.Headers
@@ -135,9 +135,9 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -159,9 +159,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -183,9 +183,9 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { true }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -207,9 +207,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -231,9 +231,9 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { true }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -255,9 +255,9 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -382,9 +382,9 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -833,15 +833,23 @@ extension DataZoneClientTypes {
     public struct IamUserProfileDetails: Swift.Sendable {
         /// The ARN of the IAM user.
         public var arn: Swift.String?
+        /// The identifier of the group profile associated with the IAM user profile. This links the user to a specific group profile within the Amazon DataZone domain.
+        public var groupProfileId: Swift.String?
         /// The principal ID as part of the IAM user profile details.
         public var principalId: Swift.String?
+        /// The session name for IAM role sessions.
+        public var sessionName: Swift.String?
 
         public init(
             arn: Swift.String? = nil,
-            principalId: Swift.String? = nil
+            groupProfileId: Swift.String? = nil,
+            principalId: Swift.String? = nil,
+            sessionName: Swift.String? = nil
         ) {
             self.arn = arn
+            self.groupProfileId = groupProfileId
             self.principalId = principalId
+            self.sessionName = sessionName
         }
     }
 }
@@ -1259,6 +1267,21 @@ public struct AddEntityOwnerInput: Swift.Sendable {
 public struct AddEntityOwnerOutput: Swift.Sendable {
 
     public init() { }
+}
+
+extension DataZoneClientTypes {
+
+    /// Additional details on the queried entity that can be requested in the response.
+    public struct AdditionalAttributes: Swift.Sendable {
+        /// Names of forms on the query entity that can be requested in the response.
+        public var formNames: [Swift.String]?
+
+        public init(
+            formNames: [Swift.String]? = nil
+        ) {
+            self.formNames = formNames
+        }
+    }
 }
 
 extension DataZoneClientTypes {
@@ -4513,6 +4536,15 @@ public struct CancelSubscriptionOutput: Swift.Sendable {
 
 extension DataZoneClientTypes {
 
+    /// The information about a cell in a notebook run in Amazon SageMaker Unified Studio.
+    public struct CellInformation: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension DataZoneClientTypes {
+
     public enum ChangeAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case publish
         case unpublish
@@ -4552,6 +4584,25 @@ extension DataZoneClientTypes {
             templateUrl: Swift.String? = nil
         ) {
             self.templateUrl = templateUrl
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The compute configuration for a notebook run in Amazon SageMaker Unified Studio.
+    public struct ComputeConfig: Swift.Sendable {
+        /// The environment version for the notebook run compute.
+        public var environmentVersion: Swift.String?
+        /// The instance type for the notebook run compute.
+        public var instanceType: Swift.String?
+
+        public init(
+            environmentVersion: Swift.String? = nil,
+            instanceType: Swift.String? = nil
+        ) {
+            self.environmentVersion = environmentVersion
+            self.instanceType = instanceType
         }
     }
 }
@@ -4657,6 +4708,25 @@ extension DataZoneClientTypes {
             self.auth = auth
             self.parameters = parameters
             self.type = type
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The configuration of a connection.
+    public struct Configuration: Swift.Sendable {
+        /// The classification of the connection configuration.
+        public var classification: Swift.String?
+        /// The properties of the connection configuration.
+        public var properties: [Swift.String: Swift.String]?
+
+        public init(
+            classification: Swift.String? = nil,
+            properties: [Swift.String: Swift.String]? = nil
+        ) {
+            self.classification = classification
+            self.properties = properties
         }
     }
 }
@@ -4919,6 +4989,21 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes {
 
+    /// The lakehouse properties of a connection.
+    public struct LakehousePropertiesInput: Swift.Sendable {
+        /// Specifies whether to enable Glue lineage sync for tables managed by Glue crawlers.
+        public var glueLineageSyncEnabled: Swift.Bool?
+
+        public init(
+            glueLineageSyncEnabled: Swift.Bool? = nil
+        ) {
+            self.glueLineageSyncEnabled = glueLineageSyncEnabled
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
     /// The MLflow properties of a connection.
     public struct MlflowPropertiesInput: Swift.Sendable {
         /// The tracking server ARN as part of the MLflow properties of a connection.
@@ -5061,6 +5146,8 @@ extension DataZoneClientTypes {
 
     /// The Amazon S3 properties of a connection.
     public struct S3PropertiesInput: Swift.Sendable {
+        /// Specifies whether to register the Amazon S3 Access Grant location.
+        public var registerS3AccessGrantLocation: Swift.Bool?
         /// The Amazon S3 Access Grant location ID that's part of the Amazon S3 properties of a connection.
         public var s3AccessGrantLocationId: Swift.String?
         /// The Amazon S3 URI that's part of the Amazon S3 properties of a connection.
@@ -5068,9 +5155,11 @@ extension DataZoneClientTypes {
         public var s3Uri: Swift.String?
 
         public init(
+            registerS3AccessGrantLocation: Swift.Bool? = nil,
             s3AccessGrantLocationId: Swift.String? = nil,
             s3Uri: Swift.String? = nil
         ) {
+            self.registerS3AccessGrantLocation = registerS3AccessGrantLocation
             self.s3AccessGrantLocationId = s3AccessGrantLocationId
             self.s3Uri = s3Uri
         }
@@ -5141,8 +5230,10 @@ extension DataZoneClientTypes {
     public struct SparkGluePropertiesInput: Swift.Sendable {
         /// The additional args in the Spark Amazon Web Services Glue properties.
         public var additionalArgs: DataZoneClientTypes.SparkGlueArgs?
-        /// The Amazon Web Services Glue connection name in the Spark Amazon Web Services Glue properties.
+        /// The Amazon Web Services Glue connection name in the Spark Amazon Web Services Glue properties. Specify either glueConnectionName or glueConnectionNames, but not both.
         public var glueConnectionName: Swift.String?
+        /// The Amazon Web Services Glue connection names in the Spark Amazon Web Services Glue properties. Specify either glueConnectionName or glueConnectionNames, but not both.
+        public var glueConnectionNames: [Swift.String]?
         /// The Amazon Web Services Glue version in the Spark Amazon Web Services Glue properties.
         public var glueVersion: Swift.String?
         /// The idle timeout in the Spark Amazon Web Services Glue properties.
@@ -5159,6 +5250,7 @@ extension DataZoneClientTypes {
         public init(
             additionalArgs: DataZoneClientTypes.SparkGlueArgs? = nil,
             glueConnectionName: Swift.String? = nil,
+            glueConnectionNames: [Swift.String]? = nil,
             glueVersion: Swift.String? = nil,
             idleTimeout: Swift.Int? = nil,
             javaVirtualEnv: Swift.String? = nil,
@@ -5168,6 +5260,7 @@ extension DataZoneClientTypes {
         ) {
             self.additionalArgs = additionalArgs
             self.glueConnectionName = glueConnectionName
+            self.glueConnectionNames = glueConnectionNames
             self.glueVersion = glueVersion
             self.idleTimeout = idleTimeout
             self.javaVirtualEnv = javaVirtualEnv
@@ -5175,6 +5268,30 @@ extension DataZoneClientTypes {
             self.pythonVirtualEnv = pythonVirtualEnv
             self.workerType = workerType
         }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The Amazon MWAA properties.
+    public struct WorkflowsMwaaPropertiesInput: Swift.Sendable {
+        /// The MWAA environment name.
+        public var mwaaEnvironmentName: Swift.String?
+
+        public init(
+            mwaaEnvironmentName: Swift.String? = nil
+        ) {
+            self.mwaaEnvironmentName = mwaaEnvironmentName
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The MWAA serverless properties.
+    public struct WorkflowsServerlessPropertiesInput: Swift.Sendable {
+
+        public init() { }
     }
 }
 
@@ -5202,6 +5319,12 @@ extension DataZoneClientTypes {
         case amazonqproperties(DataZoneClientTypes.AmazonQPropertiesInput)
         /// The MLflow properties of a connection.
         case mlflowproperties(DataZoneClientTypes.MlflowPropertiesInput)
+        /// The Amazon MWAA properties of a connection.
+        case workflowsmwaaproperties(DataZoneClientTypes.WorkflowsMwaaPropertiesInput)
+        /// The MWAA serverless properties of a connection.
+        case workflowsserverlessproperties(DataZoneClientTypes.WorkflowsServerlessPropertiesInput)
+        /// The lakehouse properties of a connection.
+        case lakehouseproperties(DataZoneClientTypes.LakehousePropertiesInput)
         case sdkUnknown(Swift.String)
     }
 }
@@ -5346,6 +5469,21 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes {
 
+    /// The lakehouse properties of a connection.
+    public struct LakehousePropertiesOutput: Swift.Sendable {
+        /// Specifies whether Glue lineage sync is enabled for tables managed by Glue crawlers.
+        public var glueLineageSyncEnabled: Swift.Bool?
+
+        public init(
+            glueLineageSyncEnabled: Swift.Bool? = nil
+        ) {
+            self.glueLineageSyncEnabled = glueLineageSyncEnabled
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
     /// The MLflow properties of a connection.
     public struct MlflowPropertiesOutput: Swift.Sendable {
         /// The tracking server ARN as part of the MLflow properties of a connection.
@@ -5440,6 +5578,8 @@ extension DataZoneClientTypes {
     public struct S3PropertiesOutput: Swift.Sendable {
         /// The error message that gets displayed.
         public var errorMessage: Swift.String?
+        /// Specifies whether to register the Amazon S3 Access Grant location.
+        public var registerS3AccessGrantLocation: Swift.Bool?
         /// The Amazon S3 Access Grant location ID that's part of the Amazon S3 properties of a connection.
         public var s3AccessGrantLocationId: Swift.String?
         /// The Amazon S3 URI that's part of the Amazon S3 properties of a connection.
@@ -5450,11 +5590,13 @@ extension DataZoneClientTypes {
 
         public init(
             errorMessage: Swift.String? = nil,
+            registerS3AccessGrantLocation: Swift.Bool? = nil,
             s3AccessGrantLocationId: Swift.String? = nil,
             s3Uri: Swift.String? = nil,
             status: DataZoneClientTypes.ConnectionStatus? = nil
         ) {
             self.errorMessage = errorMessage
+            self.registerS3AccessGrantLocation = registerS3AccessGrantLocation
             self.s3AccessGrantLocationId = s3AccessGrantLocationId
             self.s3Uri = s3Uri
             self.status = status
@@ -5596,6 +5738,8 @@ extension DataZoneClientTypes {
         public var additionalArgs: DataZoneClientTypes.SparkGlueArgs?
         /// The Amazon Web Services Glue connection name in the Spark Amazon Web Services Glue properties.
         public var glueConnectionName: Swift.String?
+        /// The Amazon Web Services Glue connection names in the Spark Amazon Web Services Glue properties.
+        public var glueConnectionNames: [Swift.String]?
         /// The Amazon Web Services Glue version in the Spark Amazon Web Services Glue properties.
         public var glueVersion: Swift.String?
         /// The idle timeout in the Spark Amazon Web Services Glue properties.
@@ -5612,6 +5756,7 @@ extension DataZoneClientTypes {
         public init(
             additionalArgs: DataZoneClientTypes.SparkGlueArgs? = nil,
             glueConnectionName: Swift.String? = nil,
+            glueConnectionNames: [Swift.String]? = nil,
             glueVersion: Swift.String? = nil,
             idleTimeout: Swift.Int? = nil,
             javaVirtualEnv: Swift.String? = nil,
@@ -5621,6 +5766,7 @@ extension DataZoneClientTypes {
         ) {
             self.additionalArgs = additionalArgs
             self.glueConnectionName = glueConnectionName
+            self.glueConnectionNames = glueConnectionNames
             self.glueVersion = glueVersion
             self.idleTimeout = idleTimeout
             self.javaVirtualEnv = javaVirtualEnv
@@ -5628,6 +5774,30 @@ extension DataZoneClientTypes {
             self.pythonVirtualEnv = pythonVirtualEnv
             self.workerType = workerType
         }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The Amazon MWAA properties.
+    public struct WorkflowsMwaaPropertiesOutput: Swift.Sendable {
+        /// The MWAA environment name.
+        public var mwaaEnvironmentName: Swift.String?
+
+        public init(
+            mwaaEnvironmentName: Swift.String? = nil
+        ) {
+            self.mwaaEnvironmentName = mwaaEnvironmentName
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The MWAA serverless properties.
+    public struct WorkflowsServerlessPropertiesOutput: Swift.Sendable {
+
+        public init() { }
     }
 }
 
@@ -5655,6 +5825,12 @@ extension DataZoneClientTypes {
         case amazonqproperties(DataZoneClientTypes.AmazonQPropertiesOutput)
         /// The MLflow properties of a connection.
         case mlflowproperties(DataZoneClientTypes.MlflowPropertiesOutput)
+        /// The Amazon MWAA properties of a connection.
+        case workflowsmwaaproperties(DataZoneClientTypes.WorkflowsMwaaPropertiesOutput)
+        /// The MWAA serverless properties of a connection.
+        case workflowsserverlessproperties(DataZoneClientTypes.WorkflowsServerlessPropertiesOutput)
+        /// The lakehouse properties of a connection.
+        case lakehouseproperties(DataZoneClientTypes.LakehousePropertiesOutput)
         case sdkUnknown(Swift.String)
     }
 }
@@ -5702,6 +5878,21 @@ extension DataZoneClientTypes {
     /// The IAM properties patch of a connection.
     public struct IamPropertiesPatch: Swift.Sendable {
         /// Specifies whether Amazon Web Services Glue lineage sync is enabled for a connection.
+        public var glueLineageSyncEnabled: Swift.Bool?
+
+        public init(
+            glueLineageSyncEnabled: Swift.Bool? = nil
+        ) {
+            self.glueLineageSyncEnabled = glueLineageSyncEnabled
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The lakehouse properties of a connection properties patch.
+    public struct LakehousePropertiesPatch: Swift.Sendable {
+        /// Specifies whether to enable Glue lineage sync for tables managed by Glue crawlers.
         public var glueLineageSyncEnabled: Swift.Bool?
 
         public init(
@@ -5771,6 +5962,8 @@ extension DataZoneClientTypes {
 
     /// The Amazon S3 properties patch of a connection.
     public struct S3PropertiesPatch: Swift.Sendable {
+        /// Specifies whether to register the Amazon S3 Access Grant location.
+        public var registerS3AccessGrantLocation: Swift.Bool?
         /// The Amazon S3 Access Grant location ID that's part of the Amazon S3 properties patch of a connection.
         public var s3AccessGrantLocationId: Swift.String?
         /// The Amazon S3 URI that's part of the Amazon S3 properties patch of a connection.
@@ -5778,9 +5971,11 @@ extension DataZoneClientTypes {
         public var s3Uri: Swift.String?
 
         public init(
+            registerS3AccessGrantLocation: Swift.Bool? = nil,
             s3AccessGrantLocationId: Swift.String? = nil,
             s3Uri: Swift.String? = nil
         ) {
+            self.registerS3AccessGrantLocation = registerS3AccessGrantLocation
             self.s3AccessGrantLocationId = s3AccessGrantLocationId
             self.s3Uri = s3Uri
         }
@@ -5850,6 +6045,8 @@ extension DataZoneClientTypes {
         case amazonqproperties(DataZoneClientTypes.AmazonQPropertiesPatch)
         /// The MLflow properties of a connection.
         case mlflowproperties(DataZoneClientTypes.MlflowPropertiesPatch)
+        /// The lakehouse properties of a connection properties patch.
+        case lakehouseproperties(DataZoneClientTypes.LakehousePropertiesPatch)
         case sdkUnknown(Swift.String)
     }
 }
@@ -6111,6 +6308,8 @@ extension DataZoneClientTypes {
         public var glueConnection: DataZoneClientTypes.GlueConnection?
         /// The Amazon Web Services Glue connection name.
         public var glueConnectionName: Swift.String?
+        /// The Amazon Web Services Glue connection names in the physical endpoint.
+        public var glueConnectionNames: [Swift.String]?
         /// The host in the physical endpoints of a connection.
         public var host: Swift.String?
         /// The port in the physical endpoints of a connection.
@@ -6125,6 +6324,7 @@ extension DataZoneClientTypes {
             enableTrustedIdentityPropagation: Swift.Bool? = nil,
             glueConnection: DataZoneClientTypes.GlueConnection? = nil,
             glueConnectionName: Swift.String? = nil,
+            glueConnectionNames: [Swift.String]? = nil,
             host: Swift.String? = nil,
             port: Swift.Int? = nil,
             `protocol`: DataZoneClientTypes.ModelProtocol? = nil,
@@ -6134,6 +6334,7 @@ extension DataZoneClientTypes {
             self.enableTrustedIdentityPropagation = enableTrustedIdentityPropagation
             self.glueConnection = glueConnection
             self.glueConnectionName = glueConnectionName
+            self.glueConnectionNames = glueConnectionNames
             self.host = host
             self.port = port
             self.`protocol` = `protocol`
@@ -6146,6 +6347,8 @@ extension DataZoneClientTypes {
 
     /// The summary of a connection.
     public struct ConnectionSummary: Swift.Sendable {
+        /// The configurations of a connection summary.
+        public var configurations: [DataZoneClientTypes.Configuration]?
         /// The ID of a connection.
         /// This member is required.
         public var connectionId: Swift.String?
@@ -6174,6 +6377,7 @@ extension DataZoneClientTypes {
         public var type: DataZoneClientTypes.ConnectionType?
 
         public init(
+            configurations: [DataZoneClientTypes.Configuration]? = nil,
             connectionId: Swift.String? = nil,
             domainId: Swift.String? = nil,
             domainUnitId: Swift.String? = nil,
@@ -6185,6 +6389,7 @@ extension DataZoneClientTypes {
             scope: DataZoneClientTypes.ConnectionScope? = nil,
             type: DataZoneClientTypes.ConnectionType? = nil
         ) {
+            self.configurations = configurations
             self.connectionId = connectionId
             self.domainId = domainId
             self.domainUnitId = domainUnitId
@@ -6298,6 +6503,8 @@ public struct CreateConnectionInput: Swift.Sendable {
     public var awsLocation: DataZoneClientTypes.AwsLocation?
     /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request.
     public var clientToken: Swift.String?
+    /// The configurations of the connection.
+    public var configurations: [DataZoneClientTypes.Configuration]?
     /// A connection description.
     public var description: Swift.String?
     /// The ID of the domain where the connection is created.
@@ -6318,6 +6525,7 @@ public struct CreateConnectionInput: Swift.Sendable {
     public init(
         awsLocation: DataZoneClientTypes.AwsLocation? = nil,
         clientToken: Swift.String? = nil,
+        configurations: [DataZoneClientTypes.Configuration]? = nil,
         description: Swift.String? = nil,
         domainIdentifier: Swift.String? = nil,
         enableTrustedIdentityPropagation: Swift.Bool? = nil,
@@ -6328,6 +6536,7 @@ public struct CreateConnectionInput: Swift.Sendable {
     ) {
         self.awsLocation = awsLocation
         self.clientToken = clientToken
+        self.configurations = configurations
         self.description = description
         self.domainIdentifier = domainIdentifier
         self.enableTrustedIdentityPropagation = enableTrustedIdentityPropagation
@@ -6340,10 +6549,12 @@ public struct CreateConnectionInput: Swift.Sendable {
 
 extension CreateConnectionInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateConnectionInput(awsLocation: \(Swift.String(describing: awsLocation)), clientToken: \(Swift.String(describing: clientToken)), domainIdentifier: \(Swift.String(describing: domainIdentifier)), enableTrustedIdentityPropagation: \(Swift.String(describing: enableTrustedIdentityPropagation)), environmentIdentifier: \(Swift.String(describing: environmentIdentifier)), name: \(Swift.String(describing: name)), props: \(Swift.String(describing: props)), scope: \(Swift.String(describing: scope)), description: \"CONTENT_REDACTED\")"}
+        "CreateConnectionInput(awsLocation: \(Swift.String(describing: awsLocation)), clientToken: \(Swift.String(describing: clientToken)), configurations: \(Swift.String(describing: configurations)), domainIdentifier: \(Swift.String(describing: domainIdentifier)), enableTrustedIdentityPropagation: \(Swift.String(describing: enableTrustedIdentityPropagation)), environmentIdentifier: \(Swift.String(describing: environmentIdentifier)), name: \(Swift.String(describing: name)), props: \(Swift.String(describing: props)), scope: \(Swift.String(describing: scope)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateConnectionOutput: Swift.Sendable {
+    /// The configurations of the connection.
+    public var configurations: [DataZoneClientTypes.Configuration]?
     /// The ID of the connection.
     /// This member is required.
     public var connectionId: Swift.String?
@@ -6374,6 +6585,7 @@ public struct CreateConnectionOutput: Swift.Sendable {
     public var type: DataZoneClientTypes.ConnectionType?
 
     public init(
+        configurations: [DataZoneClientTypes.Configuration]? = nil,
         connectionId: Swift.String? = nil,
         description: Swift.String? = nil,
         domainId: Swift.String? = nil,
@@ -6386,6 +6598,7 @@ public struct CreateConnectionOutput: Swift.Sendable {
         scope: DataZoneClientTypes.ConnectionScope? = nil,
         type: DataZoneClientTypes.ConnectionType? = nil
     ) {
+        self.configurations = configurations
         self.connectionId = connectionId
         self.description = description
         self.domainId = domainId
@@ -6402,7 +6615,7 @@ public struct CreateConnectionOutput: Swift.Sendable {
 
 extension CreateConnectionOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateConnectionOutput(connectionId: \(Swift.String(describing: connectionId)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), environmentId: \(Swift.String(describing: environmentId)), name: \(Swift.String(describing: name)), physicalEndpoints: \(Swift.String(describing: physicalEndpoints)), projectId: \(Swift.String(describing: projectId)), props: \(Swift.String(describing: props)), scope: \(Swift.String(describing: scope)), type: \(Swift.String(describing: type)), description: \"CONTENT_REDACTED\")"}
+        "CreateConnectionOutput(configurations: \(Swift.String(describing: configurations)), connectionId: \(Swift.String(describing: connectionId)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), environmentId: \(Swift.String(describing: environmentId)), name: \(Swift.String(describing: name)), physicalEndpoints: \(Swift.String(describing: physicalEndpoints)), projectId: \(Swift.String(describing: projectId)), props: \(Swift.String(describing: props)), scope: \(Swift.String(describing: scope)), type: \(Swift.String(describing: type)), description: \"CONTENT_REDACTED\")"}
 }
 
 extension DataZoneClientTypes {
@@ -7757,7 +7970,6 @@ public struct CreateDomainInput: Swift.Sendable {
     /// The description of the Amazon DataZone domain.
     public var description: Swift.String?
     /// The domain execution role that is created when an Amazon DataZone domain is created. The domain execution role is created in the Amazon Web Services account that houses the Amazon DataZone domain.
-    /// This member is required.
     public var domainExecutionRole: Swift.String?
     /// The version of the domain that is created.
     public var domainVersion: DataZoneClientTypes.DomainVersion?
@@ -8062,6 +8274,8 @@ public struct CreateEnvironmentInput: Swift.Sendable {
     public var environmentBlueprintIdentifier: Swift.String?
     /// The configuration ID of the environment.
     public var environmentConfigurationId: Swift.String?
+    /// The configuration name of the environment.
+    public var environmentConfigurationName: Swift.String?
     /// The identifier of the environment profile that is used to create this Amazon DataZone environment.
     public var environmentProfileIdentifier: Swift.String?
     /// The glossary terms that can be used in this Amazon DataZone environment.
@@ -8083,6 +8297,7 @@ public struct CreateEnvironmentInput: Swift.Sendable {
         environmentAccountRegion: Swift.String? = nil,
         environmentBlueprintIdentifier: Swift.String? = nil,
         environmentConfigurationId: Swift.String? = nil,
+        environmentConfigurationName: Swift.String? = nil,
         environmentProfileIdentifier: Swift.String? = nil,
         glossaryTerms: [Swift.String]? = nil,
         name: Swift.String? = nil,
@@ -8096,12 +8311,18 @@ public struct CreateEnvironmentInput: Swift.Sendable {
         self.environmentAccountRegion = environmentAccountRegion
         self.environmentBlueprintIdentifier = environmentBlueprintIdentifier
         self.environmentConfigurationId = environmentConfigurationId
+        self.environmentConfigurationName = environmentConfigurationName
         self.environmentProfileIdentifier = environmentProfileIdentifier
         self.glossaryTerms = glossaryTerms
         self.name = name
         self.projectIdentifier = projectIdentifier
         self.userParameters = userParameters
     }
+}
+
+extension CreateEnvironmentInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateEnvironmentInput(deploymentOrder: \(Swift.String(describing: deploymentOrder)), description: \(Swift.String(describing: description)), domainIdentifier: \(Swift.String(describing: domainIdentifier)), environmentAccountIdentifier: \(Swift.String(describing: environmentAccountIdentifier)), environmentAccountRegion: \(Swift.String(describing: environmentAccountRegion)), environmentBlueprintIdentifier: \(Swift.String(describing: environmentBlueprintIdentifier)), environmentConfigurationId: \(Swift.String(describing: environmentConfigurationId)), environmentProfileIdentifier: \(Swift.String(describing: environmentProfileIdentifier)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), name: \(Swift.String(describing: name)), projectIdentifier: \(Swift.String(describing: projectIdentifier)), userParameters: \(Swift.String(describing: userParameters)), environmentConfigurationName: \"CONTENT_REDACTED\")"}
 }
 
 extension DataZoneClientTypes {
@@ -8415,6 +8636,8 @@ public struct CreateEnvironmentOutput: Swift.Sendable {
     public var environmentBlueprintId: Swift.String?
     /// The configuration ID of the environment.
     public var environmentConfigurationId: Swift.String?
+    /// The configuration name of the environment.
+    public var environmentConfigurationName: Swift.String?
     /// The ID of the environment profile with which this Amazon DataZone environment was created.
     public var environmentProfileId: Swift.String?
     /// The glossary terms that can be used in this Amazon DataZone environment.
@@ -8454,6 +8677,7 @@ public struct CreateEnvironmentOutput: Swift.Sendable {
         environmentActions: [DataZoneClientTypes.ConfigurableEnvironmentAction]? = nil,
         environmentBlueprintId: Swift.String? = nil,
         environmentConfigurationId: Swift.String? = nil,
+        environmentConfigurationName: Swift.String? = nil,
         environmentProfileId: Swift.String? = "",
         glossaryTerms: [Swift.String]? = nil,
         id: Swift.String? = nil,
@@ -8477,6 +8701,7 @@ public struct CreateEnvironmentOutput: Swift.Sendable {
         self.environmentActions = environmentActions
         self.environmentBlueprintId = environmentBlueprintId
         self.environmentConfigurationId = environmentConfigurationId
+        self.environmentConfigurationName = environmentConfigurationName
         self.environmentProfileId = environmentProfileId
         self.glossaryTerms = glossaryTerms
         self.id = id
@@ -8494,7 +8719,7 @@ public struct CreateEnvironmentOutput: Swift.Sendable {
 
 extension CreateEnvironmentOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateEnvironmentOutput(awsAccountId: \(Swift.String(describing: awsAccountId)), awsAccountRegion: \(Swift.String(describing: awsAccountRegion)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), deploymentProperties: \(Swift.String(describing: deploymentProperties)), domainId: \(Swift.String(describing: domainId)), environmentActions: \(Swift.String(describing: environmentActions)), environmentBlueprintId: \(Swift.String(describing: environmentBlueprintId)), environmentProfileId: \(Swift.String(describing: environmentProfileId)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), lastDeployment: \(Swift.String(describing: lastDeployment)), projectId: \(Swift.String(describing: projectId)), provider: \(Swift.String(describing: provider)), provisionedResources: \(Swift.String(describing: provisionedResources)), provisioningProperties: \(Swift.String(describing: provisioningProperties)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), userParameters: \(Swift.String(describing: userParameters)), description: \"CONTENT_REDACTED\", environmentConfigurationId: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "CreateEnvironmentOutput(awsAccountId: \(Swift.String(describing: awsAccountId)), awsAccountRegion: \(Swift.String(describing: awsAccountRegion)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), deploymentProperties: \(Swift.String(describing: deploymentProperties)), domainId: \(Swift.String(describing: domainId)), environmentActions: \(Swift.String(describing: environmentActions)), environmentBlueprintId: \(Swift.String(describing: environmentBlueprintId)), environmentProfileId: \(Swift.String(describing: environmentProfileId)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), lastDeployment: \(Swift.String(describing: lastDeployment)), projectId: \(Swift.String(describing: projectId)), provider: \(Swift.String(describing: provider)), provisionedResources: \(Swift.String(describing: provisionedResources)), provisioningProperties: \(Swift.String(describing: provisioningProperties)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), userParameters: \(Swift.String(describing: userParameters)), description: \"CONTENT_REDACTED\", environmentConfigurationId: \"CONTENT_REDACTED\", environmentConfigurationName: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateEnvironmentActionInput: Swift.Sendable {
@@ -9187,17 +9412,20 @@ public struct CreateGroupProfileInput: Swift.Sendable {
     /// This member is required.
     public var domainIdentifier: Swift.String?
     /// The identifier of the group for which the group profile is created.
-    /// This member is required.
     public var groupIdentifier: Swift.String?
+    /// The ARN of the IAM role that will be associated with the group profile. This role defines the permissions that group members will assume when accessing Amazon DataZone resources.
+    public var rolePrincipalArn: Swift.String?
 
     public init(
         clientToken: Swift.String? = nil,
         domainIdentifier: Swift.String? = nil,
-        groupIdentifier: Swift.String? = nil
+        groupIdentifier: Swift.String? = nil,
+        rolePrincipalArn: Swift.String? = nil
     ) {
         self.clientToken = clientToken
         self.domainIdentifier = domainIdentifier
         self.groupIdentifier = groupIdentifier
+        self.rolePrincipalArn = rolePrincipalArn
     }
 }
 
@@ -9237,6 +9465,10 @@ public struct CreateGroupProfileOutput: Swift.Sendable {
     public var groupName: Swift.String?
     /// The identifier of the group profile.
     public var id: Swift.String?
+    /// The ARN of the IAM role principal. This role is associated with the group profile.
+    public var rolePrincipalArn: Swift.String?
+    /// The unique identifier of the IAM role principal. This principal is associated with the group profile.
+    public var rolePrincipalId: Swift.String?
     /// The status of the group profile.
     public var status: DataZoneClientTypes.GroupProfileStatus?
 
@@ -9244,18 +9476,22 @@ public struct CreateGroupProfileOutput: Swift.Sendable {
         domainId: Swift.String? = nil,
         groupName: Swift.String? = nil,
         id: Swift.String? = nil,
+        rolePrincipalArn: Swift.String? = nil,
+        rolePrincipalId: Swift.String? = nil,
         status: DataZoneClientTypes.GroupProfileStatus? = nil
     ) {
         self.domainId = domainId
         self.groupName = groupName
         self.id = id
+        self.rolePrincipalArn = rolePrincipalArn
+        self.rolePrincipalId = rolePrincipalId
         self.status = status
     }
 }
 
 extension CreateGroupProfileOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateGroupProfileOutput(domainId: \(Swift.String(describing: domainId)), id: \(Swift.String(describing: id)), status: \(Swift.String(describing: status)), groupName: \"CONTENT_REDACTED\")"}
+        "CreateGroupProfileOutput(domainId: \(Swift.String(describing: domainId)), id: \(Swift.String(describing: id)), rolePrincipalArn: \(Swift.String(describing: rolePrincipalArn)), rolePrincipalId: \(Swift.String(describing: rolePrincipalId)), status: \(Swift.String(describing: status)), groupName: \"CONTENT_REDACTED\")"}
 }
 
 extension DataZoneClientTypes {
@@ -9344,6 +9580,329 @@ public struct CreateListingChangeSetOutput: Swift.Sendable {
     }
 }
 
+public struct CreateNotebookInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier to ensure idempotency of the request. This field is automatically populated if not provided.
+    public var clientToken: Swift.String?
+    /// The description of the notebook.
+    public var description: Swift.String?
+    /// The identifier of the Amazon SageMaker Unified Studio domain in which to create the notebook.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The metadata for the notebook, specified as key-value pairs. You can specify up to 50 entries, with keys up to 128 characters and values up to 1024 characters.
+    public var metadata: [Swift.String: Swift.String]?
+    /// The name of the notebook. The name must be between 1 and 256 characters.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The identifier of the project that owns the notebook.
+    /// This member is required.
+    public var owningProjectIdentifier: Swift.String?
+    /// The sensitive parameters for the notebook, specified as key-value pairs. You can specify up to 50 entries, with keys up to 128 characters and values up to 1024 characters.
+    public var parameters: [Swift.String: Swift.String]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        domainIdentifier: Swift.String? = nil,
+        metadata: [Swift.String: Swift.String]? = nil,
+        name: Swift.String? = nil,
+        owningProjectIdentifier: Swift.String? = nil,
+        parameters: [Swift.String: Swift.String]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.description = description
+        self.domainIdentifier = domainIdentifier
+        self.metadata = metadata
+        self.name = name
+        self.owningProjectIdentifier = owningProjectIdentifier
+        self.parameters = parameters
+    }
+}
+
+extension CreateNotebookInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateNotebookInput(clientToken: \(Swift.String(describing: clientToken)), domainIdentifier: \(Swift.String(describing: domainIdentifier)), owningProjectIdentifier: \(Swift.String(describing: owningProjectIdentifier)), description: \"CONTENT_REDACTED\", metadata: [keys: \(Swift.String(describing: metadata?.keys)), values: \"CONTENT_REDACTED\"], name: \"CONTENT_REDACTED\", parameters: \"CONTENT_REDACTED\")"}
+}
+
+extension DataZoneClientTypes {
+
+    /// The package manager for a notebook run environment in Amazon SageMaker Unified Studio.
+    public enum PackageManager: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The UV package manager.
+        case uv
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PackageManager] {
+            return [
+                .uv
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .uv: return "UV"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The package configuration for a notebook run environment in Amazon SageMaker Unified Studio.
+    public struct PackageConfig: Swift.Sendable {
+        /// The package manager for the notebook run environment. The default value is UV.
+        /// This member is required.
+        public var packageManager: DataZoneClientTypes.PackageManager?
+        /// The package specification content for the notebook run environment. The maximum length is 10240 characters.
+        public var packageSpecification: Swift.String?
+
+        public init(
+            packageManager: DataZoneClientTypes.PackageManager? = .uv,
+            packageSpecification: Swift.String? = nil
+        ) {
+            self.packageManager = packageManager
+            self.packageSpecification = packageSpecification
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The environment configuration for a notebook run in Amazon SageMaker Unified Studio.
+    public struct EnvironmentConfig: Swift.Sendable {
+        /// The image version for the notebook run environment.
+        public var imageVersion: Swift.String?
+        /// The package configuration for the notebook run environment.
+        public var packageConfig: DataZoneClientTypes.PackageConfig?
+
+        public init(
+            imageVersion: Swift.String? = nil,
+            packageConfig: DataZoneClientTypes.PackageConfig? = nil
+        ) {
+            self.imageVersion = imageVersion
+            self.packageConfig = packageConfig
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The error details of a notebook in Amazon SageMaker Unified Studio.
+    public struct NotebookError: Swift.Sendable {
+        /// The error message. The maximum length is 256 characters.
+        /// This member is required.
+        public var message: Swift.String?
+
+        public init(
+            message: Swift.String? = nil
+        ) {
+            self.message = message
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The status of a notebook in Amazon SageMaker Unified Studio.
+    public enum NotebookStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The notebook is active.
+        case active
+        /// The notebook is archived.
+        case archived
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NotebookStatus] {
+            return [
+                .active,
+                .archived
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .archived: return "ARCHIVED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateNotebookOutput: Swift.Sendable {
+    /// The ordered list of cells in the notebook.
+    /// This member is required.
+    public var cellOrder: [DataZoneClientTypes.CellInformation]?
+    /// The identifier of the compute associated with the notebook.
+    public var computeId: Swift.String?
+    /// The timestamp of when the notebook was created.
+    public var createdAt: Foundation.Date?
+    /// The identifier of the user who created the notebook.
+    public var createdBy: Swift.String?
+    /// The description of the notebook.
+    public var description: Swift.String?
+    /// The identifier of the Amazon SageMaker Unified Studio domain.
+    /// This member is required.
+    public var domainId: Swift.String?
+    /// The environment configuration of the notebook.
+    public var environmentConfiguration: DataZoneClientTypes.EnvironmentConfig?
+    /// The error details if the notebook creation failed.
+    public var error: DataZoneClientTypes.NotebookError?
+    /// The identifier of the notebook.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The timestamp of when the notebook lock expires.
+    public var lockExpiresAt: Foundation.Date?
+    /// The timestamp of when the notebook was locked.
+    public var lockedAt: Foundation.Date?
+    /// The identifier of the user who locked the notebook.
+    public var lockedBy: Swift.String?
+    /// The metadata of the notebook.
+    public var metadata: [Swift.String: Swift.String]?
+    /// The name of the notebook.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The identifier of the project that owns the notebook.
+    /// This member is required.
+    public var owningProjectId: Swift.String?
+    /// The sensitive parameters of the notebook.
+    public var parameters: [Swift.String: Swift.String]?
+    /// The status of the notebook.
+    /// This member is required.
+    public var status: DataZoneClientTypes.NotebookStatus?
+    /// The timestamp of when the notebook was last updated.
+    public var updatedAt: Foundation.Date?
+    /// The identifier of the user who last updated the notebook.
+    public var updatedBy: Swift.String?
+
+    public init(
+        cellOrder: [DataZoneClientTypes.CellInformation]? = nil,
+        computeId: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        createdBy: Swift.String? = nil,
+        description: Swift.String? = nil,
+        domainId: Swift.String? = nil,
+        environmentConfiguration: DataZoneClientTypes.EnvironmentConfig? = nil,
+        error: DataZoneClientTypes.NotebookError? = nil,
+        id: Swift.String? = nil,
+        lockExpiresAt: Foundation.Date? = nil,
+        lockedAt: Foundation.Date? = nil,
+        lockedBy: Swift.String? = nil,
+        metadata: [Swift.String: Swift.String]? = nil,
+        name: Swift.String? = nil,
+        owningProjectId: Swift.String? = nil,
+        parameters: [Swift.String: Swift.String]? = nil,
+        status: DataZoneClientTypes.NotebookStatus? = nil,
+        updatedAt: Foundation.Date? = nil,
+        updatedBy: Swift.String? = nil
+    ) {
+        self.cellOrder = cellOrder
+        self.computeId = computeId
+        self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.description = description
+        self.domainId = domainId
+        self.environmentConfiguration = environmentConfiguration
+        self.error = error
+        self.id = id
+        self.lockExpiresAt = lockExpiresAt
+        self.lockedAt = lockedAt
+        self.lockedBy = lockedBy
+        self.metadata = metadata
+        self.name = name
+        self.owningProjectId = owningProjectId
+        self.parameters = parameters
+        self.status = status
+        self.updatedAt = updatedAt
+        self.updatedBy = updatedBy
+    }
+}
+
+extension CreateNotebookOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateNotebookOutput(cellOrder: \(Swift.String(describing: cellOrder)), computeId: \(Swift.String(describing: computeId)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), environmentConfiguration: \(Swift.String(describing: environmentConfiguration)), error: \(Swift.String(describing: error)), id: \(Swift.String(describing: id)), lockExpiresAt: \(Swift.String(describing: lockExpiresAt)), lockedAt: \(Swift.String(describing: lockedAt)), lockedBy: \(Swift.String(describing: lockedBy)), owningProjectId: \(Swift.String(describing: owningProjectId)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\", metadata: [keys: \(Swift.String(describing: metadata?.keys)), values: \"CONTENT_REDACTED\"], name: \"CONTENT_REDACTED\", parameters: \"CONTENT_REDACTED\")"}
+}
+
+extension DataZoneClientTypes {
+
+    public enum UserDesignation: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case projectCatalogConsumer
+        case projectCatalogSteward
+        case projectCatalogViewer
+        case projectContributor
+        case projectOwner
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UserDesignation] {
+            return [
+                .projectCatalogConsumer,
+                .projectCatalogSteward,
+                .projectCatalogViewer,
+                .projectContributor,
+                .projectOwner
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .projectCatalogConsumer: return "PROJECT_CATALOG_CONSUMER"
+            case .projectCatalogSteward: return "PROJECT_CATALOG_STEWARD"
+            case .projectCatalogViewer: return "PROJECT_CATALOG_VIEWER"
+            case .projectContributor: return "PROJECT_CONTRIBUTOR"
+            case .projectOwner: return "PROJECT_OWNER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The details about a project member.
+    public enum Member: Swift.Sendable {
+        /// The user ID of a project member.
+        case useridentifier(Swift.String)
+        /// The ID of the group of a project member.
+        case groupidentifier(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// A map of user or group profiles to designations that need to be assigned in the project.
+    public struct ProjectMembershipAssignment: Swift.Sendable {
+        /// The designation of the project membership.
+        /// This member is required.
+        public var designation: DataZoneClientTypes.UserDesignation?
+        /// The details about a project member.
+        /// This member is required.
+        public var member: DataZoneClientTypes.Member?
+
+        public init(
+            designation: DataZoneClientTypes.UserDesignation? = nil,
+            member: DataZoneClientTypes.Member? = nil
+        ) {
+            self.designation = designation
+            self.member = member
+        }
+    }
+}
+
 extension DataZoneClientTypes {
 
     /// Specifies the account/Region that is to be used during project creation for a particular blueprint.
@@ -9411,9 +9970,15 @@ public struct CreateProjectInput: Swift.Sendable {
     public var domainUnitId: Swift.String?
     /// The glossary terms that can be used in this Amazon DataZone project.
     public var glossaryTerms: [Swift.String]?
+    /// The members to be assigned to the project.
+    public var membershipAssignments: [DataZoneClientTypes.ProjectMembershipAssignment]?
     /// The name of the Amazon DataZone project.
     /// This member is required.
     public var name: Swift.String?
+    /// The category of the project. Set to 'ADMIN' designates this as an administrative project for the Amazon DataZone domain.
+    public var projectCategory: Swift.String?
+    /// The default project IAM role that is used to access project resources and run computes such as Glue and Sagemaker.
+    public var projectExecutionRole: Swift.String?
     /// The ID of the project profile.
     public var projectProfileId: Swift.String?
     /// The resource tags of the project.
@@ -9426,7 +9991,10 @@ public struct CreateProjectInput: Swift.Sendable {
         domainIdentifier: Swift.String? = nil,
         domainUnitId: Swift.String? = nil,
         glossaryTerms: [Swift.String]? = nil,
+        membershipAssignments: [DataZoneClientTypes.ProjectMembershipAssignment]? = nil,
         name: Swift.String? = nil,
+        projectCategory: Swift.String? = nil,
+        projectExecutionRole: Swift.String? = nil,
         projectProfileId: Swift.String? = nil,
         resourceTags: [Swift.String: Swift.String]? = nil,
         userParameters: [DataZoneClientTypes.EnvironmentConfigurationUserParameter]? = nil
@@ -9435,7 +10003,10 @@ public struct CreateProjectInput: Swift.Sendable {
         self.domainIdentifier = domainIdentifier
         self.domainUnitId = domainUnitId
         self.glossaryTerms = glossaryTerms
+        self.membershipAssignments = membershipAssignments
         self.name = name
+        self.projectCategory = projectCategory
+        self.projectExecutionRole = projectExecutionRole
         self.projectProfileId = projectProfileId
         self.resourceTags = resourceTags
         self.userParameters = userParameters
@@ -9444,7 +10015,7 @@ public struct CreateProjectInput: Swift.Sendable {
 
 extension CreateProjectInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateProjectInput(domainIdentifier: \(Swift.String(describing: domainIdentifier)), domainUnitId: \(Swift.String(describing: domainUnitId)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), projectProfileId: \(Swift.String(describing: projectProfileId)), resourceTags: \(Swift.String(describing: resourceTags)), userParameters: \(Swift.String(describing: userParameters)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "CreateProjectInput(domainIdentifier: \(Swift.String(describing: domainIdentifier)), domainUnitId: \(Swift.String(describing: domainUnitId)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), membershipAssignments: \(Swift.String(describing: membershipAssignments)), projectCategory: \(Swift.String(describing: projectCategory)), projectExecutionRole: \(Swift.String(describing: projectExecutionRole)), projectProfileId: \(Swift.String(describing: projectProfileId)), resourceTags: \(Swift.String(describing: resourceTags)), userParameters: \(Swift.String(describing: userParameters)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension DataZoneClientTypes {
@@ -9646,6 +10217,8 @@ public struct CreateProjectOutput: Swift.Sendable {
     /// The name of the project.
     /// This member is required.
     public var name: Swift.String?
+    /// The category of the project.
+    public var projectCategory: Swift.String?
     /// The project profile ID.
     public var projectProfileId: Swift.String?
     /// The status of the Amazon DataZone project that was created.
@@ -9667,6 +10240,7 @@ public struct CreateProjectOutput: Swift.Sendable {
         id: Swift.String? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
+        projectCategory: Swift.String? = nil,
         projectProfileId: Swift.String? = nil,
         projectStatus: DataZoneClientTypes.ProjectStatus? = nil,
         resourceTags: [DataZoneClientTypes.ResourceTag]? = nil,
@@ -9683,6 +10257,7 @@ public struct CreateProjectOutput: Swift.Sendable {
         self.id = id
         self.lastUpdatedAt = lastUpdatedAt
         self.name = name
+        self.projectCategory = projectCategory
         self.projectProfileId = projectProfileId
         self.projectStatus = projectStatus
         self.resourceTags = resourceTags
@@ -9692,57 +10267,7 @@ public struct CreateProjectOutput: Swift.Sendable {
 
 extension CreateProjectOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateProjectOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), environmentDeploymentDetails: \(Swift.String(describing: environmentDeploymentDetails)), failureReasons: \(Swift.String(describing: failureReasons)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), projectProfileId: \(Swift.String(describing: projectProfileId)), projectStatus: \(Swift.String(describing: projectStatus)), resourceTags: \(Swift.String(describing: resourceTags)), userParameters: \(Swift.String(describing: userParameters)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
-}
-
-extension DataZoneClientTypes {
-
-    public enum UserDesignation: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case projectCatalogConsumer
-        case projectCatalogSteward
-        case projectCatalogViewer
-        case projectContributor
-        case projectOwner
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [UserDesignation] {
-            return [
-                .projectCatalogConsumer,
-                .projectCatalogSteward,
-                .projectCatalogViewer,
-                .projectContributor,
-                .projectOwner
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .projectCatalogConsumer: return "PROJECT_CATALOG_CONSUMER"
-            case .projectCatalogSteward: return "PROJECT_CATALOG_STEWARD"
-            case .projectCatalogViewer: return "PROJECT_CATALOG_VIEWER"
-            case .projectContributor: return "PROJECT_CONTRIBUTOR"
-            case .projectOwner: return "PROJECT_OWNER"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension DataZoneClientTypes {
-
-    /// The details about a project member.
-    public enum Member: Swift.Sendable {
-        /// The user ID of a project member.
-        case useridentifier(Swift.String)
-        /// The ID of the group of a project member.
-        case groupidentifier(Swift.String)
-        case sdkUnknown(Swift.String)
-    }
+        "CreateProjectOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), environmentDeploymentDetails: \(Swift.String(describing: environmentDeploymentDetails)), failureReasons: \(Swift.String(describing: failureReasons)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), projectCategory: \(Swift.String(describing: projectCategory)), projectProfileId: \(Swift.String(describing: projectProfileId)), projectStatus: \(Swift.String(describing: projectStatus)), resourceTags: \(Swift.String(describing: resourceTags)), userParameters: \(Swift.String(describing: userParameters)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateProjectMembershipInput: Swift.Sendable {
@@ -11169,6 +11694,7 @@ extension DataZoneClientTypes {
 
     public enum UserType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case iamRole
+        case iamRoleSession
         case iamUser
         case ssoUser
         case sdkUnknown(Swift.String)
@@ -11176,6 +11702,7 @@ extension DataZoneClientTypes {
         public static var allCases: [UserType] {
             return [
                 .iamRole,
+                .iamRoleSession,
                 .iamUser,
                 .ssoUser
             ]
@@ -11189,6 +11716,7 @@ extension DataZoneClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .iamRole: return "IAM_ROLE"
+            case .iamRoleSession: return "IAM_ROLE_SESSION"
             case .iamUser: return "IAM_USER"
             case .ssoUser: return "SSO_USER"
             case let .sdkUnknown(s): return s
@@ -11203,6 +11731,8 @@ public struct CreateUserProfileInput: Swift.Sendable {
     /// The identifier of the Amazon DataZone domain in which a user profile is created.
     /// This member is required.
     public var domainIdentifier: Swift.String?
+    /// The session name for IAM role sessions.
+    public var sessionName: Swift.String?
     /// The identifier of the user for which the user profile is created.
     /// This member is required.
     public var userIdentifier: Swift.String?
@@ -11212,11 +11742,13 @@ public struct CreateUserProfileInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         domainIdentifier: Swift.String? = nil,
+        sessionName: Swift.String? = nil,
         userIdentifier: Swift.String? = nil,
         userType: DataZoneClientTypes.UserType? = nil
     ) {
         self.clientToken = clientToken
         self.domainIdentifier = domainIdentifier
+        self.sessionName = sessionName
         self.userIdentifier = userIdentifier
         self.userType = userType
     }
@@ -13042,6 +13574,23 @@ public struct DeleteConnectionOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteDataExportConfigurationInput: Swift.Sendable {
+    /// The domain ID for which you want to delete the data export configuration.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+
+    public init(
+        domainIdentifier: Swift.String? = nil
+    ) {
+        self.domainIdentifier = domainIdentifier
+    }
+}
+
+public struct DeleteDataExportConfigurationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteEnvironmentInput: Swift.Sendable {
     /// The ID of the Amazon DataZone domain in which the environment is deleted.
     /// This member is required.
@@ -14516,6 +15065,8 @@ public struct GetConnectionInput: Swift.Sendable {
 }
 
 public struct GetConnectionOutput: Swift.Sendable {
+    /// The configurations of the connection.
+    public var configurations: [DataZoneClientTypes.Configuration]?
     /// Connection credentials.
     public var connectionCredentials: DataZoneClientTypes.ConnectionCredentials?
     /// The ID of the connection.
@@ -14550,6 +15101,7 @@ public struct GetConnectionOutput: Swift.Sendable {
     public var type: DataZoneClientTypes.ConnectionType?
 
     public init(
+        configurations: [DataZoneClientTypes.Configuration]? = nil,
         connectionCredentials: DataZoneClientTypes.ConnectionCredentials? = nil,
         connectionId: Swift.String? = nil,
         description: Swift.String? = nil,
@@ -14564,6 +15116,7 @@ public struct GetConnectionOutput: Swift.Sendable {
         scope: DataZoneClientTypes.ConnectionScope? = nil,
         type: DataZoneClientTypes.ConnectionType? = nil
     ) {
+        self.configurations = configurations
         self.connectionCredentials = connectionCredentials
         self.connectionId = connectionId
         self.description = description
@@ -14582,7 +15135,7 @@ public struct GetConnectionOutput: Swift.Sendable {
 
 extension GetConnectionOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetConnectionOutput(connectionId: \(Swift.String(describing: connectionId)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), environmentId: \(Swift.String(describing: environmentId)), environmentUserRole: \(Swift.String(describing: environmentUserRole)), name: \(Swift.String(describing: name)), physicalEndpoints: \(Swift.String(describing: physicalEndpoints)), projectId: \(Swift.String(describing: projectId)), props: \(Swift.String(describing: props)), scope: \(Swift.String(describing: scope)), type: \(Swift.String(describing: type)), connectionCredentials: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\")"}
+        "GetConnectionOutput(configurations: \(Swift.String(describing: configurations)), connectionId: \(Swift.String(describing: connectionId)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), environmentId: \(Swift.String(describing: environmentId)), environmentUserRole: \(Swift.String(describing: environmentUserRole)), name: \(Swift.String(describing: name)), physicalEndpoints: \(Swift.String(describing: physicalEndpoints)), projectId: \(Swift.String(describing: projectId)), props: \(Swift.String(describing: props)), scope: \(Swift.String(describing: scope)), type: \(Swift.String(describing: type)), connectionCredentials: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetDataExportConfigurationInput: Swift.Sendable {
@@ -14687,6 +15240,8 @@ public struct GetEnvironmentOutput: Swift.Sendable {
     public var environmentBlueprintId: Swift.String?
     /// The configuration ID that is used to create the environment.
     public var environmentConfigurationId: Swift.String?
+    /// The configuration name that is used to create the environment.
+    public var environmentConfigurationName: Swift.String?
     /// The ID of the environment profile with which the environment is created.
     public var environmentProfileId: Swift.String?
     /// The business glossary terms that can be used in this environment.
@@ -14726,6 +15281,7 @@ public struct GetEnvironmentOutput: Swift.Sendable {
         environmentActions: [DataZoneClientTypes.ConfigurableEnvironmentAction]? = nil,
         environmentBlueprintId: Swift.String? = nil,
         environmentConfigurationId: Swift.String? = nil,
+        environmentConfigurationName: Swift.String? = nil,
         environmentProfileId: Swift.String? = "",
         glossaryTerms: [Swift.String]? = nil,
         id: Swift.String? = nil,
@@ -14749,6 +15305,7 @@ public struct GetEnvironmentOutput: Swift.Sendable {
         self.environmentActions = environmentActions
         self.environmentBlueprintId = environmentBlueprintId
         self.environmentConfigurationId = environmentConfigurationId
+        self.environmentConfigurationName = environmentConfigurationName
         self.environmentProfileId = environmentProfileId
         self.glossaryTerms = glossaryTerms
         self.id = id
@@ -14766,7 +15323,7 @@ public struct GetEnvironmentOutput: Swift.Sendable {
 
 extension GetEnvironmentOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetEnvironmentOutput(awsAccountId: \(Swift.String(describing: awsAccountId)), awsAccountRegion: \(Swift.String(describing: awsAccountRegion)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), deploymentProperties: \(Swift.String(describing: deploymentProperties)), domainId: \(Swift.String(describing: domainId)), environmentActions: \(Swift.String(describing: environmentActions)), environmentBlueprintId: \(Swift.String(describing: environmentBlueprintId)), environmentProfileId: \(Swift.String(describing: environmentProfileId)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), lastDeployment: \(Swift.String(describing: lastDeployment)), projectId: \(Swift.String(describing: projectId)), provider: \(Swift.String(describing: provider)), provisionedResources: \(Swift.String(describing: provisionedResources)), provisioningProperties: \(Swift.String(describing: provisioningProperties)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), userParameters: \(Swift.String(describing: userParameters)), description: \"CONTENT_REDACTED\", environmentConfigurationId: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "GetEnvironmentOutput(awsAccountId: \(Swift.String(describing: awsAccountId)), awsAccountRegion: \(Swift.String(describing: awsAccountRegion)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), deploymentProperties: \(Swift.String(describing: deploymentProperties)), domainId: \(Swift.String(describing: domainId)), environmentActions: \(Swift.String(describing: environmentActions)), environmentBlueprintId: \(Swift.String(describing: environmentBlueprintId)), environmentProfileId: \(Swift.String(describing: environmentProfileId)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), lastDeployment: \(Swift.String(describing: lastDeployment)), projectId: \(Swift.String(describing: projectId)), provider: \(Swift.String(describing: provider)), provisionedResources: \(Swift.String(describing: provisionedResources)), provisioningProperties: \(Swift.String(describing: provisioningProperties)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), userParameters: \(Swift.String(describing: userParameters)), description: \"CONTENT_REDACTED\", environmentConfigurationId: \"CONTENT_REDACTED\", environmentConfigurationName: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetEnvironmentActionInput: Swift.Sendable {
@@ -15052,6 +15609,10 @@ public struct GetGroupProfileOutput: Swift.Sendable {
     public var groupName: Swift.String?
     /// The identifier of the group profile.
     public var id: Swift.String?
+    /// The ARN of the IAM role principal. This role is associated with the group profile.
+    public var rolePrincipalArn: Swift.String?
+    /// The unique identifier of the IAM role principal. This principal is associated with the group profile.
+    public var rolePrincipalId: Swift.String?
     /// The identifier of the group profile.
     public var status: DataZoneClientTypes.GroupProfileStatus?
 
@@ -15059,18 +15620,22 @@ public struct GetGroupProfileOutput: Swift.Sendable {
         domainId: Swift.String? = nil,
         groupName: Swift.String? = nil,
         id: Swift.String? = nil,
+        rolePrincipalArn: Swift.String? = nil,
+        rolePrincipalId: Swift.String? = nil,
         status: DataZoneClientTypes.GroupProfileStatus? = nil
     ) {
         self.domainId = domainId
         self.groupName = groupName
         self.id = id
+        self.rolePrincipalArn = rolePrincipalArn
+        self.rolePrincipalId = rolePrincipalId
         self.status = status
     }
 }
 
 extension GetGroupProfileOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetGroupProfileOutput(domainId: \(Swift.String(describing: domainId)), id: \(Swift.String(describing: id)), status: \(Swift.String(describing: status)), groupName: \"CONTENT_REDACTED\")"}
+        "GetGroupProfileOutput(domainId: \(Swift.String(describing: domainId)), id: \(Swift.String(describing: id)), rolePrincipalArn: \(Swift.String(describing: rolePrincipalArn)), rolePrincipalId: \(Swift.String(describing: rolePrincipalId)), status: \(Swift.String(describing: status)), groupName: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetIamPortalLoginUrlInput: Swift.Sendable {
@@ -15558,6 +16123,8 @@ public struct GetProjectOutput: Swift.Sendable {
     /// The name of the project.
     /// This member is required.
     public var name: Swift.String?
+    /// The category of the project.
+    public var projectCategory: Swift.String?
     /// The ID of the project profile of a project.
     public var projectProfileId: Swift.String?
     /// The status of the project.
@@ -15579,6 +16146,7 @@ public struct GetProjectOutput: Swift.Sendable {
         id: Swift.String? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
+        projectCategory: Swift.String? = nil,
         projectProfileId: Swift.String? = nil,
         projectStatus: DataZoneClientTypes.ProjectStatus? = nil,
         resourceTags: [DataZoneClientTypes.ResourceTag]? = nil,
@@ -15595,6 +16163,7 @@ public struct GetProjectOutput: Swift.Sendable {
         self.id = id
         self.lastUpdatedAt = lastUpdatedAt
         self.name = name
+        self.projectCategory = projectCategory
         self.projectProfileId = projectProfileId
         self.projectStatus = projectStatus
         self.resourceTags = resourceTags
@@ -15604,7 +16173,7 @@ public struct GetProjectOutput: Swift.Sendable {
 
 extension GetProjectOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetProjectOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), environmentDeploymentDetails: \(Swift.String(describing: environmentDeploymentDetails)), failureReasons: \(Swift.String(describing: failureReasons)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), projectProfileId: \(Swift.String(describing: projectProfileId)), projectStatus: \(Swift.String(describing: projectStatus)), resourceTags: \(Swift.String(describing: resourceTags)), userParameters: \(Swift.String(describing: userParameters)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "GetProjectOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), environmentDeploymentDetails: \(Swift.String(describing: environmentDeploymentDetails)), failureReasons: \(Swift.String(describing: failureReasons)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), projectCategory: \(Swift.String(describing: projectCategory)), projectProfileId: \(Swift.String(describing: projectProfileId)), projectStatus: \(Swift.String(describing: projectStatus)), resourceTags: \(Swift.String(describing: resourceTags)), userParameters: \(Swift.String(describing: userParameters)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetProjectProfileInput: Swift.Sendable {
@@ -16154,6 +16723,8 @@ public struct GetUserProfileInput: Swift.Sendable {
     /// the ID of the Amazon DataZone domain the data portal of which you want to get.
     /// This member is required.
     public var domainIdentifier: Swift.String?
+    /// The session name for IAM role sessions.
+    public var sessionName: Swift.String?
     /// The type of the user profile.
     public var type: DataZoneClientTypes.UserProfileType?
     /// The identifier of the user for which you want to get the user profile.
@@ -16162,10 +16733,12 @@ public struct GetUserProfileInput: Swift.Sendable {
 
     public init(
         domainIdentifier: Swift.String? = nil,
+        sessionName: Swift.String? = nil,
         type: DataZoneClientTypes.UserProfileType? = nil,
         userIdentifier: Swift.String? = nil
     ) {
         self.domainIdentifier = domainIdentifier
+        self.sessionName = sessionName
         self.type = type
         self.userIdentifier = userIdentifier
     }
@@ -17454,6 +18027,8 @@ extension DataZoneClientTypes {
         public var domainId: Swift.String?
         /// The configuration ID with which the environment is created.
         public var environmentConfigurationId: Swift.String?
+        /// The configuration name with which the environment is created.
+        public var environmentConfigurationName: Swift.String?
         /// The identifier of the environment profile with which the environment was created.
         public var environmentProfileId: Swift.String?
         /// The identifier of the environment.
@@ -17480,6 +18055,7 @@ extension DataZoneClientTypes {
             description: Swift.String? = nil,
             domainId: Swift.String? = nil,
             environmentConfigurationId: Swift.String? = nil,
+            environmentConfigurationName: Swift.String? = nil,
             environmentProfileId: Swift.String? = "",
             id: Swift.String? = nil,
             name: Swift.String? = nil,
@@ -17495,6 +18071,7 @@ extension DataZoneClientTypes {
             self.description = description
             self.domainId = domainId
             self.environmentConfigurationId = environmentConfigurationId
+            self.environmentConfigurationName = environmentConfigurationName
             self.environmentProfileId = environmentProfileId
             self.id = id
             self.name = name
@@ -17508,7 +18085,7 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes.EnvironmentSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "EnvironmentSummary(awsAccountId: \(Swift.String(describing: awsAccountId)), awsAccountRegion: \(Swift.String(describing: awsAccountRegion)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), environmentProfileId: \(Swift.String(describing: environmentProfileId)), id: \(Swift.String(describing: id)), projectId: \(Swift.String(describing: projectId)), provider: \(Swift.String(describing: provider)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", environmentConfigurationId: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "EnvironmentSummary(awsAccountId: \(Swift.String(describing: awsAccountId)), awsAccountRegion: \(Swift.String(describing: awsAccountRegion)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), environmentProfileId: \(Swift.String(describing: environmentProfileId)), id: \(Swift.String(describing: id)), projectId: \(Swift.String(describing: projectId)), provider: \(Swift.String(describing: provider)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", environmentConfigurationId: \"CONTENT_REDACTED\", environmentConfigurationName: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListEnvironmentsOutput: Swift.Sendable {
@@ -18722,6 +19299,8 @@ public struct ListProjectsInput: Swift.Sendable {
     public var name: Swift.String?
     /// When the number of projects is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of projects, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListProjects to list the next set of projects.
     public var nextToken: Swift.String?
+    /// A parameter to filter projects by their category.
+    public var projectCategory: Swift.String?
     /// The identifier of the Amazon DataZone user.
     public var userIdentifier: Swift.String?
 
@@ -18731,6 +19310,7 @@ public struct ListProjectsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         name: Swift.String? = nil,
         nextToken: Swift.String? = nil,
+        projectCategory: Swift.String? = nil,
         userIdentifier: Swift.String? = nil
     ) {
         self.domainIdentifier = domainIdentifier
@@ -18738,13 +19318,14 @@ public struct ListProjectsInput: Swift.Sendable {
         self.maxResults = maxResults
         self.name = name
         self.nextToken = nextToken
+        self.projectCategory = projectCategory
         self.userIdentifier = userIdentifier
     }
 }
 
 extension ListProjectsInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ListProjectsInput(domainIdentifier: \(Swift.String(describing: domainIdentifier)), groupIdentifier: \(Swift.String(describing: groupIdentifier)), maxResults: \(Swift.String(describing: maxResults)), nextToken: \(Swift.String(describing: nextToken)), userIdentifier: \(Swift.String(describing: userIdentifier)), name: \"CONTENT_REDACTED\")"}
+        "ListProjectsInput(domainIdentifier: \(Swift.String(describing: domainIdentifier)), groupIdentifier: \(Swift.String(describing: groupIdentifier)), maxResults: \(Swift.String(describing: maxResults)), nextToken: \(Swift.String(describing: nextToken)), projectCategory: \(Swift.String(describing: projectCategory)), userIdentifier: \(Swift.String(describing: userIdentifier)), name: \"CONTENT_REDACTED\")"}
 }
 
 extension DataZoneClientTypes {
@@ -18771,6 +19352,8 @@ extension DataZoneClientTypes {
         /// The name of a project.
         /// This member is required.
         public var name: Swift.String?
+        /// The category of the project.
+        public var projectCategory: Swift.String?
         /// The status of the project.
         public var projectStatus: DataZoneClientTypes.ProjectStatus?
         /// The timestamp of when the project was updated.
@@ -18785,6 +19368,7 @@ extension DataZoneClientTypes {
             failureReasons: [DataZoneClientTypes.ProjectDeletionError]? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil,
+            projectCategory: Swift.String? = nil,
             projectStatus: DataZoneClientTypes.ProjectStatus? = nil,
             updatedAt: Foundation.Date? = nil
         ) {
@@ -18796,6 +19380,7 @@ extension DataZoneClientTypes {
             self.failureReasons = failureReasons
             self.id = id
             self.name = name
+            self.projectCategory = projectCategory
             self.projectStatus = projectStatus
             self.updatedAt = updatedAt
         }
@@ -18804,7 +19389,7 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes.ProjectSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ProjectSummary(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), failureReasons: \(Swift.String(describing: failureReasons)), id: \(Swift.String(describing: id)), projectStatus: \(Swift.String(describing: projectStatus)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "ProjectSummary(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), failureReasons: \(Swift.String(describing: failureReasons)), id: \(Swift.String(describing: id)), projectCategory: \(Swift.String(describing: projectCategory)), projectStatus: \(Swift.String(describing: projectStatus)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListProjectsOutput: Swift.Sendable {
@@ -19938,6 +20523,1339 @@ public struct StartMetadataGenerationRunOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteNotebookInput: Swift.Sendable {
+    /// The identifier of the Amazon SageMaker Unified Studio domain in which the notebook exists.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The identifier of the notebook to delete.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        domainIdentifier: Swift.String? = nil,
+        identifier: Swift.String? = nil
+    ) {
+        self.domainIdentifier = domainIdentifier
+        self.identifier = identifier
+    }
+}
+
+public struct DeleteNotebookOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct GetNotebookInput: Swift.Sendable {
+    /// The identifier of the Amazon SageMaker Unified Studio domain in which the notebook exists.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The identifier of the notebook.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        domainIdentifier: Swift.String? = nil,
+        identifier: Swift.String? = nil
+    ) {
+        self.domainIdentifier = domainIdentifier
+        self.identifier = identifier
+    }
+}
+
+public struct GetNotebookOutput: Swift.Sendable {
+    /// The ordered list of cells in the notebook.
+    /// This member is required.
+    public var cellOrder: [DataZoneClientTypes.CellInformation]?
+    /// The identifier of the compute associated with the notebook.
+    public var computeId: Swift.String?
+    /// The timestamp of when the notebook was created.
+    public var createdAt: Foundation.Date?
+    /// The identifier of the user who created the notebook.
+    public var createdBy: Swift.String?
+    /// The description of the notebook.
+    public var description: Swift.String?
+    /// The identifier of the Amazon SageMaker Unified Studio domain.
+    /// This member is required.
+    public var domainId: Swift.String?
+    /// The environment configuration of the notebook.
+    public var environmentConfiguration: DataZoneClientTypes.EnvironmentConfig?
+    /// The error details if the notebook is in a failed state.
+    public var error: DataZoneClientTypes.NotebookError?
+    /// The identifier of the notebook.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The timestamp of when the notebook lock expires.
+    public var lockExpiresAt: Foundation.Date?
+    /// The timestamp of when the notebook was locked.
+    public var lockedAt: Foundation.Date?
+    /// The identifier of the user who locked the notebook.
+    public var lockedBy: Swift.String?
+    /// The metadata of the notebook.
+    public var metadata: [Swift.String: Swift.String]?
+    /// The name of the notebook.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The identifier of the project that owns the notebook.
+    /// This member is required.
+    public var owningProjectId: Swift.String?
+    /// The sensitive parameters of the notebook.
+    public var parameters: [Swift.String: Swift.String]?
+    /// The status of the notebook.
+    /// This member is required.
+    public var status: DataZoneClientTypes.NotebookStatus?
+    /// The timestamp of when the notebook was last updated.
+    public var updatedAt: Foundation.Date?
+    /// The identifier of the user who last updated the notebook.
+    public var updatedBy: Swift.String?
+
+    public init(
+        cellOrder: [DataZoneClientTypes.CellInformation]? = nil,
+        computeId: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        createdBy: Swift.String? = nil,
+        description: Swift.String? = nil,
+        domainId: Swift.String? = nil,
+        environmentConfiguration: DataZoneClientTypes.EnvironmentConfig? = nil,
+        error: DataZoneClientTypes.NotebookError? = nil,
+        id: Swift.String? = nil,
+        lockExpiresAt: Foundation.Date? = nil,
+        lockedAt: Foundation.Date? = nil,
+        lockedBy: Swift.String? = nil,
+        metadata: [Swift.String: Swift.String]? = nil,
+        name: Swift.String? = nil,
+        owningProjectId: Swift.String? = nil,
+        parameters: [Swift.String: Swift.String]? = nil,
+        status: DataZoneClientTypes.NotebookStatus? = nil,
+        updatedAt: Foundation.Date? = nil,
+        updatedBy: Swift.String? = nil
+    ) {
+        self.cellOrder = cellOrder
+        self.computeId = computeId
+        self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.description = description
+        self.domainId = domainId
+        self.environmentConfiguration = environmentConfiguration
+        self.error = error
+        self.id = id
+        self.lockExpiresAt = lockExpiresAt
+        self.lockedAt = lockedAt
+        self.lockedBy = lockedBy
+        self.metadata = metadata
+        self.name = name
+        self.owningProjectId = owningProjectId
+        self.parameters = parameters
+        self.status = status
+        self.updatedAt = updatedAt
+        self.updatedBy = updatedBy
+    }
+}
+
+extension GetNotebookOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetNotebookOutput(cellOrder: \(Swift.String(describing: cellOrder)), computeId: \(Swift.String(describing: computeId)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), environmentConfiguration: \(Swift.String(describing: environmentConfiguration)), error: \(Swift.String(describing: error)), id: \(Swift.String(describing: id)), lockExpiresAt: \(Swift.String(describing: lockExpiresAt)), lockedAt: \(Swift.String(describing: lockedAt)), lockedBy: \(Swift.String(describing: lockedBy)), owningProjectId: \(Swift.String(describing: owningProjectId)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\", metadata: [keys: \(Swift.String(describing: metadata?.keys)), values: \"CONTENT_REDACTED\"], name: \"CONTENT_REDACTED\", parameters: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListNotebooksInput: Swift.Sendable {
+    /// The identifier of the Amazon SageMaker Unified Studio domain in which to list notebooks.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The maximum number of notebooks to return in a single call. When the number of notebooks exceeds the value of MaxResults, the response contains a NextToken value.
+    public var maxResults: Swift.Int?
+    /// When the number of notebooks is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of notebooks, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListNotebooks to list the next set of notebooks.
+    public var nextToken: Swift.String?
+    /// The identifier of the project that owns the notebooks.
+    /// This member is required.
+    public var owningProjectIdentifier: Swift.String?
+    /// The field to sort the results by.
+    public var sortBy: DataZoneClientTypes.SortKey?
+    /// The sort order for the results.
+    public var sortOrder: DataZoneClientTypes.SortOrder?
+    /// The status to filter notebooks by.
+    public var status: DataZoneClientTypes.NotebookStatus?
+
+    public init(
+        domainIdentifier: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        owningProjectIdentifier: Swift.String? = nil,
+        sortBy: DataZoneClientTypes.SortKey? = nil,
+        sortOrder: DataZoneClientTypes.SortOrder? = nil,
+        status: DataZoneClientTypes.NotebookStatus? = nil
+    ) {
+        self.domainIdentifier = domainIdentifier
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.owningProjectIdentifier = owningProjectIdentifier
+        self.sortBy = sortBy
+        self.sortOrder = sortOrder
+        self.status = status
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The summary of a notebook in Amazon SageMaker Unified Studio.
+    public struct NotebookSummary: Swift.Sendable {
+        /// The timestamp of when the notebook was created.
+        public var createdAt: Foundation.Date?
+        /// The identifier of the user who created the notebook.
+        public var createdBy: Swift.String?
+        /// The description of the notebook.
+        public var description: Swift.String?
+        /// The identifier of the Amazon SageMaker Unified Studio domain.
+        /// This member is required.
+        public var domainId: Swift.String?
+        /// The identifier of the notebook.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The name of the notebook.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The identifier of the project that owns the notebook.
+        /// This member is required.
+        public var owningProjectId: Swift.String?
+        /// The status of the notebook.
+        /// This member is required.
+        public var status: DataZoneClientTypes.NotebookStatus?
+        /// The timestamp of when the notebook was last updated.
+        public var updatedAt: Foundation.Date?
+        /// The identifier of the user who last updated the notebook.
+        public var updatedBy: Swift.String?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            createdBy: Swift.String? = nil,
+            description: Swift.String? = nil,
+            domainId: Swift.String? = nil,
+            id: Swift.String? = nil,
+            name: Swift.String? = nil,
+            owningProjectId: Swift.String? = nil,
+            status: DataZoneClientTypes.NotebookStatus? = nil,
+            updatedAt: Foundation.Date? = nil,
+            updatedBy: Swift.String? = nil
+        ) {
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.description = description
+            self.domainId = domainId
+            self.id = id
+            self.name = name
+            self.owningProjectId = owningProjectId
+            self.status = status
+            self.updatedAt = updatedAt
+            self.updatedBy = updatedBy
+        }
+    }
+}
+
+extension DataZoneClientTypes.NotebookSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "NotebookSummary(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), id: \(Swift.String(describing: id)), owningProjectId: \(Swift.String(describing: owningProjectId)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListNotebooksOutput: Swift.Sendable {
+    /// The results of the ListNotebooks action.
+    public var items: [DataZoneClientTypes.NotebookSummary]?
+    /// When the number of notebooks is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of notebooks, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListNotebooks to list the next set of notebooks.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [DataZoneClientTypes.NotebookSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+public struct UpdateNotebookInput: Swift.Sendable {
+    /// The updated ordered list of cells in the notebook.
+    public var cellOrder: [DataZoneClientTypes.CellInformation]?
+    /// A unique, case-sensitive identifier to ensure idempotency of the request. This field is automatically populated if not provided.
+    public var clientToken: Swift.String?
+    /// The updated description of the notebook.
+    public var description: Swift.String?
+    /// The identifier of the Amazon SageMaker Unified Studio domain in which the notebook exists.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The updated environment configuration for the notebook.
+    public var environmentConfiguration: DataZoneClientTypes.EnvironmentConfig?
+    /// The identifier of the notebook to update.
+    /// This member is required.
+    public var identifier: Swift.String?
+    /// The updated metadata for the notebook, specified as key-value pairs.
+    public var metadata: [Swift.String: Swift.String]?
+    /// The updated name of the notebook.
+    public var name: Swift.String?
+    /// The updated sensitive parameters for the notebook, specified as key-value pairs.
+    public var parameters: [Swift.String: Swift.String]?
+    /// The updated status of the notebook.
+    public var status: DataZoneClientTypes.NotebookStatus?
+
+    public init(
+        cellOrder: [DataZoneClientTypes.CellInformation]? = nil,
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        domainIdentifier: Swift.String? = nil,
+        environmentConfiguration: DataZoneClientTypes.EnvironmentConfig? = nil,
+        identifier: Swift.String? = nil,
+        metadata: [Swift.String: Swift.String]? = nil,
+        name: Swift.String? = nil,
+        parameters: [Swift.String: Swift.String]? = nil,
+        status: DataZoneClientTypes.NotebookStatus? = nil
+    ) {
+        self.cellOrder = cellOrder
+        self.clientToken = clientToken
+        self.description = description
+        self.domainIdentifier = domainIdentifier
+        self.environmentConfiguration = environmentConfiguration
+        self.identifier = identifier
+        self.metadata = metadata
+        self.name = name
+        self.parameters = parameters
+        self.status = status
+    }
+}
+
+extension UpdateNotebookInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateNotebookInput(cellOrder: \(Swift.String(describing: cellOrder)), clientToken: \(Swift.String(describing: clientToken)), domainIdentifier: \(Swift.String(describing: domainIdentifier)), environmentConfiguration: \(Swift.String(describing: environmentConfiguration)), identifier: \(Swift.String(describing: identifier)), status: \(Swift.String(describing: status)), description: \"CONTENT_REDACTED\", metadata: [keys: \(Swift.String(describing: metadata?.keys)), values: \"CONTENT_REDACTED\"], name: \"CONTENT_REDACTED\", parameters: \"CONTENT_REDACTED\")"}
+}
+
+public struct UpdateNotebookOutput: Swift.Sendable {
+    /// The ordered list of cells in the notebook.
+    /// This member is required.
+    public var cellOrder: [DataZoneClientTypes.CellInformation]?
+    /// The identifier of the compute associated with the notebook.
+    public var computeId: Swift.String?
+    /// The timestamp of when the notebook was created.
+    public var createdAt: Foundation.Date?
+    /// The identifier of the user who created the notebook.
+    public var createdBy: Swift.String?
+    /// The description of the notebook.
+    public var description: Swift.String?
+    /// The identifier of the Amazon SageMaker Unified Studio domain.
+    /// This member is required.
+    public var domainId: Swift.String?
+    /// The environment configuration of the notebook.
+    public var environmentConfiguration: DataZoneClientTypes.EnvironmentConfig?
+    /// The error details if the notebook is in a failed state.
+    public var error: DataZoneClientTypes.NotebookError?
+    /// The identifier of the notebook.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The timestamp of when the notebook lock expires.
+    public var lockExpiresAt: Foundation.Date?
+    /// The timestamp of when the notebook was locked.
+    public var lockedAt: Foundation.Date?
+    /// The identifier of the user who locked the notebook.
+    public var lockedBy: Swift.String?
+    /// The metadata of the notebook.
+    public var metadata: [Swift.String: Swift.String]?
+    /// The name of the notebook.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The identifier of the project that owns the notebook.
+    /// This member is required.
+    public var owningProjectId: Swift.String?
+    /// The sensitive parameters of the notebook.
+    public var parameters: [Swift.String: Swift.String]?
+    /// The status of the notebook.
+    /// This member is required.
+    public var status: DataZoneClientTypes.NotebookStatus?
+    /// The timestamp of when the notebook was last updated.
+    public var updatedAt: Foundation.Date?
+    /// The identifier of the user who last updated the notebook.
+    public var updatedBy: Swift.String?
+
+    public init(
+        cellOrder: [DataZoneClientTypes.CellInformation]? = nil,
+        computeId: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        createdBy: Swift.String? = nil,
+        description: Swift.String? = nil,
+        domainId: Swift.String? = nil,
+        environmentConfiguration: DataZoneClientTypes.EnvironmentConfig? = nil,
+        error: DataZoneClientTypes.NotebookError? = nil,
+        id: Swift.String? = nil,
+        lockExpiresAt: Foundation.Date? = nil,
+        lockedAt: Foundation.Date? = nil,
+        lockedBy: Swift.String? = nil,
+        metadata: [Swift.String: Swift.String]? = nil,
+        name: Swift.String? = nil,
+        owningProjectId: Swift.String? = nil,
+        parameters: [Swift.String: Swift.String]? = nil,
+        status: DataZoneClientTypes.NotebookStatus? = nil,
+        updatedAt: Foundation.Date? = nil,
+        updatedBy: Swift.String? = nil
+    ) {
+        self.cellOrder = cellOrder
+        self.computeId = computeId
+        self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.description = description
+        self.domainId = domainId
+        self.environmentConfiguration = environmentConfiguration
+        self.error = error
+        self.id = id
+        self.lockExpiresAt = lockExpiresAt
+        self.lockedAt = lockedAt
+        self.lockedBy = lockedBy
+        self.metadata = metadata
+        self.name = name
+        self.owningProjectId = owningProjectId
+        self.parameters = parameters
+        self.status = status
+        self.updatedAt = updatedAt
+        self.updatedBy = updatedBy
+    }
+}
+
+extension UpdateNotebookOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateNotebookOutput(cellOrder: \(Swift.String(describing: cellOrder)), computeId: \(Swift.String(describing: computeId)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), environmentConfiguration: \(Swift.String(describing: environmentConfiguration)), error: \(Swift.String(describing: error)), id: \(Swift.String(describing: id)), lockExpiresAt: \(Swift.String(describing: lockExpiresAt)), lockedAt: \(Swift.String(describing: lockedAt)), lockedBy: \(Swift.String(describing: lockedBy)), owningProjectId: \(Swift.String(describing: owningProjectId)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\", metadata: [keys: \(Swift.String(describing: metadata?.keys)), values: \"CONTENT_REDACTED\"], name: \"CONTENT_REDACTED\", parameters: \"CONTENT_REDACTED\")"}
+}
+
+extension DataZoneClientTypes {
+
+    /// The file format for a notebook export in Amazon SageMaker Unified Studio.
+    public enum FileFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Export the notebook as a Jupyter notebook (.ipynb) file.
+        case ipynb
+        /// Export the notebook as a PDF file.
+        case pdf
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FileFormat] {
+            return [
+                .ipynb,
+                .pdf
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ipynb: return "IPYNB"
+            case .pdf: return "PDF"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetNotebookExportInput: Swift.Sendable {
+    /// The identifier of the Amazon SageMaker Unified Studio domain in which the notebook export exists.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The identifier of the notebook export.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        domainIdentifier: Swift.String? = nil,
+        identifier: Swift.String? = nil
+    ) {
+        self.domainIdentifier = domainIdentifier
+        self.identifier = identifier
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The error details of a failed notebook export in Amazon SageMaker Unified Studio.
+    public struct NotebookExportError: Swift.Sendable {
+        /// The error message. The maximum length is 256 characters.
+        /// This member is required.
+        public var message: Swift.String?
+
+        public init(
+            message: Swift.String? = nil
+        ) {
+            self.message = message
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The Amazon Simple Storage Service destination for a notebook export in Amazon SageMaker Unified Studio.
+    public struct S3Destination: Swift.Sendable {
+        /// The Amazon Simple Storage Service URI of the exported notebook.
+        public var uri: Swift.String?
+
+        public init(
+            uri: Swift.String? = nil
+        ) {
+            self.uri = uri
+        }
+    }
+}
+
+extension DataZoneClientTypes.S3Destination: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "S3Destination(uri: \"CONTENT_REDACTED\")"}
+}
+
+extension DataZoneClientTypes {
+
+    /// The output location for a notebook export in Amazon SageMaker Unified Studio.
+    public enum OutputLocation: Swift.Sendable {
+        /// The Amazon Simple Storage Service destination for the notebook export.
+        case s3(DataZoneClientTypes.S3Destination)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The status of a notebook export in Amazon SageMaker Unified Studio.
+    public enum NotebookExportStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The notebook export failed.
+        case failed
+        /// The notebook export is in progress.
+        case inProgress
+        /// The notebook export succeeded.
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NotebookExportStatus] {
+            return [
+                .failed,
+                .inProgress,
+                .succeeded
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case .succeeded: return "SUCCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetNotebookExportOutput: Swift.Sendable {
+    /// The timestamp of when the notebook export completed.
+    public var completedAt: Foundation.Date?
+    /// The timestamp of when the notebook export was started.
+    public var createdAt: Foundation.Date?
+    /// The identifier of the user who started the notebook export.
+    public var createdBy: Swift.String?
+    /// The identifier of the Amazon SageMaker Unified Studio domain.
+    /// This member is required.
+    public var domainId: Swift.String?
+    /// The error details if the notebook export failed.
+    public var error: DataZoneClientTypes.NotebookExportError?
+    /// The file format of the notebook export.
+    /// This member is required.
+    public var fileFormat: DataZoneClientTypes.FileFormat?
+    /// The identifier of the notebook export.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The identifier of the notebook.
+    /// This member is required.
+    public var notebookId: Swift.String?
+    /// The output location of the exported notebook in Amazon Simple Storage Service.
+    public var outputLocation: DataZoneClientTypes.OutputLocation?
+    /// The identifier of the project that owns the notebook.
+    /// This member is required.
+    public var owningProjectId: Swift.String?
+    /// The status of the notebook export.
+    /// This member is required.
+    public var status: DataZoneClientTypes.NotebookExportStatus?
+
+    public init(
+        completedAt: Foundation.Date? = nil,
+        createdAt: Foundation.Date? = nil,
+        createdBy: Swift.String? = nil,
+        domainId: Swift.String? = nil,
+        error: DataZoneClientTypes.NotebookExportError? = nil,
+        fileFormat: DataZoneClientTypes.FileFormat? = nil,
+        id: Swift.String? = nil,
+        notebookId: Swift.String? = nil,
+        outputLocation: DataZoneClientTypes.OutputLocation? = nil,
+        owningProjectId: Swift.String? = nil,
+        status: DataZoneClientTypes.NotebookExportStatus? = nil
+    ) {
+        self.completedAt = completedAt
+        self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.domainId = domainId
+        self.error = error
+        self.fileFormat = fileFormat
+        self.id = id
+        self.notebookId = notebookId
+        self.outputLocation = outputLocation
+        self.owningProjectId = owningProjectId
+        self.status = status
+    }
+}
+
+public struct StartNotebookExportInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier to ensure idempotency of the request. This field is automatically populated if not provided.
+    public var clientToken: Swift.String?
+    /// The identifier of the Amazon SageMaker Unified Studio domain in which to export the notebook.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The file format for the notebook export. Valid values are PDF and IPYNB.
+    /// This member is required.
+    public var fileFormat: DataZoneClientTypes.FileFormat?
+    /// The identifier of the notebook to export.
+    /// This member is required.
+    public var notebookIdentifier: Swift.String?
+    /// The identifier of the project that owns the notebook.
+    /// This member is required.
+    public var owningProjectIdentifier: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        domainIdentifier: Swift.String? = nil,
+        fileFormat: DataZoneClientTypes.FileFormat? = nil,
+        notebookIdentifier: Swift.String? = nil,
+        owningProjectIdentifier: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.domainIdentifier = domainIdentifier
+        self.fileFormat = fileFormat
+        self.notebookIdentifier = notebookIdentifier
+        self.owningProjectIdentifier = owningProjectIdentifier
+    }
+}
+
+public struct StartNotebookExportOutput: Swift.Sendable {
+    /// The timestamp of when the notebook export was started.
+    public var createdAt: Foundation.Date?
+    /// The identifier of the user who started the notebook export.
+    public var createdBy: Swift.String?
+    /// The identifier of the Amazon SageMaker Unified Studio domain.
+    /// This member is required.
+    public var domainId: Swift.String?
+    /// The file format of the notebook export.
+    /// This member is required.
+    public var fileFormat: DataZoneClientTypes.FileFormat?
+    /// The identifier of the notebook export.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The identifier of the notebook.
+    /// This member is required.
+    public var notebookId: Swift.String?
+    /// The identifier of the project that owns the notebook.
+    /// This member is required.
+    public var owningProjectId: Swift.String?
+    /// The status of the notebook export.
+    /// This member is required.
+    public var status: DataZoneClientTypes.NotebookExportStatus?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        createdBy: Swift.String? = nil,
+        domainId: Swift.String? = nil,
+        fileFormat: DataZoneClientTypes.FileFormat? = nil,
+        id: Swift.String? = nil,
+        notebookId: Swift.String? = nil,
+        owningProjectId: Swift.String? = nil,
+        status: DataZoneClientTypes.NotebookExportStatus? = nil
+    ) {
+        self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.domainId = domainId
+        self.fileFormat = fileFormat
+        self.id = id
+        self.notebookId = notebookId
+        self.owningProjectId = owningProjectId
+        self.status = status
+    }
+}
+
+public struct GetNotebookRunInput: Swift.Sendable {
+    /// The identifier of the Amazon SageMaker Unified Studio domain in which the notebook run exists.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The identifier of the notebook run.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        domainIdentifier: Swift.String? = nil,
+        identifier: Swift.String? = nil
+    ) {
+        self.domainIdentifier = domainIdentifier
+        self.identifier = identifier
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The error details of a failed notebook run in Amazon SageMaker Unified Studio.
+    public struct NotebookRunError: Swift.Sendable {
+        /// The error message. The maximum length is 1024 characters.
+        /// This member is required.
+        public var message: Swift.String?
+
+        public init(
+            message: Swift.String? = nil
+        ) {
+            self.message = message
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The network access type for a notebook run in Amazon SageMaker Unified Studio.
+    public enum NetworkAccessType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The notebook run uses public internet access only.
+        case publicInternetOnly
+        /// The notebook run uses VPC access only.
+        case vpcOnly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NetworkAccessType] {
+            return [
+                .publicInternetOnly,
+                .vpcOnly
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .publicInternetOnly: return "PUBLIC_INTERNET_ONLY"
+            case .vpcOnly: return "VPC_ONLY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The network configuration for a notebook run in Amazon SageMaker Unified Studio.
+    public struct NetworkConfig: Swift.Sendable {
+        /// The network access type for the notebook run. Valid values are PUBLIC_INTERNET_ONLY and VPC_ONLY.
+        /// This member is required.
+        public var networkAccessType: DataZoneClientTypes.NetworkAccessType?
+        /// The identifiers of the security groups for the notebook run. You can specify up to 5 security groups.
+        public var securityGroupIds: [Swift.String]?
+        /// The identifiers of the subnets for the notebook run. You can specify up to 10 subnets.
+        public var subnetIds: [Swift.String]?
+        /// The identifier of the VPC for the notebook run. This is required when the network access type is VPC_ONLY.
+        public var vpcId: Swift.String?
+
+        public init(
+            networkAccessType: DataZoneClientTypes.NetworkAccessType? = nil,
+            securityGroupIds: [Swift.String]? = nil,
+            subnetIds: [Swift.String]? = nil,
+            vpcId: Swift.String? = nil
+        ) {
+            self.networkAccessType = networkAccessType
+            self.securityGroupIds = securityGroupIds
+            self.subnetIds = subnetIds
+            self.vpcId = vpcId
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The status of a notebook run in Amazon SageMaker Unified Studio.
+    public enum NotebookRunStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The notebook run failed.
+        case failed
+        /// The notebook run is queued.
+        case queued
+        /// The notebook run is running.
+        case running
+        /// The notebook run is starting.
+        case starting
+        /// The notebook run was stopped.
+        case stopped
+        /// The notebook run is stopping.
+        case stopping
+        /// The notebook run succeeded.
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NotebookRunStatus] {
+            return [
+                .failed,
+                .queued,
+                .running,
+                .starting,
+                .stopped,
+                .stopping,
+                .succeeded
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .queued: return "QUEUED"
+            case .running: return "RUNNING"
+            case .starting: return "STARTING"
+            case .stopped: return "STOPPED"
+            case .stopping: return "STOPPING"
+            case .succeeded: return "SUCCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The storage configuration for a notebook run in Amazon SageMaker Unified Studio.
+    public struct StorageConfig: Swift.Sendable {
+        /// The ARN of the KMS key used for encryption.
+        public var kmsKeyArn: Swift.String?
+        /// The Amazon Simple Storage Service path for the project storage.
+        public var projectS3Path: Swift.String?
+
+        public init(
+            kmsKeyArn: Swift.String? = nil,
+            projectS3Path: Swift.String? = nil
+        ) {
+            self.kmsKeyArn = kmsKeyArn
+            self.projectS3Path = projectS3Path
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The timeout configuration for a notebook run in Amazon SageMaker Unified Studio.
+    public struct TimeoutConfig: Swift.Sendable {
+        /// The timeout for the notebook run, in minutes. The minimum value is 60 minutes (1 hour), the maximum value is 1440 minutes (24 hours), and the default value is 720 minutes (12 hours).
+        public var runTimeoutInMinutes: Swift.Int?
+
+        public init(
+            runTimeoutInMinutes: Swift.Int? = nil
+        ) {
+            self.runTimeoutInMinutes = runTimeoutInMinutes
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The type of trigger source for a notebook run in Amazon SageMaker Unified Studio.
+    public enum TriggerSourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The notebook run was triggered manually.
+        case manual
+        /// The notebook run was triggered by a schedule.
+        case scheduled
+        /// The notebook run was triggered by a workflow.
+        case workflow
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TriggerSourceType] {
+            return [
+                .manual,
+                .scheduled,
+                .workflow
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .manual: return "MANUAL"
+            case .scheduled: return "SCHEDULED"
+            case .workflow: return "WORKFLOW"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The source that triggered a notebook run in Amazon SageMaker Unified Studio.
+    public struct TriggerSource: Swift.Sendable {
+        /// The name of the trigger source.
+        public var name: Swift.String?
+        /// The type of the trigger source. Valid values are MANUAL, SCHEDULED, and WORKFLOW.
+        public var type: DataZoneClientTypes.TriggerSourceType?
+
+        public init(
+            name: Swift.String? = nil,
+            type: DataZoneClientTypes.TriggerSourceType? = nil
+        ) {
+            self.name = name
+            self.type = type
+        }
+    }
+}
+
+public struct GetNotebookRunOutput: Swift.Sendable {
+    /// The ordered list of cells in the notebook run.
+    public var cellOrder: [DataZoneClientTypes.CellInformation]?
+    /// The timestamp of when the notebook run completed.
+    public var completedAt: Foundation.Date?
+    /// The compute configuration of the notebook run.
+    public var computeConfiguration: DataZoneClientTypes.ComputeConfig?
+    /// The timestamp of when the notebook run was created.
+    public var createdAt: Foundation.Date?
+    /// The identifier of the user who created the notebook run.
+    public var createdBy: Swift.String?
+    /// The identifier of the Amazon SageMaker Unified Studio domain.
+    /// This member is required.
+    public var domainId: Swift.String?
+    /// The environment configuration of the notebook run, including image version and package settings.
+    public var environmentConfiguration: DataZoneClientTypes.EnvironmentConfig?
+    /// The error details if the notebook run failed.
+    public var error: DataZoneClientTypes.NotebookRunError?
+    /// The identifier of the notebook run.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The metadata of the notebook run.
+    public var metadata: [Swift.String: Swift.String]?
+    /// The network configuration of the notebook run.
+    public var networkConfiguration: DataZoneClientTypes.NetworkConfig?
+    /// The identifier of the notebook.
+    /// This member is required.
+    public var notebookId: Swift.String?
+    /// The identifier of the project that owns the notebook run.
+    /// This member is required.
+    public var owningProjectId: Swift.String?
+    /// The sensitive parameters of the notebook run.
+    public var parameters: [Swift.String: Swift.String]?
+    /// The identifier of the schedule associated with the notebook run.
+    public var scheduleId: Swift.String?
+    /// The timestamp of when the notebook run started executing.
+    public var startedAt: Foundation.Date?
+    /// The status of the notebook run.
+    /// This member is required.
+    public var status: DataZoneClientTypes.NotebookRunStatus?
+    /// The storage configuration of the notebook run, including the Amazon Simple Storage Service path and KMS key ARN.
+    public var storageConfiguration: DataZoneClientTypes.StorageConfig?
+    /// The timeout configuration of the notebook run.
+    public var timeoutConfiguration: DataZoneClientTypes.TimeoutConfig?
+    /// The source that triggered the notebook run.
+    public var triggerSource: DataZoneClientTypes.TriggerSource?
+    /// The timestamp of when the notebook run was last updated.
+    public var updatedAt: Foundation.Date?
+    /// The identifier of the user who last updated the notebook run.
+    public var updatedBy: Swift.String?
+
+    public init(
+        cellOrder: [DataZoneClientTypes.CellInformation]? = nil,
+        completedAt: Foundation.Date? = nil,
+        computeConfiguration: DataZoneClientTypes.ComputeConfig? = nil,
+        createdAt: Foundation.Date? = nil,
+        createdBy: Swift.String? = nil,
+        domainId: Swift.String? = nil,
+        environmentConfiguration: DataZoneClientTypes.EnvironmentConfig? = nil,
+        error: DataZoneClientTypes.NotebookRunError? = nil,
+        id: Swift.String? = nil,
+        metadata: [Swift.String: Swift.String]? = nil,
+        networkConfiguration: DataZoneClientTypes.NetworkConfig? = nil,
+        notebookId: Swift.String? = nil,
+        owningProjectId: Swift.String? = nil,
+        parameters: [Swift.String: Swift.String]? = nil,
+        scheduleId: Swift.String? = nil,
+        startedAt: Foundation.Date? = nil,
+        status: DataZoneClientTypes.NotebookRunStatus? = nil,
+        storageConfiguration: DataZoneClientTypes.StorageConfig? = nil,
+        timeoutConfiguration: DataZoneClientTypes.TimeoutConfig? = nil,
+        triggerSource: DataZoneClientTypes.TriggerSource? = nil,
+        updatedAt: Foundation.Date? = nil,
+        updatedBy: Swift.String? = nil
+    ) {
+        self.cellOrder = cellOrder
+        self.completedAt = completedAt
+        self.computeConfiguration = computeConfiguration
+        self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.domainId = domainId
+        self.environmentConfiguration = environmentConfiguration
+        self.error = error
+        self.id = id
+        self.metadata = metadata
+        self.networkConfiguration = networkConfiguration
+        self.notebookId = notebookId
+        self.owningProjectId = owningProjectId
+        self.parameters = parameters
+        self.scheduleId = scheduleId
+        self.startedAt = startedAt
+        self.status = status
+        self.storageConfiguration = storageConfiguration
+        self.timeoutConfiguration = timeoutConfiguration
+        self.triggerSource = triggerSource
+        self.updatedAt = updatedAt
+        self.updatedBy = updatedBy
+    }
+}
+
+extension GetNotebookRunOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetNotebookRunOutput(cellOrder: \(Swift.String(describing: cellOrder)), completedAt: \(Swift.String(describing: completedAt)), computeConfiguration: \(Swift.String(describing: computeConfiguration)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), environmentConfiguration: \(Swift.String(describing: environmentConfiguration)), error: \(Swift.String(describing: error)), id: \(Swift.String(describing: id)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), notebookId: \(Swift.String(describing: notebookId)), owningProjectId: \(Swift.String(describing: owningProjectId)), scheduleId: \(Swift.String(describing: scheduleId)), startedAt: \(Swift.String(describing: startedAt)), status: \(Swift.String(describing: status)), storageConfiguration: \(Swift.String(describing: storageConfiguration)), timeoutConfiguration: \(Swift.String(describing: timeoutConfiguration)), triggerSource: \(Swift.String(describing: triggerSource)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), metadata: [keys: \(Swift.String(describing: metadata?.keys)), values: \"CONTENT_REDACTED\"], parameters: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListNotebookRunsInput: Swift.Sendable {
+    /// The identifier of the Amazon SageMaker Unified Studio domain in which to list notebook runs.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The maximum number of notebook runs to return in a single call. When the number of notebook runs exceeds the value of MaxResults, the response contains a NextToken value.
+    public var maxResults: Swift.Int?
+    /// When the number of notebook runs is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of notebook runs, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListNotebookRuns to list the next set of notebook runs.
+    public var nextToken: Swift.String?
+    /// The identifier of the notebook to filter runs by.
+    public var notebookIdentifier: Swift.String?
+    /// The identifier of the project that owns the notebook runs.
+    /// This member is required.
+    public var owningProjectIdentifier: Swift.String?
+    /// The identifier of the schedule to filter notebook runs by.
+    public var scheduleIdentifier: Swift.String?
+    /// The sort order for the results.
+    public var sortOrder: DataZoneClientTypes.SortOrder?
+    /// The status to filter notebook runs by.
+    public var status: DataZoneClientTypes.NotebookRunStatus?
+
+    public init(
+        domainIdentifier: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        notebookIdentifier: Swift.String? = nil,
+        owningProjectIdentifier: Swift.String? = nil,
+        scheduleIdentifier: Swift.String? = nil,
+        sortOrder: DataZoneClientTypes.SortOrder? = nil,
+        status: DataZoneClientTypes.NotebookRunStatus? = nil
+    ) {
+        self.domainIdentifier = domainIdentifier
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.notebookIdentifier = notebookIdentifier
+        self.owningProjectIdentifier = owningProjectIdentifier
+        self.scheduleIdentifier = scheduleIdentifier
+        self.sortOrder = sortOrder
+        self.status = status
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The summary of a notebook run in Amazon SageMaker Unified Studio.
+    public struct NotebookRunSummary: Swift.Sendable {
+        /// The timestamp of when the notebook run completed.
+        public var completedAt: Foundation.Date?
+        /// The timestamp of when the notebook run was created.
+        public var createdAt: Foundation.Date?
+        /// The identifier of the user who created the notebook run.
+        public var createdBy: Swift.String?
+        /// The identifier of the Amazon SageMaker Unified Studio domain.
+        /// This member is required.
+        public var domainId: Swift.String?
+        /// The identifier of the notebook run.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The identifier of the notebook.
+        /// This member is required.
+        public var notebookId: Swift.String?
+        /// The identifier of the project that owns the notebook run.
+        /// This member is required.
+        public var owningProjectId: Swift.String?
+        /// The identifier of the schedule associated with the notebook run.
+        public var scheduleId: Swift.String?
+        /// The timestamp of when the notebook run started executing.
+        public var startedAt: Foundation.Date?
+        /// The status of the notebook run.
+        /// This member is required.
+        public var status: DataZoneClientTypes.NotebookRunStatus?
+        /// The source that triggered the notebook run.
+        public var triggerSource: DataZoneClientTypes.TriggerSource?
+        /// The timestamp of when the notebook run was last updated.
+        public var updatedAt: Foundation.Date?
+        /// The identifier of the user who last updated the notebook run.
+        public var updatedBy: Swift.String?
+
+        public init(
+            completedAt: Foundation.Date? = nil,
+            createdAt: Foundation.Date? = nil,
+            createdBy: Swift.String? = nil,
+            domainId: Swift.String? = nil,
+            id: Swift.String? = nil,
+            notebookId: Swift.String? = nil,
+            owningProjectId: Swift.String? = nil,
+            scheduleId: Swift.String? = nil,
+            startedAt: Foundation.Date? = nil,
+            status: DataZoneClientTypes.NotebookRunStatus? = nil,
+            triggerSource: DataZoneClientTypes.TriggerSource? = nil,
+            updatedAt: Foundation.Date? = nil,
+            updatedBy: Swift.String? = nil
+        ) {
+            self.completedAt = completedAt
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.domainId = domainId
+            self.id = id
+            self.notebookId = notebookId
+            self.owningProjectId = owningProjectId
+            self.scheduleId = scheduleId
+            self.startedAt = startedAt
+            self.status = status
+            self.triggerSource = triggerSource
+            self.updatedAt = updatedAt
+            self.updatedBy = updatedBy
+        }
+    }
+}
+
+public struct ListNotebookRunsOutput: Swift.Sendable {
+    /// The results of the ListNotebookRuns action.
+    public var items: [DataZoneClientTypes.NotebookRunSummary]?
+    /// When the number of notebook runs is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of notebook runs, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListNotebookRuns to list the next set of notebook runs.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [DataZoneClientTypes.NotebookRunSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+public struct StartNotebookRunInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier to ensure idempotency of the request. This field is automatically populated if not provided.
+    public var clientToken: Swift.String?
+    /// The compute configuration for the notebook run, including instance type and environment version.
+    public var computeConfiguration: DataZoneClientTypes.ComputeConfig?
+    /// The identifier of the Amazon SageMaker Unified Studio domain in which the notebook run is started.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The metadata for the notebook run, specified as key-value pairs. You can specify up to 50 entries, with keys up to 128 characters and values up to 1024 characters.
+    public var metadata: [Swift.String: Swift.String]?
+    /// The network configuration for the notebook run, including network access type and optional VPC settings.
+    public var networkConfiguration: DataZoneClientTypes.NetworkConfig?
+    /// The identifier of the notebook to run.
+    /// This member is required.
+    public var notebookIdentifier: Swift.String?
+    /// The identifier of the project that owns the notebook run.
+    /// This member is required.
+    public var owningProjectIdentifier: Swift.String?
+    /// The sensitive parameters for the notebook run, specified as key-value pairs. You can specify up to 50 entries, with keys up to 128 characters and values up to 1024 characters.
+    public var parameters: [Swift.String: Swift.String]?
+    /// The identifier of the schedule associated with the notebook run.
+    public var scheduleIdentifier: Swift.String?
+    /// The timeout configuration for the notebook run. The default timeout is 720 minutes (12 hours) and the maximum is 1440 minutes (24 hours).
+    public var timeoutConfiguration: DataZoneClientTypes.TimeoutConfig?
+    /// The source that triggered the notebook run.
+    public var triggerSource: DataZoneClientTypes.TriggerSource?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        computeConfiguration: DataZoneClientTypes.ComputeConfig? = nil,
+        domainIdentifier: Swift.String? = nil,
+        metadata: [Swift.String: Swift.String]? = nil,
+        networkConfiguration: DataZoneClientTypes.NetworkConfig? = nil,
+        notebookIdentifier: Swift.String? = nil,
+        owningProjectIdentifier: Swift.String? = nil,
+        parameters: [Swift.String: Swift.String]? = nil,
+        scheduleIdentifier: Swift.String? = nil,
+        timeoutConfiguration: DataZoneClientTypes.TimeoutConfig? = nil,
+        triggerSource: DataZoneClientTypes.TriggerSource? = nil
+    ) {
+        self.clientToken = clientToken
+        self.computeConfiguration = computeConfiguration
+        self.domainIdentifier = domainIdentifier
+        self.metadata = metadata
+        self.networkConfiguration = networkConfiguration
+        self.notebookIdentifier = notebookIdentifier
+        self.owningProjectIdentifier = owningProjectIdentifier
+        self.parameters = parameters
+        self.scheduleIdentifier = scheduleIdentifier
+        self.timeoutConfiguration = timeoutConfiguration
+        self.triggerSource = triggerSource
+    }
+}
+
+extension StartNotebookRunInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "StartNotebookRunInput(clientToken: \(Swift.String(describing: clientToken)), computeConfiguration: \(Swift.String(describing: computeConfiguration)), domainIdentifier: \(Swift.String(describing: domainIdentifier)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), notebookIdentifier: \(Swift.String(describing: notebookIdentifier)), owningProjectIdentifier: \(Swift.String(describing: owningProjectIdentifier)), scheduleIdentifier: \(Swift.String(describing: scheduleIdentifier)), timeoutConfiguration: \(Swift.String(describing: timeoutConfiguration)), triggerSource: \(Swift.String(describing: triggerSource)), metadata: [keys: \(Swift.String(describing: metadata?.keys)), values: \"CONTENT_REDACTED\"], parameters: \"CONTENT_REDACTED\")"}
+}
+
+public struct StartNotebookRunOutput: Swift.Sendable {
+    /// The ordered list of cells in the notebook run.
+    public var cellOrder: [DataZoneClientTypes.CellInformation]?
+    /// The timestamp of when the notebook run completed.
+    public var completedAt: Foundation.Date?
+    /// The compute configuration of the notebook run.
+    public var computeConfiguration: DataZoneClientTypes.ComputeConfig?
+    /// The timestamp of when the notebook run was created.
+    public var createdAt: Foundation.Date?
+    /// The identifier of the user who created the notebook run.
+    public var createdBy: Swift.String?
+    /// The identifier of the Amazon SageMaker Unified Studio domain.
+    /// This member is required.
+    public var domainId: Swift.String?
+    /// The environment configuration of the notebook run, including image version and package settings.
+    public var environmentConfiguration: DataZoneClientTypes.EnvironmentConfig?
+    /// The error details if the notebook run failed.
+    public var error: DataZoneClientTypes.NotebookRunError?
+    /// The identifier of the notebook run.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The metadata of the notebook run.
+    public var metadata: [Swift.String: Swift.String]?
+    /// The network configuration of the notebook run.
+    public var networkConfiguration: DataZoneClientTypes.NetworkConfig?
+    /// The identifier of the notebook.
+    /// This member is required.
+    public var notebookId: Swift.String?
+    /// The identifier of the project that owns the notebook run.
+    /// This member is required.
+    public var owningProjectId: Swift.String?
+    /// The sensitive parameters of the notebook run.
+    public var parameters: [Swift.String: Swift.String]?
+    /// The identifier of the schedule associated with the notebook run.
+    public var scheduleId: Swift.String?
+    /// The timestamp of when the notebook run started executing.
+    public var startedAt: Foundation.Date?
+    /// The status of the notebook run.
+    /// This member is required.
+    public var status: DataZoneClientTypes.NotebookRunStatus?
+    /// The storage configuration of the notebook run, including the Amazon Simple Storage Service path and KMS key ARN.
+    public var storageConfiguration: DataZoneClientTypes.StorageConfig?
+    /// The timeout configuration of the notebook run.
+    public var timeoutConfiguration: DataZoneClientTypes.TimeoutConfig?
+    /// The source that triggered the notebook run.
+    public var triggerSource: DataZoneClientTypes.TriggerSource?
+    /// The timestamp of when the notebook run was last updated.
+    public var updatedAt: Foundation.Date?
+    /// The identifier of the user who last updated the notebook run.
+    public var updatedBy: Swift.String?
+
+    public init(
+        cellOrder: [DataZoneClientTypes.CellInformation]? = nil,
+        completedAt: Foundation.Date? = nil,
+        computeConfiguration: DataZoneClientTypes.ComputeConfig? = nil,
+        createdAt: Foundation.Date? = nil,
+        createdBy: Swift.String? = nil,
+        domainId: Swift.String? = nil,
+        environmentConfiguration: DataZoneClientTypes.EnvironmentConfig? = nil,
+        error: DataZoneClientTypes.NotebookRunError? = nil,
+        id: Swift.String? = nil,
+        metadata: [Swift.String: Swift.String]? = nil,
+        networkConfiguration: DataZoneClientTypes.NetworkConfig? = nil,
+        notebookId: Swift.String? = nil,
+        owningProjectId: Swift.String? = nil,
+        parameters: [Swift.String: Swift.String]? = nil,
+        scheduleId: Swift.String? = nil,
+        startedAt: Foundation.Date? = nil,
+        status: DataZoneClientTypes.NotebookRunStatus? = nil,
+        storageConfiguration: DataZoneClientTypes.StorageConfig? = nil,
+        timeoutConfiguration: DataZoneClientTypes.TimeoutConfig? = nil,
+        triggerSource: DataZoneClientTypes.TriggerSource? = nil,
+        updatedAt: Foundation.Date? = nil,
+        updatedBy: Swift.String? = nil
+    ) {
+        self.cellOrder = cellOrder
+        self.completedAt = completedAt
+        self.computeConfiguration = computeConfiguration
+        self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.domainId = domainId
+        self.environmentConfiguration = environmentConfiguration
+        self.error = error
+        self.id = id
+        self.metadata = metadata
+        self.networkConfiguration = networkConfiguration
+        self.notebookId = notebookId
+        self.owningProjectId = owningProjectId
+        self.parameters = parameters
+        self.scheduleId = scheduleId
+        self.startedAt = startedAt
+        self.status = status
+        self.storageConfiguration = storageConfiguration
+        self.timeoutConfiguration = timeoutConfiguration
+        self.triggerSource = triggerSource
+        self.updatedAt = updatedAt
+        self.updatedBy = updatedBy
+    }
+}
+
+extension StartNotebookRunOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "StartNotebookRunOutput(cellOrder: \(Swift.String(describing: cellOrder)), completedAt: \(Swift.String(describing: completedAt)), computeConfiguration: \(Swift.String(describing: computeConfiguration)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), environmentConfiguration: \(Swift.String(describing: environmentConfiguration)), error: \(Swift.String(describing: error)), id: \(Swift.String(describing: id)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), notebookId: \(Swift.String(describing: notebookId)), owningProjectId: \(Swift.String(describing: owningProjectId)), scheduleId: \(Swift.String(describing: scheduleId)), startedAt: \(Swift.String(describing: startedAt)), status: \(Swift.String(describing: status)), storageConfiguration: \(Swift.String(describing: storageConfiguration)), timeoutConfiguration: \(Swift.String(describing: timeoutConfiguration)), triggerSource: \(Swift.String(describing: triggerSource)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), metadata: [keys: \(Swift.String(describing: metadata?.keys)), values: \"CONTENT_REDACTED\"], parameters: \"CONTENT_REDACTED\")"}
+}
+
+public struct StopNotebookRunInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier to ensure idempotency of the request. This field is automatically populated if not provided.
+    public var clientToken: Swift.String?
+    /// The identifier of the Amazon SageMaker Unified Studio domain in which the notebook run is stopped.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The identifier of the notebook run to stop.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        domainIdentifier: Swift.String? = nil,
+        identifier: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.domainIdentifier = domainIdentifier
+        self.identifier = identifier
+    }
+}
+
+public struct StopNotebookRunOutput: Swift.Sendable {
+    /// The identifier of the Amazon SageMaker Unified Studio domain.
+    /// This member is required.
+    public var domainId: Swift.String?
+    /// The identifier of the notebook run.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The identifier of the project that owns the notebook run.
+    /// This member is required.
+    public var owningProjectId: Swift.String?
+    /// The status of the notebook run.
+    /// This member is required.
+    public var status: DataZoneClientTypes.NotebookRunStatus?
+
+    public init(
+        domainId: Swift.String? = nil,
+        id: Swift.String? = nil,
+        owningProjectId: Swift.String? = nil,
+        status: DataZoneClientTypes.NotebookRunStatus? = nil
+    ) {
+        self.domainId = domainId
+        self.id = id
+        self.owningProjectId = owningProjectId
+        self.status = status
+    }
+}
+
 public struct PostLineageEventInput: Swift.Sendable {
     /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request.
     public var clientToken: Swift.String?
@@ -20070,7 +21988,7 @@ public struct PostTimeSeriesDataPointsOutput: Swift.Sendable {
 public struct PutDataExportConfigurationInput: Swift.Sendable {
     /// A unique, case-sensitive identifier to ensure idempotency of the request. This field is automatically populated if not provided.
     public var clientToken: Swift.String?
-    /// The domain ID where you want to create data export configuration details.
+    /// The domain ID for which you want to create data export configuration details.
     /// This member is required.
     public var domainIdentifier: Swift.String?
     /// Specifies that the export is to be enabled as part of creating data export configuration details.
@@ -20095,6 +22013,280 @@ public struct PutDataExportConfigurationInput: Swift.Sendable {
 public struct PutDataExportConfigurationOutput: Swift.Sendable {
 
     public init() { }
+}
+
+extension DataZoneClientTypes {
+
+    public enum GraphEntityType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case lineageNode
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GraphEntityType] {
+            return [
+                .lineageNode
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .lineageNode: return "LINEAGE_NODE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    public enum FilterOperator: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case eq
+        case ge
+        case gt
+        case le
+        case lt
+        case textSearch
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FilterOperator] {
+            return [
+                .eq,
+                .ge,
+                .gt,
+                .le,
+                .lt,
+                .textSearch
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .eq: return "EQ"
+            case .ge: return "GE"
+            case .gt: return "GT"
+            case .le: return "LE"
+            case .lt: return "LT"
+            case .textSearch: return "TEXT_SEARCH"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// A search filter in Amazon DataZone.
+    public struct Filter: Swift.Sendable {
+        /// A search filter attribute in Amazon DataZone.
+        /// This member is required.
+        public var attribute: Swift.String?
+        /// A search filter integer value in Amazon DataZone.
+        public var intValue: Swift.Int?
+        /// Specifies the search filter operator.
+        public var `operator`: DataZoneClientTypes.FilterOperator?
+        /// A search filter string value in Amazon DataZone.
+        public var value: Swift.String?
+
+        public init(
+            attribute: Swift.String? = nil,
+            intValue: Swift.Int? = nil,
+            `operator`: DataZoneClientTypes.FilterOperator? = .eq,
+            value: Swift.String? = ""
+        ) {
+            self.attribute = attribute
+            self.intValue = intValue
+            self.`operator` = `operator`
+            self.value = value
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    public enum RelationDirection: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `in`
+        case out
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RelationDirection] {
+            return [
+                .in,
+                .out
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .in: return "IN"
+            case .out: return "OUT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    public enum RelationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case lineage
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RelationType] {
+            return [
+                .lineage
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .lineage: return "LINEAGE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The pattern describing the query's relational traversal.
+    public struct RelationPattern: Swift.Sendable {
+        /// The number of hops to query.
+        public var maxPathLength: Swift.Int?
+        /// The direction to query.
+        /// This member is required.
+        public var relationDirection: DataZoneClientTypes.RelationDirection?
+        /// The type of relation to query.
+        /// This member is required.
+        public var relationType: DataZoneClientTypes.RelationType?
+
+        public init(
+            maxPathLength: Swift.Int? = nil,
+            relationDirection: DataZoneClientTypes.RelationDirection? = nil,
+            relationType: DataZoneClientTypes.RelationType? = nil
+        ) {
+            self.maxPathLength = maxPathLength
+            self.relationDirection = relationDirection
+            self.relationType = relationType
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The summary and output forms of a LineageNode
+    public struct LineageNodeItem: Swift.Sendable {
+        /// The timestamp at which the data lineage node was created.
+        public var createdAt: Foundation.Date?
+        /// The user who created the data lineage node.
+        public var createdBy: Swift.String?
+        /// The description of the data lineage node.
+        public var description: Swift.String?
+        /// The ID of the domain of the data lineage node.
+        /// This member is required.
+        public var domainId: Swift.String?
+        /// The IDs of the downstream data lineage nodes.
+        public var downstreamLineageNodeIds: [Swift.String]?
+        /// The event timestamp of the data lineage node.
+        public var eventTimestamp: Foundation.Date?
+        /// The forms included in the additional attributes of a data lineage node.
+        public var formsOutput: [DataZoneClientTypes.FormOutput]?
+        /// The ID of the data lineage node.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The name of the data lineage node.
+        public var name: Swift.String?
+        /// The alternate ID of the data lineage node.
+        public var sourceIdentifier: Swift.String?
+        /// The name of the type of the data lineage node.
+        /// This member is required.
+        public var typeName: Swift.String?
+        /// The type of the revision of the data lineage node.
+        public var typeRevision: Swift.String?
+        /// The timestamp at which the data lineage node was updated.
+        public var updatedAt: Foundation.Date?
+        /// The user who updated the data lineage node.
+        public var updatedBy: Swift.String?
+        /// The IDs of the upstream data lineage nodes.
+        public var upstreamLineageNodeIds: [Swift.String]?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            createdBy: Swift.String? = nil,
+            description: Swift.String? = nil,
+            domainId: Swift.String? = nil,
+            downstreamLineageNodeIds: [Swift.String]? = nil,
+            eventTimestamp: Foundation.Date? = nil,
+            formsOutput: [DataZoneClientTypes.FormOutput]? = nil,
+            id: Swift.String? = nil,
+            name: Swift.String? = nil,
+            sourceIdentifier: Swift.String? = nil,
+            typeName: Swift.String? = nil,
+            typeRevision: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil,
+            updatedBy: Swift.String? = nil,
+            upstreamLineageNodeIds: [Swift.String]? = nil
+        ) {
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.description = description
+            self.domainId = domainId
+            self.downstreamLineageNodeIds = downstreamLineageNodeIds
+            self.eventTimestamp = eventTimestamp
+            self.formsOutput = formsOutput
+            self.id = id
+            self.name = name
+            self.sourceIdentifier = sourceIdentifier
+            self.typeName = typeName
+            self.typeRevision = typeRevision
+            self.updatedAt = updatedAt
+            self.updatedBy = updatedBy
+            self.upstreamLineageNodeIds = upstreamLineageNodeIds
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// Resulting entity from the query.
+    public enum ResultItem: Swift.Sendable {
+        /// Resulting data lineage node from the query.
+        case lineagenode(DataZoneClientTypes.LineageNodeItem)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct QueryGraphOutput: Swift.Sendable {
+    /// The results of the QueryGraph action.
+    public var items: [DataZoneClientTypes.ResultItem]?
+    /// When the number of entities is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of entities, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to QueryGraph to list the next set of entities.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [DataZoneClientTypes.ResultItem]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
 }
 
 extension DataZoneClientTypes {
@@ -20885,27 +23077,6 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes {
 
-    /// A search filter in Amazon DataZone.
-    public struct Filter: Swift.Sendable {
-        /// A search filter attribute in Amazon DataZone.
-        /// This member is required.
-        public var attribute: Swift.String?
-        /// A search filter value in Amazon DataZone.
-        /// This member is required.
-        public var value: Swift.String?
-
-        public init(
-            attribute: Swift.String? = nil,
-            value: Swift.String? = nil
-        ) {
-            self.attribute = attribute
-            self.value = value
-        }
-    }
-}
-
-extension DataZoneClientTypes {
-
     /// The details of the search.
     public struct SearchInItem: Swift.Sendable {
         /// The search attribute.
@@ -21190,12 +23361,14 @@ extension DataZoneClientTypes {
 
     public enum GroupSearchType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case datazoneSsoGroup
+        case iamRoleSessionGroup
         case ssoGroup
         case sdkUnknown(Swift.String)
 
         public static var allCases: [GroupSearchType] {
             return [
                 .datazoneSsoGroup,
+                .iamRoleSessionGroup,
                 .ssoGroup
             ]
         }
@@ -21208,6 +23381,7 @@ extension DataZoneClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .datazoneSsoGroup: return "DATAZONE_SSO_GROUP"
+            case .iamRoleSessionGroup: return "IAM_ROLE_SESSION_GROUP"
             case .ssoGroup: return "SSO_GROUP"
             case let .sdkUnknown(s): return s
             }
@@ -21259,6 +23433,10 @@ extension DataZoneClientTypes {
         public var groupName: Swift.String?
         /// The ID of a group profile.
         public var id: Swift.String?
+        /// The ARN of the IAM role principal. This role is associated with the group profile.
+        public var rolePrincipalArn: Swift.String?
+        /// The unique identifier of the IAM role principal. This principal is associated with the group profile.
+        public var rolePrincipalId: Swift.String?
         /// The status of a group profile.
         public var status: DataZoneClientTypes.GroupProfileStatus?
 
@@ -21266,11 +23444,15 @@ extension DataZoneClientTypes {
             domainId: Swift.String? = nil,
             groupName: Swift.String? = nil,
             id: Swift.String? = nil,
+            rolePrincipalArn: Swift.String? = nil,
+            rolePrincipalId: Swift.String? = nil,
             status: DataZoneClientTypes.GroupProfileStatus? = nil
         ) {
             self.domainId = domainId
             self.groupName = groupName
             self.id = id
+            self.rolePrincipalArn = rolePrincipalArn
+            self.rolePrincipalId = rolePrincipalId
             self.status = status
         }
     }
@@ -21278,7 +23460,7 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes.GroupProfileSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GroupProfileSummary(domainId: \(Swift.String(describing: domainId)), id: \(Swift.String(describing: id)), status: \(Swift.String(describing: status)), groupName: \"CONTENT_REDACTED\")"}
+        "GroupProfileSummary(domainId: \(Swift.String(describing: domainId)), id: \(Swift.String(describing: id)), rolePrincipalArn: \(Swift.String(describing: rolePrincipalArn)), rolePrincipalId: \(Swift.String(describing: rolePrincipalId)), status: \(Swift.String(describing: status)), groupName: \"CONTENT_REDACTED\")"}
 }
 
 public struct SearchGroupProfilesOutput: Swift.Sendable {
@@ -21628,6 +23810,104 @@ public struct SearchUserProfilesOutput: Swift.Sendable {
     }
 }
 
+extension DataZoneClientTypes {
+
+    /// The source location for a notebook import in Amazon SageMaker Unified Studio.
+    public enum SourceLocation: Swift.Sendable {
+        /// The Amazon Simple Storage Service URI of the notebook source file.
+        case s3(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct StartNotebookImportInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier to ensure idempotency of the request. This field is automatically populated if not provided.
+    public var clientToken: Swift.String?
+    /// The description of the imported notebook.
+    public var description: Swift.String?
+    /// The identifier of the Amazon SageMaker Unified Studio domain in which to import the notebook.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The name of the imported notebook. The name must be between 1 and 256 characters.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The identifier of the project that will own the imported notebook.
+    /// This member is required.
+    public var owningProjectIdentifier: Swift.String?
+    /// The source location of the notebook to import. This specifies the Amazon Simple Storage Service URI of the notebook file.
+    /// This member is required.
+    public var sourceLocation: DataZoneClientTypes.SourceLocation?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        domainIdentifier: Swift.String? = nil,
+        name: Swift.String? = nil,
+        owningProjectIdentifier: Swift.String? = nil,
+        sourceLocation: DataZoneClientTypes.SourceLocation? = nil
+    ) {
+        self.clientToken = clientToken
+        self.description = description
+        self.domainIdentifier = domainIdentifier
+        self.name = name
+        self.owningProjectIdentifier = owningProjectIdentifier
+        self.sourceLocation = sourceLocation
+    }
+}
+
+extension StartNotebookImportInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "StartNotebookImportInput(clientToken: \(Swift.String(describing: clientToken)), domainIdentifier: \(Swift.String(describing: domainIdentifier)), owningProjectIdentifier: \(Swift.String(describing: owningProjectIdentifier)), sourceLocation: \(Swift.String(describing: sourceLocation)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
+public struct StartNotebookImportOutput: Swift.Sendable {
+    /// The timestamp of when the notebook import was started.
+    public var createdAt: Foundation.Date?
+    /// The identifier of the user who started the notebook import.
+    public var createdBy: Swift.String?
+    /// The description of the imported notebook.
+    public var description: Swift.String?
+    /// The identifier of the Amazon SageMaker Unified Studio domain.
+    public var domainId: Swift.String?
+    /// The name of the imported notebook.
+    public var name: Swift.String?
+    /// The identifier of the imported notebook.
+    public var notebookId: Swift.String?
+    /// The identifier of the project that owns the imported notebook.
+    public var owningProjectId: Swift.String?
+    /// The source location from which the notebook was imported.
+    public var sourceLocation: DataZoneClientTypes.SourceLocation?
+    /// The status of the notebook import.
+    public var status: DataZoneClientTypes.NotebookStatus?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        createdBy: Swift.String? = nil,
+        description: Swift.String? = nil,
+        domainId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        notebookId: Swift.String? = nil,
+        owningProjectId: Swift.String? = nil,
+        sourceLocation: DataZoneClientTypes.SourceLocation? = nil,
+        status: DataZoneClientTypes.NotebookStatus? = nil
+    ) {
+        self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.description = description
+        self.domainId = domainId
+        self.name = name
+        self.notebookId = notebookId
+        self.owningProjectId = owningProjectId
+        self.sourceLocation = sourceLocation
+        self.status = status
+    }
+}
+
+extension StartNotebookImportOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "StartNotebookImportOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), notebookId: \(Swift.String(describing: notebookId)), owningProjectId: \(Swift.String(describing: owningProjectId)), sourceLocation: \(Swift.String(describing: sourceLocation)), status: \(Swift.String(describing: status)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
 public struct TagResourceInput: Swift.Sendable {
     /// The ARN of the resource to be tagged in Amazon DataZone.
     /// This member is required.
@@ -21663,9 +23943,9 @@ public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntim
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -21795,6 +24075,8 @@ extension UpdateAccountPoolOutput: Swift.CustomDebugStringConvertible {
 public struct UpdateConnectionInput: Swift.Sendable {
     /// The location where a connection is to be updated.
     public var awsLocation: DataZoneClientTypes.AwsLocation?
+    /// The configurations of the connection.
+    public var configurations: [DataZoneClientTypes.Configuration]?
     /// The description of a connection.
     public var description: Swift.String?
     /// The ID of the domain where a connection is to be updated.
@@ -21808,12 +24090,14 @@ public struct UpdateConnectionInput: Swift.Sendable {
 
     public init(
         awsLocation: DataZoneClientTypes.AwsLocation? = nil,
+        configurations: [DataZoneClientTypes.Configuration]? = nil,
         description: Swift.String? = nil,
         domainIdentifier: Swift.String? = nil,
         identifier: Swift.String? = nil,
         props: DataZoneClientTypes.ConnectionPropertiesPatch? = nil
     ) {
         self.awsLocation = awsLocation
+        self.configurations = configurations
         self.description = description
         self.domainIdentifier = domainIdentifier
         self.identifier = identifier
@@ -21823,10 +24107,12 @@ public struct UpdateConnectionInput: Swift.Sendable {
 
 extension UpdateConnectionInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateConnectionInput(awsLocation: \(Swift.String(describing: awsLocation)), domainIdentifier: \(Swift.String(describing: domainIdentifier)), identifier: \(Swift.String(describing: identifier)), props: \(Swift.String(describing: props)), description: \"CONTENT_REDACTED\")"}
+        "UpdateConnectionInput(awsLocation: \(Swift.String(describing: awsLocation)), configurations: \(Swift.String(describing: configurations)), domainIdentifier: \(Swift.String(describing: domainIdentifier)), identifier: \(Swift.String(describing: identifier)), props: \(Swift.String(describing: props)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateConnectionOutput: Swift.Sendable {
+    /// The configurations of the connection.
+    public var configurations: [DataZoneClientTypes.Configuration]?
     /// The ID of the connection.
     /// This member is required.
     public var connectionId: Swift.String?
@@ -21857,6 +24143,7 @@ public struct UpdateConnectionOutput: Swift.Sendable {
     public var type: DataZoneClientTypes.ConnectionType?
 
     public init(
+        configurations: [DataZoneClientTypes.Configuration]? = nil,
         connectionId: Swift.String? = nil,
         description: Swift.String? = nil,
         domainId: Swift.String? = nil,
@@ -21869,6 +24156,7 @@ public struct UpdateConnectionOutput: Swift.Sendable {
         scope: DataZoneClientTypes.ConnectionScope? = nil,
         type: DataZoneClientTypes.ConnectionType? = nil
     ) {
+        self.configurations = configurations
         self.connectionId = connectionId
         self.description = description
         self.domainId = domainId
@@ -21885,7 +24173,7 @@ public struct UpdateConnectionOutput: Swift.Sendable {
 
 extension UpdateConnectionOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateConnectionOutput(connectionId: \(Swift.String(describing: connectionId)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), environmentId: \(Swift.String(describing: environmentId)), name: \(Swift.String(describing: name)), physicalEndpoints: \(Swift.String(describing: physicalEndpoints)), projectId: \(Swift.String(describing: projectId)), props: \(Swift.String(describing: props)), scope: \(Swift.String(describing: scope)), type: \(Swift.String(describing: type)), description: \"CONTENT_REDACTED\")"}
+        "UpdateConnectionOutput(configurations: \(Swift.String(describing: configurations)), connectionId: \(Swift.String(describing: connectionId)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), environmentId: \(Swift.String(describing: environmentId)), name: \(Swift.String(describing: name)), physicalEndpoints: \(Swift.String(describing: physicalEndpoints)), projectId: \(Swift.String(describing: projectId)), props: \(Swift.String(describing: props)), scope: \(Swift.String(describing: scope)), type: \(Swift.String(describing: type)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateEnvironmentInput: Swift.Sendable {
@@ -21896,6 +24184,8 @@ public struct UpdateEnvironmentInput: Swift.Sendable {
     /// The identifier of the domain in which the environment is to be updated.
     /// This member is required.
     public var domainIdentifier: Swift.String?
+    /// The configuration name of the environment.
+    public var environmentConfigurationName: Swift.String?
     /// The glossary terms to be updated as part of the UpdateEnvironment action.
     public var glossaryTerms: [Swift.String]?
     /// The identifier of the environment that is to be updated.
@@ -21910,6 +24200,7 @@ public struct UpdateEnvironmentInput: Swift.Sendable {
         blueprintVersion: Swift.String? = nil,
         description: Swift.String? = nil,
         domainIdentifier: Swift.String? = nil,
+        environmentConfigurationName: Swift.String? = nil,
         glossaryTerms: [Swift.String]? = nil,
         identifier: Swift.String? = nil,
         name: Swift.String? = nil,
@@ -21918,11 +24209,17 @@ public struct UpdateEnvironmentInput: Swift.Sendable {
         self.blueprintVersion = blueprintVersion
         self.description = description
         self.domainIdentifier = domainIdentifier
+        self.environmentConfigurationName = environmentConfigurationName
         self.glossaryTerms = glossaryTerms
         self.identifier = identifier
         self.name = name
         self.userParameters = userParameters
     }
+}
+
+extension UpdateEnvironmentInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateEnvironmentInput(blueprintVersion: \(Swift.String(describing: blueprintVersion)), description: \(Swift.String(describing: description)), domainIdentifier: \(Swift.String(describing: domainIdentifier)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), identifier: \(Swift.String(describing: identifier)), name: \(Swift.String(describing: name)), userParameters: \(Swift.String(describing: userParameters)), environmentConfigurationName: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateEnvironmentOutput: Swift.Sendable {
@@ -21948,6 +24245,8 @@ public struct UpdateEnvironmentOutput: Swift.Sendable {
     public var environmentBlueprintId: Swift.String?
     /// The configuration ID of the environment.
     public var environmentConfigurationId: Swift.String?
+    /// The configuration name of the environment.
+    public var environmentConfigurationName: Swift.String?
     /// The profile identifier of the environment.
     public var environmentProfileId: Swift.String?
     /// The glossary terms to be updated as part of the UpdateEnvironment action.
@@ -21987,6 +24286,7 @@ public struct UpdateEnvironmentOutput: Swift.Sendable {
         environmentActions: [DataZoneClientTypes.ConfigurableEnvironmentAction]? = nil,
         environmentBlueprintId: Swift.String? = nil,
         environmentConfigurationId: Swift.String? = nil,
+        environmentConfigurationName: Swift.String? = nil,
         environmentProfileId: Swift.String? = "",
         glossaryTerms: [Swift.String]? = nil,
         id: Swift.String? = nil,
@@ -22010,6 +24310,7 @@ public struct UpdateEnvironmentOutput: Swift.Sendable {
         self.environmentActions = environmentActions
         self.environmentBlueprintId = environmentBlueprintId
         self.environmentConfigurationId = environmentConfigurationId
+        self.environmentConfigurationName = environmentConfigurationName
         self.environmentProfileId = environmentProfileId
         self.glossaryTerms = glossaryTerms
         self.id = id
@@ -22027,7 +24328,7 @@ public struct UpdateEnvironmentOutput: Swift.Sendable {
 
 extension UpdateEnvironmentOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateEnvironmentOutput(awsAccountId: \(Swift.String(describing: awsAccountId)), awsAccountRegion: \(Swift.String(describing: awsAccountRegion)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), deploymentProperties: \(Swift.String(describing: deploymentProperties)), domainId: \(Swift.String(describing: domainId)), environmentActions: \(Swift.String(describing: environmentActions)), environmentBlueprintId: \(Swift.String(describing: environmentBlueprintId)), environmentProfileId: \(Swift.String(describing: environmentProfileId)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), lastDeployment: \(Swift.String(describing: lastDeployment)), projectId: \(Swift.String(describing: projectId)), provider: \(Swift.String(describing: provider)), provisionedResources: \(Swift.String(describing: provisionedResources)), provisioningProperties: \(Swift.String(describing: provisioningProperties)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), userParameters: \(Swift.String(describing: userParameters)), description: \"CONTENT_REDACTED\", environmentConfigurationId: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "UpdateEnvironmentOutput(awsAccountId: \(Swift.String(describing: awsAccountId)), awsAccountRegion: \(Swift.String(describing: awsAccountRegion)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), deploymentProperties: \(Swift.String(describing: deploymentProperties)), domainId: \(Swift.String(describing: domainId)), environmentActions: \(Swift.String(describing: environmentActions)), environmentBlueprintId: \(Swift.String(describing: environmentBlueprintId)), environmentProfileId: \(Swift.String(describing: environmentProfileId)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), lastDeployment: \(Swift.String(describing: lastDeployment)), projectId: \(Swift.String(describing: projectId)), provider: \(Swift.String(describing: provider)), provisionedResources: \(Swift.String(describing: provisionedResources)), provisioningProperties: \(Swift.String(describing: provisioningProperties)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), userParameters: \(Swift.String(describing: userParameters)), description: \"CONTENT_REDACTED\", environmentConfigurationId: \"CONTENT_REDACTED\", environmentConfigurationName: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateEnvironmentActionInput: Swift.Sendable {
@@ -22321,6 +24622,10 @@ public struct UpdateGroupProfileOutput: Swift.Sendable {
     public var groupName: Swift.String?
     /// The identifier of the group profile that is updated.
     public var id: Swift.String?
+    /// The ARN of the IAM role principal. This role is associated with the updated group profile.
+    public var rolePrincipalArn: Swift.String?
+    /// The unique identifier of the IAM role principal. This principal is associated with the updated group profile.
+    public var rolePrincipalId: Swift.String?
     /// The status of the group profile that is updated.
     public var status: DataZoneClientTypes.GroupProfileStatus?
 
@@ -22328,18 +24633,22 @@ public struct UpdateGroupProfileOutput: Swift.Sendable {
         domainId: Swift.String? = nil,
         groupName: Swift.String? = nil,
         id: Swift.String? = nil,
+        rolePrincipalArn: Swift.String? = nil,
+        rolePrincipalId: Swift.String? = nil,
         status: DataZoneClientTypes.GroupProfileStatus? = nil
     ) {
         self.domainId = domainId
         self.groupName = groupName
         self.id = id
+        self.rolePrincipalArn = rolePrincipalArn
+        self.rolePrincipalId = rolePrincipalId
         self.status = status
     }
 }
 
 extension UpdateGroupProfileOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateGroupProfileOutput(domainId: \(Swift.String(describing: domainId)), id: \(Swift.String(describing: id)), status: \(Swift.String(describing: status)), groupName: \"CONTENT_REDACTED\")"}
+        "UpdateGroupProfileOutput(domainId: \(Swift.String(describing: domainId)), id: \(Swift.String(describing: id)), rolePrincipalArn: \(Swift.String(describing: rolePrincipalArn)), rolePrincipalId: \(Swift.String(describing: rolePrincipalId)), status: \(Swift.String(describing: status)), groupName: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateProjectInput: Swift.Sendable {
@@ -22423,6 +24732,8 @@ public struct UpdateProjectOutput: Swift.Sendable {
     /// The name of the project that is to be updated.
     /// This member is required.
     public var name: Swift.String?
+    /// The category of the project.
+    public var projectCategory: Swift.String?
     /// The ID of the project profile.
     public var projectProfileId: Swift.String?
     /// The status of the project.
@@ -22444,6 +24755,7 @@ public struct UpdateProjectOutput: Swift.Sendable {
         id: Swift.String? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
+        projectCategory: Swift.String? = nil,
         projectProfileId: Swift.String? = nil,
         projectStatus: DataZoneClientTypes.ProjectStatus? = nil,
         resourceTags: [DataZoneClientTypes.ResourceTag]? = nil,
@@ -22460,6 +24772,7 @@ public struct UpdateProjectOutput: Swift.Sendable {
         self.id = id
         self.lastUpdatedAt = lastUpdatedAt
         self.name = name
+        self.projectCategory = projectCategory
         self.projectProfileId = projectProfileId
         self.projectStatus = projectStatus
         self.resourceTags = resourceTags
@@ -22469,7 +24782,7 @@ public struct UpdateProjectOutput: Swift.Sendable {
 
 extension UpdateProjectOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateProjectOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), environmentDeploymentDetails: \(Swift.String(describing: environmentDeploymentDetails)), failureReasons: \(Swift.String(describing: failureReasons)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), projectProfileId: \(Swift.String(describing: projectProfileId)), projectStatus: \(Swift.String(describing: projectStatus)), resourceTags: \(Swift.String(describing: resourceTags)), userParameters: \(Swift.String(describing: userParameters)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "UpdateProjectOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), environmentDeploymentDetails: \(Swift.String(describing: environmentDeploymentDetails)), failureReasons: \(Swift.String(describing: failureReasons)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), projectCategory: \(Swift.String(describing: projectCategory)), projectProfileId: \(Swift.String(describing: projectProfileId)), projectStatus: \(Swift.String(describing: projectStatus)), resourceTags: \(Swift.String(describing: resourceTags)), userParameters: \(Swift.String(describing: userParameters)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateProjectProfileInput: Swift.Sendable {
@@ -22975,6 +25288,8 @@ public struct UpdateUserProfileInput: Swift.Sendable {
     /// The identifier of the Amazon DataZone domain in which a user profile is updated.
     /// This member is required.
     public var domainIdentifier: Swift.String?
+    /// The session name for IAM role sessions.
+    public var sessionName: Swift.String?
     /// The status of the user profile that are to be updated.
     /// This member is required.
     public var status: DataZoneClientTypes.UserProfileStatus?
@@ -22986,11 +25301,13 @@ public struct UpdateUserProfileInput: Swift.Sendable {
 
     public init(
         domainIdentifier: Swift.String? = nil,
+        sessionName: Swift.String? = nil,
         status: DataZoneClientTypes.UserProfileStatus? = nil,
         type: DataZoneClientTypes.UserProfileType? = nil,
         userIdentifier: Swift.String? = nil
     ) {
         self.domainIdentifier = domainIdentifier
+        self.sessionName = sessionName
         self.status = status
         self.type = type
         self.userIdentifier = userIdentifier
@@ -23049,6 +25366,31 @@ extension DataZoneClientTypes {
         /// The 'or' clause of the row filter.
         case or([DataZoneClientTypes.RowFilter])
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The pattern describing the entities to be matched during the graph query.
+    public struct EntityPattern: Swift.Sendable {
+        /// The type of entity to be matched during the graph query.
+        /// This member is required.
+        public var entityType: DataZoneClientTypes.GraphEntityType?
+        /// A search filter clause in Amazon DataZone.
+        public var filters: DataZoneClientTypes.FilterClause?
+        /// The identifier of the root entity to start traversal from during the graph query.
+        /// This member is required.
+        public var identifier: Swift.String?
+
+        public init(
+            entityType: DataZoneClientTypes.GraphEntityType? = nil,
+            filters: DataZoneClientTypes.FilterClause? = nil,
+            identifier: Swift.String? = nil
+        ) {
+            self.entityType = entityType
+            self.filters = filters
+            self.identifier = identifier
+        }
     }
 }
 
@@ -23219,6 +25561,18 @@ extension DataZoneClientTypes {
         case columnconfiguration(DataZoneClientTypes.ColumnFilterConfiguration)
         /// The row configuration of the asset filter.
         case rowconfiguration(DataZoneClientTypes.RowFilterConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// A clause to match a query pattern
+    public indirect enum MatchClause: Swift.Sendable {
+        /// The pattern describing the query's relational traversal.
+        case relationpattern(DataZoneClientTypes.RelationPattern)
+        /// The pattern describing the entities for the query to traverse.
+        case entitypattern(DataZoneClientTypes.EntityPattern)
         case sdkUnknown(Swift.String)
     }
 }
@@ -23483,6 +25837,35 @@ public struct UpdateAssetFilterOutput: Swift.Sendable {
 extension UpdateAssetFilterOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "UpdateAssetFilterOutput(assetId: \(Swift.String(describing: assetId)), configuration: \(Swift.String(describing: configuration)), createdAt: \(Swift.String(describing: createdAt)), domainId: \(Swift.String(describing: domainId)), effectiveColumnNames: \(Swift.String(describing: effectiveColumnNames)), effectiveRowFilter: \(Swift.String(describing: effectiveRowFilter)), errorMessage: \(Swift.String(describing: errorMessage)), id: \(Swift.String(describing: id)), status: \(Swift.String(describing: status)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
+public struct QueryGraphInput: Swift.Sendable {
+    /// Additional details on the queried entity that can be requested in the response.
+    public var additionalAttributes: DataZoneClientTypes.AdditionalAttributes?
+    /// The identifier of the Amazon DataZone domain.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// List of query match clauses.
+    /// This member is required.
+    public var match: [DataZoneClientTypes.MatchClause]?
+    /// The maximum number of entities to return in a single call to QueryGraph. When the number of entities to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to QueryGraph to list the next set of entities.
+    public var maxResults: Swift.Int?
+    /// When the number of entities is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of entities, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to QueryGraph to list the next set of entities.
+    public var nextToken: Swift.String?
+
+    public init(
+        additionalAttributes: DataZoneClientTypes.AdditionalAttributes? = nil,
+        domainIdentifier: Swift.String? = nil,
+        match: [DataZoneClientTypes.MatchClause]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.additionalAttributes = additionalAttributes
+        self.domainIdentifier = domainIdentifier
+        self.match = match
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
 }
 
 extension AcceptPredictionsInput {
@@ -23874,6 +26257,16 @@ extension CreateListingChangeSetInput {
     }
 }
 
+extension CreateNotebookInput {
+
+    static func urlPathProvider(_ value: CreateNotebookInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/notebooks"
+    }
+}
+
 extension CreateProjectInput {
 
     static func urlPathProvider(_ value: CreateProjectInput) -> Swift.String? {
@@ -24025,6 +26418,16 @@ extension DeleteConnectionInput {
             return nil
         }
         return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/connections/\(identifier.urlPercentEncoding())"
+    }
+}
+
+extension DeleteDataExportConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteDataExportConfigurationInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/data-export-configuration"
     }
 }
 
@@ -24226,6 +26629,19 @@ extension DeleteListingInput {
             return nil
         }
         return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/listings/\(identifier.urlPercentEncoding())"
+    }
+}
+
+extension DeleteNotebookInput {
+
+    static func urlPathProvider(_ value: DeleteNotebookInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/notebooks/\(identifier.urlPercentEncoding())"
     }
 }
 
@@ -24845,6 +27261,45 @@ extension GetMetadataGenerationRunInput {
     }
 }
 
+extension GetNotebookInput {
+
+    static func urlPathProvider(_ value: GetNotebookInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/notebooks/\(identifier.urlPercentEncoding())"
+    }
+}
+
+extension GetNotebookExportInput {
+
+    static func urlPathProvider(_ value: GetNotebookExportInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/notebook-exports/\(identifier.urlPercentEncoding())"
+    }
+}
+
+extension GetNotebookRunInput {
+
+    static func urlPathProvider(_ value: GetNotebookRunInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/notebook-runs/\(identifier.urlPercentEncoding())"
+    }
+}
+
 extension GetProjectInput {
 
     static func urlPathProvider(_ value: GetProjectInput) -> Swift.String? {
@@ -25001,6 +27456,10 @@ extension GetUserProfileInput {
 
     static func queryItemProvider(_ value: GetUserProfileInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
+        if let sessionName = value.sessionName {
+            let sessionNameQueryItem = Smithy.URIQueryItem(name: "sessionName".urlPercentEncoding(), value: Swift.String(sessionName).urlPercentEncoding())
+            items.append(sessionNameQueryItem)
+        }
         if let type = value.type {
             let typeQueryItem = Smithy.URIQueryItem(name: "type".urlPercentEncoding(), value: Swift.String(type.rawValue).urlPercentEncoding())
             items.append(typeQueryItem)
@@ -25787,6 +28246,98 @@ extension ListMetadataGenerationRunsInput {
     }
 }
 
+extension ListNotebookRunsInput {
+
+    static func urlPathProvider(_ value: ListNotebookRunsInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/notebook-runs"
+    }
+}
+
+extension ListNotebookRunsInput {
+
+    static func queryItemProvider(_ value: ListNotebookRunsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let owningProjectIdentifier = value.owningProjectIdentifier else {
+            let message = "Creating a URL Query Item failed. owningProjectIdentifier is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let owningProjectIdentifierQueryItem = Smithy.URIQueryItem(name: "owningProjectIdentifier".urlPercentEncoding(), value: Swift.String(owningProjectIdentifier).urlPercentEncoding())
+        items.append(owningProjectIdentifierQueryItem)
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let sortOrder = value.sortOrder {
+            let sortOrderQueryItem = Smithy.URIQueryItem(name: "sortOrder".urlPercentEncoding(), value: Swift.String(sortOrder.rawValue).urlPercentEncoding())
+            items.append(sortOrderQueryItem)
+        }
+        if let scheduleIdentifier = value.scheduleIdentifier {
+            let scheduleIdentifierQueryItem = Smithy.URIQueryItem(name: "scheduleIdentifier".urlPercentEncoding(), value: Swift.String(scheduleIdentifier).urlPercentEncoding())
+            items.append(scheduleIdentifierQueryItem)
+        }
+        if let notebookIdentifier = value.notebookIdentifier {
+            let notebookIdentifierQueryItem = Smithy.URIQueryItem(name: "notebookIdentifier".urlPercentEncoding(), value: Swift.String(notebookIdentifier).urlPercentEncoding())
+            items.append(notebookIdentifierQueryItem)
+        }
+        if let status = value.status {
+            let statusQueryItem = Smithy.URIQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+            items.append(statusQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListNotebooksInput {
+
+    static func urlPathProvider(_ value: ListNotebooksInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/notebooks"
+    }
+}
+
+extension ListNotebooksInput {
+
+    static func queryItemProvider(_ value: ListNotebooksInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let owningProjectIdentifier = value.owningProjectIdentifier else {
+            let message = "Creating a URL Query Item failed. owningProjectIdentifier is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let owningProjectIdentifierQueryItem = Smithy.URIQueryItem(name: "owningProjectIdentifier".urlPercentEncoding(), value: Swift.String(owningProjectIdentifier).urlPercentEncoding())
+        items.append(owningProjectIdentifierQueryItem)
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let sortOrder = value.sortOrder {
+            let sortOrderQueryItem = Smithy.URIQueryItem(name: "sortOrder".urlPercentEncoding(), value: Swift.String(sortOrder.rawValue).urlPercentEncoding())
+            items.append(sortOrderQueryItem)
+        }
+        if let sortBy = value.sortBy {
+            let sortByQueryItem = Smithy.URIQueryItem(name: "sortBy".urlPercentEncoding(), value: Swift.String(sortBy.rawValue).urlPercentEncoding())
+            items.append(sortByQueryItem)
+        }
+        if let status = value.status {
+            let statusQueryItem = Smithy.URIQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+            items.append(statusQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListNotificationsInput {
 
     static func urlPathProvider(_ value: ListNotificationsInput) -> Swift.String? {
@@ -25967,6 +28518,10 @@ extension ListProjectsInput {
         if let userIdentifier = value.userIdentifier {
             let userIdentifierQueryItem = Smithy.URIQueryItem(name: "userIdentifier".urlPercentEncoding(), value: Swift.String(userIdentifier).urlPercentEncoding())
             items.append(userIdentifierQueryItem)
+        }
+        if let projectCategory = value.projectCategory {
+            let projectCategoryQueryItem = Smithy.URIQueryItem(name: "projectCategory".urlPercentEncoding(), value: Swift.String(projectCategory).urlPercentEncoding())
+            items.append(projectCategoryQueryItem)
         }
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
@@ -26395,6 +28950,32 @@ extension PutEnvironmentBlueprintConfigurationInput {
     }
 }
 
+extension QueryGraphInput {
+
+    static func urlPathProvider(_ value: QueryGraphInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/graph/query"
+    }
+}
+
+extension QueryGraphInput {
+
+    static func queryItemProvider(_ value: QueryGraphInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
+    }
+}
+
 extension RejectPredictionsInput {
 
     static func urlPathProvider(_ value: RejectPredictionsInput) -> Swift.String? {
@@ -26548,6 +29129,49 @@ extension StartMetadataGenerationRunInput {
             return nil
         }
         return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/metadata-generation-runs"
+    }
+}
+
+extension StartNotebookExportInput {
+
+    static func urlPathProvider(_ value: StartNotebookExportInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/notebook-exports"
+    }
+}
+
+extension StartNotebookImportInput {
+
+    static func urlPathProvider(_ value: StartNotebookImportInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/notebook-imports"
+    }
+}
+
+extension StartNotebookRunInput {
+
+    static func urlPathProvider(_ value: StartNotebookRunInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/notebook-runs"
+    }
+}
+
+extension StopNotebookRunInput {
+
+    static func urlPathProvider(_ value: StopNotebookRunInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/notebook-runs/\(identifier.urlPercentEncoding())/stop"
     }
 }
 
@@ -26768,6 +29392,19 @@ extension UpdateGroupProfileInput {
             return nil
         }
         return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/group-profiles/\(groupIdentifier.urlPercentEncoding())"
+    }
+}
+
+extension UpdateNotebookInput {
+
+    static func urlPathProvider(_ value: UpdateNotebookInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/notebooks/\(identifier.urlPercentEncoding())"
     }
 }
 
@@ -27005,6 +29642,7 @@ extension CreateConnectionInput {
         guard let value else { return }
         try writer["awsLocation"].write(value.awsLocation, with: DataZoneClientTypes.AwsLocation.write(value:to:))
         try writer["clientToken"].write(value.clientToken)
+        try writer["configurations"].writeList(value.configurations, memberWritingClosure: DataZoneClientTypes.Configuration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["description"].write(value.description)
         try writer["enableTrustedIdentityPropagation"].write(value.enableTrustedIdentityPropagation)
         try writer["environmentIdentifier"].write(value.environmentIdentifier)
@@ -27098,6 +29736,7 @@ extension CreateEnvironmentInput {
         try writer["environmentAccountRegion"].write(value.environmentAccountRegion)
         try writer["environmentBlueprintIdentifier"].write(value.environmentBlueprintIdentifier)
         try writer["environmentConfigurationId"].write(value.environmentConfigurationId)
+        try writer["environmentConfigurationName"].write(value.environmentConfigurationName)
         try writer["environmentProfileIdentifier"].write(value.environmentProfileIdentifier)
         try writer["glossaryTerms"].writeList(value.glossaryTerms, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["name"].write(value.name)
@@ -27186,6 +29825,7 @@ extension CreateGroupProfileInput {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
         try writer["groupIdentifier"].write(value.groupIdentifier)
+        try writer["rolePrincipalArn"].write(value.rolePrincipalArn)
     }
 }
 
@@ -27201,6 +29841,19 @@ extension CreateListingChangeSetInput {
     }
 }
 
+extension CreateNotebookInput {
+
+    static func write(value: CreateNotebookInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["description"].write(value.description)
+        try writer["metadata"].writeMap(value.metadata, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["name"].write(value.name)
+        try writer["owningProjectIdentifier"].write(value.owningProjectIdentifier)
+        try writer["parameters"].writeMap(value.parameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
 extension CreateProjectInput {
 
     static func write(value: CreateProjectInput?, to writer: SmithyJSON.Writer) throws {
@@ -27208,7 +29861,10 @@ extension CreateProjectInput {
         try writer["description"].write(value.description)
         try writer["domainUnitId"].write(value.domainUnitId)
         try writer["glossaryTerms"].writeList(value.glossaryTerms, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["membershipAssignments"].writeList(value.membershipAssignments, memberWritingClosure: DataZoneClientTypes.ProjectMembershipAssignment.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["name"].write(value.name)
+        try writer["projectCategory"].write(value.projectCategory)
+        try writer["projectExecutionRole"].write(value.projectExecutionRole)
         try writer["projectProfileId"].write(value.projectProfileId)
         try writer["resourceTags"].writeMap(value.resourceTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["userParameters"].writeList(value.userParameters, memberWritingClosure: DataZoneClientTypes.EnvironmentConfigurationUserParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -27300,6 +29956,7 @@ extension CreateUserProfileInput {
     static func write(value: CreateUserProfileInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
+        try writer["sessionName"].write(value.sessionName)
         try writer["userIdentifier"].write(value.userIdentifier)
         try writer["userType"].write(value.userType)
     }
@@ -27359,6 +30016,15 @@ extension PutEnvironmentBlueprintConfigurationInput {
         try writer["provisioningConfigurations"].writeList(value.provisioningConfigurations, memberWritingClosure: DataZoneClientTypes.ProvisioningConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["provisioningRoleArn"].write(value.provisioningRoleArn)
         try writer["regionalParameters"].writeMap(value.regionalParameters, valueWritingClosure: SmithyReadWrite.mapWritingClosure(valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension QueryGraphInput {
+
+    static func write(value: QueryGraphInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["additionalAttributes"].write(value.additionalAttributes, with: DataZoneClientTypes.AdditionalAttributes.write(value:to:))
+        try writer["match"].writeList(value.match, memberWritingClosure: DataZoneClientTypes.MatchClause.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -27496,6 +30162,54 @@ extension StartMetadataGenerationRunInput {
     }
 }
 
+extension StartNotebookExportInput {
+
+    static func write(value: StartNotebookExportInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["fileFormat"].write(value.fileFormat)
+        try writer["notebookIdentifier"].write(value.notebookIdentifier)
+        try writer["owningProjectIdentifier"].write(value.owningProjectIdentifier)
+    }
+}
+
+extension StartNotebookImportInput {
+
+    static func write(value: StartNotebookImportInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["description"].write(value.description)
+        try writer["name"].write(value.name)
+        try writer["owningProjectIdentifier"].write(value.owningProjectIdentifier)
+        try writer["sourceLocation"].write(value.sourceLocation, with: DataZoneClientTypes.SourceLocation.write(value:to:))
+    }
+}
+
+extension StartNotebookRunInput {
+
+    static func write(value: StartNotebookRunInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["computeConfiguration"].write(value.computeConfiguration, with: DataZoneClientTypes.ComputeConfig.write(value:to:))
+        try writer["metadata"].writeMap(value.metadata, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["networkConfiguration"].write(value.networkConfiguration, with: DataZoneClientTypes.NetworkConfig.write(value:to:))
+        try writer["notebookIdentifier"].write(value.notebookIdentifier)
+        try writer["owningProjectIdentifier"].write(value.owningProjectIdentifier)
+        try writer["parameters"].writeMap(value.parameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["scheduleIdentifier"].write(value.scheduleIdentifier)
+        try writer["timeoutConfiguration"].write(value.timeoutConfiguration, with: DataZoneClientTypes.TimeoutConfig.write(value:to:))
+        try writer["triggerSource"].write(value.triggerSource, with: DataZoneClientTypes.TriggerSource.write(value:to:))
+    }
+}
+
+extension StopNotebookRunInput {
+
+    static func write(value: StopNotebookRunInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+    }
+}
+
 extension TagResourceInput {
 
     static func write(value: TagResourceInput?, to writer: SmithyJSON.Writer) throws {
@@ -27530,6 +30244,7 @@ extension UpdateConnectionInput {
     static func write(value: UpdateConnectionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["awsLocation"].write(value.awsLocation, with: DataZoneClientTypes.AwsLocation.write(value:to:))
+        try writer["configurations"].writeList(value.configurations, memberWritingClosure: DataZoneClientTypes.Configuration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["description"].write(value.description)
         try writer["props"].write(value.props, with: DataZoneClientTypes.ConnectionPropertiesPatch.write(value:to:))
     }
@@ -27578,6 +30293,7 @@ extension UpdateEnvironmentInput {
         guard let value else { return }
         try writer["blueprintVersion"].write(value.blueprintVersion)
         try writer["description"].write(value.description)
+        try writer["environmentConfigurationName"].write(value.environmentConfigurationName)
         try writer["glossaryTerms"].writeList(value.glossaryTerms, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["name"].write(value.name)
         try writer["userParameters"].writeList(value.userParameters, memberWritingClosure: DataZoneClientTypes.EnvironmentParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -27644,6 +30360,21 @@ extension UpdateGroupProfileInput {
 
     static func write(value: UpdateGroupProfileInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["status"].write(value.status)
+    }
+}
+
+extension UpdateNotebookInput {
+
+    static func write(value: UpdateNotebookInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["cellOrder"].writeList(value.cellOrder, memberWritingClosure: DataZoneClientTypes.CellInformation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["clientToken"].write(value.clientToken)
+        try writer["description"].write(value.description)
+        try writer["environmentConfiguration"].write(value.environmentConfiguration, with: DataZoneClientTypes.EnvironmentConfig.write(value:to:))
+        try writer["metadata"].writeMap(value.metadata, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["name"].write(value.name)
+        try writer["parameters"].writeMap(value.parameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["status"].write(value.status)
     }
 }
@@ -27736,6 +30467,7 @@ extension UpdateUserProfileInput {
 
     static func write(value: UpdateUserProfileInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["sessionName"].write(value.sessionName)
         try writer["status"].write(value.status)
         try writer["type"].write(value.type)
     }
@@ -28004,6 +30736,7 @@ extension CreateConnectionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateConnectionOutput()
+        value.configurations = try reader["configurations"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.Configuration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.connectionId = try reader["connectionId"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
         value.domainId = try reader["domainId"].readIfPresent() ?? ""
@@ -28162,6 +30895,7 @@ extension CreateEnvironmentOutput {
         value.environmentActions = try reader["environmentActions"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.ConfigurableEnvironmentAction.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.environmentBlueprintId = try reader["environmentBlueprintId"].readIfPresent()
         value.environmentConfigurationId = try reader["environmentConfigurationId"].readIfPresent()
+        value.environmentConfigurationName = try reader["environmentConfigurationName"].readIfPresent()
         value.environmentProfileId = try reader["environmentProfileId"].readIfPresent() ?? ""
         value.glossaryTerms = try reader["glossaryTerms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.id = try reader["id"].readIfPresent()
@@ -28305,6 +31039,8 @@ extension CreateGroupProfileOutput {
         value.domainId = try reader["domainId"].readIfPresent()
         value.groupName = try reader["groupName"].readIfPresent()
         value.id = try reader["id"].readIfPresent()
+        value.rolePrincipalArn = try reader["rolePrincipalArn"].readIfPresent()
+        value.rolePrincipalId = try reader["rolePrincipalId"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         return value
     }
@@ -28320,6 +31056,36 @@ extension CreateListingChangeSetOutput {
         value.listingId = try reader["listingId"].readIfPresent() ?? ""
         value.listingRevision = try reader["listingRevision"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension CreateNotebookOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateNotebookOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateNotebookOutput()
+        value.cellOrder = try reader["cellOrder"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.CellInformation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.computeId = try reader["computeId"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.environmentConfiguration = try reader["environmentConfiguration"].readIfPresent(with: DataZoneClientTypes.EnvironmentConfig.read(from:))
+        value.error = try reader["error"].readIfPresent(with: DataZoneClientTypes.NotebookError.read(from:))
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.lockExpiresAt = try reader["lockExpiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lockedAt = try reader["lockedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lockedBy = try reader["lockedBy"].readIfPresent()
+        value.metadata = try reader["metadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""
+        value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedBy = try reader["updatedBy"].readIfPresent()
         return value
     }
 }
@@ -28342,6 +31108,7 @@ extension CreateProjectOutput {
         value.id = try reader["id"].readIfPresent() ?? ""
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.name = try reader["name"].readIfPresent() ?? ""
+        value.projectCategory = try reader["projectCategory"].readIfPresent()
         value.projectProfileId = try reader["projectProfileId"].readIfPresent()
         value.projectStatus = try reader["projectStatus"].readIfPresent()
         value.resourceTags = try reader["resourceTags"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.ResourceTag.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -28534,6 +31301,13 @@ extension DeleteConnectionOutput {
     }
 }
 
+extension DeleteDataExportConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteDataExportConfigurationOutput {
+        return DeleteDataExportConfigurationOutput()
+    }
+}
+
 extension DeleteDataProductOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteDataProductOutput {
@@ -28653,6 +31427,13 @@ extension DeleteListingOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteListingOutput {
         return DeleteListingOutput()
+    }
+}
+
+extension DeleteNotebookOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteNotebookOutput {
+        return DeleteNotebookOutput()
     }
 }
 
@@ -28846,6 +31627,7 @@ extension GetConnectionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetConnectionOutput()
+        value.configurations = try reader["configurations"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.Configuration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.connectionCredentials = try reader["connectionCredentials"].readIfPresent(with: DataZoneClientTypes.ConnectionCredentials.read(from:))
         value.connectionId = try reader["connectionId"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
@@ -29028,6 +31810,7 @@ extension GetEnvironmentOutput {
         value.environmentActions = try reader["environmentActions"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.ConfigurableEnvironmentAction.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.environmentBlueprintId = try reader["environmentBlueprintId"].readIfPresent()
         value.environmentConfigurationId = try reader["environmentConfigurationId"].readIfPresent()
+        value.environmentConfigurationName = try reader["environmentConfigurationName"].readIfPresent()
         value.environmentProfileId = try reader["environmentProfileId"].readIfPresent() ?? ""
         value.glossaryTerms = try reader["glossaryTerms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.id = try reader["id"].readIfPresent()
@@ -29220,6 +32003,8 @@ extension GetGroupProfileOutput {
         value.domainId = try reader["domainId"].readIfPresent()
         value.groupName = try reader["groupName"].readIfPresent()
         value.id = try reader["id"].readIfPresent()
+        value.rolePrincipalArn = try reader["rolePrincipalArn"].readIfPresent()
+        value.rolePrincipalId = try reader["rolePrincipalId"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         return value
     }
@@ -29364,6 +32149,91 @@ extension GetMetadataGenerationRunOutput {
     }
 }
 
+extension GetNotebookOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetNotebookOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetNotebookOutput()
+        value.cellOrder = try reader["cellOrder"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.CellInformation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.computeId = try reader["computeId"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.environmentConfiguration = try reader["environmentConfiguration"].readIfPresent(with: DataZoneClientTypes.EnvironmentConfig.read(from:))
+        value.error = try reader["error"].readIfPresent(with: DataZoneClientTypes.NotebookError.read(from:))
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.lockExpiresAt = try reader["lockExpiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lockedAt = try reader["lockedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lockedBy = try reader["lockedBy"].readIfPresent()
+        value.metadata = try reader["metadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""
+        value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedBy = try reader["updatedBy"].readIfPresent()
+        return value
+    }
+}
+
+extension GetNotebookExportOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetNotebookExportOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetNotebookExportOutput()
+        value.completedAt = try reader["completedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.error = try reader["error"].readIfPresent(with: DataZoneClientTypes.NotebookExportError.read(from:))
+        value.fileFormat = try reader["fileFormat"].readIfPresent() ?? .sdkUnknown("")
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.notebookId = try reader["notebookId"].readIfPresent() ?? ""
+        value.outputLocation = try reader["outputLocation"].readIfPresent(with: DataZoneClientTypes.OutputLocation.read(from:))
+        value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension GetNotebookRunOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetNotebookRunOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetNotebookRunOutput()
+        value.cellOrder = try reader["cellOrder"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.CellInformation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.completedAt = try reader["completedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.computeConfiguration = try reader["computeConfiguration"].readIfPresent(with: DataZoneClientTypes.ComputeConfig.read(from:))
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.environmentConfiguration = try reader["environmentConfiguration"].readIfPresent(with: DataZoneClientTypes.EnvironmentConfig.read(from:))
+        value.error = try reader["error"].readIfPresent(with: DataZoneClientTypes.NotebookRunError.read(from:))
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.metadata = try reader["metadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.networkConfiguration = try reader["networkConfiguration"].readIfPresent(with: DataZoneClientTypes.NetworkConfig.read(from:))
+        value.notebookId = try reader["notebookId"].readIfPresent() ?? ""
+        value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""
+        value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.scheduleId = try reader["scheduleId"].readIfPresent()
+        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.storageConfiguration = try reader["storageConfiguration"].readIfPresent(with: DataZoneClientTypes.StorageConfig.read(from:))
+        value.timeoutConfiguration = try reader["timeoutConfiguration"].readIfPresent(with: DataZoneClientTypes.TimeoutConfig.read(from:))
+        value.triggerSource = try reader["triggerSource"].readIfPresent(with: DataZoneClientTypes.TriggerSource.read(from:))
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedBy = try reader["updatedBy"].readIfPresent()
+        return value
+    }
+}
+
 extension GetProjectOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetProjectOutput {
@@ -29382,6 +32252,7 @@ extension GetProjectOutput {
         value.id = try reader["id"].readIfPresent() ?? ""
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.name = try reader["name"].readIfPresent() ?? ""
+        value.projectCategory = try reader["projectCategory"].readIfPresent()
         value.projectProfileId = try reader["projectProfileId"].readIfPresent()
         value.projectStatus = try reader["projectStatus"].readIfPresent()
         value.resourceTags = try reader["resourceTags"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.ResourceTag.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -29841,6 +32712,32 @@ extension ListMetadataGenerationRunsOutput {
     }
 }
 
+extension ListNotebookRunsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListNotebookRunsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListNotebookRunsOutput()
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.NotebookRunSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListNotebooksOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListNotebooksOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListNotebooksOutput()
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.NotebookSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListNotificationsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListNotificationsOutput {
@@ -30052,6 +32949,19 @@ extension PutEnvironmentBlueprintConfigurationOutput {
     }
 }
 
+extension QueryGraphOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> QueryGraphOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = QueryGraphOutput()
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.ResultItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension RejectPredictionsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RejectPredictionsOutput {
@@ -30239,6 +33149,93 @@ extension StartMetadataGenerationRunOutput {
     }
 }
 
+extension StartNotebookExportOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartNotebookExportOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartNotebookExportOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.fileFormat = try reader["fileFormat"].readIfPresent() ?? .sdkUnknown("")
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.notebookId = try reader["notebookId"].readIfPresent() ?? ""
+        value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension StartNotebookImportOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartNotebookImportOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartNotebookImportOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.notebookId = try reader["notebookId"].readIfPresent()
+        value.owningProjectId = try reader["owningProjectId"].readIfPresent()
+        value.sourceLocation = try reader["sourceLocation"].readIfPresent(with: DataZoneClientTypes.SourceLocation.read(from:))
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
+extension StartNotebookRunOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartNotebookRunOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartNotebookRunOutput()
+        value.cellOrder = try reader["cellOrder"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.CellInformation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.completedAt = try reader["completedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.computeConfiguration = try reader["computeConfiguration"].readIfPresent(with: DataZoneClientTypes.ComputeConfig.read(from:))
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.environmentConfiguration = try reader["environmentConfiguration"].readIfPresent(with: DataZoneClientTypes.EnvironmentConfig.read(from:))
+        value.error = try reader["error"].readIfPresent(with: DataZoneClientTypes.NotebookRunError.read(from:))
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.metadata = try reader["metadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.networkConfiguration = try reader["networkConfiguration"].readIfPresent(with: DataZoneClientTypes.NetworkConfig.read(from:))
+        value.notebookId = try reader["notebookId"].readIfPresent() ?? ""
+        value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""
+        value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.scheduleId = try reader["scheduleId"].readIfPresent()
+        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.storageConfiguration = try reader["storageConfiguration"].readIfPresent(with: DataZoneClientTypes.StorageConfig.read(from:))
+        value.timeoutConfiguration = try reader["timeoutConfiguration"].readIfPresent(with: DataZoneClientTypes.TimeoutConfig.read(from:))
+        value.triggerSource = try reader["triggerSource"].readIfPresent(with: DataZoneClientTypes.TriggerSource.read(from:))
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedBy = try reader["updatedBy"].readIfPresent()
+        return value
+    }
+}
+
+extension StopNotebookRunOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopNotebookRunOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StopNotebookRunOutput()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension TagResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> TagResourceOutput {
@@ -30304,6 +33301,7 @@ extension UpdateConnectionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateConnectionOutput()
+        value.configurations = try reader["configurations"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.Configuration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.connectionId = try reader["connectionId"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
         value.domainId = try reader["domainId"].readIfPresent() ?? ""
@@ -30410,6 +33408,7 @@ extension UpdateEnvironmentOutput {
         value.environmentActions = try reader["environmentActions"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.ConfigurableEnvironmentAction.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.environmentBlueprintId = try reader["environmentBlueprintId"].readIfPresent()
         value.environmentConfigurationId = try reader["environmentConfigurationId"].readIfPresent()
+        value.environmentConfigurationName = try reader["environmentConfigurationName"].readIfPresent()
         value.environmentProfileId = try reader["environmentProfileId"].readIfPresent() ?? ""
         value.glossaryTerms = try reader["glossaryTerms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.id = try reader["id"].readIfPresent()
@@ -30535,7 +33534,39 @@ extension UpdateGroupProfileOutput {
         value.domainId = try reader["domainId"].readIfPresent()
         value.groupName = try reader["groupName"].readIfPresent()
         value.id = try reader["id"].readIfPresent()
+        value.rolePrincipalArn = try reader["rolePrincipalArn"].readIfPresent()
+        value.rolePrincipalId = try reader["rolePrincipalId"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
+extension UpdateNotebookOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateNotebookOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateNotebookOutput()
+        value.cellOrder = try reader["cellOrder"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.CellInformation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.computeId = try reader["computeId"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.environmentConfiguration = try reader["environmentConfiguration"].readIfPresent(with: DataZoneClientTypes.EnvironmentConfig.read(from:))
+        value.error = try reader["error"].readIfPresent(with: DataZoneClientTypes.NotebookError.read(from:))
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.lockExpiresAt = try reader["lockExpiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lockedAt = try reader["lockedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lockedBy = try reader["lockedBy"].readIfPresent()
+        value.metadata = try reader["metadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""
+        value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedBy = try reader["updatedBy"].readIfPresent()
         return value
     }
 }
@@ -30558,6 +33589,7 @@ extension UpdateProjectOutput {
         value.id = try reader["id"].readIfPresent() ?? ""
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.name = try reader["name"].readIfPresent() ?? ""
+        value.projectCategory = try reader["projectCategory"].readIfPresent()
         value.projectProfileId = try reader["projectProfileId"].readIfPresent()
         value.projectStatus = try reader["projectStatus"].readIfPresent()
         value.resourceTags = try reader["resourceTags"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.ResourceTag.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -30712,7 +33744,7 @@ extension UpdateUserProfileOutput {
     }
 }
 
-func httpServiceError(baseError: AWSClientRuntime.RestJSONError) throws -> Swift.Error? {
+func httpServiceError(baseError: ClientRuntime.RestJSONError) throws -> Swift.Error? {
     switch baseError.code {
         case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
         case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -30726,7 +33758,7 @@ enum AcceptPredictionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -30746,7 +33778,7 @@ enum AcceptSubscriptionRequestOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -30767,7 +33799,7 @@ enum AddEntityOwnerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -30788,7 +33820,7 @@ enum AddPolicyGrantOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -30808,7 +33840,7 @@ enum AssociateEnvironmentRoleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -30828,7 +33860,7 @@ enum AssociateGovernedTermsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -30848,7 +33880,7 @@ enum BatchGetAttributesMetadataOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -30867,7 +33899,7 @@ enum BatchPutAttributesMetadataOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -30887,7 +33919,7 @@ enum CancelMetadataGenerationRunOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -30907,7 +33939,7 @@ enum CancelSubscriptionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -30927,7 +33959,7 @@ enum CreateAccountPoolOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -30948,7 +33980,7 @@ enum CreateAssetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -30969,7 +34001,7 @@ enum CreateAssetFilterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -30990,7 +34022,7 @@ enum CreateAssetRevisionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -31010,7 +34042,7 @@ enum CreateAssetTypeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -31030,7 +34062,7 @@ enum CreateConnectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -31051,7 +34083,7 @@ enum CreateDataProductOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -31072,7 +34104,7 @@ enum CreateDataProductRevisionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -31092,7 +34124,7 @@ enum CreateDataSourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -31113,7 +34145,7 @@ enum CreateDomainOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -31134,7 +34166,7 @@ enum CreateDomainUnitOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -31154,7 +34186,7 @@ enum CreateEnvironmentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -31174,7 +34206,7 @@ enum CreateEnvironmentActionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -31194,7 +34226,7 @@ enum CreateEnvironmentBlueprintOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -31215,7 +34247,7 @@ enum CreateEnvironmentProfileOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -31236,7 +34268,7 @@ enum CreateFormTypeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -31256,7 +34288,7 @@ enum CreateGlossaryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -31276,7 +34308,7 @@ enum CreateGlossaryTermOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -31297,7 +34329,7 @@ enum CreateGroupProfileOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -31315,7 +34347,28 @@ enum CreateListingChangeSetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateNotebookOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -31336,7 +34389,7 @@ enum CreateProjectOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -31357,7 +34410,7 @@ enum CreateProjectMembershipOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -31375,7 +34428,7 @@ enum CreateProjectProfileOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -31396,7 +34449,7 @@ enum CreateRuleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -31417,7 +34470,7 @@ enum CreateSubscriptionGrantOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -31437,7 +34490,7 @@ enum CreateSubscriptionRequestOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -31458,7 +34511,7 @@ enum CreateSubscriptionTargetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -31478,7 +34531,7 @@ enum CreateUserProfileOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -31496,7 +34549,7 @@ enum DeleteAccountPoolOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -31515,7 +34568,7 @@ enum DeleteAssetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -31535,7 +34588,7 @@ enum DeleteAssetFilterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -31555,7 +34608,7 @@ enum DeleteAssetTypeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -31575,11 +34628,31 @@ enum DeleteConnectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteDataExportConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -31594,7 +34667,7 @@ enum DeleteDataProductOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -31614,7 +34687,7 @@ enum DeleteDataSourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -31635,7 +34708,7 @@ enum DeleteDomainOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -31655,7 +34728,7 @@ enum DeleteDomainUnitOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -31675,7 +34748,7 @@ enum DeleteEnvironmentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -31694,7 +34767,7 @@ enum DeleteEnvironmentActionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -31714,7 +34787,7 @@ enum DeleteEnvironmentBlueprintOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -31734,7 +34807,7 @@ enum DeleteEnvironmentBlueprintConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -31751,7 +34824,7 @@ enum DeleteEnvironmentProfileOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -31770,7 +34843,7 @@ enum DeleteFormTypeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -31790,7 +34863,7 @@ enum DeleteGlossaryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -31810,7 +34883,7 @@ enum DeleteGlossaryTermOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -31830,7 +34903,7 @@ enum DeleteListingOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -31845,12 +34918,31 @@ enum DeleteListingOutputError {
     }
 }
 
+enum DeleteNotebookOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteProjectOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -31869,7 +34961,7 @@ enum DeleteProjectMembershipOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -31889,7 +34981,7 @@ enum DeleteProjectProfileOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -31908,7 +35000,7 @@ enum DeleteRuleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -31928,7 +35020,7 @@ enum DeleteSubscriptionGrantOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -31948,7 +35040,7 @@ enum DeleteSubscriptionRequestOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -31968,7 +35060,7 @@ enum DeleteSubscriptionTargetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -31988,7 +35080,7 @@ enum DeleteTimeSeriesDataPointsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -32007,7 +35099,7 @@ enum DisassociateEnvironmentRoleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -32027,7 +35119,7 @@ enum DisassociateGovernedTermsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -32047,7 +35139,7 @@ enum GetAccountPoolOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -32066,7 +35158,7 @@ enum GetAssetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -32085,7 +35177,7 @@ enum GetAssetFilterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -32104,7 +35196,7 @@ enum GetAssetTypeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -32123,7 +35215,7 @@ enum GetConnectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -32142,7 +35234,7 @@ enum GetDataExportConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -32161,7 +35253,7 @@ enum GetDataProductOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -32180,7 +35272,7 @@ enum GetDataSourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -32201,7 +35293,7 @@ enum GetDataSourceRunOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -32222,7 +35314,7 @@ enum GetDomainOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -32242,7 +35334,7 @@ enum GetDomainUnitOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -32261,7 +35353,7 @@ enum GetEnvironmentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -32280,7 +35372,7 @@ enum GetEnvironmentActionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -32299,7 +35391,7 @@ enum GetEnvironmentBlueprintOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -32318,7 +35410,7 @@ enum GetEnvironmentBlueprintConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -32336,7 +35428,7 @@ enum GetEnvironmentCredentialsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -32355,7 +35447,7 @@ enum GetEnvironmentProfileOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -32374,7 +35466,7 @@ enum GetFormTypeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -32393,7 +35485,7 @@ enum GetGlossaryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -32412,7 +35504,7 @@ enum GetGlossaryTermOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -32431,7 +35523,7 @@ enum GetGroupProfileOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -32449,7 +35541,7 @@ enum GetIamPortalLoginUrlOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -32469,7 +35561,7 @@ enum GetJobRunOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -32488,7 +35580,7 @@ enum GetLineageEventOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -32507,7 +35599,7 @@ enum GetLineageNodeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -32526,7 +35618,7 @@ enum GetListingOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -32545,7 +35637,64 @@ enum GetMetadataGenerationRunOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetNotebookOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetNotebookExportOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetNotebookRunOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -32564,7 +35713,7 @@ enum GetProjectOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -32583,7 +35732,7 @@ enum GetProjectProfileOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -32602,7 +35751,7 @@ enum GetRuleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -32621,7 +35770,7 @@ enum GetSubscriptionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -32640,7 +35789,7 @@ enum GetSubscriptionGrantOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -32659,7 +35808,7 @@ enum GetSubscriptionRequestDetailsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -32678,7 +35827,7 @@ enum GetSubscriptionTargetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -32697,7 +35846,7 @@ enum GetTimeSeriesDataPointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -32716,7 +35865,7 @@ enum GetUserProfileOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -32734,7 +35883,7 @@ enum ListAccountPoolsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -32752,7 +35901,7 @@ enum ListAccountsInAccountPoolOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -32771,7 +35920,7 @@ enum ListAssetFiltersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -32790,7 +35939,7 @@ enum ListAssetRevisionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -32809,7 +35958,7 @@ enum ListConnectionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -32827,7 +35976,7 @@ enum ListDataProductRevisionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -32846,7 +35995,7 @@ enum ListDataSourceRunActivitiesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -32867,7 +36016,7 @@ enum ListDataSourceRunsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -32888,7 +36037,7 @@ enum ListDataSourcesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -32909,7 +36058,7 @@ enum ListDomainsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -32930,7 +36079,7 @@ enum ListDomainUnitsForParentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -32948,7 +36097,7 @@ enum ListEntityOwnersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -32966,7 +36115,7 @@ enum ListEnvironmentActionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -32984,7 +36133,7 @@ enum ListEnvironmentBlueprintConfigurationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -33002,7 +36151,7 @@ enum ListEnvironmentBlueprintsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -33021,7 +36170,7 @@ enum ListEnvironmentProfilesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -33039,7 +36188,7 @@ enum ListEnvironmentsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -33057,7 +36206,7 @@ enum ListJobRunsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -33076,7 +36225,7 @@ enum ListLineageEventsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -33094,7 +36243,7 @@ enum ListLineageNodeHistoryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -33113,7 +36262,7 @@ enum ListMetadataGenerationRunsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -33127,12 +36276,48 @@ enum ListMetadataGenerationRunsOutputError {
     }
 }
 
+enum ListNotebookRunsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListNotebooksOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListNotificationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -33150,7 +36335,7 @@ enum ListPolicyGrantsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -33168,7 +36353,7 @@ enum ListProjectMembershipsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -33187,7 +36372,7 @@ enum ListProjectProfilesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -33205,7 +36390,7 @@ enum ListProjectsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -33223,7 +36408,7 @@ enum ListRulesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -33242,7 +36427,7 @@ enum ListSubscriptionGrantsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -33261,7 +36446,7 @@ enum ListSubscriptionRequestsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -33280,7 +36465,7 @@ enum ListSubscriptionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -33299,7 +36484,7 @@ enum ListSubscriptionTargetsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -33318,7 +36503,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -33335,7 +36520,7 @@ enum ListTimeSeriesDataPointsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -33354,7 +36539,7 @@ enum PostLineageEventOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -33375,7 +36560,7 @@ enum PostTimeSeriesDataPointsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -33396,7 +36581,7 @@ enum PutDataExportConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -33417,7 +36602,7 @@ enum PutEnvironmentBlueprintConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -33431,12 +36616,30 @@ enum PutEnvironmentBlueprintConfigurationOutputError {
     }
 }
 
+enum QueryGraphOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum RejectPredictionsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -33456,7 +36659,7 @@ enum RejectSubscriptionRequestOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -33476,7 +36679,7 @@ enum RemoveEntityOwnerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -33495,7 +36698,7 @@ enum RemovePolicyGrantOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -33513,7 +36716,7 @@ enum RevokeSubscriptionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -33533,7 +36736,7 @@ enum SearchOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -33551,7 +36754,7 @@ enum SearchGroupProfilesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -33569,7 +36772,7 @@ enum SearchListingsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -33587,7 +36790,7 @@ enum SearchTypesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -33605,7 +36808,7 @@ enum SearchUserProfilesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -33623,7 +36826,7 @@ enum StartDataSourceRunOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -33644,7 +36847,7 @@ enum StartMetadataGenerationRunOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -33660,12 +36863,95 @@ enum StartMetadataGenerationRunOutputError {
     }
 }
 
+enum StartNotebookExportOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartNotebookImportOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartNotebookRunOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StopNotebookRunOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum TagResourceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -33682,7 +36968,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -33698,7 +36984,7 @@ enum UpdateAccountPoolOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -33719,7 +37005,7 @@ enum UpdateAssetFilterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -33739,7 +37025,7 @@ enum UpdateConnectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -33760,7 +37046,7 @@ enum UpdateDataSourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -33781,7 +37067,7 @@ enum UpdateDomainOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -33802,7 +37088,7 @@ enum UpdateDomainUnitOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -33822,7 +37108,7 @@ enum UpdateEnvironmentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -33842,7 +37128,7 @@ enum UpdateEnvironmentActionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -33862,7 +37148,7 @@ enum UpdateEnvironmentBlueprintOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -33883,7 +37169,7 @@ enum UpdateEnvironmentProfileOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -33904,7 +37190,7 @@ enum UpdateGlossaryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -33924,7 +37210,7 @@ enum UpdateGlossaryTermOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -33944,7 +37230,7 @@ enum UpdateGroupProfileOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -33957,12 +37243,32 @@ enum UpdateGroupProfileOutputError {
     }
 }
 
+enum UpdateNotebookOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateProjectOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -33983,7 +37289,7 @@ enum UpdateProjectProfileOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -34004,7 +37310,7 @@ enum UpdateRootDomainUnitOwnerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -34024,7 +37330,7 @@ enum UpdateRuleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -34045,7 +37351,7 @@ enum UpdateSubscriptionGrantStatusOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -34065,7 +37371,7 @@ enum UpdateSubscriptionRequestOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -34085,7 +37391,7 @@ enum UpdateSubscriptionTargetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -34105,7 +37411,7 @@ enum UpdateUserProfileOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -34120,7 +37426,7 @@ enum UpdateUserProfileOutputError {
 
 extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -34133,7 +37439,7 @@ extension AccessDeniedException {
 
 extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -34146,7 +37452,7 @@ extension ConflictException {
 
 extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -34159,7 +37465,7 @@ extension InternalServerException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -34172,7 +37478,7 @@ extension ResourceNotFoundException {
 
 extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -34185,7 +37491,7 @@ extension ThrottlingException {
 
 extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -34198,7 +37504,7 @@ extension ValidationException {
 
 extension ServiceQuotaExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -34211,7 +37517,7 @@ extension ServiceQuotaExceededException {
 
 extension UnauthorizedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnauthorizedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> UnauthorizedException {
         let reader = baseError.errorBodyReader
         var value = UnauthorizedException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -34222,273 +37528,65 @@ extension UnauthorizedException {
     }
 }
 
-extension DataZoneClientTypes.SubscribedPrincipal {
+extension DataZoneClientTypes.AcceptChoice {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SubscribedPrincipal {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "project":
-                return .project(try reader["project"].read(with: DataZoneClientTypes.SubscribedProject.read(from:)))
-            case "user":
-                return .user(try reader["user"].read(with: DataZoneClientTypes.SubscribedUser.read(from:)))
-            case "group":
-                return .group(try reader["group"].read(with: DataZoneClientTypes.SubscribedGroup.read(from:)))
-            case "iam":
-                return .iam(try reader["iam"].read(with: DataZoneClientTypes.SubscribedIamPrincipal.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension DataZoneClientTypes.SubscribedIamPrincipal {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SubscribedIamPrincipal {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.SubscribedIamPrincipal()
-        value.principalArn = try reader["principalArn"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.SubscribedGroup {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SubscribedGroup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.SubscribedGroup()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.SubscribedUser {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SubscribedUser {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.SubscribedUser()
-        value.id = try reader["id"].readIfPresent()
-        value.details = try reader["details"].readIfPresent(with: DataZoneClientTypes.UserProfileDetails.read(from:))
-        return value
-    }
-}
-
-extension DataZoneClientTypes.UserProfileDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.UserProfileDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "iam":
-                return .iam(try reader["iam"].read(with: DataZoneClientTypes.IamUserProfileDetails.read(from:)))
-            case "sso":
-                return .sso(try reader["sso"].read(with: DataZoneClientTypes.SsoUserProfileDetails.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension DataZoneClientTypes.SsoUserProfileDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SsoUserProfileDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.SsoUserProfileDetails()
-        value.username = try reader["username"].readIfPresent()
-        value.firstName = try reader["firstName"].readIfPresent()
-        value.lastName = try reader["lastName"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.IamUserProfileDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.IamUserProfileDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.IamUserProfileDetails()
-        value.arn = try reader["arn"].readIfPresent()
-        value.principalId = try reader["principalId"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.SubscribedProject {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SubscribedProject {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.SubscribedProject()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.SubscribedListing {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SubscribedListing {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.SubscribedListing()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.revision = try reader["revision"].readIfPresent()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.description = try reader["description"].readIfPresent() ?? ""
-        value.item = try reader["item"].readIfPresent(with: DataZoneClientTypes.SubscribedListingItem.read(from:))
-        value.ownerProjectId = try reader["ownerProjectId"].readIfPresent() ?? ""
-        value.ownerProjectName = try reader["ownerProjectName"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.SubscribedListingItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SubscribedListingItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "assetListing":
-                return .assetlisting(try reader["assetListing"].read(with: DataZoneClientTypes.SubscribedAssetListing.read(from:)))
-            case "productListing":
-                return .productlisting(try reader["productListing"].read(with: DataZoneClientTypes.SubscribedProductListing.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension DataZoneClientTypes.SubscribedProductListing {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SubscribedProductListing {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.SubscribedProductListing()
-        value.entityId = try reader["entityId"].readIfPresent()
-        value.entityRevision = try reader["entityRevision"].readIfPresent()
-        value.glossaryTerms = try reader["glossaryTerms"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.DetailedGlossaryTerm.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.name = try reader["name"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.assetListings = try reader["assetListings"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.AssetInDataProductListingItem.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DataZoneClientTypes.AssetInDataProductListingItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AssetInDataProductListingItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.AssetInDataProductListingItem()
-        value.entityId = try reader["entityId"].readIfPresent()
-        value.entityRevision = try reader["entityRevision"].readIfPresent()
-        value.entityType = try reader["entityType"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.DetailedGlossaryTerm {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.DetailedGlossaryTerm {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.DetailedGlossaryTerm()
-        value.name = try reader["name"].readIfPresent()
-        value.shortDescription = try reader["shortDescription"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.SubscribedAssetListing {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SubscribedAssetListing {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.SubscribedAssetListing()
-        value.entityId = try reader["entityId"].readIfPresent()
-        value.entityRevision = try reader["entityRevision"].readIfPresent()
-        value.entityType = try reader["entityType"].readIfPresent()
-        value.forms = try reader["forms"].readIfPresent()
-        value.glossaryTerms = try reader["glossaryTerms"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.DetailedGlossaryTerm.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.assetScope = try reader["assetScope"].readIfPresent(with: DataZoneClientTypes.AssetScope.read(from:))
-        value.permissions = try reader["permissions"].readIfPresent(with: DataZoneClientTypes.Permissions.read(from:))
-        return value
-    }
-}
-
-extension DataZoneClientTypes.Permissions {
-
-    static func write(value: DataZoneClientTypes.Permissions?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DataZoneClientTypes.AcceptChoice?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        switch value {
-            case let .s3(s3):
-                try writer["s3"].writeList(s3, memberWritingClosure: SmithyReadWrite.WritingClosureBox<DataZoneClientTypes.S3Permission>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.Permissions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "s3":
-                return .s3(try reader["s3"].readList(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<DataZoneClientTypes.S3Permission>().read(from:), memberNodeInfo: "member", isFlattened: false))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
+        try writer["editedValue"].write(value.editedValue)
+        try writer["predictionChoice"].write(value.predictionChoice)
+        try writer["predictionTarget"].write(value.predictionTarget)
     }
 }
 
-extension DataZoneClientTypes.AssetScope {
+extension DataZoneClientTypes.AcceptedAssetScope {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AssetScope {
+    static func write(value: DataZoneClientTypes.AcceptedAssetScope?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["assetId"].write(value.assetId)
+        try writer["filterIds"].writeList(value.filterIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension DataZoneClientTypes.AcceptRule {
+
+    static func write(value: DataZoneClientTypes.AcceptRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["rule"].write(value.rule)
+        try writer["threshold"].write(value.threshold)
+    }
+}
+
+extension DataZoneClientTypes.AccountInfo {
+
+    static func write(value: DataZoneClientTypes.AccountInfo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["awsAccountId"].write(value.awsAccountId)
+        try writer["awsAccountName"].write(value.awsAccountName)
+        try writer["supportedRegions"].writeList(value.supportedRegions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AccountInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.AssetScope()
-        value.assetId = try reader["assetId"].readIfPresent() ?? ""
-        value.filterIds = try reader["filterIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.status = try reader["status"].readIfPresent() ?? ""
-        value.errorMessage = try reader["errorMessage"].readIfPresent()
+        var value = DataZoneClientTypes.AccountInfo()
+        value.awsAccountId = try reader["awsAccountId"].readIfPresent() ?? ""
+        value.supportedRegions = try reader["supportedRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.awsAccountName = try reader["awsAccountName"].readIfPresent()
         return value
     }
 }
 
-extension DataZoneClientTypes.FormOutput {
+extension DataZoneClientTypes.AccountPoolSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.FormOutput {
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AccountPoolSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.FormOutput()
-        value.formName = try reader["formName"].readIfPresent() ?? ""
-        value.typeName = try reader["typeName"].readIfPresent()
-        value.typeRevision = try reader["typeRevision"].readIfPresent()
-        value.content = try reader["content"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.BatchGetAttributeOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.BatchGetAttributeOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.BatchGetAttributeOutput()
-        value.attributeIdentifier = try reader["attributeIdentifier"].readIfPresent() ?? ""
-        value.forms = try reader["forms"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.FormOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DataZoneClientTypes.AttributeError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AttributeError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.AttributeError()
-        value.attributeIdentifier = try reader["attributeIdentifier"].readIfPresent() ?? ""
-        value.code = try reader["code"].readIfPresent() ?? ""
-        value.message = try reader["message"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension DataZoneClientTypes.BatchPutAttributeOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.BatchPutAttributeOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.BatchPutAttributeOutput()
-        value.attributeIdentifier = try reader["attributeIdentifier"].readIfPresent() ?? ""
+        var value = DataZoneClientTypes.AccountPoolSummary()
+        value.domainId = try reader["domainId"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.resolutionStrategy = try reader["resolutionStrategy"].readIfPresent()
+        value.domainUnitId = try reader["domainUnitId"].readIfPresent()
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.updatedBy = try reader["updatedBy"].readIfPresent()
         return value
     }
 }
@@ -34521,95 +37619,141 @@ extension DataZoneClientTypes.AccountSource {
     }
 }
 
-extension DataZoneClientTypes.CustomAccountPoolHandler {
+extension DataZoneClientTypes.ActionParameters {
 
-    static func write(value: DataZoneClientTypes.CustomAccountPoolHandler?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DataZoneClientTypes.ActionParameters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["lambdaExecutionRoleArn"].write(value.lambdaExecutionRoleArn)
-        try writer["lambdaFunctionArn"].write(value.lambdaFunctionArn)
+        switch value {
+            case let .awsconsolelink(awsconsolelink):
+                try writer["awsConsoleLink"].write(awsconsolelink, with: DataZoneClientTypes.AwsConsoleLinkParameters.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.CustomAccountPoolHandler {
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.ActionParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.CustomAccountPoolHandler()
-        value.lambdaFunctionArn = try reader["lambdaFunctionArn"].readIfPresent() ?? ""
-        value.lambdaExecutionRoleArn = try reader["lambdaExecutionRoleArn"].readIfPresent()
-        return value
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "awsConsoleLink":
+                return .awsconsolelink(try reader["awsConsoleLink"].read(with: DataZoneClientTypes.AwsConsoleLinkParameters.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
-extension DataZoneClientTypes.AccountInfo {
+extension DataZoneClientTypes.AdditionalAttributes {
 
-    static func write(value: DataZoneClientTypes.AccountInfo?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DataZoneClientTypes.AdditionalAttributes?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["awsAccountId"].write(value.awsAccountId)
-        try writer["awsAccountName"].write(value.awsAccountName)
-        try writer["supportedRegions"].writeList(value.supportedRegions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AccountInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.AccountInfo()
-        value.awsAccountId = try reader["awsAccountId"].readIfPresent() ?? ""
-        value.supportedRegions = try reader["supportedRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.awsAccountName = try reader["awsAccountName"].readIfPresent()
-        return value
+        try writer["formNames"].writeList(value.formNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
-extension DataZoneClientTypes.AssetListingDetails {
+extension DataZoneClientTypes.AddToProjectMemberPoolPolicyGrantDetail {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AssetListingDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.AssetListingDetails()
-        value.listingId = try reader["listingId"].readIfPresent() ?? ""
-        value.listingStatus = try reader["listingStatus"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput()
-        value.formName = try reader["formName"].readIfPresent() ?? ""
-        value.typeIdentifier = try reader["typeIdentifier"].readIfPresent() ?? ""
-        value.typeRevision = try reader["typeRevision"].readIfPresent()
-        value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.contentSummary = try reader["contentSummary"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.PredictionConfiguration {
-
-    static func write(value: DataZoneClientTypes.PredictionConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DataZoneClientTypes.AddToProjectMemberPoolPolicyGrantDetail?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["businessNameGeneration"].write(value.businessNameGeneration, with: DataZoneClientTypes.BusinessNameGenerationConfiguration.write(value:to:))
+        try writer["includeChildDomainUnits"].write(value.includeChildDomainUnits)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.PredictionConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AddToProjectMemberPoolPolicyGrantDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.PredictionConfiguration()
-        value.businessNameGeneration = try reader["businessNameGeneration"].readIfPresent(with: DataZoneClientTypes.BusinessNameGenerationConfiguration.read(from:))
+        var value = DataZoneClientTypes.AddToProjectMemberPoolPolicyGrantDetail()
+        value.includeChildDomainUnits = try reader["includeChildDomainUnits"].readIfPresent()
         return value
     }
 }
 
-extension DataZoneClientTypes.BusinessNameGenerationConfiguration {
+extension DataZoneClientTypes.AggregationListItem {
 
-    static func write(value: DataZoneClientTypes.BusinessNameGenerationConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DataZoneClientTypes.AggregationListItem?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["enabled"].write(value.enabled)
+        try writer["attribute"].write(value.attribute)
+        try writer["displayValue"].write(value.displayValue)
+    }
+}
+
+extension DataZoneClientTypes.AggregationOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AggregationOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.AggregationOutput()
+        value.attribute = try reader["attribute"].readIfPresent()
+        value.displayValue = try reader["displayValue"].readIfPresent()
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.AggregationOutputItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DataZoneClientTypes.AggregationOutputItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AggregationOutputItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.AggregationOutputItem()
+        value.value = try reader["value"].readIfPresent()
+        value.count = try reader["count"].readIfPresent()
+        value.displayValue = try reader["displayValue"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.AllDomainUnitsGrantFilter {
+
+    static func write(value: DataZoneClientTypes.AllDomainUnitsGrantFilter?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.BusinessNameGenerationConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AllDomainUnitsGrantFilter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.BusinessNameGenerationConfiguration()
-        value.enabled = try reader["enabled"].readIfPresent()
+        return DataZoneClientTypes.AllDomainUnitsGrantFilter()
+    }
+}
+
+extension DataZoneClientTypes.AllUsersGrantFilter {
+
+    static func write(value: DataZoneClientTypes.AllUsersGrantFilter?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AllUsersGrantFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return DataZoneClientTypes.AllUsersGrantFilter()
+    }
+}
+
+extension DataZoneClientTypes.AmazonQPropertiesInput {
+
+    static func write(value: DataZoneClientTypes.AmazonQPropertiesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["authMode"].write(value.authMode)
+        try writer["isEnabled"].write(value.isEnabled)
+        try writer["profileArn"].write(value.profileArn)
+    }
+}
+
+extension DataZoneClientTypes.AmazonQPropertiesOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AmazonQPropertiesOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.AmazonQPropertiesOutput()
+        value.isEnabled = try reader["isEnabled"].readIfPresent() ?? false
+        value.profileArn = try reader["profileArn"].readIfPresent()
+        value.authMode = try reader["authMode"].readIfPresent()
         return value
+    }
+}
+
+extension DataZoneClientTypes.AmazonQPropertiesPatch {
+
+    static func write(value: DataZoneClientTypes.AmazonQPropertiesPatch?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["authMode"].write(value.authMode)
+        try writer["isEnabled"].write(value.isEnabled)
+        try writer["profileArn"].write(value.profileArn)
     }
 }
 
@@ -34641,391 +37785,265 @@ extension DataZoneClientTypes.AssetFilterConfiguration {
     }
 }
 
-extension DataZoneClientTypes.RowFilterConfiguration {
+extension DataZoneClientTypes.AssetFilterSummary {
 
-    static func write(value: DataZoneClientTypes.RowFilterConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["rowFilter"].write(value.rowFilter, with: DataZoneClientTypes.RowFilter.write(value:to:))
-        try writer["sensitive"].write(value.sensitive)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.RowFilterConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AssetFilterSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.RowFilterConfiguration()
-        value.rowFilter = try reader["rowFilter"].readIfPresent(with: DataZoneClientTypes.RowFilter.read(from:))
-        value.sensitive = try reader["sensitive"].readIfPresent() ?? true
-        return value
-    }
-}
-
-extension DataZoneClientTypes.RowFilter {
-
-    static func write(value: DataZoneClientTypes.RowFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .and(and):
-                try writer["and"].writeList(and, memberWritingClosure: DataZoneClientTypes.RowFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-            case let .expression(expression):
-                try writer["expression"].write(expression, with: DataZoneClientTypes.RowFilterExpression.write(value:to:))
-            case let .or(or):
-                try writer["or"].writeList(or, memberWritingClosure: DataZoneClientTypes.RowFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.RowFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "expression":
-                return .expression(try reader["expression"].read(with: DataZoneClientTypes.RowFilterExpression.read(from:)))
-            case "and":
-                return .and(try reader["and"].readList(memberReadingClosure: DataZoneClientTypes.RowFilter.read(from:), memberNodeInfo: "member", isFlattened: false))
-            case "or":
-                return .or(try reader["or"].readList(memberReadingClosure: DataZoneClientTypes.RowFilter.read(from:), memberNodeInfo: "member", isFlattened: false))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension DataZoneClientTypes.RowFilterExpression {
-
-    static func write(value: DataZoneClientTypes.RowFilterExpression?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .equalto(equalto):
-                try writer["equalTo"].write(equalto, with: DataZoneClientTypes.EqualToExpression.write(value:to:))
-            case let .greaterthan(greaterthan):
-                try writer["greaterThan"].write(greaterthan, with: DataZoneClientTypes.GreaterThanExpression.write(value:to:))
-            case let .greaterthanorequalto(greaterthanorequalto):
-                try writer["greaterThanOrEqualTo"].write(greaterthanorequalto, with: DataZoneClientTypes.GreaterThanOrEqualToExpression.write(value:to:))
-            case let .`in`(`in`):
-                try writer["in"].write(`in`, with: DataZoneClientTypes.InExpression.write(value:to:))
-            case let .isnotnull(isnotnull):
-                try writer["isNotNull"].write(isnotnull, with: DataZoneClientTypes.IsNotNullExpression.write(value:to:))
-            case let .isnull(isnull):
-                try writer["isNull"].write(isnull, with: DataZoneClientTypes.IsNullExpression.write(value:to:))
-            case let .lessthan(lessthan):
-                try writer["lessThan"].write(lessthan, with: DataZoneClientTypes.LessThanExpression.write(value:to:))
-            case let .lessthanorequalto(lessthanorequalto):
-                try writer["lessThanOrEqualTo"].write(lessthanorequalto, with: DataZoneClientTypes.LessThanOrEqualToExpression.write(value:to:))
-            case let .like(like):
-                try writer["like"].write(like, with: DataZoneClientTypes.LikeExpression.write(value:to:))
-            case let .notequalto(notequalto):
-                try writer["notEqualTo"].write(notequalto, with: DataZoneClientTypes.NotEqualToExpression.write(value:to:))
-            case let .notin(notin):
-                try writer["notIn"].write(notin, with: DataZoneClientTypes.NotInExpression.write(value:to:))
-            case let .notlike(notlike):
-                try writer["notLike"].write(notlike, with: DataZoneClientTypes.NotLikeExpression.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.RowFilterExpression {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "equalTo":
-                return .equalto(try reader["equalTo"].read(with: DataZoneClientTypes.EqualToExpression.read(from:)))
-            case "notEqualTo":
-                return .notequalto(try reader["notEqualTo"].read(with: DataZoneClientTypes.NotEqualToExpression.read(from:)))
-            case "greaterThan":
-                return .greaterthan(try reader["greaterThan"].read(with: DataZoneClientTypes.GreaterThanExpression.read(from:)))
-            case "lessThan":
-                return .lessthan(try reader["lessThan"].read(with: DataZoneClientTypes.LessThanExpression.read(from:)))
-            case "greaterThanOrEqualTo":
-                return .greaterthanorequalto(try reader["greaterThanOrEqualTo"].read(with: DataZoneClientTypes.GreaterThanOrEqualToExpression.read(from:)))
-            case "lessThanOrEqualTo":
-                return .lessthanorequalto(try reader["lessThanOrEqualTo"].read(with: DataZoneClientTypes.LessThanOrEqualToExpression.read(from:)))
-            case "isNull":
-                return .isnull(try reader["isNull"].read(with: DataZoneClientTypes.IsNullExpression.read(from:)))
-            case "isNotNull":
-                return .isnotnull(try reader["isNotNull"].read(with: DataZoneClientTypes.IsNotNullExpression.read(from:)))
-            case "in":
-                return .`in`(try reader["in"].read(with: DataZoneClientTypes.InExpression.read(from:)))
-            case "notIn":
-                return .notin(try reader["notIn"].read(with: DataZoneClientTypes.NotInExpression.read(from:)))
-            case "like":
-                return .like(try reader["like"].read(with: DataZoneClientTypes.LikeExpression.read(from:)))
-            case "notLike":
-                return .notlike(try reader["notLike"].read(with: DataZoneClientTypes.NotLikeExpression.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension DataZoneClientTypes.NotLikeExpression {
-
-    static func write(value: DataZoneClientTypes.NotLikeExpression?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["columnName"].write(value.columnName)
-        try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.NotLikeExpression {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.NotLikeExpression()
-        value.columnName = try reader["columnName"].readIfPresent() ?? ""
-        value.value = try reader["value"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension DataZoneClientTypes.LikeExpression {
-
-    static func write(value: DataZoneClientTypes.LikeExpression?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["columnName"].write(value.columnName)
-        try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.LikeExpression {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.LikeExpression()
-        value.columnName = try reader["columnName"].readIfPresent() ?? ""
-        value.value = try reader["value"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension DataZoneClientTypes.NotInExpression {
-
-    static func write(value: DataZoneClientTypes.NotInExpression?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["columnName"].write(value.columnName)
-        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.NotInExpression {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.NotInExpression()
-        value.columnName = try reader["columnName"].readIfPresent() ?? ""
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension DataZoneClientTypes.InExpression {
-
-    static func write(value: DataZoneClientTypes.InExpression?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["columnName"].write(value.columnName)
-        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.InExpression {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.InExpression()
-        value.columnName = try reader["columnName"].readIfPresent() ?? ""
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension DataZoneClientTypes.IsNotNullExpression {
-
-    static func write(value: DataZoneClientTypes.IsNotNullExpression?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["columnName"].write(value.columnName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.IsNotNullExpression {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.IsNotNullExpression()
-        value.columnName = try reader["columnName"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension DataZoneClientTypes.IsNullExpression {
-
-    static func write(value: DataZoneClientTypes.IsNullExpression?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["columnName"].write(value.columnName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.IsNullExpression {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.IsNullExpression()
-        value.columnName = try reader["columnName"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension DataZoneClientTypes.LessThanOrEqualToExpression {
-
-    static func write(value: DataZoneClientTypes.LessThanOrEqualToExpression?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["columnName"].write(value.columnName)
-        try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.LessThanOrEqualToExpression {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.LessThanOrEqualToExpression()
-        value.columnName = try reader["columnName"].readIfPresent() ?? ""
-        value.value = try reader["value"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension DataZoneClientTypes.GreaterThanOrEqualToExpression {
-
-    static func write(value: DataZoneClientTypes.GreaterThanOrEqualToExpression?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["columnName"].write(value.columnName)
-        try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.GreaterThanOrEqualToExpression {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.GreaterThanOrEqualToExpression()
-        value.columnName = try reader["columnName"].readIfPresent() ?? ""
-        value.value = try reader["value"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension DataZoneClientTypes.LessThanExpression {
-
-    static func write(value: DataZoneClientTypes.LessThanExpression?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["columnName"].write(value.columnName)
-        try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.LessThanExpression {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.LessThanExpression()
-        value.columnName = try reader["columnName"].readIfPresent() ?? ""
-        value.value = try reader["value"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension DataZoneClientTypes.GreaterThanExpression {
-
-    static func write(value: DataZoneClientTypes.GreaterThanExpression?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["columnName"].write(value.columnName)
-        try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.GreaterThanExpression {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.GreaterThanExpression()
-        value.columnName = try reader["columnName"].readIfPresent() ?? ""
-        value.value = try reader["value"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension DataZoneClientTypes.NotEqualToExpression {
-
-    static func write(value: DataZoneClientTypes.NotEqualToExpression?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["columnName"].write(value.columnName)
-        try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.NotEqualToExpression {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.NotEqualToExpression()
-        value.columnName = try reader["columnName"].readIfPresent() ?? ""
-        value.value = try reader["value"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension DataZoneClientTypes.EqualToExpression {
-
-    static func write(value: DataZoneClientTypes.EqualToExpression?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["columnName"].write(value.columnName)
-        try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.EqualToExpression {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.EqualToExpression()
-        value.columnName = try reader["columnName"].readIfPresent() ?? ""
-        value.value = try reader["value"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension DataZoneClientTypes.ColumnFilterConfiguration {
-
-    static func write(value: DataZoneClientTypes.ColumnFilterConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["includedColumnNames"].writeList(value.includedColumnNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.ColumnFilterConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.ColumnFilterConfiguration()
-        value.includedColumnNames = try reader["includedColumnNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DataZoneClientTypes.FormEntryOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.FormEntryOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.FormEntryOutput()
-        value.typeName = try reader["typeName"].readIfPresent() ?? ""
-        value.typeRevision = try reader["typeRevision"].readIfPresent() ?? ""
-        value.`required` = try reader["required"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.PhysicalEndpoint {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.PhysicalEndpoint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.PhysicalEndpoint()
-        value.awsLocation = try reader["awsLocation"].readIfPresent(with: DataZoneClientTypes.AwsLocation.read(from:))
-        value.glueConnectionName = try reader["glueConnectionName"].readIfPresent()
-        value.glueConnection = try reader["glueConnection"].readIfPresent(with: DataZoneClientTypes.GlueConnection.read(from:))
-        value.enableTrustedIdentityPropagation = try reader["enableTrustedIdentityPropagation"].readIfPresent()
-        value.host = try reader["host"].readIfPresent()
-        value.port = try reader["port"].readIfPresent()
-        value.`protocol` = try reader["protocol"].readIfPresent()
-        value.stage = try reader["stage"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.GlueConnection {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.GlueConnection {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.GlueConnection()
-        value.name = try reader["name"].readIfPresent()
+        var value = DataZoneClientTypes.AssetFilterSummary()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.assetId = try reader["assetId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
-        value.connectionType = try reader["connectionType"].readIfPresent()
-        value.matchCriteria = try reader["matchCriteria"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.connectionProperties = try reader["connectionProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.sparkProperties = try reader["sparkProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.athenaProperties = try reader["athenaProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.pythonProperties = try reader["pythonProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.physicalConnectionRequirements = try reader["physicalConnectionRequirements"].readIfPresent(with: DataZoneClientTypes.PhysicalConnectionRequirements.read(from:))
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedTime = try reader["lastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedBy = try reader["lastUpdatedBy"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
-        value.statusReason = try reader["statusReason"].readIfPresent()
-        value.lastConnectionValidationTime = try reader["lastConnectionValidationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.authenticationConfiguration = try reader["authenticationConfiguration"].readIfPresent(with: DataZoneClientTypes.AuthenticationConfiguration.read(from:))
-        value.connectionSchemaVersion = try reader["connectionSchemaVersion"].readIfPresent()
-        value.compatibleComputeEnvironments = try reader["compatibleComputeEnvironments"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<DataZoneClientTypes.ComputeEnvironments>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.effectiveColumnNames = try reader["effectiveColumnNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.effectiveRowFilter = try reader["effectiveRowFilter"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.errorMessage = try reader["errorMessage"].readIfPresent()
         return value
+    }
+}
+
+extension DataZoneClientTypes.AssetInDataProductListingItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AssetInDataProductListingItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.AssetInDataProductListingItem()
+        value.entityId = try reader["entityId"].readIfPresent()
+        value.entityRevision = try reader["entityRevision"].readIfPresent()
+        value.entityType = try reader["entityType"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.AssetItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AssetItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.AssetItem()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.identifier = try reader["identifier"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.typeIdentifier = try reader["typeIdentifier"].readIfPresent() ?? ""
+        value.typeRevision = try reader["typeRevision"].readIfPresent() ?? ""
+        value.externalIdentifier = try reader["externalIdentifier"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.firstRevisionCreatedAt = try reader["firstRevisionCreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.firstRevisionCreatedBy = try reader["firstRevisionCreatedBy"].readIfPresent()
+        value.glossaryTerms = try reader["glossaryTerms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""
+        value.additionalAttributes = try reader["additionalAttributes"].readIfPresent(with: DataZoneClientTypes.AssetItemAdditionalAttributes.read(from:))
+        value.governedGlossaryTerms = try reader["governedGlossaryTerms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DataZoneClientTypes.AssetItemAdditionalAttributes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AssetItemAdditionalAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.AssetItemAdditionalAttributes()
+        value.formsOutput = try reader["formsOutput"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.FormOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.readOnlyFormsOutput = try reader["readOnlyFormsOutput"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.FormOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.latestTimeSeriesDataPointFormsOutput = try reader["latestTimeSeriesDataPointFormsOutput"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.matchRationale = try reader["matchRationale"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.MatchRationaleItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DataZoneClientTypes.AssetListing {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AssetListing {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.AssetListing()
+        value.assetId = try reader["assetId"].readIfPresent()
+        value.assetRevision = try reader["assetRevision"].readIfPresent()
+        value.assetType = try reader["assetType"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.forms = try reader["forms"].readIfPresent()
+        value.latestTimeSeriesDataPointForms = try reader["latestTimeSeriesDataPointForms"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.glossaryTerms = try reader["glossaryTerms"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.DetailedGlossaryTerm.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.governedGlossaryTerms = try reader["governedGlossaryTerms"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.DetailedGlossaryTerm.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.owningProjectId = try reader["owningProjectId"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.AssetListingDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AssetListingDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.AssetListingDetails()
+        value.listingId = try reader["listingId"].readIfPresent() ?? ""
+        value.listingStatus = try reader["listingStatus"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension DataZoneClientTypes.AssetListingItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AssetListingItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.AssetListingItem()
+        value.listingId = try reader["listingId"].readIfPresent()
+        value.listingRevision = try reader["listingRevision"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.entityId = try reader["entityId"].readIfPresent()
+        value.entityRevision = try reader["entityRevision"].readIfPresent()
+        value.entityType = try reader["entityType"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.listingCreatedBy = try reader["listingCreatedBy"].readIfPresent()
+        value.listingUpdatedBy = try reader["listingUpdatedBy"].readIfPresent()
+        value.glossaryTerms = try reader["glossaryTerms"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.DetailedGlossaryTerm.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.governedGlossaryTerms = try reader["governedGlossaryTerms"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.DetailedGlossaryTerm.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.owningProjectId = try reader["owningProjectId"].readIfPresent()
+        value.additionalAttributes = try reader["additionalAttributes"].readIfPresent(with: DataZoneClientTypes.AssetListingItemAdditionalAttributes.read(from:))
+        return value
+    }
+}
+
+extension DataZoneClientTypes.AssetListingItemAdditionalAttributes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AssetListingItemAdditionalAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.AssetListingItemAdditionalAttributes()
+        value.forms = try reader["forms"].readIfPresent()
+        value.matchRationale = try reader["matchRationale"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.MatchRationaleItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.latestTimeSeriesDataPointForms = try reader["latestTimeSeriesDataPointForms"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DataZoneClientTypes.AssetPermission {
+
+    static func write(value: DataZoneClientTypes.AssetPermission?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["assetId"].write(value.assetId)
+        try writer["permissions"].write(value.permissions, with: DataZoneClientTypes.Permissions.write(value:to:))
+    }
+}
+
+extension DataZoneClientTypes.AssetRevision {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AssetRevision {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.AssetRevision()
+        value.domainId = try reader["domainId"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.revision = try reader["revision"].readIfPresent()
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension DataZoneClientTypes.AssetScope {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AssetScope {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.AssetScope()
+        value.assetId = try reader["assetId"].readIfPresent() ?? ""
+        value.filterIds = try reader["filterIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.status = try reader["status"].readIfPresent() ?? ""
+        value.errorMessage = try reader["errorMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.AssetTargetNameMap {
+
+    static func write(value: DataZoneClientTypes.AssetTargetNameMap?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["assetId"].write(value.assetId)
+        try writer["targetName"].write(value.targetName)
+    }
+}
+
+extension DataZoneClientTypes.AssetTypeItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AssetTypeItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.AssetTypeItem()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.revision = try reader["revision"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.formsOutput = try reader["formsOutput"].readMapIfPresent(valueReadingClosure: DataZoneClientTypes.FormEntryOutput.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""
+        value.originDomainId = try reader["originDomainId"].readIfPresent()
+        value.originProjectId = try reader["originProjectId"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedBy = try reader["updatedBy"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.AssetTypesForRule {
+
+    static func write(value: DataZoneClientTypes.AssetTypesForRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["selectionMode"].write(value.selectionMode)
+        try writer["specificAssetTypes"].writeList(value.specificAssetTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AssetTypesForRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.AssetTypesForRule()
+        value.selectionMode = try reader["selectionMode"].readIfPresent() ?? .sdkUnknown("")
+        value.specificAssetTypes = try reader["specificAssetTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DataZoneClientTypes.AthenaPropertiesInput {
+
+    static func write(value: DataZoneClientTypes.AthenaPropertiesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["workgroupName"].write(value.workgroupName)
+    }
+}
+
+extension DataZoneClientTypes.AthenaPropertiesOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AthenaPropertiesOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.AthenaPropertiesOutput()
+        value.workgroupName = try reader["workgroupName"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.AthenaPropertiesPatch {
+
+    static func write(value: DataZoneClientTypes.AthenaPropertiesPatch?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["workgroupName"].write(value.workgroupName)
+    }
+}
+
+extension DataZoneClientTypes.AttributeError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AttributeError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.AttributeError()
+        value.attributeIdentifier = try reader["attributeIdentifier"].readIfPresent() ?? ""
+        value.code = try reader["code"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DataZoneClientTypes.AttributeInput {
+
+    static func write(value: DataZoneClientTypes.AttributeInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["attributeIdentifier"].write(value.attributeIdentifier)
+        try writer["forms"].writeList(value.forms, memberWritingClosure: DataZoneClientTypes.FormInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -35041,49 +38059,25 @@ extension DataZoneClientTypes.AuthenticationConfiguration {
     }
 }
 
-extension DataZoneClientTypes.OAuth2Properties {
+extension DataZoneClientTypes.AuthenticationConfigurationInput {
 
-    static func write(value: DataZoneClientTypes.OAuth2Properties?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DataZoneClientTypes.AuthenticationConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["authorizationCodeProperties"].write(value.authorizationCodeProperties, with: DataZoneClientTypes.AuthorizationCodeProperties.write(value:to:))
-        try writer["oAuth2ClientApplication"].write(value.oAuth2ClientApplication, with: DataZoneClientTypes.OAuth2ClientApplication.write(value:to:))
-        try writer["oAuth2Credentials"].write(value.oAuth2Credentials, with: DataZoneClientTypes.GlueOAuth2Credentials.write(value:to:))
-        try writer["oAuth2GrantType"].write(value.oAuth2GrantType)
-        try writer["tokenUrl"].write(value.tokenUrl)
-        try writer["tokenUrlParametersMap"].writeMap(value.tokenUrlParametersMap, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.OAuth2Properties {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.OAuth2Properties()
-        value.oAuth2GrantType = try reader["oAuth2GrantType"].readIfPresent()
-        value.oAuth2ClientApplication = try reader["oAuth2ClientApplication"].readIfPresent(with: DataZoneClientTypes.OAuth2ClientApplication.read(from:))
-        value.tokenUrl = try reader["tokenUrl"].readIfPresent()
-        value.tokenUrlParametersMap = try reader["tokenUrlParametersMap"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.authorizationCodeProperties = try reader["authorizationCodeProperties"].readIfPresent(with: DataZoneClientTypes.AuthorizationCodeProperties.read(from:))
-        value.oAuth2Credentials = try reader["oAuth2Credentials"].readIfPresent(with: DataZoneClientTypes.GlueOAuth2Credentials.read(from:))
-        return value
+        try writer["authenticationType"].write(value.authenticationType)
+        try writer["basicAuthenticationCredentials"].write(value.basicAuthenticationCredentials, with: DataZoneClientTypes.BasicAuthenticationCredentials.write(value:to:))
+        try writer["customAuthenticationCredentials"].writeMap(value.customAuthenticationCredentials, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["kmsKeyArn"].write(value.kmsKeyArn)
+        try writer["oAuth2Properties"].write(value.oAuth2Properties, with: DataZoneClientTypes.OAuth2Properties.write(value:to:))
+        try writer["secretArn"].write(value.secretArn)
     }
 }
 
-extension DataZoneClientTypes.GlueOAuth2Credentials {
+extension DataZoneClientTypes.AuthenticationConfigurationPatch {
 
-    static func write(value: DataZoneClientTypes.GlueOAuth2Credentials?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DataZoneClientTypes.AuthenticationConfigurationPatch?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["accessToken"].write(value.accessToken)
-        try writer["jwtToken"].write(value.jwtToken)
-        try writer["refreshToken"].write(value.refreshToken)
-        try writer["userManagedClientApplicationClientSecret"].write(value.userManagedClientApplicationClientSecret)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.GlueOAuth2Credentials {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.GlueOAuth2Credentials()
-        value.userManagedClientApplicationClientSecret = try reader["userManagedClientApplicationClientSecret"].readIfPresent()
-        value.accessToken = try reader["accessToken"].readIfPresent()
-        value.refreshToken = try reader["refreshToken"].readIfPresent()
-        value.jwtToken = try reader["jwtToken"].readIfPresent()
-        return value
+        try writer["basicAuthenticationCredentials"].write(value.basicAuthenticationCredentials, with: DataZoneClientTypes.BasicAuthenticationCredentials.write(value:to:))
+        try writer["secretArn"].write(value.secretArn)
     }
 }
 
@@ -35101,1026 +38095,6 @@ extension DataZoneClientTypes.AuthorizationCodeProperties {
         value.authorizationCode = try reader["authorizationCode"].readIfPresent()
         value.redirectUri = try reader["redirectUri"].readIfPresent()
         return value
-    }
-}
-
-extension DataZoneClientTypes.OAuth2ClientApplication {
-
-    static func write(value: DataZoneClientTypes.OAuth2ClientApplication?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["aWSManagedClientApplicationReference"].write(value.aWSManagedClientApplicationReference)
-        try writer["userManagedClientApplicationClientId"].write(value.userManagedClientApplicationClientId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.OAuth2ClientApplication {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.OAuth2ClientApplication()
-        value.userManagedClientApplicationClientId = try reader["userManagedClientApplicationClientId"].readIfPresent()
-        value.aWSManagedClientApplicationReference = try reader["aWSManagedClientApplicationReference"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.PhysicalConnectionRequirements {
-
-    static func write(value: DataZoneClientTypes.PhysicalConnectionRequirements?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["availabilityZone"].write(value.availabilityZone)
-        try writer["securityGroupIdList"].writeList(value.securityGroupIdList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["subnetId"].write(value.subnetId)
-        try writer["subnetIdList"].writeList(value.subnetIdList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.PhysicalConnectionRequirements {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.PhysicalConnectionRequirements()
-        value.subnetId = try reader["subnetId"].readIfPresent()
-        value.subnetIdList = try reader["subnetIdList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.securityGroupIdList = try reader["securityGroupIdList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.availabilityZone = try reader["availabilityZone"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.AwsLocation {
-
-    static func write(value: DataZoneClientTypes.AwsLocation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accessRole"].write(value.accessRole)
-        try writer["awsAccountId"].write(value.awsAccountId)
-        try writer["awsRegion"].write(value.awsRegion)
-        try writer["iamConnectionId"].write(value.iamConnectionId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AwsLocation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.AwsLocation()
-        value.accessRole = try reader["accessRole"].readIfPresent()
-        value.awsAccountId = try reader["awsAccountId"].readIfPresent()
-        value.awsRegion = try reader["awsRegion"].readIfPresent()
-        value.iamConnectionId = try reader["iamConnectionId"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.ConnectionPropertiesOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.ConnectionPropertiesOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "athenaProperties":
-                return .athenaproperties(try reader["athenaProperties"].read(with: DataZoneClientTypes.AthenaPropertiesOutput.read(from:)))
-            case "glueProperties":
-                return .glueproperties(try reader["glueProperties"].read(with: DataZoneClientTypes.GluePropertiesOutput.read(from:)))
-            case "hyperPodProperties":
-                return .hyperpodproperties(try reader["hyperPodProperties"].read(with: DataZoneClientTypes.HyperPodPropertiesOutput.read(from:)))
-            case "iamProperties":
-                return .iamproperties(try reader["iamProperties"].read(with: DataZoneClientTypes.IamPropertiesOutput.read(from:)))
-            case "redshiftProperties":
-                return .redshiftproperties(try reader["redshiftProperties"].read(with: DataZoneClientTypes.RedshiftPropertiesOutput.read(from:)))
-            case "sparkEmrProperties":
-                return .sparkemrproperties(try reader["sparkEmrProperties"].read(with: DataZoneClientTypes.SparkEmrPropertiesOutput.read(from:)))
-            case "sparkGlueProperties":
-                return .sparkglueproperties(try reader["sparkGlueProperties"].read(with: DataZoneClientTypes.SparkGluePropertiesOutput.read(from:)))
-            case "s3Properties":
-                return .s3properties(try reader["s3Properties"].read(with: DataZoneClientTypes.S3PropertiesOutput.read(from:)))
-            case "amazonQProperties":
-                return .amazonqproperties(try reader["amazonQProperties"].read(with: DataZoneClientTypes.AmazonQPropertiesOutput.read(from:)))
-            case "mlflowProperties":
-                return .mlflowproperties(try reader["mlflowProperties"].read(with: DataZoneClientTypes.MlflowPropertiesOutput.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension DataZoneClientTypes.MlflowPropertiesOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.MlflowPropertiesOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.MlflowPropertiesOutput()
-        value.trackingServerArn = try reader["trackingServerArn"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.AmazonQPropertiesOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AmazonQPropertiesOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.AmazonQPropertiesOutput()
-        value.isEnabled = try reader["isEnabled"].readIfPresent() ?? false
-        value.profileArn = try reader["profileArn"].readIfPresent()
-        value.authMode = try reader["authMode"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.S3PropertiesOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.S3PropertiesOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.S3PropertiesOutput()
-        value.s3Uri = try reader["s3Uri"].readIfPresent() ?? ""
-        value.s3AccessGrantLocationId = try reader["s3AccessGrantLocationId"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.errorMessage = try reader["errorMessage"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.SparkGluePropertiesOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SparkGluePropertiesOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.SparkGluePropertiesOutput()
-        value.additionalArgs = try reader["additionalArgs"].readIfPresent(with: DataZoneClientTypes.SparkGlueArgs.read(from:))
-        value.glueConnectionName = try reader["glueConnectionName"].readIfPresent()
-        value.glueVersion = try reader["glueVersion"].readIfPresent()
-        value.idleTimeout = try reader["idleTimeout"].readIfPresent()
-        value.javaVirtualEnv = try reader["javaVirtualEnv"].readIfPresent()
-        value.numberOfWorkers = try reader["numberOfWorkers"].readIfPresent()
-        value.pythonVirtualEnv = try reader["pythonVirtualEnv"].readIfPresent()
-        value.workerType = try reader["workerType"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.SparkGlueArgs {
-
-    static func write(value: DataZoneClientTypes.SparkGlueArgs?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["connection"].write(value.connection)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SparkGlueArgs {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.SparkGlueArgs()
-        value.connection = try reader["connection"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.SparkEmrPropertiesOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SparkEmrPropertiesOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.SparkEmrPropertiesOutput()
-        value.computeArn = try reader["computeArn"].readIfPresent()
-        value.credentials = try reader["credentials"].readIfPresent(with: DataZoneClientTypes.UsernamePassword.read(from:))
-        value.credentialsExpiration = try reader["credentialsExpiration"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.governanceType = try reader["governanceType"].readIfPresent()
-        value.instanceProfileArn = try reader["instanceProfileArn"].readIfPresent()
-        value.javaVirtualEnv = try reader["javaVirtualEnv"].readIfPresent()
-        value.livyEndpoint = try reader["livyEndpoint"].readIfPresent()
-        value.logUri = try reader["logUri"].readIfPresent()
-        value.pythonVirtualEnv = try reader["pythonVirtualEnv"].readIfPresent()
-        value.runtimeRole = try reader["runtimeRole"].readIfPresent()
-        value.trustedCertificatesS3Uri = try reader["trustedCertificatesS3Uri"].readIfPresent()
-        value.certificateData = try reader["certificateData"].readIfPresent()
-        value.managedEndpointArn = try reader["managedEndpointArn"].readIfPresent()
-        value.managedEndpointCredentials = try reader["managedEndpointCredentials"].readIfPresent(with: DataZoneClientTypes.ManagedEndpointCredentials.read(from:))
-        return value
-    }
-}
-
-extension DataZoneClientTypes.ManagedEndpointCredentials {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.ManagedEndpointCredentials {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.ManagedEndpointCredentials()
-        value.id = try reader["id"].readIfPresent()
-        value.token = try reader["token"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.UsernamePassword {
-
-    static func write(value: DataZoneClientTypes.UsernamePassword?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["password"].write(value.password)
-        try writer["username"].write(value.username)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.UsernamePassword {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.UsernamePassword()
-        value.password = try reader["password"].readIfPresent() ?? ""
-        value.username = try reader["username"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension DataZoneClientTypes.RedshiftPropertiesOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.RedshiftPropertiesOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.RedshiftPropertiesOutput()
-        value.storage = try reader["storage"].readIfPresent(with: DataZoneClientTypes.RedshiftStorageProperties.read(from:))
-        value.credentials = try reader["credentials"].readIfPresent(with: DataZoneClientTypes.RedshiftCredentials.read(from:))
-        value.isProvisionedSecret = try reader["isProvisionedSecret"].readIfPresent()
-        value.jdbcIamUrl = try reader["jdbcIamUrl"].readIfPresent()
-        value.jdbcUrl = try reader["jdbcUrl"].readIfPresent()
-        value.redshiftTempDir = try reader["redshiftTempDir"].readIfPresent()
-        value.lineageSync = try reader["lineageSync"].readIfPresent(with: DataZoneClientTypes.RedshiftLineageSyncConfigurationOutput.read(from:))
-        value.status = try reader["status"].readIfPresent()
-        value.databaseName = try reader["databaseName"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.RedshiftLineageSyncConfigurationOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.RedshiftLineageSyncConfigurationOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.RedshiftLineageSyncConfigurationOutput()
-        value.lineageJobId = try reader["lineageJobId"].readIfPresent()
-        value.enabled = try reader["enabled"].readIfPresent()
-        value.schedule = try reader["schedule"].readIfPresent(with: DataZoneClientTypes.LineageSyncSchedule.read(from:))
-        return value
-    }
-}
-
-extension DataZoneClientTypes.LineageSyncSchedule {
-
-    static func write(value: DataZoneClientTypes.LineageSyncSchedule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["schedule"].write(value.schedule)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.LineageSyncSchedule {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.LineageSyncSchedule()
-        value.schedule = try reader["schedule"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.RedshiftCredentials {
-
-    static func write(value: DataZoneClientTypes.RedshiftCredentials?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .secretarn(secretarn):
-                try writer["secretArn"].write(secretarn)
-            case let .usernamepassword(usernamepassword):
-                try writer["usernamePassword"].write(usernamepassword, with: DataZoneClientTypes.UsernamePassword.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.RedshiftCredentials {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "secretArn":
-                return .secretarn(try reader["secretArn"].read())
-            case "usernamePassword":
-                return .usernamepassword(try reader["usernamePassword"].read(with: DataZoneClientTypes.UsernamePassword.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension DataZoneClientTypes.RedshiftStorageProperties {
-
-    static func write(value: DataZoneClientTypes.RedshiftStorageProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .clustername(clustername):
-                try writer["clusterName"].write(clustername)
-            case let .workgroupname(workgroupname):
-                try writer["workgroupName"].write(workgroupname)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.RedshiftStorageProperties {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "clusterName":
-                return .clustername(try reader["clusterName"].read())
-            case "workgroupName":
-                return .workgroupname(try reader["workgroupName"].read())
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension DataZoneClientTypes.IamPropertiesOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.IamPropertiesOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.IamPropertiesOutput()
-        value.environmentId = try reader["environmentId"].readIfPresent()
-        value.glueLineageSyncEnabled = try reader["glueLineageSyncEnabled"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.HyperPodPropertiesOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.HyperPodPropertiesOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.HyperPodPropertiesOutput()
-        value.clusterName = try reader["clusterName"].readIfPresent() ?? ""
-        value.clusterArn = try reader["clusterArn"].readIfPresent()
-        value.orchestrator = try reader["orchestrator"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.GluePropertiesOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.GluePropertiesOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.GluePropertiesOutput()
-        value.status = try reader["status"].readIfPresent()
-        value.errorMessage = try reader["errorMessage"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.AthenaPropertiesOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AthenaPropertiesOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.AthenaPropertiesOutput()
-        value.workgroupName = try reader["workgroupName"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.DataProductItem {
-
-    static func write(value: DataZoneClientTypes.DataProductItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["glossaryTerms"].writeList(value.glossaryTerms, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["identifier"].write(value.identifier)
-        try writer["itemType"].write(value.itemType)
-        try writer["revision"].write(value.revision)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.DataProductItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.DataProductItem()
-        value.itemType = try reader["itemType"].readIfPresent() ?? .sdkUnknown("")
-        value.identifier = try reader["identifier"].readIfPresent() ?? ""
-        value.revision = try reader["revision"].readIfPresent()
-        value.glossaryTerms = try reader["glossaryTerms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DataZoneClientTypes.DataSourceConfigurationOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.DataSourceConfigurationOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "glueRunConfiguration":
-                return .gluerunconfiguration(try reader["glueRunConfiguration"].read(with: DataZoneClientTypes.GlueRunConfigurationOutput.read(from:)))
-            case "redshiftRunConfiguration":
-                return .redshiftrunconfiguration(try reader["redshiftRunConfiguration"].read(with: DataZoneClientTypes.RedshiftRunConfigurationOutput.read(from:)))
-            case "sageMakerRunConfiguration":
-                return .sagemakerrunconfiguration(try reader["sageMakerRunConfiguration"].read(with: DataZoneClientTypes.SageMakerRunConfigurationOutput.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension DataZoneClientTypes.SageMakerRunConfigurationOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SageMakerRunConfigurationOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.SageMakerRunConfigurationOutput()
-        value.accountId = try reader["accountId"].readIfPresent()
-        value.region = try reader["region"].readIfPresent()
-        value.trackingAssets = try reader["trackingAssets"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
-        return value
-    }
-}
-
-extension DataZoneClientTypes.RedshiftRunConfigurationOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.RedshiftRunConfigurationOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.RedshiftRunConfigurationOutput()
-        value.accountId = try reader["accountId"].readIfPresent()
-        value.region = try reader["region"].readIfPresent()
-        value.dataAccessRole = try reader["dataAccessRole"].readIfPresent()
-        value.relationalFilterConfigurations = try reader["relationalFilterConfigurations"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.RelationalFilterConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.redshiftCredentialConfiguration = try reader["redshiftCredentialConfiguration"].readIfPresent(with: DataZoneClientTypes.RedshiftCredentialConfiguration.read(from:))
-        value.redshiftStorage = try reader["redshiftStorage"].readIfPresent(with: DataZoneClientTypes.RedshiftStorage.read(from:))
-        return value
-    }
-}
-
-extension DataZoneClientTypes.RedshiftStorage {
-
-    static func write(value: DataZoneClientTypes.RedshiftStorage?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .redshiftclustersource(redshiftclustersource):
-                try writer["redshiftClusterSource"].write(redshiftclustersource, with: DataZoneClientTypes.RedshiftClusterStorage.write(value:to:))
-            case let .redshiftserverlesssource(redshiftserverlesssource):
-                try writer["redshiftServerlessSource"].write(redshiftserverlesssource, with: DataZoneClientTypes.RedshiftServerlessStorage.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.RedshiftStorage {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "redshiftClusterSource":
-                return .redshiftclustersource(try reader["redshiftClusterSource"].read(with: DataZoneClientTypes.RedshiftClusterStorage.read(from:)))
-            case "redshiftServerlessSource":
-                return .redshiftserverlesssource(try reader["redshiftServerlessSource"].read(with: DataZoneClientTypes.RedshiftServerlessStorage.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension DataZoneClientTypes.RedshiftServerlessStorage {
-
-    static func write(value: DataZoneClientTypes.RedshiftServerlessStorage?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["workgroupName"].write(value.workgroupName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.RedshiftServerlessStorage {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.RedshiftServerlessStorage()
-        value.workgroupName = try reader["workgroupName"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension DataZoneClientTypes.RedshiftClusterStorage {
-
-    static func write(value: DataZoneClientTypes.RedshiftClusterStorage?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["clusterName"].write(value.clusterName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.RedshiftClusterStorage {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.RedshiftClusterStorage()
-        value.clusterName = try reader["clusterName"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension DataZoneClientTypes.RedshiftCredentialConfiguration {
-
-    static func write(value: DataZoneClientTypes.RedshiftCredentialConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["secretManagerArn"].write(value.secretManagerArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.RedshiftCredentialConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.RedshiftCredentialConfiguration()
-        value.secretManagerArn = try reader["secretManagerArn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension DataZoneClientTypes.RelationalFilterConfiguration {
-
-    static func write(value: DataZoneClientTypes.RelationalFilterConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["databaseName"].write(value.databaseName)
-        try writer["filterExpressions"].writeList(value.filterExpressions, memberWritingClosure: DataZoneClientTypes.FilterExpression.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["schemaName"].write(value.schemaName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.RelationalFilterConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.RelationalFilterConfiguration()
-        value.databaseName = try reader["databaseName"].readIfPresent() ?? ""
-        value.schemaName = try reader["schemaName"].readIfPresent()
-        value.filterExpressions = try reader["filterExpressions"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.FilterExpression.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DataZoneClientTypes.FilterExpression {
-
-    static func write(value: DataZoneClientTypes.FilterExpression?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["expression"].write(value.expression)
-        try writer["type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.FilterExpression {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.FilterExpression()
-        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
-        value.expression = try reader["expression"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension DataZoneClientTypes.GlueRunConfigurationOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.GlueRunConfigurationOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.GlueRunConfigurationOutput()
-        value.accountId = try reader["accountId"].readIfPresent()
-        value.region = try reader["region"].readIfPresent()
-        value.dataAccessRole = try reader["dataAccessRole"].readIfPresent()
-        value.relationalFilterConfigurations = try reader["relationalFilterConfigurations"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.RelationalFilterConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.autoImportDataQualityResult = try reader["autoImportDataQualityResult"].readIfPresent()
-        value.catalogName = try reader["catalogName"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.RecommendationConfiguration {
-
-    static func write(value: DataZoneClientTypes.RecommendationConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["enableBusinessNameGeneration"].write(value.enableBusinessNameGeneration)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.RecommendationConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.RecommendationConfiguration()
-        value.enableBusinessNameGeneration = try reader["enableBusinessNameGeneration"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.ScheduleConfiguration {
-
-    static func write(value: DataZoneClientTypes.ScheduleConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["schedule"].write(value.schedule)
-        try writer["timezone"].write(value.timezone)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.ScheduleConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.ScheduleConfiguration()
-        value.timezone = try reader["timezone"].readIfPresent()
-        value.schedule = try reader["schedule"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.DataSourceErrorMessage {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.DataSourceErrorMessage {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.DataSourceErrorMessage()
-        value.errorType = try reader["errorType"].readIfPresent() ?? .sdkUnknown("")
-        value.errorDetail = try reader["errorDetail"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.SingleSignOn {
-
-    static func write(value: DataZoneClientTypes.SingleSignOn?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["idcInstanceArn"].write(value.idcInstanceArn)
-        try writer["type"].write(value.type)
-        try writer["userAssignment"].write(value.userAssignment)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SingleSignOn {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.SingleSignOn()
-        value.type = try reader["type"].readIfPresent()
-        value.userAssignment = try reader["userAssignment"].readIfPresent()
-        value.idcInstanceArn = try reader["idcInstanceArn"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.DomainUnitOwnerProperties {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.DomainUnitOwnerProperties {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "user":
-                return .user(try reader["user"].read(with: DataZoneClientTypes.DomainUnitUserProperties.read(from:)))
-            case "group":
-                return .group(try reader["group"].read(with: DataZoneClientTypes.DomainUnitGroupProperties.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension DataZoneClientTypes.DomainUnitGroupProperties {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.DomainUnitGroupProperties {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.DomainUnitGroupProperties()
-        value.groupId = try reader["groupId"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.DomainUnitUserProperties {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.DomainUnitUserProperties {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.DomainUnitUserProperties()
-        value.userId = try reader["userId"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.Resource {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.Resource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.Resource()
-        value.provider = try reader["provider"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.value = try reader["value"].readIfPresent() ?? ""
-        value.type = try reader["type"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension DataZoneClientTypes.ConfigurableEnvironmentAction {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.ConfigurableEnvironmentAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.ConfigurableEnvironmentAction()
-        value.type = try reader["type"].readIfPresent() ?? ""
-        value.auth = try reader["auth"].readIfPresent()
-        value.parameters = try reader["parameters"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.ConfigurableActionParameter.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension DataZoneClientTypes.ConfigurableActionParameter {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.ConfigurableActionParameter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.ConfigurableActionParameter()
-        value.key = try reader["key"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.CustomParameter {
-
-    static func write(value: DataZoneClientTypes.CustomParameter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["defaultValue"].write(value.defaultValue)
-        try writer["description"].write(value.description)
-        try writer["fieldType"].write(value.fieldType)
-        try writer["isEditable"].write(value.isEditable)
-        try writer["isOptional"].write(value.isOptional)
-        try writer["isUpdateSupported"].write(value.isUpdateSupported)
-        try writer["keyName"].write(value.keyName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.CustomParameter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.CustomParameter()
-        value.keyName = try reader["keyName"].readIfPresent() ?? ""
-        value.description = try reader["description"].readIfPresent()
-        value.fieldType = try reader["fieldType"].readIfPresent() ?? ""
-        value.defaultValue = try reader["defaultValue"].readIfPresent()
-        value.isEditable = try reader["isEditable"].readIfPresent()
-        value.isOptional = try reader["isOptional"].readIfPresent()
-        value.isUpdateSupported = try reader["isUpdateSupported"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.Deployment {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.Deployment {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.Deployment()
-        value.deploymentId = try reader["deploymentId"].readIfPresent()
-        value.deploymentType = try reader["deploymentType"].readIfPresent()
-        value.deploymentStatus = try reader["deploymentStatus"].readIfPresent()
-        value.failureReason = try reader["failureReason"].readIfPresent(with: DataZoneClientTypes.EnvironmentError.read(from:))
-        value.messages = try reader["messages"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.isDeploymentComplete = try reader["isDeploymentComplete"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.EnvironmentError {
-
-    static func write(value: DataZoneClientTypes.EnvironmentError?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["code"].write(value.code)
-        try writer["message"].write(value.message)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.EnvironmentError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.EnvironmentError()
-        value.code = try reader["code"].readIfPresent()
-        value.message = try reader["message"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension DataZoneClientTypes.ProvisioningProperties {
-
-    static func write(value: DataZoneClientTypes.ProvisioningProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .cloudformation(cloudformation):
-                try writer["cloudFormation"].write(cloudformation, with: DataZoneClientTypes.CloudFormationProperties.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.ProvisioningProperties {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "cloudFormation":
-                return .cloudformation(try reader["cloudFormation"].read(with: DataZoneClientTypes.CloudFormationProperties.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension DataZoneClientTypes.CloudFormationProperties {
-
-    static func write(value: DataZoneClientTypes.CloudFormationProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["templateUrl"].write(value.templateUrl)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.CloudFormationProperties {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.CloudFormationProperties()
-        value.templateUrl = try reader["templateUrl"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension DataZoneClientTypes.DeploymentProperties {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.DeploymentProperties {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.DeploymentProperties()
-        value.startTimeoutMinutes = try reader["startTimeoutMinutes"].readIfPresent()
-        value.endTimeoutMinutes = try reader["endTimeoutMinutes"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.ActionParameters {
-
-    static func write(value: DataZoneClientTypes.ActionParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .awsconsolelink(awsconsolelink):
-                try writer["awsConsoleLink"].write(awsconsolelink, with: DataZoneClientTypes.AwsConsoleLinkParameters.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.ActionParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "awsConsoleLink":
-                return .awsconsolelink(try reader["awsConsoleLink"].read(with: DataZoneClientTypes.AwsConsoleLinkParameters.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension DataZoneClientTypes.AwsConsoleLinkParameters {
-
-    static func write(value: DataZoneClientTypes.AwsConsoleLinkParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["uri"].write(value.uri)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AwsConsoleLinkParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.AwsConsoleLinkParameters()
-        value.uri = try reader["uri"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.TermRelations {
-
-    static func write(value: DataZoneClientTypes.TermRelations?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["classifies"].writeList(value.classifies, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["isA"].writeList(value.isa, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.TermRelations {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.TermRelations()
-        value.isa = try reader["isA"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.classifies = try reader["classifies"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DataZoneClientTypes.ProjectDeletionError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.ProjectDeletionError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.ProjectDeletionError()
-        value.code = try reader["code"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.ResourceTag {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.ResourceTag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.ResourceTag()
-        value.key = try reader["key"].readIfPresent() ?? ""
-        value.value = try reader["value"].readIfPresent() ?? ""
-        value.source = try reader["source"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension DataZoneClientTypes.EnvironmentConfigurationUserParameter {
-
-    static func write(value: DataZoneClientTypes.EnvironmentConfigurationUserParameter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["environmentConfigurationName"].write(value.environmentConfigurationName)
-        try writer["environmentId"].write(value.environmentId)
-        try writer["environmentParameters"].writeList(value.environmentParameters, memberWritingClosure: DataZoneClientTypes.EnvironmentParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["environmentResolvedAccount"].write(value.environmentResolvedAccount, with: DataZoneClientTypes.EnvironmentResolvedAccount.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.EnvironmentConfigurationUserParameter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.EnvironmentConfigurationUserParameter()
-        value.environmentId = try reader["environmentId"].readIfPresent()
-        value.environmentResolvedAccount = try reader["environmentResolvedAccount"].readIfPresent(with: DataZoneClientTypes.EnvironmentResolvedAccount.read(from:))
-        value.environmentConfigurationName = try reader["environmentConfigurationName"].readIfPresent()
-        value.environmentParameters = try reader["environmentParameters"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.EnvironmentParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DataZoneClientTypes.EnvironmentParameter {
-
-    static func write(value: DataZoneClientTypes.EnvironmentParameter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.EnvironmentParameter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.EnvironmentParameter()
-        value.name = try reader["name"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.EnvironmentResolvedAccount {
-
-    static func write(value: DataZoneClientTypes.EnvironmentResolvedAccount?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["awsAccountId"].write(value.awsAccountId)
-        try writer["regionName"].write(value.regionName)
-        try writer["sourceAccountPoolId"].write(value.sourceAccountPoolId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.EnvironmentResolvedAccount {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.EnvironmentResolvedAccount()
-        value.awsAccountId = try reader["awsAccountId"].readIfPresent() ?? ""
-        value.regionName = try reader["regionName"].readIfPresent() ?? ""
-        value.sourceAccountPoolId = try reader["sourceAccountPoolId"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.EnvironmentDeploymentDetails {
-
-    static func write(value: DataZoneClientTypes.EnvironmentDeploymentDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["environmentFailureReasons"].writeMap(value.environmentFailureReasons, valueWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: DataZoneClientTypes.EnvironmentError.write(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["overallDeploymentStatus"].write(value.overallDeploymentStatus)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.EnvironmentDeploymentDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.EnvironmentDeploymentDetails()
-        value.overallDeploymentStatus = try reader["overallDeploymentStatus"].readIfPresent()
-        value.environmentFailureReasons = try reader["environmentFailureReasons"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: DataZoneClientTypes.EnvironmentError.read(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension DataZoneClientTypes.ResourceTagParameter {
-
-    static func write(value: DataZoneClientTypes.ResourceTagParameter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["isValueEditable"].write(value.isValueEditable)
-        try writer["key"].write(value.key)
-        try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.ResourceTagParameter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.ResourceTagParameter()
-        value.key = try reader["key"].readIfPresent() ?? ""
-        value.value = try reader["value"].readIfPresent() ?? ""
-        value.isValueEditable = try reader["isValueEditable"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension DataZoneClientTypes.EnvironmentConfiguration {
-
-    static func write(value: DataZoneClientTypes.EnvironmentConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountPools"].writeList(value.accountPools, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["awsAccount"].write(value.awsAccount, with: DataZoneClientTypes.AwsAccount.write(value:to:))
-        try writer["awsRegion"].write(value.awsRegion, with: DataZoneClientTypes.Region.write(value:to:))
-        try writer["configurationParameters"].write(value.configurationParameters, with: DataZoneClientTypes.EnvironmentConfigurationParametersDetails.write(value:to:))
-        try writer["deploymentMode"].write(value.deploymentMode)
-        try writer["deploymentOrder"].write(value.deploymentOrder)
-        try writer["description"].write(value.description)
-        try writer["environmentBlueprintId"].write(value.environmentBlueprintId)
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.EnvironmentConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.EnvironmentConfiguration()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.id = try reader["id"].readIfPresent()
-        value.environmentBlueprintId = try reader["environmentBlueprintId"].readIfPresent() ?? ""
-        value.description = try reader["description"].readIfPresent()
-        value.deploymentMode = try reader["deploymentMode"].readIfPresent()
-        value.configurationParameters = try reader["configurationParameters"].readIfPresent(with: DataZoneClientTypes.EnvironmentConfigurationParametersDetails.read(from:))
-        value.awsAccount = try reader["awsAccount"].readIfPresent(with: DataZoneClientTypes.AwsAccount.read(from:))
-        value.accountPools = try reader["accountPools"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.awsRegion = try reader["awsRegion"].readIfPresent(with: DataZoneClientTypes.Region.read(from:))
-        value.deploymentOrder = try reader["deploymentOrder"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.Region {
-
-    static func write(value: DataZoneClientTypes.Region?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .regionname(regionname):
-                try writer["regionName"].write(regionname)
-            case let .regionnamepath(regionnamepath):
-                try writer["regionNamePath"].write(regionnamepath)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.Region {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "regionName":
-                return .regionname(try reader["regionName"].read())
-            case "regionNamePath":
-                return .regionnamepath(try reader["regionNamePath"].read())
-            default:
-                return .sdkUnknown(name ?? "")
-        }
     }
 }
 
@@ -36152,333 +38126,183 @@ extension DataZoneClientTypes.AwsAccount {
     }
 }
 
-extension DataZoneClientTypes.EnvironmentConfigurationParametersDetails {
+extension DataZoneClientTypes.AwsConsoleLinkParameters {
 
-    static func write(value: DataZoneClientTypes.EnvironmentConfigurationParametersDetails?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DataZoneClientTypes.AwsConsoleLinkParameters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["parameterOverrides"].writeList(value.parameterOverrides, memberWritingClosure: DataZoneClientTypes.EnvironmentConfigurationParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["resolvedParameters"].writeList(value.resolvedParameters, memberWritingClosure: DataZoneClientTypes.EnvironmentConfigurationParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ssmPath"].write(value.ssmPath)
+        try writer["uri"].write(value.uri)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.EnvironmentConfigurationParametersDetails {
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AwsConsoleLinkParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.EnvironmentConfigurationParametersDetails()
-        value.ssmPath = try reader["ssmPath"].readIfPresent()
-        value.parameterOverrides = try reader["parameterOverrides"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.EnvironmentConfigurationParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.resolvedParameters = try reader["resolvedParameters"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.EnvironmentConfigurationParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = DataZoneClientTypes.AwsConsoleLinkParameters()
+        value.uri = try reader["uri"].readIfPresent()
         return value
     }
 }
 
-extension DataZoneClientTypes.EnvironmentConfigurationParameter {
+extension DataZoneClientTypes.AwsLocation {
 
-    static func write(value: DataZoneClientTypes.EnvironmentConfigurationParameter?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DataZoneClientTypes.AwsLocation?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["isEditable"].write(value.isEditable)
-        try writer["name"].write(value.name)
-        try writer["value"].write(value.value)
+        try writer["accessRole"].write(value.accessRole)
+        try writer["awsAccountId"].write(value.awsAccountId)
+        try writer["awsRegion"].write(value.awsRegion)
+        try writer["iamConnectionId"].write(value.iamConnectionId)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.EnvironmentConfigurationParameter {
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AwsLocation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.EnvironmentConfigurationParameter()
-        value.name = try reader["name"].readIfPresent()
+        var value = DataZoneClientTypes.AwsLocation()
+        value.accessRole = try reader["accessRole"].readIfPresent()
+        value.awsAccountId = try reader["awsAccountId"].readIfPresent()
+        value.awsRegion = try reader["awsRegion"].readIfPresent()
+        value.iamConnectionId = try reader["iamConnectionId"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.BasicAuthenticationCredentials {
+
+    static func write(value: DataZoneClientTypes.BasicAuthenticationCredentials?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["password"].write(value.password)
+        try writer["userName"].write(value.userName)
+    }
+}
+
+extension DataZoneClientTypes.BatchGetAttributeOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.BatchGetAttributeOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.BatchGetAttributeOutput()
+        value.attributeIdentifier = try reader["attributeIdentifier"].readIfPresent() ?? ""
+        value.forms = try reader["forms"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.FormOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DataZoneClientTypes.BatchPutAttributeOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.BatchPutAttributeOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.BatchPutAttributeOutput()
+        value.attributeIdentifier = try reader["attributeIdentifier"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DataZoneClientTypes.BusinessNameGenerationConfiguration {
+
+    static func write(value: DataZoneClientTypes.BusinessNameGenerationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enabled"].write(value.enabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.BusinessNameGenerationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.BusinessNameGenerationConfiguration()
+        value.enabled = try reader["enabled"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.CellInformation {
+
+    static func write(value: DataZoneClientTypes.CellInformation?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.CellInformation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return DataZoneClientTypes.CellInformation()
+    }
+}
+
+extension DataZoneClientTypes.CloudFormationProperties {
+
+    static func write(value: DataZoneClientTypes.CloudFormationProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["templateUrl"].write(value.templateUrl)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.CloudFormationProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.CloudFormationProperties()
+        value.templateUrl = try reader["templateUrl"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DataZoneClientTypes.ColumnFilterConfiguration {
+
+    static func write(value: DataZoneClientTypes.ColumnFilterConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["includedColumnNames"].writeList(value.includedColumnNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.ColumnFilterConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.ColumnFilterConfiguration()
+        value.includedColumnNames = try reader["includedColumnNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DataZoneClientTypes.ComputeConfig {
+
+    static func write(value: DataZoneClientTypes.ComputeConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["environmentVersion"].write(value.environmentVersion)
+        try writer["instanceType"].write(value.instanceType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.ComputeConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.ComputeConfig()
+        value.instanceType = try reader["instanceType"].readIfPresent()
+        value.environmentVersion = try reader["environmentVersion"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.ConfigurableActionParameter {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.ConfigurableActionParameter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.ConfigurableActionParameter()
+        value.key = try reader["key"].readIfPresent()
         value.value = try reader["value"].readIfPresent()
-        value.isEditable = try reader["isEditable"].readIfPresent()
         return value
     }
 }
 
-extension DataZoneClientTypes.RuleTarget {
+extension DataZoneClientTypes.ConfigurableEnvironmentAction {
 
-    static func write(value: DataZoneClientTypes.RuleTarget?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.ConfigurableEnvironmentAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.ConfigurableEnvironmentAction()
+        value.type = try reader["type"].readIfPresent() ?? ""
+        value.auth = try reader["auth"].readIfPresent()
+        value.parameters = try reader["parameters"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.ConfigurableActionParameter.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension DataZoneClientTypes.Configuration {
+
+    static func write(value: DataZoneClientTypes.Configuration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        switch value {
-            case let .domainunittarget(domainunittarget):
-                try writer["domainUnitTarget"].write(domainunittarget, with: DataZoneClientTypes.DomainUnitTarget.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
+        try writer["classification"].write(value.classification)
+        try writer["properties"].writeMap(value.properties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.RuleTarget {
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.Configuration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "domainUnitTarget":
-                return .domainunittarget(try reader["domainUnitTarget"].read(with: DataZoneClientTypes.DomainUnitTarget.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension DataZoneClientTypes.DomainUnitTarget {
-
-    static func write(value: DataZoneClientTypes.DomainUnitTarget?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["domainUnitId"].write(value.domainUnitId)
-        try writer["includeChildDomainUnits"].write(value.includeChildDomainUnits)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.DomainUnitTarget {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.DomainUnitTarget()
-        value.domainUnitId = try reader["domainUnitId"].readIfPresent() ?? ""
-        value.includeChildDomainUnits = try reader["includeChildDomainUnits"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.RuleScope {
-
-    static func write(value: DataZoneClientTypes.RuleScope?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["assetType"].write(value.assetType, with: DataZoneClientTypes.AssetTypesForRule.write(value:to:))
-        try writer["dataProduct"].write(value.dataProduct)
-        try writer["project"].write(value.project, with: DataZoneClientTypes.ProjectsForRule.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.RuleScope {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.RuleScope()
-        value.assetType = try reader["assetType"].readIfPresent(with: DataZoneClientTypes.AssetTypesForRule.read(from:))
-        value.dataProduct = try reader["dataProduct"].readIfPresent()
-        value.project = try reader["project"].readIfPresent(with: DataZoneClientTypes.ProjectsForRule.read(from:))
-        return value
-    }
-}
-
-extension DataZoneClientTypes.ProjectsForRule {
-
-    static func write(value: DataZoneClientTypes.ProjectsForRule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["selectionMode"].write(value.selectionMode)
-        try writer["specificProjects"].writeList(value.specificProjects, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.ProjectsForRule {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.ProjectsForRule()
-        value.selectionMode = try reader["selectionMode"].readIfPresent() ?? .sdkUnknown("")
-        value.specificProjects = try reader["specificProjects"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DataZoneClientTypes.AssetTypesForRule {
-
-    static func write(value: DataZoneClientTypes.AssetTypesForRule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["selectionMode"].write(value.selectionMode)
-        try writer["specificAssetTypes"].writeList(value.specificAssetTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AssetTypesForRule {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.AssetTypesForRule()
-        value.selectionMode = try reader["selectionMode"].readIfPresent() ?? .sdkUnknown("")
-        value.specificAssetTypes = try reader["specificAssetTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DataZoneClientTypes.RuleDetail {
-
-    static func write(value: DataZoneClientTypes.RuleDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .glossarytermenforcementdetail(glossarytermenforcementdetail):
-                try writer["glossaryTermEnforcementDetail"].write(glossarytermenforcementdetail, with: DataZoneClientTypes.GlossaryTermEnforcementDetail.write(value:to:))
-            case let .metadataformenforcementdetail(metadataformenforcementdetail):
-                try writer["metadataFormEnforcementDetail"].write(metadataformenforcementdetail, with: DataZoneClientTypes.MetadataFormEnforcementDetail.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.RuleDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "metadataFormEnforcementDetail":
-                return .metadataformenforcementdetail(try reader["metadataFormEnforcementDetail"].read(with: DataZoneClientTypes.MetadataFormEnforcementDetail.read(from:)))
-            case "glossaryTermEnforcementDetail":
-                return .glossarytermenforcementdetail(try reader["glossaryTermEnforcementDetail"].read(with: DataZoneClientTypes.GlossaryTermEnforcementDetail.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension DataZoneClientTypes.GlossaryTermEnforcementDetail {
-
-    static func write(value: DataZoneClientTypes.GlossaryTermEnforcementDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["requiredGlossaryTermIds"].writeList(value.requiredGlossaryTermIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.GlossaryTermEnforcementDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.GlossaryTermEnforcementDetail()
-        value.requiredGlossaryTermIds = try reader["requiredGlossaryTermIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DataZoneClientTypes.MetadataFormEnforcementDetail {
-
-    static func write(value: DataZoneClientTypes.MetadataFormEnforcementDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["requiredMetadataForms"].writeList(value.requiredMetadataForms, memberWritingClosure: DataZoneClientTypes.MetadataFormReference.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.MetadataFormEnforcementDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.MetadataFormEnforcementDetail()
-        value.requiredMetadataForms = try reader["requiredMetadataForms"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.MetadataFormReference.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DataZoneClientTypes.MetadataFormReference {
-
-    static func write(value: DataZoneClientTypes.MetadataFormReference?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["typeIdentifier"].write(value.typeIdentifier)
-        try writer["typeRevision"].write(value.typeRevision)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.MetadataFormReference {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.MetadataFormReference()
-        value.typeIdentifier = try reader["typeIdentifier"].readIfPresent() ?? ""
-        value.typeRevision = try reader["typeRevision"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension DataZoneClientTypes.GrantedEntity {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.GrantedEntity {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "listing":
-                return .listing(try reader["listing"].read(with: DataZoneClientTypes.ListingRevision.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension DataZoneClientTypes.ListingRevision {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.ListingRevision {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.ListingRevision()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.revision = try reader["revision"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension DataZoneClientTypes.SubscribedAsset {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SubscribedAsset {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.SubscribedAsset()
-        value.assetId = try reader["assetId"].readIfPresent() ?? ""
-        value.assetRevision = try reader["assetRevision"].readIfPresent() ?? ""
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.targetName = try reader["targetName"].readIfPresent()
-        value.failureCause = try reader["failureCause"].readIfPresent(with: DataZoneClientTypes.FailureCause.read(from:))
-        value.grantedTimestamp = try reader["grantedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.failureTimestamp = try reader["failureTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.assetScope = try reader["assetScope"].readIfPresent(with: DataZoneClientTypes.AssetScope.read(from:))
-        value.permissions = try reader["permissions"].readIfPresent(with: DataZoneClientTypes.Permissions.read(from:))
-        return value
-    }
-}
-
-extension DataZoneClientTypes.FailureCause {
-
-    static func write(value: DataZoneClientTypes.FailureCause?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["message"].write(value.message)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.FailureCause {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.FailureCause()
-        value.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.SubscriptionTargetForm {
-
-    static func write(value: DataZoneClientTypes.SubscriptionTargetForm?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["content"].write(value.content)
-        try writer["formName"].write(value.formName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SubscriptionTargetForm {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.SubscriptionTargetForm()
-        value.formName = try reader["formName"].readIfPresent() ?? ""
-        value.content = try reader["content"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension DataZoneClientTypes.SelfGrantStatusOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SelfGrantStatusOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "glueSelfGrantStatus":
-                return .glueselfgrantstatus(try reader["glueSelfGrantStatus"].read(with: DataZoneClientTypes.GlueSelfGrantStatusOutput.read(from:)))
-            case "redshiftSelfGrantStatus":
-                return .redshiftselfgrantstatus(try reader["redshiftSelfGrantStatus"].read(with: DataZoneClientTypes.RedshiftSelfGrantStatusOutput.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension DataZoneClientTypes.RedshiftSelfGrantStatusOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.RedshiftSelfGrantStatusOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.RedshiftSelfGrantStatusOutput()
-        value.selfGrantStatusDetails = try reader["selfGrantStatusDetails"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.SelfGrantStatusDetail.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension DataZoneClientTypes.SelfGrantStatusDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SelfGrantStatusDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.SelfGrantStatusDetail()
-        value.databaseName = try reader["databaseName"].readIfPresent() ?? ""
-        value.schemaName = try reader["schemaName"].readIfPresent()
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.failureCause = try reader["failureCause"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.GlueSelfGrantStatusOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.GlueSelfGrantStatusOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.GlueSelfGrantStatusOutput()
-        value.selfGrantStatusDetails = try reader["selfGrantStatusDetails"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.SelfGrantStatusDetail.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        var value = DataZoneClientTypes.Configuration()
+        value.classification = try reader["classification"].readIfPresent()
+        value.properties = try reader["properties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -36496,195 +38320,309 @@ extension DataZoneClientTypes.ConnectionCredentials {
     }
 }
 
-extension DataZoneClientTypes.EncryptionConfiguration {
+extension DataZoneClientTypes.ConnectionPropertiesInput {
 
-    static func write(value: DataZoneClientTypes.EncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["kmsKeyArn"].write(value.kmsKeyArn)
-        try writer["sseAlgorithm"].write(value.sseAlgorithm)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.EncryptionConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.EncryptionConfiguration()
-        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
-        value.sseAlgorithm = try reader["sseAlgorithm"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.RunStatisticsForAssets {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.RunStatisticsForAssets {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.RunStatisticsForAssets()
-        value.added = try reader["added"].readIfPresent()
-        value.updated = try reader["updated"].readIfPresent()
-        value.unchanged = try reader["unchanged"].readIfPresent()
-        value.skipped = try reader["skipped"].readIfPresent()
-        value.failed = try reader["failed"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.DataSourceRunLineageSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.DataSourceRunLineageSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.DataSourceRunLineageSummary()
-        value.importStatus = try reader["importStatus"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.ProvisioningConfiguration {
-
-    static func write(value: DataZoneClientTypes.ProvisioningConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DataZoneClientTypes.ConnectionPropertiesInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
-            case let .lakeformationconfiguration(lakeformationconfiguration):
-                try writer["lakeFormationConfiguration"].write(lakeformationconfiguration, with: DataZoneClientTypes.LakeFormationConfiguration.write(value:to:))
+            case let .amazonqproperties(amazonqproperties):
+                try writer["amazonQProperties"].write(amazonqproperties, with: DataZoneClientTypes.AmazonQPropertiesInput.write(value:to:))
+            case let .athenaproperties(athenaproperties):
+                try writer["athenaProperties"].write(athenaproperties, with: DataZoneClientTypes.AthenaPropertiesInput.write(value:to:))
+            case let .glueproperties(glueproperties):
+                try writer["glueProperties"].write(glueproperties, with: DataZoneClientTypes.GluePropertiesInput.write(value:to:))
+            case let .hyperpodproperties(hyperpodproperties):
+                try writer["hyperPodProperties"].write(hyperpodproperties, with: DataZoneClientTypes.HyperPodPropertiesInput.write(value:to:))
+            case let .iamproperties(iamproperties):
+                try writer["iamProperties"].write(iamproperties, with: DataZoneClientTypes.IamPropertiesInput.write(value:to:))
+            case let .lakehouseproperties(lakehouseproperties):
+                try writer["lakehouseProperties"].write(lakehouseproperties, with: DataZoneClientTypes.LakehousePropertiesInput.write(value:to:))
+            case let .mlflowproperties(mlflowproperties):
+                try writer["mlflowProperties"].write(mlflowproperties, with: DataZoneClientTypes.MlflowPropertiesInput.write(value:to:))
+            case let .redshiftproperties(redshiftproperties):
+                try writer["redshiftProperties"].write(redshiftproperties, with: DataZoneClientTypes.RedshiftPropertiesInput.write(value:to:))
+            case let .s3properties(s3properties):
+                try writer["s3Properties"].write(s3properties, with: DataZoneClientTypes.S3PropertiesInput.write(value:to:))
+            case let .sparkemrproperties(sparkemrproperties):
+                try writer["sparkEmrProperties"].write(sparkemrproperties, with: DataZoneClientTypes.SparkEmrPropertiesInput.write(value:to:))
+            case let .sparkglueproperties(sparkglueproperties):
+                try writer["sparkGlueProperties"].write(sparkglueproperties, with: DataZoneClientTypes.SparkGluePropertiesInput.write(value:to:))
+            case let .workflowsmwaaproperties(workflowsmwaaproperties):
+                try writer["workflowsMwaaProperties"].write(workflowsmwaaproperties, with: DataZoneClientTypes.WorkflowsMwaaPropertiesInput.write(value:to:))
+            case let .workflowsserverlessproperties(workflowsserverlessproperties):
+                try writer["workflowsServerlessProperties"].write(workflowsserverlessproperties, with: DataZoneClientTypes.WorkflowsServerlessPropertiesInput.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
     }
+}
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.ProvisioningConfiguration {
+extension DataZoneClientTypes.ConnectionPropertiesOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.ConnectionPropertiesOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
         switch name {
-            case "lakeFormationConfiguration":
-                return .lakeformationconfiguration(try reader["lakeFormationConfiguration"].read(with: DataZoneClientTypes.LakeFormationConfiguration.read(from:)))
+            case "athenaProperties":
+                return .athenaproperties(try reader["athenaProperties"].read(with: DataZoneClientTypes.AthenaPropertiesOutput.read(from:)))
+            case "glueProperties":
+                return .glueproperties(try reader["glueProperties"].read(with: DataZoneClientTypes.GluePropertiesOutput.read(from:)))
+            case "hyperPodProperties":
+                return .hyperpodproperties(try reader["hyperPodProperties"].read(with: DataZoneClientTypes.HyperPodPropertiesOutput.read(from:)))
+            case "iamProperties":
+                return .iamproperties(try reader["iamProperties"].read(with: DataZoneClientTypes.IamPropertiesOutput.read(from:)))
+            case "redshiftProperties":
+                return .redshiftproperties(try reader["redshiftProperties"].read(with: DataZoneClientTypes.RedshiftPropertiesOutput.read(from:)))
+            case "sparkEmrProperties":
+                return .sparkemrproperties(try reader["sparkEmrProperties"].read(with: DataZoneClientTypes.SparkEmrPropertiesOutput.read(from:)))
+            case "sparkGlueProperties":
+                return .sparkglueproperties(try reader["sparkGlueProperties"].read(with: DataZoneClientTypes.SparkGluePropertiesOutput.read(from:)))
+            case "s3Properties":
+                return .s3properties(try reader["s3Properties"].read(with: DataZoneClientTypes.S3PropertiesOutput.read(from:)))
+            case "amazonQProperties":
+                return .amazonqproperties(try reader["amazonQProperties"].read(with: DataZoneClientTypes.AmazonQPropertiesOutput.read(from:)))
+            case "mlflowProperties":
+                return .mlflowproperties(try reader["mlflowProperties"].read(with: DataZoneClientTypes.MlflowPropertiesOutput.read(from:)))
+            case "workflowsMwaaProperties":
+                return .workflowsmwaaproperties(try reader["workflowsMwaaProperties"].read(with: DataZoneClientTypes.WorkflowsMwaaPropertiesOutput.read(from:)))
+            case "workflowsServerlessProperties":
+                return .workflowsserverlessproperties(try reader["workflowsServerlessProperties"].read(with: DataZoneClientTypes.WorkflowsServerlessPropertiesOutput.read(from:)))
+            case "lakehouseProperties":
+                return .lakehouseproperties(try reader["lakehouseProperties"].read(with: DataZoneClientTypes.LakehousePropertiesOutput.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
     }
 }
 
-extension DataZoneClientTypes.LakeFormationConfiguration {
+extension DataZoneClientTypes.ConnectionPropertiesPatch {
 
-    static func write(value: DataZoneClientTypes.LakeFormationConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["locationRegistrationExcludeS3Locations"].writeList(value.locationRegistrationExcludeS3Locations, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["locationRegistrationRole"].write(value.locationRegistrationRole)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.LakeFormationConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.LakeFormationConfiguration()
-        value.locationRegistrationRole = try reader["locationRegistrationRole"].readIfPresent()
-        value.locationRegistrationExcludeS3Locations = try reader["locationRegistrationExcludeS3Locations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DataZoneClientTypes.Model {
-
-    static func write(value: DataZoneClientTypes.Model?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DataZoneClientTypes.ConnectionPropertiesPatch?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
-            case let .smithy(smithy):
-                try writer["smithy"].write(smithy)
+            case let .amazonqproperties(amazonqproperties):
+                try writer["amazonQProperties"].write(amazonqproperties, with: DataZoneClientTypes.AmazonQPropertiesPatch.write(value:to:))
+            case let .athenaproperties(athenaproperties):
+                try writer["athenaProperties"].write(athenaproperties, with: DataZoneClientTypes.AthenaPropertiesPatch.write(value:to:))
+            case let .glueproperties(glueproperties):
+                try writer["glueProperties"].write(glueproperties, with: DataZoneClientTypes.GluePropertiesPatch.write(value:to:))
+            case let .iamproperties(iamproperties):
+                try writer["iamProperties"].write(iamproperties, with: DataZoneClientTypes.IamPropertiesPatch.write(value:to:))
+            case let .lakehouseproperties(lakehouseproperties):
+                try writer["lakehouseProperties"].write(lakehouseproperties, with: DataZoneClientTypes.LakehousePropertiesPatch.write(value:to:))
+            case let .mlflowproperties(mlflowproperties):
+                try writer["mlflowProperties"].write(mlflowproperties, with: DataZoneClientTypes.MlflowPropertiesPatch.write(value:to:))
+            case let .redshiftproperties(redshiftproperties):
+                try writer["redshiftProperties"].write(redshiftproperties, with: DataZoneClientTypes.RedshiftPropertiesPatch.write(value:to:))
+            case let .s3properties(s3properties):
+                try writer["s3Properties"].write(s3properties, with: DataZoneClientTypes.S3PropertiesPatch.write(value:to:))
+            case let .sparkemrproperties(sparkemrproperties):
+                try writer["sparkEmrProperties"].write(sparkemrproperties, with: DataZoneClientTypes.SparkEmrPropertiesPatch.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.Model {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "smithy":
-                return .smithy(try reader["smithy"].read())
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
 }
 
-extension DataZoneClientTypes.Import {
+extension DataZoneClientTypes.ConnectionSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.Import {
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.ConnectionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.Import()
+        var value = DataZoneClientTypes.ConnectionSummary()
+        value.configurations = try reader["configurations"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.Configuration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.connectionId = try reader["connectionId"].readIfPresent() ?? ""
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.domainUnitId = try reader["domainUnitId"].readIfPresent() ?? ""
+        value.environmentId = try reader["environmentId"].readIfPresent()
         value.name = try reader["name"].readIfPresent() ?? ""
-        value.revision = try reader["revision"].readIfPresent() ?? ""
+        value.physicalEndpoints = try reader["physicalEndpoints"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.PhysicalEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.projectId = try reader["projectId"].readIfPresent()
+        value.props = try reader["props"].readIfPresent(with: DataZoneClientTypes.ConnectionPropertiesOutput.read(from:))
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.scope = try reader["scope"].readIfPresent()
         return value
     }
 }
 
-extension DataZoneClientTypes.JobRunDetails {
+extension DataZoneClientTypes.CreateAssetTypePolicyGrantDetail {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.JobRunDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "lineageRunDetails":
-                return .lineagerundetails(try reader["lineageRunDetails"].read(with: DataZoneClientTypes.LineageRunDetails.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
+    static func write(value: DataZoneClientTypes.CreateAssetTypePolicyGrantDetail?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["includeChildDomainUnits"].write(value.includeChildDomainUnits)
     }
-}
 
-extension DataZoneClientTypes.LineageRunDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.LineageRunDetails {
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.CreateAssetTypePolicyGrantDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.LineageRunDetails()
-        value.sqlQueryRunDetails = try reader["sqlQueryRunDetails"].readIfPresent(with: DataZoneClientTypes.LineageSqlQueryRunDetails.read(from:))
+        var value = DataZoneClientTypes.CreateAssetTypePolicyGrantDetail()
+        value.includeChildDomainUnits = try reader["includeChildDomainUnits"].readIfPresent()
         return value
     }
 }
 
-extension DataZoneClientTypes.LineageSqlQueryRunDetails {
+extension DataZoneClientTypes.CreateDomainUnitPolicyGrantDetail {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.LineageSqlQueryRunDetails {
+    static func write(value: DataZoneClientTypes.CreateDomainUnitPolicyGrantDetail?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["includeChildDomainUnits"].write(value.includeChildDomainUnits)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.CreateDomainUnitPolicyGrantDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.LineageSqlQueryRunDetails()
-        value.queryStartTime = try reader["queryStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.queryEndTime = try reader["queryEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.totalQueriesProcessed = try reader["totalQueriesProcessed"].readIfPresent()
-        value.numQueriesFailed = try reader["numQueriesFailed"].readIfPresent()
-        value.errorMessages = try reader["errorMessages"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = DataZoneClientTypes.CreateDomainUnitPolicyGrantDetail()
+        value.includeChildDomainUnits = try reader["includeChildDomainUnits"].readIfPresent()
         return value
     }
 }
 
-extension DataZoneClientTypes.JobRunError {
+extension DataZoneClientTypes.CreateEnvironmentProfilePolicyGrantDetail {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.JobRunError {
+    static func write(value: DataZoneClientTypes.CreateEnvironmentProfilePolicyGrantDetail?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["domainUnitId"].write(value.domainUnitId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.CreateEnvironmentProfilePolicyGrantDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.JobRunError()
-        value.message = try reader["message"].readIfPresent() ?? ""
+        var value = DataZoneClientTypes.CreateEnvironmentProfilePolicyGrantDetail()
+        value.domainUnitId = try reader["domainUnitId"].readIfPresent()
         return value
     }
 }
 
-extension DataZoneClientTypes.LineageNodeReference {
+extension DataZoneClientTypes.CreateFormTypePolicyGrantDetail {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.LineageNodeReference {
+    static func write(value: DataZoneClientTypes.CreateFormTypePolicyGrantDetail?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["includeChildDomainUnits"].write(value.includeChildDomainUnits)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.CreateFormTypePolicyGrantDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.LineageNodeReference()
-        value.id = try reader["id"].readIfPresent()
-        value.eventTimestamp = try reader["eventTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        var value = DataZoneClientTypes.CreateFormTypePolicyGrantDetail()
+        value.includeChildDomainUnits = try reader["includeChildDomainUnits"].readIfPresent()
         return value
     }
 }
 
-extension DataZoneClientTypes.ListingItem {
+extension DataZoneClientTypes.CreateGlossaryPolicyGrantDetail {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.ListingItem {
+    static func write(value: DataZoneClientTypes.CreateGlossaryPolicyGrantDetail?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["includeChildDomainUnits"].write(value.includeChildDomainUnits)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.CreateGlossaryPolicyGrantDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "assetListing":
-                return .assetlisting(try reader["assetListing"].read(with: DataZoneClientTypes.AssetListing.read(from:)))
-            case "dataProductListing":
-                return .dataproductlisting(try reader["dataProductListing"].read(with: DataZoneClientTypes.DataProductListing.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
+        var value = DataZoneClientTypes.CreateGlossaryPolicyGrantDetail()
+        value.includeChildDomainUnits = try reader["includeChildDomainUnits"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.CreateProjectFromProjectProfilePolicyGrantDetail {
+
+    static func write(value: DataZoneClientTypes.CreateProjectFromProjectProfilePolicyGrantDetail?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["includeChildDomainUnits"].write(value.includeChildDomainUnits)
+        try writer["projectProfiles"].writeList(value.projectProfiles, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.CreateProjectFromProjectProfilePolicyGrantDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.CreateProjectFromProjectProfilePolicyGrantDetail()
+        value.includeChildDomainUnits = try reader["includeChildDomainUnits"].readIfPresent()
+        value.projectProfiles = try reader["projectProfiles"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DataZoneClientTypes.CreateProjectPolicyGrantDetail {
+
+    static func write(value: DataZoneClientTypes.CreateProjectPolicyGrantDetail?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["includeChildDomainUnits"].write(value.includeChildDomainUnits)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.CreateProjectPolicyGrantDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.CreateProjectPolicyGrantDetail()
+        value.includeChildDomainUnits = try reader["includeChildDomainUnits"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.CustomAccountPoolHandler {
+
+    static func write(value: DataZoneClientTypes.CustomAccountPoolHandler?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["lambdaExecutionRoleArn"].write(value.lambdaExecutionRoleArn)
+        try writer["lambdaFunctionArn"].write(value.lambdaFunctionArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.CustomAccountPoolHandler {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.CustomAccountPoolHandler()
+        value.lambdaFunctionArn = try reader["lambdaFunctionArn"].readIfPresent() ?? ""
+        value.lambdaExecutionRoleArn = try reader["lambdaExecutionRoleArn"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.CustomParameter {
+
+    static func write(value: DataZoneClientTypes.CustomParameter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["defaultValue"].write(value.defaultValue)
+        try writer["description"].write(value.description)
+        try writer["fieldType"].write(value.fieldType)
+        try writer["isEditable"].write(value.isEditable)
+        try writer["isOptional"].write(value.isOptional)
+        try writer["isUpdateSupported"].write(value.isUpdateSupported)
+        try writer["keyName"].write(value.keyName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.CustomParameter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.CustomParameter()
+        value.keyName = try reader["keyName"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.fieldType = try reader["fieldType"].readIfPresent() ?? ""
+        value.defaultValue = try reader["defaultValue"].readIfPresent()
+        value.isEditable = try reader["isEditable"].readIfPresent()
+        value.isOptional = try reader["isOptional"].readIfPresent()
+        value.isUpdateSupported = try reader["isUpdateSupported"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.DataProductItem {
+
+    static func write(value: DataZoneClientTypes.DataProductItem?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["glossaryTerms"].writeList(value.glossaryTerms, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["identifier"].write(value.identifier)
+        try writer["itemType"].write(value.itemType)
+        try writer["revision"].write(value.revision)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.DataProductItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.DataProductItem()
+        value.itemType = try reader["itemType"].readIfPresent() ?? .sdkUnknown("")
+        value.identifier = try reader["identifier"].readIfPresent() ?? ""
+        value.revision = try reader["revision"].readIfPresent()
+        value.glossaryTerms = try reader["glossaryTerms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DataZoneClientTypes.DataProductItemAdditionalAttributes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.DataProductItemAdditionalAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.DataProductItemAdditionalAttributes()
+        value.matchRationale = try reader["matchRationale"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.MatchRationaleItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 
@@ -36704,146 +38642,55 @@ extension DataZoneClientTypes.DataProductListing {
     }
 }
 
-extension DataZoneClientTypes.ListingSummary {
+extension DataZoneClientTypes.DataProductListingItem {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.ListingSummary {
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.DataProductListingItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.ListingSummary()
+        var value = DataZoneClientTypes.DataProductListingItem()
         value.listingId = try reader["listingId"].readIfPresent()
         value.listingRevision = try reader["listingRevision"].readIfPresent()
-        value.glossaryTerms = try reader["glossaryTerms"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.DetailedGlossaryTerm.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DataZoneClientTypes.AssetListing {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AssetListing {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.AssetListing()
-        value.assetId = try reader["assetId"].readIfPresent()
-        value.assetRevision = try reader["assetRevision"].readIfPresent()
-        value.assetType = try reader["assetType"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.forms = try reader["forms"].readIfPresent()
-        value.latestTimeSeriesDataPointForms = try reader["latestTimeSeriesDataPointForms"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.glossaryTerms = try reader["glossaryTerms"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.DetailedGlossaryTerm.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.governedGlossaryTerms = try reader["governedGlossaryTerms"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.DetailedGlossaryTerm.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.owningProjectId = try reader["owningProjectId"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.MetadataGenerationRunTarget {
-
-    static func write(value: DataZoneClientTypes.MetadataGenerationRunTarget?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["identifier"].write(value.identifier)
-        try writer["revision"].write(value.revision)
-        try writer["type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.MetadataGenerationRunTarget {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.MetadataGenerationRunTarget()
-        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
-        value.identifier = try reader["identifier"].readIfPresent() ?? ""
-        value.revision = try reader["revision"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.MetadataGenerationRunTypeStat {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.MetadataGenerationRunTypeStat {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.MetadataGenerationRunTypeStat()
-        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.errorMessage = try reader["errorMessage"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.TimeSeriesDataPointFormOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.TimeSeriesDataPointFormOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.TimeSeriesDataPointFormOutput()
-        value.formName = try reader["formName"].readIfPresent() ?? ""
-        value.typeIdentifier = try reader["typeIdentifier"].readIfPresent() ?? ""
-        value.typeRevision = try reader["typeRevision"].readIfPresent()
-        value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.content = try reader["content"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.AccountPoolSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AccountPoolSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.AccountPoolSummary()
-        value.domainId = try reader["domainId"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
-        value.resolutionStrategy = try reader["resolutionStrategy"].readIfPresent()
-        value.domainUnitId = try reader["domainUnitId"].readIfPresent()
-        value.createdBy = try reader["createdBy"].readIfPresent()
-        value.updatedBy = try reader["updatedBy"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.AssetFilterSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AssetFilterSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.AssetFilterSummary()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.domainId = try reader["domainId"].readIfPresent() ?? ""
-        value.assetId = try reader["assetId"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
+        value.entityId = try reader["entityId"].readIfPresent()
+        value.entityRevision = try reader["entityRevision"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.effectiveColumnNames = try reader["effectiveColumnNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.effectiveRowFilter = try reader["effectiveRowFilter"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.errorMessage = try reader["errorMessage"].readIfPresent()
+        value.listingCreatedBy = try reader["listingCreatedBy"].readIfPresent()
+        value.listingUpdatedBy = try reader["listingUpdatedBy"].readIfPresent()
+        value.glossaryTerms = try reader["glossaryTerms"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.DetailedGlossaryTerm.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.owningProjectId = try reader["owningProjectId"].readIfPresent()
+        value.additionalAttributes = try reader["additionalAttributes"].readIfPresent(with: DataZoneClientTypes.DataProductListingItemAdditionalAttributes.read(from:))
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.ListingSummaryItem.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension DataZoneClientTypes.AssetRevision {
+extension DataZoneClientTypes.DataProductListingItemAdditionalAttributes {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AssetRevision {
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.DataProductListingItemAdditionalAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.AssetRevision()
-        value.domainId = try reader["domainId"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.revision = try reader["revision"].readIfPresent()
-        value.createdBy = try reader["createdBy"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        var value = DataZoneClientTypes.DataProductListingItemAdditionalAttributes()
+        value.forms = try reader["forms"].readIfPresent()
+        value.matchRationale = try reader["matchRationale"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.MatchRationaleItem.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension DataZoneClientTypes.ConnectionSummary {
+extension DataZoneClientTypes.DataProductResultItem {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.ConnectionSummary {
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.DataProductResultItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.ConnectionSummary()
-        value.connectionId = try reader["connectionId"].readIfPresent() ?? ""
+        var value = DataZoneClientTypes.DataProductResultItem()
         value.domainId = try reader["domainId"].readIfPresent() ?? ""
-        value.domainUnitId = try reader["domainUnitId"].readIfPresent() ?? ""
-        value.environmentId = try reader["environmentId"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent() ?? ""
-        value.physicalEndpoints = try reader["physicalEndpoints"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.PhysicalEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.projectId = try reader["projectId"].readIfPresent()
-        value.props = try reader["props"].readIfPresent(with: DataZoneClientTypes.ConnectionPropertiesOutput.read(from:))
-        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
-        value.scope = try reader["scope"].readIfPresent()
+        value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.glossaryTerms = try reader["glossaryTerms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.firstRevisionCreatedAt = try reader["firstRevisionCreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.firstRevisionCreatedBy = try reader["firstRevisionCreatedBy"].readIfPresent()
+        value.additionalAttributes = try reader["additionalAttributes"].readIfPresent(with: DataZoneClientTypes.DataProductItemAdditionalAttributes.read(from:))
         return value
     }
 }
@@ -36858,6 +38705,52 @@ extension DataZoneClientTypes.DataProductRevision {
         value.revision = try reader["revision"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.createdBy = try reader["createdBy"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.DataSourceConfigurationInput {
+
+    static func write(value: DataZoneClientTypes.DataSourceConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .gluerunconfiguration(gluerunconfiguration):
+                try writer["glueRunConfiguration"].write(gluerunconfiguration, with: DataZoneClientTypes.GlueRunConfigurationInput.write(value:to:))
+            case let .redshiftrunconfiguration(redshiftrunconfiguration):
+                try writer["redshiftRunConfiguration"].write(redshiftrunconfiguration, with: DataZoneClientTypes.RedshiftRunConfigurationInput.write(value:to:))
+            case let .sagemakerrunconfiguration(sagemakerrunconfiguration):
+                try writer["sageMakerRunConfiguration"].write(sagemakerrunconfiguration, with: DataZoneClientTypes.SageMakerRunConfigurationInput.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension DataZoneClientTypes.DataSourceConfigurationOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.DataSourceConfigurationOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "glueRunConfiguration":
+                return .gluerunconfiguration(try reader["glueRunConfiguration"].read(with: DataZoneClientTypes.GlueRunConfigurationOutput.read(from:)))
+            case "redshiftRunConfiguration":
+                return .redshiftrunconfiguration(try reader["redshiftRunConfiguration"].read(with: DataZoneClientTypes.RedshiftRunConfigurationOutput.read(from:)))
+            case "sageMakerRunConfiguration":
+                return .sagemakerrunconfiguration(try reader["sageMakerRunConfiguration"].read(with: DataZoneClientTypes.SageMakerRunConfigurationOutput.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DataZoneClientTypes.DataSourceErrorMessage {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.DataSourceErrorMessage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.DataSourceErrorMessage()
+        value.errorType = try reader["errorType"].readIfPresent() ?? .sdkUnknown("")
+        value.errorDetail = try reader["errorDetail"].readIfPresent()
         return value
     }
 }
@@ -36882,14 +38775,12 @@ extension DataZoneClientTypes.DataSourceRunActivity {
     }
 }
 
-extension DataZoneClientTypes.LineageInfo {
+extension DataZoneClientTypes.DataSourceRunLineageSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.LineageInfo {
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.DataSourceRunLineageSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.LineageInfo()
-        value.eventId = try reader["eventId"].readIfPresent()
-        value.eventStatus = try reader["eventStatus"].readIfPresent()
-        value.errorMessage = try reader["errorMessage"].readIfPresent()
+        var value = DataZoneClientTypes.DataSourceRunLineageSummary()
+        value.importStatus = try reader["importStatus"].readIfPresent()
         return value
     }
 }
@@ -36940,6 +38831,43 @@ extension DataZoneClientTypes.DataSourceSummary {
     }
 }
 
+extension DataZoneClientTypes.Deployment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.Deployment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.Deployment()
+        value.deploymentId = try reader["deploymentId"].readIfPresent()
+        value.deploymentType = try reader["deploymentType"].readIfPresent()
+        value.deploymentStatus = try reader["deploymentStatus"].readIfPresent()
+        value.failureReason = try reader["failureReason"].readIfPresent(with: DataZoneClientTypes.EnvironmentError.read(from:))
+        value.messages = try reader["messages"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.isDeploymentComplete = try reader["isDeploymentComplete"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.DeploymentProperties {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.DeploymentProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.DeploymentProperties()
+        value.startTimeoutMinutes = try reader["startTimeoutMinutes"].readIfPresent()
+        value.endTimeoutMinutes = try reader["endTimeoutMinutes"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.DetailedGlossaryTerm {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.DetailedGlossaryTerm {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.DetailedGlossaryTerm()
+        value.name = try reader["name"].readIfPresent()
+        value.shortDescription = try reader["shortDescription"].readIfPresent()
+        return value
+    }
+}
+
 extension DataZoneClientTypes.DomainSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.DomainSummary {
@@ -36959,6 +38887,92 @@ extension DataZoneClientTypes.DomainSummary {
     }
 }
 
+extension DataZoneClientTypes.DomainUnitFilterForProject {
+
+    static func write(value: DataZoneClientTypes.DomainUnitFilterForProject?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["domainUnit"].write(value.domainUnit)
+        try writer["includeChildDomainUnits"].write(value.includeChildDomainUnits)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.DomainUnitFilterForProject {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.DomainUnitFilterForProject()
+        value.domainUnit = try reader["domainUnit"].readIfPresent() ?? ""
+        value.includeChildDomainUnits = try reader["includeChildDomainUnits"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension DataZoneClientTypes.DomainUnitGrantFilter {
+
+    static func write(value: DataZoneClientTypes.DomainUnitGrantFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .alldomainunitsgrantfilter(alldomainunitsgrantfilter):
+                try writer["allDomainUnitsGrantFilter"].write(alldomainunitsgrantfilter, with: DataZoneClientTypes.AllDomainUnitsGrantFilter.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.DomainUnitGrantFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "allDomainUnitsGrantFilter":
+                return .alldomainunitsgrantfilter(try reader["allDomainUnitsGrantFilter"].read(with: DataZoneClientTypes.AllDomainUnitsGrantFilter.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DataZoneClientTypes.DomainUnitGroupProperties {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.DomainUnitGroupProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.DomainUnitGroupProperties()
+        value.groupId = try reader["groupId"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.DomainUnitOwnerProperties {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.DomainUnitOwnerProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "user":
+                return .user(try reader["user"].read(with: DataZoneClientTypes.DomainUnitUserProperties.read(from:)))
+            case "group":
+                return .group(try reader["group"].read(with: DataZoneClientTypes.DomainUnitGroupProperties.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DataZoneClientTypes.DomainUnitPolicyGrantPrincipal {
+
+    static func write(value: DataZoneClientTypes.DomainUnitPolicyGrantPrincipal?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["domainUnitDesignation"].write(value.domainUnitDesignation)
+        try writer["domainUnitGrantFilter"].write(value.domainUnitGrantFilter, with: DataZoneClientTypes.DomainUnitGrantFilter.write(value:to:))
+        try writer["domainUnitIdentifier"].write(value.domainUnitIdentifier)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.DomainUnitPolicyGrantPrincipal {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.DomainUnitPolicyGrantPrincipal()
+        value.domainUnitDesignation = try reader["domainUnitDesignation"].readIfPresent() ?? .sdkUnknown("")
+        value.domainUnitIdentifier = try reader["domainUnitIdentifier"].readIfPresent()
+        value.domainUnitGrantFilter = try reader["domainUnitGrantFilter"].readIfPresent(with: DataZoneClientTypes.DomainUnitGrantFilter.read(from:))
+        return value
+    }
+}
+
 extension DataZoneClientTypes.DomainUnitSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.DomainUnitSummary {
@@ -36970,39 +38984,57 @@ extension DataZoneClientTypes.DomainUnitSummary {
     }
 }
 
-extension DataZoneClientTypes.OwnerPropertiesOutput {
+extension DataZoneClientTypes.DomainUnitTarget {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.OwnerPropertiesOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "user":
-                return .user(try reader["user"].read(with: DataZoneClientTypes.OwnerUserPropertiesOutput.read(from:)))
-            case "group":
-                return .group(try reader["group"].read(with: DataZoneClientTypes.OwnerGroupPropertiesOutput.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
+    static func write(value: DataZoneClientTypes.DomainUnitTarget?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["domainUnitId"].write(value.domainUnitId)
+        try writer["includeChildDomainUnits"].write(value.includeChildDomainUnits)
     }
-}
 
-extension DataZoneClientTypes.OwnerGroupPropertiesOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.OwnerGroupPropertiesOutput {
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.DomainUnitTarget {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.OwnerGroupPropertiesOutput()
-        value.groupId = try reader["groupId"].readIfPresent()
+        var value = DataZoneClientTypes.DomainUnitTarget()
+        value.domainUnitId = try reader["domainUnitId"].readIfPresent() ?? ""
+        value.includeChildDomainUnits = try reader["includeChildDomainUnits"].readIfPresent()
         return value
     }
 }
 
-extension DataZoneClientTypes.OwnerUserPropertiesOutput {
+extension DataZoneClientTypes.DomainUnitUserProperties {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.OwnerUserPropertiesOutput {
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.DomainUnitUserProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.OwnerUserPropertiesOutput()
+        var value = DataZoneClientTypes.DomainUnitUserProperties()
         value.userId = try reader["userId"].readIfPresent()
         return value
+    }
+}
+
+extension DataZoneClientTypes.EncryptionConfiguration {
+
+    static func write(value: DataZoneClientTypes.EncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["kmsKeyArn"].write(value.kmsKeyArn)
+        try writer["sseAlgorithm"].write(value.sseAlgorithm)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.EncryptionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.EncryptionConfiguration()
+        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
+        value.sseAlgorithm = try reader["sseAlgorithm"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.EntityPattern {
+
+    static func write(value: DataZoneClientTypes.EntityPattern?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["entityType"].write(value.entityType)
+        try writer["filters"].write(value.filters, with: DataZoneClientTypes.FilterClause.write(value:to:))
+        try writer["identifier"].write(value.identifier)
     }
 }
 
@@ -37056,6 +39088,166 @@ extension DataZoneClientTypes.EnvironmentBlueprintSummary {
     }
 }
 
+extension DataZoneClientTypes.EnvironmentConfig {
+
+    static func write(value: DataZoneClientTypes.EnvironmentConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["imageVersion"].write(value.imageVersion)
+        try writer["packageConfig"].write(value.packageConfig, with: DataZoneClientTypes.PackageConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.EnvironmentConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.EnvironmentConfig()
+        value.imageVersion = try reader["imageVersion"].readIfPresent()
+        value.packageConfig = try reader["packageConfig"].readIfPresent(with: DataZoneClientTypes.PackageConfig.read(from:))
+        return value
+    }
+}
+
+extension DataZoneClientTypes.EnvironmentConfiguration {
+
+    static func write(value: DataZoneClientTypes.EnvironmentConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accountPools"].writeList(value.accountPools, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["awsAccount"].write(value.awsAccount, with: DataZoneClientTypes.AwsAccount.write(value:to:))
+        try writer["awsRegion"].write(value.awsRegion, with: DataZoneClientTypes.Region.write(value:to:))
+        try writer["configurationParameters"].write(value.configurationParameters, with: DataZoneClientTypes.EnvironmentConfigurationParametersDetails.write(value:to:))
+        try writer["deploymentMode"].write(value.deploymentMode)
+        try writer["deploymentOrder"].write(value.deploymentOrder)
+        try writer["description"].write(value.description)
+        try writer["environmentBlueprintId"].write(value.environmentBlueprintId)
+        try writer["id"].write(value.id)
+        try writer["name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.EnvironmentConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.EnvironmentConfiguration()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent()
+        value.environmentBlueprintId = try reader["environmentBlueprintId"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.deploymentMode = try reader["deploymentMode"].readIfPresent()
+        value.configurationParameters = try reader["configurationParameters"].readIfPresent(with: DataZoneClientTypes.EnvironmentConfigurationParametersDetails.read(from:))
+        value.awsAccount = try reader["awsAccount"].readIfPresent(with: DataZoneClientTypes.AwsAccount.read(from:))
+        value.accountPools = try reader["accountPools"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.awsRegion = try reader["awsRegion"].readIfPresent(with: DataZoneClientTypes.Region.read(from:))
+        value.deploymentOrder = try reader["deploymentOrder"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.EnvironmentConfigurationParameter {
+
+    static func write(value: DataZoneClientTypes.EnvironmentConfigurationParameter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["isEditable"].write(value.isEditable)
+        try writer["name"].write(value.name)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.EnvironmentConfigurationParameter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.EnvironmentConfigurationParameter()
+        value.name = try reader["name"].readIfPresent()
+        value.value = try reader["value"].readIfPresent()
+        value.isEditable = try reader["isEditable"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.EnvironmentConfigurationParametersDetails {
+
+    static func write(value: DataZoneClientTypes.EnvironmentConfigurationParametersDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["parameterOverrides"].writeList(value.parameterOverrides, memberWritingClosure: DataZoneClientTypes.EnvironmentConfigurationParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["resolvedParameters"].writeList(value.resolvedParameters, memberWritingClosure: DataZoneClientTypes.EnvironmentConfigurationParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ssmPath"].write(value.ssmPath)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.EnvironmentConfigurationParametersDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.EnvironmentConfigurationParametersDetails()
+        value.ssmPath = try reader["ssmPath"].readIfPresent()
+        value.parameterOverrides = try reader["parameterOverrides"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.EnvironmentConfigurationParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resolvedParameters = try reader["resolvedParameters"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.EnvironmentConfigurationParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DataZoneClientTypes.EnvironmentConfigurationUserParameter {
+
+    static func write(value: DataZoneClientTypes.EnvironmentConfigurationUserParameter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["environmentConfigurationName"].write(value.environmentConfigurationName)
+        try writer["environmentId"].write(value.environmentId)
+        try writer["environmentParameters"].writeList(value.environmentParameters, memberWritingClosure: DataZoneClientTypes.EnvironmentParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["environmentResolvedAccount"].write(value.environmentResolvedAccount, with: DataZoneClientTypes.EnvironmentResolvedAccount.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.EnvironmentConfigurationUserParameter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.EnvironmentConfigurationUserParameter()
+        value.environmentId = try reader["environmentId"].readIfPresent()
+        value.environmentResolvedAccount = try reader["environmentResolvedAccount"].readIfPresent(with: DataZoneClientTypes.EnvironmentResolvedAccount.read(from:))
+        value.environmentConfigurationName = try reader["environmentConfigurationName"].readIfPresent()
+        value.environmentParameters = try reader["environmentParameters"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.EnvironmentParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DataZoneClientTypes.EnvironmentDeploymentDetails {
+
+    static func write(value: DataZoneClientTypes.EnvironmentDeploymentDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["environmentFailureReasons"].writeMap(value.environmentFailureReasons, valueWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: DataZoneClientTypes.EnvironmentError.write(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["overallDeploymentStatus"].write(value.overallDeploymentStatus)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.EnvironmentDeploymentDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.EnvironmentDeploymentDetails()
+        value.overallDeploymentStatus = try reader["overallDeploymentStatus"].readIfPresent()
+        value.environmentFailureReasons = try reader["environmentFailureReasons"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: DataZoneClientTypes.EnvironmentError.read(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension DataZoneClientTypes.EnvironmentError {
+
+    static func write(value: DataZoneClientTypes.EnvironmentError?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["code"].write(value.code)
+        try writer["message"].write(value.message)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.EnvironmentError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.EnvironmentError()
+        value.code = try reader["code"].readIfPresent()
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DataZoneClientTypes.EnvironmentParameter {
+
+    static func write(value: DataZoneClientTypes.EnvironmentParameter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.EnvironmentParameter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.EnvironmentParameter()
+        value.name = try reader["name"].readIfPresent()
+        value.value = try reader["value"].readIfPresent()
+        return value
+    }
+}
+
 extension DataZoneClientTypes.EnvironmentProfileSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.EnvironmentProfileSummary {
@@ -37072,6 +39264,25 @@ extension DataZoneClientTypes.EnvironmentProfileSummary {
         value.description = try reader["description"].readIfPresent()
         value.environmentBlueprintId = try reader["environmentBlueprintId"].readIfPresent() ?? ""
         value.projectId = try reader["projectId"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.EnvironmentResolvedAccount {
+
+    static func write(value: DataZoneClientTypes.EnvironmentResolvedAccount?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["awsAccountId"].write(value.awsAccountId)
+        try writer["regionName"].write(value.regionName)
+        try writer["sourceAccountPoolId"].write(value.sourceAccountPoolId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.EnvironmentResolvedAccount {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.EnvironmentResolvedAccount()
+        value.awsAccountId = try reader["awsAccountId"].readIfPresent() ?? ""
+        value.regionName = try reader["regionName"].readIfPresent() ?? ""
+        value.sourceAccountPoolId = try reader["sourceAccountPoolId"].readIfPresent()
         return value
     }
 }
@@ -37095,6 +39306,636 @@ extension DataZoneClientTypes.EnvironmentSummary {
         value.provider = try reader["provider"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent()
         value.environmentConfigurationId = try reader["environmentConfigurationId"].readIfPresent()
+        value.environmentConfigurationName = try reader["environmentConfigurationName"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.EqualToExpression {
+
+    static func write(value: DataZoneClientTypes.EqualToExpression?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["columnName"].write(value.columnName)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.EqualToExpression {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.EqualToExpression()
+        value.columnName = try reader["columnName"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DataZoneClientTypes.EventSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.EventSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "openLineageRunEventSummary":
+                return .openlineageruneventsummary(try reader["openLineageRunEventSummary"].read(with: DataZoneClientTypes.OpenLineageRunEventSummary.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DataZoneClientTypes.FailureCause {
+
+    static func write(value: DataZoneClientTypes.FailureCause?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["message"].write(value.message)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.FailureCause {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.FailureCause()
+        value.message = try reader["message"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.Filter {
+
+    static func write(value: DataZoneClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["attribute"].write(value.attribute)
+        try writer["intValue"].write(value.intValue)
+        try writer["operator"].write(value.`operator`)
+        try writer["value"].write(value.value)
+    }
+}
+
+extension DataZoneClientTypes.FilterClause {
+
+    static func write(value: DataZoneClientTypes.FilterClause?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .and(and):
+                try writer["and"].writeList(and, memberWritingClosure: DataZoneClientTypes.FilterClause.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .filter(filter):
+                try writer["filter"].write(filter, with: DataZoneClientTypes.Filter.write(value:to:))
+            case let .or(or):
+                try writer["or"].writeList(or, memberWritingClosure: DataZoneClientTypes.FilterClause.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension DataZoneClientTypes.FilterExpression {
+
+    static func write(value: DataZoneClientTypes.FilterExpression?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["expression"].write(value.expression)
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.FilterExpression {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.FilterExpression()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.expression = try reader["expression"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DataZoneClientTypes.FormEntryInput {
+
+    static func write(value: DataZoneClientTypes.FormEntryInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["required"].write(value.`required`)
+        try writer["typeIdentifier"].write(value.typeIdentifier)
+        try writer["typeRevision"].write(value.typeRevision)
+    }
+}
+
+extension DataZoneClientTypes.FormEntryOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.FormEntryOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.FormEntryOutput()
+        value.typeName = try reader["typeName"].readIfPresent() ?? ""
+        value.typeRevision = try reader["typeRevision"].readIfPresent() ?? ""
+        value.`required` = try reader["required"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.FormInput {
+
+    static func write(value: DataZoneClientTypes.FormInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["content"].write(value.content)
+        try writer["formName"].write(value.formName)
+        try writer["typeIdentifier"].write(value.typeIdentifier)
+        try writer["typeRevision"].write(value.typeRevision)
+    }
+}
+
+extension DataZoneClientTypes.FormOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.FormOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.FormOutput()
+        value.formName = try reader["formName"].readIfPresent() ?? ""
+        value.typeName = try reader["typeName"].readIfPresent()
+        value.typeRevision = try reader["typeRevision"].readIfPresent()
+        value.content = try reader["content"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.FormTypeData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.FormTypeData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.FormTypeData()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.revision = try reader["revision"].readIfPresent() ?? ""
+        value.model = try reader["model"].readIfPresent(with: DataZoneClientTypes.Model.read(from:))
+        value.status = try reader["status"].readIfPresent()
+        value.owningProjectId = try reader["owningProjectId"].readIfPresent()
+        value.originDomainId = try reader["originDomainId"].readIfPresent()
+        value.originProjectId = try reader["originProjectId"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.imports = try reader["imports"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.Import.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DataZoneClientTypes.GlossaryItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.GlossaryItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.GlossaryItem()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.usageRestrictions = try reader["usageRestrictions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<DataZoneClientTypes.GlossaryUsageRestriction>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedBy = try reader["updatedBy"].readIfPresent()
+        value.additionalAttributes = try reader["additionalAttributes"].readIfPresent(with: DataZoneClientTypes.GlossaryItemAdditionalAttributes.read(from:))
+        return value
+    }
+}
+
+extension DataZoneClientTypes.GlossaryItemAdditionalAttributes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.GlossaryItemAdditionalAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.GlossaryItemAdditionalAttributes()
+        value.matchRationale = try reader["matchRationale"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.MatchRationaleItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DataZoneClientTypes.GlossaryTermEnforcementDetail {
+
+    static func write(value: DataZoneClientTypes.GlossaryTermEnforcementDetail?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["requiredGlossaryTermIds"].writeList(value.requiredGlossaryTermIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.GlossaryTermEnforcementDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.GlossaryTermEnforcementDetail()
+        value.requiredGlossaryTermIds = try reader["requiredGlossaryTermIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DataZoneClientTypes.GlossaryTermItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.GlossaryTermItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.GlossaryTermItem()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.glossaryId = try reader["glossaryId"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.shortDescription = try reader["shortDescription"].readIfPresent()
+        value.usageRestrictions = try reader["usageRestrictions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<DataZoneClientTypes.GlossaryUsageRestriction>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.longDescription = try reader["longDescription"].readIfPresent()
+        value.termRelations = try reader["termRelations"].readIfPresent(with: DataZoneClientTypes.TermRelations.read(from:))
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedBy = try reader["updatedBy"].readIfPresent()
+        value.additionalAttributes = try reader["additionalAttributes"].readIfPresent(with: DataZoneClientTypes.GlossaryTermItemAdditionalAttributes.read(from:))
+        return value
+    }
+}
+
+extension DataZoneClientTypes.GlossaryTermItemAdditionalAttributes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.GlossaryTermItemAdditionalAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.GlossaryTermItemAdditionalAttributes()
+        value.matchRationale = try reader["matchRationale"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.MatchRationaleItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DataZoneClientTypes.GlueConnection {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.GlueConnection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.GlueConnection()
+        value.name = try reader["name"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.connectionType = try reader["connectionType"].readIfPresent()
+        value.matchCriteria = try reader["matchCriteria"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.connectionProperties = try reader["connectionProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.sparkProperties = try reader["sparkProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.athenaProperties = try reader["athenaProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.pythonProperties = try reader["pythonProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.physicalConnectionRequirements = try reader["physicalConnectionRequirements"].readIfPresent(with: DataZoneClientTypes.PhysicalConnectionRequirements.read(from:))
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedTime = try reader["lastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedBy = try reader["lastUpdatedBy"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.lastConnectionValidationTime = try reader["lastConnectionValidationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.authenticationConfiguration = try reader["authenticationConfiguration"].readIfPresent(with: DataZoneClientTypes.AuthenticationConfiguration.read(from:))
+        value.connectionSchemaVersion = try reader["connectionSchemaVersion"].readIfPresent()
+        value.compatibleComputeEnvironments = try reader["compatibleComputeEnvironments"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<DataZoneClientTypes.ComputeEnvironments>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DataZoneClientTypes.GlueConnectionInput {
+
+    static func write(value: DataZoneClientTypes.GlueConnectionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["athenaProperties"].writeMap(value.athenaProperties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["authenticationConfiguration"].write(value.authenticationConfiguration, with: DataZoneClientTypes.AuthenticationConfigurationInput.write(value:to:))
+        try writer["connectionProperties"].writeMap(value.connectionProperties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["connectionType"].write(value.connectionType)
+        try writer["description"].write(value.description)
+        try writer["matchCriteria"].write(value.matchCriteria)
+        try writer["name"].write(value.name)
+        try writer["physicalConnectionRequirements"].write(value.physicalConnectionRequirements, with: DataZoneClientTypes.PhysicalConnectionRequirements.write(value:to:))
+        try writer["pythonProperties"].writeMap(value.pythonProperties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["sparkProperties"].writeMap(value.sparkProperties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["validateCredentials"].write(value.validateCredentials)
+        try writer["validateForComputeEnvironments"].writeList(value.validateForComputeEnvironments, memberWritingClosure: SmithyReadWrite.WritingClosureBox<DataZoneClientTypes.ComputeEnvironments>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension DataZoneClientTypes.GlueConnectionPatch {
+
+    static func write(value: DataZoneClientTypes.GlueConnectionPatch?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["authenticationConfiguration"].write(value.authenticationConfiguration, with: DataZoneClientTypes.AuthenticationConfigurationPatch.write(value:to:))
+        try writer["connectionProperties"].writeMap(value.connectionProperties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["description"].write(value.description)
+    }
+}
+
+extension DataZoneClientTypes.GlueOAuth2Credentials {
+
+    static func write(value: DataZoneClientTypes.GlueOAuth2Credentials?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accessToken"].write(value.accessToken)
+        try writer["jwtToken"].write(value.jwtToken)
+        try writer["refreshToken"].write(value.refreshToken)
+        try writer["userManagedClientApplicationClientSecret"].write(value.userManagedClientApplicationClientSecret)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.GlueOAuth2Credentials {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.GlueOAuth2Credentials()
+        value.userManagedClientApplicationClientSecret = try reader["userManagedClientApplicationClientSecret"].readIfPresent()
+        value.accessToken = try reader["accessToken"].readIfPresent()
+        value.refreshToken = try reader["refreshToken"].readIfPresent()
+        value.jwtToken = try reader["jwtToken"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.GluePropertiesInput {
+
+    static func write(value: DataZoneClientTypes.GluePropertiesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["glueConnectionInput"].write(value.glueConnectionInput, with: DataZoneClientTypes.GlueConnectionInput.write(value:to:))
+    }
+}
+
+extension DataZoneClientTypes.GluePropertiesOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.GluePropertiesOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.GluePropertiesOutput()
+        value.status = try reader["status"].readIfPresent()
+        value.errorMessage = try reader["errorMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.GluePropertiesPatch {
+
+    static func write(value: DataZoneClientTypes.GluePropertiesPatch?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["glueConnectionInput"].write(value.glueConnectionInput, with: DataZoneClientTypes.GlueConnectionPatch.write(value:to:))
+    }
+}
+
+extension DataZoneClientTypes.GlueRunConfigurationInput {
+
+    static func write(value: DataZoneClientTypes.GlueRunConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["autoImportDataQualityResult"].write(value.autoImportDataQualityResult)
+        try writer["catalogName"].write(value.catalogName)
+        try writer["dataAccessRole"].write(value.dataAccessRole)
+        try writer["relationalFilterConfigurations"].writeList(value.relationalFilterConfigurations, memberWritingClosure: DataZoneClientTypes.RelationalFilterConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension DataZoneClientTypes.GlueRunConfigurationOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.GlueRunConfigurationOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.GlueRunConfigurationOutput()
+        value.accountId = try reader["accountId"].readIfPresent()
+        value.region = try reader["region"].readIfPresent()
+        value.dataAccessRole = try reader["dataAccessRole"].readIfPresent()
+        value.relationalFilterConfigurations = try reader["relationalFilterConfigurations"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.RelationalFilterConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.autoImportDataQualityResult = try reader["autoImportDataQualityResult"].readIfPresent()
+        value.catalogName = try reader["catalogName"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.GlueSelfGrantStatusOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.GlueSelfGrantStatusOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.GlueSelfGrantStatusOutput()
+        value.selfGrantStatusDetails = try reader["selfGrantStatusDetails"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.SelfGrantStatusDetail.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension DataZoneClientTypes.GrantedEntity {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.GrantedEntity {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "listing":
+                return .listing(try reader["listing"].read(with: DataZoneClientTypes.ListingRevision.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DataZoneClientTypes.GrantedEntityInput {
+
+    static func write(value: DataZoneClientTypes.GrantedEntityInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .listing(listing):
+                try writer["listing"].write(listing, with: DataZoneClientTypes.ListingRevisionInput.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension DataZoneClientTypes.GreaterThanExpression {
+
+    static func write(value: DataZoneClientTypes.GreaterThanExpression?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["columnName"].write(value.columnName)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.GreaterThanExpression {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.GreaterThanExpression()
+        value.columnName = try reader["columnName"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DataZoneClientTypes.GreaterThanOrEqualToExpression {
+
+    static func write(value: DataZoneClientTypes.GreaterThanOrEqualToExpression?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["columnName"].write(value.columnName)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.GreaterThanOrEqualToExpression {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.GreaterThanOrEqualToExpression()
+        value.columnName = try reader["columnName"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DataZoneClientTypes.GroupDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.GroupDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.GroupDetails()
+        value.groupId = try reader["groupId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DataZoneClientTypes.GroupPolicyGrantPrincipal {
+
+    static func write(value: DataZoneClientTypes.GroupPolicyGrantPrincipal?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .groupidentifier(groupidentifier):
+                try writer["groupIdentifier"].write(groupidentifier)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.GroupPolicyGrantPrincipal {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "groupIdentifier":
+                return .groupidentifier(try reader["groupIdentifier"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DataZoneClientTypes.GroupProfileSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.GroupProfileSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.GroupProfileSummary()
+        value.domainId = try reader["domainId"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.groupName = try reader["groupName"].readIfPresent()
+        value.rolePrincipalArn = try reader["rolePrincipalArn"].readIfPresent()
+        value.rolePrincipalId = try reader["rolePrincipalId"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.HyperPodPropertiesInput {
+
+    static func write(value: DataZoneClientTypes.HyperPodPropertiesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clusterName"].write(value.clusterName)
+    }
+}
+
+extension DataZoneClientTypes.HyperPodPropertiesOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.HyperPodPropertiesOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.HyperPodPropertiesOutput()
+        value.clusterName = try reader["clusterName"].readIfPresent() ?? ""
+        value.clusterArn = try reader["clusterArn"].readIfPresent()
+        value.orchestrator = try reader["orchestrator"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.IamPropertiesInput {
+
+    static func write(value: DataZoneClientTypes.IamPropertiesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["glueLineageSyncEnabled"].write(value.glueLineageSyncEnabled)
+    }
+}
+
+extension DataZoneClientTypes.IamPropertiesOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.IamPropertiesOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.IamPropertiesOutput()
+        value.environmentId = try reader["environmentId"].readIfPresent()
+        value.glueLineageSyncEnabled = try reader["glueLineageSyncEnabled"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.IamPropertiesPatch {
+
+    static func write(value: DataZoneClientTypes.IamPropertiesPatch?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["glueLineageSyncEnabled"].write(value.glueLineageSyncEnabled)
+    }
+}
+
+extension DataZoneClientTypes.IamUserProfileDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.IamUserProfileDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.IamUserProfileDetails()
+        value.arn = try reader["arn"].readIfPresent()
+        value.principalId = try reader["principalId"].readIfPresent()
+        value.sessionName = try reader["sessionName"].readIfPresent()
+        value.groupProfileId = try reader["groupProfileId"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.Import {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.Import {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.Import()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.revision = try reader["revision"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DataZoneClientTypes.InExpression {
+
+    static func write(value: DataZoneClientTypes.InExpression?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["columnName"].write(value.columnName)
+        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.InExpression {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.InExpression()
+        value.columnName = try reader["columnName"].readIfPresent() ?? ""
+        value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension DataZoneClientTypes.IsNotNullExpression {
+
+    static func write(value: DataZoneClientTypes.IsNotNullExpression?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["columnName"].write(value.columnName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.IsNotNullExpression {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.IsNotNullExpression()
+        value.columnName = try reader["columnName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DataZoneClientTypes.IsNullExpression {
+
+    static func write(value: DataZoneClientTypes.IsNullExpression?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["columnName"].write(value.columnName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.IsNullExpression {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.IsNullExpression()
+        value.columnName = try reader["columnName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DataZoneClientTypes.JobRunDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.JobRunDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "lineageRunDetails":
+                return .lineagerundetails(try reader["lineageRunDetails"].read(with: DataZoneClientTypes.LineageRunDetails.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DataZoneClientTypes.JobRunError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.JobRunError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.JobRunError()
+        value.message = try reader["message"].readIfPresent() ?? ""
         return value
     }
 }
@@ -37119,6 +39960,100 @@ extension DataZoneClientTypes.JobRunSummary {
     }
 }
 
+extension DataZoneClientTypes.LakeFormationConfiguration {
+
+    static func write(value: DataZoneClientTypes.LakeFormationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["locationRegistrationExcludeS3Locations"].writeList(value.locationRegistrationExcludeS3Locations, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["locationRegistrationRole"].write(value.locationRegistrationRole)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.LakeFormationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.LakeFormationConfiguration()
+        value.locationRegistrationRole = try reader["locationRegistrationRole"].readIfPresent()
+        value.locationRegistrationExcludeS3Locations = try reader["locationRegistrationExcludeS3Locations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DataZoneClientTypes.LakehousePropertiesInput {
+
+    static func write(value: DataZoneClientTypes.LakehousePropertiesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["glueLineageSyncEnabled"].write(value.glueLineageSyncEnabled)
+    }
+}
+
+extension DataZoneClientTypes.LakehousePropertiesOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.LakehousePropertiesOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.LakehousePropertiesOutput()
+        value.glueLineageSyncEnabled = try reader["glueLineageSyncEnabled"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.LakehousePropertiesPatch {
+
+    static func write(value: DataZoneClientTypes.LakehousePropertiesPatch?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["glueLineageSyncEnabled"].write(value.glueLineageSyncEnabled)
+    }
+}
+
+extension DataZoneClientTypes.LessThanExpression {
+
+    static func write(value: DataZoneClientTypes.LessThanExpression?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["columnName"].write(value.columnName)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.LessThanExpression {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.LessThanExpression()
+        value.columnName = try reader["columnName"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DataZoneClientTypes.LessThanOrEqualToExpression {
+
+    static func write(value: DataZoneClientTypes.LessThanOrEqualToExpression?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["columnName"].write(value.columnName)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.LessThanOrEqualToExpression {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.LessThanOrEqualToExpression()
+        value.columnName = try reader["columnName"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DataZoneClientTypes.LikeExpression {
+
+    static func write(value: DataZoneClientTypes.LikeExpression?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["columnName"].write(value.columnName)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.LikeExpression {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.LikeExpression()
+        value.columnName = try reader["columnName"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension DataZoneClientTypes.LineageEventSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.LineageEventSummary {
@@ -37135,41 +40070,49 @@ extension DataZoneClientTypes.LineageEventSummary {
     }
 }
 
-extension DataZoneClientTypes.EventSummary {
+extension DataZoneClientTypes.LineageInfo {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.EventSummary {
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.LineageInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "openLineageRunEventSummary":
-                return .openlineageruneventsummary(try reader["openLineageRunEventSummary"].read(with: DataZoneClientTypes.OpenLineageRunEventSummary.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension DataZoneClientTypes.OpenLineageRunEventSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.OpenLineageRunEventSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.OpenLineageRunEventSummary()
-        value.eventType = try reader["eventType"].readIfPresent()
-        value.runId = try reader["runId"].readIfPresent()
-        value.job = try reader["job"].readIfPresent(with: DataZoneClientTypes.NameIdentifier.read(from:))
-        value.inputs = try reader["inputs"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.NameIdentifier.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.outputs = try reader["outputs"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.NameIdentifier.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = DataZoneClientTypes.LineageInfo()
+        value.eventId = try reader["eventId"].readIfPresent()
+        value.eventStatus = try reader["eventStatus"].readIfPresent()
+        value.errorMessage = try reader["errorMessage"].readIfPresent()
         return value
     }
 }
 
-extension DataZoneClientTypes.NameIdentifier {
+extension DataZoneClientTypes.LineageNodeItem {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.NameIdentifier {
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.LineageNodeItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.NameIdentifier()
+        var value = DataZoneClientTypes.LineageNodeItem()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent()
-        value.namespace = try reader["namespace"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedBy = try reader["updatedBy"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.typeName = try reader["typeName"].readIfPresent() ?? ""
+        value.typeRevision = try reader["typeRevision"].readIfPresent()
+        value.sourceIdentifier = try reader["sourceIdentifier"].readIfPresent()
+        value.eventTimestamp = try reader["eventTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.formsOutput = try reader["formsOutput"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.FormOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.upstreamLineageNodeIds = try reader["upstreamLineageNodeIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.downstreamLineageNodeIds = try reader["downstreamLineageNodeIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DataZoneClientTypes.LineageNodeReference {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.LineageNodeReference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.LineageNodeReference()
+        value.id = try reader["id"].readIfPresent()
+        value.eventTimestamp = try reader["eventTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -37195,6 +40138,249 @@ extension DataZoneClientTypes.LineageNodeSummary {
     }
 }
 
+extension DataZoneClientTypes.LineageNodeTypeItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.LineageNodeTypeItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.LineageNodeTypeItem()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedBy = try reader["updatedBy"].readIfPresent()
+        value.revision = try reader["revision"].readIfPresent() ?? ""
+        value.formsOutput = try reader["formsOutput"].readMapIfPresent(valueReadingClosure: DataZoneClientTypes.FormEntryOutput.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        return value
+    }
+}
+
+extension DataZoneClientTypes.LineageRunDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.LineageRunDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.LineageRunDetails()
+        value.sqlQueryRunDetails = try reader["sqlQueryRunDetails"].readIfPresent(with: DataZoneClientTypes.LineageSqlQueryRunDetails.read(from:))
+        return value
+    }
+}
+
+extension DataZoneClientTypes.LineageSqlQueryRunDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.LineageSqlQueryRunDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.LineageSqlQueryRunDetails()
+        value.queryStartTime = try reader["queryStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.queryEndTime = try reader["queryEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.totalQueriesProcessed = try reader["totalQueriesProcessed"].readIfPresent()
+        value.numQueriesFailed = try reader["numQueriesFailed"].readIfPresent()
+        value.errorMessages = try reader["errorMessages"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DataZoneClientTypes.LineageSyncSchedule {
+
+    static func write(value: DataZoneClientTypes.LineageSyncSchedule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["schedule"].write(value.schedule)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.LineageSyncSchedule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.LineageSyncSchedule()
+        value.schedule = try reader["schedule"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.ListingItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.ListingItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "assetListing":
+                return .assetlisting(try reader["assetListing"].read(with: DataZoneClientTypes.AssetListing.read(from:)))
+            case "dataProductListing":
+                return .dataproductlisting(try reader["dataProductListing"].read(with: DataZoneClientTypes.DataProductListing.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DataZoneClientTypes.ListingRevision {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.ListingRevision {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.ListingRevision()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.revision = try reader["revision"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DataZoneClientTypes.ListingRevisionInput {
+
+    static func write(value: DataZoneClientTypes.ListingRevisionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["identifier"].write(value.identifier)
+        try writer["revision"].write(value.revision)
+    }
+}
+
+extension DataZoneClientTypes.ListingSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.ListingSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.ListingSummary()
+        value.listingId = try reader["listingId"].readIfPresent()
+        value.listingRevision = try reader["listingRevision"].readIfPresent()
+        value.glossaryTerms = try reader["glossaryTerms"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.DetailedGlossaryTerm.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DataZoneClientTypes.ListingSummaryItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.ListingSummaryItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.ListingSummaryItem()
+        value.listingId = try reader["listingId"].readIfPresent()
+        value.listingRevision = try reader["listingRevision"].readIfPresent()
+        value.glossaryTerms = try reader["glossaryTerms"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.DetailedGlossaryTerm.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DataZoneClientTypes.ManagedEndpointCredentials {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.ManagedEndpointCredentials {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.ManagedEndpointCredentials()
+        value.id = try reader["id"].readIfPresent()
+        value.token = try reader["token"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.MatchClause {
+
+    static func write(value: DataZoneClientTypes.MatchClause?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .entitypattern(entitypattern):
+                try writer["entityPattern"].write(entitypattern, with: DataZoneClientTypes.EntityPattern.write(value:to:))
+            case let .relationpattern(relationpattern):
+                try writer["relationPattern"].write(relationpattern, with: DataZoneClientTypes.RelationPattern.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension DataZoneClientTypes.MatchOffset {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.MatchOffset {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.MatchOffset()
+        value.startOffset = try reader["startOffset"].readIfPresent()
+        value.endOffset = try reader["endOffset"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.MatchRationaleItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.MatchRationaleItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "textMatches":
+                return .textmatches(try reader["textMatches"].readList(memberReadingClosure: DataZoneClientTypes.TextMatchItem.read(from:), memberNodeInfo: "member", isFlattened: false))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DataZoneClientTypes.Member {
+
+    static func write(value: DataZoneClientTypes.Member?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .groupidentifier(groupidentifier):
+                try writer["groupIdentifier"].write(groupidentifier)
+            case let .useridentifier(useridentifier):
+                try writer["userIdentifier"].write(useridentifier)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension DataZoneClientTypes.MemberDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.MemberDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "user":
+                return .user(try reader["user"].read(with: DataZoneClientTypes.UserDetails.read(from:)))
+            case "group":
+                return .group(try reader["group"].read(with: DataZoneClientTypes.GroupDetails.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DataZoneClientTypes.MetadataFormEnforcementDetail {
+
+    static func write(value: DataZoneClientTypes.MetadataFormEnforcementDetail?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["requiredMetadataForms"].writeList(value.requiredMetadataForms, memberWritingClosure: DataZoneClientTypes.MetadataFormReference.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.MetadataFormEnforcementDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.MetadataFormEnforcementDetail()
+        value.requiredMetadataForms = try reader["requiredMetadataForms"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.MetadataFormReference.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DataZoneClientTypes.MetadataFormReference {
+
+    static func write(value: DataZoneClientTypes.MetadataFormReference?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["typeIdentifier"].write(value.typeIdentifier)
+        try writer["typeRevision"].write(value.typeRevision)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.MetadataFormReference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.MetadataFormReference()
+        value.typeIdentifier = try reader["typeIdentifier"].readIfPresent() ?? ""
+        value.typeRevision = try reader["typeRevision"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DataZoneClientTypes.MetadataFormSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.MetadataFormSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.MetadataFormSummary()
+        value.formName = try reader["formName"].readIfPresent()
+        value.typeName = try reader["typeName"].readIfPresent() ?? ""
+        value.typeRevision = try reader["typeRevision"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension DataZoneClientTypes.MetadataGenerationRunItem {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.MetadataGenerationRunItem {
@@ -37209,6 +40395,207 @@ extension DataZoneClientTypes.MetadataGenerationRunItem {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.createdBy = try reader["createdBy"].readIfPresent()
         value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DataZoneClientTypes.MetadataGenerationRunTarget {
+
+    static func write(value: DataZoneClientTypes.MetadataGenerationRunTarget?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["identifier"].write(value.identifier)
+        try writer["revision"].write(value.revision)
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.MetadataGenerationRunTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.MetadataGenerationRunTarget()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.identifier = try reader["identifier"].readIfPresent() ?? ""
+        value.revision = try reader["revision"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.MetadataGenerationRunTypeStat {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.MetadataGenerationRunTypeStat {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.MetadataGenerationRunTypeStat()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.errorMessage = try reader["errorMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.MlflowPropertiesInput {
+
+    static func write(value: DataZoneClientTypes.MlflowPropertiesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["trackingServerArn"].write(value.trackingServerArn)
+    }
+}
+
+extension DataZoneClientTypes.MlflowPropertiesOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.MlflowPropertiesOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.MlflowPropertiesOutput()
+        value.trackingServerArn = try reader["trackingServerArn"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.MlflowPropertiesPatch {
+
+    static func write(value: DataZoneClientTypes.MlflowPropertiesPatch?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["trackingServerArn"].write(value.trackingServerArn)
+    }
+}
+
+extension DataZoneClientTypes.Model {
+
+    static func write(value: DataZoneClientTypes.Model?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .smithy(smithy):
+                try writer["smithy"].write(smithy)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.Model {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "smithy":
+                return .smithy(try reader["smithy"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DataZoneClientTypes.NameIdentifier {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.NameIdentifier {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.NameIdentifier()
+        value.name = try reader["name"].readIfPresent()
+        value.namespace = try reader["namespace"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.NetworkConfig {
+
+    static func write(value: DataZoneClientTypes.NetworkConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["networkAccessType"].write(value.networkAccessType)
+        try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["vpcId"].write(value.vpcId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.NetworkConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.NetworkConfig()
+        value.networkAccessType = try reader["networkAccessType"].readIfPresent() ?? .sdkUnknown("")
+        value.vpcId = try reader["vpcId"].readIfPresent()
+        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DataZoneClientTypes.NotebookError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.NotebookError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.NotebookError()
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DataZoneClientTypes.NotebookExportError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.NotebookExportError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.NotebookExportError()
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DataZoneClientTypes.NotebookRunError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.NotebookRunError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.NotebookRunError()
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DataZoneClientTypes.NotebookRunSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.NotebookRunSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.NotebookRunSummary()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""
+        value.notebookId = try reader["notebookId"].readIfPresent() ?? ""
+        value.scheduleId = try reader["scheduleId"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.triggerSource = try reader["triggerSource"].readIfPresent(with: DataZoneClientTypes.TriggerSource.read(from:))
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedBy = try reader["updatedBy"].readIfPresent()
+        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.completedAt = try reader["completedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension DataZoneClientTypes.NotebookSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.NotebookSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.NotebookSummary()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.description = try reader["description"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedBy = try reader["updatedBy"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.NotEqualToExpression {
+
+    static func write(value: DataZoneClientTypes.NotEqualToExpression?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["columnName"].write(value.columnName)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.NotEqualToExpression {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.NotEqualToExpression()
+        value.columnName = try reader["columnName"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -37233,18 +40620,6 @@ extension DataZoneClientTypes.NotificationOutput {
     }
 }
 
-extension DataZoneClientTypes.Topic {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.Topic {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.Topic()
-        value.subject = try reader["subject"].readIfPresent() ?? ""
-        value.resource = try reader["resource"].readIfPresent(with: DataZoneClientTypes.NotificationResource.read(from:))
-        value.role = try reader["role"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
 extension DataZoneClientTypes.NotificationResource {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.NotificationResource {
@@ -37257,16 +40632,283 @@ extension DataZoneClientTypes.NotificationResource {
     }
 }
 
-extension DataZoneClientTypes.PolicyGrantMember {
+extension DataZoneClientTypes.NotInExpression {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.PolicyGrantMember {
+    static func write(value: DataZoneClientTypes.NotInExpression?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["columnName"].write(value.columnName)
+        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.NotInExpression {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.PolicyGrantMember()
-        value.principal = try reader["principal"].readIfPresent(with: DataZoneClientTypes.PolicyGrantPrincipal.read(from:))
-        value.detail = try reader["detail"].readIfPresent(with: DataZoneClientTypes.PolicyGrantDetail.read(from:))
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.createdBy = try reader["createdBy"].readIfPresent()
-        value.grantId = try reader["grantId"].readIfPresent()
+        var value = DataZoneClientTypes.NotInExpression()
+        value.columnName = try reader["columnName"].readIfPresent() ?? ""
+        value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension DataZoneClientTypes.NotLikeExpression {
+
+    static func write(value: DataZoneClientTypes.NotLikeExpression?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["columnName"].write(value.columnName)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.NotLikeExpression {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.NotLikeExpression()
+        value.columnName = try reader["columnName"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DataZoneClientTypes.OAuth2ClientApplication {
+
+    static func write(value: DataZoneClientTypes.OAuth2ClientApplication?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["aWSManagedClientApplicationReference"].write(value.aWSManagedClientApplicationReference)
+        try writer["userManagedClientApplicationClientId"].write(value.userManagedClientApplicationClientId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.OAuth2ClientApplication {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.OAuth2ClientApplication()
+        value.userManagedClientApplicationClientId = try reader["userManagedClientApplicationClientId"].readIfPresent()
+        value.aWSManagedClientApplicationReference = try reader["aWSManagedClientApplicationReference"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.OAuth2Properties {
+
+    static func write(value: DataZoneClientTypes.OAuth2Properties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["authorizationCodeProperties"].write(value.authorizationCodeProperties, with: DataZoneClientTypes.AuthorizationCodeProperties.write(value:to:))
+        try writer["oAuth2ClientApplication"].write(value.oAuth2ClientApplication, with: DataZoneClientTypes.OAuth2ClientApplication.write(value:to:))
+        try writer["oAuth2Credentials"].write(value.oAuth2Credentials, with: DataZoneClientTypes.GlueOAuth2Credentials.write(value:to:))
+        try writer["oAuth2GrantType"].write(value.oAuth2GrantType)
+        try writer["tokenUrl"].write(value.tokenUrl)
+        try writer["tokenUrlParametersMap"].writeMap(value.tokenUrlParametersMap, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.OAuth2Properties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.OAuth2Properties()
+        value.oAuth2GrantType = try reader["oAuth2GrantType"].readIfPresent()
+        value.oAuth2ClientApplication = try reader["oAuth2ClientApplication"].readIfPresent(with: DataZoneClientTypes.OAuth2ClientApplication.read(from:))
+        value.tokenUrl = try reader["tokenUrl"].readIfPresent()
+        value.tokenUrlParametersMap = try reader["tokenUrlParametersMap"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.authorizationCodeProperties = try reader["authorizationCodeProperties"].readIfPresent(with: DataZoneClientTypes.AuthorizationCodeProperties.read(from:))
+        value.oAuth2Credentials = try reader["oAuth2Credentials"].readIfPresent(with: DataZoneClientTypes.GlueOAuth2Credentials.read(from:))
+        return value
+    }
+}
+
+extension DataZoneClientTypes.OpenLineageRunEventSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.OpenLineageRunEventSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.OpenLineageRunEventSummary()
+        value.eventType = try reader["eventType"].readIfPresent()
+        value.runId = try reader["runId"].readIfPresent()
+        value.job = try reader["job"].readIfPresent(with: DataZoneClientTypes.NameIdentifier.read(from:))
+        value.inputs = try reader["inputs"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.NameIdentifier.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.outputs = try reader["outputs"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.NameIdentifier.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DataZoneClientTypes.OutputLocation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.OutputLocation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "s3":
+                return .s3(try reader["s3"].read(with: DataZoneClientTypes.S3Destination.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DataZoneClientTypes.OverrideDomainUnitOwnersPolicyGrantDetail {
+
+    static func write(value: DataZoneClientTypes.OverrideDomainUnitOwnersPolicyGrantDetail?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["includeChildDomainUnits"].write(value.includeChildDomainUnits)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.OverrideDomainUnitOwnersPolicyGrantDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.OverrideDomainUnitOwnersPolicyGrantDetail()
+        value.includeChildDomainUnits = try reader["includeChildDomainUnits"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.OverrideProjectOwnersPolicyGrantDetail {
+
+    static func write(value: DataZoneClientTypes.OverrideProjectOwnersPolicyGrantDetail?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["includeChildDomainUnits"].write(value.includeChildDomainUnits)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.OverrideProjectOwnersPolicyGrantDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.OverrideProjectOwnersPolicyGrantDetail()
+        value.includeChildDomainUnits = try reader["includeChildDomainUnits"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.OwnerGroupProperties {
+
+    static func write(value: DataZoneClientTypes.OwnerGroupProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["groupIdentifier"].write(value.groupIdentifier)
+    }
+}
+
+extension DataZoneClientTypes.OwnerGroupPropertiesOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.OwnerGroupPropertiesOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.OwnerGroupPropertiesOutput()
+        value.groupId = try reader["groupId"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.OwnerProperties {
+
+    static func write(value: DataZoneClientTypes.OwnerProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .group(group):
+                try writer["group"].write(group, with: DataZoneClientTypes.OwnerGroupProperties.write(value:to:))
+            case let .user(user):
+                try writer["user"].write(user, with: DataZoneClientTypes.OwnerUserProperties.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension DataZoneClientTypes.OwnerPropertiesOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.OwnerPropertiesOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "user":
+                return .user(try reader["user"].read(with: DataZoneClientTypes.OwnerUserPropertiesOutput.read(from:)))
+            case "group":
+                return .group(try reader["group"].read(with: DataZoneClientTypes.OwnerGroupPropertiesOutput.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DataZoneClientTypes.OwnerUserProperties {
+
+    static func write(value: DataZoneClientTypes.OwnerUserProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["userIdentifier"].write(value.userIdentifier)
+    }
+}
+
+extension DataZoneClientTypes.OwnerUserPropertiesOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.OwnerUserPropertiesOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.OwnerUserPropertiesOutput()
+        value.userId = try reader["userId"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.PackageConfig {
+
+    static func write(value: DataZoneClientTypes.PackageConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["packageManager"].write(value.packageManager)
+        try writer["packageSpecification"].write(value.packageSpecification)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.PackageConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.PackageConfig()
+        value.packageManager = try reader["packageManager"].readIfPresent() ?? DataZoneClientTypes.PackageManager.uv
+        value.packageSpecification = try reader["packageSpecification"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.Permissions {
+
+    static func write(value: DataZoneClientTypes.Permissions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .s3(s3):
+                try writer["s3"].writeList(s3, memberWritingClosure: SmithyReadWrite.WritingClosureBox<DataZoneClientTypes.S3Permission>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.Permissions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "s3":
+                return .s3(try reader["s3"].readList(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<DataZoneClientTypes.S3Permission>().read(from:), memberNodeInfo: "member", isFlattened: false))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DataZoneClientTypes.PhysicalConnectionRequirements {
+
+    static func write(value: DataZoneClientTypes.PhysicalConnectionRequirements?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["availabilityZone"].write(value.availabilityZone)
+        try writer["securityGroupIdList"].writeList(value.securityGroupIdList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["subnetId"].write(value.subnetId)
+        try writer["subnetIdList"].writeList(value.subnetIdList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.PhysicalConnectionRequirements {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.PhysicalConnectionRequirements()
+        value.subnetId = try reader["subnetId"].readIfPresent()
+        value.subnetIdList = try reader["subnetIdList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.securityGroupIdList = try reader["securityGroupIdList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.availabilityZone = try reader["availabilityZone"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.PhysicalEndpoint {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.PhysicalEndpoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.PhysicalEndpoint()
+        value.awsLocation = try reader["awsLocation"].readIfPresent(with: DataZoneClientTypes.AwsLocation.read(from:))
+        value.glueConnectionName = try reader["glueConnectionName"].readIfPresent()
+        value.glueConnectionNames = try reader["glueConnectionNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.glueConnection = try reader["glueConnection"].readIfPresent(with: DataZoneClientTypes.GlueConnection.read(from:))
+        value.enableTrustedIdentityPropagation = try reader["enableTrustedIdentityPropagation"].readIfPresent()
+        value.host = try reader["host"].readIfPresent()
+        value.port = try reader["port"].readIfPresent()
+        value.`protocol` = try reader["protocol"].readIfPresent()
+        value.stage = try reader["stage"].readIfPresent()
         return value
     }
 }
@@ -37347,182 +40989,16 @@ extension DataZoneClientTypes.PolicyGrantDetail {
     }
 }
 
-extension DataZoneClientTypes.UseAssetTypePolicyGrantDetail {
+extension DataZoneClientTypes.PolicyGrantMember {
 
-    static func write(value: DataZoneClientTypes.UseAssetTypePolicyGrantDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["domainUnitId"].write(value.domainUnitId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.UseAssetTypePolicyGrantDetail {
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.PolicyGrantMember {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.UseAssetTypePolicyGrantDetail()
-        value.domainUnitId = try reader["domainUnitId"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.CreateProjectFromProjectProfilePolicyGrantDetail {
-
-    static func write(value: DataZoneClientTypes.CreateProjectFromProjectProfilePolicyGrantDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["includeChildDomainUnits"].write(value.includeChildDomainUnits)
-        try writer["projectProfiles"].writeList(value.projectProfiles, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.CreateProjectFromProjectProfilePolicyGrantDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.CreateProjectFromProjectProfilePolicyGrantDetail()
-        value.includeChildDomainUnits = try reader["includeChildDomainUnits"].readIfPresent()
-        value.projectProfiles = try reader["projectProfiles"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DataZoneClientTypes.Unit {
-
-    static func write(value: DataZoneClientTypes.Unit?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.Unit {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        return DataZoneClientTypes.Unit()
-    }
-}
-
-extension DataZoneClientTypes.CreateEnvironmentProfilePolicyGrantDetail {
-
-    static func write(value: DataZoneClientTypes.CreateEnvironmentProfilePolicyGrantDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["domainUnitId"].write(value.domainUnitId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.CreateEnvironmentProfilePolicyGrantDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.CreateEnvironmentProfilePolicyGrantDetail()
-        value.domainUnitId = try reader["domainUnitId"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.CreateProjectPolicyGrantDetail {
-
-    static func write(value: DataZoneClientTypes.CreateProjectPolicyGrantDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["includeChildDomainUnits"].write(value.includeChildDomainUnits)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.CreateProjectPolicyGrantDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.CreateProjectPolicyGrantDetail()
-        value.includeChildDomainUnits = try reader["includeChildDomainUnits"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.CreateAssetTypePolicyGrantDetail {
-
-    static func write(value: DataZoneClientTypes.CreateAssetTypePolicyGrantDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["includeChildDomainUnits"].write(value.includeChildDomainUnits)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.CreateAssetTypePolicyGrantDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.CreateAssetTypePolicyGrantDetail()
-        value.includeChildDomainUnits = try reader["includeChildDomainUnits"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.CreateFormTypePolicyGrantDetail {
-
-    static func write(value: DataZoneClientTypes.CreateFormTypePolicyGrantDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["includeChildDomainUnits"].write(value.includeChildDomainUnits)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.CreateFormTypePolicyGrantDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.CreateFormTypePolicyGrantDetail()
-        value.includeChildDomainUnits = try reader["includeChildDomainUnits"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.CreateGlossaryPolicyGrantDetail {
-
-    static func write(value: DataZoneClientTypes.CreateGlossaryPolicyGrantDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["includeChildDomainUnits"].write(value.includeChildDomainUnits)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.CreateGlossaryPolicyGrantDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.CreateGlossaryPolicyGrantDetail()
-        value.includeChildDomainUnits = try reader["includeChildDomainUnits"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.OverrideProjectOwnersPolicyGrantDetail {
-
-    static func write(value: DataZoneClientTypes.OverrideProjectOwnersPolicyGrantDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["includeChildDomainUnits"].write(value.includeChildDomainUnits)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.OverrideProjectOwnersPolicyGrantDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.OverrideProjectOwnersPolicyGrantDetail()
-        value.includeChildDomainUnits = try reader["includeChildDomainUnits"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.AddToProjectMemberPoolPolicyGrantDetail {
-
-    static func write(value: DataZoneClientTypes.AddToProjectMemberPoolPolicyGrantDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["includeChildDomainUnits"].write(value.includeChildDomainUnits)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AddToProjectMemberPoolPolicyGrantDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.AddToProjectMemberPoolPolicyGrantDetail()
-        value.includeChildDomainUnits = try reader["includeChildDomainUnits"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.OverrideDomainUnitOwnersPolicyGrantDetail {
-
-    static func write(value: DataZoneClientTypes.OverrideDomainUnitOwnersPolicyGrantDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["includeChildDomainUnits"].write(value.includeChildDomainUnits)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.OverrideDomainUnitOwnersPolicyGrantDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.OverrideDomainUnitOwnersPolicyGrantDetail()
-        value.includeChildDomainUnits = try reader["includeChildDomainUnits"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.CreateDomainUnitPolicyGrantDetail {
-
-    static func write(value: DataZoneClientTypes.CreateDomainUnitPolicyGrantDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["includeChildDomainUnits"].write(value.includeChildDomainUnits)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.CreateDomainUnitPolicyGrantDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.CreateDomainUnitPolicyGrantDetail()
-        value.includeChildDomainUnits = try reader["includeChildDomainUnits"].readIfPresent()
+        var value = DataZoneClientTypes.PolicyGrantMember()
+        value.principal = try reader["principal"].readIfPresent(with: DataZoneClientTypes.PolicyGrantPrincipal.read(from:))
+        value.detail = try reader["detail"].readIfPresent(with: DataZoneClientTypes.PolicyGrantDetail.read(from:))
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.grantId = try reader["grantId"].readIfPresent()
         return value
     }
 }
@@ -37563,77 +41039,28 @@ extension DataZoneClientTypes.PolicyGrantPrincipal {
     }
 }
 
-extension DataZoneClientTypes.DomainUnitPolicyGrantPrincipal {
+extension DataZoneClientTypes.PredictionConfiguration {
 
-    static func write(value: DataZoneClientTypes.DomainUnitPolicyGrantPrincipal?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DataZoneClientTypes.PredictionConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["domainUnitDesignation"].write(value.domainUnitDesignation)
-        try writer["domainUnitGrantFilter"].write(value.domainUnitGrantFilter, with: DataZoneClientTypes.DomainUnitGrantFilter.write(value:to:))
-        try writer["domainUnitIdentifier"].write(value.domainUnitIdentifier)
+        try writer["businessNameGeneration"].write(value.businessNameGeneration, with: DataZoneClientTypes.BusinessNameGenerationConfiguration.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.DomainUnitPolicyGrantPrincipal {
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.PredictionConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.DomainUnitPolicyGrantPrincipal()
-        value.domainUnitDesignation = try reader["domainUnitDesignation"].readIfPresent() ?? .sdkUnknown("")
-        value.domainUnitIdentifier = try reader["domainUnitIdentifier"].readIfPresent()
-        value.domainUnitGrantFilter = try reader["domainUnitGrantFilter"].readIfPresent(with: DataZoneClientTypes.DomainUnitGrantFilter.read(from:))
+        var value = DataZoneClientTypes.PredictionConfiguration()
+        value.businessNameGeneration = try reader["businessNameGeneration"].readIfPresent(with: DataZoneClientTypes.BusinessNameGenerationConfiguration.read(from:))
         return value
     }
 }
 
-extension DataZoneClientTypes.DomainUnitGrantFilter {
+extension DataZoneClientTypes.ProjectDeletionError {
 
-    static func write(value: DataZoneClientTypes.DomainUnitGrantFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .alldomainunitsgrantfilter(alldomainunitsgrantfilter):
-                try writer["allDomainUnitsGrantFilter"].write(alldomainunitsgrantfilter, with: DataZoneClientTypes.AllDomainUnitsGrantFilter.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.DomainUnitGrantFilter {
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.ProjectDeletionError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "allDomainUnitsGrantFilter":
-                return .alldomainunitsgrantfilter(try reader["allDomainUnitsGrantFilter"].read(with: DataZoneClientTypes.AllDomainUnitsGrantFilter.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension DataZoneClientTypes.AllDomainUnitsGrantFilter {
-
-    static func write(value: DataZoneClientTypes.AllDomainUnitsGrantFilter?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AllDomainUnitsGrantFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        return DataZoneClientTypes.AllDomainUnitsGrantFilter()
-    }
-}
-
-extension DataZoneClientTypes.ProjectPolicyGrantPrincipal {
-
-    static func write(value: DataZoneClientTypes.ProjectPolicyGrantPrincipal?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["projectDesignation"].write(value.projectDesignation)
-        try writer["projectGrantFilter"].write(value.projectGrantFilter, with: DataZoneClientTypes.ProjectGrantFilter.write(value:to:))
-        try writer["projectIdentifier"].write(value.projectIdentifier)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.ProjectPolicyGrantPrincipal {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.ProjectPolicyGrantPrincipal()
-        value.projectDesignation = try reader["projectDesignation"].readIfPresent() ?? .sdkUnknown("")
-        value.projectIdentifier = try reader["projectIdentifier"].readIfPresent()
-        value.projectGrantFilter = try reader["projectGrantFilter"].readIfPresent(with: DataZoneClientTypes.ProjectGrantFilter.read(from:))
+        var value = DataZoneClientTypes.ProjectDeletionError()
+        value.code = try reader["code"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
         return value
     }
 }
@@ -37662,88 +41089,6 @@ extension DataZoneClientTypes.ProjectGrantFilter {
     }
 }
 
-extension DataZoneClientTypes.DomainUnitFilterForProject {
-
-    static func write(value: DataZoneClientTypes.DomainUnitFilterForProject?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["domainUnit"].write(value.domainUnit)
-        try writer["includeChildDomainUnits"].write(value.includeChildDomainUnits)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.DomainUnitFilterForProject {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.DomainUnitFilterForProject()
-        value.domainUnit = try reader["domainUnit"].readIfPresent() ?? ""
-        value.includeChildDomainUnits = try reader["includeChildDomainUnits"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension DataZoneClientTypes.GroupPolicyGrantPrincipal {
-
-    static func write(value: DataZoneClientTypes.GroupPolicyGrantPrincipal?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .groupidentifier(groupidentifier):
-                try writer["groupIdentifier"].write(groupidentifier)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.GroupPolicyGrantPrincipal {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "groupIdentifier":
-                return .groupidentifier(try reader["groupIdentifier"].read())
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension DataZoneClientTypes.UserPolicyGrantPrincipal {
-
-    static func write(value: DataZoneClientTypes.UserPolicyGrantPrincipal?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .allusersgrantfilter(allusersgrantfilter):
-                try writer["allUsersGrantFilter"].write(allusersgrantfilter, with: DataZoneClientTypes.AllUsersGrantFilter.write(value:to:))
-            case let .useridentifier(useridentifier):
-                try writer["userIdentifier"].write(useridentifier)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.UserPolicyGrantPrincipal {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "userIdentifier":
-                return .useridentifier(try reader["userIdentifier"].read())
-            case "allUsersGrantFilter":
-                return .allusersgrantfilter(try reader["allUsersGrantFilter"].read(with: DataZoneClientTypes.AllUsersGrantFilter.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension DataZoneClientTypes.AllUsersGrantFilter {
-
-    static func write(value: DataZoneClientTypes.AllUsersGrantFilter?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AllUsersGrantFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        return DataZoneClientTypes.AllUsersGrantFilter()
-    }
-}
-
 extension DataZoneClientTypes.ProjectMember {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.ProjectMember {
@@ -37755,38 +41100,30 @@ extension DataZoneClientTypes.ProjectMember {
     }
 }
 
-extension DataZoneClientTypes.MemberDetails {
+extension DataZoneClientTypes.ProjectMembershipAssignment {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.MemberDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "user":
-                return .user(try reader["user"].read(with: DataZoneClientTypes.UserDetails.read(from:)))
-            case "group":
-                return .group(try reader["group"].read(with: DataZoneClientTypes.GroupDetails.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
+    static func write(value: DataZoneClientTypes.ProjectMembershipAssignment?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["designation"].write(value.designation)
+        try writer["member"].write(value.member, with: DataZoneClientTypes.Member.write(value:to:))
     }
 }
 
-extension DataZoneClientTypes.GroupDetails {
+extension DataZoneClientTypes.ProjectPolicyGrantPrincipal {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.GroupDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.GroupDetails()
-        value.groupId = try reader["groupId"].readIfPresent() ?? ""
-        return value
+    static func write(value: DataZoneClientTypes.ProjectPolicyGrantPrincipal?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["projectDesignation"].write(value.projectDesignation)
+        try writer["projectGrantFilter"].write(value.projectGrantFilter, with: DataZoneClientTypes.ProjectGrantFilter.write(value:to:))
+        try writer["projectIdentifier"].write(value.projectIdentifier)
     }
-}
 
-extension DataZoneClientTypes.UserDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.UserDetails {
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.ProjectPolicyGrantPrincipal {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.UserDetails()
-        value.userId = try reader["userId"].readIfPresent() ?? ""
+        var value = DataZoneClientTypes.ProjectPolicyGrantPrincipal()
+        value.projectDesignation = try reader["projectDesignation"].readIfPresent() ?? .sdkUnknown("")
+        value.projectIdentifier = try reader["projectIdentifier"].readIfPresent()
+        value.projectGrantFilter = try reader["projectGrantFilter"].readIfPresent(with: DataZoneClientTypes.ProjectGrantFilter.read(from:))
         return value
     }
 }
@@ -37809,6 +41146,23 @@ extension DataZoneClientTypes.ProjectProfileSummary {
     }
 }
 
+extension DataZoneClientTypes.ProjectsForRule {
+
+    static func write(value: DataZoneClientTypes.ProjectsForRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["selectionMode"].write(value.selectionMode)
+        try writer["specificProjects"].writeList(value.specificProjects, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.ProjectsForRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.ProjectsForRule()
+        value.selectionMode = try reader["selectionMode"].readIfPresent() ?? .sdkUnknown("")
+        value.specificProjects = try reader["specificProjects"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension DataZoneClientTypes.ProjectSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.ProjectSummary {
@@ -37824,6 +41178,597 @@ extension DataZoneClientTypes.ProjectSummary {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.domainUnitId = try reader["domainUnitId"].readIfPresent()
+        value.projectCategory = try reader["projectCategory"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.ProvisioningConfiguration {
+
+    static func write(value: DataZoneClientTypes.ProvisioningConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .lakeformationconfiguration(lakeformationconfiguration):
+                try writer["lakeFormationConfiguration"].write(lakeformationconfiguration, with: DataZoneClientTypes.LakeFormationConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.ProvisioningConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "lakeFormationConfiguration":
+                return .lakeformationconfiguration(try reader["lakeFormationConfiguration"].read(with: DataZoneClientTypes.LakeFormationConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DataZoneClientTypes.ProvisioningProperties {
+
+    static func write(value: DataZoneClientTypes.ProvisioningProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .cloudformation(cloudformation):
+                try writer["cloudFormation"].write(cloudformation, with: DataZoneClientTypes.CloudFormationProperties.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.ProvisioningProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "cloudFormation":
+                return .cloudformation(try reader["cloudFormation"].read(with: DataZoneClientTypes.CloudFormationProperties.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DataZoneClientTypes.RecommendationConfiguration {
+
+    static func write(value: DataZoneClientTypes.RecommendationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enableBusinessNameGeneration"].write(value.enableBusinessNameGeneration)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.RecommendationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.RecommendationConfiguration()
+        value.enableBusinessNameGeneration = try reader["enableBusinessNameGeneration"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.RedshiftClusterStorage {
+
+    static func write(value: DataZoneClientTypes.RedshiftClusterStorage?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clusterName"].write(value.clusterName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.RedshiftClusterStorage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.RedshiftClusterStorage()
+        value.clusterName = try reader["clusterName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DataZoneClientTypes.RedshiftCredentialConfiguration {
+
+    static func write(value: DataZoneClientTypes.RedshiftCredentialConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["secretManagerArn"].write(value.secretManagerArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.RedshiftCredentialConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.RedshiftCredentialConfiguration()
+        value.secretManagerArn = try reader["secretManagerArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DataZoneClientTypes.RedshiftCredentials {
+
+    static func write(value: DataZoneClientTypes.RedshiftCredentials?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .secretarn(secretarn):
+                try writer["secretArn"].write(secretarn)
+            case let .usernamepassword(usernamepassword):
+                try writer["usernamePassword"].write(usernamepassword, with: DataZoneClientTypes.UsernamePassword.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.RedshiftCredentials {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "secretArn":
+                return .secretarn(try reader["secretArn"].read())
+            case "usernamePassword":
+                return .usernamepassword(try reader["usernamePassword"].read(with: DataZoneClientTypes.UsernamePassword.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DataZoneClientTypes.RedshiftLineageSyncConfigurationInput {
+
+    static func write(value: DataZoneClientTypes.RedshiftLineageSyncConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enabled"].write(value.enabled)
+        try writer["schedule"].write(value.schedule, with: DataZoneClientTypes.LineageSyncSchedule.write(value:to:))
+    }
+}
+
+extension DataZoneClientTypes.RedshiftLineageSyncConfigurationOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.RedshiftLineageSyncConfigurationOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.RedshiftLineageSyncConfigurationOutput()
+        value.lineageJobId = try reader["lineageJobId"].readIfPresent()
+        value.enabled = try reader["enabled"].readIfPresent()
+        value.schedule = try reader["schedule"].readIfPresent(with: DataZoneClientTypes.LineageSyncSchedule.read(from:))
+        return value
+    }
+}
+
+extension DataZoneClientTypes.RedshiftPropertiesInput {
+
+    static func write(value: DataZoneClientTypes.RedshiftPropertiesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["credentials"].write(value.credentials, with: DataZoneClientTypes.RedshiftCredentials.write(value:to:))
+        try writer["databaseName"].write(value.databaseName)
+        try writer["host"].write(value.host)
+        try writer["lineageSync"].write(value.lineageSync, with: DataZoneClientTypes.RedshiftLineageSyncConfigurationInput.write(value:to:))
+        try writer["port"].write(value.port)
+        try writer["storage"].write(value.storage, with: DataZoneClientTypes.RedshiftStorageProperties.write(value:to:))
+    }
+}
+
+extension DataZoneClientTypes.RedshiftPropertiesOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.RedshiftPropertiesOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.RedshiftPropertiesOutput()
+        value.storage = try reader["storage"].readIfPresent(with: DataZoneClientTypes.RedshiftStorageProperties.read(from:))
+        value.credentials = try reader["credentials"].readIfPresent(with: DataZoneClientTypes.RedshiftCredentials.read(from:))
+        value.isProvisionedSecret = try reader["isProvisionedSecret"].readIfPresent()
+        value.jdbcIamUrl = try reader["jdbcIamUrl"].readIfPresent()
+        value.jdbcUrl = try reader["jdbcUrl"].readIfPresent()
+        value.redshiftTempDir = try reader["redshiftTempDir"].readIfPresent()
+        value.lineageSync = try reader["lineageSync"].readIfPresent(with: DataZoneClientTypes.RedshiftLineageSyncConfigurationOutput.read(from:))
+        value.status = try reader["status"].readIfPresent()
+        value.databaseName = try reader["databaseName"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.RedshiftPropertiesPatch {
+
+    static func write(value: DataZoneClientTypes.RedshiftPropertiesPatch?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["credentials"].write(value.credentials, with: DataZoneClientTypes.RedshiftCredentials.write(value:to:))
+        try writer["databaseName"].write(value.databaseName)
+        try writer["host"].write(value.host)
+        try writer["lineageSync"].write(value.lineageSync, with: DataZoneClientTypes.RedshiftLineageSyncConfigurationInput.write(value:to:))
+        try writer["port"].write(value.port)
+        try writer["storage"].write(value.storage, with: DataZoneClientTypes.RedshiftStorageProperties.write(value:to:))
+    }
+}
+
+extension DataZoneClientTypes.RedshiftRunConfigurationInput {
+
+    static func write(value: DataZoneClientTypes.RedshiftRunConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dataAccessRole"].write(value.dataAccessRole)
+        try writer["redshiftCredentialConfiguration"].write(value.redshiftCredentialConfiguration, with: DataZoneClientTypes.RedshiftCredentialConfiguration.write(value:to:))
+        try writer["redshiftStorage"].write(value.redshiftStorage, with: DataZoneClientTypes.RedshiftStorage.write(value:to:))
+        try writer["relationalFilterConfigurations"].writeList(value.relationalFilterConfigurations, memberWritingClosure: DataZoneClientTypes.RelationalFilterConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension DataZoneClientTypes.RedshiftRunConfigurationOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.RedshiftRunConfigurationOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.RedshiftRunConfigurationOutput()
+        value.accountId = try reader["accountId"].readIfPresent()
+        value.region = try reader["region"].readIfPresent()
+        value.dataAccessRole = try reader["dataAccessRole"].readIfPresent()
+        value.relationalFilterConfigurations = try reader["relationalFilterConfigurations"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.RelationalFilterConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.redshiftCredentialConfiguration = try reader["redshiftCredentialConfiguration"].readIfPresent(with: DataZoneClientTypes.RedshiftCredentialConfiguration.read(from:))
+        value.redshiftStorage = try reader["redshiftStorage"].readIfPresent(with: DataZoneClientTypes.RedshiftStorage.read(from:))
+        return value
+    }
+}
+
+extension DataZoneClientTypes.RedshiftSelfGrantStatusOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.RedshiftSelfGrantStatusOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.RedshiftSelfGrantStatusOutput()
+        value.selfGrantStatusDetails = try reader["selfGrantStatusDetails"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.SelfGrantStatusDetail.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension DataZoneClientTypes.RedshiftServerlessStorage {
+
+    static func write(value: DataZoneClientTypes.RedshiftServerlessStorage?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["workgroupName"].write(value.workgroupName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.RedshiftServerlessStorage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.RedshiftServerlessStorage()
+        value.workgroupName = try reader["workgroupName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DataZoneClientTypes.RedshiftStorage {
+
+    static func write(value: DataZoneClientTypes.RedshiftStorage?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .redshiftclustersource(redshiftclustersource):
+                try writer["redshiftClusterSource"].write(redshiftclustersource, with: DataZoneClientTypes.RedshiftClusterStorage.write(value:to:))
+            case let .redshiftserverlesssource(redshiftserverlesssource):
+                try writer["redshiftServerlessSource"].write(redshiftserverlesssource, with: DataZoneClientTypes.RedshiftServerlessStorage.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.RedshiftStorage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "redshiftClusterSource":
+                return .redshiftclustersource(try reader["redshiftClusterSource"].read(with: DataZoneClientTypes.RedshiftClusterStorage.read(from:)))
+            case "redshiftServerlessSource":
+                return .redshiftserverlesssource(try reader["redshiftServerlessSource"].read(with: DataZoneClientTypes.RedshiftServerlessStorage.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DataZoneClientTypes.RedshiftStorageProperties {
+
+    static func write(value: DataZoneClientTypes.RedshiftStorageProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .clustername(clustername):
+                try writer["clusterName"].write(clustername)
+            case let .workgroupname(workgroupname):
+                try writer["workgroupName"].write(workgroupname)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.RedshiftStorageProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "clusterName":
+                return .clustername(try reader["clusterName"].read())
+            case "workgroupName":
+                return .workgroupname(try reader["workgroupName"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DataZoneClientTypes.Region {
+
+    static func write(value: DataZoneClientTypes.Region?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .regionname(regionname):
+                try writer["regionName"].write(regionname)
+            case let .regionnamepath(regionnamepath):
+                try writer["regionNamePath"].write(regionnamepath)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.Region {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "regionName":
+                return .regionname(try reader["regionName"].read())
+            case "regionNamePath":
+                return .regionnamepath(try reader["regionNamePath"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DataZoneClientTypes.RejectChoice {
+
+    static func write(value: DataZoneClientTypes.RejectChoice?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["predictionChoices"].writeList(value.predictionChoices, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["predictionTarget"].write(value.predictionTarget)
+    }
+}
+
+extension DataZoneClientTypes.RejectRule {
+
+    static func write(value: DataZoneClientTypes.RejectRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["rule"].write(value.rule)
+        try writer["threshold"].write(value.threshold)
+    }
+}
+
+extension DataZoneClientTypes.RelationalFilterConfiguration {
+
+    static func write(value: DataZoneClientTypes.RelationalFilterConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["databaseName"].write(value.databaseName)
+        try writer["filterExpressions"].writeList(value.filterExpressions, memberWritingClosure: DataZoneClientTypes.FilterExpression.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["schemaName"].write(value.schemaName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.RelationalFilterConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.RelationalFilterConfiguration()
+        value.databaseName = try reader["databaseName"].readIfPresent() ?? ""
+        value.schemaName = try reader["schemaName"].readIfPresent()
+        value.filterExpressions = try reader["filterExpressions"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.FilterExpression.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DataZoneClientTypes.RelationPattern {
+
+    static func write(value: DataZoneClientTypes.RelationPattern?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxPathLength"].write(value.maxPathLength)
+        try writer["relationDirection"].write(value.relationDirection)
+        try writer["relationType"].write(value.relationType)
+    }
+}
+
+extension DataZoneClientTypes.Resource {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.Resource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.Resource()
+        value.provider = try reader["provider"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.value = try reader["value"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DataZoneClientTypes.ResourceTag {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.ResourceTag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.ResourceTag()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
+        value.source = try reader["source"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension DataZoneClientTypes.ResourceTagParameter {
+
+    static func write(value: DataZoneClientTypes.ResourceTagParameter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["isValueEditable"].write(value.isValueEditable)
+        try writer["key"].write(value.key)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.ResourceTagParameter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.ResourceTagParameter()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
+        value.isValueEditable = try reader["isValueEditable"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension DataZoneClientTypes.ResultItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.ResultItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "lineageNode":
+                return .lineagenode(try reader["lineageNode"].read(with: DataZoneClientTypes.LineageNodeItem.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DataZoneClientTypes.RowFilter {
+
+    static func write(value: DataZoneClientTypes.RowFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .and(and):
+                try writer["and"].writeList(and, memberWritingClosure: DataZoneClientTypes.RowFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .expression(expression):
+                try writer["expression"].write(expression, with: DataZoneClientTypes.RowFilterExpression.write(value:to:))
+            case let .or(or):
+                try writer["or"].writeList(or, memberWritingClosure: DataZoneClientTypes.RowFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.RowFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "expression":
+                return .expression(try reader["expression"].read(with: DataZoneClientTypes.RowFilterExpression.read(from:)))
+            case "and":
+                return .and(try reader["and"].readList(memberReadingClosure: DataZoneClientTypes.RowFilter.read(from:), memberNodeInfo: "member", isFlattened: false))
+            case "or":
+                return .or(try reader["or"].readList(memberReadingClosure: DataZoneClientTypes.RowFilter.read(from:), memberNodeInfo: "member", isFlattened: false))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DataZoneClientTypes.RowFilterConfiguration {
+
+    static func write(value: DataZoneClientTypes.RowFilterConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["rowFilter"].write(value.rowFilter, with: DataZoneClientTypes.RowFilter.write(value:to:))
+        try writer["sensitive"].write(value.sensitive)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.RowFilterConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.RowFilterConfiguration()
+        value.rowFilter = try reader["rowFilter"].readIfPresent(with: DataZoneClientTypes.RowFilter.read(from:))
+        value.sensitive = try reader["sensitive"].readIfPresent() ?? true
+        return value
+    }
+}
+
+extension DataZoneClientTypes.RowFilterExpression {
+
+    static func write(value: DataZoneClientTypes.RowFilterExpression?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .equalto(equalto):
+                try writer["equalTo"].write(equalto, with: DataZoneClientTypes.EqualToExpression.write(value:to:))
+            case let .greaterthan(greaterthan):
+                try writer["greaterThan"].write(greaterthan, with: DataZoneClientTypes.GreaterThanExpression.write(value:to:))
+            case let .greaterthanorequalto(greaterthanorequalto):
+                try writer["greaterThanOrEqualTo"].write(greaterthanorequalto, with: DataZoneClientTypes.GreaterThanOrEqualToExpression.write(value:to:))
+            case let .`in`(`in`):
+                try writer["in"].write(`in`, with: DataZoneClientTypes.InExpression.write(value:to:))
+            case let .isnotnull(isnotnull):
+                try writer["isNotNull"].write(isnotnull, with: DataZoneClientTypes.IsNotNullExpression.write(value:to:))
+            case let .isnull(isnull):
+                try writer["isNull"].write(isnull, with: DataZoneClientTypes.IsNullExpression.write(value:to:))
+            case let .lessthan(lessthan):
+                try writer["lessThan"].write(lessthan, with: DataZoneClientTypes.LessThanExpression.write(value:to:))
+            case let .lessthanorequalto(lessthanorequalto):
+                try writer["lessThanOrEqualTo"].write(lessthanorequalto, with: DataZoneClientTypes.LessThanOrEqualToExpression.write(value:to:))
+            case let .like(like):
+                try writer["like"].write(like, with: DataZoneClientTypes.LikeExpression.write(value:to:))
+            case let .notequalto(notequalto):
+                try writer["notEqualTo"].write(notequalto, with: DataZoneClientTypes.NotEqualToExpression.write(value:to:))
+            case let .notin(notin):
+                try writer["notIn"].write(notin, with: DataZoneClientTypes.NotInExpression.write(value:to:))
+            case let .notlike(notlike):
+                try writer["notLike"].write(notlike, with: DataZoneClientTypes.NotLikeExpression.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.RowFilterExpression {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "equalTo":
+                return .equalto(try reader["equalTo"].read(with: DataZoneClientTypes.EqualToExpression.read(from:)))
+            case "notEqualTo":
+                return .notequalto(try reader["notEqualTo"].read(with: DataZoneClientTypes.NotEqualToExpression.read(from:)))
+            case "greaterThan":
+                return .greaterthan(try reader["greaterThan"].read(with: DataZoneClientTypes.GreaterThanExpression.read(from:)))
+            case "lessThan":
+                return .lessthan(try reader["lessThan"].read(with: DataZoneClientTypes.LessThanExpression.read(from:)))
+            case "greaterThanOrEqualTo":
+                return .greaterthanorequalto(try reader["greaterThanOrEqualTo"].read(with: DataZoneClientTypes.GreaterThanOrEqualToExpression.read(from:)))
+            case "lessThanOrEqualTo":
+                return .lessthanorequalto(try reader["lessThanOrEqualTo"].read(with: DataZoneClientTypes.LessThanOrEqualToExpression.read(from:)))
+            case "isNull":
+                return .isnull(try reader["isNull"].read(with: DataZoneClientTypes.IsNullExpression.read(from:)))
+            case "isNotNull":
+                return .isnotnull(try reader["isNotNull"].read(with: DataZoneClientTypes.IsNotNullExpression.read(from:)))
+            case "in":
+                return .`in`(try reader["in"].read(with: DataZoneClientTypes.InExpression.read(from:)))
+            case "notIn":
+                return .notin(try reader["notIn"].read(with: DataZoneClientTypes.NotInExpression.read(from:)))
+            case "like":
+                return .like(try reader["like"].read(with: DataZoneClientTypes.LikeExpression.read(from:)))
+            case "notLike":
+                return .notlike(try reader["notLike"].read(with: DataZoneClientTypes.NotLikeExpression.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DataZoneClientTypes.RuleDetail {
+
+    static func write(value: DataZoneClientTypes.RuleDetail?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .glossarytermenforcementdetail(glossarytermenforcementdetail):
+                try writer["glossaryTermEnforcementDetail"].write(glossarytermenforcementdetail, with: DataZoneClientTypes.GlossaryTermEnforcementDetail.write(value:to:))
+            case let .metadataformenforcementdetail(metadataformenforcementdetail):
+                try writer["metadataFormEnforcementDetail"].write(metadataformenforcementdetail, with: DataZoneClientTypes.MetadataFormEnforcementDetail.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.RuleDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "metadataFormEnforcementDetail":
+                return .metadataformenforcementdetail(try reader["metadataFormEnforcementDetail"].read(with: DataZoneClientTypes.MetadataFormEnforcementDetail.read(from:)))
+            case "glossaryTermEnforcementDetail":
+                return .glossarytermenforcementdetail(try reader["glossaryTermEnforcementDetail"].read(with: DataZoneClientTypes.GlossaryTermEnforcementDetail.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DataZoneClientTypes.RuleScope {
+
+    static func write(value: DataZoneClientTypes.RuleScope?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["assetType"].write(value.assetType, with: DataZoneClientTypes.AssetTypesForRule.write(value:to:))
+        try writer["dataProduct"].write(value.dataProduct)
+        try writer["project"].write(value.project, with: DataZoneClientTypes.ProjectsForRule.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.RuleScope {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.RuleScope()
+        value.assetType = try reader["assetType"].readIfPresent(with: DataZoneClientTypes.AssetTypesForRule.read(from:))
+        value.dataProduct = try reader["dataProduct"].readIfPresent()
+        value.project = try reader["project"].readIfPresent(with: DataZoneClientTypes.ProjectsForRule.read(from:))
         return value
     }
 }
@@ -37844,6 +41789,596 @@ extension DataZoneClientTypes.RuleSummary {
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastUpdatedBy = try reader["lastUpdatedBy"].readIfPresent()
         return value
+    }
+}
+
+extension DataZoneClientTypes.RuleTarget {
+
+    static func write(value: DataZoneClientTypes.RuleTarget?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .domainunittarget(domainunittarget):
+                try writer["domainUnitTarget"].write(domainunittarget, with: DataZoneClientTypes.DomainUnitTarget.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.RuleTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "domainUnitTarget":
+                return .domainunittarget(try reader["domainUnitTarget"].read(with: DataZoneClientTypes.DomainUnitTarget.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DataZoneClientTypes.RunStatisticsForAssets {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.RunStatisticsForAssets {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.RunStatisticsForAssets()
+        value.added = try reader["added"].readIfPresent()
+        value.updated = try reader["updated"].readIfPresent()
+        value.unchanged = try reader["unchanged"].readIfPresent()
+        value.skipped = try reader["skipped"].readIfPresent()
+        value.failed = try reader["failed"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.S3Destination {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.S3Destination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.S3Destination()
+        value.uri = try reader["uri"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.S3PropertiesInput {
+
+    static func write(value: DataZoneClientTypes.S3PropertiesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["registerS3AccessGrantLocation"].write(value.registerS3AccessGrantLocation)
+        try writer["s3AccessGrantLocationId"].write(value.s3AccessGrantLocationId)
+        try writer["s3Uri"].write(value.s3Uri)
+    }
+}
+
+extension DataZoneClientTypes.S3PropertiesOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.S3PropertiesOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.S3PropertiesOutput()
+        value.s3Uri = try reader["s3Uri"].readIfPresent() ?? ""
+        value.s3AccessGrantLocationId = try reader["s3AccessGrantLocationId"].readIfPresent()
+        value.registerS3AccessGrantLocation = try reader["registerS3AccessGrantLocation"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.errorMessage = try reader["errorMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.S3PropertiesPatch {
+
+    static func write(value: DataZoneClientTypes.S3PropertiesPatch?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["registerS3AccessGrantLocation"].write(value.registerS3AccessGrantLocation)
+        try writer["s3AccessGrantLocationId"].write(value.s3AccessGrantLocationId)
+        try writer["s3Uri"].write(value.s3Uri)
+    }
+}
+
+extension DataZoneClientTypes.SageMakerRunConfigurationInput {
+
+    static func write(value: DataZoneClientTypes.SageMakerRunConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["trackingAssets"].writeMap(value.trackingAssets, valueWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension DataZoneClientTypes.SageMakerRunConfigurationOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SageMakerRunConfigurationOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.SageMakerRunConfigurationOutput()
+        value.accountId = try reader["accountId"].readIfPresent()
+        value.region = try reader["region"].readIfPresent()
+        value.trackingAssets = try reader["trackingAssets"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        return value
+    }
+}
+
+extension DataZoneClientTypes.ScheduleConfiguration {
+
+    static func write(value: DataZoneClientTypes.ScheduleConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["schedule"].write(value.schedule)
+        try writer["timezone"].write(value.timezone)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.ScheduleConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.ScheduleConfiguration()
+        value.timezone = try reader["timezone"].readIfPresent()
+        value.schedule = try reader["schedule"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.SearchInItem {
+
+    static func write(value: DataZoneClientTypes.SearchInItem?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["attribute"].write(value.attribute)
+    }
+}
+
+extension DataZoneClientTypes.SearchInventoryResultItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SearchInventoryResultItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "glossaryItem":
+                return .glossaryitem(try reader["glossaryItem"].read(with: DataZoneClientTypes.GlossaryItem.read(from:)))
+            case "glossaryTermItem":
+                return .glossarytermitem(try reader["glossaryTermItem"].read(with: DataZoneClientTypes.GlossaryTermItem.read(from:)))
+            case "assetItem":
+                return .assetitem(try reader["assetItem"].read(with: DataZoneClientTypes.AssetItem.read(from:)))
+            case "dataProductItem":
+                return .dataproductitem(try reader["dataProductItem"].read(with: DataZoneClientTypes.DataProductResultItem.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DataZoneClientTypes.SearchResultItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SearchResultItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "assetListing":
+                return .assetlisting(try reader["assetListing"].read(with: DataZoneClientTypes.AssetListingItem.read(from:)))
+            case "dataProductListing":
+                return .dataproductlisting(try reader["dataProductListing"].read(with: DataZoneClientTypes.DataProductListingItem.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DataZoneClientTypes.SearchSort {
+
+    static func write(value: DataZoneClientTypes.SearchSort?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["attribute"].write(value.attribute)
+        try writer["order"].write(value.order)
+    }
+}
+
+extension DataZoneClientTypes.SearchTypesResultItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SearchTypesResultItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "assetTypeItem":
+                return .assettypeitem(try reader["assetTypeItem"].read(with: DataZoneClientTypes.AssetTypeItem.read(from:)))
+            case "formTypeItem":
+                return .formtypeitem(try reader["formTypeItem"].read(with: DataZoneClientTypes.FormTypeData.read(from:)))
+            case "lineageNodeTypeItem":
+                return .lineagenodetypeitem(try reader["lineageNodeTypeItem"].read(with: DataZoneClientTypes.LineageNodeTypeItem.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DataZoneClientTypes.SelfGrantStatusDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SelfGrantStatusDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.SelfGrantStatusDetail()
+        value.databaseName = try reader["databaseName"].readIfPresent() ?? ""
+        value.schemaName = try reader["schemaName"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.failureCause = try reader["failureCause"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.SelfGrantStatusOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SelfGrantStatusOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "glueSelfGrantStatus":
+                return .glueselfgrantstatus(try reader["glueSelfGrantStatus"].read(with: DataZoneClientTypes.GlueSelfGrantStatusOutput.read(from:)))
+            case "redshiftSelfGrantStatus":
+                return .redshiftselfgrantstatus(try reader["redshiftSelfGrantStatus"].read(with: DataZoneClientTypes.RedshiftSelfGrantStatusOutput.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DataZoneClientTypes.SingleSignOn {
+
+    static func write(value: DataZoneClientTypes.SingleSignOn?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["idcInstanceArn"].write(value.idcInstanceArn)
+        try writer["type"].write(value.type)
+        try writer["userAssignment"].write(value.userAssignment)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SingleSignOn {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.SingleSignOn()
+        value.type = try reader["type"].readIfPresent()
+        value.userAssignment = try reader["userAssignment"].readIfPresent()
+        value.idcInstanceArn = try reader["idcInstanceArn"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.SourceLocation {
+
+    static func write(value: DataZoneClientTypes.SourceLocation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .s3(s3):
+                try writer["s3"].write(s3)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SourceLocation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "s3":
+                return .s3(try reader["s3"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DataZoneClientTypes.SparkEmrPropertiesInput {
+
+    static func write(value: DataZoneClientTypes.SparkEmrPropertiesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["computeArn"].write(value.computeArn)
+        try writer["instanceProfileArn"].write(value.instanceProfileArn)
+        try writer["javaVirtualEnv"].write(value.javaVirtualEnv)
+        try writer["logUri"].write(value.logUri)
+        try writer["managedEndpointArn"].write(value.managedEndpointArn)
+        try writer["pythonVirtualEnv"].write(value.pythonVirtualEnv)
+        try writer["runtimeRole"].write(value.runtimeRole)
+        try writer["trustedCertificatesS3Uri"].write(value.trustedCertificatesS3Uri)
+    }
+}
+
+extension DataZoneClientTypes.SparkEmrPropertiesOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SparkEmrPropertiesOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.SparkEmrPropertiesOutput()
+        value.computeArn = try reader["computeArn"].readIfPresent()
+        value.credentials = try reader["credentials"].readIfPresent(with: DataZoneClientTypes.UsernamePassword.read(from:))
+        value.credentialsExpiration = try reader["credentialsExpiration"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.governanceType = try reader["governanceType"].readIfPresent()
+        value.instanceProfileArn = try reader["instanceProfileArn"].readIfPresent()
+        value.javaVirtualEnv = try reader["javaVirtualEnv"].readIfPresent()
+        value.livyEndpoint = try reader["livyEndpoint"].readIfPresent()
+        value.logUri = try reader["logUri"].readIfPresent()
+        value.pythonVirtualEnv = try reader["pythonVirtualEnv"].readIfPresent()
+        value.runtimeRole = try reader["runtimeRole"].readIfPresent()
+        value.trustedCertificatesS3Uri = try reader["trustedCertificatesS3Uri"].readIfPresent()
+        value.certificateData = try reader["certificateData"].readIfPresent()
+        value.managedEndpointArn = try reader["managedEndpointArn"].readIfPresent()
+        value.managedEndpointCredentials = try reader["managedEndpointCredentials"].readIfPresent(with: DataZoneClientTypes.ManagedEndpointCredentials.read(from:))
+        return value
+    }
+}
+
+extension DataZoneClientTypes.SparkEmrPropertiesPatch {
+
+    static func write(value: DataZoneClientTypes.SparkEmrPropertiesPatch?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["computeArn"].write(value.computeArn)
+        try writer["instanceProfileArn"].write(value.instanceProfileArn)
+        try writer["javaVirtualEnv"].write(value.javaVirtualEnv)
+        try writer["logUri"].write(value.logUri)
+        try writer["managedEndpointArn"].write(value.managedEndpointArn)
+        try writer["pythonVirtualEnv"].write(value.pythonVirtualEnv)
+        try writer["runtimeRole"].write(value.runtimeRole)
+        try writer["trustedCertificatesS3Uri"].write(value.trustedCertificatesS3Uri)
+    }
+}
+
+extension DataZoneClientTypes.SparkGlueArgs {
+
+    static func write(value: DataZoneClientTypes.SparkGlueArgs?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["connection"].write(value.connection)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SparkGlueArgs {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.SparkGlueArgs()
+        value.connection = try reader["connection"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.SparkGluePropertiesInput {
+
+    static func write(value: DataZoneClientTypes.SparkGluePropertiesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["additionalArgs"].write(value.additionalArgs, with: DataZoneClientTypes.SparkGlueArgs.write(value:to:))
+        try writer["glueConnectionName"].write(value.glueConnectionName)
+        try writer["glueConnectionNames"].writeList(value.glueConnectionNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["glueVersion"].write(value.glueVersion)
+        try writer["idleTimeout"].write(value.idleTimeout)
+        try writer["javaVirtualEnv"].write(value.javaVirtualEnv)
+        try writer["numberOfWorkers"].write(value.numberOfWorkers)
+        try writer["pythonVirtualEnv"].write(value.pythonVirtualEnv)
+        try writer["workerType"].write(value.workerType)
+    }
+}
+
+extension DataZoneClientTypes.SparkGluePropertiesOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SparkGluePropertiesOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.SparkGluePropertiesOutput()
+        value.additionalArgs = try reader["additionalArgs"].readIfPresent(with: DataZoneClientTypes.SparkGlueArgs.read(from:))
+        value.glueConnectionName = try reader["glueConnectionName"].readIfPresent()
+        value.glueConnectionNames = try reader["glueConnectionNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.glueVersion = try reader["glueVersion"].readIfPresent()
+        value.idleTimeout = try reader["idleTimeout"].readIfPresent()
+        value.javaVirtualEnv = try reader["javaVirtualEnv"].readIfPresent()
+        value.numberOfWorkers = try reader["numberOfWorkers"].readIfPresent()
+        value.pythonVirtualEnv = try reader["pythonVirtualEnv"].readIfPresent()
+        value.workerType = try reader["workerType"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.SsoUserProfileDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SsoUserProfileDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.SsoUserProfileDetails()
+        value.username = try reader["username"].readIfPresent()
+        value.firstName = try reader["firstName"].readIfPresent()
+        value.lastName = try reader["lastName"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.StorageConfig {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.StorageConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.StorageConfig()
+        value.projectS3Path = try reader["projectS3Path"].readIfPresent()
+        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.SubscribedAsset {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SubscribedAsset {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.SubscribedAsset()
+        value.assetId = try reader["assetId"].readIfPresent() ?? ""
+        value.assetRevision = try reader["assetRevision"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.targetName = try reader["targetName"].readIfPresent()
+        value.failureCause = try reader["failureCause"].readIfPresent(with: DataZoneClientTypes.FailureCause.read(from:))
+        value.grantedTimestamp = try reader["grantedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.failureTimestamp = try reader["failureTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.assetScope = try reader["assetScope"].readIfPresent(with: DataZoneClientTypes.AssetScope.read(from:))
+        value.permissions = try reader["permissions"].readIfPresent(with: DataZoneClientTypes.Permissions.read(from:))
+        return value
+    }
+}
+
+extension DataZoneClientTypes.SubscribedAssetListing {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SubscribedAssetListing {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.SubscribedAssetListing()
+        value.entityId = try reader["entityId"].readIfPresent()
+        value.entityRevision = try reader["entityRevision"].readIfPresent()
+        value.entityType = try reader["entityType"].readIfPresent()
+        value.forms = try reader["forms"].readIfPresent()
+        value.glossaryTerms = try reader["glossaryTerms"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.DetailedGlossaryTerm.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.assetScope = try reader["assetScope"].readIfPresent(with: DataZoneClientTypes.AssetScope.read(from:))
+        value.permissions = try reader["permissions"].readIfPresent(with: DataZoneClientTypes.Permissions.read(from:))
+        return value
+    }
+}
+
+extension DataZoneClientTypes.SubscribedGroup {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SubscribedGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.SubscribedGroup()
+        value.id = try reader["id"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.SubscribedGroupInput {
+
+    static func write(value: DataZoneClientTypes.SubscribedGroupInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["identifier"].write(value.identifier)
+    }
+}
+
+extension DataZoneClientTypes.SubscribedIamPrincipal {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SubscribedIamPrincipal {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.SubscribedIamPrincipal()
+        value.principalArn = try reader["principalArn"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.SubscribedIamPrincipalInput {
+
+    static func write(value: DataZoneClientTypes.SubscribedIamPrincipalInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["identifier"].write(value.identifier)
+    }
+}
+
+extension DataZoneClientTypes.SubscribedListing {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SubscribedListing {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.SubscribedListing()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.revision = try reader["revision"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent() ?? ""
+        value.item = try reader["item"].readIfPresent(with: DataZoneClientTypes.SubscribedListingItem.read(from:))
+        value.ownerProjectId = try reader["ownerProjectId"].readIfPresent() ?? ""
+        value.ownerProjectName = try reader["ownerProjectName"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.SubscribedListingInput {
+
+    static func write(value: DataZoneClientTypes.SubscribedListingInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["identifier"].write(value.identifier)
+    }
+}
+
+extension DataZoneClientTypes.SubscribedListingItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SubscribedListingItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "assetListing":
+                return .assetlisting(try reader["assetListing"].read(with: DataZoneClientTypes.SubscribedAssetListing.read(from:)))
+            case "productListing":
+                return .productlisting(try reader["productListing"].read(with: DataZoneClientTypes.SubscribedProductListing.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DataZoneClientTypes.SubscribedPrincipal {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SubscribedPrincipal {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "project":
+                return .project(try reader["project"].read(with: DataZoneClientTypes.SubscribedProject.read(from:)))
+            case "user":
+                return .user(try reader["user"].read(with: DataZoneClientTypes.SubscribedUser.read(from:)))
+            case "group":
+                return .group(try reader["group"].read(with: DataZoneClientTypes.SubscribedGroup.read(from:)))
+            case "iam":
+                return .iam(try reader["iam"].read(with: DataZoneClientTypes.SubscribedIamPrincipal.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DataZoneClientTypes.SubscribedPrincipalInput {
+
+    static func write(value: DataZoneClientTypes.SubscribedPrincipalInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .group(group):
+                try writer["group"].write(group, with: DataZoneClientTypes.SubscribedGroupInput.write(value:to:))
+            case let .iam(iam):
+                try writer["iam"].write(iam, with: DataZoneClientTypes.SubscribedIamPrincipalInput.write(value:to:))
+            case let .project(project):
+                try writer["project"].write(project, with: DataZoneClientTypes.SubscribedProjectInput.write(value:to:))
+            case let .user(user):
+                try writer["user"].write(user, with: DataZoneClientTypes.SubscribedUserInput.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension DataZoneClientTypes.SubscribedProductListing {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SubscribedProductListing {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.SubscribedProductListing()
+        value.entityId = try reader["entityId"].readIfPresent()
+        value.entityRevision = try reader["entityRevision"].readIfPresent()
+        value.glossaryTerms = try reader["glossaryTerms"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.DetailedGlossaryTerm.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.name = try reader["name"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.assetListings = try reader["assetListings"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.AssetInDataProductListingItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DataZoneClientTypes.SubscribedProject {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SubscribedProject {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.SubscribedProject()
+        value.id = try reader["id"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.SubscribedProjectInput {
+
+    static func write(value: DataZoneClientTypes.SubscribedProjectInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["identifier"].write(value.identifier)
+    }
+}
+
+extension DataZoneClientTypes.SubscribedUser {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SubscribedUser {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.SubscribedUser()
+        value.id = try reader["id"].readIfPresent()
+        value.details = try reader["details"].readIfPresent(with: DataZoneClientTypes.UserProfileDetails.read(from:))
+        return value
+    }
+}
+
+extension DataZoneClientTypes.SubscribedUserInput {
+
+    static func write(value: DataZoneClientTypes.SubscribedUserInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["identifier"].write(value.identifier)
     }
 }
 
@@ -37891,18 +42426,6 @@ extension DataZoneClientTypes.SubscriptionRequestSummary {
     }
 }
 
-extension DataZoneClientTypes.MetadataFormSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.MetadataFormSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.MetadataFormSummary()
-        value.formName = try reader["formName"].readIfPresent()
-        value.typeName = try reader["typeName"].readIfPresent() ?? ""
-        value.typeRevision = try reader["typeRevision"].readIfPresent() ?? ""
-        return value
-    }
-}
-
 extension DataZoneClientTypes.SubscriptionSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SubscriptionSummary {
@@ -37919,6 +42442,23 @@ extension DataZoneClientTypes.SubscriptionSummary {
         value.subscribedListing = try reader["subscribedListing"].readIfPresent(with: DataZoneClientTypes.SubscribedListing.read(from:))
         value.subscriptionRequestId = try reader["subscriptionRequestId"].readIfPresent()
         value.retainPermissions = try reader["retainPermissions"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.SubscriptionTargetForm {
+
+    static func write(value: DataZoneClientTypes.SubscriptionTargetForm?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["content"].write(value.content)
+        try writer["formName"].write(value.formName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SubscriptionTargetForm {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.SubscriptionTargetForm()
+        value.formName = try reader["formName"].readIfPresent() ?? ""
+        value.content = try reader["content"].readIfPresent() ?? ""
         return value
     }
 }
@@ -37948,67 +42488,20 @@ extension DataZoneClientTypes.SubscriptionTargetSummary {
     }
 }
 
-extension DataZoneClientTypes.SearchInventoryResultItem {
+extension DataZoneClientTypes.TermRelations {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SearchInventoryResultItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "glossaryItem":
-                return .glossaryitem(try reader["glossaryItem"].read(with: DataZoneClientTypes.GlossaryItem.read(from:)))
-            case "glossaryTermItem":
-                return .glossarytermitem(try reader["glossaryTermItem"].read(with: DataZoneClientTypes.GlossaryTermItem.read(from:)))
-            case "assetItem":
-                return .assetitem(try reader["assetItem"].read(with: DataZoneClientTypes.AssetItem.read(from:)))
-            case "dataProductItem":
-                return .dataproductitem(try reader["dataProductItem"].read(with: DataZoneClientTypes.DataProductResultItem.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
+    static func write(value: DataZoneClientTypes.TermRelations?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["classifies"].writeList(value.classifies, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["isA"].writeList(value.isa, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-}
 
-extension DataZoneClientTypes.DataProductResultItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.DataProductResultItem {
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.TermRelations {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.DataProductResultItem()
-        value.domainId = try reader["domainId"].readIfPresent() ?? ""
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""
-        value.description = try reader["description"].readIfPresent()
-        value.glossaryTerms = try reader["glossaryTerms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.createdBy = try reader["createdBy"].readIfPresent()
-        value.firstRevisionCreatedAt = try reader["firstRevisionCreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.firstRevisionCreatedBy = try reader["firstRevisionCreatedBy"].readIfPresent()
-        value.additionalAttributes = try reader["additionalAttributes"].readIfPresent(with: DataZoneClientTypes.DataProductItemAdditionalAttributes.read(from:))
+        var value = DataZoneClientTypes.TermRelations()
+        value.isa = try reader["isA"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.classifies = try reader["classifies"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
-    }
-}
-
-extension DataZoneClientTypes.DataProductItemAdditionalAttributes {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.DataProductItemAdditionalAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.DataProductItemAdditionalAttributes()
-        value.matchRationale = try reader["matchRationale"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.MatchRationaleItem.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DataZoneClientTypes.MatchRationaleItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.MatchRationaleItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "textMatches":
-                return .textmatches(try reader["textMatches"].readList(memberReadingClosure: DataZoneClientTypes.TextMatchItem.read(from:), memberNodeInfo: "member", isFlattened: false))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
     }
 }
 
@@ -38024,326 +42517,188 @@ extension DataZoneClientTypes.TextMatchItem {
     }
 }
 
-extension DataZoneClientTypes.MatchOffset {
+extension DataZoneClientTypes.TimeoutConfig {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.MatchOffset {
+    static func write(value: DataZoneClientTypes.TimeoutConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["runTimeoutInMinutes"].write(value.runTimeoutInMinutes)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.TimeoutConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.MatchOffset()
-        value.startOffset = try reader["startOffset"].readIfPresent()
-        value.endOffset = try reader["endOffset"].readIfPresent()
+        var value = DataZoneClientTypes.TimeoutConfig()
+        value.runTimeoutInMinutes = try reader["runTimeoutInMinutes"].readIfPresent()
         return value
     }
 }
 
-extension DataZoneClientTypes.AssetItem {
+extension DataZoneClientTypes.TimeSeriesDataPointFormInput {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AssetItem {
+    static func write(value: DataZoneClientTypes.TimeSeriesDataPointFormInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["content"].write(value.content)
+        try writer["formName"].write(value.formName)
+        try writer["timestamp"].writeTimestamp(value.timestamp, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["typeIdentifier"].write(value.typeIdentifier)
+        try writer["typeRevision"].write(value.typeRevision)
+    }
+}
+
+extension DataZoneClientTypes.TimeSeriesDataPointFormOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.TimeSeriesDataPointFormOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.AssetItem()
-        value.domainId = try reader["domainId"].readIfPresent() ?? ""
-        value.identifier = try reader["identifier"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
+        var value = DataZoneClientTypes.TimeSeriesDataPointFormOutput()
+        value.formName = try reader["formName"].readIfPresent() ?? ""
         value.typeIdentifier = try reader["typeIdentifier"].readIfPresent() ?? ""
-        value.typeRevision = try reader["typeRevision"].readIfPresent() ?? ""
-        value.externalIdentifier = try reader["externalIdentifier"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.createdBy = try reader["createdBy"].readIfPresent()
-        value.firstRevisionCreatedAt = try reader["firstRevisionCreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.firstRevisionCreatedBy = try reader["firstRevisionCreatedBy"].readIfPresent()
-        value.glossaryTerms = try reader["glossaryTerms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""
-        value.additionalAttributes = try reader["additionalAttributes"].readIfPresent(with: DataZoneClientTypes.AssetItemAdditionalAttributes.read(from:))
-        value.governedGlossaryTerms = try reader["governedGlossaryTerms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DataZoneClientTypes.AssetItemAdditionalAttributes {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AssetItemAdditionalAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.AssetItemAdditionalAttributes()
-        value.formsOutput = try reader["formsOutput"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.FormOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.readOnlyFormsOutput = try reader["readOnlyFormsOutput"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.FormOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.latestTimeSeriesDataPointFormsOutput = try reader["latestTimeSeriesDataPointFormsOutput"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.matchRationale = try reader["matchRationale"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.MatchRationaleItem.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DataZoneClientTypes.GlossaryTermItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.GlossaryTermItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.GlossaryTermItem()
-        value.domainId = try reader["domainId"].readIfPresent() ?? ""
-        value.glossaryId = try reader["glossaryId"].readIfPresent() ?? ""
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.shortDescription = try reader["shortDescription"].readIfPresent()
-        value.usageRestrictions = try reader["usageRestrictions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<DataZoneClientTypes.GlossaryUsageRestriction>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.longDescription = try reader["longDescription"].readIfPresent()
-        value.termRelations = try reader["termRelations"].readIfPresent(with: DataZoneClientTypes.TermRelations.read(from:))
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.createdBy = try reader["createdBy"].readIfPresent()
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updatedBy = try reader["updatedBy"].readIfPresent()
-        value.additionalAttributes = try reader["additionalAttributes"].readIfPresent(with: DataZoneClientTypes.GlossaryTermItemAdditionalAttributes.read(from:))
-        return value
-    }
-}
-
-extension DataZoneClientTypes.GlossaryTermItemAdditionalAttributes {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.GlossaryTermItemAdditionalAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.GlossaryTermItemAdditionalAttributes()
-        value.matchRationale = try reader["matchRationale"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.MatchRationaleItem.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DataZoneClientTypes.GlossaryItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.GlossaryItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.GlossaryItem()
-        value.domainId = try reader["domainId"].readIfPresent() ?? ""
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""
-        value.description = try reader["description"].readIfPresent()
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.usageRestrictions = try reader["usageRestrictions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<DataZoneClientTypes.GlossaryUsageRestriction>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.createdBy = try reader["createdBy"].readIfPresent()
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updatedBy = try reader["updatedBy"].readIfPresent()
-        value.additionalAttributes = try reader["additionalAttributes"].readIfPresent(with: DataZoneClientTypes.GlossaryItemAdditionalAttributes.read(from:))
-        return value
-    }
-}
-
-extension DataZoneClientTypes.GlossaryItemAdditionalAttributes {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.GlossaryItemAdditionalAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.GlossaryItemAdditionalAttributes()
-        value.matchRationale = try reader["matchRationale"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.MatchRationaleItem.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DataZoneClientTypes.GroupProfileSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.GroupProfileSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.GroupProfileSummary()
-        value.domainId = try reader["domainId"].readIfPresent()
+        value.typeRevision = try reader["typeRevision"].readIfPresent()
+        value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.content = try reader["content"].readIfPresent()
         value.id = try reader["id"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.groupName = try reader["groupName"].readIfPresent()
         return value
     }
 }
 
-extension DataZoneClientTypes.SearchResultItem {
+extension DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SearchResultItem {
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput()
+        value.formName = try reader["formName"].readIfPresent() ?? ""
+        value.typeIdentifier = try reader["typeIdentifier"].readIfPresent() ?? ""
+        value.typeRevision = try reader["typeRevision"].readIfPresent()
+        value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.contentSummary = try reader["contentSummary"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.Topic {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.Topic {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.Topic()
+        value.subject = try reader["subject"].readIfPresent() ?? ""
+        value.resource = try reader["resource"].readIfPresent(with: DataZoneClientTypes.NotificationResource.read(from:))
+        value.role = try reader["role"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension DataZoneClientTypes.TriggerSource {
+
+    static func write(value: DataZoneClientTypes.TriggerSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.TriggerSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.TriggerSource()
+        value.type = try reader["type"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.Unit {
+
+    static func write(value: DataZoneClientTypes.Unit?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.Unit {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return DataZoneClientTypes.Unit()
+    }
+}
+
+extension DataZoneClientTypes.UseAssetTypePolicyGrantDetail {
+
+    static func write(value: DataZoneClientTypes.UseAssetTypePolicyGrantDetail?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["domainUnitId"].write(value.domainUnitId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.UseAssetTypePolicyGrantDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.UseAssetTypePolicyGrantDetail()
+        value.domainUnitId = try reader["domainUnitId"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.UserDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.UserDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.UserDetails()
+        value.userId = try reader["userId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DataZoneClientTypes.UsernamePassword {
+
+    static func write(value: DataZoneClientTypes.UsernamePassword?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["password"].write(value.password)
+        try writer["username"].write(value.username)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.UsernamePassword {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.UsernamePassword()
+        value.password = try reader["password"].readIfPresent() ?? ""
+        value.username = try reader["username"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DataZoneClientTypes.UserPolicyGrantPrincipal {
+
+    static func write(value: DataZoneClientTypes.UserPolicyGrantPrincipal?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .allusersgrantfilter(allusersgrantfilter):
+                try writer["allUsersGrantFilter"].write(allusersgrantfilter, with: DataZoneClientTypes.AllUsersGrantFilter.write(value:to:))
+            case let .useridentifier(useridentifier):
+                try writer["userIdentifier"].write(useridentifier)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.UserPolicyGrantPrincipal {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
         switch name {
-            case "assetListing":
-                return .assetlisting(try reader["assetListing"].read(with: DataZoneClientTypes.AssetListingItem.read(from:)))
-            case "dataProductListing":
-                return .dataproductlisting(try reader["dataProductListing"].read(with: DataZoneClientTypes.DataProductListingItem.read(from:)))
+            case "userIdentifier":
+                return .useridentifier(try reader["userIdentifier"].read())
+            case "allUsersGrantFilter":
+                return .allusersgrantfilter(try reader["allUsersGrantFilter"].read(with: DataZoneClientTypes.AllUsersGrantFilter.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
     }
 }
 
-extension DataZoneClientTypes.DataProductListingItem {
+extension DataZoneClientTypes.UserProfileDetails {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.DataProductListingItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.DataProductListingItem()
-        value.listingId = try reader["listingId"].readIfPresent()
-        value.listingRevision = try reader["listingRevision"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.entityId = try reader["entityId"].readIfPresent()
-        value.entityRevision = try reader["entityRevision"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.listingCreatedBy = try reader["listingCreatedBy"].readIfPresent()
-        value.listingUpdatedBy = try reader["listingUpdatedBy"].readIfPresent()
-        value.glossaryTerms = try reader["glossaryTerms"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.DetailedGlossaryTerm.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.owningProjectId = try reader["owningProjectId"].readIfPresent()
-        value.additionalAttributes = try reader["additionalAttributes"].readIfPresent(with: DataZoneClientTypes.DataProductListingItemAdditionalAttributes.read(from:))
-        value.items = try reader["items"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.ListingSummaryItem.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DataZoneClientTypes.ListingSummaryItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.ListingSummaryItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.ListingSummaryItem()
-        value.listingId = try reader["listingId"].readIfPresent()
-        value.listingRevision = try reader["listingRevision"].readIfPresent()
-        value.glossaryTerms = try reader["glossaryTerms"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.DetailedGlossaryTerm.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DataZoneClientTypes.DataProductListingItemAdditionalAttributes {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.DataProductListingItemAdditionalAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.DataProductListingItemAdditionalAttributes()
-        value.forms = try reader["forms"].readIfPresent()
-        value.matchRationale = try reader["matchRationale"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.MatchRationaleItem.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DataZoneClientTypes.AssetListingItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AssetListingItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.AssetListingItem()
-        value.listingId = try reader["listingId"].readIfPresent()
-        value.listingRevision = try reader["listingRevision"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.entityId = try reader["entityId"].readIfPresent()
-        value.entityRevision = try reader["entityRevision"].readIfPresent()
-        value.entityType = try reader["entityType"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.listingCreatedBy = try reader["listingCreatedBy"].readIfPresent()
-        value.listingUpdatedBy = try reader["listingUpdatedBy"].readIfPresent()
-        value.glossaryTerms = try reader["glossaryTerms"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.DetailedGlossaryTerm.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.governedGlossaryTerms = try reader["governedGlossaryTerms"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.DetailedGlossaryTerm.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.owningProjectId = try reader["owningProjectId"].readIfPresent()
-        value.additionalAttributes = try reader["additionalAttributes"].readIfPresent(with: DataZoneClientTypes.AssetListingItemAdditionalAttributes.read(from:))
-        return value
-    }
-}
-
-extension DataZoneClientTypes.AssetListingItemAdditionalAttributes {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AssetListingItemAdditionalAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.AssetListingItemAdditionalAttributes()
-        value.forms = try reader["forms"].readIfPresent()
-        value.matchRationale = try reader["matchRationale"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.MatchRationaleItem.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.latestTimeSeriesDataPointForms = try reader["latestTimeSeriesDataPointForms"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DataZoneClientTypes.AggregationOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AggregationOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.AggregationOutput()
-        value.attribute = try reader["attribute"].readIfPresent()
-        value.displayValue = try reader["displayValue"].readIfPresent()
-        value.items = try reader["items"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.AggregationOutputItem.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DataZoneClientTypes.AggregationOutputItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AggregationOutputItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.AggregationOutputItem()
-        value.value = try reader["value"].readIfPresent()
-        value.count = try reader["count"].readIfPresent()
-        value.displayValue = try reader["displayValue"].readIfPresent()
-        return value
-    }
-}
-
-extension DataZoneClientTypes.SearchTypesResultItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SearchTypesResultItem {
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.UserProfileDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
         switch name {
-            case "assetTypeItem":
-                return .assettypeitem(try reader["assetTypeItem"].read(with: DataZoneClientTypes.AssetTypeItem.read(from:)))
-            case "formTypeItem":
-                return .formtypeitem(try reader["formTypeItem"].read(with: DataZoneClientTypes.FormTypeData.read(from:)))
-            case "lineageNodeTypeItem":
-                return .lineagenodetypeitem(try reader["lineageNodeTypeItem"].read(with: DataZoneClientTypes.LineageNodeTypeItem.read(from:)))
+            case "iam":
+                return .iam(try reader["iam"].read(with: DataZoneClientTypes.IamUserProfileDetails.read(from:)))
+            case "sso":
+                return .sso(try reader["sso"].read(with: DataZoneClientTypes.SsoUserProfileDetails.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
-    }
-}
-
-extension DataZoneClientTypes.LineageNodeTypeItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.LineageNodeTypeItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.LineageNodeTypeItem()
-        value.domainId = try reader["domainId"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.createdBy = try reader["createdBy"].readIfPresent()
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updatedBy = try reader["updatedBy"].readIfPresent()
-        value.revision = try reader["revision"].readIfPresent() ?? ""
-        value.formsOutput = try reader["formsOutput"].readMapIfPresent(valueReadingClosure: DataZoneClientTypes.FormEntryOutput.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
-        return value
-    }
-}
-
-extension DataZoneClientTypes.FormTypeData {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.FormTypeData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.FormTypeData()
-        value.domainId = try reader["domainId"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.revision = try reader["revision"].readIfPresent() ?? ""
-        value.model = try reader["model"].readIfPresent(with: DataZoneClientTypes.Model.read(from:))
-        value.status = try reader["status"].readIfPresent()
-        value.owningProjectId = try reader["owningProjectId"].readIfPresent()
-        value.originDomainId = try reader["originDomainId"].readIfPresent()
-        value.originProjectId = try reader["originProjectId"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.createdBy = try reader["createdBy"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.imports = try reader["imports"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.Import.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DataZoneClientTypes.AssetTypeItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AssetTypeItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.AssetTypeItem()
-        value.domainId = try reader["domainId"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.revision = try reader["revision"].readIfPresent() ?? ""
-        value.description = try reader["description"].readIfPresent()
-        value.formsOutput = try reader["formsOutput"].readMapIfPresent(valueReadingClosure: DataZoneClientTypes.FormEntryOutput.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
-        value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""
-        value.originDomainId = try reader["originDomainId"].readIfPresent()
-        value.originProjectId = try reader["originProjectId"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.createdBy = try reader["createdBy"].readIfPresent()
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updatedBy = try reader["updatedBy"].readIfPresent()
-        return value
     }
 }
 
@@ -38361,643 +42716,37 @@ extension DataZoneClientTypes.UserProfileSummary {
     }
 }
 
-extension DataZoneClientTypes.AcceptRule {
+extension DataZoneClientTypes.WorkflowsMwaaPropertiesInput {
 
-    static func write(value: DataZoneClientTypes.AcceptRule?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DataZoneClientTypes.WorkflowsMwaaPropertiesInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["rule"].write(value.rule)
-        try writer["threshold"].write(value.threshold)
+        try writer["mwaaEnvironmentName"].write(value.mwaaEnvironmentName)
     }
 }
 
-extension DataZoneClientTypes.AcceptChoice {
+extension DataZoneClientTypes.WorkflowsMwaaPropertiesOutput {
 
-    static func write(value: DataZoneClientTypes.AcceptChoice?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["editedValue"].write(value.editedValue)
-        try writer["predictionChoice"].write(value.predictionChoice)
-        try writer["predictionTarget"].write(value.predictionTarget)
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.WorkflowsMwaaPropertiesOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.WorkflowsMwaaPropertiesOutput()
+        value.mwaaEnvironmentName = try reader["mwaaEnvironmentName"].readIfPresent()
+        return value
     }
 }
 
-extension DataZoneClientTypes.AcceptedAssetScope {
+extension DataZoneClientTypes.WorkflowsServerlessPropertiesInput {
 
-    static func write(value: DataZoneClientTypes.AcceptedAssetScope?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["assetId"].write(value.assetId)
-        try writer["filterIds"].writeList(value.filterIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    static func write(value: DataZoneClientTypes.WorkflowsServerlessPropertiesInput?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
     }
 }
 
-extension DataZoneClientTypes.AssetPermission {
-
-    static func write(value: DataZoneClientTypes.AssetPermission?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["assetId"].write(value.assetId)
-        try writer["permissions"].write(value.permissions, with: DataZoneClientTypes.Permissions.write(value:to:))
-    }
-}
-
-extension DataZoneClientTypes.OwnerProperties {
-
-    static func write(value: DataZoneClientTypes.OwnerProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .group(group):
-                try writer["group"].write(group, with: DataZoneClientTypes.OwnerGroupProperties.write(value:to:))
-            case let .user(user):
-                try writer["user"].write(user, with: DataZoneClientTypes.OwnerUserProperties.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension DataZoneClientTypes.OwnerGroupProperties {
-
-    static func write(value: DataZoneClientTypes.OwnerGroupProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["groupIdentifier"].write(value.groupIdentifier)
-    }
-}
-
-extension DataZoneClientTypes.OwnerUserProperties {
-
-    static func write(value: DataZoneClientTypes.OwnerUserProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["userIdentifier"].write(value.userIdentifier)
-    }
-}
-
-extension DataZoneClientTypes.AttributeInput {
-
-    static func write(value: DataZoneClientTypes.AttributeInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["attributeIdentifier"].write(value.attributeIdentifier)
-        try writer["forms"].writeList(value.forms, memberWritingClosure: DataZoneClientTypes.FormInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension DataZoneClientTypes.FormInput {
-
-    static func write(value: DataZoneClientTypes.FormInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["content"].write(value.content)
-        try writer["formName"].write(value.formName)
-        try writer["typeIdentifier"].write(value.typeIdentifier)
-        try writer["typeRevision"].write(value.typeRevision)
-    }
-}
-
-extension DataZoneClientTypes.FormEntryInput {
-
-    static func write(value: DataZoneClientTypes.FormEntryInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["required"].write(value.`required`)
-        try writer["typeIdentifier"].write(value.typeIdentifier)
-        try writer["typeRevision"].write(value.typeRevision)
-    }
-}
-
-extension DataZoneClientTypes.ConnectionPropertiesInput {
-
-    static func write(value: DataZoneClientTypes.ConnectionPropertiesInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .amazonqproperties(amazonqproperties):
-                try writer["amazonQProperties"].write(amazonqproperties, with: DataZoneClientTypes.AmazonQPropertiesInput.write(value:to:))
-            case let .athenaproperties(athenaproperties):
-                try writer["athenaProperties"].write(athenaproperties, with: DataZoneClientTypes.AthenaPropertiesInput.write(value:to:))
-            case let .glueproperties(glueproperties):
-                try writer["glueProperties"].write(glueproperties, with: DataZoneClientTypes.GluePropertiesInput.write(value:to:))
-            case let .hyperpodproperties(hyperpodproperties):
-                try writer["hyperPodProperties"].write(hyperpodproperties, with: DataZoneClientTypes.HyperPodPropertiesInput.write(value:to:))
-            case let .iamproperties(iamproperties):
-                try writer["iamProperties"].write(iamproperties, with: DataZoneClientTypes.IamPropertiesInput.write(value:to:))
-            case let .mlflowproperties(mlflowproperties):
-                try writer["mlflowProperties"].write(mlflowproperties, with: DataZoneClientTypes.MlflowPropertiesInput.write(value:to:))
-            case let .redshiftproperties(redshiftproperties):
-                try writer["redshiftProperties"].write(redshiftproperties, with: DataZoneClientTypes.RedshiftPropertiesInput.write(value:to:))
-            case let .s3properties(s3properties):
-                try writer["s3Properties"].write(s3properties, with: DataZoneClientTypes.S3PropertiesInput.write(value:to:))
-            case let .sparkemrproperties(sparkemrproperties):
-                try writer["sparkEmrProperties"].write(sparkemrproperties, with: DataZoneClientTypes.SparkEmrPropertiesInput.write(value:to:))
-            case let .sparkglueproperties(sparkglueproperties):
-                try writer["sparkGlueProperties"].write(sparkglueproperties, with: DataZoneClientTypes.SparkGluePropertiesInput.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension DataZoneClientTypes.MlflowPropertiesInput {
-
-    static func write(value: DataZoneClientTypes.MlflowPropertiesInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["trackingServerArn"].write(value.trackingServerArn)
-    }
-}
-
-extension DataZoneClientTypes.AmazonQPropertiesInput {
-
-    static func write(value: DataZoneClientTypes.AmazonQPropertiesInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["authMode"].write(value.authMode)
-        try writer["isEnabled"].write(value.isEnabled)
-        try writer["profileArn"].write(value.profileArn)
-    }
-}
-
-extension DataZoneClientTypes.S3PropertiesInput {
-
-    static func write(value: DataZoneClientTypes.S3PropertiesInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["s3AccessGrantLocationId"].write(value.s3AccessGrantLocationId)
-        try writer["s3Uri"].write(value.s3Uri)
-    }
-}
-
-extension DataZoneClientTypes.SparkGluePropertiesInput {
-
-    static func write(value: DataZoneClientTypes.SparkGluePropertiesInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["additionalArgs"].write(value.additionalArgs, with: DataZoneClientTypes.SparkGlueArgs.write(value:to:))
-        try writer["glueConnectionName"].write(value.glueConnectionName)
-        try writer["glueVersion"].write(value.glueVersion)
-        try writer["idleTimeout"].write(value.idleTimeout)
-        try writer["javaVirtualEnv"].write(value.javaVirtualEnv)
-        try writer["numberOfWorkers"].write(value.numberOfWorkers)
-        try writer["pythonVirtualEnv"].write(value.pythonVirtualEnv)
-        try writer["workerType"].write(value.workerType)
-    }
-}
-
-extension DataZoneClientTypes.SparkEmrPropertiesInput {
-
-    static func write(value: DataZoneClientTypes.SparkEmrPropertiesInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["computeArn"].write(value.computeArn)
-        try writer["instanceProfileArn"].write(value.instanceProfileArn)
-        try writer["javaVirtualEnv"].write(value.javaVirtualEnv)
-        try writer["logUri"].write(value.logUri)
-        try writer["managedEndpointArn"].write(value.managedEndpointArn)
-        try writer["pythonVirtualEnv"].write(value.pythonVirtualEnv)
-        try writer["runtimeRole"].write(value.runtimeRole)
-        try writer["trustedCertificatesS3Uri"].write(value.trustedCertificatesS3Uri)
-    }
-}
-
-extension DataZoneClientTypes.RedshiftPropertiesInput {
-
-    static func write(value: DataZoneClientTypes.RedshiftPropertiesInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["credentials"].write(value.credentials, with: DataZoneClientTypes.RedshiftCredentials.write(value:to:))
-        try writer["databaseName"].write(value.databaseName)
-        try writer["host"].write(value.host)
-        try writer["lineageSync"].write(value.lineageSync, with: DataZoneClientTypes.RedshiftLineageSyncConfigurationInput.write(value:to:))
-        try writer["port"].write(value.port)
-        try writer["storage"].write(value.storage, with: DataZoneClientTypes.RedshiftStorageProperties.write(value:to:))
-    }
-}
-
-extension DataZoneClientTypes.RedshiftLineageSyncConfigurationInput {
-
-    static func write(value: DataZoneClientTypes.RedshiftLineageSyncConfigurationInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["enabled"].write(value.enabled)
-        try writer["schedule"].write(value.schedule, with: DataZoneClientTypes.LineageSyncSchedule.write(value:to:))
-    }
-}
-
-extension DataZoneClientTypes.IamPropertiesInput {
-
-    static func write(value: DataZoneClientTypes.IamPropertiesInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["glueLineageSyncEnabled"].write(value.glueLineageSyncEnabled)
-    }
-}
-
-extension DataZoneClientTypes.HyperPodPropertiesInput {
-
-    static func write(value: DataZoneClientTypes.HyperPodPropertiesInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["clusterName"].write(value.clusterName)
-    }
-}
-
-extension DataZoneClientTypes.GluePropertiesInput {
-
-    static func write(value: DataZoneClientTypes.GluePropertiesInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["glueConnectionInput"].write(value.glueConnectionInput, with: DataZoneClientTypes.GlueConnectionInput.write(value:to:))
-    }
-}
-
-extension DataZoneClientTypes.GlueConnectionInput {
-
-    static func write(value: DataZoneClientTypes.GlueConnectionInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["athenaProperties"].writeMap(value.athenaProperties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["authenticationConfiguration"].write(value.authenticationConfiguration, with: DataZoneClientTypes.AuthenticationConfigurationInput.write(value:to:))
-        try writer["connectionProperties"].writeMap(value.connectionProperties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["connectionType"].write(value.connectionType)
-        try writer["description"].write(value.description)
-        try writer["matchCriteria"].write(value.matchCriteria)
-        try writer["name"].write(value.name)
-        try writer["physicalConnectionRequirements"].write(value.physicalConnectionRequirements, with: DataZoneClientTypes.PhysicalConnectionRequirements.write(value:to:))
-        try writer["pythonProperties"].writeMap(value.pythonProperties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["sparkProperties"].writeMap(value.sparkProperties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["validateCredentials"].write(value.validateCredentials)
-        try writer["validateForComputeEnvironments"].writeList(value.validateForComputeEnvironments, memberWritingClosure: SmithyReadWrite.WritingClosureBox<DataZoneClientTypes.ComputeEnvironments>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension DataZoneClientTypes.AuthenticationConfigurationInput {
-
-    static func write(value: DataZoneClientTypes.AuthenticationConfigurationInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["authenticationType"].write(value.authenticationType)
-        try writer["basicAuthenticationCredentials"].write(value.basicAuthenticationCredentials, with: DataZoneClientTypes.BasicAuthenticationCredentials.write(value:to:))
-        try writer["customAuthenticationCredentials"].writeMap(value.customAuthenticationCredentials, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["kmsKeyArn"].write(value.kmsKeyArn)
-        try writer["oAuth2Properties"].write(value.oAuth2Properties, with: DataZoneClientTypes.OAuth2Properties.write(value:to:))
-        try writer["secretArn"].write(value.secretArn)
-    }
-}
-
-extension DataZoneClientTypes.BasicAuthenticationCredentials {
-
-    static func write(value: DataZoneClientTypes.BasicAuthenticationCredentials?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["password"].write(value.password)
-        try writer["userName"].write(value.userName)
-    }
-}
-
-extension DataZoneClientTypes.AthenaPropertiesInput {
-
-    static func write(value: DataZoneClientTypes.AthenaPropertiesInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["workgroupName"].write(value.workgroupName)
-    }
-}
-
-extension DataZoneClientTypes.DataSourceConfigurationInput {
-
-    static func write(value: DataZoneClientTypes.DataSourceConfigurationInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .gluerunconfiguration(gluerunconfiguration):
-                try writer["glueRunConfiguration"].write(gluerunconfiguration, with: DataZoneClientTypes.GlueRunConfigurationInput.write(value:to:))
-            case let .redshiftrunconfiguration(redshiftrunconfiguration):
-                try writer["redshiftRunConfiguration"].write(redshiftrunconfiguration, with: DataZoneClientTypes.RedshiftRunConfigurationInput.write(value:to:))
-            case let .sagemakerrunconfiguration(sagemakerrunconfiguration):
-                try writer["sageMakerRunConfiguration"].write(sagemakerrunconfiguration, with: DataZoneClientTypes.SageMakerRunConfigurationInput.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension DataZoneClientTypes.SageMakerRunConfigurationInput {
-
-    static func write(value: DataZoneClientTypes.SageMakerRunConfigurationInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["trackingAssets"].writeMap(value.trackingAssets, valueWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-}
-
-extension DataZoneClientTypes.RedshiftRunConfigurationInput {
-
-    static func write(value: DataZoneClientTypes.RedshiftRunConfigurationInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["dataAccessRole"].write(value.dataAccessRole)
-        try writer["redshiftCredentialConfiguration"].write(value.redshiftCredentialConfiguration, with: DataZoneClientTypes.RedshiftCredentialConfiguration.write(value:to:))
-        try writer["redshiftStorage"].write(value.redshiftStorage, with: DataZoneClientTypes.RedshiftStorage.write(value:to:))
-        try writer["relationalFilterConfigurations"].writeList(value.relationalFilterConfigurations, memberWritingClosure: DataZoneClientTypes.RelationalFilterConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension DataZoneClientTypes.GlueRunConfigurationInput {
-
-    static func write(value: DataZoneClientTypes.GlueRunConfigurationInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["autoImportDataQualityResult"].write(value.autoImportDataQualityResult)
-        try writer["catalogName"].write(value.catalogName)
-        try writer["dataAccessRole"].write(value.dataAccessRole)
-        try writer["relationalFilterConfigurations"].writeList(value.relationalFilterConfigurations, memberWritingClosure: DataZoneClientTypes.RelationalFilterConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension DataZoneClientTypes.Member {
-
-    static func write(value: DataZoneClientTypes.Member?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .groupidentifier(groupidentifier):
-                try writer["groupIdentifier"].write(groupidentifier)
-            case let .useridentifier(useridentifier):
-                try writer["userIdentifier"].write(useridentifier)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension DataZoneClientTypes.GrantedEntityInput {
-
-    static func write(value: DataZoneClientTypes.GrantedEntityInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .listing(listing):
-                try writer["listing"].write(listing, with: DataZoneClientTypes.ListingRevisionInput.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension DataZoneClientTypes.ListingRevisionInput {
-
-    static func write(value: DataZoneClientTypes.ListingRevisionInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["identifier"].write(value.identifier)
-        try writer["revision"].write(value.revision)
-    }
-}
-
-extension DataZoneClientTypes.AssetTargetNameMap {
-
-    static func write(value: DataZoneClientTypes.AssetTargetNameMap?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["assetId"].write(value.assetId)
-        try writer["targetName"].write(value.targetName)
-    }
-}
-
-extension DataZoneClientTypes.SubscribedPrincipalInput {
-
-    static func write(value: DataZoneClientTypes.SubscribedPrincipalInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .group(group):
-                try writer["group"].write(group, with: DataZoneClientTypes.SubscribedGroupInput.write(value:to:))
-            case let .iam(iam):
-                try writer["iam"].write(iam, with: DataZoneClientTypes.SubscribedIamPrincipalInput.write(value:to:))
-            case let .project(project):
-                try writer["project"].write(project, with: DataZoneClientTypes.SubscribedProjectInput.write(value:to:))
-            case let .user(user):
-                try writer["user"].write(user, with: DataZoneClientTypes.SubscribedUserInput.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension DataZoneClientTypes.SubscribedIamPrincipalInput {
-
-    static func write(value: DataZoneClientTypes.SubscribedIamPrincipalInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["identifier"].write(value.identifier)
-    }
-}
-
-extension DataZoneClientTypes.SubscribedGroupInput {
-
-    static func write(value: DataZoneClientTypes.SubscribedGroupInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["identifier"].write(value.identifier)
-    }
-}
-
-extension DataZoneClientTypes.SubscribedUserInput {
-
-    static func write(value: DataZoneClientTypes.SubscribedUserInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["identifier"].write(value.identifier)
-    }
-}
-
-extension DataZoneClientTypes.SubscribedProjectInput {
-
-    static func write(value: DataZoneClientTypes.SubscribedProjectInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["identifier"].write(value.identifier)
-    }
-}
-
-extension DataZoneClientTypes.SubscribedListingInput {
-
-    static func write(value: DataZoneClientTypes.SubscribedListingInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["identifier"].write(value.identifier)
-    }
-}
-
-extension DataZoneClientTypes.TimeSeriesDataPointFormInput {
-
-    static func write(value: DataZoneClientTypes.TimeSeriesDataPointFormInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["content"].write(value.content)
-        try writer["formName"].write(value.formName)
-        try writer["timestamp"].writeTimestamp(value.timestamp, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["typeIdentifier"].write(value.typeIdentifier)
-        try writer["typeRevision"].write(value.typeRevision)
-    }
-}
-
-extension DataZoneClientTypes.RejectRule {
-
-    static func write(value: DataZoneClientTypes.RejectRule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["rule"].write(value.rule)
-        try writer["threshold"].write(value.threshold)
-    }
-}
-
-extension DataZoneClientTypes.RejectChoice {
-
-    static func write(value: DataZoneClientTypes.RejectChoice?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["predictionChoices"].writeList(value.predictionChoices, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["predictionTarget"].write(value.predictionTarget)
-    }
-}
-
-extension DataZoneClientTypes.SearchInItem {
-
-    static func write(value: DataZoneClientTypes.SearchInItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["attribute"].write(value.attribute)
-    }
-}
-
-extension DataZoneClientTypes.FilterClause {
-
-    static func write(value: DataZoneClientTypes.FilterClause?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .and(and):
-                try writer["and"].writeList(and, memberWritingClosure: DataZoneClientTypes.FilterClause.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-            case let .filter(filter):
-                try writer["filter"].write(filter, with: DataZoneClientTypes.Filter.write(value:to:))
-            case let .or(or):
-                try writer["or"].writeList(or, memberWritingClosure: DataZoneClientTypes.FilterClause.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension DataZoneClientTypes.Filter {
-
-    static func write(value: DataZoneClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["attribute"].write(value.attribute)
-        try writer["value"].write(value.value)
-    }
-}
-
-extension DataZoneClientTypes.SearchSort {
-
-    static func write(value: DataZoneClientTypes.SearchSort?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["attribute"].write(value.attribute)
-        try writer["order"].write(value.order)
-    }
-}
-
-extension DataZoneClientTypes.AggregationListItem {
-
-    static func write(value: DataZoneClientTypes.AggregationListItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["attribute"].write(value.attribute)
-        try writer["displayValue"].write(value.displayValue)
-    }
-}
-
-extension DataZoneClientTypes.ConnectionPropertiesPatch {
-
-    static func write(value: DataZoneClientTypes.ConnectionPropertiesPatch?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .amazonqproperties(amazonqproperties):
-                try writer["amazonQProperties"].write(amazonqproperties, with: DataZoneClientTypes.AmazonQPropertiesPatch.write(value:to:))
-            case let .athenaproperties(athenaproperties):
-                try writer["athenaProperties"].write(athenaproperties, with: DataZoneClientTypes.AthenaPropertiesPatch.write(value:to:))
-            case let .glueproperties(glueproperties):
-                try writer["glueProperties"].write(glueproperties, with: DataZoneClientTypes.GluePropertiesPatch.write(value:to:))
-            case let .iamproperties(iamproperties):
-                try writer["iamProperties"].write(iamproperties, with: DataZoneClientTypes.IamPropertiesPatch.write(value:to:))
-            case let .mlflowproperties(mlflowproperties):
-                try writer["mlflowProperties"].write(mlflowproperties, with: DataZoneClientTypes.MlflowPropertiesPatch.write(value:to:))
-            case let .redshiftproperties(redshiftproperties):
-                try writer["redshiftProperties"].write(redshiftproperties, with: DataZoneClientTypes.RedshiftPropertiesPatch.write(value:to:))
-            case let .s3properties(s3properties):
-                try writer["s3Properties"].write(s3properties, with: DataZoneClientTypes.S3PropertiesPatch.write(value:to:))
-            case let .sparkemrproperties(sparkemrproperties):
-                try writer["sparkEmrProperties"].write(sparkemrproperties, with: DataZoneClientTypes.SparkEmrPropertiesPatch.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension DataZoneClientTypes.MlflowPropertiesPatch {
-
-    static func write(value: DataZoneClientTypes.MlflowPropertiesPatch?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["trackingServerArn"].write(value.trackingServerArn)
-    }
-}
-
-extension DataZoneClientTypes.AmazonQPropertiesPatch {
-
-    static func write(value: DataZoneClientTypes.AmazonQPropertiesPatch?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["authMode"].write(value.authMode)
-        try writer["isEnabled"].write(value.isEnabled)
-        try writer["profileArn"].write(value.profileArn)
-    }
-}
-
-extension DataZoneClientTypes.S3PropertiesPatch {
-
-    static func write(value: DataZoneClientTypes.S3PropertiesPatch?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["s3AccessGrantLocationId"].write(value.s3AccessGrantLocationId)
-        try writer["s3Uri"].write(value.s3Uri)
-    }
-}
-
-extension DataZoneClientTypes.SparkEmrPropertiesPatch {
-
-    static func write(value: DataZoneClientTypes.SparkEmrPropertiesPatch?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["computeArn"].write(value.computeArn)
-        try writer["instanceProfileArn"].write(value.instanceProfileArn)
-        try writer["javaVirtualEnv"].write(value.javaVirtualEnv)
-        try writer["logUri"].write(value.logUri)
-        try writer["managedEndpointArn"].write(value.managedEndpointArn)
-        try writer["pythonVirtualEnv"].write(value.pythonVirtualEnv)
-        try writer["runtimeRole"].write(value.runtimeRole)
-        try writer["trustedCertificatesS3Uri"].write(value.trustedCertificatesS3Uri)
-    }
-}
-
-extension DataZoneClientTypes.RedshiftPropertiesPatch {
-
-    static func write(value: DataZoneClientTypes.RedshiftPropertiesPatch?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["credentials"].write(value.credentials, with: DataZoneClientTypes.RedshiftCredentials.write(value:to:))
-        try writer["databaseName"].write(value.databaseName)
-        try writer["host"].write(value.host)
-        try writer["lineageSync"].write(value.lineageSync, with: DataZoneClientTypes.RedshiftLineageSyncConfigurationInput.write(value:to:))
-        try writer["port"].write(value.port)
-        try writer["storage"].write(value.storage, with: DataZoneClientTypes.RedshiftStorageProperties.write(value:to:))
-    }
-}
-
-extension DataZoneClientTypes.IamPropertiesPatch {
-
-    static func write(value: DataZoneClientTypes.IamPropertiesPatch?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["glueLineageSyncEnabled"].write(value.glueLineageSyncEnabled)
-    }
-}
-
-extension DataZoneClientTypes.GluePropertiesPatch {
-
-    static func write(value: DataZoneClientTypes.GluePropertiesPatch?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["glueConnectionInput"].write(value.glueConnectionInput, with: DataZoneClientTypes.GlueConnectionPatch.write(value:to:))
-    }
-}
-
-extension DataZoneClientTypes.GlueConnectionPatch {
-
-    static func write(value: DataZoneClientTypes.GlueConnectionPatch?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["authenticationConfiguration"].write(value.authenticationConfiguration, with: DataZoneClientTypes.AuthenticationConfigurationPatch.write(value:to:))
-        try writer["connectionProperties"].writeMap(value.connectionProperties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["description"].write(value.description)
-    }
-}
-
-extension DataZoneClientTypes.AuthenticationConfigurationPatch {
-
-    static func write(value: DataZoneClientTypes.AuthenticationConfigurationPatch?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["basicAuthenticationCredentials"].write(value.basicAuthenticationCredentials, with: DataZoneClientTypes.BasicAuthenticationCredentials.write(value:to:))
-        try writer["secretArn"].write(value.secretArn)
-    }
-}
-
-extension DataZoneClientTypes.AthenaPropertiesPatch {
-
-    static func write(value: DataZoneClientTypes.AthenaPropertiesPatch?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["workgroupName"].write(value.workgroupName)
+extension DataZoneClientTypes.WorkflowsServerlessPropertiesOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.WorkflowsServerlessPropertiesOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return DataZoneClientTypes.WorkflowsServerlessPropertiesOutput()
     }
 }
 

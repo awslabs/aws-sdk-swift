@@ -14,7 +14,7 @@ import AWSCLIUtils
 struct GenerateDocIndexCommand: ParsableCommand {
     static var configuration = CommandConfiguration(
         commandName: "generate-doc-index",
-        abstract: "Generates the documentation index for the AWSSDKforSwift documentation target."
+        abstract: "Generates the documentation index for the SDKforSwift documentation target."
     )
 
     @Argument(help: "The path to the aws-sdk-swift repository")
@@ -23,42 +23,11 @@ struct GenerateDocIndexCommand: ParsableCommand {
     func run() throws {
         try FileManager.default.changeWorkingDirectory(repoPath)
         let contents = try generateDocIndexContents()
-        let docIndexFileName = "Sources/Core/AWSSDKForSwift/Documentation.docc/AWSSDKForSwift.md"
+        let docIndexFileName = "Sources/Core/SDKForSwift/Documentation.docc/SDKForSwift.md"
         try saveDocIndex(contents, docIndexFileName)
-        // New doc index page for internal build hosted docs.
-        let newDocIndexFileName = "Sources/Core/SDKForSwift/Documentation.docc/SDKForSwift.md"
-        try saveDocIndex(convertToNewFormat(contents), newDocIndexFileName)
     }
 
     // MARK: - Helpers
-
-    /// Converts old format relative links to new format
-    func convertToNewFormat(_ content: String) -> String {
-        var result = content.replacingOccurrences(
-            of: "../../../../../swift/api/",
-            with: "/sdk-for-swift/latest/api/"
-        ).replacingOccurrences(
-            of: "# ``AWSSDKForSwift``",
-            with: "# ``SDKForSwift``"
-        )
-
-        // Find and replace /modulename/latest) with /modulename/documentation/modulename)
-        let lines = result.components(separatedBy: .newlines)
-        result = lines.map { line in
-            if line.contains("/latest)") {
-                // Extract module name from pattern like "api/modulename/latest)"
-                if let apiRange = line.range(of: "api/"),
-                   let latestRange = line.range(of: "/latest)") {
-                    let moduleStart = apiRange.upperBound
-                    let moduleName = String(line[moduleStart..<latestRange.lowerBound])
-                    return line.replacingOccurrences(of: "/\(moduleName)/latest)", with: "/\(moduleName)/documentation/\(moduleName))")
-                }
-            }
-            return line
-        }.joined(separator: "\n")
-
-        return result
-    }
 
     /// Returns the contents of the generated doc index.
     /// This determines the versions of the dependencies and the list of services to include and then generates the doc index with those values.

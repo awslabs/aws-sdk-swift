@@ -19,7 +19,7 @@ import class AWSSDKIdentity.DefaultS3ExpressIdentityResolver
 import class ClientRuntime.ClientBuilder
 import class ClientRuntime.DefaultClientPlugin
 import class ClientRuntime.HttpClientConfiguration
-import class ClientRuntime.OrchestratorBuilder
+@_spi(SchemaBasedSerde) import class ClientRuntime.OrchestratorBuilder
 import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
@@ -37,6 +37,7 @@ import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import enum Smithy.ByteStream
 import enum Smithy.ClientError
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
+import func ClientRuntime.initialize
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
 import protocol AWSClientRuntime.AWSServiceClient
@@ -73,6 +74,8 @@ import struct ClientRuntime.IdempotencyTokenMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.PayloadBodyMiddleware
 import struct ClientRuntime.QueryItemMiddleware
+import struct ClientRuntime.SendableHttpInterceptorProviderBox
+import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.StringBodyMiddleware
 import struct ClientRuntime.URLHostMiddleware
@@ -85,31 +88,49 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class S3Client: AWSClientRuntime.AWSServiceClient {
+public final class S3Client: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "S3Client"
     let client: ClientRuntime.SdkHttpClient
-    let config: S3Client.S3ClientConfiguration
+    public let config: S3Client.S3ClientConfig
     let serviceName = "S3"
 
-    public required init(config: S3Client.S3ClientConfiguration) {
+    @available(*, deprecated, message: "Use S3Client.S3ClientConfig instead")
+    public typealias Config = S3Client.S3ClientConfiguration
+    public typealias Configuration = S3Client.S3ClientConfig
+
+    public required init(config: S3Client.S3ClientConfig) {
+        ClientRuntime.initialize()
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         self.config = config
     }
 
+    @available(*, deprecated, message: "Use init(config: S3Client.S3ClientConfig) instead")
+    public convenience init(config: S3Client.S3ClientConfiguration) {
+        do {
+            try self.init(config: config.toSendable())
+        } catch {
+            // This should never happen since all values are already initialized in the class
+            fatalError("Failed to convert deprecated configuration: \(error)")
+        }
+    }
+
     public convenience init(region: Swift.String) throws {
-        let config = try S3Client.S3ClientConfiguration(region: region)
+        let config = try S3Client.S3ClientConfig(region: region)
         self.init(config: config)
     }
 
-    public convenience required init() async throws {
-        let config = try await S3Client.S3ClientConfiguration()
+    public convenience init() async throws {
+        let config = try await S3Client.S3ClientConfig()
         self.init(config: config)
     }
 }
 
 extension S3Client {
 
-    public class S3ClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
+    /// Client configuration for S3Client
+    ///
+    /// Conforms to `Sendable` for safe concurrent access across threads.
+    public struct S3ClientConfig: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Swift.Sendable {
         public var s3ExpressIdentityResolver: any AWSSDKIdentityAPI.S3ExpressIdentityResolver
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
@@ -120,6 +141,7 @@ extension S3Client {
         public var requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode
         public var responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode
         public var ignoreConfiguredEndpointURLs: Swift.Bool?
+        public var sigV4aSigningRegionSet: [String]?
         public var region: Swift.String?
         public var signingRegion: Swift.String?
         public var forcePathStyle: Swift.Bool?
@@ -140,80 +162,29 @@ extension S3Client {
         public var authSchemePreference: [String]?
         public var authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver
         public var bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver
-        public private(set) var interceptorProviders: [ClientRuntime.InterceptorProvider]
-        public private(set) var httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]
-        public let logger: Smithy.LogAgent
-
-        private init(
-            _ s3ExpressIdentityResolver: any AWSSDKIdentityAPI.S3ExpressIdentityResolver,
-            _ useFIPS: Swift.Bool?,
-            _ useDualStack: Swift.Bool?,
-            _ appID: Swift.String?,
-            _ awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver,
-            _ awsRetryMode: AWSClientRuntime.AWSRetryMode,
-            _ maxAttempts: Swift.Int?,
-            _ requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode,
-            _ responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode,
-            _ ignoreConfiguredEndpointURLs: Swift.Bool?,
-            _ region: Swift.String?,
-            _ signingRegion: Swift.String?,
-            _ forcePathStyle: Swift.Bool?,
-            _ useArnRegion: Swift.Bool?,
-            _ disableMultiRegionAccessPoints: Swift.Bool?,
-            _ accelerate: Swift.Bool?,
-            _ disableS3ExpressSessionAuth: Swift.Bool?,
-            _ useGlobalEndpoint: Swift.Bool?,
-            _ endpointResolver: EndpointResolver,
-            _ telemetryProvider: ClientRuntime.TelemetryProvider,
-            _ retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions,
-            _ clientLogMode: ClientRuntime.ClientLogMode,
-            _ endpoint: Swift.String?,
-            _ idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator,
-            _ httpClientEngine: SmithyHTTPAPI.HTTPClient,
-            _ httpClientConfiguration: ClientRuntime.HttpClientConfiguration,
-            _ authSchemes: SmithyHTTPAuthAPI.AuthSchemes?,
-            _ authSchemePreference: [String]?,
-            _ authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver,
-            _ bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver,
-            _ interceptorProviders: [ClientRuntime.InterceptorProvider],
-            _ httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]
-        ) {
-            self.s3ExpressIdentityResolver = s3ExpressIdentityResolver
-            self.useFIPS = useFIPS
-            self.useDualStack = useDualStack
-            self.appID = appID
-            self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
-            self.awsRetryMode = awsRetryMode
-            self.maxAttempts = maxAttempts
-            self.requestChecksumCalculation = requestChecksumCalculation
-            self.responseChecksumValidation = responseChecksumValidation
-            self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
-            self.region = region
-            self.signingRegion = signingRegion
-            self.forcePathStyle = forcePathStyle
-            self.useArnRegion = useArnRegion
-            self.disableMultiRegionAccessPoints = disableMultiRegionAccessPoints
-            self.accelerate = accelerate
-            self.disableS3ExpressSessionAuth = disableS3ExpressSessionAuth
-            self.useGlobalEndpoint = useGlobalEndpoint
-            self.endpointResolver = endpointResolver
-            self.telemetryProvider = telemetryProvider
-            self.retryStrategyOptions = retryStrategyOptions
-            self.clientLogMode = clientLogMode
-            self.endpoint = endpoint
-            self.idempotencyTokenGenerator = idempotencyTokenGenerator
-            self.httpClientEngine = httpClientEngine
-            self.httpClientConfiguration = httpClientConfiguration
-            self.authSchemes = authSchemes
-            self.authSchemePreference = authSchemePreference
-            self.authSchemeResolver = authSchemeResolver
-            self.bearerTokenIdentityResolver = bearerTokenIdentityResolver
-            self.interceptorProviders = interceptorProviders
-            self.httpInterceptorProviders = httpInterceptorProviders
-            self.logger = telemetryProvider.loggerProvider.getLogger(name: S3Client.clientName)
+        // Interceptor providers with Sendable-safe internal storage
+        private var _interceptorProviders: [ClientRuntime.SendableInterceptorProviderBox] = []
+        public var interceptorProviders: [ClientRuntime.InterceptorProvider] {
+            get {
+                return _interceptorProviders
+            }
+            set {
+                _interceptorProviders = newValue.map { ClientRuntime.SendableInterceptorProviderBox($0) }
+            }
         }
 
-        public convenience init(
+        private var _httpInterceptorProviders: [ClientRuntime.SendableHttpInterceptorProviderBox] = []
+        public var httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider] {
+            get {
+                return _httpInterceptorProviders
+            }
+            set {
+                _httpInterceptorProviders = newValue.map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
+            }
+        }
+        public var logger: Smithy.LogAgent
+
+        public init(
             s3ExpressIdentityResolver: (any AWSSDKIdentityAPI.S3ExpressIdentityResolver)? = nil,
             useFIPS: Swift.Bool? = nil,
             useDualStack: Swift.Bool? = nil,
@@ -224,6 +195,7 @@ extension S3Client {
             requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
             responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
             ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
+            sigV4aSigningRegionSet: [String]? = nil,
             region: Swift.String? = nil,
             signingRegion: Swift.String? = nil,
             forcePathStyle: Swift.Bool? = nil,
@@ -247,43 +219,43 @@ extension S3Client {
             interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
             httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil
         ) throws {
-            self.init(
-                s3ExpressIdentityResolver ?? AWSSDKIdentity.DefaultS3ExpressIdentityResolver(),
-                useFIPS,
-                useDualStack,
-                try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
-                awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
-                try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
-                maxAttempts,
-                try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation),
-                try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation),
-                ignoreConfiguredEndpointURLs,
-                region,
-                signingRegion,
-                forcePathStyle,
-                useArnRegion,
-                disableMultiRegionAccessPoints,
-                accelerate,
-                try disableS3ExpressSessionAuth ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.disableS3ExpressSessionAuth(),
-                useGlobalEndpoint,
-                try endpointResolver ?? DefaultEndpointResolver(),
-                telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider,
-                try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts),
-                clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(),
-                endpoint,
-                idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
-                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration),
-                httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
-                authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme(), AWSSDKHTTPAuth.SigV4AAuthScheme(), AWSSDKHTTPAuth.SigV4S3ExpressAuthScheme()],
-                authSchemePreference ?? nil,
-                authSchemeResolver ?? DefaultS3AuthSchemeResolver(),
-                bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
-                interceptorProviders ?? [],
-                httpInterceptorProviders ?? []
-            )
+            self.s3ExpressIdentityResolver = s3ExpressIdentityResolver ?? AWSSDKIdentity.DefaultS3ExpressIdentityResolver()
+            self.useFIPS = useFIPS
+            self.useDualStack = useDualStack
+            self.appID = try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID()
+            self.awsCredentialIdentityResolver = awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain()
+            self.awsRetryMode = try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode()
+            self.maxAttempts = maxAttempts
+            self.requestChecksumCalculation = try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation)
+            self.responseChecksumValidation = try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation)
+            self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
+            self.sigV4aSigningRegionSet = sigV4aSigningRegionSet
+            self.region = region
+            self.signingRegion = signingRegion
+            self.forcePathStyle = forcePathStyle
+            self.useArnRegion = useArnRegion
+            self.disableMultiRegionAccessPoints = disableMultiRegionAccessPoints
+            self.accelerate = accelerate
+            self.disableS3ExpressSessionAuth = try disableS3ExpressSessionAuth ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.disableS3ExpressSessionAuth()
+            self.useGlobalEndpoint = useGlobalEndpoint
+            self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
+            self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
+            self.endpoint = endpoint
+            self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
+            self.httpClientEngine = httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration)
+            self.httpClientConfiguration = httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration()
+            self.authSchemes = authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme(), AWSSDKHTTPAuth.SigV4AAuthScheme(), AWSSDKHTTPAuth.SigV4S3ExpressAuthScheme()]
+            self.authSchemePreference = authSchemePreference ?? nil
+            self.authSchemeResolver = authSchemeResolver ?? DefaultS3AuthSchemeResolver()
+            self.bearerTokenIdentityResolver = bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
+            self._interceptorProviders = (interceptorProviders ?? []).map { ClientRuntime.SendableInterceptorProviderBox($0) }
+            self._httpInterceptorProviders = (httpInterceptorProviders ?? []).map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
+            self.logger = (telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider).loggerProvider.getLogger(name: S3Client.clientName)
         }
 
-        public convenience init(
+        public init(
             s3ExpressIdentityResolver: (any AWSSDKIdentityAPI.S3ExpressIdentityResolver)? = nil,
             useFIPS: Swift.Bool? = nil,
             useDualStack: Swift.Bool? = nil,
@@ -294,6 +266,7 @@ extension S3Client {
             requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
             responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
             ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
+            sigV4aSigningRegionSet: [String]? = nil,
             region: Swift.String? = nil,
             signingRegion: Swift.String? = nil,
             forcePathStyle: Swift.Bool? = nil,
@@ -317,43 +290,43 @@ extension S3Client {
             interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
             httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil
         ) async throws {
-            self.init(
-                s3ExpressIdentityResolver ?? AWSSDKIdentity.DefaultS3ExpressIdentityResolver(),
-                useFIPS,
-                useDualStack,
-                try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
-                awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
-                try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
-                maxAttempts,
-                try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation),
-                try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation),
-                ignoreConfiguredEndpointURLs,
-                try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region),
-                try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region),
-                forcePathStyle,
-                useArnRegion,
-                disableMultiRegionAccessPoints,
-                accelerate,
-                try disableS3ExpressSessionAuth ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.disableS3ExpressSessionAuth(),
-                useGlobalEndpoint,
-                try endpointResolver ?? DefaultEndpointResolver(),
-                telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider,
-                try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts),
-                clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(),
-                endpoint,
-                idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
-                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration),
-                httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
-                authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme(), AWSSDKHTTPAuth.SigV4AAuthScheme(), AWSSDKHTTPAuth.SigV4S3ExpressAuthScheme()],
-                authSchemePreference ?? nil,
-                authSchemeResolver ?? DefaultS3AuthSchemeResolver(),
-                bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
-                interceptorProviders ?? [],
-                httpInterceptorProviders ?? []
-            )
+            self.s3ExpressIdentityResolver = s3ExpressIdentityResolver ?? AWSSDKIdentity.DefaultS3ExpressIdentityResolver()
+            self.useFIPS = useFIPS
+            self.useDualStack = useDualStack
+            self.appID = try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID()
+            self.awsCredentialIdentityResolver = awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain()
+            self.awsRetryMode = try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode()
+            self.maxAttempts = maxAttempts
+            self.requestChecksumCalculation = try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation)
+            self.responseChecksumValidation = try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation)
+            self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
+            self.sigV4aSigningRegionSet = sigV4aSigningRegionSet
+            self.region = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
+            self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
+            self.forcePathStyle = forcePathStyle
+            self.useArnRegion = useArnRegion
+            self.disableMultiRegionAccessPoints = disableMultiRegionAccessPoints
+            self.accelerate = accelerate
+            self.disableS3ExpressSessionAuth = try disableS3ExpressSessionAuth ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.disableS3ExpressSessionAuth()
+            self.useGlobalEndpoint = useGlobalEndpoint
+            self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
+            self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
+            self.endpoint = endpoint
+            self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
+            self.httpClientEngine = httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration)
+            self.httpClientConfiguration = httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration()
+            self.authSchemes = authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme(), AWSSDKHTTPAuth.SigV4AAuthScheme(), AWSSDKHTTPAuth.SigV4S3ExpressAuthScheme()]
+            self.authSchemePreference = authSchemePreference ?? nil
+            self.authSchemeResolver = authSchemeResolver ?? DefaultS3AuthSchemeResolver()
+            self.bearerTokenIdentityResolver = bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
+            self._interceptorProviders = (interceptorProviders ?? []).map { ClientRuntime.SendableInterceptorProviderBox($0) }
+            self._httpInterceptorProviders = (httpInterceptorProviders ?? []).map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
+            self.logger = (telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider).loggerProvider.getLogger(name: S3Client.clientName)
         }
 
-        public convenience required init() async throws {
+        public init() async throws {
             try await self.init(
                 s3ExpressIdentityResolver: nil,
                 useFIPS: nil,
@@ -365,6 +338,294 @@ extension S3Client {
                 requestChecksumCalculation: nil,
                 responseChecksumValidation: nil,
                 ignoreConfiguredEndpointURLs: nil,
+                sigV4aSigningRegionSet: nil,
+                region: nil,
+                signingRegion: nil,
+                forcePathStyle: nil,
+                useArnRegion: nil,
+                disableMultiRegionAccessPoints: nil,
+                accelerate: nil,
+                disableS3ExpressSessionAuth: nil,
+                useGlobalEndpoint: nil,
+                endpointResolver: nil,
+                telemetryProvider: nil,
+                retryStrategyOptions: nil,
+                clientLogMode: nil,
+                endpoint: nil,
+                idempotencyTokenGenerator: nil,
+                httpClientEngine: nil,
+                httpClientConfiguration: nil,
+                authSchemes: nil,
+                authSchemePreference: nil,
+                authSchemeResolver: nil,
+                bearerTokenIdentityResolver: nil,
+                interceptorProviders: nil,
+                httpInterceptorProviders: nil
+            )
+        }
+
+        public init(region: Swift.String) throws {
+            try self.init(
+                s3ExpressIdentityResolver: AWSSDKIdentity.DefaultS3ExpressIdentityResolver(),
+                useFIPS: nil,
+                useDualStack: nil,
+                appID: try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
+                awsCredentialIdentityResolver: AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
+                awsRetryMode: try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
+                maxAttempts: nil,
+                requestChecksumCalculation: try AWSClientConfigDefaultsProvider.requestChecksumCalculation(),
+                responseChecksumValidation: try AWSClientConfigDefaultsProvider.responseChecksumValidation(),
+                ignoreConfiguredEndpointURLs: nil,
+                sigV4aSigningRegionSet: nil,
+                region: region,
+                signingRegion: region,
+                forcePathStyle: nil,
+                useArnRegion: nil,
+                disableMultiRegionAccessPoints: nil,
+                accelerate: nil,
+                disableS3ExpressSessionAuth: try AWSClientRuntime.AWSClientConfigDefaultsProvider.disableS3ExpressSessionAuth(),
+                useGlobalEndpoint: nil,
+                endpointResolver: try DefaultEndpointResolver(),
+                telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
+                endpoint: nil,
+                idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
+                httpClientEngine: AWSClientConfigDefaultsProvider.httpClientEngine(),
+                httpClientConfiguration: AWSClientConfigDefaultsProvider.httpClientConfiguration(),
+                authSchemes: [AWSSDKHTTPAuth.SigV4AuthScheme(), AWSSDKHTTPAuth.SigV4AAuthScheme(), AWSSDKHTTPAuth.SigV4S3ExpressAuthScheme()],
+                authSchemePreference: nil,
+                authSchemeResolver: DefaultS3AuthSchemeResolver(),
+                bearerTokenIdentityResolver: SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
+                interceptorProviders: [],
+                httpInterceptorProviders: []
+            )
+        }
+
+        public var partitionID: String? {
+            return "\(S3Client.clientName) - \(region ?? "")"
+        }
+
+        public mutating func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
+            self._interceptorProviders.append(ClientRuntime.SendableInterceptorProviderBox(provider))
+        }
+
+        public mutating func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
+            self._httpInterceptorProviders.append(ClientRuntime.SendableHttpInterceptorProviderBox(provider))
+        }
+
+    }
+
+    @available(*, deprecated, message: "Use S3ClientConfig instead. This class will be removed in a future version.")
+    public final class S3ClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
+        public var s3ExpressIdentityResolver: any AWSSDKIdentityAPI.S3ExpressIdentityResolver
+        public var useFIPS: Swift.Bool?
+        public var useDualStack: Swift.Bool?
+        public var appID: Swift.String?
+        public var awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver
+        public var awsRetryMode: AWSClientRuntime.AWSRetryMode
+        public var maxAttempts: Swift.Int?
+        public var requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode
+        public var responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode
+        public var ignoreConfiguredEndpointURLs: Swift.Bool?
+        public var sigV4aSigningRegionSet: [String]?
+        public var region: Swift.String?
+        public var signingRegion: Swift.String?
+        public var forcePathStyle: Swift.Bool?
+        public var useArnRegion: Swift.Bool?
+        public var disableMultiRegionAccessPoints: Swift.Bool?
+        public var accelerate: Swift.Bool?
+        public var disableS3ExpressSessionAuth: Swift.Bool?
+        public var useGlobalEndpoint: Swift.Bool?
+        public var endpointResolver: EndpointResolver
+        public var telemetryProvider: ClientRuntime.TelemetryProvider
+        public var retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions
+        public var clientLogMode: ClientRuntime.ClientLogMode
+        public var endpoint: Swift.String?
+        public var idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator
+        public var httpClientEngine: SmithyHTTPAPI.HTTPClient
+        public var httpClientConfiguration: ClientRuntime.HttpClientConfiguration
+        public var authSchemes: SmithyHTTPAuthAPI.AuthSchemes?
+        public var authSchemePreference: [String]?
+        public var authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver
+        public var bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver
+        // Interceptor providers with Sendable-safe internal storage
+        private var _interceptorProviders: [ClientRuntime.SendableInterceptorProviderBox] = []
+        public var interceptorProviders: [ClientRuntime.InterceptorProvider] {
+            get {
+                return _interceptorProviders
+            }
+            set {
+                _interceptorProviders = newValue.map { ClientRuntime.SendableInterceptorProviderBox($0) }
+            }
+        }
+
+        private var _httpInterceptorProviders: [ClientRuntime.SendableHttpInterceptorProviderBox] = []
+        public var httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider] {
+            get {
+                return _httpInterceptorProviders
+            }
+            set {
+                _httpInterceptorProviders = newValue.map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
+            }
+        }
+        public var logger: Smithy.LogAgent
+
+        public init(
+            s3ExpressIdentityResolver: (any AWSSDKIdentityAPI.S3ExpressIdentityResolver)? = nil,
+            useFIPS: Swift.Bool? = nil,
+            useDualStack: Swift.Bool? = nil,
+            appID: Swift.String? = nil,
+            awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil,
+            awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil,
+            maxAttempts: Swift.Int? = nil,
+            requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
+            sigV4aSigningRegionSet: [String]? = nil,
+            region: Swift.String? = nil,
+            signingRegion: Swift.String? = nil,
+            forcePathStyle: Swift.Bool? = nil,
+            useArnRegion: Swift.Bool? = nil,
+            disableMultiRegionAccessPoints: Swift.Bool? = nil,
+            accelerate: Swift.Bool? = nil,
+            disableS3ExpressSessionAuth: Swift.Bool? = nil,
+            useGlobalEndpoint: Swift.Bool? = nil,
+            endpointResolver: EndpointResolver? = nil,
+            telemetryProvider: ClientRuntime.TelemetryProvider? = nil,
+            retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil,
+            clientLogMode: ClientRuntime.ClientLogMode? = nil,
+            endpoint: Swift.String? = nil,
+            idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil,
+            httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil,
+            httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil,
+            authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil,
+            authSchemePreference: [String]? = nil,
+            authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil,
+            bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil,
+            interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
+            httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil
+        ) throws {
+            self.s3ExpressIdentityResolver = s3ExpressIdentityResolver ?? AWSSDKIdentity.DefaultS3ExpressIdentityResolver()
+            self.useFIPS = useFIPS
+            self.useDualStack = useDualStack
+            self.appID = try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID()
+            self.awsCredentialIdentityResolver = awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain()
+            self.awsRetryMode = try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode()
+            self.maxAttempts = maxAttempts
+            self.requestChecksumCalculation = try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation)
+            self.responseChecksumValidation = try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation)
+            self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
+            self.sigV4aSigningRegionSet = sigV4aSigningRegionSet
+            self.region = region
+            self.signingRegion = signingRegion
+            self.forcePathStyle = forcePathStyle
+            self.useArnRegion = useArnRegion
+            self.disableMultiRegionAccessPoints = disableMultiRegionAccessPoints
+            self.accelerate = accelerate
+            self.disableS3ExpressSessionAuth = try disableS3ExpressSessionAuth ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.disableS3ExpressSessionAuth()
+            self.useGlobalEndpoint = useGlobalEndpoint
+            self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
+            self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
+            self.endpoint = endpoint
+            self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
+            self.httpClientEngine = httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration)
+            self.httpClientConfiguration = httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration()
+            self.authSchemes = authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme(), AWSSDKHTTPAuth.SigV4AAuthScheme(), AWSSDKHTTPAuth.SigV4S3ExpressAuthScheme()]
+            self.authSchemePreference = authSchemePreference ?? nil
+            self.authSchemeResolver = authSchemeResolver ?? DefaultS3AuthSchemeResolver()
+            self.bearerTokenIdentityResolver = bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
+            self._interceptorProviders = (interceptorProviders ?? []).map { ClientRuntime.SendableInterceptorProviderBox($0) }
+            self._httpInterceptorProviders = (httpInterceptorProviders ?? []).map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
+            self.logger = (telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider).loggerProvider.getLogger(name: S3Client.clientName)
+        }
+
+        public init(
+            s3ExpressIdentityResolver: (any AWSSDKIdentityAPI.S3ExpressIdentityResolver)? = nil,
+            useFIPS: Swift.Bool? = nil,
+            useDualStack: Swift.Bool? = nil,
+            appID: Swift.String? = nil,
+            awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil,
+            awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil,
+            maxAttempts: Swift.Int? = nil,
+            requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
+            sigV4aSigningRegionSet: [String]? = nil,
+            region: Swift.String? = nil,
+            signingRegion: Swift.String? = nil,
+            forcePathStyle: Swift.Bool? = nil,
+            useArnRegion: Swift.Bool? = nil,
+            disableMultiRegionAccessPoints: Swift.Bool? = nil,
+            accelerate: Swift.Bool? = nil,
+            disableS3ExpressSessionAuth: Swift.Bool? = nil,
+            useGlobalEndpoint: Swift.Bool? = nil,
+            endpointResolver: EndpointResolver? = nil,
+            telemetryProvider: ClientRuntime.TelemetryProvider? = nil,
+            retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil,
+            clientLogMode: ClientRuntime.ClientLogMode? = nil,
+            endpoint: Swift.String? = nil,
+            idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil,
+            httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil,
+            httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil,
+            authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil,
+            authSchemePreference: [String]? = nil,
+            authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil,
+            bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil,
+            interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
+            httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil
+        ) async throws {
+            self.s3ExpressIdentityResolver = s3ExpressIdentityResolver ?? AWSSDKIdentity.DefaultS3ExpressIdentityResolver()
+            self.useFIPS = useFIPS
+            self.useDualStack = useDualStack
+            self.appID = try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID()
+            self.awsCredentialIdentityResolver = awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain()
+            self.awsRetryMode = try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode()
+            self.maxAttempts = maxAttempts
+            self.requestChecksumCalculation = try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation)
+            self.responseChecksumValidation = try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation)
+            self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
+            self.sigV4aSigningRegionSet = sigV4aSigningRegionSet
+            self.region = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
+            self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
+            self.forcePathStyle = forcePathStyle
+            self.useArnRegion = useArnRegion
+            self.disableMultiRegionAccessPoints = disableMultiRegionAccessPoints
+            self.accelerate = accelerate
+            self.disableS3ExpressSessionAuth = try disableS3ExpressSessionAuth ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.disableS3ExpressSessionAuth()
+            self.useGlobalEndpoint = useGlobalEndpoint
+            self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
+            self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
+            self.endpoint = endpoint
+            self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
+            self.httpClientEngine = httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration)
+            self.httpClientConfiguration = httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration()
+            self.authSchemes = authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme(), AWSSDKHTTPAuth.SigV4AAuthScheme(), AWSSDKHTTPAuth.SigV4S3ExpressAuthScheme()]
+            self.authSchemePreference = authSchemePreference ?? nil
+            self.authSchemeResolver = authSchemeResolver ?? DefaultS3AuthSchemeResolver()
+            self.bearerTokenIdentityResolver = bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
+            self._interceptorProviders = (interceptorProviders ?? []).map { ClientRuntime.SendableInterceptorProviderBox($0) }
+            self._httpInterceptorProviders = (httpInterceptorProviders ?? []).map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
+            self.logger = (telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider).loggerProvider.getLogger(name: S3Client.clientName)
+        }
+
+        public convenience init() async throws {
+            try await self.init(
+                s3ExpressIdentityResolver: nil,
+                useFIPS: nil,
+                useDualStack: nil,
+                appID: nil,
+                awsCredentialIdentityResolver: nil,
+                awsRetryMode: nil,
+                maxAttempts: nil,
+                requestChecksumCalculation: nil,
+                responseChecksumValidation: nil,
+                ignoreConfiguredEndpointURLs: nil,
+                sigV4aSigningRegionSet: nil,
                 region: nil,
                 signingRegion: nil,
                 forcePathStyle: nil,
@@ -391,39 +652,40 @@ extension S3Client {
         }
 
         public convenience init(region: Swift.String) throws {
-            self.init(
-                AWSSDKIdentity.DefaultS3ExpressIdentityResolver(),
-                nil,
-                nil,
-                try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
-                AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
-                try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
-                nil,
-                try AWSClientConfigDefaultsProvider.requestChecksumCalculation(),
-                try AWSClientConfigDefaultsProvider.responseChecksumValidation(),
-                nil,
-                region,
-                region,
-                nil,
-                nil,
-                nil,
-                nil,
-                try AWSClientRuntime.AWSClientConfigDefaultsProvider.disableS3ExpressSessionAuth(),
-                nil,
-                try DefaultEndpointResolver(),
-                ClientRuntime.DefaultTelemetry.provider,
-                try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
-                AWSClientConfigDefaultsProvider.clientLogMode(),
-                nil,
-                AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
-                AWSClientConfigDefaultsProvider.httpClientEngine(),
-                AWSClientConfigDefaultsProvider.httpClientConfiguration(),
-                [AWSSDKHTTPAuth.SigV4AuthScheme(), AWSSDKHTTPAuth.SigV4AAuthScheme(), AWSSDKHTTPAuth.SigV4S3ExpressAuthScheme()],
-                nil,
-                DefaultS3AuthSchemeResolver(),
-                SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
-                [],
-                []
+            try self.init(
+                s3ExpressIdentityResolver: AWSSDKIdentity.DefaultS3ExpressIdentityResolver(),
+                useFIPS: nil,
+                useDualStack: nil,
+                appID: try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
+                awsCredentialIdentityResolver: AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
+                awsRetryMode: try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
+                maxAttempts: nil,
+                requestChecksumCalculation: try AWSClientConfigDefaultsProvider.requestChecksumCalculation(),
+                responseChecksumValidation: try AWSClientConfigDefaultsProvider.responseChecksumValidation(),
+                ignoreConfiguredEndpointURLs: nil,
+                sigV4aSigningRegionSet: nil,
+                region: region,
+                signingRegion: region,
+                forcePathStyle: nil,
+                useArnRegion: nil,
+                disableMultiRegionAccessPoints: nil,
+                accelerate: nil,
+                disableS3ExpressSessionAuth: try AWSClientRuntime.AWSClientConfigDefaultsProvider.disableS3ExpressSessionAuth(),
+                useGlobalEndpoint: nil,
+                endpointResolver: try DefaultEndpointResolver(),
+                telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
+                endpoint: nil,
+                idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
+                httpClientEngine: AWSClientConfigDefaultsProvider.httpClientEngine(),
+                httpClientConfiguration: AWSClientConfigDefaultsProvider.httpClientConfiguration(),
+                authSchemes: [AWSSDKHTTPAuth.SigV4AuthScheme(), AWSSDKHTTPAuth.SigV4AAuthScheme(), AWSSDKHTTPAuth.SigV4S3ExpressAuthScheme()],
+                authSchemePreference: nil,
+                authSchemeResolver: DefaultS3AuthSchemeResolver(),
+                bearerTokenIdentityResolver: SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
+                interceptorProviders: [],
+                httpInterceptorProviders: []
             )
         }
 
@@ -431,12 +693,50 @@ extension S3Client {
             return "\(S3Client.clientName) - \(region ?? "")"
         }
 
+        public func toSendable() throws -> S3ClientConfig {
+            return try S3ClientConfig(
+                s3ExpressIdentityResolver: self.s3ExpressIdentityResolver,
+                useFIPS: self.useFIPS,
+                useDualStack: self.useDualStack,
+                appID: self.appID,
+                awsCredentialIdentityResolver: self.awsCredentialIdentityResolver,
+                awsRetryMode: self.awsRetryMode,
+                maxAttempts: self.maxAttempts,
+                requestChecksumCalculation: self.requestChecksumCalculation,
+                responseChecksumValidation: self.responseChecksumValidation,
+                ignoreConfiguredEndpointURLs: self.ignoreConfiguredEndpointURLs,
+                sigV4aSigningRegionSet: self.sigV4aSigningRegionSet,
+                region: self.region,
+                signingRegion: self.signingRegion,
+                forcePathStyle: self.forcePathStyle,
+                useArnRegion: self.useArnRegion,
+                disableMultiRegionAccessPoints: self.disableMultiRegionAccessPoints,
+                accelerate: self.accelerate,
+                disableS3ExpressSessionAuth: self.disableS3ExpressSessionAuth,
+                useGlobalEndpoint: self.useGlobalEndpoint,
+                endpointResolver: self.endpointResolver,
+                telemetryProvider: self.telemetryProvider,
+                retryStrategyOptions: self.retryStrategyOptions,
+                clientLogMode: self.clientLogMode,
+                endpoint: self.endpoint,
+                idempotencyTokenGenerator: self.idempotencyTokenGenerator,
+                httpClientEngine: self.httpClientEngine,
+                httpClientConfiguration: self.httpClientConfiguration,
+                authSchemes: self.authSchemes,
+                authSchemePreference: self.authSchemePreference,
+                authSchemeResolver: self.authSchemeResolver,
+                bearerTokenIdentityResolver: self.bearerTokenIdentityResolver,
+                interceptorProviders: self.interceptorProviders,
+                httpInterceptorProviders: self.httpInterceptorProviders
+            )
+        }
+
         public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
-            self.interceptorProviders.append(provider)
+            self._interceptorProviders.append(ClientRuntime.SendableInterceptorProviderBox(provider))
         }
 
         public func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
-            self.httpInterceptorProviders.append(provider)
+            self._httpInterceptorProviders.append(ClientRuntime.SendableHttpInterceptorProviderBox(provider))
         }
 
     }
@@ -504,7 +804,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<AbortMultipartUploadInput, AbortMultipartUploadOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -629,7 +930,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<CompleteMultipartUploadInput, CompleteMultipartUploadOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -701,7 +1003,7 @@ extension S3Client {
     ///
     /// * Directory bucket permissions - You must have permissions in a bucket policy or an IAM identity-based policy based on the source and destination bucket types in a CopyObject operation.
     ///
-    /// * If the source object that you want to copy is in a directory bucket, you must have the s3express:CreateSession permission in the Action element of a policy to read the object. By default, the session is in the ReadWrite mode. If you want to restrict the access, you can explicitly set the s3express:SessionMode condition key to ReadOnly on the copy source bucket.
+    /// * If the source object that you want to copy is in a directory bucket, you must have the s3express:CreateSession permission in the Action element of a policy to read the object. If no session mode is specified, the session will be created with the maximum allowable privilege, attempting ReadWrite first, then ReadOnly if ReadWrite is not permitted. If you want to explicitly restrict the access to be read-only, you can set the s3express:SessionMode condition key to ReadOnly on the copy source bucket.
     ///
     /// * If the copy destination is a directory bucket, you must have the s3express:CreateSession permission in the Action element of a policy to write the object to the destination. The s3express:SessionMode condition key can't be set to ReadOnly on the copy destination bucket.
     ///
@@ -761,7 +1063,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<CopyObjectInput, CopyObjectOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -808,7 +1111,7 @@ extension S3Client {
 
     /// Performs the `CreateBucket` operation on the `S3` service.
     ///
-    /// This action creates an Amazon S3 bucket. To create an Amazon S3 on Outposts bucket, see [CreateBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateBucket.html). Creates a new S3 bucket. To create a bucket, you must set up Amazon S3 and have a valid Amazon Web Services Access Key ID to authenticate requests. Anonymous requests are never allowed to create buckets. By creating the bucket, you become the bucket owner. There are two types of buckets: general purpose buckets and directory buckets. For more information about these bucket types, see [Creating, configuring, and working with Amazon S3 buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/creating-buckets-s3.html) in the Amazon S3 User Guide.
+    /// This action creates an Amazon S3 bucket. To create an Amazon S3 on Outposts bucket, see [CreateBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateBucket.html). Creates a new S3 bucket. To create a bucket, you must set up Amazon S3 and have a valid Amazon Web Services Access Key ID to authenticate requests. Anonymous requests are never allowed to create buckets. By creating the bucket, you become the bucket owner. There are two types of buckets: general purpose buckets and directory buckets. For more information about these bucket types, see [Creating, configuring, and working with Amazon S3 buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/creating-buckets-s3.html) in the Amazon S3 User Guide. General purpose buckets exist in a global namespace, which means that each bucket name must be unique across all Amazon Web Services accounts in all the Amazon Web Services Regions within a partition. A partition is a grouping of Regions. Amazon Web Services currently has four partitions: aws (Standard Regions), aws-cn (China Regions), aws-us-gov (Amazon Web Services GovCloud (US)), and aws-eusc (European Sovereign Cloud). When you create a general purpose bucket, you can choose to create a bucket in the shared global namespace or you can choose to create a bucket in your account regional namespace. Your account regional namespace is a subdivision of the global namespace that only your account can create buckets in. For more information on account regional namespaces, see [Namespaces for general purpose buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/gpbucketnamespaces.html).
     ///
     /// * General purpose buckets - If you send your CreateBucket request to the s3.amazonaws.com global endpoint, the request goes to the us-east-1 Region. So the signature calculations in Signature Version 4 must use us-east-1 as the Region, even if the location constraint in the request specifies another Region where the bucket is to be created. If you create a bucket in a Region other than US East (N. Virginia), your application must be able to handle 307 redirect. For more information, see [Virtual hosting of buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/VirtualHosting.html) in the Amazon S3 User Guide.
     ///
@@ -865,7 +1168,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<CreateBucketInput, CreateBucketOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -963,7 +1267,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<CreateBucketMetadataConfigurationInput, CreateBucketMetadataConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -1053,7 +1358,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<CreateBucketMetadataTableConfigurationInput, CreateBucketMetadataTableConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -1193,7 +1499,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<CreateMultipartUploadInput, CreateMultipartUploadOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -1273,7 +1580,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<CreateSessionInput, CreateSessionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -1360,7 +1668,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DeleteBucketInput, DeleteBucketOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -1434,7 +1743,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DeleteBucketAnalyticsConfigurationInput, DeleteBucketAnalyticsConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -1507,7 +1817,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DeleteBucketCorsInput, DeleteBucketCorsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -1594,7 +1905,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DeleteBucketEncryptionInput, DeleteBucketEncryptionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -1669,7 +1981,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DeleteBucketIntelligentTieringConfigurationInput, DeleteBucketIntelligentTieringConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -1716,7 +2029,14 @@ extension S3Client {
 
     /// Performs the `DeleteBucketInventoryConfiguration` operation on the `S3` service.
     ///
-    /// This operation is not supported for directory buckets. Deletes an S3 Inventory configuration (identified by the inventory ID) from the bucket. To use this operation, you must have permissions to perform the s3:PutInventoryConfiguration action. The bucket owner has this permission by default. The bucket owner can grant this permission to others. For more information about permissions, see [Permissions Related to Bucket Subresource Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources) and [Managing Access Permissions to Your Amazon S3 Resources](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html). For information about the Amazon S3 inventory feature, see [Amazon S3 Inventory](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-inventory.html). Operations related to DeleteBucketInventoryConfiguration include:
+    /// Deletes an S3 Inventory configuration (identified by the inventory ID) from the bucket. Directory buckets - For directory buckets, you must make requests for this API operation to the Regional endpoint. These endpoints support path-style requests in the format https://s3express-control.region-code.amazonaws.com/bucket-name . Virtual-hosted-style requests aren't supported. For more information about endpoints in Availability Zones, see [Regional and Zonal endpoints for directory buckets in Availability Zones](https://docs.aws.amazon.com/AmazonS3/latest/userguide/endpoint-directory-buckets-AZ.html) in the Amazon S3 User Guide. For more information about endpoints in Local Zones, see [Concepts for directory buckets in Local Zones](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-lzs-for-directory-buckets.html) in the Amazon S3 User Guide. Permissions To use this operation, you must have permissions to perform the s3:PutInventoryConfiguration action. The bucket owner has this permission by default. The bucket owner can grant this permission to others. For more information about permissions, see [Permissions Related to Bucket Subresource Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources) and [Managing Access Permissions to Your Amazon S3 Resources](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html).
+    ///
+    /// * General purpose bucket permissions - The s3:PutInventoryConfiguration permission is required in a policy. For more information about general purpose buckets permissions, see [Using Bucket Policies and User Policies](https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html) in the Amazon S3 User Guide.
+    ///
+    /// * Directory bucket permissions - To grant access to this API operation, you must have the s3express:PutInventoryConfiguration permission in an IAM identity-based policy instead of a bucket policy. For more information about directory bucket policies and permissions, see [Amazon Web Services Identity and Access Management (IAM) for S3 Express One Zone](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam.html) in the Amazon S3 User Guide.
+    ///
+    ///
+    /// HTTP Host header syntax Directory buckets - The HTTP Host header syntax is s3express-control.region-code.amazonaws.com. For information about the Amazon S3 inventory feature, see [Amazon S3 Inventory](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-inventory.html). After deleting a configuration, Amazon S3 might still deliver one additional inventory report during a brief transition period while the system processes the deletion. Operations related to DeleteBucketInventoryConfiguration include:
     ///
     /// * [GetBucketInventoryConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketInventoryConfiguration.html)
     ///
@@ -1744,7 +2064,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DeleteBucketInventoryConfigurationInput, DeleteBucketInventoryConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -1827,7 +2148,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DeleteBucketLifecycleInput, DeleteBucketLifecycleOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -1904,7 +2226,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DeleteBucketMetadataConfigurationInput, DeleteBucketMetadataConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -1977,7 +2300,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DeleteBucketMetadataTableConfigurationInput, DeleteBucketMetadataTableConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -2024,7 +2348,14 @@ extension S3Client {
 
     /// Performs the `DeleteBucketMetricsConfiguration` operation on the `S3` service.
     ///
-    /// This operation is not supported for directory buckets. Deletes a metrics configuration for the Amazon CloudWatch request metrics (specified by the metrics configuration ID) from the bucket. Note that this doesn't include the daily storage metrics. To use this operation, you must have permissions to perform the s3:PutMetricsConfiguration action. The bucket owner has this permission by default. The bucket owner can grant this permission to others. For more information about permissions, see [Permissions Related to Bucket Subresource Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources) and [Managing Access Permissions to Your Amazon S3 Resources](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html). For information about CloudWatch request metrics for Amazon S3, see [Monitoring Metrics with Amazon CloudWatch](https://docs.aws.amazon.com/AmazonS3/latest/dev/cloudwatch-monitoring.html). The following operations are related to DeleteBucketMetricsConfiguration:
+    /// Deletes a metrics configuration for the Amazon CloudWatch request metrics (specified by the metrics configuration ID) from the bucket. Note that this doesn't include the daily storage metrics. Directory buckets - For directory buckets, you must make requests for this API operation to the Regional endpoint. These endpoints support path-style requests in the format https://s3express-control.region-code.amazonaws.com/bucket-name . Virtual-hosted-style requests aren't supported. For more information about endpoints in Availability Zones, see [Regional and Zonal endpoints for directory buckets in Availability Zones](https://docs.aws.amazon.com/AmazonS3/latest/userguide/endpoint-directory-buckets-AZ.html) in the Amazon S3 User Guide. For more information about endpoints in Local Zones, see [Concepts for directory buckets in Local Zones](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-lzs-for-directory-buckets.html) in the Amazon S3 User Guide. Permissions To use this operation, you must have permissions to perform the s3:PutMetricsConfiguration action. The bucket owner has this permission by default. The bucket owner can grant this permission to others. For more information about permissions, see [Permissions Related to Bucket Subresource Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources) and [Managing Access Permissions to Your Amazon S3 Resources](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html).
+    ///
+    /// * General purpose bucket permissions - The s3:PutMetricsConfiguration permission is required in a policy. For more information about general purpose buckets permissions, see [Using Bucket Policies and User Policies](https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html) in the Amazon S3 User Guide.
+    ///
+    /// * Directory bucket permissions - To grant access to this API operation, you must have the s3express:PutMetricsConfiguration permission in an IAM identity-based policy instead of a bucket policy. Cross-account access to this API operation isn't supported. This operation can only be performed by the Amazon Web Services account that owns the resource. For more information about directory bucket policies and permissions, see [Amazon Web Services Identity and Access Management (IAM) for S3 Express One Zone](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam.html) in the Amazon S3 User Guide.
+    ///
+    ///
+    /// HTTP Host header syntax Directory buckets - The HTTP Host header syntax is s3express-control.region-code.amazonaws.com. For information about CloudWatch request metrics for Amazon S3, see [Monitoring Metrics with Amazon CloudWatch](https://docs.aws.amazon.com/AmazonS3/latest/dev/cloudwatch-monitoring.html). The following operations are related to DeleteBucketMetricsConfiguration:
     ///
     /// * [GetBucketMetricsConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketMetricsConfiguration.html)
     ///
@@ -2054,7 +2385,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DeleteBucketMetricsConfigurationInput, DeleteBucketMetricsConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -2127,7 +2459,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DeleteBucketOwnershipControlsInput, DeleteBucketOwnershipControlsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -2207,7 +2540,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DeleteBucketPolicyInput, DeleteBucketPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -2280,7 +2614,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DeleteBucketReplicationInput, DeleteBucketReplicationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -2327,7 +2662,7 @@ extension S3Client {
 
     /// Performs the `DeleteBucketTagging` operation on the `S3` service.
     ///
-    /// This operation is not supported for directory buckets. Deletes tags from the general purpose bucket if attribute based access control (ABAC) is not enabled for the bucket. When you [enable ABAC for a general purpose bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/buckets-tagging-enable-abac.html), you can no longer use this operation for that bucket and must use [UntagResource](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_UntagResource.html) instead. if ABAC is not enabled for the bucket. When you [enable ABAC for a general purpose bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/buckets-tagging-enable-abac.html), you can no longer use this operation for that bucket and must use [UntagResource](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_UntagResource.html) instead. To use this operation, you must have permission to perform the s3:PutBucketTagging action. By default, the bucket owner has this permission and can grant this permission to others. The following operations are related to DeleteBucketTagging:
+    /// This operation is not supported for directory buckets. Deletes tags from the general purpose bucket if attribute based access control (ABAC) is not enabled for the bucket. When you [enable ABAC for a general purpose bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/buckets-tagging-enable-abac.html), you can no longer use this operation for that bucket and must use [UntagResource](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_UntagResource.html) instead. To use this operation, you must have permission to perform the s3:PutBucketTagging action. By default, the bucket owner has this permission and can grant this permission to others. The following operations are related to DeleteBucketTagging:
     ///
     /// * [GetBucketTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketTagging.html)
     ///
@@ -2353,7 +2688,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DeleteBucketTaggingInput, DeleteBucketTaggingOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -2426,7 +2762,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DeleteBucketWebsiteInput, DeleteBucketWebsiteOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -2527,7 +2864,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DeleteObjectInput, DeleteObjectOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -2600,7 +2938,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DeleteObjectTaggingInput, DeleteObjectTaggingOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -2707,7 +3046,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DeleteObjectsInput, DeleteObjectsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -2788,7 +3128,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DeletePublicAccessBlockInput, DeletePublicAccessBlockOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -2854,7 +3195,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetBucketAbacInput, GetBucketAbacOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -2925,7 +3267,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetBucketAccelerateConfigurationInput, GetBucketAccelerateConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -2993,7 +3336,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetBucketAclInput, GetBucketAclOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -3068,7 +3412,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetBucketAnalyticsConfigurationInput, GetBucketAnalyticsConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -3141,7 +3486,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetBucketCorsInput, GetBucketCorsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -3228,7 +3574,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetBucketEncryptionInput, GetBucketEncryptionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -3303,7 +3650,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetBucketIntelligentTieringConfigurationInput, GetBucketIntelligentTieringConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -3350,7 +3698,14 @@ extension S3Client {
 
     /// Performs the `GetBucketInventoryConfiguration` operation on the `S3` service.
     ///
-    /// This operation is not supported for directory buckets. Returns an S3 Inventory configuration (identified by the inventory configuration ID) from the bucket. To use this operation, you must have permissions to perform the s3:GetInventoryConfiguration action. The bucket owner has this permission by default and can grant this permission to others. For more information about permissions, see [Permissions Related to Bucket Subresource Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources) and [Managing Access Permissions to Your Amazon S3 Resources](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html). For information about the Amazon S3 inventory feature, see [Amazon S3 Inventory](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-inventory.html). The following operations are related to GetBucketInventoryConfiguration:
+    /// Returns an S3 Inventory configuration (identified by the inventory configuration ID) from the bucket. Directory buckets - For directory buckets, you must make requests for this API operation to the Regional endpoint. These endpoints support path-style requests in the format https://s3express-control.region-code.amazonaws.com/bucket-name . Virtual-hosted-style requests aren't supported. For more information about endpoints in Availability Zones, see [Regional and Zonal endpoints for directory buckets in Availability Zones](https://docs.aws.amazon.com/AmazonS3/latest/userguide/endpoint-directory-buckets-AZ.html) in the Amazon S3 User Guide. For more information about endpoints in Local Zones, see [Concepts for directory buckets in Local Zones](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-lzs-for-directory-buckets.html) in the Amazon S3 User Guide. Permissions To use this operation, you must have permissions to perform the s3:GetInventoryConfiguration action. The bucket owner has this permission by default. The bucket owner can grant this permission to others. For more information about permissions, see [Permissions Related to Bucket Subresource Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources) and [Managing Access Permissions to Your Amazon S3 Resources](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html).
+    ///
+    /// * General purpose bucket permissions - The s3:GetInventoryConfiguration permission is required in a policy. For more information about general purpose buckets permissions, see [Using Bucket Policies and User Policies](https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html) in the Amazon S3 User Guide.
+    ///
+    /// * Directory bucket permissions - To grant access to this API operation, you must have the s3express:GetInventoryConfiguration permission in an IAM identity-based policy instead of a bucket policy. For more information about directory bucket policies and permissions, see [Amazon Web Services Identity and Access Management (IAM) for S3 Express One Zone](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam.html) in the Amazon S3 User Guide.
+    ///
+    ///
+    /// HTTP Host header syntax Directory buckets - The HTTP Host header syntax is s3express-control.region-code.amazonaws.com. For information about the Amazon S3 inventory feature, see [Amazon S3 Inventory](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-inventory.html). The following operations are related to GetBucketInventoryConfiguration:
     ///
     /// * [DeleteBucketInventoryConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketInventoryConfiguration.html)
     ///
@@ -3378,7 +3733,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetBucketInventoryConfigurationInput, GetBucketInventoryConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -3477,7 +3833,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetBucketLifecycleConfigurationInput, GetBucketLifecycleConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -3550,7 +3907,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetBucketLocationInput, GetBucketLocationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -3623,7 +3981,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetBucketLoggingInput, GetBucketLoggingOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -3700,7 +4059,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetBucketMetadataConfigurationInput, GetBucketMetadataConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -3773,7 +4133,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetBucketMetadataTableConfigurationInput, GetBucketMetadataTableConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -3820,7 +4181,14 @@ extension S3Client {
 
     /// Performs the `GetBucketMetricsConfiguration` operation on the `S3` service.
     ///
-    /// This operation is not supported for directory buckets. Gets a metrics configuration (specified by the metrics configuration ID) from the bucket. Note that this doesn't include the daily storage metrics. To use this operation, you must have permissions to perform the s3:GetMetricsConfiguration action. The bucket owner has this permission by default. The bucket owner can grant this permission to others. For more information about permissions, see [Permissions Related to Bucket Subresource Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources) and [Managing Access Permissions to Your Amazon S3 Resources](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html). For information about CloudWatch request metrics for Amazon S3, see [Monitoring Metrics with Amazon CloudWatch](https://docs.aws.amazon.com/AmazonS3/latest/dev/cloudwatch-monitoring.html). The following operations are related to GetBucketMetricsConfiguration:
+    /// Gets a metrics configuration (specified by the metrics configuration ID) from the bucket. Note that this doesn't include the daily storage metrics. Directory buckets - For directory buckets, you must make requests for this API operation to the Regional endpoint. These endpoints support path-style requests in the format https://s3express-control.region-code.amazonaws.com/bucket-name . Virtual-hosted-style requests aren't supported. For more information about endpoints in Availability Zones, see [Regional and Zonal endpoints for directory buckets in Availability Zones](https://docs.aws.amazon.com/AmazonS3/latest/userguide/endpoint-directory-buckets-AZ.html) in the Amazon S3 User Guide. For more information about endpoints in Local Zones, see [Concepts for directory buckets in Local Zones](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-lzs-for-directory-buckets.html) in the Amazon S3 User Guide. Permissions To use this operation, you must have permissions to perform the s3:GetMetricsConfiguration action. The bucket owner has this permission by default. The bucket owner can grant this permission to others. For more information about permissions, see [Permissions Related to Bucket Subresource Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources) and [Managing Access Permissions to Your Amazon S3 Resources](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html).
+    ///
+    /// * General purpose bucket permissions - The s3:GetMetricsConfiguration permission is required in a policy. For more information about general purpose buckets permissions, see [Using Bucket Policies and User Policies](https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html) in the Amazon S3 User Guide.
+    ///
+    /// * Directory bucket permissions - To grant access to this API operation, you must have the s3express:GetMetricsConfiguration permission in an IAM identity-based policy instead of a bucket policy. Cross-account access to this API operation isn't supported. This operation can only be performed by the Amazon Web Services account that owns the resource. For more information about directory bucket policies and permissions, see [Amazon Web Services Identity and Access Management (IAM) for S3 Express One Zone](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam.html) in the Amazon S3 User Guide.
+    ///
+    ///
+    /// HTTP Host header syntax Directory buckets - The HTTP Host header syntax is s3express-control.region-code.amazonaws.com. For information about CloudWatch request metrics for Amazon S3, see [Monitoring Metrics with Amazon CloudWatch](https://docs.aws.amazon.com/AmazonS3/latest/dev/cloudwatch-monitoring.html). The following operations are related to GetBucketMetricsConfiguration:
     ///
     /// * [PutBucketMetricsConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketMetricsConfiguration.html)
     ///
@@ -3850,7 +4218,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetBucketMetricsConfigurationInput, GetBucketMetricsConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -3921,7 +4290,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetBucketNotificationConfigurationInput, GetBucketNotificationConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -4001,7 +4371,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetBucketOwnershipControlsInput, GetBucketOwnershipControlsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -4079,7 +4450,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetBucketPolicyInput, GetBucketPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -4156,7 +4528,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetBucketPolicyStatusInput, GetBucketPolicyStatusOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -4229,7 +4602,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetBucketReplicationInput, GetBucketReplicationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -4300,7 +4674,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetBucketRequestPaymentInput, GetBucketRequestPaymentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -4347,7 +4722,7 @@ extension S3Client {
 
     /// Performs the `GetBucketTagging` operation on the `S3` service.
     ///
-    /// This operation is not supported for directory buckets. Returns the tag set associated with the general purpose bucket. if ABAC is not enabled for the bucket. When you [enable ABAC for a general purpose bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/buckets-tagging-enable-abac.html), you can no longer use this operation for that bucket and must use [ListTagsForResource](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListTagsForResource.html) instead. To use this operation, you must have permission to perform the s3:GetBucketTagging action. By default, the bucket owner has this permission and can grant this permission to others. GetBucketTagging has the following special error:
+    /// This operation is not supported for directory buckets. Returns the tag set associated with the general purpose bucket. To use this operation, you must have permission to perform the s3:GetBucketTagging action. By default, the bucket owner has this permission and can grant this permission to others. GetBucketTagging has the following special error:
     ///
     /// * Error code: NoSuchTagSet
     ///
@@ -4383,7 +4758,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetBucketTaggingInput, GetBucketTaggingOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -4458,7 +4834,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetBucketVersioningInput, GetBucketVersioningOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -4531,7 +4908,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetBucketWebsiteInput, GetBucketWebsiteOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -4639,7 +5017,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetObjectInput, GetObjectOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -4665,7 +5044,7 @@ extension S3Client {
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetObjectOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetObjectOutput>())
-        builder.interceptors.add(AWSClientRuntime.FlexibleChecksumsResponseMiddleware<GetObjectInput, GetObjectOutput>(validationMode: input.checksumMode?.rawValue ?? "unset", algosSupportedByOperation: ["CRC64NVME", "CRC32", "CRC32C", "SHA256", "SHA1"]))
+        builder.interceptors.add(AWSClientRuntime.FlexibleChecksumsResponseMiddleware<GetObjectInput, GetObjectOutput>(validationMode: input.checksumMode?.rawValue ?? "unset", algosSupportedByOperation: ["CRC64NVME", "CRC32", "CRC32C", "SHA256", "SHA1", "SHA512", "MD5", "XXHASH64", "XXHASH3", "XXHASH128"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetObjectInput, GetObjectOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetObjectInput, GetObjectOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetObjectInput, GetObjectOutput>(serviceID: serviceName, version: S3Client.version, config: config))
@@ -4721,7 +5100,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetObjectAclInput, GetObjectAclOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -4862,7 +5242,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetObjectAttributesInput, GetObjectAttributesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -4933,7 +5314,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetObjectLegalHoldInput, GetObjectLegalHoldOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -5004,7 +5386,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetObjectLockConfigurationInput, GetObjectLockConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -5075,7 +5458,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetObjectRetentionInput, GetObjectRetentionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -5150,7 +5534,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetObjectTaggingInput, GetObjectTaggingOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -5221,7 +5606,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetObjectTorrentInput, GetObjectTorrentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -5297,7 +5683,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetPublicAccessBlockInput, GetPublicAccessBlockOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -5348,7 +5735,7 @@ extension S3Client {
     ///
     /// * General purpose bucket permissions - To use this operation, you must have permissions to perform the s3:ListBucket action. The bucket owner has this permission by default and can grant this permission to others. For more information about permissions, see [Managing access permissions to your Amazon S3 resources](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html) in the Amazon S3 User Guide.
     ///
-    /// * Directory bucket permissions - You must have the s3express:CreateSession permission in the Action element of a policy. By default, the session is in the ReadWrite mode. If you want to restrict the access, you can explicitly set the s3express:SessionMode condition key to ReadOnly on the bucket. For more information about example bucket policies, see [Example bucket policies for S3 Express One Zone](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam-example-bucket-policies.html) and [Amazon Web Services Identity and Access Management (IAM) identity-based policies for S3 Express One Zone](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam-identity-policies.html) in the Amazon S3 User Guide.
+    /// * Directory bucket permissions - You must have the s3express:CreateSession permission in the Action element of a policy. If no session mode is specified, the session will be created with the maximum allowable privilege, attempting ReadWrite first, then ReadOnly if ReadWrite is not permitted. If you want to explicitly restrict the access to be read-only, you can set the s3express:SessionMode condition key to ReadOnly on the bucket. For more information about example bucket policies, see [Example bucket policies for S3 Express One Zone](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam-example-bucket-policies.html) and [Amazon Web Services Identity and Access Management (IAM) identity-based policies for S3 Express One Zone](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam-identity-policies.html) in the Amazon S3 User Guide.
     ///
     ///
     /// HTTP Host header syntax Directory buckets - The HTTP Host header syntax is  Bucket-name.s3express-zone-id.region-code.amazonaws.com. You must make requests for this API operation to the Zonal endpoint. These endpoints support virtual-hosted-style requests in the format https://bucket-name.s3express-zone-id.region-code.amazonaws.com. Path-style requests are not supported. For more information about endpoints in Availability Zones, see [Regional and Zonal endpoints for directory buckets in Availability Zones](https://docs.aws.amazon.com/AmazonS3/latest/userguide/endpoint-directory-buckets-AZ.html) in the Amazon S3 User Guide. For more information about endpoints in Local Zones, see [Concepts for directory buckets in Local Zones](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-lzs-for-directory-buckets.html) in the Amazon S3 User Guide. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
@@ -5375,7 +5762,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<HeadBucketInput, HeadBucketOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -5489,7 +5877,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<HeadObjectInput, HeadObjectOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -5564,7 +5953,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListBucketAnalyticsConfigurationsInput, ListBucketAnalyticsConfigurationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -5639,7 +6029,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListBucketIntelligentTieringConfigurationsInput, ListBucketIntelligentTieringConfigurationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -5686,7 +6077,14 @@ extension S3Client {
 
     /// Performs the `ListBucketInventoryConfigurations` operation on the `S3` service.
     ///
-    /// This operation is not supported for directory buckets. Returns a list of S3 Inventory configurations for the bucket. You can have up to 1,000 inventory configurations per bucket. This action supports list pagination and does not return more than 100 configurations at a time. Always check the IsTruncated element in the response. If there are no more configurations to list, IsTruncated is set to false. If there are more configurations to list, IsTruncated is set to true, and there is a value in NextContinuationToken. You use the NextContinuationToken value to continue the pagination of the list by passing the value in continuation-token in the request to GET the next page. To use this operation, you must have permissions to perform the s3:GetInventoryConfiguration action. The bucket owner has this permission by default. The bucket owner can grant this permission to others. For more information about permissions, see [Permissions Related to Bucket Subresource Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources) and [Managing Access Permissions to Your Amazon S3 Resources](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html). For information about the Amazon S3 inventory feature, see [Amazon S3 Inventory](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-inventory.html) The following operations are related to ListBucketInventoryConfigurations:
+    /// Returns a list of S3 Inventory configurations for the bucket. You can have up to 1,000 inventory configurations per bucket. This action supports list pagination and does not return more than 100 configurations at a time. Always check the IsTruncated element in the response. If there are no more configurations to list, IsTruncated is set to false. If there are more configurations to list, IsTruncated is set to true, and there is a value in NextContinuationToken. You use the NextContinuationToken value to continue the pagination of the list by passing the value in continuation-token in the request to GET the next page. Directory buckets - For directory buckets, you must make requests for this API operation to the Regional endpoint. These endpoints support path-style requests in the format https://s3express-control.region-code.amazonaws.com/bucket-name . Virtual-hosted-style requests aren't supported. For more information about endpoints in Availability Zones, see [Regional and Zonal endpoints for directory buckets in Availability Zones](https://docs.aws.amazon.com/AmazonS3/latest/userguide/endpoint-directory-buckets-AZ.html) in the Amazon S3 User Guide. For more information about endpoints in Local Zones, see [Concepts for directory buckets in Local Zones](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-lzs-for-directory-buckets.html) in the Amazon S3 User Guide. Permissions To use this operation, you must have permissions to perform the s3:GetInventoryConfiguration action. The bucket owner has this permission by default. The bucket owner can grant this permission to others. For more information about permissions, see [Permissions Related to Bucket Subresource Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources) and [Managing Access Permissions to Your Amazon S3 Resources](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html).
+    ///
+    /// * General purpose bucket permissions - The s3:GetInventoryConfiguration permission is required in a policy. For more information about general purpose buckets permissions, see [Using Bucket Policies and User Policies](https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html) in the Amazon S3 User Guide.
+    ///
+    /// * Directory bucket permissions - To grant access to this API operation, you must have the s3express:GetInventoryConfiguration permission in an IAM identity-based policy instead of a bucket policy. For more information about directory bucket policies and permissions, see [Amazon Web Services Identity and Access Management (IAM) for S3 Express One Zone](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam.html) in the Amazon S3 User Guide.
+    ///
+    ///
+    /// HTTP Host header syntax Directory buckets - The HTTP Host header syntax is s3express-control.region-code.amazonaws.com. For information about the Amazon S3 inventory feature, see [Amazon S3 Inventory](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-inventory.html) The following operations are related to ListBucketInventoryConfigurations:
     ///
     /// * [GetBucketInventoryConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketInventoryConfiguration.html)
     ///
@@ -5714,7 +6112,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListBucketInventoryConfigurationsInput, ListBucketInventoryConfigurationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -5761,7 +6160,14 @@ extension S3Client {
 
     /// Performs the `ListBucketMetricsConfigurations` operation on the `S3` service.
     ///
-    /// This operation is not supported for directory buckets. Lists the metrics configurations for the bucket. The metrics configurations are only for the request metrics of the bucket and do not provide information on daily storage metrics. You can have up to 1,000 configurations per bucket. This action supports list pagination and does not return more than 100 configurations at a time. Always check the IsTruncated element in the response. If there are no more configurations to list, IsTruncated is set to false. If there are more configurations to list, IsTruncated is set to true, and there is a value in NextContinuationToken. You use the NextContinuationToken value to continue the pagination of the list by passing the value in continuation-token in the request to GET the next page. To use this operation, you must have permissions to perform the s3:GetMetricsConfiguration action. The bucket owner has this permission by default. The bucket owner can grant this permission to others. For more information about permissions, see [Permissions Related to Bucket Subresource Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources) and [Managing Access Permissions to Your Amazon S3 Resources](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html). For more information about metrics configurations and CloudWatch request metrics, see [Monitoring Metrics with Amazon CloudWatch](https://docs.aws.amazon.com/AmazonS3/latest/dev/cloudwatch-monitoring.html). The following operations are related to ListBucketMetricsConfigurations:
+    /// Lists the metrics configurations for the bucket. The metrics configurations are only for the request metrics of the bucket and do not provide information on daily storage metrics. You can have up to 1,000 configurations per bucket. Directory buckets - For directory buckets, you must make requests for this API operation to the Regional endpoint. These endpoints support path-style requests in the format https://s3express-control.region-code.amazonaws.com/bucket-name . Virtual-hosted-style requests aren't supported. For more information about endpoints in Availability Zones, see [Regional and Zonal endpoints for directory buckets in Availability Zones](https://docs.aws.amazon.com/AmazonS3/latest/userguide/endpoint-directory-buckets-AZ.html) in the Amazon S3 User Guide. For more information about endpoints in Local Zones, see [Concepts for directory buckets in Local Zones](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-lzs-for-directory-buckets.html) in the Amazon S3 User Guide. This action supports list pagination and does not return more than 100 configurations at a time. Always check the IsTruncated element in the response. If there are no more configurations to list, IsTruncated is set to false. If there are more configurations to list, IsTruncated is set to true, and there is a value in NextContinuationToken. You use the NextContinuationToken value to continue the pagination of the list by passing the value in continuation-token in the request to GET the next page. Permissions To use this operation, you must have permissions to perform the s3:GetMetricsConfiguration action. The bucket owner has this permission by default. The bucket owner can grant this permission to others. For more information about permissions, see [Permissions Related to Bucket Subresource Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources) and [Managing Access Permissions to Your Amazon S3 Resources](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html).
+    ///
+    /// * General purpose bucket permissions - The s3:GetMetricsConfiguration permission is required in a policy. For more information about general purpose buckets permissions, see [Using Bucket Policies and User Policies](https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html) in the Amazon S3 User Guide.
+    ///
+    /// * Directory bucket permissions - To grant access to this API operation, you must have the s3express:GetMetricsConfiguration permission in an IAM identity-based policy instead of a bucket policy. Cross-account access to this API operation isn't supported. This operation can only be performed by the Amazon Web Services account that owns the resource. For more information about directory bucket policies and permissions, see [Amazon Web Services Identity and Access Management (IAM) for S3 Express One Zone](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam.html) in the Amazon S3 User Guide.
+    ///
+    ///
+    /// HTTP Host header syntax Directory buckets - The HTTP Host header syntax is s3express-control.region-code.amazonaws.com. For more information about metrics configurations and CloudWatch request metrics, see [Monitoring Metrics with Amazon CloudWatch](https://docs.aws.amazon.com/AmazonS3/latest/dev/cloudwatch-monitoring.html). The following operations are related to ListBucketMetricsConfigurations:
     ///
     /// * [PutBucketMetricsConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketMetricsConfiguration.html)
     ///
@@ -5789,7 +6195,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListBucketMetricsConfigurationsInput, ListBucketMetricsConfigurationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -5810,7 +6217,7 @@ extension S3Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBucketMetricsConfigurationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("S3", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
-            EndpointParams(accelerate: config.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.disableS3ExpressSessionAuth, endpoint: configuredEndpoint, forcePathStyle: config.forcePathStyle ?? false, region: config.region, useArnRegion: config.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.useGlobalEndpoint ?? false)
+            EndpointParams(accelerate: config.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.disableS3ExpressSessionAuth, endpoint: configuredEndpoint, forcePathStyle: config.forcePathStyle ?? false, region: config.region, useArnRegion: config.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.useGlobalEndpoint ?? false, useS3ExpressControlEndpoint: true)
         }
         context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListBucketMetricsConfigurationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
@@ -5855,7 +6262,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListBucketsInput, ListBucketsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -5920,7 +6328,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListDirectoryBucketsInput, ListDirectoryBucketsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -6019,7 +6428,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListMultipartUploadsInput, ListMultipartUploadsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -6096,7 +6506,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListObjectVersionsInput, ListObjectVersionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -6180,7 +6591,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListObjectsInput, ListObjectsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -6283,7 +6695,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListObjectsV2Input, ListObjectsV2Output, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -6371,7 +6784,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListPartsInput, ListPartsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -6437,7 +6851,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutBucketAbacInput, PutBucketAbacOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -6521,7 +6936,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutBucketAccelerateConfigurationInput, PutBucketAccelerateConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -6670,7 +7086,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutBucketAclInput, PutBucketAclOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -6782,7 +7199,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutBucketAnalyticsConfigurationInput, PutBucketAnalyticsConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -6869,7 +7287,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutBucketCorsInput, PutBucketCorsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -6980,7 +7399,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutBucketEncryptionInput, PutBucketEncryptionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -7059,7 +7479,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutBucketIntelligentTieringConfigurationInput, PutBucketIntelligentTieringConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -7109,7 +7530,14 @@ extension S3Client {
 
     /// Performs the `PutBucketInventoryConfiguration` operation on the `S3` service.
     ///
-    /// This operation is not supported for directory buckets. This implementation of the PUT action adds an S3 Inventory configuration (identified by the inventory ID) to the bucket. You can have up to 1,000 inventory configurations per bucket. Amazon S3 inventory generates inventories of the objects in the bucket on a daily or weekly basis, and the results are published to a flat file. The bucket that is inventoried is called the source bucket, and the bucket where the inventory flat file is stored is called the destination bucket. The destination bucket must be in the same Amazon Web Services Region as the source bucket. When you configure an inventory for a source bucket, you specify the destination bucket where you want the inventory to be stored, and whether to generate the inventory daily or weekly. You can also configure what object metadata to include and whether to inventory all object versions or only current versions. For more information, see [Amazon S3 Inventory](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-inventory.html) in the Amazon S3 User Guide. You must create a bucket policy on the destination bucket to grant permissions to Amazon S3 to write objects to the bucket in the defined location. For an example policy, see [ Granting Permissions for Amazon S3 Inventory and Storage Class Analysis](https://docs.aws.amazon.com/AmazonS3/latest/dev/example-bucket-policies.html#example-bucket-policies-use-case-9). Permissions To use this operation, you must have permission to perform the s3:PutInventoryConfiguration action. The bucket owner has this permission by default and can grant this permission to others. The s3:PutInventoryConfiguration permission allows a user to create an [S3 Inventory](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-inventory.html) report that includes all object metadata fields available and to specify the destination bucket to store the inventory. A user with read access to objects in the destination bucket can also access all object metadata fields that are available in the inventory report. To restrict access to an inventory report, see [Restricting access to an Amazon S3 Inventory report](https://docs.aws.amazon.com/AmazonS3/latest/userguide/example-bucket-policies.html#example-bucket-policies-use-case-10) in the Amazon S3 User Guide. For more information about the metadata fields available in S3 Inventory, see [Amazon S3 Inventory lists](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-inventory.html#storage-inventory-contents) in the Amazon S3 User Guide. For more information about permissions, see [Permissions related to bucket subresource operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources) and [Identity and access management in Amazon S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html) in the Amazon S3 User Guide. PutBucketInventoryConfiguration has the following special errors: HTTP 400 Bad Request Error Code: InvalidArgument Cause: Invalid Argument HTTP 400 Bad Request Error Code: TooManyConfigurations Cause: You are attempting to create a new configuration but have already reached the 1,000-configuration limit. HTTP 403 Forbidden Error Cause: You are not the owner of the specified bucket, or you do not have the s3:PutInventoryConfiguration bucket permission to set the configuration on the bucket. The following operations are related to PutBucketInventoryConfiguration:
+    /// This implementation of the PUT action adds an S3 Inventory configuration (identified by the inventory ID) to the bucket. You can have up to 1,000 inventory configurations per bucket. Amazon S3 inventory generates inventories of the objects in the bucket on a daily or weekly basis, and the results are published to a flat file. The bucket that is inventoried is called the source bucket, and the bucket where the inventory flat file is stored is called the destination bucket. The destination bucket must be in the same Amazon Web Services Region as the source bucket. When you configure an inventory for a source bucket, you specify the destination bucket where you want the inventory to be stored, and whether to generate the inventory daily or weekly. You can also configure what object metadata to include and whether to inventory all object versions or only current versions. For more information, see [Amazon S3 Inventory](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-inventory.html) in the Amazon S3 User Guide. You must create a bucket policy on the destination bucket to grant permissions to Amazon S3 to write objects to the bucket in the defined location. For an example policy, see [ Granting Permissions for Amazon S3 Inventory and Storage Class Analysis](https://docs.aws.amazon.com/AmazonS3/latest/dev/example-bucket-policies.html#example-bucket-policies-use-case-9). Directory buckets - For directory buckets, you must make requests for this API operation to the Regional endpoint. These endpoints support path-style requests in the format https://s3express-control.region-code.amazonaws.com/bucket-name . Virtual-hosted-style requests aren't supported. For more information about endpoints in Availability Zones, see [Regional and Zonal endpoints for directory buckets in Availability Zones](https://docs.aws.amazon.com/AmazonS3/latest/userguide/endpoint-directory-buckets-AZ.html) in the Amazon S3 User Guide. For more information about endpoints in Local Zones, see [Concepts for directory buckets in Local Zones](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-lzs-for-directory-buckets.html) in the Amazon S3 User Guide. Permissions To use this operation, you must have permission to perform the s3:PutInventoryConfiguration action. The bucket owner has this permission by default and can grant this permission to others. The s3:PutInventoryConfiguration permission allows a user to create an [S3 Inventory](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-inventory.html) report that includes all object metadata fields available and to specify the destination bucket to store the inventory. A user with read access to objects in the destination bucket can also access all object metadata fields that are available in the inventory report.
+    ///
+    /// * General purpose bucket permissions - The s3:PutInventoryConfiguration permission is required in a policy. For more information about general purpose buckets permissions, see [Using Bucket Policies and User Policies](https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html) in the Amazon S3 User Guide.
+    ///
+    /// * Directory bucket permissions - To grant access to this API operation, you must have the s3express:PutInventoryConfiguration permission in an IAM identity-based policy instead of a bucket policy. For more information about directory bucket policies and permissions, see [Amazon Web Services Identity and Access Management (IAM) for S3 Express One Zone](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam.html) in the Amazon S3 User Guide.
+    ///
+    ///
+    /// To restrict access to an inventory report, see [Restricting access to an Amazon S3 Inventory report](https://docs.aws.amazon.com/AmazonS3/latest/userguide/example-bucket-policies.html#example-bucket-policies-s3-inventory) in the Amazon S3 User Guide. For more information about the metadata fields available in S3 Inventory, see [Amazon S3 Inventory lists](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-inventory.html#storage-inventory-contents) in the Amazon S3 User Guide. For more information about permissions, see [Permissions related to bucket subresource operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources) and [Identity and access management in Amazon S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html) in the Amazon S3 User Guide. HTTP Host header syntax Directory buckets - The HTTP Host header syntax is s3express-control.region-code.amazonaws.com. PutBucketInventoryConfiguration has the following special errors: HTTP 400 Bad Request Error Code: InvalidArgument Cause: Invalid Argument HTTP 400 Bad Request Error Code: TooManyConfigurations Cause: You are attempting to create a new configuration but have already reached the 1,000-configuration limit. HTTP 403 Forbidden Error Cause: You are not the owner of the specified bucket, or you do not have the s3:PutInventoryConfiguration bucket permission to set the configuration on the bucket. The following operations are related to PutBucketInventoryConfiguration:
     ///
     /// * [GetBucketInventoryConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketInventoryConfiguration.html)
     ///
@@ -7137,7 +7565,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutBucketInventoryConfigurationInput, PutBucketInventoryConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -7187,7 +7616,7 @@ extension S3Client {
 
     /// Performs the `PutBucketLifecycleConfiguration` operation on the `S3` service.
     ///
-    /// Creates a new lifecycle configuration for the bucket or replaces an existing lifecycle configuration. Keep in mind that this will overwrite an existing lifecycle configuration, so if you want to retain any configuration details, they must be included in the new lifecycle configuration. For information about lifecycle configuration, see [Managing your storage lifecycle](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lifecycle-mgmt.html). Bucket lifecycle configuration now supports specifying a lifecycle rule using an object key name prefix, one or more object tags, object size, or any combination of these. Accordingly, this section describes the latest API. The previous version of the API supported filtering based only on an object key name prefix, which is supported for backward compatibility. For the related API description, see [PutBucketLifecycle](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLifecycle.html). Rules Permissions HTTP Host header syntax You specify the lifecycle configuration in your request body. The lifecycle configuration is specified as XML consisting of one or more rules. An Amazon S3 Lifecycle configuration can have up to 1,000 rules. This limit is not adjustable. Bucket lifecycle configuration supports specifying a lifecycle rule using an object key name prefix, one or more object tags, object size, or any combination of these. Accordingly, this section describes the latest API. The previous version of the API supported filtering based only on an object key name prefix, which is supported for backward compatibility for general purpose buckets. For the related API description, see [PutBucketLifecycle](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLifecycle.html). Lifecyle configurations for directory buckets only support expiring objects and cancelling multipart uploads. Expiring of versioned objects,transitions and tag filters are not supported. A lifecycle rule consists of the following:
+    /// Creates a new lifecycle configuration for the bucket or replaces an existing lifecycle configuration. Keep in mind that this will overwrite an existing lifecycle configuration, so if you want to retain any configuration details, they must be included in the new lifecycle configuration. For information about lifecycle configuration, see [Managing your storage lifecycle](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lifecycle-mgmt.html). Bucket lifecycle configuration now supports specifying a lifecycle rule using an object key name prefix, one or more object tags, object size, or any combination of these. Accordingly, this section describes the latest API. The previous version of the API supported filtering based only on an object key name prefix, which is supported for backward compatibility. For the related API description, see [PutBucketLifecycle](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLifecycle.html). Rules You specify the lifecycle configuration in your request body. The lifecycle configuration is specified as XML consisting of one or more rules. An Amazon S3 Lifecycle configuration can have up to 1,000 rules. This limit is not adjustable. Bucket lifecycle configuration supports specifying a lifecycle rule using an object key name prefix, one or more object tags, object size, or any combination of these. Accordingly, this section describes the latest API. The previous version of the API supported filtering based only on an object key name prefix, which is supported for backward compatibility for general purpose buckets. For the related API description, see [PutBucketLifecycle](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLifecycle.html). Lifecyle configurations for directory buckets only support expiring objects and cancelling multipart uploads. Expiring of versioned objects,transitions and tag filters are not supported. A lifecycle rule consists of the following:
     ///
     /// * A filter identifying a subset of objects to which the rule applies. The filter can be based on a key name prefix, object tags, object size, or any combination of these.
     ///
@@ -7196,7 +7625,7 @@ extension S3Client {
     /// * One or more lifecycle transition and expiration actions that you want Amazon S3 to perform on the objects identified by the filter. If the state of your bucket is versioning-enabled or versioning-suspended, you can have many versions of the same object (one current version and zero or more noncurrent versions). Amazon S3 provides predefined actions that you can specify for current and noncurrent object versions.
     ///
     ///
-    /// For more information, see [Object Lifecycle Management](https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lifecycle-mgmt.html) and [Lifecycle Configuration Elements](https://docs.aws.amazon.com/AmazonS3/latest/dev/intro-lifecycle-rules.html).
+    /// For more information, see [Object Lifecycle Management](https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lifecycle-mgmt.html) and [Lifecycle Configuration Elements](https://docs.aws.amazon.com/AmazonS3/latest/dev/intro-lifecycle-rules.html). Permissions
     ///
     /// * General purpose bucket permissions - By default, all Amazon S3 resources are private, including buckets, objects, and related subresources (for example, lifecycle configuration and website configuration). Only the resource owner (that is, the Amazon Web Services account that created it) can access the resource. The resource owner can optionally grant access permissions to others by writing an access policy. For this operation, a user must have the s3:PutLifecycleConfiguration permission. You can also explicitly deny permissions. An explicit deny also supersedes any other permissions. If you want to block users or accounts from removing or deleting objects from your bucket, you must deny them permissions for the following actions:
     ///
@@ -7215,7 +7644,7 @@ extension S3Client {
     /// * Directory bucket permissions - You must have the s3express:PutLifecycleConfiguration permission in an IAM identity-based policy to use this operation. Cross-account access to this API operation isn't supported. The resource owner can optionally grant access permissions to others by creating a role or user for them as long as they are within the same account as the owner and resource. For more information about directory bucket policies and permissions, see [Authorizing Regional endpoint APIs with IAM](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam.html) in the Amazon S3 User Guide. Directory buckets - For directory buckets, you must make requests for this API operation to the Regional endpoint. These endpoints support path-style requests in the format https://s3express-control.region-code.amazonaws.com/bucket-name . Virtual-hosted-style requests aren't supported. For more information about endpoints in Availability Zones, see [Regional and Zonal endpoints for directory buckets in Availability Zones](https://docs.aws.amazon.com/AmazonS3/latest/userguide/endpoint-directory-buckets-AZ.html) in the Amazon S3 User Guide. For more information about endpoints in Local Zones, see [Concepts for directory buckets in Local Zones](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-lzs-for-directory-buckets.html) in the Amazon S3 User Guide.
     ///
     ///
-    /// Directory buckets - The HTTP Host header syntax is s3express-control.region.amazonaws.com. The following operations are related to PutBucketLifecycleConfiguration:
+    /// HTTP Host header syntax Directory buckets - The HTTP Host header syntax is s3express-control.region.amazonaws.com. The following operations are related to PutBucketLifecycleConfiguration:
     ///
     /// * [GetBucketLifecycleConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketLifecycleConfiguration.html)
     ///
@@ -7241,7 +7670,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutBucketLifecycleConfigurationInput, PutBucketLifecycleConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -7331,7 +7761,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutBucketLoggingInput, PutBucketLoggingOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -7382,7 +7813,14 @@ extension S3Client {
 
     /// Performs the `PutBucketMetricsConfiguration` operation on the `S3` service.
     ///
-    /// This operation is not supported for directory buckets. Sets a metrics configuration (specified by the metrics configuration ID) for the bucket. You can have up to 1,000 metrics configurations per bucket. If you're updating an existing metrics configuration, note that this is a full replacement of the existing metrics configuration. If you don't include the elements you want to keep, they are erased. To use this operation, you must have permissions to perform the s3:PutMetricsConfiguration action. The bucket owner has this permission by default. The bucket owner can grant this permission to others. For more information about permissions, see [Permissions Related to Bucket Subresource Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources) and [Managing Access Permissions to Your Amazon S3 Resources](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html). For information about CloudWatch request metrics for Amazon S3, see [Monitoring Metrics with Amazon CloudWatch](https://docs.aws.amazon.com/AmazonS3/latest/dev/cloudwatch-monitoring.html). The following operations are related to PutBucketMetricsConfiguration:
+    /// Sets a metrics configuration (specified by the metrics configuration ID) for the bucket. You can have up to 1,000 metrics configurations per bucket. If you're updating an existing metrics configuration, note that this is a full replacement of the existing metrics configuration. If you don't include the elements you want to keep, they are erased. Directory buckets - For directory buckets, you must make requests for this API operation to the Regional endpoint. These endpoints support path-style requests in the format https://s3express-control.region-code.amazonaws.com/bucket-name . Virtual-hosted-style requests aren't supported. For more information about endpoints in Availability Zones, see [Regional and Zonal endpoints for directory buckets in Availability Zones](https://docs.aws.amazon.com/AmazonS3/latest/userguide/endpoint-directory-buckets-AZ.html) in the Amazon S3 User Guide. For more information about endpoints in Local Zones, see [Concepts for directory buckets in Local Zones](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-lzs-for-directory-buckets.html) in the Amazon S3 User Guide. Permissions To use this operation, you must have permissions to perform the s3:PutMetricsConfiguration action. The bucket owner has this permission by default. The bucket owner can grant this permission to others. For more information about permissions, see [Permissions Related to Bucket Subresource Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources) and [Managing Access Permissions to Your Amazon S3 Resources](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html).
+    ///
+    /// * General purpose bucket permissions - The s3:PutMetricsConfiguration permission is required in a policy. For more information about general purpose buckets permissions, see [Using Bucket Policies and User Policies](https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html) in the Amazon S3 User Guide.
+    ///
+    /// * Directory bucket permissions - To grant access to this API operation, you must have the s3express:PutMetricsConfiguration permission in an IAM identity-based policy instead of a bucket policy. Cross-account access to this API operation isn't supported. This operation can only be performed by the Amazon Web Services account that owns the resource. For more information about directory bucket policies and permissions, see [Amazon Web Services Identity and Access Management (IAM) for S3 Express One Zone](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam.html) in the Amazon S3 User Guide.
+    ///
+    ///
+    /// HTTP Host header syntax Directory buckets - The HTTP Host header syntax is s3express-control.region-code.amazonaws.com. For information about CloudWatch request metrics for Amazon S3, see [Monitoring Metrics with Amazon CloudWatch](https://docs.aws.amazon.com/AmazonS3/latest/dev/cloudwatch-monitoring.html). The following operations are related to PutBucketMetricsConfiguration:
     ///
     /// * [DeleteBucketMetricsConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketMetricsConfiguration.html)
     ///
@@ -7422,7 +7860,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutBucketMetricsConfigurationInput, PutBucketMetricsConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -7496,7 +7935,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutBucketNotificationConfigurationInput, PutBucketNotificationConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -7572,7 +8012,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutBucketOwnershipControlsInput, PutBucketOwnershipControlsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -7656,7 +8097,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutBucketPolicyInput, PutBucketPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -7733,7 +8175,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutBucketReplicationInput, PutBucketReplicationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -7810,7 +8253,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutBucketRequestPaymentInput, PutBucketRequestPaymentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -7898,7 +8342,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutBucketTaggingInput, PutBucketTaggingOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -7977,7 +8422,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutBucketVersioningInput, PutBucketVersioningOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -8093,7 +8539,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutBucketWebsiteInput, PutBucketWebsiteOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -8185,7 +8632,21 @@ extension S3Client {
     /// * Directory bucket - This functionality is not supported for directory buckets.
     ///
     ///
-    /// HTTP Host header syntax Directory buckets - The HTTP Host header syntax is  Bucket-name.s3express-zone-id.region-code.amazonaws.com. For more information about related Amazon S3 APIs, see the following:
+    /// HTTP Host header syntax Directory buckets - The HTTP Host header syntax is  Bucket-name.s3express-zone-id.region-code.amazonaws.com. Errors
+    ///
+    /// * You might receive an InvalidRequest error for several reasons. Depending on the reason for the error, you might receive one of the following messages:
+    ///
+    /// * Cannot specify both a write offset value and user-defined object metadata for existing objects.
+    ///
+    /// * Checksum Type mismatch occurred, expected checksum Type: sha1, actual checksum Type: crc32c.
+    ///
+    /// * Request body cannot be empty when 'write offset' is specified.
+    ///
+    ///
+    ///
+    ///
+    ///
+    /// For more information about related Amazon S3 APIs, see the following:
     ///
     /// * [CopyObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CopyObject.html)
     ///
@@ -8202,13 +8663,7 @@ extension S3Client {
     ///
     /// __Possible Exceptions:__
     /// - `EncryptionTypeMismatch` : The existing object was created with a different encryption type. Subsequent write requests must include the appropriate encryption parameters in the request or while creating the session.
-    /// - `InvalidRequest` : You may receive this error in multiple cases. Depending on the reason for the error, you may receive one of the messages below:
-    ///
-    /// * Cannot specify both a write offset value and user-defined object metadata for existing objects.
-    ///
-    /// * Checksum Type mismatch occurred, expected checksum Type: sha1, actual checksum Type: crc32c.
-    ///
-    /// * Request body cannot be empty when 'write offset' is specified.
+    /// - `InvalidRequest` : A parameter or header in your request isn't valid. For details, see the description of this API operation.
     /// - `InvalidWriteOffset` : The write offset value that you specified does not match the current object size.
     /// - `TooManyParts` : You have attempted to add more parts than the maximum of 10000 that are allowed for this object. You can use the CopyObject operation to copy this object to another and then add more data to the newly copied object.
     public func putObject(input: PutObjectInput) async throws -> PutObjectOutput {
@@ -8225,7 +8680,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutObjectInput, PutObjectOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -8370,7 +8826,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutObjectAclInput, PutObjectAclOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -8440,7 +8897,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutObjectLegalHoldInput, PutObjectLegalHoldOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -8519,7 +8977,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutObjectLockConfigurationInput, PutObjectLockConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -8589,7 +9048,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutObjectRetentionInput, PutObjectRetentionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -8677,7 +9137,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutObjectTaggingInput, PutObjectTaggingOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -8758,7 +9219,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutPublicAccessBlockInput, PutPublicAccessBlockOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -8838,7 +9300,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<RenameObjectInput, RenameObjectOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -8975,7 +9438,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<RestoreObjectInput, RestoreObjectOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -9072,7 +9536,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<SelectObjectContentInput, SelectObjectContentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -9170,7 +9635,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<UpdateBucketMetadataInventoryTableConfigurationInput, UpdateBucketMetadataInventoryTableConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -9251,7 +9717,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<UpdateBucketMetadataJournalTableConfigurationInput, UpdateBucketMetadataJournalTableConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -9288,6 +9755,137 @@ extension S3Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateBucketMetadataJournalTableConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateObjectEncryption` operation on the `S3` service.
+    ///
+    /// This operation is not supported for directory buckets or Amazon S3 on Outposts buckets. Updates the server-side encryption type of an existing encrypted object in a general purpose bucket. You can use the UpdateObjectEncryption operation to change encrypted objects from server-side encryption with Amazon S3 managed keys (SSE-S3) to server-side encryption with Key Management Service (KMS) keys (SSE-KMS), or to apply S3 Bucket Keys. You can also use the UpdateObjectEncryption operation to change the customer-managed KMS key used to encrypt your data so that you can comply with custom key-rotation standards. Using the UpdateObjectEncryption operation, you can atomically update the server-side encryption type of an existing object in a general purpose bucket without any data movement. The UpdateObjectEncryption operation uses envelope encryption to re-encrypt the data key used to encrypt and decrypt your object with your newly specified server-side encryption type. In other words, when you use the UpdateObjectEncryption operation, your data isn't copied, archived objects in the S3 Glacier Flexible Retrieval and S3 Glacier Deep Archive storage classes aren't restored, and objects in the S3 Intelligent-Tiering storage class aren't moved between tiers. Additionally, the UpdateObjectEncryption operation preserves all object metadata properties, including the storage class, creation date, last modified date, ETag, and checksum properties. For more information, see [ Updating server-side encryption for existing objects](https://docs.aws.amazon.com/AmazonS3/latest/userguide/update-sse-encryption.html) in the Amazon S3 User Guide. By default, all UpdateObjectEncryption requests that specify a customer-managed KMS key are restricted to KMS keys that are owned by the bucket owner's Amazon Web Services account. If you're using Organizations, you can request the ability to use KMS keys owned by other member accounts within your organization by contacting Amazon Web Services Support. Source objects that are unencrypted, or encrypted with either dual-layer server-side encryption with KMS keys (DSSE-KMS) or server-side encryption with customer-provided keys (SSE-C) aren't supported by this operation. Additionally, you cannot specify SSE-S3 encryption as the requested new encryption type UpdateObjectEncryption request. Permissions
+    ///
+    /// * To use the UpdateObjectEncryption operation, you must have the following permissions:
+    ///
+    /// * s3:PutObject
+    ///
+    /// * s3:UpdateObjectEncryption
+    ///
+    /// * kms:Encrypt
+    ///
+    /// * kms:Decrypt
+    ///
+    /// * kms:GenerateDataKey
+    ///
+    /// * kms:ReEncrypt*
+    ///
+    ///
+    ///
+    ///
+    /// * If you're using Organizations, to use this operation with customer-managed KMS keys from other Amazon Web Services accounts within your organization, you must have the organizations:DescribeAccount permission.
+    ///
+    ///
+    /// Errors
+    ///
+    /// * You might receive an InvalidRequest error for several reasons. Depending on the reason for the error, you might receive one of the following messages:
+    ///
+    /// * The UpdateObjectEncryption operation doesn't supported unencrypted source objects. Only source objects encrypted with SSE-S3 or SSE-KMS are supported.
+    ///
+    /// * The UpdateObjectEncryption operation doesn't support source objects with the encryption type DSSE-KMS or SSE-C. Only source objects encrypted with SSE-S3 or SSE-KMS are supported.
+    ///
+    /// * The UpdateObjectEncryption operation doesn't support updating the encryption type to DSSE-KMS or SSE-C. Modify the request to specify SSE-KMS for the updated encryption type, and then try again.
+    ///
+    /// * Requests that modify an object encryption configuration require Amazon Web Services Signature Version 4. Modify the request to use Amazon Web Services Signature Version 4, and then try again.
+    ///
+    /// * Requests that modify an object encryption configuration require a valid new encryption type. Valid values are SSEKMS. Modify the request to specify SSE-KMS for the updated encryption type, and then try again.
+    ///
+    /// * Requests that modify an object's encryption type to SSE-KMS require an Amazon Web Services KMS key Amazon Resource Name (ARN). Modify the request to specify a KMS key ARN, and then try again.
+    ///
+    /// * Requests that modify an object's encryption type to SSE-KMS require a valid Amazon Web Services KMS key Amazon Resource Name (ARN). Confirm that you have a correctly formatted KMS key ARN in your request, and then try again.
+    ///
+    /// * The BucketKeyEnabled value isn't valid. Valid values are true or false. Modify the request to specify a valid value, and then try again.
+    ///
+    ///
+    ///
+    ///
+    /// * You might receive an AccessDenied error for several reasons. Depending on the reason for the error, you might receive one of the following messages:
+    ///
+    /// * The Amazon Web Services KMS key in the request must be owned by the same account as the bucket. Modify the request to specify a KMS key from the same account, and then try again.
+    ///
+    /// * The bucket owner's account was approved to make UpdateObjectEncryption requests that use any Amazon Web Services KMS key in their organization, but the bucket owner's account isn't part of an organization in Organizations. Make sure that the bucket owner's account and the specified KMS key belong to the same organization, and then try again.
+    ///
+    /// * The specified Amazon Web Services KMS key must be from the same organization in Organizations as the bucket. Specify a KMS key that belongs to the same organization as the bucket, and then try again.
+    ///
+    /// * The encryption type for the specified object can’t be updated because that object is protected by S3 Object Lock. If the object has a governance-mode retention period or a legal hold, you must first remove the Object Lock status on the object before you issue your UpdateObjectEncryption request. You can't use the UpdateObjectEncryption operation with objects that have an Object Lock compliance mode retention period applied to them.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateObjectEncryptionInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateObjectEncryptionOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDenied` : You might receive this error for several reasons. For details, see the description of this API operation.
+    /// - `InvalidRequest` : A parameter or header in your request isn't valid. For details, see the description of this API operation.
+    /// - `NoSuchKey` : The specified key does not exist.
+    public func updateObjectEncryption(input: UpdateObjectEncryptionInput) async throws -> UpdateObjectEncryptionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateObjectEncryption")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "s3")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateObjectEncryptionInput, UpdateObjectEncryptionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateObjectEncryptionInput, UpdateObjectEncryptionOutput>(UpdateObjectEncryptionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateObjectEncryptionInput, UpdateObjectEncryptionOutput>())
+        builder.serialize(ClientRuntime.HeaderMiddleware<UpdateObjectEncryptionInput, UpdateObjectEncryptionOutput>(UpdateObjectEncryptionInput.headerProvider(_:)))
+        builder.serialize(ClientRuntime.QueryItemMiddleware<UpdateObjectEncryptionInput, UpdateObjectEncryptionOutput>(UpdateObjectEncryptionInput.queryItemProvider(_:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateObjectEncryptionInput, UpdateObjectEncryptionOutput>(contentType: "application/xml"))
+        builder.serialize(ClientRuntime.PayloadBodyMiddleware<UpdateObjectEncryptionInput, UpdateObjectEncryptionOutput, S3ClientTypes.ObjectEncryption, SmithyXML.Writer>(rootNodeInfo: .init("ObjectEncryption", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/")), inputWritingClosure: S3ClientTypes.ObjectEncryption.write(value:to:), keyPath: \.objectEncryption, defaultBody: nil))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateObjectEncryptionInput, UpdateObjectEncryptionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateObjectEncryptionOutput>(UpdateObjectEncryptionOutput.httpOutput(from:), UpdateObjectEncryptionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateObjectEncryptionInput, UpdateObjectEncryptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateObjectEncryptionOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("S3", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accelerate: config.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.disableS3ExpressSessionAuth, endpoint: configuredEndpoint, forcePathStyle: config.forcePathStyle ?? false, region: config.region, useArnRegion: config.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.useGlobalEndpoint ?? false)
+        }
+        context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateObjectEncryptionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateObjectEncryptionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<UpdateObjectEncryptionInput, UpdateObjectEncryptionOutput>())
+        builder.interceptors.add(AWSClientRuntime.FlexibleChecksumsRequestMiddleware<UpdateObjectEncryptionInput, UpdateObjectEncryptionOutput>(requestChecksumRequired: true, checksumAlgorithm: input.checksumAlgorithm?.rawValue, checksumAlgoHeaderName: "x-amz-sdk-checksum-algorithm"))
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateObjectEncryptionInput, UpdateObjectEncryptionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateObjectEncryptionInput, UpdateObjectEncryptionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateObjectEncryptionInput, UpdateObjectEncryptionOutput>(serviceID: serviceName, version: S3Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateObjectEncryption")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -9371,7 +9969,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<UploadPartInput, UploadPartOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -9437,7 +10036,7 @@ extension S3Client {
     ///
     /// * Directory bucket permissions - You must have permissions in a bucket policy or an IAM identity-based policy based on the source and destination bucket types in an UploadPartCopy operation.
     ///
-    /// * If the source object that you want to copy is in a directory bucket, you must have the s3express:CreateSession permission in the Action element of a policy to read the object. By default, the session is in the ReadWrite mode. If you want to restrict the access, you can explicitly set the s3express:SessionMode condition key to ReadOnly on the copy source bucket.
+    /// * If the source object that you want to copy is in a directory bucket, you must have the s3express:CreateSession permission in the Action element of a policy to read the object. If no session mode is specified, the session will be created with the maximum allowable privilege, attempting ReadWrite first, then ReadOnly if ReadWrite is not permitted. If you want to explicitly restrict the access to be read-only, you can set the s3express:SessionMode condition key to ReadOnly on the copy source bucket.
     ///
     /// * If the copy destination is a directory bucket, you must have the s3express:CreateSession permission in the Action element of a policy to write the object to the destination. The s3express:SessionMode condition key cannot be set to ReadOnly on the copy destination.
     ///
@@ -9507,7 +10106,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<UploadPartCopyInput, UploadPartCopyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -9573,7 +10173,8 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<WriteGetObjectResponseInput, WriteGetObjectResponseOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -9723,7 +10324,21 @@ extension S3Client {
     /// * Directory bucket - This functionality is not supported for directory buckets.
     ///
     ///
-    /// HTTP Host header syntax Directory buckets - The HTTP Host header syntax is  Bucket-name.s3express-zone-id.region-code.amazonaws.com. For more information about related Amazon S3 APIs, see the following:
+    /// HTTP Host header syntax Directory buckets - The HTTP Host header syntax is  Bucket-name.s3express-zone-id.region-code.amazonaws.com. Errors
+    ///
+    /// * You might receive an InvalidRequest error for several reasons. Depending on the reason for the error, you might receive one of the following messages:
+    ///
+    /// * Cannot specify both a write offset value and user-defined object metadata for existing objects.
+    ///
+    /// * Checksum Type mismatch occurred, expected checksum Type: sha1, actual checksum Type: crc32c.
+    ///
+    /// * Request body cannot be empty when 'write offset' is specified.
+    ///
+    ///
+    ///
+    ///
+    ///
+    /// For more information about related Amazon S3 APIs, see the following:
     ///
     /// * [CopyObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CopyObject.html)
     ///
@@ -9917,7 +10532,21 @@ extension S3Client {
     /// * Directory bucket - This functionality is not supported for directory buckets.
     ///
     ///
-    /// HTTP Host header syntax Directory buckets - The HTTP Host header syntax is  Bucket-name.s3express-zone-id.region-code.amazonaws.com. For more information about related Amazon S3 APIs, see the following:
+    /// HTTP Host header syntax Directory buckets - The HTTP Host header syntax is  Bucket-name.s3express-zone-id.region-code.amazonaws.com. Errors
+    ///
+    /// * You might receive an InvalidRequest error for several reasons. Depending on the reason for the error, you might receive one of the following messages:
+    ///
+    /// * Cannot specify both a write offset value and user-defined object metadata for existing objects.
+    ///
+    /// * Checksum Type mismatch occurred, expected checksum Type: sha1, actual checksum Type: crc32c.
+    ///
+    /// * Request body cannot be empty when 'write offset' is specified.
+    ///
+    ///
+    ///
+    ///
+    ///
+    /// For more information about related Amazon S3 APIs, see the following:
     ///
     /// * [CopyObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CopyObject.html)
     ///

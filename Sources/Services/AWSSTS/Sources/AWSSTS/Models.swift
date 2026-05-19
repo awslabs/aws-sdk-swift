@@ -11,7 +11,7 @@
 import Foundation
 import class AWSClientRuntime.AWSClientConfigDefaultsProvider
 import class AWSClientRuntime.AmzSdkRequestMiddleware
-import class ClientRuntime.OrchestratorBuilder
+@_spi(SchemaBasedSerde) import class ClientRuntime.OrchestratorBuilder
 import class ClientRuntime.OrchestratorTelemetry
 import class Smithy.Context
 import class Smithy.ContextBuilder
@@ -33,10 +33,10 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSQueryError
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import struct AWSClientRuntime.UserAgentMiddleware
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSQueryError
 import struct ClientRuntime.AuthSchemeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
@@ -83,9 +83,9 @@ public struct ExpiredTokenException: ClientRuntime.ModeledError, AWSClientRuntim
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -106,9 +106,9 @@ public struct MalformedPolicyDocumentException: ClientRuntime.ModeledError, AWSC
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -129,9 +129,9 @@ public struct PackedPolicyTooLargeException: ClientRuntime.ModeledError, AWSClie
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -152,9 +152,9 @@ public struct RegionDisabledException: ClientRuntime.ModeledError, AWSClientRunt
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -347,9 +347,9 @@ public struct IDPRejectedClaimException: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -370,9 +370,9 @@ public struct InvalidIdentityTokenException: ClientRuntime.ModeledError, AWSClie
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -485,9 +485,9 @@ public struct IDPCommunicationErrorException: ClientRuntime.ModeledError, AWSCli
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -633,9 +633,9 @@ public struct InvalidAuthorizationMessageException: ClientRuntime.ModeledError, 
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -728,9 +728,9 @@ public struct ExpiredTradeInTokenException: ClientRuntime.ModeledError, AWSClien
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -887,9 +887,9 @@ public struct JWTPayloadSizeExceededException: ClientRuntime.ModeledError, AWSCl
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -910,9 +910,9 @@ public struct OutboundWebIdentityFederationDisabledException: ClientRuntime.Mode
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -933,9 +933,9 @@ public struct SessionDurationEscalationException: ClientRuntime.ModeledError, AW
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -1371,7 +1371,7 @@ enum AssumeRoleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ExpiredTokenException": return try ExpiredTokenException.makeError(baseError: baseError)
@@ -1388,7 +1388,7 @@ enum AssumeRoleWithSAMLOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ExpiredTokenException": return try ExpiredTokenException.makeError(baseError: baseError)
@@ -1407,7 +1407,7 @@ enum AssumeRoleWithWebIdentityOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ExpiredTokenException": return try ExpiredTokenException.makeError(baseError: baseError)
@@ -1427,7 +1427,7 @@ enum AssumeRootOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ExpiredTokenException": return try ExpiredTokenException.makeError(baseError: baseError)
@@ -1442,7 +1442,7 @@ enum DecodeAuthorizationMessageOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidAuthorizationMessageException": return try InvalidAuthorizationMessageException.makeError(baseError: baseError)
@@ -1456,7 +1456,7 @@ enum GetAccessKeyInfoOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -1469,7 +1469,7 @@ enum GetCallerIdentityOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -1482,7 +1482,7 @@ enum GetDelegatedAccessTokenOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ExpiredTradeInTokenException": return try ExpiredTradeInTokenException.makeError(baseError: baseError)
@@ -1498,7 +1498,7 @@ enum GetFederationTokenOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "MalformedPolicyDocument": return try MalformedPolicyDocumentException.makeError(baseError: baseError)
@@ -1514,7 +1514,7 @@ enum GetSessionTokenOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "RegionDisabledException": return try RegionDisabledException.makeError(baseError: baseError)
@@ -1528,7 +1528,7 @@ enum GetWebIdentityTokenOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "JWTPayloadSizeExceededException": return try JWTPayloadSizeExceededException.makeError(baseError: baseError)
@@ -1541,7 +1541,7 @@ enum GetWebIdentityTokenOutputError {
 
 extension ExpiredTokenException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ExpiredTokenException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ExpiredTokenException {
         let reader = baseError.errorBodyReader
         var value = ExpiredTokenException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1554,7 +1554,7 @@ extension ExpiredTokenException {
 
 extension MalformedPolicyDocumentException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> MalformedPolicyDocumentException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> MalformedPolicyDocumentException {
         let reader = baseError.errorBodyReader
         var value = MalformedPolicyDocumentException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1567,7 +1567,7 @@ extension MalformedPolicyDocumentException {
 
 extension PackedPolicyTooLargeException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> PackedPolicyTooLargeException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> PackedPolicyTooLargeException {
         let reader = baseError.errorBodyReader
         var value = PackedPolicyTooLargeException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1580,7 +1580,7 @@ extension PackedPolicyTooLargeException {
 
 extension RegionDisabledException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> RegionDisabledException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> RegionDisabledException {
         let reader = baseError.errorBodyReader
         var value = RegionDisabledException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1593,7 +1593,7 @@ extension RegionDisabledException {
 
 extension IDPRejectedClaimException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> IDPRejectedClaimException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> IDPRejectedClaimException {
         let reader = baseError.errorBodyReader
         var value = IDPRejectedClaimException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1606,7 +1606,7 @@ extension IDPRejectedClaimException {
 
 extension InvalidIdentityTokenException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidIdentityTokenException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidIdentityTokenException {
         let reader = baseError.errorBodyReader
         var value = InvalidIdentityTokenException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1619,7 +1619,7 @@ extension InvalidIdentityTokenException {
 
 extension IDPCommunicationErrorException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> IDPCommunicationErrorException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> IDPCommunicationErrorException {
         let reader = baseError.errorBodyReader
         var value = IDPCommunicationErrorException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1632,7 +1632,7 @@ extension IDPCommunicationErrorException {
 
 extension InvalidAuthorizationMessageException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidAuthorizationMessageException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidAuthorizationMessageException {
         let reader = baseError.errorBodyReader
         var value = InvalidAuthorizationMessageException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1645,7 +1645,7 @@ extension InvalidAuthorizationMessageException {
 
 extension ExpiredTradeInTokenException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ExpiredTradeInTokenException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ExpiredTradeInTokenException {
         let reader = baseError.errorBodyReader
         var value = ExpiredTradeInTokenException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1658,7 +1658,7 @@ extension ExpiredTradeInTokenException {
 
 extension JWTPayloadSizeExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> JWTPayloadSizeExceededException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> JWTPayloadSizeExceededException {
         let reader = baseError.errorBodyReader
         var value = JWTPayloadSizeExceededException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1671,7 +1671,7 @@ extension JWTPayloadSizeExceededException {
 
 extension OutboundWebIdentityFederationDisabledException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> OutboundWebIdentityFederationDisabledException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> OutboundWebIdentityFederationDisabledException {
         let reader = baseError.errorBodyReader
         var value = OutboundWebIdentityFederationDisabledException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1684,13 +1684,24 @@ extension OutboundWebIdentityFederationDisabledException {
 
 extension SessionDurationEscalationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SessionDurationEscalationException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> SessionDurationEscalationException {
         let reader = baseError.errorBodyReader
         var value = SessionDurationEscalationException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
+        return value
+    }
+}
+
+extension STSClientTypes.AssumedRoleUser {
+
+    static func read(from reader: SmithyXML.Reader) throws -> STSClientTypes.AssumedRoleUser {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = STSClientTypes.AssumedRoleUser()
+        value.assumedRoleId = try reader["AssumedRoleId"].readIfPresent() ?? ""
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -1704,17 +1715,6 @@ extension STSClientTypes.Credentials {
         value.secretAccessKey = try reader["SecretAccessKey"].readIfPresent() ?? ""
         value.sessionToken = try reader["SessionToken"].readIfPresent() ?? ""
         value.expiration = try reader["Expiration"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension STSClientTypes.AssumedRoleUser {
-
-    static func read(from reader: SmithyXML.Reader) throws -> STSClientTypes.AssumedRoleUser {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = STSClientTypes.AssumedRoleUser()
-        value.assumedRoleId = try reader["AssumedRoleId"].readIfPresent() ?? ""
-        value.arn = try reader["Arn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -1738,15 +1738,6 @@ extension STSClientTypes.PolicyDescriptorType {
     }
 }
 
-extension STSClientTypes.Tag {
-
-    static func write(value: STSClientTypes.Tag?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-}
-
 extension STSClientTypes.ProvidedContext {
 
     static func write(value: STSClientTypes.ProvidedContext?, to writer: SmithyFormURL.Writer) throws {
@@ -1756,8 +1747,17 @@ extension STSClientTypes.ProvidedContext {
     }
 }
 
+extension STSClientTypes.Tag {
+
+    static func write(value: STSClientTypes.Tag?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+}
+
 extension GetCallerIdentityInput {
-    public func presign(config: STSClient.STSClientConfiguration, expiration: Foundation.TimeInterval) async throws -> SmithyHTTPAPI.HTTPRequest? {
+    public func presign(config: STSClient.STSClientConfig, expiration: Foundation.TimeInterval) async throws -> SmithyHTTPAPI.HTTPRequest? {
         let serviceName = "STS"
         let input = self
         let client: (SmithyHTTPAPI.HTTPRequest, Smithy.Context) async throws -> SmithyHTTPAPI.HTTPResponse = { (_, _) in
@@ -1777,6 +1777,7 @@ extension GetCallerIdentityInput {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sts")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetCallerIdentityInput, GetCallerIdentityOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -1818,6 +1819,11 @@ extension GetCallerIdentityInput {
             .executeRequest(client)
             .build()
         return try await op.presignRequest(input: input)
+    }
+
+    @available(*, deprecated, message: "Use presign(config: STSClient.STSClientConfig, expiration:) instead")
+    public func presign(config: STSClient.STSClientConfiguration, expiration: Foundation.TimeInterval) async throws -> SmithyHTTPAPI.HTTPRequest? {
+        return try await self.presign(config: config.toSendable(), expiration: expiration)
     }
 }
 

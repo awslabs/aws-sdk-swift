@@ -18,8 +18,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 
 extension SigninClientTypes {
 
@@ -93,9 +93,9 @@ package struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRunti
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         error: SigninClientTypes.OAuth2ErrorCode? = nil,
@@ -155,9 +155,9 @@ package struct InternalServerException: ClientRuntime.ModeledError, AWSClientRun
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         error: SigninClientTypes.OAuth2ErrorCode? = nil,
@@ -198,9 +198,9 @@ package struct TooManyRequestsError: ClientRuntime.ModeledError, AWSClientRuntim
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         error: SigninClientTypes.OAuth2ErrorCode? = nil,
@@ -228,9 +228,9 @@ package struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         error: SigninClientTypes.OAuth2ErrorCode? = nil,
@@ -389,7 +389,7 @@ enum CreateOAuth2TokenOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -403,7 +403,7 @@ enum CreateOAuth2TokenOutputError {
 
 extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.error = try reader["error"].readIfPresent() ?? .sdkUnknown("")
@@ -417,7 +417,7 @@ extension AccessDeniedException {
 
 extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
         value.properties.error = try reader["error"].readIfPresent() ?? .sdkUnknown("")
@@ -431,7 +431,7 @@ extension InternalServerException {
 
 extension TooManyRequestsError {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TooManyRequestsError {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> TooManyRequestsError {
         let reader = baseError.errorBodyReader
         var value = TooManyRequestsError()
         value.properties.error = try reader["error"].readIfPresent() ?? .sdkUnknown("")
@@ -445,7 +445,7 @@ extension TooManyRequestsError {
 
 extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.error = try reader["error"].readIfPresent() ?? .sdkUnknown("")
@@ -453,20 +453,6 @@ extension ValidationException {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension SigninClientTypes.CreateOAuth2TokenResponseBody {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SigninClientTypes.CreateOAuth2TokenResponseBody {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SigninClientTypes.CreateOAuth2TokenResponseBody()
-        value.accessToken = try reader["accessToken"].readIfPresent(with: SigninClientTypes.AccessToken.read(from:))
-        value.tokenType = try reader["tokenType"].readIfPresent() ?? ""
-        value.expiresIn = try reader["expiresIn"].readIfPresent() ?? 0
-        value.refreshToken = try reader["refreshToken"].readIfPresent() ?? ""
-        value.idToken = try reader["idToken"].readIfPresent()
         return value
     }
 }
@@ -493,6 +479,20 @@ extension SigninClientTypes.CreateOAuth2TokenRequestBody {
         try writer["grantType"].write(value.grantType)
         try writer["redirectUri"].write(value.redirectUri)
         try writer["refreshToken"].write(value.refreshToken)
+    }
+}
+
+extension SigninClientTypes.CreateOAuth2TokenResponseBody {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SigninClientTypes.CreateOAuth2TokenResponseBody {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SigninClientTypes.CreateOAuth2TokenResponseBody()
+        value.accessToken = try reader["accessToken"].readIfPresent(with: SigninClientTypes.AccessToken.read(from:))
+        value.tokenType = try reader["tokenType"].readIfPresent() ?? ""
+        value.expiresIn = try reader["expiresIn"].readIfPresent() ?? 0
+        value.refreshToken = try reader["refreshToken"].readIfPresent() ?? ""
+        value.idToken = try reader["idToken"].readIfPresent()
+        return value
     }
 }
 

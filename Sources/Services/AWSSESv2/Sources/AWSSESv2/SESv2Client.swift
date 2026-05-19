@@ -15,7 +15,7 @@ import class AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain
 import class ClientRuntime.ClientBuilder
 import class ClientRuntime.DefaultClientPlugin
 import class ClientRuntime.HttpClientConfiguration
-import class ClientRuntime.OrchestratorBuilder
+@_spi(SchemaBasedSerde) import class ClientRuntime.OrchestratorBuilder
 import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
@@ -30,6 +30,7 @@ import enum AWSSDKChecksums.AWSChecksumCalculationMode
 import enum ClientRuntime.ClientLogMode
 import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
+import func ClientRuntime.initialize
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
 import protocol AWSClientRuntime.AWSServiceClient
@@ -57,6 +58,8 @@ import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.QueryItemMiddleware
+import struct ClientRuntime.SendableHttpInterceptorProviderBox
+import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
 import struct ClientRuntime.URLPathMiddleware
@@ -68,31 +71,49 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class SESv2Client: AWSClientRuntime.AWSServiceClient {
+public final class SESv2Client: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "SESv2Client"
     let client: ClientRuntime.SdkHttpClient
-    let config: SESv2Client.SESv2ClientConfiguration
+    public let config: SESv2Client.SESv2ClientConfig
     let serviceName = "SESv2"
 
-    public required init(config: SESv2Client.SESv2ClientConfiguration) {
+    @available(*, deprecated, message: "Use SESv2Client.SESv2ClientConfig instead")
+    public typealias Config = SESv2Client.SESv2ClientConfiguration
+    public typealias Configuration = SESv2Client.SESv2ClientConfig
+
+    public required init(config: SESv2Client.SESv2ClientConfig) {
+        ClientRuntime.initialize()
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         self.config = config
     }
 
+    @available(*, deprecated, message: "Use init(config: SESv2Client.SESv2ClientConfig) instead")
+    public convenience init(config: SESv2Client.SESv2ClientConfiguration) {
+        do {
+            try self.init(config: config.toSendable())
+        } catch {
+            // This should never happen since all values are already initialized in the class
+            fatalError("Failed to convert deprecated configuration: \(error)")
+        }
+    }
+
     public convenience init(region: Swift.String) throws {
-        let config = try SESv2Client.SESv2ClientConfiguration(region: region)
+        let config = try SESv2Client.SESv2ClientConfig(region: region)
         self.init(config: config)
     }
 
-    public convenience required init() async throws {
-        let config = try await SESv2Client.SESv2ClientConfiguration()
+    public convenience init() async throws {
+        let config = try await SESv2Client.SESv2ClientConfig()
         self.init(config: config)
     }
 }
 
 extension SESv2Client {
 
-    public class SESv2ClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
+    /// Client configuration for SESv2Client
+    ///
+    /// Conforms to `Sendable` for safe concurrent access across threads.
+    public struct SESv2ClientConfig: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Swift.Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?
@@ -102,6 +123,7 @@ extension SESv2Client {
         public var requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode
         public var responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode
         public var ignoreConfiguredEndpointURLs: Swift.Bool?
+        public var sigV4aSigningRegionSet: [String]?
         public var region: Swift.String?
         public var signingRegion: Swift.String?
         public var endpointResolver: EndpointResolver
@@ -116,66 +138,29 @@ extension SESv2Client {
         public var authSchemePreference: [String]?
         public var authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver
         public var bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver
-        public private(set) var interceptorProviders: [ClientRuntime.InterceptorProvider]
-        public private(set) var httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]
-        public let logger: Smithy.LogAgent
-
-        private init(
-            _ useFIPS: Swift.Bool?,
-            _ useDualStack: Swift.Bool?,
-            _ appID: Swift.String?,
-            _ awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver,
-            _ awsRetryMode: AWSClientRuntime.AWSRetryMode,
-            _ maxAttempts: Swift.Int?,
-            _ requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode,
-            _ responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode,
-            _ ignoreConfiguredEndpointURLs: Swift.Bool?,
-            _ region: Swift.String?,
-            _ signingRegion: Swift.String?,
-            _ endpointResolver: EndpointResolver,
-            _ telemetryProvider: ClientRuntime.TelemetryProvider,
-            _ retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions,
-            _ clientLogMode: ClientRuntime.ClientLogMode,
-            _ endpoint: Swift.String?,
-            _ idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator,
-            _ httpClientEngine: SmithyHTTPAPI.HTTPClient,
-            _ httpClientConfiguration: ClientRuntime.HttpClientConfiguration,
-            _ authSchemes: SmithyHTTPAuthAPI.AuthSchemes?,
-            _ authSchemePreference: [String]?,
-            _ authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver,
-            _ bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver,
-            _ interceptorProviders: [ClientRuntime.InterceptorProvider],
-            _ httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]
-        ) {
-            self.useFIPS = useFIPS
-            self.useDualStack = useDualStack
-            self.appID = appID
-            self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
-            self.awsRetryMode = awsRetryMode
-            self.maxAttempts = maxAttempts
-            self.requestChecksumCalculation = requestChecksumCalculation
-            self.responseChecksumValidation = responseChecksumValidation
-            self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
-            self.region = region
-            self.signingRegion = signingRegion
-            self.endpointResolver = endpointResolver
-            self.telemetryProvider = telemetryProvider
-            self.retryStrategyOptions = retryStrategyOptions
-            self.clientLogMode = clientLogMode
-            self.endpoint = endpoint
-            self.idempotencyTokenGenerator = idempotencyTokenGenerator
-            self.httpClientEngine = httpClientEngine
-            self.httpClientConfiguration = httpClientConfiguration
-            self.authSchemes = authSchemes
-            self.authSchemePreference = authSchemePreference
-            self.authSchemeResolver = authSchemeResolver
-            self.bearerTokenIdentityResolver = bearerTokenIdentityResolver
-            self.interceptorProviders = interceptorProviders
-            self.httpInterceptorProviders = httpInterceptorProviders
-            self.logger = telemetryProvider.loggerProvider.getLogger(name: SESv2Client.clientName)
+        // Interceptor providers with Sendable-safe internal storage
+        private var _interceptorProviders: [ClientRuntime.SendableInterceptorProviderBox] = []
+        public var interceptorProviders: [ClientRuntime.InterceptorProvider] {
+            get {
+                return _interceptorProviders
+            }
+            set {
+                _interceptorProviders = newValue.map { ClientRuntime.SendableInterceptorProviderBox($0) }
+            }
         }
 
-        public convenience init(
+        private var _httpInterceptorProviders: [ClientRuntime.SendableHttpInterceptorProviderBox] = []
+        public var httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider] {
+            get {
+                return _httpInterceptorProviders
+            }
+            set {
+                _httpInterceptorProviders = newValue.map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
+            }
+        }
+        public var logger: Smithy.LogAgent
+
+        public init(
             useFIPS: Swift.Bool? = nil,
             useDualStack: Swift.Bool? = nil,
             appID: Swift.String? = nil,
@@ -185,6 +170,7 @@ extension SESv2Client {
             requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
             responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
             ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
+            sigV4aSigningRegionSet: [String]? = nil,
             region: Swift.String? = nil,
             signingRegion: Swift.String? = nil,
             endpointResolver: EndpointResolver? = nil,
@@ -202,36 +188,36 @@ extension SESv2Client {
             interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
             httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil
         ) throws {
-            self.init(
-                useFIPS,
-                useDualStack,
-                try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
-                awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
-                try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
-                maxAttempts,
-                try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation),
-                try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation),
-                ignoreConfiguredEndpointURLs,
-                region,
-                signingRegion,
-                try endpointResolver ?? DefaultEndpointResolver(),
-                telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider,
-                try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts),
-                clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(),
-                endpoint,
-                idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
-                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration),
-                httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
-                authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme(), AWSSDKHTTPAuth.SigV4AAuthScheme()],
-                authSchemePreference ?? nil,
-                authSchemeResolver ?? DefaultSESv2AuthSchemeResolver(),
-                bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
-                interceptorProviders ?? [],
-                httpInterceptorProviders ?? []
-            )
+            self.useFIPS = useFIPS
+            self.useDualStack = useDualStack
+            self.appID = try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID()
+            self.awsCredentialIdentityResolver = awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain()
+            self.awsRetryMode = try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode()
+            self.maxAttempts = maxAttempts
+            self.requestChecksumCalculation = try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation)
+            self.responseChecksumValidation = try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation)
+            self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
+            self.sigV4aSigningRegionSet = sigV4aSigningRegionSet
+            self.region = region
+            self.signingRegion = signingRegion
+            self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
+            self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
+            self.endpoint = endpoint
+            self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
+            self.httpClientEngine = httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration)
+            self.httpClientConfiguration = httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration()
+            self.authSchemes = authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme(), AWSSDKHTTPAuth.SigV4AAuthScheme()]
+            self.authSchemePreference = authSchemePreference ?? nil
+            self.authSchemeResolver = authSchemeResolver ?? DefaultSESv2AuthSchemeResolver()
+            self.bearerTokenIdentityResolver = bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
+            self._interceptorProviders = (interceptorProviders ?? []).map { ClientRuntime.SendableInterceptorProviderBox($0) }
+            self._httpInterceptorProviders = (httpInterceptorProviders ?? []).map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
+            self.logger = (telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider).loggerProvider.getLogger(name: SESv2Client.clientName)
         }
 
-        public convenience init(
+        public init(
             useFIPS: Swift.Bool? = nil,
             useDualStack: Swift.Bool? = nil,
             appID: Swift.String? = nil,
@@ -241,6 +227,7 @@ extension SESv2Client {
             requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
             responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
             ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
+            sigV4aSigningRegionSet: [String]? = nil,
             region: Swift.String? = nil,
             signingRegion: Swift.String? = nil,
             endpointResolver: EndpointResolver? = nil,
@@ -258,36 +245,36 @@ extension SESv2Client {
             interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
             httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil
         ) async throws {
-            self.init(
-                useFIPS,
-                useDualStack,
-                try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
-                awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
-                try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
-                maxAttempts,
-                try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation),
-                try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation),
-                ignoreConfiguredEndpointURLs,
-                try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region),
-                try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region),
-                try endpointResolver ?? DefaultEndpointResolver(),
-                telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider,
-                try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts),
-                clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(),
-                endpoint,
-                idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
-                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration),
-                httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
-                authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme(), AWSSDKHTTPAuth.SigV4AAuthScheme()],
-                authSchemePreference ?? nil,
-                authSchemeResolver ?? DefaultSESv2AuthSchemeResolver(),
-                bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
-                interceptorProviders ?? [],
-                httpInterceptorProviders ?? []
-            )
+            self.useFIPS = useFIPS
+            self.useDualStack = useDualStack
+            self.appID = try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID()
+            self.awsCredentialIdentityResolver = awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain()
+            self.awsRetryMode = try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode()
+            self.maxAttempts = maxAttempts
+            self.requestChecksumCalculation = try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation)
+            self.responseChecksumValidation = try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation)
+            self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
+            self.sigV4aSigningRegionSet = sigV4aSigningRegionSet
+            self.region = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
+            self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
+            self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
+            self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
+            self.endpoint = endpoint
+            self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
+            self.httpClientEngine = httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration)
+            self.httpClientConfiguration = httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration()
+            self.authSchemes = authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme(), AWSSDKHTTPAuth.SigV4AAuthScheme()]
+            self.authSchemePreference = authSchemePreference ?? nil
+            self.authSchemeResolver = authSchemeResolver ?? DefaultSESv2AuthSchemeResolver()
+            self.bearerTokenIdentityResolver = bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
+            self._interceptorProviders = (interceptorProviders ?? []).map { ClientRuntime.SendableInterceptorProviderBox($0) }
+            self._httpInterceptorProviders = (httpInterceptorProviders ?? []).map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
+            self.logger = (telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider).loggerProvider.getLogger(name: SESv2Client.clientName)
         }
 
-        public convenience required init() async throws {
+        public init() async throws {
             try await self.init(
                 useFIPS: nil,
                 useDualStack: nil,
@@ -298,6 +285,245 @@ extension SESv2Client {
                 requestChecksumCalculation: nil,
                 responseChecksumValidation: nil,
                 ignoreConfiguredEndpointURLs: nil,
+                sigV4aSigningRegionSet: nil,
+                region: nil,
+                signingRegion: nil,
+                endpointResolver: nil,
+                telemetryProvider: nil,
+                retryStrategyOptions: nil,
+                clientLogMode: nil,
+                endpoint: nil,
+                idempotencyTokenGenerator: nil,
+                httpClientEngine: nil,
+                httpClientConfiguration: nil,
+                authSchemes: nil,
+                authSchemePreference: nil,
+                authSchemeResolver: nil,
+                bearerTokenIdentityResolver: nil,
+                interceptorProviders: nil,
+                httpInterceptorProviders: nil
+            )
+        }
+
+        public init(region: Swift.String) throws {
+            try self.init(
+                useFIPS: nil,
+                useDualStack: nil,
+                appID: try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
+                awsCredentialIdentityResolver: AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
+                awsRetryMode: try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
+                maxAttempts: nil,
+                requestChecksumCalculation: try AWSClientConfigDefaultsProvider.requestChecksumCalculation(),
+                responseChecksumValidation: try AWSClientConfigDefaultsProvider.responseChecksumValidation(),
+                ignoreConfiguredEndpointURLs: nil,
+                sigV4aSigningRegionSet: nil,
+                region: region,
+                signingRegion: region,
+                endpointResolver: try DefaultEndpointResolver(),
+                telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
+                endpoint: nil,
+                idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
+                httpClientEngine: AWSClientConfigDefaultsProvider.httpClientEngine(),
+                httpClientConfiguration: AWSClientConfigDefaultsProvider.httpClientConfiguration(),
+                authSchemes: [AWSSDKHTTPAuth.SigV4AuthScheme(), AWSSDKHTTPAuth.SigV4AAuthScheme()],
+                authSchemePreference: nil,
+                authSchemeResolver: DefaultSESv2AuthSchemeResolver(),
+                bearerTokenIdentityResolver: SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
+                interceptorProviders: [],
+                httpInterceptorProviders: []
+            )
+        }
+
+        public var partitionID: String? {
+            return "\(SESv2Client.clientName) - \(region ?? "")"
+        }
+
+        public mutating func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
+            self._interceptorProviders.append(ClientRuntime.SendableInterceptorProviderBox(provider))
+        }
+
+        public mutating func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
+            self._httpInterceptorProviders.append(ClientRuntime.SendableHttpInterceptorProviderBox(provider))
+        }
+
+    }
+
+    @available(*, deprecated, message: "Use SESv2ClientConfig instead. This class will be removed in a future version.")
+    public final class SESv2ClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
+        public var useFIPS: Swift.Bool?
+        public var useDualStack: Swift.Bool?
+        public var appID: Swift.String?
+        public var awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver
+        public var awsRetryMode: AWSClientRuntime.AWSRetryMode
+        public var maxAttempts: Swift.Int?
+        public var requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode
+        public var responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode
+        public var ignoreConfiguredEndpointURLs: Swift.Bool?
+        public var sigV4aSigningRegionSet: [String]?
+        public var region: Swift.String?
+        public var signingRegion: Swift.String?
+        public var endpointResolver: EndpointResolver
+        public var telemetryProvider: ClientRuntime.TelemetryProvider
+        public var retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions
+        public var clientLogMode: ClientRuntime.ClientLogMode
+        public var endpoint: Swift.String?
+        public var idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator
+        public var httpClientEngine: SmithyHTTPAPI.HTTPClient
+        public var httpClientConfiguration: ClientRuntime.HttpClientConfiguration
+        public var authSchemes: SmithyHTTPAuthAPI.AuthSchemes?
+        public var authSchemePreference: [String]?
+        public var authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver
+        public var bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver
+        // Interceptor providers with Sendable-safe internal storage
+        private var _interceptorProviders: [ClientRuntime.SendableInterceptorProviderBox] = []
+        public var interceptorProviders: [ClientRuntime.InterceptorProvider] {
+            get {
+                return _interceptorProviders
+            }
+            set {
+                _interceptorProviders = newValue.map { ClientRuntime.SendableInterceptorProviderBox($0) }
+            }
+        }
+
+        private var _httpInterceptorProviders: [ClientRuntime.SendableHttpInterceptorProviderBox] = []
+        public var httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider] {
+            get {
+                return _httpInterceptorProviders
+            }
+            set {
+                _httpInterceptorProviders = newValue.map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
+            }
+        }
+        public var logger: Smithy.LogAgent
+
+        public init(
+            useFIPS: Swift.Bool? = nil,
+            useDualStack: Swift.Bool? = nil,
+            appID: Swift.String? = nil,
+            awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil,
+            awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil,
+            maxAttempts: Swift.Int? = nil,
+            requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
+            sigV4aSigningRegionSet: [String]? = nil,
+            region: Swift.String? = nil,
+            signingRegion: Swift.String? = nil,
+            endpointResolver: EndpointResolver? = nil,
+            telemetryProvider: ClientRuntime.TelemetryProvider? = nil,
+            retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil,
+            clientLogMode: ClientRuntime.ClientLogMode? = nil,
+            endpoint: Swift.String? = nil,
+            idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil,
+            httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil,
+            httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil,
+            authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil,
+            authSchemePreference: [String]? = nil,
+            authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil,
+            bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil,
+            interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
+            httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil
+        ) throws {
+            self.useFIPS = useFIPS
+            self.useDualStack = useDualStack
+            self.appID = try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID()
+            self.awsCredentialIdentityResolver = awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain()
+            self.awsRetryMode = try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode()
+            self.maxAttempts = maxAttempts
+            self.requestChecksumCalculation = try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation)
+            self.responseChecksumValidation = try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation)
+            self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
+            self.sigV4aSigningRegionSet = sigV4aSigningRegionSet
+            self.region = region
+            self.signingRegion = signingRegion
+            self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
+            self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
+            self.endpoint = endpoint
+            self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
+            self.httpClientEngine = httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration)
+            self.httpClientConfiguration = httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration()
+            self.authSchemes = authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme(), AWSSDKHTTPAuth.SigV4AAuthScheme()]
+            self.authSchemePreference = authSchemePreference ?? nil
+            self.authSchemeResolver = authSchemeResolver ?? DefaultSESv2AuthSchemeResolver()
+            self.bearerTokenIdentityResolver = bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
+            self._interceptorProviders = (interceptorProviders ?? []).map { ClientRuntime.SendableInterceptorProviderBox($0) }
+            self._httpInterceptorProviders = (httpInterceptorProviders ?? []).map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
+            self.logger = (telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider).loggerProvider.getLogger(name: SESv2Client.clientName)
+        }
+
+        public init(
+            useFIPS: Swift.Bool? = nil,
+            useDualStack: Swift.Bool? = nil,
+            appID: Swift.String? = nil,
+            awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil,
+            awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil,
+            maxAttempts: Swift.Int? = nil,
+            requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
+            sigV4aSigningRegionSet: [String]? = nil,
+            region: Swift.String? = nil,
+            signingRegion: Swift.String? = nil,
+            endpointResolver: EndpointResolver? = nil,
+            telemetryProvider: ClientRuntime.TelemetryProvider? = nil,
+            retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil,
+            clientLogMode: ClientRuntime.ClientLogMode? = nil,
+            endpoint: Swift.String? = nil,
+            idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil,
+            httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil,
+            httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil,
+            authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil,
+            authSchemePreference: [String]? = nil,
+            authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil,
+            bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil,
+            interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
+            httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil
+        ) async throws {
+            self.useFIPS = useFIPS
+            self.useDualStack = useDualStack
+            self.appID = try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID()
+            self.awsCredentialIdentityResolver = awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain()
+            self.awsRetryMode = try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode()
+            self.maxAttempts = maxAttempts
+            self.requestChecksumCalculation = try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation)
+            self.responseChecksumValidation = try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation)
+            self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
+            self.sigV4aSigningRegionSet = sigV4aSigningRegionSet
+            self.region = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
+            self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
+            self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
+            self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
+            self.endpoint = endpoint
+            self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
+            self.httpClientEngine = httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration)
+            self.httpClientConfiguration = httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration()
+            self.authSchemes = authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme(), AWSSDKHTTPAuth.SigV4AAuthScheme()]
+            self.authSchemePreference = authSchemePreference ?? nil
+            self.authSchemeResolver = authSchemeResolver ?? DefaultSESv2AuthSchemeResolver()
+            self.bearerTokenIdentityResolver = bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
+            self._interceptorProviders = (interceptorProviders ?? []).map { ClientRuntime.SendableInterceptorProviderBox($0) }
+            self._httpInterceptorProviders = (httpInterceptorProviders ?? []).map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
+            self.logger = (telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider).loggerProvider.getLogger(name: SESv2Client.clientName)
+        }
+
+        public convenience init() async throws {
+            try await self.init(
+                useFIPS: nil,
+                useDualStack: nil,
+                appID: nil,
+                awsCredentialIdentityResolver: nil,
+                awsRetryMode: nil,
+                maxAttempts: nil,
+                requestChecksumCalculation: nil,
+                responseChecksumValidation: nil,
+                ignoreConfiguredEndpointURLs: nil,
+                sigV4aSigningRegionSet: nil,
                 region: nil,
                 signingRegion: nil,
                 endpointResolver: nil,
@@ -318,32 +544,33 @@ extension SESv2Client {
         }
 
         public convenience init(region: Swift.String) throws {
-            self.init(
-                nil,
-                nil,
-                try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
-                AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
-                try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
-                nil,
-                try AWSClientConfigDefaultsProvider.requestChecksumCalculation(),
-                try AWSClientConfigDefaultsProvider.responseChecksumValidation(),
-                nil,
-                region,
-                region,
-                try DefaultEndpointResolver(),
-                ClientRuntime.DefaultTelemetry.provider,
-                try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
-                AWSClientConfigDefaultsProvider.clientLogMode(),
-                nil,
-                AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
-                AWSClientConfigDefaultsProvider.httpClientEngine(),
-                AWSClientConfigDefaultsProvider.httpClientConfiguration(),
-                [AWSSDKHTTPAuth.SigV4AuthScheme(), AWSSDKHTTPAuth.SigV4AAuthScheme()],
-                nil,
-                DefaultSESv2AuthSchemeResolver(),
-                SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
-                [],
-                []
+            try self.init(
+                useFIPS: nil,
+                useDualStack: nil,
+                appID: try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
+                awsCredentialIdentityResolver: AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
+                awsRetryMode: try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
+                maxAttempts: nil,
+                requestChecksumCalculation: try AWSClientConfigDefaultsProvider.requestChecksumCalculation(),
+                responseChecksumValidation: try AWSClientConfigDefaultsProvider.responseChecksumValidation(),
+                ignoreConfiguredEndpointURLs: nil,
+                sigV4aSigningRegionSet: nil,
+                region: region,
+                signingRegion: region,
+                endpointResolver: try DefaultEndpointResolver(),
+                telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
+                endpoint: nil,
+                idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
+                httpClientEngine: AWSClientConfigDefaultsProvider.httpClientEngine(),
+                httpClientConfiguration: AWSClientConfigDefaultsProvider.httpClientConfiguration(),
+                authSchemes: [AWSSDKHTTPAuth.SigV4AuthScheme(), AWSSDKHTTPAuth.SigV4AAuthScheme()],
+                authSchemePreference: nil,
+                authSchemeResolver: DefaultSESv2AuthSchemeResolver(),
+                bearerTokenIdentityResolver: SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
+                interceptorProviders: [],
+                httpInterceptorProviders: []
             )
         }
 
@@ -351,12 +578,43 @@ extension SESv2Client {
             return "\(SESv2Client.clientName) - \(region ?? "")"
         }
 
+        public func toSendable() throws -> SESv2ClientConfig {
+            return try SESv2ClientConfig(
+                useFIPS: self.useFIPS,
+                useDualStack: self.useDualStack,
+                appID: self.appID,
+                awsCredentialIdentityResolver: self.awsCredentialIdentityResolver,
+                awsRetryMode: self.awsRetryMode,
+                maxAttempts: self.maxAttempts,
+                requestChecksumCalculation: self.requestChecksumCalculation,
+                responseChecksumValidation: self.responseChecksumValidation,
+                ignoreConfiguredEndpointURLs: self.ignoreConfiguredEndpointURLs,
+                sigV4aSigningRegionSet: self.sigV4aSigningRegionSet,
+                region: self.region,
+                signingRegion: self.signingRegion,
+                endpointResolver: self.endpointResolver,
+                telemetryProvider: self.telemetryProvider,
+                retryStrategyOptions: self.retryStrategyOptions,
+                clientLogMode: self.clientLogMode,
+                endpoint: self.endpoint,
+                idempotencyTokenGenerator: self.idempotencyTokenGenerator,
+                httpClientEngine: self.httpClientEngine,
+                httpClientConfiguration: self.httpClientConfiguration,
+                authSchemes: self.authSchemes,
+                authSchemePreference: self.authSchemePreference,
+                authSchemeResolver: self.authSchemeResolver,
+                bearerTokenIdentityResolver: self.bearerTokenIdentityResolver,
+                interceptorProviders: self.interceptorProviders,
+                httpInterceptorProviders: self.httpInterceptorProviders
+            )
+        }
+
         public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
-            self.interceptorProviders.append(provider)
+            self._interceptorProviders.append(ClientRuntime.SendableInterceptorProviderBox(provider))
         }
 
         public func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
-            self.httpInterceptorProviders.append(provider)
+            self._httpInterceptorProviders.append(ClientRuntime.SendableHttpInterceptorProviderBox(provider))
         }
 
     }
@@ -399,6 +657,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<BatchGetMetricDataInput, BatchGetMetricDataOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -470,6 +729,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<CancelExportJobInput, CancelExportJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -541,6 +801,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<CreateConfigurationSetInput, CreateConfigurationSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -614,6 +875,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<CreateConfigurationSetEventDestinationInput, CreateConfigurationSetEventDestinationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -686,6 +948,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<CreateContactInput, CreateContactOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -758,6 +1021,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<CreateContactListInput, CreateContactListOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -831,6 +1095,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<CreateCustomVerificationEmailTemplateInput, CreateCustomVerificationEmailTemplateOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -904,6 +1169,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<CreateDedicatedIpPoolInput, CreateDedicatedIpPoolOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -981,6 +1247,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<CreateDeliverabilityTestReportInput, CreateDeliverabilityTestReportOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -1055,6 +1322,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<CreateEmailIdentityInput, CreateEmailIdentityOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -1128,6 +1396,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<CreateEmailIdentityPolicyInput, CreateEmailIdentityPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -1200,6 +1469,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<CreateEmailTemplateInput, CreateEmailTemplateOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -1272,6 +1542,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<CreateExportJobInput, CreateExportJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -1343,6 +1614,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<CreateImportJobInput, CreateImportJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -1415,6 +1687,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<CreateMultiRegionEndpointInput, CreateMultiRegionEndpointOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -1487,6 +1760,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<CreateTenantInput, CreateTenantOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -1559,6 +1833,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<CreateTenantResourceAssociationInput, CreateTenantResourceAssociationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -1631,6 +1906,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DeleteConfigurationSetInput, DeleteConfigurationSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -1699,6 +1975,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DeleteConfigurationSetEventDestinationInput, DeleteConfigurationSetEventDestinationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -1767,6 +2044,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DeleteContactInput, DeleteContactOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -1836,6 +2114,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DeleteContactListInput, DeleteContactListOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -1904,6 +2183,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DeleteCustomVerificationEmailTemplateInput, DeleteCustomVerificationEmailTemplateOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -1973,6 +2253,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DeleteDedicatedIpPoolInput, DeleteDedicatedIpPoolOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -2042,6 +2323,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DeleteEmailIdentityInput, DeleteEmailIdentityOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -2110,6 +2392,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DeleteEmailIdentityPolicyInput, DeleteEmailIdentityPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -2178,6 +2461,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DeleteEmailTemplateInput, DeleteEmailTemplateOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -2247,6 +2531,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DeleteMultiRegionEndpointInput, DeleteMultiRegionEndpointOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -2315,6 +2600,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DeleteSuppressedDestinationInput, DeleteSuppressedDestinationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -2383,6 +2669,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DeleteTenantInput, DeleteTenantOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -2454,6 +2741,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DeleteTenantResourceAssociationInput, DeleteTenantResourceAssociationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -2524,6 +2812,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetAccountInput, GetAccountOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -2592,6 +2881,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetBlacklistReportsInput, GetBlacklistReportsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -2661,6 +2951,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetConfigurationSetInput, GetConfigurationSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -2729,6 +3020,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetConfigurationSetEventDestinationsInput, GetConfigurationSetEventDestinationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -2797,6 +3089,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetContactInput, GetContactOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -2865,6 +3158,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetContactListInput, GetContactListOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -2933,6 +3227,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetCustomVerificationEmailTemplateInput, GetCustomVerificationEmailTemplateOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -3001,6 +3296,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetDedicatedIpInput, GetDedicatedIpOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -3069,6 +3365,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetDedicatedIpPoolInput, GetDedicatedIpPoolOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -3137,6 +3434,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetDedicatedIpsInput, GetDedicatedIpsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -3206,6 +3504,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetDeliverabilityDashboardOptionsInput, GetDeliverabilityDashboardOptionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -3274,6 +3573,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetDeliverabilityTestReportInput, GetDeliverabilityTestReportOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -3342,6 +3642,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetDomainDeliverabilityCampaignInput, GetDomainDeliverabilityCampaignOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -3410,6 +3711,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetDomainStatisticsReportInput, GetDomainStatisticsReportOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -3478,6 +3780,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetEmailAddressInsightsInput, GetEmailAddressInsightsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -3549,6 +3852,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetEmailIdentityInput, GetEmailIdentityOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -3617,6 +3921,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetEmailIdentityPoliciesInput, GetEmailIdentityPoliciesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -3685,6 +3990,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetEmailTemplateInput, GetEmailTemplateOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -3753,6 +4059,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetExportJobInput, GetExportJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -3821,6 +4128,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetImportJobInput, GetImportJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -3889,6 +4197,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetMessageInsightsInput, GetMessageInsightsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -3957,6 +4266,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetMultiRegionEndpointInput, GetMultiRegionEndpointOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -4025,6 +4335,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetReputationEntityInput, GetReputationEntityOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -4093,6 +4404,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetSuppressedDestinationInput, GetSuppressedDestinationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -4161,6 +4473,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetTenantInput, GetTenantOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -4231,6 +4544,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListConfigurationSetsInput, ListConfigurationSetsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -4299,6 +4613,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListContactListsInput, ListContactListsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -4368,6 +4683,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListContactsInput, ListContactsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -4438,6 +4754,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListCustomVerificationEmailTemplatesInput, ListCustomVerificationEmailTemplatesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -4506,6 +4823,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListDedicatedIpPoolsInput, ListDedicatedIpPoolsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -4575,6 +4893,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListDeliverabilityTestReportsInput, ListDeliverabilityTestReportsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -4644,6 +4963,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListDomainDeliverabilityCampaignsInput, ListDomainDeliverabilityCampaignsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -4712,6 +5032,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListEmailIdentitiesInput, ListEmailIdentitiesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -4780,6 +5101,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListEmailTemplatesInput, ListEmailTemplatesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -4848,6 +5170,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListExportJobsInput, ListExportJobsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -4918,6 +5241,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListImportJobsInput, ListImportJobsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -4988,6 +5312,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListMultiRegionEndpointsInput, ListMultiRegionEndpointsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -5057,6 +5382,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListRecommendationsInput, ListRecommendationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -5127,6 +5453,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListReputationEntitiesInput, ListReputationEntitiesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -5198,6 +5525,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListResourceTenantsInput, ListResourceTenantsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -5269,6 +5597,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListSuppressedDestinationsInput, ListSuppressedDestinationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -5338,6 +5667,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -5407,6 +5737,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListTenantResourcesInput, ListTenantResourcesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -5477,6 +5808,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListTenantsInput, ListTenantsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -5547,6 +5879,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutAccountDedicatedIpWarmupAttributesInput, PutAccountDedicatedIpWarmupAttributesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -5618,6 +5951,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutAccountDetailsInput, PutAccountDetailsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -5688,6 +6022,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutAccountSendingAttributesInput, PutAccountSendingAttributesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -5758,6 +6093,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutAccountSuppressionAttributesInput, PutAccountSuppressionAttributesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -5828,6 +6164,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutAccountVdmAttributesInput, PutAccountVdmAttributesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -5899,6 +6236,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutConfigurationSetArchivingOptionsInput, PutConfigurationSetArchivingOptionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -5970,6 +6308,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutConfigurationSetDeliveryOptionsInput, PutConfigurationSetDeliveryOptionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -6041,6 +6380,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutConfigurationSetReputationOptionsInput, PutConfigurationSetReputationOptionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -6112,6 +6452,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutConfigurationSetSendingOptionsInput, PutConfigurationSetSendingOptionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -6183,6 +6524,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutConfigurationSetSuppressionOptionsInput, PutConfigurationSetSuppressionOptionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -6254,6 +6596,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutConfigurationSetTrackingOptionsInput, PutConfigurationSetTrackingOptionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -6325,6 +6668,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutConfigurationSetVdmOptionsInput, PutConfigurationSetVdmOptionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -6396,6 +6740,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutDedicatedIpInPoolInput, PutDedicatedIpInPoolOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -6468,6 +6813,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutDedicatedIpPoolScalingAttributesInput, PutDedicatedIpPoolScalingAttributesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -6539,6 +6885,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutDedicatedIpWarmupAttributesInput, PutDedicatedIpWarmupAttributesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -6612,6 +6959,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutDeliverabilityDashboardOptionInput, PutDeliverabilityDashboardOptionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -6683,6 +7031,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutEmailIdentityConfigurationSetAttributesInput, PutEmailIdentityConfigurationSetAttributesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -6754,6 +7103,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutEmailIdentityDkimAttributesInput, PutEmailIdentityDkimAttributesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -6837,6 +7187,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutEmailIdentityDkimSigningAttributesInput, PutEmailIdentityDkimSigningAttributesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -6908,6 +7259,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutEmailIdentityFeedbackAttributesInput, PutEmailIdentityFeedbackAttributesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -6979,6 +7331,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutEmailIdentityMailFromAttributesInput, PutEmailIdentityMailFromAttributesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -7049,6 +7402,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutSuppressedDestinationInput, PutSuppressedDestinationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -7125,6 +7479,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<SendBulkEmailInput, SendBulkEmailOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -7200,6 +7555,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<SendCustomVerificationEmailInput, SendCustomVerificationEmailOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -7282,6 +7638,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<SendEmailInput, SendEmailOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -7354,6 +7711,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<TagResourceInput, TagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -7425,6 +7783,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<TestRenderEmailTemplateInput, TestRenderEmailTemplateOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -7497,6 +7856,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<UntagResourceInput, UntagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -7566,6 +7926,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<UpdateConfigurationSetEventDestinationInput, UpdateConfigurationSetEventDestinationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -7638,6 +7999,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<UpdateContactInput, UpdateContactOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -7710,6 +8072,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<UpdateContactListInput, UpdateContactListOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -7781,6 +8144,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<UpdateCustomVerificationEmailTemplateInput, UpdateCustomVerificationEmailTemplateOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -7852,6 +8216,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<UpdateEmailIdentityPolicyInput, UpdateEmailIdentityPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -7923,6 +8288,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<UpdateEmailTemplateInput, UpdateEmailTemplateOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -7994,6 +8360,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<UpdateReputationEntityCustomerManagedStatusInput, UpdateReputationEntityCustomerManagedStatusOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -8065,6 +8432,7 @@ extension SESv2Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<UpdateReputationEntityPolicyInput, UpdateReputationEntityPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in

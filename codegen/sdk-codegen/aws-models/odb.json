@@ -148,7 +148,7 @@
                     "target": "com.amazonaws.odb#Arn",
                     "traits": {
                         "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the target resource to associate with the Amazon Web Services Identity and Access Management (IAM) service role.</p>",
-                        "smithy.api#pattern": "^arn:(?:aws|aws-cn|aws-us-gov|aws-iso-[a-z]?|aws-iso):odb:[a-z0-9-]+:\\d{12}:cloud-vm-cluster/[a-z0-9-_]+$",
+                        "smithy.api#pattern": "^arn:(?:aws|aws-cn|aws-us-gov|aws-iso-[a-z]?|aws-iso):odb:[a-z0-9-]+:\\d{12}:(?:cloud-vm-cluster|cloud-autonomous-vm-cluster)/[a-z0-9-_]+$",
                         "smithy.api#required": {}
                     }
                 }
@@ -160,6 +160,12 @@
                         "resource": "com.amazonaws.odb#CloudVmClusterResource",
                         "ids": {
                             "cloudVmClusterId": "resourceArn"
+                        }
+                    },
+                    {
+                        "resource": "com.amazonaws.odb#CloudAutonomousVmClusterResource",
+                        "ids": {
+                            "cloudAutonomousVmClusterId": "resourceArn"
                         }
                     }
                 ]
@@ -576,6 +582,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The total number of Autonomous Container Databases that can be created with the allocated local storage.</p>"
                     }
+                },
+                "iamRoles": {
+                    "target": "com.amazonaws.odb#IamRoleList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Web Services Identity and Access Management (IAM) service roles associated with the Autonomous VM cluster.</p>"
+                    }
                 }
             },
             "traits": {
@@ -958,6 +970,12 @@
                     "target": "smithy.api#Integer",
                     "traits": {
                         "smithy.api#documentation": "<p>The total number of Autonomous Container Databases that can be created in the Autonomous VM cluster.</p>"
+                    }
+                },
+                "iamRoles": {
+                    "target": "com.amazonaws.odb#IamRoleList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Web Services Identity and Access Management (IAM) service roles associated with the Autonomous VM cluster in the summary information.</p>"
                     }
                 }
             },
@@ -3097,6 +3115,12 @@
                         "smithy.api#documentation": "<p>A list of CIDR blocks to add to the peering connection. These CIDR blocks define the IP address ranges that can communicate through the peering connection.</p>"
                     }
                 },
+                "peerNetworkRouteTableIds": {
+                    "target": "com.amazonaws.odb#PeerNetworkRouteTableIdList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The unique identifier of the VPC route table for which a route to the ODB network is automatically created during peering connection establishment.</p>"
+                    }
+                },
                 "clientToken": {
                     "target": "com.amazonaws.odb#GeneralInputString",
                     "traits": {
@@ -4597,7 +4621,7 @@
                     "target": "com.amazonaws.odb#Arn",
                     "traits": {
                         "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the target resource to disassociate from the Amazon Web Services Identity and Access Management (IAM) service role.</p>",
-                        "smithy.api#pattern": "^arn:(?:aws|aws-cn|aws-us-gov|aws-iso-[a-z]?|aws-iso):odb:[a-z0-9-]+:\\d{12}:cloud-vm-cluster/[a-z0-9-_]+$",
+                        "smithy.api#pattern": "^arn:(?:aws|aws-cn|aws-us-gov|aws-iso-[a-z]?|aws-iso):odb:[a-z0-9-]+:\\d{12}:(?:cloud-vm-cluster|cloud-autonomous-vm-cluster)/[a-z0-9-_]+$",
                         "smithy.api#required": {}
                     }
                 }
@@ -4609,6 +4633,12 @@
                         "resource": "com.amazonaws.odb#CloudVmClusterResource",
                         "ids": {
                             "cloudVmClusterId": "resourceArn"
+                        }
+                    },
+                    {
+                        "resource": "com.amazonaws.odb#CloudAutonomousVmClusterResource",
+                        "ids": {
+                            "cloudAutonomousVmClusterId": "resourceArn"
                         }
                     }
                 ]
@@ -8037,6 +8067,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The managed services configuration for the ODB network.</p>"
                     }
+                },
+                "ec2PlacementGroupIds": {
+                    "target": "com.amazonaws.odb#ResourceIdList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The list of EC2 Placement Group IDs associated with your ODB network.</p>"
+                    }
                 }
             },
             "traits": {
@@ -8241,6 +8277,12 @@
                     "target": "com.amazonaws.odb#ManagedServices",
                     "traits": {
                         "smithy.api#documentation": "<p>The managed services configuration for the ODB network.</p>"
+                    }
+                },
+                "ec2PlacementGroupIds": {
+                    "target": "com.amazonaws.odb#ResourceIdList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The list of EC2 Placement Group IDs associated with your ODB network.</p>"
                     }
                 }
             },
@@ -8454,6 +8496,24 @@
                 }
             }
         },
+        "com.amazonaws.odb#PeerNetworkRouteTableId": {
+            "type": "string",
+            "traits": {
+                "smithy.api#pattern": "^rtb-[a-z0-9]{8,17}$"
+            }
+        },
+        "com.amazonaws.odb#PeerNetworkRouteTableIdList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.odb#PeerNetworkRouteTableId"
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 1
+                }
+            }
+        },
         "com.amazonaws.odb#PeeredCidr": {
             "type": "string",
             "traits": {
@@ -8624,6 +8684,12 @@
                     "max": 64
                 },
                 "smithy.api#pattern": "^[a-zA-Z0-9_~.-]+$"
+            }
+        },
+        "com.amazonaws.odb#ResourceIdList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.odb#ResourceId"
             }
         },
         "com.amazonaws.odb#ResourceIdOrArn": {

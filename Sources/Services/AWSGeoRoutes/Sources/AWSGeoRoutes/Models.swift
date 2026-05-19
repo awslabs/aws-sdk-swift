@@ -22,8 +22,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
@@ -41,9 +41,9 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -65,9 +65,9 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { true }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -89,9 +89,9 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { true }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -124,9 +124,7 @@ extension GeoRoutesClientTypes {
 extension GeoRoutesClientTypes {
 
     public enum ValidationExceptionReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        /// The input cannot be parsed. For example a required JSON document, ARN identifier, date value, or numeric field cannot be parsed.
         case cannotParse
-        /// The input is present and parsable, but it is otherwise invalid. For example, a required numeric argument is outside the allowed range.
         case fieldValidationFailed
         /// The required input is missing.
         case missing
@@ -187,9 +185,9 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         fieldList: [GeoRoutesClientTypes.ValidationExceptionField]? = nil,
@@ -204,11 +202,11 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension GeoRoutesClientTypes {
 
-    /// Features that are allowed while calculating an isoline.
+    /// Special road types or features that should be considered available for routing. For example, this attribute can be used to allow the use of HOV (high-occupancy vehicle) or HOT (high-occupancy toll) lanes, even if they would otherwise not be.
     public struct IsolineAllowOptions: Swift.Sendable {
-        /// Allow Hot (High Occupancy Toll) lanes while calculating an isoline. Default value: false
+        /// When true, allows the use of HOT (high-occupancy toll) lanes, which may affect travel times and reachable areas. Default value: false
         public var hot: Swift.Bool?
-        /// Allow Hov (High Occupancy vehicle) lanes while calculating an isoline. Default value: false
+        /// When true, allows the use of HOV (high-occupancy vehicle) lanes, which may affect travel times and reachable areas. Default value: false
         public var hov: Swift.Bool?
 
         public init(
@@ -260,7 +258,7 @@ extension GeoRoutesClientTypes {
         /// An ordered list of positions used to plot a route on a map in a lossy compression format. LineString and Polyline are mutually exclusive properties.
         /// This member is required.
         public var polyline: Swift.String?
-        /// Considers all roads within the provided radius to match the provided destination to. The roads that are considered are determined by the provided Strategy. Unit: Meters
+        /// Considers all roads within the provided radius to match the provided destination to. The roads that are considered are determined by the provided Strategy. Unit: meters
         /// This member is required.
         public var radius: Swift.Int?
 
@@ -282,17 +280,17 @@ extension GeoRoutesClientTypes.PolylineCorridor: Swift.CustomDebugStringConverti
 
 extension GeoRoutesClientTypes {
 
-    /// The avoidance geometry, to be included while calculating an isoline.
+    /// Defines an area to avoid during calculations using one of several supported geometry types. The service will prefer routes that avoid these areas when possible.
     public struct IsolineAvoidanceAreaGeometry: Swift.Sendable {
-        /// Geometry defined as a bounding box. The first pair represents the X and Y coordinates (longitude and latitude,) of the southwest corner of the bounding box; the second pair represents the X and Y coordinates (longitude and latitude) of the northeast corner.
+        /// A rectangular area defined by its southwest and northeast corners: [min longitude, min latitude, max longitude, max latitude].
         public var boundingBox: [Swift.Double]?
-        /// Geometry defined as a corridor - a LineString with a radius that defines the width of the corridor.
+        /// A buffer zone around a line, defined by a series of coordinates and a radius in meters.
         public var corridor: GeoRoutesClientTypes.Corridor?
-        /// A list of Polygon will be excluded for calculating isolines, the list can only contain 1 polygon.
+        /// A polygon defined by a list of coordinate rings. The first ring defines the outer boundary; subsequent rings will be ignored.
         public var polygon: [[[Swift.Double]]]?
-        /// Geometry defined as an encoded corridor – a polyline with a radius that defines the width of the corridor. For more information on polyline encoding, see [https://github.com/heremaps/flexiblepolyline/blob/master/README.md](https://github.com/heremaps/flexiblepolyline/blob/master/README.md).
+        /// A buffer zone around a compressed polyline, defined by an encoded polyline string and a radius in meters. For more information on polyline encoding, see [https://github.com/aws-geospatial/polyline](https://github.com/aws-geospatial/polyline).
         public var polylineCorridor: GeoRoutesClientTypes.PolylineCorridor?
-        /// A list of PolylinePolygon's that are excluded for calculating isolines, the list can only contain 1 polygon. For more information on polyline encoding, see [https://github.com/heremaps/flexiblepolyline/blob/master/README.md](https://github.com/heremaps/flexiblepolyline/blob/master/README.md).
+        /// A polygon defined by encoded polyline strings. The first string defines the outer boundary; subsequent strings will be ignored. For more information on polyline encoding, see [https://github.com/aws-geospatial/polyline](https://github.com/aws-geospatial/polyline).
         public var polylinePolygon: [Swift.String]?
 
         public init(
@@ -318,11 +316,11 @@ extension GeoRoutesClientTypes.IsolineAvoidanceAreaGeometry: Swift.CustomDebugSt
 
 extension GeoRoutesClientTypes {
 
-    /// The area to be avoided.
+    /// Defines an area to avoid when calculating routes. Consists of a primary geometry to avoid, with the ability to specify exception areas within that geometry where travel is permitted.
     public struct IsolineAvoidanceArea: Swift.Sendable {
-        /// Exceptions to the provided avoidance geometry, to be included while calculating an isoline.
+        /// Areas within the primary avoidance geometry where travel is allowed. For example, you might want to avoid a neighborhood but allow travel on a major road that passes through it.
         public var except: [GeoRoutesClientTypes.IsolineAvoidanceAreaGeometry]?
-        /// Geometry of the area to be avoided.
+        /// The primary area to avoid, specified using a bounding box, corridor, polygon, or polyline corridor.
         /// This member is required.
         public var geometry: GeoRoutesClientTypes.IsolineAvoidanceAreaGeometry?
 
@@ -370,9 +368,9 @@ extension GeoRoutesClientTypes {
 
 extension GeoRoutesClientTypes {
 
-    /// Zone category to be avoided.
+    /// Types of regulated zones that may affect routing.
     public struct IsolineAvoidanceZoneCategory: Swift.Sendable {
-        /// Zone category to be avoided.
+        /// The type of regulated zone: CongestionPricing for toll zones based on traffic levels, Environmental for low-emission zones, or Vignette for areas requiring special permits or stickers.
         public var category: GeoRoutesClientTypes.IsolineZoneCategory?
 
         public init(
@@ -385,31 +383,31 @@ extension GeoRoutesClientTypes {
 
 extension GeoRoutesClientTypes {
 
-    /// Features that are avoided while calculating isolines. Avoidance is on a best-case basis. If an avoidance can't be satisfied for a particular case, it violates the avoidance and the returned response produces a notice for the violation.
+    /// Specifies features of the road network to avoid when calculating reachable areas. These preferences guide route calculations but may be overridden when no reasonable alternative exists. For example, if avoiding toll roads would make an area unreachable, toll roads may still be used. Avoidance options include physical features (like ferries and tunnels), road characteristics (like dirt roads and highways), and regulated areas (like congestion zones). They can be combined to match specific routing needs, such as avoiding both toll roads and ferries.
     public struct IsolineAvoidanceOptions: Swift.Sendable {
-        /// Areas to be avoided.
+        /// Specifies geographic areas to avoid where possible. Routes may still pass through these areas if no reasonable alternative exists.
         public var areas: [GeoRoutesClientTypes.IsolineAvoidanceArea]?
-        /// Avoid car-shuttle-trains while calculating an isoline.
+        /// Indicates a preference to avoid car shuttle trains (auto trains) where possible. These may still be included if no reasonable alternative route exists.
         public var carShuttleTrains: Swift.Bool?
-        /// Avoid controlled access highways while calculating an isoline.
+        /// Indicates a preference to avoid controlled-access highways (such as interstate highways or motorways) where possible. If a viable route cannot be calculated using only local roads, controlled-access highways may still be included.
         public var controlledAccessHighways: Swift.Bool?
-        /// Avoid dirt roads while calculating an isoline.
+        /// Indicates a preference to avoid unpaved or dirt roads where possible. Routes may still include dirt roads if no reasonable paved alternative exists.
         public var dirtRoads: Swift.Bool?
-        /// Avoid ferries while calculating an isoline.
+        /// Indicates a preference to avoid ferries where possible. If a viable route cannot be calculated without using ferries, they may still be included.
         public var ferries: Swift.Bool?
-        /// Avoid roads that have seasonal closure while calculating an isoline.
+        /// Indicates a preference to avoid roads that may be subject to seasonal closures where possible. These roads may still be included if no reasonable year-round alternative exists.
         public var seasonalClosure: Swift.Bool?
-        /// Avoids roads where the specified toll transponders are the only mode of payment.
+        /// Indicates a preference to avoid toll roads where possible. If a viable route cannot be calculated without using toll roads, they may still be included.
         public var tollRoads: Swift.Bool?
-        /// Avoids roads where the specified toll transponders are the only mode of payment.
+        /// Indicates a preference to avoid roads that require electronic toll collection transponders where possible. These roads may still be included if no viable alternative route exists.
         public var tollTransponders: Swift.Bool?
-        /// Truck road type identifiers. BK1 through BK4 apply only to Sweden. A2,A4,B2,B4,C,D,ET2,ET4 apply only to Mexico. There are currently no other supported values as of 26th April 2024.
+        /// For truck travel modes, indicates specific road classification types in Sweden ( BK1 through BK4) and Mexico (A2, A4, B2, B4, C, D, ET2, ET4) to avoid where possible. These road types may still be used if no reasonable alternative exists. There are currently no other supported values as of 26th April 2024.
         public var truckRoadTypes: [Swift.String]?
-        /// Avoid tunnels while calculating an isoline.
+        /// Indicates a preference to avoid tunnels where possible. If a viable route cannot be calculated without using tunnels, they may still be included.
         public var tunnels: Swift.Bool?
-        /// Avoid U-turns for calculation on highways and motorways.
+        /// Indicates a preference to avoid U-turns where possible. U-turns may still be included if necessary to reach certain areas or when no reasonable alternative exists.
         public var uTurns: Swift.Bool?
-        /// Zone categories to be avoided.
+        /// Indicates types of regulated zones (such as congestion pricing or environmental zones) to avoid where possible. Routes may still pass through these zones if no reasonable alternative exists.
         public var zoneCategories: [GeoRoutesClientTypes.IsolineAvoidanceZoneCategory]?
 
         public init(
@@ -478,15 +476,15 @@ extension GeoRoutesClientTypes {
 
 extension GeoRoutesClientTypes {
 
-    /// Isoline matching related options.
+    /// Controls how origin and destination points are matched to the road network when they don't fall exactly on a road. Matching options help ensure realistic routing by connecting points to appropriate roads.
     public struct IsolineMatchingOptions: Swift.Sendable {
-        /// Attempts to match the provided position to a road similar to the provided name.
+        /// The expected street name near the point. Helps disambiguate matching when multiple roads are within range.
         public var nameHint: Swift.String?
-        /// If the distance to a highway/bridge/tunnel/sliproad is within threshold, the waypoint will be snapped to the highway/bridge/tunnel/sliproad. Unit: meters
+        /// The maximum distance in meters that a point can be from a road while still being considered "on" that road. Points further than this distance require explicit matching. Unit: meters
         public var onRoadThreshold: Swift.Int
-        /// Considers all roads within the provided radius to match the provided destination to. The roads that are considered are determined by the provided Strategy. Unit: Meters
+        /// The maximum distance in meters to search for roads to match to. Points with no roads within this radius will fail to match. The roads that are considered within this radius are determined by the specified Strategy Unit: meters
         public var radius: Swift.Int
-        /// Strategy that defines matching of the position onto the road network. MatchAny considers all roads possible, whereas MatchMostSignificantRoad matches to the most significant road.
+        /// Determines how points are matched to the road network. MatchAny finds the nearest viable road segment, while MatchMostSignificantRoad prioritizes major roads.
         public var strategy: GeoRoutesClientTypes.MatchingStrategy?
 
         public init(
@@ -539,12 +537,12 @@ extension GeoRoutesClientTypes {
 
 extension GeoRoutesClientTypes {
 
-    /// Options to configure matching the provided position to a side of the street.
+    /// Controls how points are matched to specific sides of streets. This is important when the side of the street matters for accessibility - for example, when building entrances or parking lot access points can only be reached from one side of a divided road.
     public struct IsolineSideOfStreetOptions: Swift.Sendable {
-        /// Position defined as [longitude, latitude].
+        /// The [longitude, latitude] coordinates of the point that should be matched to a specific side of the street.
         /// This member is required.
         public var position: [Swift.Double]?
-        /// Strategy that defines when the side of street position should be used. AnyStreet will always use the provided position. Default Value: DividedStreetOnly
+        /// Controls whether side-of-street matching is applied to any street (AnyStreet) or only to divided roads (DividedStreetOnly). This is important when the exact side of the street matters - for example, if a building entrance is only accessible from one side of a divided highway, or if a parking lot can only be entered from northbound lanes. Without correct side-of-street matching, travel time estimates may be inaccurate because they don't account for necessary U-turns or detours to reach the correct side. Default value: DividedStreetOnly
         public var useWith: GeoRoutesClientTypes.SideOfStreetMatchingStrategy?
 
         public init(
@@ -564,15 +562,15 @@ extension GeoRoutesClientTypes.IsolineSideOfStreetOptions: Swift.CustomDebugStri
 
 extension GeoRoutesClientTypes {
 
-    /// Destination related options.
+    /// Options that control how the destination point is interpreted and matched to the road network when calculating reachable areas. This affects which roads are considered accessible near the destination and how the final approach is calculated.
     public struct IsolineDestinationOptions: Swift.Sendable {
-        /// Avoids actions for the provided distance. This is typically to consider for users in moving vehicles who may not have sufficient time to make an action at an origin or a destination.
+        /// The distance in meters from the destination point within which certain routing actions (such as U-turns or left turns across traffic) are restricted. This helps generate more practical routes by avoiding potentially dangerous maneuvers near the endpoint.
         public var avoidActionsForDistance: Swift.Int
-        /// GPS Heading at the position.
+        /// The initial direction of travel in degrees (0-360, where 0 is north). This can affect which road segments are considered accessible from the starting point.
         public var heading: Swift.Double
-        /// Options to configure matching the provided position to the road network.
+        /// Controls how the destination point is matched to the road network, including search radius and name-based matching preferences.
         public var matching: GeoRoutesClientTypes.IsolineMatchingOptions?
-        /// Options to configure matching the provided position to a side of the street.
+        /// Specifies which side of the street should be considered accessible, which is important when building entrances or parking access points are only reachable from one side of the road.
         public var sideOfStreet: GeoRoutesClientTypes.IsolineSideOfStreetOptions?
 
         public init(
@@ -625,11 +623,11 @@ extension GeoRoutesClientTypes {
 
 extension GeoRoutesClientTypes {
 
-    /// Isoline granularity related options.
+    /// Controls the detail level and smoothness of generated isolines. More detailed isolines provide better visual representation of reachable areas but require more processing time and result in larger responses.
     public struct IsolineGranularityOptions: Swift.Sendable {
-        /// Maximum number of points of returned Isoline.
+        /// The maximum number of points used to define each isoline. Higher values create smoother, more detailed shapes.
         public var maxPoints: Swift.Int?
-        /// Maximum resolution of the returned isoline. Unit: meters
+        /// The maximum distance in meters between points along the isoline. Smaller values create more detailed shapes. Unit: meters
         public var maxResolution: Swift.Int
 
         public init(
@@ -710,15 +708,15 @@ extension GeoRoutesClientTypes {
 
 extension GeoRoutesClientTypes {
 
-    /// Origin related options.
+    /// Options that control how the origin point is interpreted when calculating reachable areas. These options affect which roads are considered accessible from the starting point and how initial routing decisions are made.
     public struct IsolineOriginOptions: Swift.Sendable {
-        /// Avoids actions for the provided distance. This is typically to consider for users in moving vehicles who may not have sufficient time to make an action at an origin or a destination.
+        /// The distance in meters from the origin point within which certain routing actions (such as U-turns or left turns across traffic) are restricted. This helps generate more practical routes by avoiding potentially dangerous maneuvers near the starting point.
         public var avoidActionsForDistance: Swift.Int
-        /// GPS Heading at the position.
+        /// Initial direction of travel in degrees (0-360, where 0 is north). This affects which road segments are considered accessible from the starting point and is particularly useful when the origin is on a divided road or at a complex intersection.
         public var heading: Swift.Double
-        /// Options to configure matching the provided position to the road network.
+        /// Controls how the origin point is matched to the road network, including search radius and matching strategy.
         public var matching: GeoRoutesClientTypes.IsolineMatchingOptions?
-        /// Options to configure matching the provided position to a side of the street.
+        /// Controls which side of the street is considered accessible from the origin point, particularly important for divided roads where building entrances or parking access may only be available from one direction.
         public var sideOfStreet: GeoRoutesClientTypes.IsolineSideOfStreetOptions?
 
         public init(
@@ -742,11 +740,11 @@ extension GeoRoutesClientTypes.IsolineOriginOptions: Swift.CustomDebugStringConv
 
 extension GeoRoutesClientTypes {
 
-    /// Threshold to be used for the isoline calculation. Up to 5 thresholds per provided type can be requested.
+    /// Specifies the time or distance limits used to calculate reachable areas. You can provide up to five thresholds for a single type to generate multiple isolines in a single request. For example, you might request areas reachable within 5, 10, and 15 minutes, or within 1, 2, and 5 kilometers.
     public struct IsolineThresholds: Swift.Sendable {
-        /// Distance to be used for the isoline calculation.
+        /// List of travel distances in meters. For example, [1000, 2000, 5000] would calculate areas reachable within 1, 2, and 5 kilometers.
         public var distance: [Swift.Int]?
-        /// Time to be used for the isoline calculation.
+        /// List of travel times in seconds. For example, [300, 600, 900] would calculate areas reachable within 5, 10, and 15 minutes.
         public var time: [Swift.Int]?
 
         public init(
@@ -795,11 +793,11 @@ extension GeoRoutesClientTypes {
 
 extension GeoRoutesClientTypes {
 
-    /// Options related to traffic.
+    /// Controls how real-time and historical traffic data is used when calculating reachable areas. This affects both the size and shape of isolines by accounting for expected travel speeds based on congestion patterns.
     public struct IsolineTrafficOptions: Swift.Sendable {
-        /// Duration for which flow traffic is considered valid. For this period, the flow traffic is used over historical traffic data. Flow traffic refers to congestion, which changes very quickly. Duration in seconds for which flow traffic event would be considered valid. While flow traffic event is valid it will be used over the historical traffic data. Unit: seconds
+        /// The duration in seconds that real-time congestion data is considered valid before reverting to historical traffic patterns. This helps balance between using current conditions and more predictable historical data when calculating travel times. Unit: seconds
         public var flowEventThresholdOverride: Swift.Int
-        /// Determines if traffic should be used or ignored while calculating the route. Default Value: UseTrafficData
+        /// Controls whether traffic data is used in calculations. UseTrafficData considers both real-time congestion and historical patterns, while IgnoreTrafficData calculates routes based solely on road types and speed limits. Using traffic data provides more accurate real-world estimates but may produce different results at different times of day. Default value: UseTrafficData
         public var usage: GeoRoutesClientTypes.TrafficUsage?
 
         public init(
@@ -886,9 +884,9 @@ extension GeoRoutesClientTypes {
 
 extension GeoRoutesClientTypes {
 
-    /// The vehicle license plate.
+    /// License plate information used in regions where road access or routing restrictions are based on license plate numbers.
     public struct IsolineVehicleLicensePlate: Swift.Sendable {
-        /// The last character of the License Plate.
+        /// The last character of the vehicle's license plate. Used to determine road access restrictions in regions with license plate-based traffic management systems.
         public var lastCharacter: Swift.String?
 
         public init(
@@ -907,15 +905,21 @@ extension GeoRoutesClientTypes.IsolineVehicleLicensePlate: Swift.CustomDebugStri
 
 extension GeoRoutesClientTypes {
 
-    /// Travel mode options when the provided travel mode is Car.
+    /// Vehicle characteristics and preferences that affect routing for passenger cars. This includes vehicle type, occupancy, and speed restrictions that may influence which roads can be used and expected travel times.
     public struct IsolineCarOptions: Swift.Sendable {
-        /// Engine type of the vehicle.
+        /// The type of engine powering the vehicle, which may affect route calculation due to road restrictions or vehicle characteristics.
+        ///
+        /// * INTERNAL_COMBUSTION—Standard gasoline or diesel engine.
+        ///
+        /// * ELECTRIC—Battery electric vehicle.
+        ///
+        /// * PLUGIN_HYBRID—Combination of electric and internal combustion engines with plug-in charging capability.
         public var engineType: GeoRoutesClientTypes.IsolineEngineType?
-        /// The vehicle License Plate.
+        /// License plate information used in regions where road access or routing restrictions are based on license plate numbers.
         public var licensePlate: GeoRoutesClientTypes.IsolineVehicleLicensePlate?
-        /// Maximum speed. Unit: KilometersPerHour
+        /// The maximum speed of the vehicle in kilometers per hour. When specified, routes will not include roads with higher speed limits. Valid values range from 3.6 km/h (1 m/s) to 252 km/h (70 m/s). Unit: kilometers per hour
         public var maxSpeed: Swift.Double?
-        /// The number of occupants in the vehicle. Default Value: 1
+        /// The number of occupants in the vehicle. This can affect route calculations by enabling the use of high-occupancy vehicle (HOV) lanes where minimum occupancy requirements are met. Default value: 1
         public var occupancy: Swift.Int?
 
         public init(
@@ -939,15 +943,21 @@ extension GeoRoutesClientTypes.IsolineCarOptions: Swift.CustomDebugStringConvert
 
 extension GeoRoutesClientTypes {
 
-    /// Travel mode options when the provided travel mode is Scooter
+    /// Vehicle characteristics that affect which roads and paths can be used when calculating reachable areas for scooters. This includes areas such as bike lanes, shared paths, and roads where scooters are permitted.
     public struct IsolineScooterOptions: Swift.Sendable {
-        /// Engine type of the vehicle.
+        /// The type of engine powering the vehicle, which may affect route calculation due to road restrictions or vehicle characteristics.
+        ///
+        /// * INTERNAL_COMBUSTION—Standard gasoline or diesel engine.
+        ///
+        /// * ELECTRIC—Battery electric vehicle.
+        ///
+        /// * PLUGIN_HYBRID—Combination of electric and internal combustion engines with plug-in charging capability.
         public var engineType: GeoRoutesClientTypes.IsolineEngineType?
-        /// The vehicle License Plate.
+        /// License plate information used in regions where road access or routing restrictions are based on license plate numbers.
         public var licensePlate: GeoRoutesClientTypes.IsolineVehicleLicensePlate?
-        /// Maximum speed specified. Unit: KilometersPerHour
+        /// The maximum speed of the vehicle in kilometers per hour. When specified, routes will not include roads with higher speed limits. Valid values range from 3.6 km/h (1 m/s) to 252 km/h (70 m/s). Unit: kilometers per hour
         public var maxSpeed: Swift.Double?
-        /// The number of occupants in the vehicle. Default Value: 1
+        /// The number of occupants in the vehicle. This can affect route calculations by enabling the use of high-occupancy vehicle (HOV) lanes where minimum occupancy requirements are met. Default value: 1
         public var occupancy: Swift.Int?
 
         public init(
@@ -1027,11 +1037,11 @@ extension GeoRoutesClientTypes {
 
 extension GeoRoutesClientTypes {
 
-    /// Trailer options corresponding to the vehicle.
+    /// Additional specifications when the vehicle includes one or more trailers.
     public struct IsolineTrailerOptions: Swift.Sendable {
-        /// Total number of axles of the vehicle.
+        /// The total number of axles across all trailers. Used for weight distribution calculations and road restrictions.
         public var axleCount: Swift.Int?
-        /// Number of trailers attached to the vehicle. Default Value: 0
+        /// The number of trailers being pulled. Affects which roads can be used based on local regulations. Default value: 0
         public var trailerCount: Swift.Int?
 
         public init(
@@ -1083,17 +1093,17 @@ extension GeoRoutesClientTypes {
 
 extension GeoRoutesClientTypes {
 
-    /// Specifies the total weight for the specified axle group. Meant for usage in countries that have different regulations based on the axle group type. Unit: Kilograms
+    /// Specifies the total weight for different axle group configurations. Used in regions where regulations set different weight limits based on axle group types. Unit: kilograms
     public struct WeightPerAxleGroup: Swift.Sendable {
-        /// Weight for quad axle group. Unit: Kilograms
+        /// Total weight in kilograms for quad (four adjacent) axle configurations. Unit: kilograms
         public var quad: Swift.Int
-        /// Weight for quad quint group. Unit: Kilograms
+        /// Total weight in kilograms for quint (five adjacent) axle configurations. Unit: kilograms
         public var quint: Swift.Int
-        /// Weight for single axle group. Unit: Kilograms
+        /// Total weight in kilograms for single axle configurations. Unit: kilograms
         public var single: Swift.Int
-        /// Weight for tandem axle group. Unit: Kilograms
+        /// Total weight in kilograms for tandem (two adjacent) axle configurations. Unit: kilograms
         public var tandem: Swift.Int
-        /// Weight for triple axle group. Unit: Kilograms
+        /// Total weight in kilograms for triple (three adjacent) axle configurations. Unit: kilograms
         public var triple: Swift.Int
 
         public init(
@@ -1119,37 +1129,65 @@ extension GeoRoutesClientTypes.WeightPerAxleGroup: Swift.CustomDebugStringConver
 
 extension GeoRoutesClientTypes {
 
-    /// Travel mode options when the provided travel mode is "Truck"
+    /// Vehicle characteristics and restrictions that affect which roads can be used when calculating reachable areas for trucks. These details ensure that routes respect physical limitations and legal requirements. These apply when the provided travel mode is Truck
     public struct IsolineTruckOptions: Swift.Sendable {
-        /// Total number of axles of the vehicle.
+        /// The total number of axles on the vehicle. Required for certain road restrictions and weight limit calculations.
         public var axleCount: Swift.Int?
-        /// Engine type of the vehicle.
+        /// The type of engine powering the vehicle, which may affect route calculation due to road restrictions or vehicle characteristics.
+        ///
+        /// * INTERNAL_COMBUSTION—Standard gasoline or diesel engine.
+        ///
+        /// * ELECTRIC—Battery electric vehicle.
+        ///
+        /// * PLUGIN_HYBRID—Combination of electric and internal combustion engines with plug-in charging capability.
         public var engineType: GeoRoutesClientTypes.IsolineEngineType?
-        /// Gross weight of the vehicle including trailers, and goods at capacity. Unit: Kilograms
+        /// The gross vehicle weight (the maximum weight a vehicle can safely operate at, as specified by the manufacturer) in kilograms. Used to avoid roads with weight restrictions and ensure compliance with maximum allowed vehicle weight regulations. Unit: kilograms
         public var grossWeight: Swift.Int
-        /// List of Hazardous cargo contained in the vehicle.
+        /// Types of hazardous materials being transported. This affects which roads and tunnels can be used based on local regulations.
+        ///
+        /// * Combustible—Materials that can burn readily
+        ///
+        /// * Corrosive—Materials that can destroy or irreversibly damage other substances
+        ///
+        /// * Explosive—Materials that can produce an explosion by chemical reaction
+        ///
+        /// * Flammable—Materials that can easily ignite
+        ///
+        /// * Gas—Hazardous materials in gaseous form
+        ///
+        /// * HarmfulToWater—Materials that pose a risk to water sources if released
+        ///
+        /// * Organic—Hazardous organic compounds
+        ///
+        /// * Other—Hazardous materials not covered by other categories
+        ///
+        /// * Poison—Toxic materials
+        ///
+        /// * PoisonousInhalation—Materials that are toxic when inhaled
+        ///
+        /// * Radioactive—Materials that emit ionizing radiation
         public var hazardousCargos: [GeoRoutesClientTypes.IsolineHazardousCargoType]?
-        /// Height of the vehicle. Unit: centimeters
+        /// The vehicle height in centimeters. Used to avoid routes with low bridges or other height restrictions. Unit: centimeters
         public var height: Swift.Int
-        /// Height of the vehicle above its first axle. Unit: centimeters
+        /// The height in centimeters measured from the ground to the highest point above the first axle. Used for specific bridge and tunnel clearance restrictions. Unit: centimeters
         public var heightAboveFirstAxle: Swift.Int
-        /// Kingpin to rear axle length of the vehicle. Unit: centimeters
+        /// The kingpin to rear axle (KPRA) length in centimeters. Used to determine if the vehicle can safely navigate turns and intersections. Unit: centimeters
         public var kpraLength: Swift.Int
-        /// Length of the vehicle. Unit: centimeters
+        /// The total vehicle length in centimeters. Used to avoid roads with length restrictions and determine if the vehicle can safely navigate turns. Unit: centimeters
         public var length: Swift.Int
-        /// The vehicle License Plate.
+        /// License plate information used in regions where road access or routing restrictions are based on license plate numbers.
         public var licensePlate: GeoRoutesClientTypes.IsolineVehicleLicensePlate?
-        /// Maximum speed specified. Unit: KilometersPerHour
+        /// The maximum speed in kilometers per hour at which the vehicle can or is permitted to travel. This affects travel time calculations and may result in different reachable areas compared to using default speed limits. Value must be between 3.6 and 252 kilometers per hour. Unit: kilometers per hour
         public var maxSpeed: Swift.Double?
-        /// The number of occupants in the vehicle. Default Value: 1
+        /// The number of occupants in the vehicle. This can affect route calculations by enabling the use of high-occupancy vehicle (HOV) lanes where minimum occupancy requirements are met. Default value: 1
         public var occupancy: Swift.Int?
-        /// Payload capacity of the vehicle and trailers attached. Unit: kilograms
+        /// The maximum cargo weight in kilograms that the vehicle (including attached trailers) is rated to carry. Unit: kilograms
         public var payloadCapacity: Swift.Int
-        /// Number of tires on the vehicle.
+        /// The total number of tires on the vehicle.
         public var tireCount: Swift.Int?
-        /// Trailer options corresponding to the vehicle.
+        /// Optional specifications for attached trailers. When provided, trailer characteristics affect route calculations to ensure compliance with trailer-specific restrictions such as length limits, weight distribution requirements, and access restrictions for multi-trailer configurations.
         public var trailer: GeoRoutesClientTypes.IsolineTrailerOptions?
-        /// Type of the truck.
+        /// The type of truck: LightTruck for smaller delivery vehicles,  StraightTruck  for rigid body trucks, or Tractor for tractor-trailer combinations.
         public var truckType: GeoRoutesClientTypes.IsolineTruckType?
         /// The tunnel restriction code. Tunnel categories in this list indicate the restrictions which apply to certain tunnels in Great Britain. They relate to the types of dangerous goods that can be transported through them.
         ///
@@ -1186,11 +1224,11 @@ extension GeoRoutesClientTypes {
         ///
         /// * Restrictions: Restricted tunnel
         public var tunnelRestrictionCode: Swift.String?
-        /// Heaviest weight per axle irrespective of the axle type or the axle group. Meant for usage in countries where the differences in axle types or axle groups are not distinguished. Unit: Kilograms
+        /// The heaviest weight per axle in kilograms, regardless of axle type or grouping. Used for roads with axle-weight restrictions in regions where regulations don't distinguish between different axle configurations. Unit: kilograms
         public var weightPerAxle: Swift.Int
-        /// Specifies the total weight for the specified axle group. Meant for usage in countries that have different regulations based on the axle group type. Unit: Kilograms
+        /// Specifies the total weight for different axle group configurations. Used in regions where regulations set different weight limits based on axle group types. Unit: kilograms
         public var weightPerAxleGroup: GeoRoutesClientTypes.WeightPerAxleGroup?
-        /// Width of the vehicle. Unit: centimeters
+        /// The vehicle width in centimeters. Used to avoid routes with width restrictions. Unit: centimeters
         public var width: Swift.Int
 
         public init(
@@ -1244,13 +1282,13 @@ extension GeoRoutesClientTypes.IsolineTruckOptions: Swift.CustomDebugStringConve
 
 extension GeoRoutesClientTypes {
 
-    /// Travel mode related options for the provided travel mode.
+    /// Mode-specific routing options that further refine how reachable areas are calculated. Options are only considered when they match the selected travel mode.
     public struct IsolineTravelModeOptions: Swift.Sendable {
-        /// Travel mode options when the provided travel mode is "Car"
+        /// Options specific to passenger vehicle routing (Car, such as vehicle characteristics and license plate restrictions.
         public var car: GeoRoutesClientTypes.IsolineCarOptions?
-        /// Travel mode options when the provided travel mode is Scooter When travel mode is set to Scooter, then the avoidance option ControlledAccessHighways defaults to true.
+        /// Options specific to scooter routing (Scooter, such as vehicle characteristics and license plate restrictions. When using the Scooter travel mode, controlled-access highways are automatically avoided unless explicitly allowed.
         public var scooter: GeoRoutesClientTypes.IsolineScooterOptions?
-        /// Travel mode options when the provided travel mode is "Truck"
+        /// Options specific to commercial truck routing (Truck, including vehicle dimensions, weight limits, and hazardous cargo specifications.
         public var truck: GeoRoutesClientTypes.IsolineTruckOptions?
 
         public init(
@@ -1266,44 +1304,64 @@ extension GeoRoutesClientTypes {
 }
 
 public struct CalculateIsolinesInput: Swift.Sendable {
-    /// Features that are allowed while calculating an isoline.
+    /// Enables special road types or features that should be considered for routing even if they might be restricted by default for the selected travel mode. These include high-occupancy vehicle and toll lanes.
     public var allow: GeoRoutesClientTypes.IsolineAllowOptions?
-    /// Time of arrival at the destination. Time format: YYYY-MM-DDThh:mm:ss.sssZ | YYYY-MM-DDThh:mm:ss.sss+hh:mm Examples: 2020-04-22T17:57:24Z
+    /// Determine areas from which Destination can be reached by this time, taking into account predicted traffic conditions and working backward to account for congestion patterns. This attribute cannot be used together with DepartureTime or DepartNow. Specified as an ISO-8601 timestamp with timezone offset. Time format: YYYY-MM-DDThh:mm:ss.sssZ | YYYY-MM-DDThh:mm:ss.sss+hh:mm Examples: 2020-04-22T17:57:24Z
     ///     2020-04-22T17:57:24+02:00
     public var arrivalTime: Swift.String?
-    /// Features that are avoided while calculating a route. Avoidance is on a best-case basis. If an avoidance can't be satisfied for a particular case, it violates the avoidance and the returned response produces a notice for the violation.
+    /// Specifies road types, features, or areas to avoid (if possible) when calculating reachable areas. These are treated as preferences rather than strict constraints—if a route cannot be calculated without using an avoided feature, that avoidance preference may be ignored.
     public var avoid: GeoRoutesClientTypes.IsolineAvoidanceOptions?
-    /// Uses the current time as the time of departure.
+    /// When true, uses the current time as the departure time and takes current traffic conditions into account. This attribute cannot be used together with DepartureTime or ArrivalTime.
     public var departNow: Swift.Bool?
-    /// Time of departure from thr origin. Time format:YYYY-MM-DDThh:mm:ss.sssZ | YYYY-MM-DDThh:mm:ss.sss+hh:mm Examples: 2020-04-22T17:57:24Z
+    /// Determine areas that can be reached when departing at this time, taking into account predicted traffic conditions. This attribute cannot be used together with ArrivalTime or DepartNow. Specified as an ISO-8601 timestamp with timezone offset. Time format:YYYY-MM-DDThh:mm:ss.sssZ | YYYY-MM-DDThh:mm:ss.sss+hh:mm Examples: 2020-04-22T17:57:24Z
     ///     2020-04-22T17:57:24+02:00
     public var departureTime: Swift.String?
-    /// The final position for the route. In the World Geodetic System (WGS 84) format: [longitude, latitude].
+    /// An optional destination point, specified as [longitude, latitude] coordinates. When provided, the service calculates areas from which this destination can be reached within the specified thresholds. This reverses the usual isoline calculation to show areas that could reach your location, rather than areas you could reach from your location. Either Origin or Destination must be provided.
     public var destination: [Swift.Double]?
-    /// Destination related options.
+    /// Options that control how the destination point is matched to the road network and how routes can approach it. These options help improve travel time accuracy by accounting for real-world access to the destination.
     public var destinationOptions: GeoRoutesClientTypes.IsolineDestinationOptions?
-    /// The format of the returned IsolineGeometry. Default Value:FlexiblePolyline
+    /// The format of the returned IsolineGeometry. Default value:FlexiblePolyline
     public var isolineGeometryFormat: GeoRoutesClientTypes.GeometryFormat?
-    /// Defines the granularity of the returned Isoline.
+    /// Controls the detail level of the generated isolines. Higher granularity produces smoother shapes but requires more processing time and results in larger responses.
     public var isolineGranularity: GeoRoutesClientTypes.IsolineGranularityOptions?
-    /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
+    /// An Amazon Location Service API Key with access to this action. If omitted, the request must be signed using Signature Version 4.
     public var key: Swift.String?
-    /// Specifies the optimization criteria for when calculating an isoline. AccurateCalculation generates an isoline of higher granularity that is more precise. FastCalculation generates an isoline faster by reducing the granularity, and in turn the quality of the isoline. BalancedCalculation generates an isoline by balancing between quality and performance. Default Value: BalancedCalculation
+    /// Controls the trade-off between calculation speed and isoline precision. Choose  FastCalculation for quicker results with less detail, AccurateCalculation for more precise results, or BalancedCalculation for a middle ground. Default value: BalancedCalculation
     public var optimizeIsolineFor: GeoRoutesClientTypes.IsolineOptimizationObjective?
-    /// Specifies the optimization criteria for calculating a route. Default Value: FastestRoute
+    /// Determines whether routes prioritize shortest travel time (FastestRoute) or shortest physical distance (ShortestRoute) when calculating reachable areas. Default value: FastestRoute
     public var optimizeRoutingFor: GeoRoutesClientTypes.RoutingObjective?
-    /// The start position for the route.
+    /// The starting point for isoline calculations, specified as [longitude, latitude] coordinates. For example, this could be a store location, service center, or any point from which you want to calculate reachable areas. Either Origin or Destination must be provided.
     public var origin: [Swift.Double]?
-    /// Origin related options.
+    /// Options that control how the origin point is matched to the road network and how routes can depart from it. These options help improve travel time accuracy by accounting for real-world access from the origin.
     public var originOptions: GeoRoutesClientTypes.IsolineOriginOptions?
-    /// Threshold to be used for the isoline calculation. Up to 3 thresholds per provided type can be requested. You incur a calculation charge for each threshold. Using a large amount of thresholds in a request can lead you to incur unexpected charges. See [ Amazon Location's pricing page](https://docs.aws.amazon.com/location/latest/developerguide/routes-pricing.html`) for more information.
+    /// The distance or time thresholds used to determine reachable areas. You can specify up to five thresholds (which all must be the same type) to calculate multiple isolines in a single request. For example, to determine the areas that are reachable within 10 and 20 minutes of the origin, specify time thresholds of 600 and 1200 seconds. You incur a calculation charge for each threshold. Using a large number of thresholds in a request can lead to unexpected charges. For more information, see [Routes pricing](https://docs.aws.amazon.com/location/latest/developerguide/routes-pricing.html) in the Amazon Location Service Developer Guide.
     /// This member is required.
     public var thresholds: GeoRoutesClientTypes.IsolineThresholds?
-    /// Traffic related options.
+    /// Configures how real-time and historical traffic data affects isoline calculations. Traffic patterns can significantly impact reachable areas, especially during peak hours.
     public var traffic: GeoRoutesClientTypes.IsolineTrafficOptions?
-    /// Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility. The mode Scooter also applies to motorcycles, set to Scooter when wanted to calculate options for motorcycles. Default Value: Car
+    /// The mode of transportation to use for calculations. This affects which road types or features can be used, estimated speed, and the traffic levels that are applied.
+    ///
+    /// * Car—Standard passenger vehicle routing using roads accessible to cars
+    ///
+    /// * Pedestrian—Walking routes using pedestrian paths, sidewalks, and crossings
+    ///
+    /// * Scooter—Light two-wheeled vehicle routing using roads and paths accessible to scooters
+    ///
+    /// * Truck—Commercial truck routing considering vehicle dimensions, weight restrictions, and hazardous material regulations
+    ///
+    ///
+    /// The mode Scooter also applies to motorcycles; set this to Scooter when calculating isolines for motorcycles. Default value: Car
     public var travelMode: GeoRoutesClientTypes.IsolineTravelMode?
-    /// Travel mode related options for the provided travel mode.
+    /// Additional attributes that refine how reachable areas are calculated based on specific vehicle characteristics. These options help produce more accurate results by accounting for real-world constraints and capabilities. For example:
+    ///
+    /// * For trucks (Truck), specify dimensions, weight limits, and hazardous cargo restrictions to ensure isolines only include roads that can physically and legally accommodate the vehicle
+    ///
+    /// * For cars (Car), set maximum speed capabilities or indicate high-occupancy vehicle eligibility to better estimate reachable areas
+    ///
+    /// * For scooters (Scooter), specify engine type and speed limitations to more accurately model their travel capabilities
+    ///
+    ///
+    /// Without these options, calculations use default assumptions that may not match your specific use case.
     public var travelModeOptions: GeoRoutesClientTypes.IsolineTravelModeOptions?
 
     public init(
@@ -1354,11 +1412,11 @@ extension CalculateIsolinesInput: Swift.CustomDebugStringConvertible {
 
 extension GeoRoutesClientTypes {
 
-    /// Geometry of the connection between different isoline components.
+    /// Represents the geometry of connections between non-contiguous parts of an isoline. These connections can be provided in either coordinate pairs (LineString) or encoded (Polyline) format, matching the format specified in the request.
     public struct IsolineConnectionGeometry: Swift.Sendable {
-        /// An ordered list of positions used to plot a route on a map. LineString and Polyline are mutually exclusive properties.
+        /// A series of [longitude, latitude] coordinate pairs defining the connection path when Simple geometry format is requested. These coordinates can be directly used as the coordinates array in a GeoJSON LineString without transformation. LineString and Polyline are mutually exclusive properties.
         public var lineString: [[Swift.Double]]?
-        /// An ordered list of positions used to plot a route on a map in a lossy compression format. LineString and Polyline are mutually exclusive properties.
+        /// An encoded representation of the connection path when FlexiblePolyline geometry format is requested. This provides a more compact representation suitable for transmission and storage. To convert to GeoJSON, first decode to obtain coordinate pairs, then use those coordinates as the coordinates array in a GeoJSON LineString. LineString and Polyline are mutually exclusive properties.
         public var polyline: Swift.String?
 
         public init(
@@ -1378,15 +1436,15 @@ extension GeoRoutesClientTypes.IsolineConnectionGeometry: Swift.CustomDebugStrin
 
 extension GeoRoutesClientTypes {
 
-    /// Isolines may contain multiple components, if these components are connected by ferry links. These components are returned as separate polygons while the ferry links are returned as connections.
+    /// Represents a segment of the transportation network that connects separate parts of a reachable area. These connections show how discontinuous areas are linked, such as by ferry routes or bridges crossing unroutable terrain.
     public struct IsolineConnection: Swift.Sendable {
-        /// Index of the polygon corresponding to the "from" component of the connection. The polygon is available from Isoline[].Geometries.
+        /// The index of the starting polygon in the isoline's Geometries list.
         /// This member is required.
         public var fromPolygonIndex: Swift.Int?
-        /// The isoline geometry.
+        /// The shape of the connection, representing the actual path through the transportation network that links the polygons.
         /// This member is required.
         public var geometry: GeoRoutesClientTypes.IsolineConnectionGeometry?
-        /// Index of the polygon corresponding to the "to" component of the connection. The polygon is available from Isoline[].Geometries.
+        /// The index of the ending polygon in the isoline's Geometries list.
         /// This member is required.
         public var toPolygonIndex: Swift.Int?
 
@@ -1404,11 +1462,11 @@ extension GeoRoutesClientTypes {
 
 extension GeoRoutesClientTypes {
 
-    /// Geometry of the connection between different Isoline components.
+    /// Represents the shape of a reachable area. The geometry can be provided either as coordinate pairs (Polygon) or in encoded format (PolylinePolygon), matching the format specified in the request.
     public struct IsolineShapeGeometry: Swift.Sendable {
-        /// A list of Isoline Polygons, for each isoline polygon, it contains polygons of the first linear ring (the outer ring) and from 2nd item to the last item (the inner rings).
+        /// A series of coordinate rings defining the reachable area when Simple geometry format is requested. Each ring is a list of [longitude, latitude] coordinate pairs. The first ring defines the outer boundary; subsequent rings define holes representing unreachable areas. Polygon and PolylinePolygon are mutually exclusive properties.
         public var polygon: [[[Swift.Double]]]?
-        /// A list of Isoline PolylinePolygon, for each isoline PolylinePolygon, it contains PolylinePolygon of the first linear ring (the outer ring) and from 2nd item to the last item (the inner rings). For more information on polyline encoding, see [https://github.com/heremaps/flexiblepolyline/blob/master/README.md](https://github.com/heremaps/flexiblepolyline/blob/master/README.md).
+        /// An encoded representation of the reachable area when FlexiblePolyline geometry format is requested. Provides a compact representation suitable for transmission and storage. The first string defines the outer boundary; subsequent strings define holes representing unreachable areas. For more information on polyline encoding, see [https://github.com/aws-geospatial/polyline](https://github.com/aws-geospatial/polyline). Polygon and PolylinePolygon are mutually exclusive properties.
         public var polylinePolygon: [Swift.String]?
 
         public init(
@@ -1428,17 +1486,17 @@ extension GeoRoutesClientTypes.IsolineShapeGeometry: Swift.CustomDebugStringConv
 
 extension GeoRoutesClientTypes {
 
-    /// Calculated isolines and associated properties.
+    /// Represents a single reachable area calculated for a specific threshold.
     public struct Isoline: Swift.Sendable {
-        /// Isolines may contain multiple components, if these components are connected by ferry links. These components are returned as separate polygons while the ferry links are returned as connections.
+        /// Lines connecting separate parts of the reachable area that can be reached within the same threshold. These occur when areas are reachable but not contiguous, such as when separated by water or unroutable areas. When present, these lines represent actual transportation network segments (such as ferry routes or bridges) that connect the separated areas.
         /// This member is required.
         public var connections: [GeoRoutesClientTypes.IsolineConnection]?
-        /// Distance threshold corresponding to the calculated Isoline.
+        /// The travel distance in meters used to calculate this isoline, if distance-based thresholds were specified in the request.
         public var distanceThreshold: Swift.Int
-        /// Geometries for the Calculated isolines.
+        /// The shapes that define the reachable area, provided in the requested geometry format.
         /// This member is required.
         public var geometries: [GeoRoutesClientTypes.IsolineShapeGeometry]?
-        /// Time threshold corresponding to the calculated isoline.
+        /// The travel time in seconds used to calculate this isoline, if time-based thresholds were specified in the request.
         public var timeThreshold: Swift.Int
 
         public init(
@@ -1461,24 +1519,24 @@ extension GeoRoutesClientTypes.Isoline: Swift.CustomDebugStringConvertible {
 }
 
 public struct CalculateIsolinesOutput: Swift.Sendable {
-    /// Time of arrival at the destination. This parameter is returned only if the Destination parameters was provided in the request. Time format:YYYY-MM-DDThh:mm:ss.sssZ | YYYY-MM-DDThh:mm:ss.sss+hh:mm Examples: 2020-04-22T17:57:24Z
+    /// Time of arrival at the destination, used for traffic calculations. This attribute is returned only if the Destination and ArrivalTime attributes were provided in the request. Time format: YYYY-MM-DDThh:mm:ss.sssZ | YYYY-MM-DDThh:mm:ss.sss+hh:mm Examples: 2020-04-22T17:57:24Z
     ///     2020-04-22T17:57:24+02:00
     public var arrivalTime: Swift.String?
-    /// Time of departure from thr origin. Time format:YYYY-MM-DDThh:mm:ss.sssZ | YYYY-MM-DDThh:mm:ss.sss+hh:mm Examples: 2020-04-22T17:57:24Z
+    /// Time of departure from the origin, used for traffic calculations. This attribute is returned when Origin was provided in the request and either a specific departure time was requested (DepartureTime) or DepartNow was set to true. Time format: YYYY-MM-DDThh:mm:ss.sssZ | YYYY-MM-DDThh:mm:ss.sss+hh:mm Examples: 2020-04-22T17:57:24Z
     ///     2020-04-22T17:57:24+02:00
     public var departureTime: Swift.String?
-    /// The format of the returned IsolineGeometry. Default Value:FlexiblePolyline
+    /// The format of the returned geometries, matching the format specified in the request. Either  FlexiblePolyline for compact encoding or Simple for GeoJSON-compatible coordinates. Default value:FlexiblePolyline
     /// This member is required.
     public var isolineGeometryFormat: GeoRoutesClientTypes.GeometryFormat?
-    /// Calculated isolines and associated properties.
+    /// Reachable areas, or isolines, for each threshold specified in the request.
     /// This member is required.
     public var isolines: [GeoRoutesClientTypes.Isoline]?
-    /// The pricing bucket for which the query is charged at.
+    /// The pricing bucket applied to this calculation. Different buckets apply based on the travel mode and thresholds used.
     /// This member is required.
     public var pricingBucket: Swift.String?
-    /// Snapped destination that was used for the Isoline calculation.
+    /// The actual point on the road network used for calculations, which may differ from the requested destination if Destination was not directly on a road.
     public var snappedDestination: [Swift.Double]?
-    /// Snapped origin that was used for the Isoline calculation.
+    /// The actual point on the road network used for calculations, which may differ from the requested origin if Origin was not directly on a road.
     public var snappedOrigin: [Swift.Double]?
 
     public init(
@@ -1538,7 +1596,7 @@ extension GeoRoutesClientTypes {
         public var boundingBox: [Swift.Double]?
         /// Geometry defined as a polygon with only one linear ring.
         public var polygon: [[[Swift.Double]]]?
-        /// A list of Isoline PolylinePolygon, for each isoline PolylinePolygon, it contains PolylinePolygon of the first linear ring (the outer ring) and from second item to the last item (the inner rings). For more information on polyline encoding, see [https://github.com/heremaps/flexiblepolyline/blob/master/README.md](https://github.com/heremaps/flexiblepolyline/blob/master/README.md).
+        /// A list of Isoline PolylinePolygon, for each isoline PolylinePolygon, it contains PolylinePolygon of the first linear ring (the outer ring) and from second item to the last item (the inner rings). For more information on polyline encoding, see [https://github.com/aws-geospatial/polyline](https://github.com/aws-geospatial/polyline).
         public var polylinePolygon: [Swift.String]?
 
         public init(
@@ -1694,7 +1752,7 @@ extension GeoRoutesClientTypes {
         public var nameHint: Swift.String?
         /// If the distance to a highway/bridge/tunnel/sliproad is within threshold, the waypoint will be snapped to the highway/bridge/tunnel/sliproad. Unit: meters
         public var onRoadThreshold: Swift.Int
-        /// Considers all roads within the provided radius to match the provided destination to. The roads that are considered are determined by the provided Strategy. Unit: Meters
+        /// Considers all roads within the provided radius to match the provided destination to. The roads that are considered are determined by the provided Strategy. Unit: meters
         public var radius: Swift.Int
         /// Strategy that defines matching of the position onto the road network. MatchAny considers all roads possible, whereas MatchMostSignificantRoad matches to the most significant road.
         public var strategy: GeoRoutesClientTypes.MatchingStrategy?
@@ -1722,10 +1780,10 @@ extension GeoRoutesClientTypes {
 
     /// Options to configure matching the provided position to a side of the street.
     public struct RouteMatrixSideOfStreetOptions: Swift.Sendable {
-        /// Position defined as [longitude, latitude].
+        /// Position in World Geodetic System (WGS 84) format: [longitude, latitude].
         /// This member is required.
         public var position: [Swift.Double]?
-        /// Strategy that defines when the side of street position should be used. AnyStreet will always use the provided position. Default Value: DividedStreetOnly
+        /// Strategy that defines when the side of street position should be used. AnyStreet will always use the provided position. Default value: DividedStreetOnly
         public var useWith: GeoRoutesClientTypes.SideOfStreetMatchingStrategy?
 
         public init(
@@ -1779,9 +1837,9 @@ extension GeoRoutesClientTypes {
 
     /// The route destination.
     public struct RouteMatrixDestination: Swift.Sendable {
-        /// Destination related options.
+        /// Destination related options. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
         public var options: GeoRoutesClientTypes.RouteMatrixDestinationOptions?
-        /// Position defined as [longitude, latitude].
+        /// Position in World Geodetic System (WGS 84) format: [longitude, latitude].
         /// This member is required.
         public var position: [Swift.Double]?
 
@@ -1855,11 +1913,11 @@ extension GeoRoutesClientTypes.RouteMatrixOriginOptions: Swift.CustomDebugString
 
 extension GeoRoutesClientTypes {
 
-    /// The start position for the route.
+    /// The start position for the route in World Geodetic System (WGS 84) format: [longitude, latitude].
     public struct RouteMatrixOrigin: Swift.Sendable {
-        /// Origin related options.
+        /// Origin related options. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
         public var options: GeoRoutesClientTypes.RouteMatrixOriginOptions?
-        /// Position defined as [longitude, latitude].
+        /// Position in World Geodetic System (WGS 84) format: [longitude, latitude].
         /// This member is required.
         public var position: [Swift.Double]?
 
@@ -1906,7 +1964,7 @@ extension GeoRoutesClientTypes {
 
     /// Geometry defined as a circle. When request routing boundary was set as AutoCircle, the response routing boundary will return Circle derived from the AutoCircle settings.
     public struct Circle: Swift.Sendable {
-        /// Center of the Circle defined in longitude and latitude coordinates. Example: [-123.1174, 49.2847] represents the position with longitude -123.1174 and latitude 49.2847.
+        /// Center of the Circle in World Geodetic System (WGS 84) format: [longitude, latitude]. Example: [-123.1174, 49.2847] represents the position with longitude -123.1174 and latitude 49.2847.
         /// This member is required.
         public var center: [Swift.Double]?
         /// Radius of the Circle. Unit: meters
@@ -1991,7 +2049,7 @@ extension GeoRoutesClientTypes {
     public struct RouteMatrixTrafficOptions: Swift.Sendable {
         /// Duration for which flow traffic is considered valid. For this period, the flow traffic is used over historical traffic data. Flow traffic refers to congestion, which changes very quickly. Duration in seconds for which flow traffic event would be considered valid. While flow traffic event is valid it will be used over the historical traffic data.
         public var flowEventThresholdOverride: Swift.Int
-        /// Determines if traffic should be used or ignored while calculating the route. Default Value: UseTrafficData
+        /// Determines if traffic should be used or ignored while calculating the route. Default value: UseTrafficData
         public var usage: GeoRoutesClientTypes.TrafficUsage?
 
         public init(
@@ -2071,9 +2129,9 @@ extension GeoRoutesClientTypes {
     public struct RouteMatrixCarOptions: Swift.Sendable {
         /// The vehicle License Plate.
         public var licensePlate: GeoRoutesClientTypes.RouteMatrixVehicleLicensePlate?
-        /// Maximum speed Unit: KilometersPerHour
+        /// Maximum speed Unit: kilometers per hour
         public var maxSpeed: Swift.Double?
-        /// The number of occupants in the vehicle. Default Value: 1
+        /// The number of occupants in the vehicle. Default value: 1
         public var occupancy: Swift.Int?
 
         public init(
@@ -2095,13 +2153,13 @@ extension GeoRoutesClientTypes.RouteMatrixCarOptions: Swift.CustomDebugStringCon
 
 extension GeoRoutesClientTypes {
 
-    /// Travel mode options when the provided travel mode is Scooter
+    /// Travel mode options when the provided travel mode is Scooter.
     public struct RouteMatrixScooterOptions: Swift.Sendable {
         /// The vehicle License Plate.
         public var licensePlate: GeoRoutesClientTypes.RouteMatrixVehicleLicensePlate?
-        /// Maximum speed. Unit: KilometersPerHour
+        /// Maximum speed. Unit: kilometers per hour
         public var maxSpeed: Swift.Double?
-        /// The number of occupants in the vehicle. Default Value: 1
+        /// The number of occupants in the vehicle. Default value: 1
         public var occupancy: Swift.Int?
 
         public init(
@@ -2181,7 +2239,7 @@ extension GeoRoutesClientTypes {
 
     /// Trailer options corresponding to the vehicle.
     public struct RouteMatrixTrailerOptions: Swift.Sendable {
-        /// Number of trailers attached to the vehicle. Default Value: 0
+        /// Number of trailers attached to the vehicle. Default value: 0
         public var trailerCount: Swift.Int?
 
         public init(
@@ -2231,11 +2289,11 @@ extension GeoRoutesClientTypes {
 
 extension GeoRoutesClientTypes {
 
-    /// Travel mode options when the provided travel mode is "Truck"
+    /// Travel mode options when the provided travel mode is Truck.
     public struct RouteMatrixTruckOptions: Swift.Sendable {
         /// Total number of axles of the vehicle.
         public var axleCount: Swift.Int?
-        /// Gross weight of the vehicle including trailers, and goods at capacity. Unit: Kilograms
+        /// Gross weight of the vehicle including trailers, and goods at capacity. Unit: kilograms
         public var grossWeight: Swift.Int
         /// List of Hazardous cargo contained in the vehicle.
         public var hazardousCargos: [GeoRoutesClientTypes.RouteMatrixHazardousCargoType]?
@@ -2247,15 +2305,15 @@ extension GeoRoutesClientTypes {
         public var length: Swift.Int
         /// The vehicle License Plate.
         public var licensePlate: GeoRoutesClientTypes.RouteMatrixVehicleLicensePlate?
-        /// Maximum speed Unit: KilometersPerHour
+        /// Maximum speed Unit: kilometers per hour
         public var maxSpeed: Swift.Double?
-        /// The number of occupants in the vehicle. Default Value: 1
+        /// The number of occupants in the vehicle. Default value: 1
         public var occupancy: Swift.Int?
         /// Payload capacity of the vehicle and trailers attached. Unit: kilograms
         public var payloadCapacity: Swift.Int
         /// Trailer options corresponding to the vehicle.
         public var trailer: GeoRoutesClientTypes.RouteMatrixTrailerOptions?
-        /// Type of the truck.
+        /// The type of truck: LightTruck for smaller delivery vehicles,  StraightTruck for rigid body trucks, or Tractor for tractor-trailer combinations.
         public var truckType: GeoRoutesClientTypes.RouteMatrixTruckType?
         /// The tunnel restriction code. Tunnel categories in this list indicate the restrictions which apply to certain tunnels in Great Britain. They relate to the types of dangerous goods that can be transported through them.
         ///
@@ -2292,7 +2350,7 @@ extension GeoRoutesClientTypes {
         ///
         /// * Restrictions: Restricted tunnel
         public var tunnelRestrictionCode: Swift.String?
-        /// Heaviest weight per axle irrespective of the axle type or the axle group. Meant for usage in countries where the differences in axle types or axle groups are not distinguished. Unit: Kilograms
+        /// Heaviest weight per axle irrespective of the axle type or the axle group. Meant for usage in countries where the differences in axle types or axle groups are not distinguished. Unit: kilograms
         public var weightPerAxle: Swift.Int
         /// Specifies the total weight for the specified axle group. Meant for usage in countries that have different regulations based on the axle group type.
         public var weightPerAxleGroup: GeoRoutesClientTypes.WeightPerAxleGroup?
@@ -2346,11 +2404,11 @@ extension GeoRoutesClientTypes {
 
     /// Travel mode related options for the provided travel mode.
     public struct RouteMatrixTravelModeOptions: Swift.Sendable {
-        /// Travel mode options when the provided travel mode is "Car"
+        /// Travel mode options when the provided travel mode is Car.
         public var car: GeoRoutesClientTypes.RouteMatrixCarOptions?
-        /// Travel mode options when the provided travel mode is Scooter When travel mode is set to Scooter, then the avoidance option ControlledAccessHighways defaults to true.
+        /// Travel mode options when the provided travel mode is Scooter. When travel mode is set to Scooter, then the avoidance option ControlledAccessHighways defaults to true.
         public var scooter: GeoRoutesClientTypes.RouteMatrixScooterOptions?
-        /// Travel mode options when the provided travel mode is "Truck"
+        /// Travel mode options when the provided travel mode is Truck.
         public var truck: GeoRoutesClientTypes.RouteMatrixTruckOptions?
 
         public init(
@@ -2368,33 +2426,32 @@ extension GeoRoutesClientTypes {
 public struct CalculateRouteMatrixInput: Swift.Sendable {
     /// Features that are allowed while calculating a route.
     public var allow: GeoRoutesClientTypes.RouteMatrixAllowOptions?
-    /// Features that are avoided while calculating a route. Avoidance is on a best-case basis. If an avoidance can't be satisfied for a particular case, it violates the avoidance and the returned response produces a notice for the violation.
+    /// Features that are avoided while calculating a route. Avoidance is on a best-case basis. If an avoidance can't be satisfied for a particular case, it violates the avoidance and the returned response produces a notice for the violation. For [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers, ap-southeast-1 and ap-southeast-5 regions support only TollRoads, Ferries, and ControlledAccessHighways.
     public var avoid: GeoRoutesClientTypes.RouteMatrixAvoidanceOptions?
     /// Uses the current time as the time of departure.
     public var departNow: Swift.Bool?
-    /// Time of departure from thr origin. Time format:YYYY-MM-DDThh:mm:ss.sssZ | YYYY-MM-DDThh:mm:ss.sss+hh:mm Examples: 2020-04-22T17:57:24Z
+    /// Time of departure from the origin. Time format:YYYY-MM-DDThh:mm:ss.sssZ | YYYY-MM-DDThh:mm:ss.sss+hh:mm Examples: 2020-04-22T17:57:24Z
     ///     2020-04-22T17:57:24+02:00
     public var departureTime: Swift.String?
-    /// List of destinations for the route. Route calculations are billed for each origin and destination pair. If you use a large matrix of origins and destinations, your costs will increase accordingly. See [ Amazon Location's pricing page](https://docs.aws.amazon.com/location/latest/developerguide/routes-pricing.html`) for more information.
+    /// List of destinations for the route. Route calculations are billed for each origin and destination pair. If you use a large matrix of origins and destinations, your costs will increase accordingly. For more information, see [Routes pricing](https://docs.aws.amazon.com/location/latest/developerguide/routes-pricing.html) in the Amazon Location Service Developer Guide.
     /// This member is required.
     public var destinations: [GeoRoutesClientTypes.RouteMatrixDestination]?
-    /// Features to be strictly excluded while calculating the route.
+    /// Features to be strictly excluded while calculating the route. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
     public var exclude: GeoRoutesClientTypes.RouteMatrixExclusionOptions?
     /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
     public var key: Swift.String?
-    /// Specifies the optimization criteria for calculating a route. Default Value: FastestRoute
+    /// Controls the trade-off between finding the shortest travel time (FastestRoute) and the shortest distance (ShortestRoute) when calculating reachable areas. Default value: FastestRoute
     public var optimizeRoutingFor: GeoRoutesClientTypes.RoutingObjective?
-    /// The position in longitude and latitude for the origin. Route calculations are billed for each origin and destination pair. Using a large amount of Origins in a request can lead you to incur unexpected charges. See [ Amazon Location's pricing page](https://docs.aws.amazon.com/location/latest/developerguide/routes-pricing.html`) for more information.
+    /// The position for the origin in World Geodetic System (WGS 84) format: [longitude, latitude]. Route calculations are billed for each origin and destination pair. Using a large amount of Origins in a request can lead you to incur unexpected charges. For more information, see [Routes pricing](https://docs.aws.amazon.com/location/latest/developerguide/routes-pricing.html) in the Amazon Location Service Developer Guide.
     /// This member is required.
     public var origins: [GeoRoutesClientTypes.RouteMatrixOrigin]?
-    /// Boundary within which the matrix is to be calculated. All data, origins and destinations outside the boundary are considered invalid. When request routing boundary was set as AutoCircle, the response routing boundary will return Circle derived from the AutoCircle settings.
-    /// This member is required.
+    /// Boundary within which the matrix is to be calculated. All data, origins and destinations outside the boundary are considered invalid. For [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers, ap-southeast-1 and ap-southeast-5 regions support only Unbounded set to true. Default value: Unbounded set to true When request routing boundary was set as AutoCircle, the response routing boundary will return Circle derived from the AutoCircle settings.
     public var routingBoundary: GeoRoutesClientTypes.RouteMatrixBoundary?
-    /// Traffic related options.
+    /// Traffic related options. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
     public var traffic: GeoRoutesClientTypes.RouteMatrixTrafficOptions?
-    /// Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility. Default Value: Car
+    /// Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility. For [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers, ap-southeast-1 and ap-southeast-5 regions support only Car, Pedestrian, and Scooter. Default value: Car
     public var travelMode: GeoRoutesClientTypes.RouteMatrixTravelMode?
-    /// Travel mode related options for the provided travel mode.
+    /// Travel mode related options for the provided travel mode. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
     public var travelModeOptions: GeoRoutesClientTypes.RouteMatrixTravelModeOptions?
 
     public init(
@@ -2576,7 +2633,7 @@ extension GeoRoutesClientTypes {
         public var polygon: [[[Swift.Double]]]?
         /// Geometry defined as an encoded corridor - an encoded polyline with a radius that defines the width of the corridor.
         public var polylineCorridor: GeoRoutesClientTypes.PolylineCorridor?
-        /// A list of Isoline PolylinePolygon, for each isoline PolylinePolygon, it contains PolylinePolygon of the first linear ring (the outer ring) and from 2nd item to the last item (the inner rings). For more information on polyline encoding, see [https://github.com/heremaps/flexiblepolyline/blob/master/README.md](https://github.com/heremaps/flexiblepolyline/blob/master/README.md).
+        /// A list of Isoline PolylinePolygon, for each isoline PolylinePolygon, it contains PolylinePolygon of the first linear ring (the outer ring) and from 2nd item to the last item (the inner rings). For more information on polyline encoding, see [https://github.com/aws-geospatial/polyline](https://github.com/aws-geospatial/polyline).
         public var polylinePolygon: [Swift.String]?
 
         public init(
@@ -2654,7 +2711,7 @@ extension GeoRoutesClientTypes {
 
 extension GeoRoutesClientTypes {
 
-    /// Zone categories to be avoided.
+    /// Zone categories to be avoided. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
     public struct RouteAvoidanceZoneCategory: Swift.Sendable {
         /// Zone category to be avoided.
         /// This member is required.
@@ -2677,29 +2734,29 @@ extension GeoRoutesClientTypes {
 
     /// Specifies options for areas to avoid when calculating the route. This is a best-effort avoidance setting, meaning the router will try to honor the avoidance preferences but may still include restricted areas if no feasible alternative route exists. If avoidance options are not followed, the response will indicate that the avoidance criteria were violated.
     public struct RouteAvoidanceOptions: Swift.Sendable {
-        /// Areas to be avoided.
+        /// Areas to be avoided. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
         public var areas: [GeoRoutesClientTypes.RouteAvoidanceArea]?
-        /// Avoid car-shuttle-trains while calculating the route.
+        /// Avoid car-shuttle-trains while calculating the route. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
         public var carShuttleTrains: Swift.Bool?
         /// Avoid controlled access highways while calculating the route.
         public var controlledAccessHighways: Swift.Bool?
-        /// Avoid dirt roads while calculating the route.
+        /// Avoid dirt roads while calculating the route. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
         public var dirtRoads: Swift.Bool?
         /// Avoid ferries while calculating the route.
         public var ferries: Swift.Bool?
-        /// Avoid roads that have seasonal closure while calculating the route.
+        /// Avoid roads that have seasonal closure while calculating the route. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
         public var seasonalClosure: Swift.Bool?
         /// Avoids roads where the specified toll transponders are the only mode of payment.
         public var tollRoads: Swift.Bool?
-        /// Avoids roads where the specified toll transponders are the only mode of payment.
+        /// Avoids roads where the specified toll transponders are the only mode of payment. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
         public var tollTransponders: Swift.Bool?
-        /// Truck road type identifiers. BK1 through BK4 apply only to Sweden. A2,A4,B2,B4,C,D,ET2,ET4 apply only to Mexico. There are currently no other supported values as of 26th April 2024.
+        /// Truck road type identifiers. BK1 through BK4 apply only to Sweden. A2,A4,B2,B4,C,D,ET2,ET4 apply only to Mexico. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers. There are currently no other supported values as of 26th April 2024.
         public var truckRoadTypes: [Swift.String]?
-        /// Avoid tunnels while calculating the route.
+        /// Avoid tunnels while calculating the route. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
         public var tunnels: Swift.Bool?
-        /// Avoid U-turns for calculation on highways and motorways.
+        /// Avoid U-turns for calculation on highways and motorways. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
         public var uTurns: Swift.Bool?
-        /// Zone categories to be avoided.
+        /// Zone categories to be avoided. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
         public var zoneCategories: [GeoRoutesClientTypes.RouteAvoidanceZoneCategory]?
 
         public init(
@@ -2745,7 +2802,7 @@ extension GeoRoutesClientTypes {
         public var nameHint: Swift.String?
         /// If the distance to a highway/bridge/tunnel/sliproad is within threshold, the waypoint will be snapped to the highway/bridge/tunnel/sliproad. Unit: meters
         public var onRoadThreshold: Swift.Int
-        /// Considers all roads within the provided radius to match the provided destination to. The roads that are considered are determined by the provided Strategy. Unit: Meters
+        /// Considers all roads within the provided radius to match the provided destination to. The roads that are considered are determined by the provided Strategy. Unit: meters
         public var radius: Swift.Int
         /// Strategy that defines matching of the position onto the road network. MatchAny considers all roads possible, whereas MatchMostSignificantRoad matches to the most significant road.
         public var strategy: GeoRoutesClientTypes.MatchingStrategy?
@@ -2773,10 +2830,10 @@ extension GeoRoutesClientTypes {
 
     /// Options to configure matching the provided position to a side of the street.
     public struct RouteSideOfStreetOptions: Swift.Sendable {
-        /// Position defined as [longitude, latitude].
+        /// Position in World Geodetic System (WGS 84) format: [longitude, latitude].
         /// This member is required.
         public var position: [Swift.Double]?
-        /// Strategy that defines when the side of street position should be used. Default Value: DividedStreetOnly
+        /// Strategy that defines when the side of street position should be used. Default value: DividedStreetOnly
         public var useWith: GeoRoutesClientTypes.SideOfStreetMatchingStrategy?
 
         public init(
@@ -2798,7 +2855,7 @@ extension GeoRoutesClientTypes {
 
     /// Options related to the destination.
     public struct RouteDestinationOptions: Swift.Sendable {
-        /// Avoids actions for the provided distance. This is typically to consider for users in moving vehicles who may not have sufficient time to make an action at an origin or a destination.
+        /// The distance in meters from the destination point within which certain routing actions (such as U-turns or left turns across traffic) are restricted. This helps generate more practical routes by avoiding potentially dangerous maneuvers near the endpoint.
         public var avoidActionsForDistance: Swift.Int
         /// Avoid U-turns for calculation on highways and motorways.
         public var avoidUTurns: Swift.Bool?
@@ -3199,7 +3256,18 @@ extension GeoRoutesClientTypes {
     public struct RouteTrafficOptions: Swift.Sendable {
         /// Duration for which flow traffic is considered valid. For this period, the flow traffic is used over historical traffic data. Flow traffic refers to congestion, which changes very quickly. Duration in seconds for which flow traffic event would be considered valid. While flow traffic event is valid it will be used over the historical traffic data.
         public var flowEventThresholdOverride: Swift.Int
-        /// Determines if traffic should be used or ignored while calculating the route. Default Value: UseTrafficData
+        /// Specifies how traffic data should be used when calculating routes. Default Value: UseTrafficData Traffic data usage depends on the time parameters in your route request:
+        ///
+        /// * When Usage is set to UseTrafficData:
+        ///
+        /// * If DepartNow is set to true, or if you specify DepartureTime or ArrivalTime, then all traffic data is considered (including live traffic and closures).
+        ///
+        /// * If DepartNow, DepartureTime, and ArrivalTime are all unspecified, then only long-term closures are considered, regardless of this setting.
+        ///
+        ///
+        ///
+        ///
+        /// * When Usage is set to IgnoreTrafficData, then all traffic data is ignored regardless of the time parameters in your route request.
         public var usage: GeoRoutesClientTypes.TrafficUsage?
 
         public init(
@@ -3306,15 +3374,15 @@ extension GeoRoutesClientTypes.RouteVehicleLicensePlate: Swift.CustomDebugString
 
 extension GeoRoutesClientTypes {
 
-    /// Travel mode options when the provided travel mode is Car.
+    /// Travel mode options when the provided travel mode is Car. For [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers, ap-southeast-1 and ap-southeast-5 regions support only LicensePlate options.
     public struct RouteCarOptions: Swift.Sendable {
-        /// Engine type of the vehicle.
+        /// Engine type of the vehicle. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
         public var engineType: GeoRoutesClientTypes.RouteEngineType?
         /// The vehicle License Plate.
         public var licensePlate: GeoRoutesClientTypes.RouteVehicleLicensePlate?
-        /// Maximum speed specified. Unit: KilometersPerHour
+        /// Maximum speed specified. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers. Unit: kilometers per hour
         public var maxSpeed: Swift.Double?
-        /// The number of occupants in the vehicle. Default Value: 1
+        /// The number of occupants in the vehicle. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers. Default value: 1
         public var occupancy: Swift.Int?
 
         public init(
@@ -3338,7 +3406,7 @@ extension GeoRoutesClientTypes.RouteCarOptions: Swift.CustomDebugStringConvertib
 
 extension GeoRoutesClientTypes {
 
-    /// Options related to the pedestrian.
+    /// Options related to the pedestrian. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
     public struct RoutePedestrianOptions: Swift.Sendable {
         /// Walking speed in Kilometers per hour.
         public var speed: Swift.Double?
@@ -3358,15 +3426,15 @@ extension GeoRoutesClientTypes.RoutePedestrianOptions: Swift.CustomDebugStringCo
 
 extension GeoRoutesClientTypes {
 
-    /// Travel mode options when the provided travel mode is Scooter
+    /// Travel mode options when the provided travel mode is Scooter. For [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers, ap-southeast-1 and ap-southeast-5 regions support only LicensePlate options.
     public struct RouteScooterOptions: Swift.Sendable {
-        /// Engine type of the vehicle.
+        /// Engine type of the vehicle. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
         public var engineType: GeoRoutesClientTypes.RouteEngineType?
         /// The vehicle License Plate.
         public var licensePlate: GeoRoutesClientTypes.RouteVehicleLicensePlate?
-        /// Maximum speed Unit: KilometersPerHour
+        /// Maximum speed Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers. Unit: kilometers per hour
         public var maxSpeed: Swift.Double?
-        /// The number of occupants in the vehicle. Default Value: 1
+        /// The number of occupants in the vehicle. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers. Default value: 1
         public var occupancy: Swift.Int?
 
         public init(
@@ -3450,7 +3518,7 @@ extension GeoRoutesClientTypes {
     public struct RouteTrailerOptions: Swift.Sendable {
         /// Total number of axles of the vehicle.
         public var axleCount: Swift.Int?
-        /// Number of trailers attached to the vehicle. Default Value: 0
+        /// Number of trailers attached to the vehicle. Default value: 0
         public var trailerCount: Swift.Int?
 
         public init(
@@ -3502,13 +3570,13 @@ extension GeoRoutesClientTypes {
 
 extension GeoRoutesClientTypes {
 
-    /// Travel mode options when the provided travel mode is "Truck"
+    /// Travel mode options when the provided travel mode is Truck. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
     public struct RouteTruckOptions: Swift.Sendable {
         /// Total number of axles of the vehicle.
         public var axleCount: Swift.Int?
         /// Engine type of the vehicle.
         public var engineType: GeoRoutesClientTypes.RouteEngineType?
-        /// Gross weight of the vehicle including trailers, and goods at capacity. Unit: Kilograms
+        /// Gross weight of the vehicle including trailers, and goods at capacity. Unit: kilograms
         public var grossWeight: Swift.Int
         /// List of Hazardous cargo contained in the vehicle.
         public var hazardousCargos: [GeoRoutesClientTypes.RouteHazardousCargoType]?
@@ -3522,9 +3590,9 @@ extension GeoRoutesClientTypes {
         public var length: Swift.Int
         /// The vehicle License Plate.
         public var licensePlate: GeoRoutesClientTypes.RouteVehicleLicensePlate?
-        /// Maximum speed Unit: KilometersPerHour
+        /// Maximum speed Unit: kilometers per hour
         public var maxSpeed: Swift.Double?
-        /// The number of occupants in the vehicle. Default Value: 1
+        /// The number of occupants in the vehicle. Default value: 1
         public var occupancy: Swift.Int?
         /// Payload capacity of the vehicle and trailers attached. Unit: kilograms
         public var payloadCapacity: Swift.Int
@@ -3532,7 +3600,7 @@ extension GeoRoutesClientTypes {
         public var tireCount: Swift.Int?
         /// Trailer options corresponding to the vehicle.
         public var trailer: GeoRoutesClientTypes.RouteTrailerOptions?
-        /// Type of the truck.
+        /// The type of truck: LightTruck for smaller delivery vehicles,  StraightTruck for rigid body trucks, or Tractor for tractor-trailer combinations.
         public var truckType: GeoRoutesClientTypes.RouteTruckType?
         /// The tunnel restriction code. Tunnel categories in this list indicate the restrictions which apply to certain tunnels in Great Britain. They relate to the types of dangerous goods that can be transported through them.
         ///
@@ -3569,9 +3637,9 @@ extension GeoRoutesClientTypes {
         ///
         /// * Restrictions: Restricted tunnel
         public var tunnelRestrictionCode: Swift.String?
-        /// Heaviest weight per axle irrespective of the axle type or the axle group. Meant for usage in countries where the differences in axle types or axle groups are not distinguished. Unit: Kilograms
+        /// Heaviest weight per axle irrespective of the axle type or the axle group. Meant for usage in countries where the differences in axle types or axle groups are not distinguished. Unit: kilograms
         public var weightPerAxle: Swift.Int
-        /// Specifies the total weight for the specified axle group. Meant for usage in countries that have different regulations based on the axle group type. Unit: Kilograms
+        /// Specifies the total weight for the specified axle group. Meant for usage in countries that have different regulations based on the axle group type. Unit: kilograms
         public var weightPerAxleGroup: GeoRoutesClientTypes.WeightPerAxleGroup?
         /// Width of the vehicle. Unit: centimeters
         public var width: Swift.Int
@@ -3629,13 +3697,13 @@ extension GeoRoutesClientTypes {
 
     /// Travel mode related options for the provided travel mode.
     public struct RouteTravelModeOptions: Swift.Sendable {
-        /// Travel mode options when the provided travel mode is "Car"
+        /// Travel mode options when the provided travel mode is Car.
         public var car: GeoRoutesClientTypes.RouteCarOptions?
-        /// Travel mode options when the provided travel mode is "Pedestrian"
+        /// Travel mode options when the provided travel mode is Pedestrian.
         public var pedestrian: GeoRoutesClientTypes.RoutePedestrianOptions?
-        /// Travel mode options when the provided travel mode is Scooter When travel mode is set to Scooter, then the avoidance option ControlledAccessHighways defaults to true.
+        /// Travel mode options when the provided travel mode is Scooter. When travel mode is set to Scooter, then the avoidance option ControlledAccessHighways defaults to true.
         public var scooter: GeoRoutesClientTypes.RouteScooterOptions?
-        /// Travel mode options when the provided travel mode is "Truck"
+        /// Travel mode options when the provided travel mode is Truck.
         public var truck: GeoRoutesClientTypes.RouteTruckOptions?
 
         public init(
@@ -3685,22 +3753,22 @@ extension GeoRoutesClientTypes {
 
     /// Waypoint between the Origin and Destination.
     public struct RouteWaypoint: Swift.Sendable {
-        /// Avoids actions for the provided distance. This is typically to consider for users in moving vehicles who may not have sufficient time to make an action at an origin or a destination.
+        /// Avoids actions for the provided distance. This is typically to consider for users in moving vehicles who may not have sufficient time to make an action at an origin or a destination. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
         public var avoidActionsForDistance: Swift.Int
-        /// Avoid U-turns for calculation on highways and motorways.
+        /// Avoid U-turns for calculation on highways and motorways. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
         public var avoidUTurns: Swift.Bool?
-        /// GPS Heading at the position.
+        /// GPS Heading at the position. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
         public var heading: Swift.Double
-        /// Options to configure matching the provided position to the road network.
+        /// Options to configure matching the provided position to the road network. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
         public var matching: GeoRoutesClientTypes.RouteMatchingOptions?
-        /// If the waypoint should not be treated as a stop. If yes, the waypoint is passed through and doesn't split the route into different legs.
+        /// If the waypoint should not be treated as a stop. If yes, the waypoint is passed through and doesn't split the route into different legs. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
         public var passThrough: Swift.Bool?
-        /// Position defined as [longitude, latitude].
+        /// Position in World Geodetic System (WGS 84) format: [longitude, latitude].
         /// This member is required.
         public var position: [Swift.Double]?
-        /// Options to configure matching the provided position to a side of the street.
+        /// Options to configure matching the provided position to a side of the street. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
         public var sideOfStreet: GeoRoutesClientTypes.RouteSideOfStreetOptions?
-        /// Duration of the stop. Unit: seconds
+        /// Duration of the stop. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers. Unit: seconds
         public var stopDuration: Swift.Int
 
         public init(
@@ -3731,34 +3799,34 @@ extension GeoRoutesClientTypes.RouteWaypoint: Swift.CustomDebugStringConvertible
 }
 
 public struct CalculateRoutesInput: Swift.Sendable {
-    /// Features that are allowed while calculating a route.
+    /// Features that are allowed while calculating a route. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
     public var allow: GeoRoutesClientTypes.RouteAllowOptions?
-    /// Time of arrival at the destination. Time format:YYYY-MM-DDThh:mm:ss.sssZ | YYYY-MM-DDThh:mm:ss.sss+hh:mm Examples: 2020-04-22T17:57:24Z
+    /// Time of arrival at the destination. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers. Time format:YYYY-MM-DDThh:mm:ss.sssZ | YYYY-MM-DDThh:mm:ss.sss+hh:mm Examples: 2020-04-22T17:57:24Z
     ///     2020-04-22T17:57:24+02:00
     public var arrivalTime: Swift.String?
-    /// Features that are avoided while calculating a route. Avoidance is on a best-case basis. If an avoidance can't be satisfied for a particular case, it violates the avoidance and the returned response produces a notice for the violation.
+    /// Features that are avoided while calculating a route. Avoidance is on a best-case basis. If an avoidance can't be satisfied for a particular case, it violates the avoidance and the returned response produces a notice for the violation. For [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers, ap-southeast-1 and ap-southeast-5 regions support only ControlledAccessHighways, Ferries, and TollRoads
     public var avoid: GeoRoutesClientTypes.RouteAvoidanceOptions?
     /// Uses the current time as the time of departure.
     public var departNow: Swift.Bool?
-    /// Time of departure from thr origin. Time format:YYYY-MM-DDThh:mm:ss.sssZ | YYYY-MM-DDThh:mm:ss.sss+hh:mm Examples: 2020-04-22T17:57:24Z
+    /// Time of departure from the origin. Time format:YYYY-MM-DDThh:mm:ss.sssZ | YYYY-MM-DDThh:mm:ss.sss+hh:mm Examples: 2020-04-22T17:57:24Z
     ///     2020-04-22T17:57:24+02:00
     public var departureTime: Swift.String?
     /// The final position for the route. In the World Geodetic System (WGS 84) format: [longitude, latitude].
     /// This member is required.
     public var destination: [Swift.Double]?
-    /// Destination related options.
+    /// Destination related options. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
     public var destinationOptions: GeoRoutesClientTypes.RouteDestinationOptions?
-    /// Driver related options.
+    /// Driver related options. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
     public var driver: GeoRoutesClientTypes.RouteDriverOptions?
-    /// Features to be strictly excluded while calculating the route.
+    /// Features to be strictly excluded while calculating the route. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
     public var exclude: GeoRoutesClientTypes.RouteExclusionOptions?
     /// Measurement system to be used for instructions within steps in the response.
     public var instructionsMeasurementSystem: GeoRoutesClientTypes.MeasurementSystem?
     /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
     public var key: Swift.String?
-    /// List of languages for instructions within steps in the response. Instructions in the requested language are returned only if they are available.
+    /// List of languages for instructions within steps in the response. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers. Instructions in the requested language are returned only if they are available.
     public var languages: [Swift.String]?
-    /// A list of optional additional parameters such as timezone that can be requested for each result.
+    /// A list of optional additional parameters such as timezone that can be requested for each result. For [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers, ap-southeast-1 and ap-southeast-5 regions support only PassThroughWaypoints, Summary, and TravelStepInstructions
     ///
     /// * Elevation: Retrieves the elevation information for each location.
     ///
@@ -3778,30 +3846,30 @@ public struct CalculateRoutesInput: Swift.Sendable {
     ///
     /// * Zones: Specifies the time zone information for each waypoint.
     public var legAdditionalFeatures: [GeoRoutesClientTypes.RouteLegAdditionalFeature]?
-    /// Specifies the format of the geometry returned for each leg of the route. You can choose between two different geometry encoding formats. FlexiblePolyline: A compact and precise encoding format for the leg geometry. For more information on the format, see the GitHub repository for [FlexiblePolyline](https://github.com/heremaps/flexible-polyline). Simple: A less compact encoding, which is easier to decode but may be less precise and result in larger payloads.
+    /// Specifies the format of the geometry returned for each leg of the route. You can choose between two different geometry encoding formats. FlexiblePolyline: A compact and precise encoding format for the leg geometry. For more information on the format, see the GitHub repository for [https://github.com/aws-geospatial/polyline](https://github.com/aws-geospatial/polyline). Simple: A less compact encoding, which is easier to decode but may be less precise and result in larger payloads.
     public var legGeometryFormat: GeoRoutesClientTypes.GeometryFormat?
-    /// Maximum number of alternative routes to be provided in the response, if available.
+    /// Maximum number of alternative routes to be provided in the response, if available. For [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers, ap-southeast-1 and ap-southeast-5 regions support only up to 3 alternative routes.
     public var maxAlternatives: Swift.Int?
-    /// Specifies the optimization criteria for calculating a route. Default Value: FastestRoute
+    /// Controls the trade-off between achieving the shortest travel time (FastestRoute) and achieving the shortest physical distance ((ShortestRoute) when calculating each route in the matrix. Default value: FastestRoute
     public var optimizeRoutingFor: GeoRoutesClientTypes.RoutingObjective?
-    /// The start position for the route.
+    /// The start position for the route in World Geodetic System (WGS 84) format: [longitude, latitude].
     /// This member is required.
     public var origin: [Swift.Double]?
-    /// Origin related options.
+    /// Specifies how the origin point should be matched to the road network and any routing constraints that apply when the traveler is departing the origin. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
     public var originOptions: GeoRoutesClientTypes.RouteOriginOptions?
-    /// A list of optional features such as SpeedLimit that can be requested for a Span. A span is a section of a Leg for which the requested features have the same values.
+    /// A list of optional features such as SpeedLimit that can be requested for a Span. A span is a section of a Leg for which the requested features have the same values. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
     public var spanAdditionalFeatures: [GeoRoutesClientTypes.RouteSpanAdditionalFeature]?
-    /// Toll related options.
+    /// Toll related options. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
     public var tolls: GeoRoutesClientTypes.RouteTollOptions?
-    /// Traffic related options.
+    /// Traffic related options. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
     public var traffic: GeoRoutesClientTypes.RouteTrafficOptions?
-    /// Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility. Default Value: Car
+    /// Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility. For [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers, ap-southeast-1 and ap-southeast-5 regions support only Car, Pedestrian, and Scooter values. Default value: Car
     public var travelMode: GeoRoutesClientTypes.RouteTravelMode?
-    /// Travel mode related options for the provided travel mode.
+    /// Travel mode related options for the provided travel mode. For [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers, ap-southeast-1 and ap-southeast-5 regions support only Car and Pedestrian travel mode options.
     public var travelModeOptions: GeoRoutesClientTypes.RouteTravelModeOptions?
-    /// Type of step returned by the response. Default provides basic steps intended for web based applications. TurnByTurn provides detailed instructions with more granularity intended for a turn based navigation system.
+    /// Type of step returned by the response. Default provides basic steps intended for web based applications. TurnByTurn provides detailed instructions with more granularity intended for a turn based navigation system. For [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers, ap-southeast-1 and ap-southeast-5 regions Default does not return any steps.
     public var travelStepType: GeoRoutesClientTypes.RouteTravelStepType?
-    /// List of waypoints between the Origin and Destination.
+    /// List of waypoints between the Origin and Destination. For [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers, ap-southeast-1 and ap-southeast-5 regions max length is 100. Max length: 23
     public var waypoints: [GeoRoutesClientTypes.RouteWaypoint]?
 
     public init(
@@ -4009,7 +4077,7 @@ extension GeoRoutesClientTypes {
         public var name: Swift.String?
         /// Position provided in the request.
         public var originalPosition: [Swift.Double]?
-        /// Position defined as [longitude, latitude].
+        /// Position in World Geodetic System (WGS 84) format: [longitude, latitude].
         /// This member is required.
         public var position: [Swift.Double]?
         /// Index of the waypoint in the request.
@@ -4148,8 +4216,10 @@ extension GeoRoutesClientTypes {
         case other
         case potentialViolatedVehicleRestrictionUsage
         case seasonalClosure
+        case violatedAvoidAreas
         case violatedAvoidFerry
         case violatedAvoidRailFerry
+        case violatedVehicleRestriction
         case sdkUnknown(Swift.String)
 
         public static var allCases: [RouteFerryNoticeCode] {
@@ -4159,8 +4229,10 @@ extension GeoRoutesClientTypes {
                 .other,
                 .potentialViolatedVehicleRestrictionUsage,
                 .seasonalClosure,
+                .violatedAvoidAreas,
                 .violatedAvoidFerry,
-                .violatedAvoidRailFerry
+                .violatedAvoidRailFerry,
+                .violatedVehicleRestriction
             ]
         }
 
@@ -4176,8 +4248,10 @@ extension GeoRoutesClientTypes {
             case .other: return "Other"
             case .potentialViolatedVehicleRestrictionUsage: return "PotentialViolatedVehicleRestrictionUsage"
             case .seasonalClosure: return "SeasonalClosure"
+            case .violatedAvoidAreas: return "ViolatedAvoidAreas"
             case .violatedAvoidFerry: return "ViolatedAvoidFerry"
             case .violatedAvoidRailFerry: return "ViolatedAvoidRailFerry"
+            case .violatedVehicleRestriction: return "ViolatedVehicleRestriction"
             case let .sdkUnknown(s): return s
             }
         }
@@ -4210,7 +4284,7 @@ extension GeoRoutesClientTypes {
     public struct RoutePassThroughPlace: Swift.Sendable {
         /// Position provided in the request.
         public var originalPosition: [Swift.Double]?
-        /// Position defined as [longitude, latitude].
+        /// Position in World Geodetic System (WGS 84) format: [longitude, latitude].
         /// This member is required.
         public var position: [Swift.Double]?
         /// Index of the waypoint in the request.
@@ -4456,7 +4530,7 @@ extension GeoRoutesClientTypes.RouteFerryTravelStep: Swift.CustomDebugStringConv
 
 extension GeoRoutesClientTypes {
 
-    /// FerryLegDetails is populated when the Leg type is Ferry, and provides additional information that is specific
+    /// FerryLegDetails is populated when the Leg type is Ferry, and provides additional information that is specific to ferry travel.
     public struct RouteFerryLegDetails: Swift.Sendable {
         /// Steps of a leg that must be performed after the travel portion of the leg.
         /// This member is required.
@@ -4579,7 +4653,7 @@ extension GeoRoutesClientTypes {
         public var name: Swift.String?
         /// Position provided in the request.
         public var originalPosition: [Swift.Double]?
-        /// Position defined as [longitude, latitude].
+        /// Position in World Geodetic System (WGS 84) format: [longitude, latitude].
         /// This member is required.
         public var position: [Swift.Double]?
         /// Options to configure matching the provided position to a side of the street.
@@ -4665,6 +4739,7 @@ extension GeoRoutesClientTypes {
     public enum RoutePedestrianNoticeCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case accuratePolylineUnavailable
         case other
+        case violatedAvoidAreas
         case violatedAvoidDirtRoad
         case violatedAvoidTunnel
         case violatedPedestrianOption
@@ -4674,6 +4749,7 @@ extension GeoRoutesClientTypes {
             return [
                 .accuratePolylineUnavailable,
                 .other,
+                .violatedAvoidAreas,
                 .violatedAvoidDirtRoad,
                 .violatedAvoidTunnel,
                 .violatedPedestrianOption
@@ -4689,6 +4765,7 @@ extension GeoRoutesClientTypes {
             switch self {
             case .accuratePolylineUnavailable: return "AccuratePolylineUnavailable"
             case .other: return "Other"
+            case .violatedAvoidAreas: return "ViolatedAvoidAreas"
             case .violatedAvoidDirtRoad: return "ViolatedAvoidDirtRoad"
             case .violatedAvoidTunnel: return "ViolatedAvoidTunnel"
             case .violatedPedestrianOption: return "ViolatedPedestrianOption"
@@ -4720,13 +4797,13 @@ extension GeoRoutesClientTypes {
 
 extension GeoRoutesClientTypes {
 
-    /// Details about the dynamic speed. Unit: KilometersPerHour
+    /// Details about the dynamic speed. Unit: kilometers per hour
     public struct RouteSpanDynamicSpeedDetails: Swift.Sendable {
-        /// Estimated speed while traversing the span without traffic congestion. Unit: KilometersPerHour
+        /// Estimated speed while traversing the span without traffic congestion. Unit: kilometers per hour
         public var bestCaseSpeed: Swift.Double
         /// Estimated time to turn from this span into the next. Unit: seconds
         public var turnDuration: Swift.Int
-        /// Estimated speed while traversing the span under typical traffic congestion. Unit: KilometersPerHour
+        /// Estimated speed while traversing the span under typical traffic congestion. Unit: kilometers per hour
         public var typicalSpeed: Swift.Double
 
         public init(
@@ -4912,9 +4989,9 @@ extension GeoRoutesClientTypes.RouteNumber: Swift.CustomDebugStringConvertible {
 
 extension GeoRoutesClientTypes {
 
-    /// Details about the speed limit corresponding to the span. Unit: KilometersPerHour
+    /// Details about the speed limit corresponding to the span. Unit: kilometers per hour
     public struct RouteSpanSpeedLimitDetails: Swift.Sendable {
-        /// Maximum speed. Unit: KilometersPerHour
+        /// Maximum speed. Unit: kilometers per hour
         public var maxSpeed: Swift.Double
         /// If the span doesn't have a speed limit like the Autobahn.
         public var unlimited: Swift.Bool?
@@ -4946,9 +5023,19 @@ extension GeoRoutesClientTypes {
         public var distance: Swift.Int
         /// Duration of the computed span. This feature doesn't split a span, but is always computed on a span split by other properties. Unit: seconds
         public var duration: Swift.Int
-        /// Dynamic speed details corresponding to the span. Unit: KilometersPerHour
+        /// Dynamic speed details corresponding to the span. Unit: kilometers per hour
         public var dynamicSpeed: GeoRoutesClientTypes.RouteSpanDynamicSpeedDetails?
-        /// Functional classification of the road segment corresponding to the span.
+        /// A numerical value indicating the functional classification of the road segment corresponding to the span. Classification values are part of the hierarchical network that helps determine a logical and efficient route, and have the following definitions:
+        ///
+        /// * Roads that allow for high volume, maximum speed traffic movement between and through major metropolitan areas.
+        ///
+        /// * Roads that are used to channel traffic to functional class 1 roads for travel between and through cities in the shortest amount of time.
+        ///
+        /// * Roads that intersect functional class 2 roads and provide a high volume of traffic movement at a lower level of mobility than functional class 2 roads.
+        ///
+        /// * Roads that provide for a high volume of traffic movement at moderate speeds between neighborhoods.
+        ///
+        /// * Roads with volume and traffic movement below the level of any other functional class.
         public var functionalClassification: Swift.Int?
         /// Offset in the leg geometry corresponding to the start of this span.
         public var geometryOffset: Swift.Int?
@@ -4964,7 +5051,7 @@ extension GeoRoutesClientTypes {
         public var roadAttributes: [GeoRoutesClientTypes.RouteSpanRoadAttribute]?
         /// Designated route name or number corresponding to the span.
         public var routeNumbers: [GeoRoutesClientTypes.RouteNumber]?
-        /// Speed limit details corresponding to the span. Unit: KilometersPerHour
+        /// Speed limit details corresponding to the span. Unit: kilometers per hour
         public var speedLimit: GeoRoutesClientTypes.RouteSpanSpeedLimitDetails?
         /// Duration of the computed span under typical traffic congestion. Unit: seconds
         public var typicalDuration: Swift.Int
@@ -5429,14 +5516,11 @@ extension GeoRoutesClientTypes {
         case arrive
         case `continue`
         case depart
-        case exit
         case keep
-        case ramp
         case roundaboutEnter
         case roundaboutExit
         case roundaboutPass
         case turn
-        case uTurn
         case sdkUnknown(Swift.String)
 
         public static var allCases: [RoutePedestrianTravelStepType] {
@@ -5444,14 +5528,11 @@ extension GeoRoutesClientTypes {
                 .arrive,
                 .continue,
                 .depart,
-                .exit,
                 .keep,
-                .ramp,
                 .roundaboutEnter,
                 .roundaboutExit,
                 .roundaboutPass,
-                .turn,
-                .uTurn
+                .turn
             ]
         }
 
@@ -5465,14 +5546,11 @@ extension GeoRoutesClientTypes {
             case .arrive: return "Arrive"
             case .continue: return "Continue"
             case .depart: return "Depart"
-            case .exit: return "Exit"
             case .keep: return "Keep"
-            case .ramp: return "Ramp"
             case .roundaboutEnter: return "RoundaboutEnter"
             case .roundaboutExit: return "RoundaboutExit"
             case .roundaboutPass: return "RoundaboutPass"
             case .turn: return "Turn"
-            case .uTurn: return "UTurn"
             case let .sdkUnknown(s): return s
             }
         }
@@ -5554,7 +5632,7 @@ extension GeoRoutesClientTypes {
 
 extension GeoRoutesClientTypes.RoutePedestrianTravelStep: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RoutePedestrianTravelStep(continueStepDetails: \(Swift.String(describing: continueStepDetails)), currentRoad: \(Swift.String(describing: currentRoad)), exitNumber: \(Swift.String(describing: exitNumber)), geometryOffset: \(Swift.String(describing: geometryOffset)), keepStepDetails: \(Swift.String(describing: keepStepDetails)), nextRoad: \(Swift.String(describing: nextRoad)), roundaboutEnterStepDetails: \(Swift.String(describing: roundaboutEnterStepDetails)), roundaboutExitStepDetails: \(Swift.String(describing: roundaboutExitStepDetails)), roundaboutPassStepDetails: \(Swift.String(describing: roundaboutPassStepDetails)), signpost: \(Swift.String(describing: signpost)), turnStepDetails: \(Swift.String(describing: turnStepDetails)), distance: \"CONTENT_REDACTED\", duration: \"CONTENT_REDACTED\", instruction: \"CONTENT_REDACTED\", type: \"CONTENT_REDACTED\")"}
+        "RoutePedestrianTravelStep(continueStepDetails: \(Swift.String(describing: continueStepDetails)), currentRoad: \(Swift.String(describing: currentRoad)), exitNumber: \(Swift.String(describing: exitNumber)), geometryOffset: \(Swift.String(describing: geometryOffset)), keepStepDetails: \(Swift.String(describing: keepStepDetails)), nextRoad: \(Swift.String(describing: nextRoad)), roundaboutEnterStepDetails: \(Swift.String(describing: roundaboutEnterStepDetails)), roundaboutExitStepDetails: \(Swift.String(describing: roundaboutExitStepDetails)), roundaboutPassStepDetails: \(Swift.String(describing: roundaboutPassStepDetails)), signpost: \(Swift.String(describing: signpost)), turnStepDetails: \(Swift.String(describing: turnStepDetails)), type: \(Swift.String(describing: type)), distance: \"CONTENT_REDACTED\", duration: \"CONTENT_REDACTED\", instruction: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -5567,13 +5645,13 @@ extension GeoRoutesClientTypes {
         /// Details corresponding to the departure for the leg.
         /// This member is required.
         public var departure: GeoRoutesClientTypes.RoutePedestrianDeparture?
-        /// Notices are additional information returned that indicate issues that occurred during route calculation.
+        /// Notices are additional information returned that indicate issues that occurred during route calculation. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
         /// This member is required.
         public var notices: [GeoRoutesClientTypes.RoutePedestrianNotice]?
         /// Waypoints that were passed through during the leg. This includes the waypoints that were configured with the PassThrough option.
         /// This member is required.
         public var passThroughWaypoints: [GeoRoutesClientTypes.RoutePassThroughWaypoint]?
-        /// Spans that were computed for the requested SpanAdditionalFeatures.
+        /// Spans that were computed for the requested SpanAdditionalFeatures. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
         /// This member is required.
         public var spans: [GeoRoutesClientTypes.RoutePedestrianSpan]?
         /// Summarized details of the leg.
@@ -5683,7 +5761,7 @@ extension GeoRoutesClientTypes {
         public var name: Swift.String?
         /// Position provided in the request.
         public var originalPosition: [Swift.Double]?
-        /// Position defined as [longitude, latitude].
+        /// Position in World Geodetic System (WGS 84) format: [longitude, latitude].
         /// This member is required.
         public var position: [Swift.Double]?
         /// Options to configure matching the provided position to a side of the street.
@@ -5903,6 +5981,7 @@ extension GeoRoutesClientTypes {
         case tollsDataTemporarilyUnavailable
         case tollsDataUnavailable
         case tollTransponder
+        case travelTimeExceedsDriverWorkHours
         case violatedAvoidControlledAccessHighway
         case violatedAvoidDifficultTurns
         case violatedAvoidDirtRoad
@@ -5934,6 +6013,7 @@ extension GeoRoutesClientTypes {
                 .tollsDataTemporarilyUnavailable,
                 .tollsDataUnavailable,
                 .tollTransponder,
+                .travelTimeExceedsDriverWorkHours,
                 .violatedAvoidControlledAccessHighway,
                 .violatedAvoidDifficultTurns,
                 .violatedAvoidDirtRoad,
@@ -5971,6 +6051,7 @@ extension GeoRoutesClientTypes {
             case .tollsDataTemporarilyUnavailable: return "TollsDataTemporarilyUnavailable"
             case .tollsDataUnavailable: return "TollsDataUnavailable"
             case .tollTransponder: return "TollTransponder"
+            case .travelTimeExceedsDriverWorkHours: return "TravelTimeExceedsDriverWorkHours"
             case .violatedAvoidControlledAccessHighway: return "ViolatedAvoidControlledAccessHighway"
             case .violatedAvoidDifficultTurns: return "ViolatedAvoidDifficultTurns"
             case .violatedAvoidDirtRoad: return "ViolatedAvoidDirtRoad"
@@ -6046,12 +6127,12 @@ extension GeoRoutesClientTypes {
 
 extension GeoRoutesClientTypes {
 
-    /// The weight constraint for the route. Unit: Kilograms
+    /// The weight constraint for the route. Unit: kilograms
     public struct RouteWeightConstraint: Swift.Sendable {
         /// The type of constraint.
         /// This member is required.
         public var type: GeoRoutesClientTypes.RouteWeightConstraintType?
-        /// The constraint value. Unit: Kilograms
+        /// The constraint value. Unit: kilograms
         /// This member is required.
         public var value: Swift.Int
 
@@ -6089,27 +6170,27 @@ extension GeoRoutesClientTypes {
         public var maxLength: Swift.Int
         /// The maximum load capacity of the vehicle. Unit: kilograms
         public var maxPayloadCapacity: Swift.Int
-        /// The maximum weight of the route. Unit: Kilograms
+        /// The maximum weight of the route. Unit: kilograms
         public var maxWeight: GeoRoutesClientTypes.RouteWeightConstraint?
-        /// The maximum weight per axle of the vehicle. Unit: Kilograms
+        /// The maximum weight per axle of the vehicle. Unit: kilograms
         public var maxWeightPerAxle: Swift.Int
-        /// The maximum weight per axle group of the vehicle. Unit: Kilograms
+        /// The maximum weight per axle group of the vehicle. Unit: kilograms
         public var maxWeightPerAxleGroup: GeoRoutesClientTypes.WeightPerAxleGroup?
         /// The maximum width of the vehicle.
         public var maxWidth: Swift.Int
-        /// The number of occupants in the vehicle. Default Value: 1
+        /// The number of occupants in the vehicle. Default value: 1
         public var occupancy: GeoRoutesClientTypes.RouteNoticeDetailRange?
         /// Access radius restrictions based on time.
         public var restrictedTimes: Swift.String?
         /// The time dependent constraint.
         public var timeDependent: Swift.Bool?
-        /// Number of trailers attached to the vehicle. Default Value: 0
+        /// Number of trailers attached to the vehicle. Default value: 0
         public var trailerCount: GeoRoutesClientTypes.RouteNoticeDetailRange?
         /// Travel mode corresponding to the leg.
         public var travelMode: Swift.Bool?
         /// Truck road type identifiers. BK1 through BK4 apply only to Sweden. A2,A4,B2,B4,C,D,ET2,ET4 apply only to Mexico. There are currently no other supported values as of 26th April 2024.
         public var truckRoadType: Swift.String?
-        /// Type of the truck.
+        /// The type of truck: LightTruck for smaller delivery vehicles,  StraightTruck for rigid body trucks, or Tractor for tractor-trailer combinations.
         public var truckType: GeoRoutesClientTypes.RouteTruckType?
         /// The tunnel restriction code. Tunnel categories in this list indicate the restrictions which apply to certain tunnels in Great Britain. They relate to the types of dangerous goods that can be transported through them.
         ///
@@ -6416,9 +6497,19 @@ extension GeoRoutesClientTypes {
         public var distance: Swift.Int
         /// Duration of the computed span. This feature doesn't split a span, but is always computed on a span split by other properties. Unit: seconds
         public var duration: Swift.Int
-        /// Dynamic speed details corresponding to the span. Unit: KilometersPerHour
+        /// Dynamic speed details corresponding to the span. Unit: kilometers per hour
         public var dynamicSpeed: GeoRoutesClientTypes.RouteSpanDynamicSpeedDetails?
-        /// Functional classification of the road segment corresponding to the span.
+        /// A numerical value indicating the functional classification of the road segment corresponding to the span. Classification values are part of the hierarchical network that helps determine a logical and efficient route, and have the following definitions:
+        ///
+        /// * Roads that allow for high volume, maximum speed traffic movement between and through major metropolitan areas.
+        ///
+        /// * Roads that are used to channel traffic to functional class 1 roads for travel between and through cities in the shortest amount of time.
+        ///
+        /// * Roads that intersect functional class 2 roads and provide a high volume of traffic movement at a lower level of mobility than functional class 2 roads.
+        ///
+        /// * Roads that provide for a high volume of traffic movement at moderate speeds between neighborhoods.
+        ///
+        /// * Roads with volume and traffic movement below the level of any other functional class.
         public var functionalClassification: Swift.Int?
         /// Attributes corresponding to a gate. The gate is present at the end of the returned span.
         public var gate: GeoRoutesClientTypes.RouteSpanGateAttribute?
@@ -6440,7 +6531,7 @@ extension GeoRoutesClientTypes {
         public var routeNumbers: [GeoRoutesClientTypes.RouteNumber]?
         /// Access attributes for a scooter corresponding to the span.
         public var scooterAccess: [GeoRoutesClientTypes.RouteSpanScooterAccessAttribute]?
-        /// Speed limit details corresponding to the span. Unit: KilometersPerHour
+        /// Speed limit details corresponding to the span. Unit: kilometers per hour
         public var speedLimit: GeoRoutesClientTypes.RouteSpanSpeedLimitDetails?
         /// Toll systems are authorities that collect payments for the toll.
         public var tollSystems: [Swift.Int]?
@@ -6598,7 +6689,7 @@ extension GeoRoutesClientTypes {
     public struct RouteTollPaymentSite: Swift.Sendable {
         /// Name of the payment site.
         public var name: Swift.String?
-        /// Position defined as [longitude, latitude].
+        /// Position in World Geodetic System (WGS 84) format: [longitude, latitude].
         /// This member is required.
         public var position: [Swift.Double]?
 
@@ -7324,33 +7415,33 @@ extension GeoRoutesClientTypes {
         /// Details corresponding to the departure for the leg.
         /// This member is required.
         public var departure: GeoRoutesClientTypes.RouteVehicleDeparture?
-        /// Incidents corresponding to this leg of the route.
+        /// Incidents corresponding to this leg of the route. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
         /// This member is required.
         public var incidents: [GeoRoutesClientTypes.RouteVehicleIncident]?
-        /// Notices are additional information returned that indicate issues that occurred during route calculation.
+        /// Notices are additional information returned that indicate issues that occurred during route calculation. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
         /// This member is required.
         public var notices: [GeoRoutesClientTypes.RouteVehicleNotice]?
         /// Waypoints that were passed through during the leg. This includes the waypoints that were configured with the PassThrough option.
         /// This member is required.
         public var passThroughWaypoints: [GeoRoutesClientTypes.RoutePassThroughWaypoint]?
-        /// Spans that were computed for the requested SpanAdditionalFeatures.
+        /// Spans that were computed for the requested SpanAdditionalFeatures. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
         /// This member is required.
         public var spans: [GeoRoutesClientTypes.RouteVehicleSpan]?
         /// Summarized details of the leg.
         public var summary: GeoRoutesClientTypes.RouteVehicleSummary?
-        /// Toll systems are authorities that collect payments for the toll.
+        /// Toll systems are authorities that collect payments for the toll. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
         /// This member is required.
         public var tollSystems: [GeoRoutesClientTypes.RouteTollSystem]?
-        /// Toll related options.
+        /// Toll related options. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
         /// This member is required.
         public var tolls: [GeoRoutesClientTypes.RouteToll]?
         /// Steps of a leg that must be performed before the travel portion of the leg.
         /// This member is required.
         public var travelSteps: [GeoRoutesClientTypes.RouteVehicleTravelStep]?
-        /// Truck road type identifiers. BK1 through BK4 apply only to Sweden. A2,A4,B2,B4,C,D,ET2,ET4 apply only to Mexico. There are currently no other supported values as of 26th April 2024.
+        /// Truck road type identifiers. BK1 through BK4 apply only to Sweden. A2,A4,B2,B4,C,D,ET2,ET4 apply only to Mexico. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers. There are currently no other supported values as of 26th April 2024.
         /// This member is required.
         public var truckRoadTypes: [Swift.String]?
-        /// Zones corresponding to this leg of the route.
+        /// Zones corresponding to this leg of the route. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
         /// This member is required.
         public var zones: [GeoRoutesClientTypes.RouteZone]?
 
@@ -7393,16 +7484,16 @@ extension GeoRoutesClientTypes {
 
     /// A leg is a section of a route from one waypoint to the next. A leg could be of type Vehicle, Pedestrian or Ferry. Legs of different types could occur together within a single route. For example, a car employing the use of a Ferry will contain Vehicle legs corresponding to journey on land, and Ferry legs corresponding to the journey via Ferry.
     public struct RouteLeg: Swift.Sendable {
-        /// FerryLegDetails is populated when the Leg type is Ferry, and provides additional information that is specific
+        /// FerryLegDetails is populated when the Leg type is Ferry, and provides additional information that is specific to ferry travel. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
         public var ferryLegDetails: GeoRoutesClientTypes.RouteFerryLegDetails?
         /// Geometry of the area to be avoided.
         /// This member is required.
         public var geometry: GeoRoutesClientTypes.RouteLegGeometry?
-        /// List of languages for instructions within steps in the response.
+        /// List of languages for instructions within steps in the response. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
         public var language: Swift.String?
         /// Details related to the pedestrian leg.
         public var pedestrianLegDetails: GeoRoutesClientTypes.RoutePedestrianLegDetails?
-        /// Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility. Default Value: Car
+        /// Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility. Default value: Car
         /// This member is required.
         public var travelMode: GeoRoutesClientTypes.RouteLegTravelMode?
         /// Type of the leg.
@@ -7567,7 +7658,7 @@ public struct CalculateRoutesOutput: Swift.Sendable {
     /// Specifies the format of the geometry returned for each leg of the route.
     /// This member is required.
     public var legGeometryFormat: GeoRoutesClientTypes.GeometryFormat?
-    /// Notices are additional information returned that indicate issues that occurred during route calculation.
+    /// Notices are additional information returned that indicate issues that occurred during route calculation. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
     /// This member is required.
     public var notices: [GeoRoutesClientTypes.RouteResponseNotice]?
     /// The pricing bucket for which the query is charged at.
@@ -7753,19 +7844,14 @@ extension GeoRoutesClientTypes {
     public struct WaypointOptimizationDrivingDistanceOptions: Swift.Sendable {
         /// DrivingDistance assigns all the waypoints that are within driving distance of each other into a single cluster.
         /// This member is required.
-        public var drivingDistance: Swift.Int
+        public var drivingDistance: Swift.Int?
 
         public init(
-            drivingDistance: Swift.Int = 0
+            drivingDistance: Swift.Int? = 5
         ) {
             self.drivingDistance = drivingDistance
         }
     }
-}
-
-extension GeoRoutesClientTypes.WaypointOptimizationDrivingDistanceOptions: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "WaypointOptimizationDrivingDistanceOptions(drivingDistance: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -7844,10 +7930,10 @@ extension GeoRoutesClientTypes {
 
     /// Options to configure matching the provided position to a side of the street.
     public struct WaypointOptimizationSideOfStreetOptions: Swift.Sendable {
-        /// Position defined as [longitude, latitude].
+        /// Position in World Geodetic System (WGS 84) format: [longitude, latitude].
         /// This member is required.
         public var position: [Swift.Double]?
-        /// Strategy that defines when the side of street position should be used. AnyStreet will always use the provided position. Default Value: DividedStreetOnly
+        /// Strategy that defines when the side of street position should be used. AnyStreet will always use the provided position. Default value: DividedStreetOnly
         public var useWith: GeoRoutesClientTypes.SideOfStreetMatchingStrategy?
 
         public init(
@@ -8099,7 +8185,7 @@ extension GeoRoutesClientTypes {
 
     /// Options related to traffic.
     public struct WaypointOptimizationTrafficOptions: Swift.Sendable {
-        /// Determines if traffic should be used or ignored while calculating the route. Default Value: UseTrafficData
+        /// Determines if traffic should be used or ignored while calculating the route. Default value: UseTrafficData
         public var usage: GeoRoutesClientTypes.TrafficUsage?
 
         public init(
@@ -8149,7 +8235,7 @@ extension GeoRoutesClientTypes {
 
     /// Options related to a pedestrian.
     public struct WaypointOptimizationPedestrianOptions: Swift.Sendable {
-        /// Walking speed. Unit: KilometersPerHour
+        /// Walking speed. Unit: kilometers per hour
         public var speed: Swift.Double?
 
         public init(
@@ -8225,7 +8311,7 @@ extension GeoRoutesClientTypes {
 
     /// Trailer options corresponding to the vehicle.
     public struct WaypointOptimizationTrailerOptions: Swift.Sendable {
-        /// Number of trailers attached to the vehicle. Default Value: 0
+        /// Number of trailers attached to the vehicle. Default value: 0
         public var trailerCount: Swift.Int?
 
         public init(
@@ -8272,9 +8358,9 @@ extension GeoRoutesClientTypes {
 
 extension GeoRoutesClientTypes {
 
-    /// Travel mode options when the provided travel mode is "Truck"
+    /// Travel mode options when the provided travel mode is Truck.
     public struct WaypointOptimizationTruckOptions: Swift.Sendable {
-        /// Gross weight of the vehicle including trailers, and goods at capacity. Unit: Kilograms
+        /// Gross weight of the vehicle including trailers, and goods at capacity. Unit: kilograms
         public var grossWeight: Swift.Int
         /// List of Hazardous cargo contained in the vehicle.
         public var hazardousCargos: [GeoRoutesClientTypes.WaypointOptimizationHazardousCargoType]?
@@ -8284,7 +8370,7 @@ extension GeoRoutesClientTypes {
         public var length: Swift.Int
         /// Trailer options corresponding to the vehicle.
         public var trailer: GeoRoutesClientTypes.WaypointOptimizationTrailerOptions?
-        /// Type of the truck.
+        /// The type of truck: LightTruck for smaller delivery vehicles,  StraightTruck for rigid body trucks, or Tractor for tractor-trailer combinations.
         public var truckType: GeoRoutesClientTypes.WaypointOptimizationTruckType?
         /// The tunnel restriction code. Tunnel categories in this list indicate the restrictions which apply to certain tunnels in Great Britain. They relate to the types of dangerous goods that can be transported through them.
         ///
@@ -8321,7 +8407,7 @@ extension GeoRoutesClientTypes {
         ///
         /// * Restrictions: Restricted tunnel
         public var tunnelRestrictionCode: Swift.String?
-        /// Heaviest weight per axle irrespective of the axle type or the axle group. Meant for usage in countries where the differences in axle types or axle groups are not distinguished. Unit: Kilograms
+        /// Heaviest weight per axle irrespective of the axle type or the axle group. Meant for usage in countries where the differences in axle types or axle groups are not distinguished. Unit: kilograms
         public var weightPerAxle: Swift.Int
         /// Width of the vehicle. Unit: centimeters
         public var width: Swift.Int
@@ -8359,9 +8445,9 @@ extension GeoRoutesClientTypes {
 
     /// Travel mode related options for the provided travel mode.
     public struct WaypointOptimizationTravelModeOptions: Swift.Sendable {
-        /// Travel mode options when the provided travel mode is "Pedestrian"
+        /// Travel mode options when the provided travel mode is Pedestrian.
         public var pedestrian: GeoRoutesClientTypes.WaypointOptimizationPedestrianOptions?
-        /// Travel mode options when the provided travel mode is "Truck"
+        /// Travel mode options when the provided travel mode is Truck.
         public var truck: GeoRoutesClientTypes.WaypointOptimizationTruckOptions?
 
         public init(
@@ -8388,7 +8474,7 @@ extension GeoRoutesClientTypes {
         public var heading: Swift.Double
         /// The waypoint Id.
         public var id: Swift.String?
-        /// Position defined as [longitude, latitude].
+        /// Position in World Geodetic System (WGS 84) format: [longitude, latitude].
         /// This member is required.
         public var position: [Swift.Double]?
         /// Service time spent at the waypoint. At an appointment, the service time should be the appointment duration. Unit: seconds
@@ -8441,16 +8527,16 @@ public struct OptimizeWaypointsInput: Swift.Sendable {
     public var exclude: GeoRoutesClientTypes.WaypointOptimizationExclusionOptions?
     /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
     public var key: Swift.String?
-    /// Specifies the optimization criteria for the calculated sequence. Default Value: FastestRoute.
+    /// Specifies the optimization criteria for the calculated sequence. Default value: FastestRoute.
     public var optimizeSequencingFor: GeoRoutesClientTypes.WaypointOptimizationSequencingObjective?
-    /// The start position for the route.
+    /// The start position for the route in World Geodetic System (WGS 84) format: [longitude, latitude].
     /// This member is required.
     public var origin: [Swift.Double]?
     /// Origin related options.
     public var originOptions: GeoRoutesClientTypes.WaypointOptimizationOriginOptions?
     /// Traffic-related options.
     public var traffic: GeoRoutesClientTypes.WaypointOptimizationTrafficOptions?
-    /// Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility. Default Value: Car
+    /// Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility. Default value: Car
     public var travelMode: GeoRoutesClientTypes.WaypointOptimizationTravelMode?
     /// Travel mode related options for the provided travel mode.
     public var travelModeOptions: GeoRoutesClientTypes.WaypointOptimizationTravelModeOptions?
@@ -8618,7 +8704,7 @@ extension GeoRoutesClientTypes {
         /// The waypoint Id.
         /// This member is required.
         public var id: Swift.String?
-        /// Position defined as [longitude, latitude].
+        /// Position in World Geodetic System (WGS 84) format: [longitude, latitude].
         /// This member is required.
         public var position: [Swift.Double]?
 
@@ -8648,14 +8734,14 @@ extension GeoRoutesClientTypes {
         public var arrivalTime: Swift.String?
         /// Index of the cluster the waypoint is associated with. The index is included in the response only if clustering was performed while processing the request.
         public var clusterIndex: Swift.Int?
-        /// Estimated time of departure from thr origin. Time format:YYYY-MM-DDThh:mm:ss.sssZ | YYYY-MM-DDThh:mm:ss.sss+hh:mm Examples: 2020-04-22T17:57:24Z
+        /// Estimated time of departure from the origin. Time format:YYYY-MM-DDThh:mm:ss.sssZ | YYYY-MM-DDThh:mm:ss.sss+hh:mm Examples: 2020-04-22T17:57:24Z
         ///     2020-04-22T17:57:24+02:00
         /// This member is required.
         public var departureTime: Swift.String?
         /// The waypoint Id.
         /// This member is required.
         public var id: Swift.String?
-        /// Position defined as [longitude, latitude].
+        /// Position in World Geodetic System (WGS 84) format: [longitude, latitude].
         /// This member is required.
         public var position: [Swift.Double]?
 
@@ -8769,10 +8855,10 @@ extension GeoRoutesClientTypes {
     public struct RoadSnapTracePoint: Swift.Sendable {
         /// GPS Heading at the position.
         public var heading: Swift.Double
-        /// Position defined as [longitude, latitude].
+        /// Position in World Geodetic System (WGS 84) format: [longitude, latitude].
         /// This member is required.
         public var position: [Swift.Double]?
-        /// Speed at the specified trace point . Unit: KilometersPerHour
+        /// Speed at the specified trace point . Unit: kilometers per hour
         public var speed: Swift.Double
         /// Timestamp of the event.
         public var timestamp: Swift.String?
@@ -8891,7 +8977,7 @@ extension GeoRoutesClientTypes {
 
     /// Trailer options corresponding to the vehicle.
     public struct RoadSnapTrailerOptions: Swift.Sendable {
-        /// Number of trailers attached to the vehicle. Default Value: 0
+        /// Number of trailers attached to the vehicle. Default value: 0
         public var trailerCount: Swift.Int?
 
         public init(
@@ -8909,9 +8995,9 @@ extension GeoRoutesClientTypes.RoadSnapTrailerOptions: Swift.CustomDebugStringCo
 
 extension GeoRoutesClientTypes {
 
-    /// Travel mode options when the provided travel mode is "Truck".
+    /// Travel mode options when the provided travel mode is Truck.
     public struct RoadSnapTruckOptions: Swift.Sendable {
-        /// Gross weight of the vehicle including trailers, and goods at capacity. Unit: Kilograms
+        /// Gross weight of the vehicle including trailers, and goods at capacity. Unit: kilograms
         public var grossWeight: Swift.Int
         /// List of Hazardous cargos contained in the vehicle.
         public var hazardousCargos: [GeoRoutesClientTypes.RoadSnapHazardousCargoType]?
@@ -8956,7 +9042,7 @@ extension GeoRoutesClientTypes {
         ///
         /// * Restrictions: Restricted tunnel
         public var tunnelRestrictionCode: Swift.String?
-        /// Width of the vehicle in centimenters.
+        /// Width of the vehicle in centimeters.
         public var width: Swift.Int
 
         public init(
@@ -8988,7 +9074,7 @@ extension GeoRoutesClientTypes {
 
     /// Travel mode related options for the provided travel mode.
     public struct RoadSnapTravelModeOptions: Swift.Sendable {
-        /// Travel mode options when the provided travel mode is "Truck".
+        /// Travel mode options when the provided travel mode is Truck.
         public var truck: GeoRoutesClientTypes.RoadSnapTruckOptions?
 
         public init(
@@ -9004,12 +9090,12 @@ public struct SnapToRoadsInput: Swift.Sendable {
     public var key: Swift.String?
     /// The radius around the provided tracepoint that is considered for snapping. Unit: meters Default value: 300
     public var snapRadius: Swift.Int?
-    /// Chooses what the returned SnappedGeometry format should be. Default Value: FlexiblePolyline
+    /// Chooses what the returned SnappedGeometry format should be. Default value: FlexiblePolyline
     public var snappedGeometryFormat: GeoRoutesClientTypes.GeometryFormat?
     /// List of trace points to be snapped onto the road network.
     /// This member is required.
     public var tracePoints: [GeoRoutesClientTypes.RoadSnapTracePoint]?
-    /// Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility. Default Value: Car
+    /// Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility. Default value: Car
     public var travelMode: GeoRoutesClientTypes.RoadSnapTravelMode?
     /// Travel mode related options for the provided travel mode.
     public var travelModeOptions: GeoRoutesClientTypes.RoadSnapTravelModeOptions?
@@ -9496,7 +9582,7 @@ enum CalculateIsolinesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9513,7 +9599,7 @@ enum CalculateRouteMatrixOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9530,7 +9616,7 @@ enum CalculateRoutesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9547,7 +9633,7 @@ enum OptimizeWaypointsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9564,7 +9650,7 @@ enum SnapToRoadsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -9578,7 +9664,7 @@ enum SnapToRoadsOutputError {
 
 extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -9591,7 +9677,7 @@ extension AccessDeniedException {
 
 extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -9604,7 +9690,7 @@ extension InternalServerException {
 
 extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -9617,7 +9703,7 @@ extension ThrottlingException {
 
 extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
@@ -9627,6 +9713,32 @@ extension ValidationException {
         value.requestID = baseError.requestID
         value.message = baseError.message
         return value
+    }
+}
+
+extension GeoRoutesClientTypes.Circle {
+
+    static func write(value: GeoRoutesClientTypes.Circle?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Center"].writeList(value.center, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Radius"].write(value.radius)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.Circle {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.Circle()
+        value.center = try reader["Center"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.radius = try reader["Radius"].readIfPresent() ?? 0.0
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.Corridor {
+
+    static func write(value: GeoRoutesClientTypes.Corridor?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LineString"].writeList(value.lineString, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        try writer["Radius"].write(value.radius)
     }
 }
 
@@ -9643,14 +9755,71 @@ extension GeoRoutesClientTypes.Isoline {
     }
 }
 
-extension GeoRoutesClientTypes.IsolineShapeGeometry {
+extension GeoRoutesClientTypes.IsolineAllowOptions {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.IsolineShapeGeometry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.IsolineShapeGeometry()
-        value.polygon = try reader["Polygon"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        value.polylinePolygon = try reader["PolylinePolygon"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
+    static func write(value: GeoRoutesClientTypes.IsolineAllowOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Hot"].write(value.hot)
+        try writer["Hov"].write(value.hov)
+    }
+}
+
+extension GeoRoutesClientTypes.IsolineAvoidanceArea {
+
+    static func write(value: GeoRoutesClientTypes.IsolineAvoidanceArea?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Except"].writeList(value.except, memberWritingClosure: GeoRoutesClientTypes.IsolineAvoidanceAreaGeometry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Geometry"].write(value.geometry, with: GeoRoutesClientTypes.IsolineAvoidanceAreaGeometry.write(value:to:))
+    }
+}
+
+extension GeoRoutesClientTypes.IsolineAvoidanceAreaGeometry {
+
+    static func write(value: GeoRoutesClientTypes.IsolineAvoidanceAreaGeometry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BoundingBox"].writeList(value.boundingBox, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Corridor"].write(value.corridor, with: GeoRoutesClientTypes.Corridor.write(value:to:))
+        try writer["Polygon"].writeList(value.polygon, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        try writer["PolylineCorridor"].write(value.polylineCorridor, with: GeoRoutesClientTypes.PolylineCorridor.write(value:to:))
+        try writer["PolylinePolygon"].writeList(value.polylinePolygon, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension GeoRoutesClientTypes.IsolineAvoidanceOptions {
+
+    static func write(value: GeoRoutesClientTypes.IsolineAvoidanceOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Areas"].writeList(value.areas, memberWritingClosure: GeoRoutesClientTypes.IsolineAvoidanceArea.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["CarShuttleTrains"].write(value.carShuttleTrains)
+        try writer["ControlledAccessHighways"].write(value.controlledAccessHighways)
+        try writer["DirtRoads"].write(value.dirtRoads)
+        try writer["Ferries"].write(value.ferries)
+        try writer["SeasonalClosure"].write(value.seasonalClosure)
+        try writer["TollRoads"].write(value.tollRoads)
+        try writer["TollTransponders"].write(value.tollTransponders)
+        try writer["TruckRoadTypes"].writeList(value.truckRoadTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Tunnels"].write(value.tunnels)
+        try writer["UTurns"].write(value.uTurns)
+        try writer["ZoneCategories"].writeList(value.zoneCategories, memberWritingClosure: GeoRoutesClientTypes.IsolineAvoidanceZoneCategory.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension GeoRoutesClientTypes.IsolineAvoidanceZoneCategory {
+
+    static func write(value: GeoRoutesClientTypes.IsolineAvoidanceZoneCategory?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Category"].write(value.category)
+    }
+}
+
+extension GeoRoutesClientTypes.IsolineCarOptions {
+
+    static func write(value: GeoRoutesClientTypes.IsolineCarOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EngineType"].write(value.engineType)
+        try writer["LicensePlate"].write(value.licensePlate, with: GeoRoutesClientTypes.IsolineVehicleLicensePlate.write(value:to:))
+        try writer["MaxSpeed"].write(value.maxSpeed)
+        try writer["Occupancy"].write(value.occupancy)
     }
 }
 
@@ -9677,15 +9846,702 @@ extension GeoRoutesClientTypes.IsolineConnectionGeometry {
     }
 }
 
-extension GeoRoutesClientTypes.RouteMatrixEntry {
+extension GeoRoutesClientTypes.IsolineDestinationOptions {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteMatrixEntry {
+    static func write(value: GeoRoutesClientTypes.IsolineDestinationOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AvoidActionsForDistance"].write(value.avoidActionsForDistance)
+        try writer["Heading"].write(value.heading)
+        try writer["Matching"].write(value.matching, with: GeoRoutesClientTypes.IsolineMatchingOptions.write(value:to:))
+        try writer["SideOfStreet"].write(value.sideOfStreet, with: GeoRoutesClientTypes.IsolineSideOfStreetOptions.write(value:to:))
+    }
+}
+
+extension GeoRoutesClientTypes.IsolineGranularityOptions {
+
+    static func write(value: GeoRoutesClientTypes.IsolineGranularityOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxPoints"].write(value.maxPoints)
+        try writer["MaxResolution"].write(value.maxResolution)
+    }
+}
+
+extension GeoRoutesClientTypes.IsolineMatchingOptions {
+
+    static func write(value: GeoRoutesClientTypes.IsolineMatchingOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["NameHint"].write(value.nameHint)
+        try writer["OnRoadThreshold"].write(value.onRoadThreshold)
+        try writer["Radius"].write(value.radius)
+        try writer["Strategy"].write(value.strategy)
+    }
+}
+
+extension GeoRoutesClientTypes.IsolineOriginOptions {
+
+    static func write(value: GeoRoutesClientTypes.IsolineOriginOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AvoidActionsForDistance"].write(value.avoidActionsForDistance)
+        try writer["Heading"].write(value.heading)
+        try writer["Matching"].write(value.matching, with: GeoRoutesClientTypes.IsolineMatchingOptions.write(value:to:))
+        try writer["SideOfStreet"].write(value.sideOfStreet, with: GeoRoutesClientTypes.IsolineSideOfStreetOptions.write(value:to:))
+    }
+}
+
+extension GeoRoutesClientTypes.IsolineScooterOptions {
+
+    static func write(value: GeoRoutesClientTypes.IsolineScooterOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EngineType"].write(value.engineType)
+        try writer["LicensePlate"].write(value.licensePlate, with: GeoRoutesClientTypes.IsolineVehicleLicensePlate.write(value:to:))
+        try writer["MaxSpeed"].write(value.maxSpeed)
+        try writer["Occupancy"].write(value.occupancy)
+    }
+}
+
+extension GeoRoutesClientTypes.IsolineShapeGeometry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.IsolineShapeGeometry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteMatrixEntry()
+        var value = GeoRoutesClientTypes.IsolineShapeGeometry()
+        value.polygon = try reader["Polygon"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        value.polylinePolygon = try reader["PolylinePolygon"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.IsolineSideOfStreetOptions {
+
+    static func write(value: GeoRoutesClientTypes.IsolineSideOfStreetOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Position"].writeList(value.position, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["UseWith"].write(value.useWith)
+    }
+}
+
+extension GeoRoutesClientTypes.IsolineThresholds {
+
+    static func write(value: GeoRoutesClientTypes.IsolineThresholds?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Distance"].writeList(value.distance, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Time"].writeList(value.time, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension GeoRoutesClientTypes.IsolineTrafficOptions {
+
+    static func write(value: GeoRoutesClientTypes.IsolineTrafficOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FlowEventThresholdOverride"].write(value.flowEventThresholdOverride)
+        try writer["Usage"].write(value.usage)
+    }
+}
+
+extension GeoRoutesClientTypes.IsolineTrailerOptions {
+
+    static func write(value: GeoRoutesClientTypes.IsolineTrailerOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AxleCount"].write(value.axleCount)
+        try writer["TrailerCount"].write(value.trailerCount)
+    }
+}
+
+extension GeoRoutesClientTypes.IsolineTravelModeOptions {
+
+    static func write(value: GeoRoutesClientTypes.IsolineTravelModeOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Car"].write(value.car, with: GeoRoutesClientTypes.IsolineCarOptions.write(value:to:))
+        try writer["Scooter"].write(value.scooter, with: GeoRoutesClientTypes.IsolineScooterOptions.write(value:to:))
+        try writer["Truck"].write(value.truck, with: GeoRoutesClientTypes.IsolineTruckOptions.write(value:to:))
+    }
+}
+
+extension GeoRoutesClientTypes.IsolineTruckOptions {
+
+    static func write(value: GeoRoutesClientTypes.IsolineTruckOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AxleCount"].write(value.axleCount)
+        try writer["EngineType"].write(value.engineType)
+        try writer["GrossWeight"].write(value.grossWeight)
+        try writer["HazardousCargos"].writeList(value.hazardousCargos, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GeoRoutesClientTypes.IsolineHazardousCargoType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Height"].write(value.height)
+        try writer["HeightAboveFirstAxle"].write(value.heightAboveFirstAxle)
+        try writer["KpraLength"].write(value.kpraLength)
+        try writer["Length"].write(value.length)
+        try writer["LicensePlate"].write(value.licensePlate, with: GeoRoutesClientTypes.IsolineVehicleLicensePlate.write(value:to:))
+        try writer["MaxSpeed"].write(value.maxSpeed)
+        try writer["Occupancy"].write(value.occupancy)
+        try writer["PayloadCapacity"].write(value.payloadCapacity)
+        try writer["TireCount"].write(value.tireCount)
+        try writer["Trailer"].write(value.trailer, with: GeoRoutesClientTypes.IsolineTrailerOptions.write(value:to:))
+        try writer["TruckType"].write(value.truckType)
+        try writer["TunnelRestrictionCode"].write(value.tunnelRestrictionCode)
+        try writer["WeightPerAxle"].write(value.weightPerAxle)
+        try writer["WeightPerAxleGroup"].write(value.weightPerAxleGroup, with: GeoRoutesClientTypes.WeightPerAxleGroup.write(value:to:))
+        try writer["Width"].write(value.width)
+    }
+}
+
+extension GeoRoutesClientTypes.IsolineVehicleLicensePlate {
+
+    static func write(value: GeoRoutesClientTypes.IsolineVehicleLicensePlate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LastCharacter"].write(value.lastCharacter)
+    }
+}
+
+extension GeoRoutesClientTypes.LocalizedString {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.LocalizedString {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.LocalizedString()
+        value.language = try reader["Language"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.PolylineCorridor {
+
+    static func write(value: GeoRoutesClientTypes.PolylineCorridor?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Polyline"].write(value.polyline)
+        try writer["Radius"].write(value.radius)
+    }
+}
+
+extension GeoRoutesClientTypes.RoadSnapNotice {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RoadSnapNotice {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RoadSnapNotice()
+        value.code = try reader["Code"].readIfPresent() ?? .sdkUnknown("")
+        value.title = try reader["Title"].readIfPresent() ?? ""
+        value.tracePointIndexes = try reader["TracePointIndexes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RoadSnapSnappedGeometry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RoadSnapSnappedGeometry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RoadSnapSnappedGeometry()
+        value.lineString = try reader["LineString"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        value.polyline = try reader["Polyline"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RoadSnapSnappedTracePoint {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RoadSnapSnappedTracePoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RoadSnapSnappedTracePoint()
+        value.confidence = try reader["Confidence"].readIfPresent() ?? 0.0
+        value.originalPosition = try reader["OriginalPosition"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.snappedPosition = try reader["SnappedPosition"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RoadSnapTracePoint {
+
+    static func write(value: GeoRoutesClientTypes.RoadSnapTracePoint?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Heading"].write(value.heading)
+        try writer["Position"].writeList(value.position, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Speed"].write(value.speed)
+        try writer["Timestamp"].write(value.timestamp)
+    }
+}
+
+extension GeoRoutesClientTypes.RoadSnapTrailerOptions {
+
+    static func write(value: GeoRoutesClientTypes.RoadSnapTrailerOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TrailerCount"].write(value.trailerCount)
+    }
+}
+
+extension GeoRoutesClientTypes.RoadSnapTravelModeOptions {
+
+    static func write(value: GeoRoutesClientTypes.RoadSnapTravelModeOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Truck"].write(value.truck, with: GeoRoutesClientTypes.RoadSnapTruckOptions.write(value:to:))
+    }
+}
+
+extension GeoRoutesClientTypes.RoadSnapTruckOptions {
+
+    static func write(value: GeoRoutesClientTypes.RoadSnapTruckOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["GrossWeight"].write(value.grossWeight)
+        try writer["HazardousCargos"].writeList(value.hazardousCargos, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GeoRoutesClientTypes.RoadSnapHazardousCargoType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Height"].write(value.height)
+        try writer["Length"].write(value.length)
+        try writer["Trailer"].write(value.trailer, with: GeoRoutesClientTypes.RoadSnapTrailerOptions.write(value:to:))
+        try writer["TunnelRestrictionCode"].write(value.tunnelRestrictionCode)
+        try writer["Width"].write(value.width)
+    }
+}
+
+extension GeoRoutesClientTypes.Route {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.Route {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.Route()
+        value.legs = try reader["Legs"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteLeg.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.majorRoadLabels = try reader["MajorRoadLabels"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteMajorRoadLabel.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.summary = try reader["Summary"].readIfPresent(with: GeoRoutesClientTypes.RouteSummary.read(from:))
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteAllowOptions {
+
+    static func write(value: GeoRoutesClientTypes.RouteAllowOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Hot"].write(value.hot)
+        try writer["Hov"].write(value.hov)
+    }
+}
+
+extension GeoRoutesClientTypes.RouteAvoidanceArea {
+
+    static func write(value: GeoRoutesClientTypes.RouteAvoidanceArea?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Except"].writeList(value.except, memberWritingClosure: GeoRoutesClientTypes.RouteAvoidanceAreaGeometry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Geometry"].write(value.geometry, with: GeoRoutesClientTypes.RouteAvoidanceAreaGeometry.write(value:to:))
+    }
+}
+
+extension GeoRoutesClientTypes.RouteAvoidanceAreaGeometry {
+
+    static func write(value: GeoRoutesClientTypes.RouteAvoidanceAreaGeometry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BoundingBox"].writeList(value.boundingBox, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Corridor"].write(value.corridor, with: GeoRoutesClientTypes.Corridor.write(value:to:))
+        try writer["Polygon"].writeList(value.polygon, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        try writer["PolylineCorridor"].write(value.polylineCorridor, with: GeoRoutesClientTypes.PolylineCorridor.write(value:to:))
+        try writer["PolylinePolygon"].writeList(value.polylinePolygon, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension GeoRoutesClientTypes.RouteAvoidanceOptions {
+
+    static func write(value: GeoRoutesClientTypes.RouteAvoidanceOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Areas"].writeList(value.areas, memberWritingClosure: GeoRoutesClientTypes.RouteAvoidanceArea.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["CarShuttleTrains"].write(value.carShuttleTrains)
+        try writer["ControlledAccessHighways"].write(value.controlledAccessHighways)
+        try writer["DirtRoads"].write(value.dirtRoads)
+        try writer["Ferries"].write(value.ferries)
+        try writer["SeasonalClosure"].write(value.seasonalClosure)
+        try writer["TollRoads"].write(value.tollRoads)
+        try writer["TollTransponders"].write(value.tollTransponders)
+        try writer["TruckRoadTypes"].writeList(value.truckRoadTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Tunnels"].write(value.tunnels)
+        try writer["UTurns"].write(value.uTurns)
+        try writer["ZoneCategories"].writeList(value.zoneCategories, memberWritingClosure: GeoRoutesClientTypes.RouteAvoidanceZoneCategory.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension GeoRoutesClientTypes.RouteAvoidanceZoneCategory {
+
+    static func write(value: GeoRoutesClientTypes.RouteAvoidanceZoneCategory?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Category"].write(value.category)
+    }
+}
+
+extension GeoRoutesClientTypes.RouteCarOptions {
+
+    static func write(value: GeoRoutesClientTypes.RouteCarOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EngineType"].write(value.engineType)
+        try writer["LicensePlate"].write(value.licensePlate, with: GeoRoutesClientTypes.RouteVehicleLicensePlate.write(value:to:))
+        try writer["MaxSpeed"].write(value.maxSpeed)
+        try writer["Occupancy"].write(value.occupancy)
+    }
+}
+
+extension GeoRoutesClientTypes.RouteContinueHighwayStepDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteContinueHighwayStepDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteContinueHighwayStepDetails()
+        value.intersection = try reader["Intersection"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.LocalizedString.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.steeringDirection = try reader["SteeringDirection"].readIfPresent()
+        value.turnAngle = try reader["TurnAngle"].readIfPresent() ?? 0
+        value.turnIntensity = try reader["TurnIntensity"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteContinueStepDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteContinueStepDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteContinueStepDetails()
+        value.intersection = try reader["Intersection"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.LocalizedString.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteDestinationOptions {
+
+    static func write(value: GeoRoutesClientTypes.RouteDestinationOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AvoidActionsForDistance"].write(value.avoidActionsForDistance)
+        try writer["AvoidUTurns"].write(value.avoidUTurns)
+        try writer["Heading"].write(value.heading)
+        try writer["Matching"].write(value.matching, with: GeoRoutesClientTypes.RouteMatchingOptions.write(value:to:))
+        try writer["SideOfStreet"].write(value.sideOfStreet, with: GeoRoutesClientTypes.RouteSideOfStreetOptions.write(value:to:))
+        try writer["StopDuration"].write(value.stopDuration)
+    }
+}
+
+extension GeoRoutesClientTypes.RouteDriverOptions {
+
+    static func write(value: GeoRoutesClientTypes.RouteDriverOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Schedule"].writeList(value.schedule, memberWritingClosure: GeoRoutesClientTypes.RouteDriverScheduleInterval.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension GeoRoutesClientTypes.RouteDriverScheduleInterval {
+
+    static func write(value: GeoRoutesClientTypes.RouteDriverScheduleInterval?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DriveDuration"].write(value.driveDuration)
+        try writer["RestDuration"].write(value.restDuration)
+    }
+}
+
+extension GeoRoutesClientTypes.RouteEmissionType {
+
+    static func write(value: GeoRoutesClientTypes.RouteEmissionType?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Co2EmissionClass"].write(value.co2EmissionClass)
+        try writer["Type"].write(value.type)
+    }
+}
+
+extension GeoRoutesClientTypes.RouteEnterHighwayStepDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteEnterHighwayStepDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteEnterHighwayStepDetails()
+        value.intersection = try reader["Intersection"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.LocalizedString.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.steeringDirection = try reader["SteeringDirection"].readIfPresent()
+        value.turnAngle = try reader["TurnAngle"].readIfPresent() ?? 0
+        value.turnIntensity = try reader["TurnIntensity"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteExclusionOptions {
+
+    static func write(value: GeoRoutesClientTypes.RouteExclusionOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Countries"].writeList(value.countries, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension GeoRoutesClientTypes.RouteExitStepDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteExitStepDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteExitStepDetails()
+        value.intersection = try reader["Intersection"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.LocalizedString.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.relativeExit = try reader["RelativeExit"].readIfPresent()
+        value.steeringDirection = try reader["SteeringDirection"].readIfPresent()
+        value.turnAngle = try reader["TurnAngle"].readIfPresent() ?? 0
+        value.turnIntensity = try reader["TurnIntensity"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteFerryAfterTravelStep {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteFerryAfterTravelStep {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteFerryAfterTravelStep()
+        value.duration = try reader["Duration"].readIfPresent() ?? 0
+        value.instruction = try reader["Instruction"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteFerryArrival {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteFerryArrival {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteFerryArrival()
+        value.place = try reader["Place"].readIfPresent(with: GeoRoutesClientTypes.RouteFerryPlace.read(from:))
+        value.time = try reader["Time"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteFerryBeforeTravelStep {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteFerryBeforeTravelStep {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteFerryBeforeTravelStep()
+        value.duration = try reader["Duration"].readIfPresent() ?? 0
+        value.instruction = try reader["Instruction"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteFerryDeparture {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteFerryDeparture {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteFerryDeparture()
+        value.place = try reader["Place"].readIfPresent(with: GeoRoutesClientTypes.RouteFerryPlace.read(from:))
+        value.time = try reader["Time"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteFerryLegDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteFerryLegDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteFerryLegDetails()
+        value.afterTravelSteps = try reader["AfterTravelSteps"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteFerryAfterTravelStep.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.arrival = try reader["Arrival"].readIfPresent(with: GeoRoutesClientTypes.RouteFerryArrival.read(from:))
+        value.beforeTravelSteps = try reader["BeforeTravelSteps"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteFerryBeforeTravelStep.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.departure = try reader["Departure"].readIfPresent(with: GeoRoutesClientTypes.RouteFerryDeparture.read(from:))
+        value.notices = try reader["Notices"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteFerryNotice.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.passThroughWaypoints = try reader["PassThroughWaypoints"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RoutePassThroughWaypoint.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.routeName = try reader["RouteName"].readIfPresent()
+        value.spans = try reader["Spans"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteFerrySpan.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.summary = try reader["Summary"].readIfPresent(with: GeoRoutesClientTypes.RouteFerrySummary.read(from:))
+        value.travelSteps = try reader["TravelSteps"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteFerryTravelStep.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteFerryNotice {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteFerryNotice {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteFerryNotice()
+        value.code = try reader["Code"].readIfPresent() ?? .sdkUnknown("")
+        value.impact = try reader["Impact"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteFerryOverviewSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteFerryOverviewSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteFerryOverviewSummary()
         value.distance = try reader["Distance"].readIfPresent() ?? 0
         value.duration = try reader["Duration"].readIfPresent() ?? 0
-        value.error = try reader["Error"].readIfPresent()
         return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteFerryPlace {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteFerryPlace {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteFerryPlace()
+        value.name = try reader["Name"].readIfPresent()
+        value.originalPosition = try reader["OriginalPosition"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
+        value.position = try reader["Position"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.waypointIndex = try reader["WaypointIndex"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteFerrySpan {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteFerrySpan {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteFerrySpan()
+        value.country = try reader["Country"].readIfPresent()
+        value.distance = try reader["Distance"].readIfPresent() ?? 0
+        value.duration = try reader["Duration"].readIfPresent() ?? 0
+        value.geometryOffset = try reader["GeometryOffset"].readIfPresent()
+        value.names = try reader["Names"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.LocalizedString.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.region = try reader["Region"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteFerrySummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteFerrySummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteFerrySummary()
+        value.overview = try reader["Overview"].readIfPresent(with: GeoRoutesClientTypes.RouteFerryOverviewSummary.read(from:))
+        value.travelOnly = try reader["TravelOnly"].readIfPresent(with: GeoRoutesClientTypes.RouteFerryTravelOnlySummary.read(from:))
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteFerryTravelOnlySummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteFerryTravelOnlySummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteFerryTravelOnlySummary()
+        value.duration = try reader["Duration"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteFerryTravelStep {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteFerryTravelStep {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteFerryTravelStep()
+        value.distance = try reader["Distance"].readIfPresent() ?? 0
+        value.duration = try reader["Duration"].readIfPresent() ?? 0
+        value.geometryOffset = try reader["GeometryOffset"].readIfPresent()
+        value.instruction = try reader["Instruction"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteKeepStepDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteKeepStepDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteKeepStepDetails()
+        value.intersection = try reader["Intersection"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.LocalizedString.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.steeringDirection = try reader["SteeringDirection"].readIfPresent()
+        value.turnAngle = try reader["TurnAngle"].readIfPresent() ?? 0
+        value.turnIntensity = try reader["TurnIntensity"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteLeg {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteLeg {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteLeg()
+        value.ferryLegDetails = try reader["FerryLegDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteFerryLegDetails.read(from:))
+        value.geometry = try reader["Geometry"].readIfPresent(with: GeoRoutesClientTypes.RouteLegGeometry.read(from:))
+        value.language = try reader["Language"].readIfPresent()
+        value.pedestrianLegDetails = try reader["PedestrianLegDetails"].readIfPresent(with: GeoRoutesClientTypes.RoutePedestrianLegDetails.read(from:))
+        value.travelMode = try reader["TravelMode"].readIfPresent() ?? .sdkUnknown("")
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.vehicleLegDetails = try reader["VehicleLegDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteVehicleLegDetails.read(from:))
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteLegGeometry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteLegGeometry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteLegGeometry()
+        value.lineString = try reader["LineString"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        value.polyline = try reader["Polyline"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteMajorRoadLabel {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteMajorRoadLabel {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteMajorRoadLabel()
+        value.roadName = try reader["RoadName"].readIfPresent(with: GeoRoutesClientTypes.LocalizedString.read(from:))
+        value.routeNumber = try reader["RouteNumber"].readIfPresent(with: GeoRoutesClientTypes.RouteNumber.read(from:))
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteMatchingOptions {
+
+    static func write(value: GeoRoutesClientTypes.RouteMatchingOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["NameHint"].write(value.nameHint)
+        try writer["OnRoadThreshold"].write(value.onRoadThreshold)
+        try writer["Radius"].write(value.radius)
+        try writer["Strategy"].write(value.strategy)
+    }
+}
+
+extension GeoRoutesClientTypes.RouteMatrixAllowOptions {
+
+    static func write(value: GeoRoutesClientTypes.RouteMatrixAllowOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Hot"].write(value.hot)
+        try writer["Hov"].write(value.hov)
+    }
+}
+
+extension GeoRoutesClientTypes.RouteMatrixAutoCircle {
+
+    static func write(value: GeoRoutesClientTypes.RouteMatrixAutoCircle?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Margin"].write(value.margin)
+        try writer["MaxRadius"].write(value.maxRadius)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteMatrixAutoCircle {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteMatrixAutoCircle()
+        value.margin = try reader["Margin"].readIfPresent() ?? 0
+        value.maxRadius = try reader["MaxRadius"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteMatrixAvoidanceArea {
+
+    static func write(value: GeoRoutesClientTypes.RouteMatrixAvoidanceArea?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Geometry"].write(value.geometry, with: GeoRoutesClientTypes.RouteMatrixAvoidanceAreaGeometry.write(value:to:))
+    }
+}
+
+extension GeoRoutesClientTypes.RouteMatrixAvoidanceAreaGeometry {
+
+    static func write(value: GeoRoutesClientTypes.RouteMatrixAvoidanceAreaGeometry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BoundingBox"].writeList(value.boundingBox, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Polygon"].writeList(value.polygon, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        try writer["PolylinePolygon"].writeList(value.polylinePolygon, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension GeoRoutesClientTypes.RouteMatrixAvoidanceOptions {
+
+    static func write(value: GeoRoutesClientTypes.RouteMatrixAvoidanceOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Areas"].writeList(value.areas, memberWritingClosure: GeoRoutesClientTypes.RouteMatrixAvoidanceArea.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["CarShuttleTrains"].write(value.carShuttleTrains)
+        try writer["ControlledAccessHighways"].write(value.controlledAccessHighways)
+        try writer["DirtRoads"].write(value.dirtRoads)
+        try writer["Ferries"].write(value.ferries)
+        try writer["TollRoads"].write(value.tollRoads)
+        try writer["TollTransponders"].write(value.tollTransponders)
+        try writer["TruckRoadTypes"].writeList(value.truckRoadTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Tunnels"].write(value.tunnels)
+        try writer["UTurns"].write(value.uTurns)
+        try writer["ZoneCategories"].writeList(value.zoneCategories, memberWritingClosure: GeoRoutesClientTypes.RouteMatrixAvoidanceZoneCategory.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension GeoRoutesClientTypes.RouteMatrixAvoidanceZoneCategory {
+
+    static func write(value: GeoRoutesClientTypes.RouteMatrixAvoidanceZoneCategory?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Category"].write(value.category)
     }
 }
 
@@ -9727,1441 +10583,13 @@ extension GeoRoutesClientTypes.RouteMatrixBoundaryGeometry {
     }
 }
 
-extension GeoRoutesClientTypes.Circle {
+extension GeoRoutesClientTypes.RouteMatrixCarOptions {
 
-    static func write(value: GeoRoutesClientTypes.Circle?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GeoRoutesClientTypes.RouteMatrixCarOptions?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Center"].writeList(value.center, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Radius"].write(value.radius)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.Circle {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.Circle()
-        value.center = try reader["Center"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.radius = try reader["Radius"].readIfPresent() ?? 0.0
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RouteMatrixAutoCircle {
-
-    static func write(value: GeoRoutesClientTypes.RouteMatrixAutoCircle?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Margin"].write(value.margin)
-        try writer["MaxRadius"].write(value.maxRadius)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteMatrixAutoCircle {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteMatrixAutoCircle()
-        value.margin = try reader["Margin"].readIfPresent() ?? 0
-        value.maxRadius = try reader["MaxRadius"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RouteResponseNotice {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteResponseNotice {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteResponseNotice()
-        value.code = try reader["Code"].readIfPresent() ?? .sdkUnknown("")
-        value.impact = try reader["Impact"].readIfPresent()
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.Route {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.Route {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.Route()
-        value.legs = try reader["Legs"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteLeg.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.majorRoadLabels = try reader["MajorRoadLabels"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteMajorRoadLabel.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.summary = try reader["Summary"].readIfPresent(with: GeoRoutesClientTypes.RouteSummary.read(from:))
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RouteSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteSummary()
-        value.distance = try reader["Distance"].readIfPresent() ?? 0
-        value.duration = try reader["Duration"].readIfPresent() ?? 0
-        value.tolls = try reader["Tolls"].readIfPresent(with: GeoRoutesClientTypes.RouteTollSummary.read(from:))
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RouteTollSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteTollSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteTollSummary()
-        value.total = try reader["Total"].readIfPresent(with: GeoRoutesClientTypes.RouteTollPriceSummary.read(from:))
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RouteTollPriceSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteTollPriceSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteTollPriceSummary()
-        value.currency = try reader["Currency"].readIfPresent() ?? ""
-        value.estimate = try reader["Estimate"].readIfPresent() ?? false
-        value.range = try reader["Range"].readIfPresent() ?? false
-        value.rangeValue = try reader["RangeValue"].readIfPresent(with: GeoRoutesClientTypes.RouteTollPriceValueRange.read(from:))
-        value.value = try reader["Value"].readIfPresent() ?? 0.0
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RouteTollPriceValueRange {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteTollPriceValueRange {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteTollPriceValueRange()
-        value.min = try reader["Min"].readIfPresent() ?? 0.0
-        value.max = try reader["Max"].readIfPresent() ?? 0.0
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RouteMajorRoadLabel {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteMajorRoadLabel {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteMajorRoadLabel()
-        value.roadName = try reader["RoadName"].readIfPresent(with: GeoRoutesClientTypes.LocalizedString.read(from:))
-        value.routeNumber = try reader["RouteNumber"].readIfPresent(with: GeoRoutesClientTypes.RouteNumber.read(from:))
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RouteNumber {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteNumber {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteNumber()
-        value.direction = try reader["Direction"].readIfPresent()
-        value.language = try reader["Language"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.LocalizedString {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.LocalizedString {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.LocalizedString()
-        value.language = try reader["Language"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RouteLeg {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteLeg {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteLeg()
-        value.ferryLegDetails = try reader["FerryLegDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteFerryLegDetails.read(from:))
-        value.geometry = try reader["Geometry"].readIfPresent(with: GeoRoutesClientTypes.RouteLegGeometry.read(from:))
-        value.language = try reader["Language"].readIfPresent()
-        value.pedestrianLegDetails = try reader["PedestrianLegDetails"].readIfPresent(with: GeoRoutesClientTypes.RoutePedestrianLegDetails.read(from:))
-        value.travelMode = try reader["TravelMode"].readIfPresent() ?? .sdkUnknown("")
-        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
-        value.vehicleLegDetails = try reader["VehicleLegDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteVehicleLegDetails.read(from:))
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RouteVehicleLegDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteVehicleLegDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteVehicleLegDetails()
-        value.arrival = try reader["Arrival"].readIfPresent(with: GeoRoutesClientTypes.RouteVehicleArrival.read(from:))
-        value.departure = try reader["Departure"].readIfPresent(with: GeoRoutesClientTypes.RouteVehicleDeparture.read(from:))
-        value.incidents = try reader["Incidents"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteVehicleIncident.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.notices = try reader["Notices"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteVehicleNotice.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.passThroughWaypoints = try reader["PassThroughWaypoints"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RoutePassThroughWaypoint.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.spans = try reader["Spans"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteVehicleSpan.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.summary = try reader["Summary"].readIfPresent(with: GeoRoutesClientTypes.RouteVehicleSummary.read(from:))
-        value.tolls = try reader["Tolls"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteToll.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.tollSystems = try reader["TollSystems"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteTollSystem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.travelSteps = try reader["TravelSteps"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteVehicleTravelStep.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.truckRoadTypes = try reader["TruckRoadTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.zones = try reader["Zones"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteZone.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RouteZone {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteZone {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteZone()
-        value.category = try reader["Category"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RouteVehicleTravelStep {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteVehicleTravelStep {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteVehicleTravelStep()
-        value.continueHighwayStepDetails = try reader["ContinueHighwayStepDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteContinueHighwayStepDetails.read(from:))
-        value.continueStepDetails = try reader["ContinueStepDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteContinueStepDetails.read(from:))
-        value.currentRoad = try reader["CurrentRoad"].readIfPresent(with: GeoRoutesClientTypes.RouteRoad.read(from:))
-        value.distance = try reader["Distance"].readIfPresent() ?? 0
-        value.duration = try reader["Duration"].readIfPresent() ?? 0
-        value.enterHighwayStepDetails = try reader["EnterHighwayStepDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteEnterHighwayStepDetails.read(from:))
-        value.exitNumber = try reader["ExitNumber"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.LocalizedString.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.exitStepDetails = try reader["ExitStepDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteExitStepDetails.read(from:))
-        value.geometryOffset = try reader["GeometryOffset"].readIfPresent()
-        value.instruction = try reader["Instruction"].readIfPresent()
-        value.keepStepDetails = try reader["KeepStepDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteKeepStepDetails.read(from:))
-        value.nextRoad = try reader["NextRoad"].readIfPresent(with: GeoRoutesClientTypes.RouteRoad.read(from:))
-        value.rampStepDetails = try reader["RampStepDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteRampStepDetails.read(from:))
-        value.roundaboutEnterStepDetails = try reader["RoundaboutEnterStepDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteRoundaboutEnterStepDetails.read(from:))
-        value.roundaboutExitStepDetails = try reader["RoundaboutExitStepDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteRoundaboutExitStepDetails.read(from:))
-        value.roundaboutPassStepDetails = try reader["RoundaboutPassStepDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteRoundaboutPassStepDetails.read(from:))
-        value.signpost = try reader["Signpost"].readIfPresent(with: GeoRoutesClientTypes.RouteSignpost.read(from:))
-        value.turnStepDetails = try reader["TurnStepDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteTurnStepDetails.read(from:))
-        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
-        value.uTurnStepDetails = try reader["UTurnStepDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteUTurnStepDetails.read(from:))
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RouteUTurnStepDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteUTurnStepDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteUTurnStepDetails()
-        value.intersection = try reader["Intersection"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.LocalizedString.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.steeringDirection = try reader["SteeringDirection"].readIfPresent()
-        value.turnAngle = try reader["TurnAngle"].readIfPresent() ?? 0
-        value.turnIntensity = try reader["TurnIntensity"].readIfPresent()
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RouteTurnStepDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteTurnStepDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteTurnStepDetails()
-        value.intersection = try reader["Intersection"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.LocalizedString.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.steeringDirection = try reader["SteeringDirection"].readIfPresent()
-        value.turnAngle = try reader["TurnAngle"].readIfPresent() ?? 0
-        value.turnIntensity = try reader["TurnIntensity"].readIfPresent()
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RouteSignpost {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteSignpost {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteSignpost()
-        value.labels = try reader["Labels"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteSignpostLabel.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RouteSignpostLabel {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteSignpostLabel {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteSignpostLabel()
-        value.routeNumber = try reader["RouteNumber"].readIfPresent(with: GeoRoutesClientTypes.RouteNumber.read(from:))
-        value.text = try reader["Text"].readIfPresent(with: GeoRoutesClientTypes.LocalizedString.read(from:))
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RouteRoundaboutPassStepDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteRoundaboutPassStepDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteRoundaboutPassStepDetails()
-        value.intersection = try reader["Intersection"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.LocalizedString.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.steeringDirection = try reader["SteeringDirection"].readIfPresent()
-        value.turnAngle = try reader["TurnAngle"].readIfPresent() ?? 0
-        value.turnIntensity = try reader["TurnIntensity"].readIfPresent()
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RouteRoundaboutExitStepDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteRoundaboutExitStepDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteRoundaboutExitStepDetails()
-        value.intersection = try reader["Intersection"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.LocalizedString.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.relativeExit = try reader["RelativeExit"].readIfPresent()
-        value.roundaboutAngle = try reader["RoundaboutAngle"].readIfPresent() ?? 0
-        value.steeringDirection = try reader["SteeringDirection"].readIfPresent()
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RouteRoundaboutEnterStepDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteRoundaboutEnterStepDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteRoundaboutEnterStepDetails()
-        value.intersection = try reader["Intersection"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.LocalizedString.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.steeringDirection = try reader["SteeringDirection"].readIfPresent()
-        value.turnAngle = try reader["TurnAngle"].readIfPresent() ?? 0
-        value.turnIntensity = try reader["TurnIntensity"].readIfPresent()
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RouteRampStepDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteRampStepDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteRampStepDetails()
-        value.intersection = try reader["Intersection"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.LocalizedString.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.steeringDirection = try reader["SteeringDirection"].readIfPresent()
-        value.turnAngle = try reader["TurnAngle"].readIfPresent() ?? 0
-        value.turnIntensity = try reader["TurnIntensity"].readIfPresent()
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RouteRoad {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteRoad {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteRoad()
-        value.roadName = try reader["RoadName"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.LocalizedString.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.routeNumber = try reader["RouteNumber"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteNumber.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.towards = try reader["Towards"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.LocalizedString.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.type = try reader["Type"].readIfPresent()
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RouteKeepStepDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteKeepStepDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteKeepStepDetails()
-        value.intersection = try reader["Intersection"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.LocalizedString.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.steeringDirection = try reader["SteeringDirection"].readIfPresent()
-        value.turnAngle = try reader["TurnAngle"].readIfPresent() ?? 0
-        value.turnIntensity = try reader["TurnIntensity"].readIfPresent()
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RouteExitStepDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteExitStepDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteExitStepDetails()
-        value.intersection = try reader["Intersection"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.LocalizedString.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.relativeExit = try reader["RelativeExit"].readIfPresent()
-        value.steeringDirection = try reader["SteeringDirection"].readIfPresent()
-        value.turnAngle = try reader["TurnAngle"].readIfPresent() ?? 0
-        value.turnIntensity = try reader["TurnIntensity"].readIfPresent()
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RouteEnterHighwayStepDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteEnterHighwayStepDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteEnterHighwayStepDetails()
-        value.intersection = try reader["Intersection"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.LocalizedString.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.steeringDirection = try reader["SteeringDirection"].readIfPresent()
-        value.turnAngle = try reader["TurnAngle"].readIfPresent() ?? 0
-        value.turnIntensity = try reader["TurnIntensity"].readIfPresent()
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RouteContinueStepDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteContinueStepDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteContinueStepDetails()
-        value.intersection = try reader["Intersection"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.LocalizedString.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RouteContinueHighwayStepDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteContinueHighwayStepDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteContinueHighwayStepDetails()
-        value.intersection = try reader["Intersection"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.LocalizedString.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.steeringDirection = try reader["SteeringDirection"].readIfPresent()
-        value.turnAngle = try reader["TurnAngle"].readIfPresent() ?? 0
-        value.turnIntensity = try reader["TurnIntensity"].readIfPresent()
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RouteTollSystem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteTollSystem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteTollSystem()
-        value.name = try reader["Name"].readIfPresent()
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RouteToll {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteToll {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteToll()
-        value.country = try reader["Country"].readIfPresent()
-        value.paymentSites = try reader["PaymentSites"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteTollPaymentSite.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.rates = try reader["Rates"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteTollRate.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.systems = try reader["Systems"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RouteTollRate {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteTollRate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteTollRate()
-        value.applicableTimes = try reader["ApplicableTimes"].readIfPresent()
-        value.convertedPrice = try reader["ConvertedPrice"].readIfPresent(with: GeoRoutesClientTypes.RouteTollPrice.read(from:))
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        value.localPrice = try reader["LocalPrice"].readIfPresent(with: GeoRoutesClientTypes.RouteTollPrice.read(from:))
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.pass = try reader["Pass"].readIfPresent(with: GeoRoutesClientTypes.RouteTollPass.read(from:))
-        value.paymentMethods = try reader["PaymentMethods"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GeoRoutesClientTypes.RouteTollPaymentMethod>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.transponders = try reader["Transponders"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteTransponder.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RouteTransponder {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteTransponder {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteTransponder()
-        value.systemName = try reader["SystemName"].readIfPresent()
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RouteTollPass {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteTollPass {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteTollPass()
-        value.includesReturnTrip = try reader["IncludesReturnTrip"].readIfPresent()
-        value.seniorPass = try reader["SeniorPass"].readIfPresent()
-        value.transferCount = try reader["TransferCount"].readIfPresent()
-        value.tripCount = try reader["TripCount"].readIfPresent()
-        value.validityPeriod = try reader["ValidityPeriod"].readIfPresent(with: GeoRoutesClientTypes.RouteTollPassValidityPeriod.read(from:))
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RouteTollPassValidityPeriod {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteTollPassValidityPeriod {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteTollPassValidityPeriod()
-        value.period = try reader["Period"].readIfPresent() ?? .sdkUnknown("")
-        value.periodCount = try reader["PeriodCount"].readIfPresent()
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RouteTollPrice {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteTollPrice {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteTollPrice()
-        value.currency = try reader["Currency"].readIfPresent() ?? ""
-        value.estimate = try reader["Estimate"].readIfPresent() ?? false
-        value.perDuration = try reader["PerDuration"].readIfPresent() ?? 0
-        value.range = try reader["Range"].readIfPresent() ?? false
-        value.rangeValue = try reader["RangeValue"].readIfPresent(with: GeoRoutesClientTypes.RouteTollPriceValueRange.read(from:))
-        value.value = try reader["Value"].readIfPresent() ?? 0.0
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RouteTollPaymentSite {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteTollPaymentSite {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteTollPaymentSite()
-        value.name = try reader["Name"].readIfPresent()
-        value.position = try reader["Position"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RouteVehicleSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteVehicleSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteVehicleSummary()
-        value.overview = try reader["Overview"].readIfPresent(with: GeoRoutesClientTypes.RouteVehicleOverviewSummary.read(from:))
-        value.travelOnly = try reader["TravelOnly"].readIfPresent(with: GeoRoutesClientTypes.RouteVehicleTravelOnlySummary.read(from:))
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RouteVehicleTravelOnlySummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteVehicleTravelOnlySummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteVehicleTravelOnlySummary()
-        value.bestCaseDuration = try reader["BestCaseDuration"].readIfPresent() ?? 0
-        value.duration = try reader["Duration"].readIfPresent() ?? 0
-        value.typicalDuration = try reader["TypicalDuration"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RouteVehicleOverviewSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteVehicleOverviewSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteVehicleOverviewSummary()
-        value.bestCaseDuration = try reader["BestCaseDuration"].readIfPresent() ?? 0
-        value.distance = try reader["Distance"].readIfPresent() ?? 0
-        value.duration = try reader["Duration"].readIfPresent() ?? 0
-        value.typicalDuration = try reader["TypicalDuration"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RouteVehicleSpan {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteVehicleSpan {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteVehicleSpan()
-        value.bestCaseDuration = try reader["BestCaseDuration"].readIfPresent() ?? 0
-        value.carAccess = try reader["CarAccess"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GeoRoutesClientTypes.RouteSpanCarAccessAttribute>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.country = try reader["Country"].readIfPresent()
-        value.distance = try reader["Distance"].readIfPresent() ?? 0
-        value.duration = try reader["Duration"].readIfPresent() ?? 0
-        value.dynamicSpeed = try reader["DynamicSpeed"].readIfPresent(with: GeoRoutesClientTypes.RouteSpanDynamicSpeedDetails.read(from:))
-        value.functionalClassification = try reader["FunctionalClassification"].readIfPresent()
-        value.gate = try reader["Gate"].readIfPresent()
-        value.geometryOffset = try reader["GeometryOffset"].readIfPresent()
-        value.incidents = try reader["Incidents"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
-        value.names = try reader["Names"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.LocalizedString.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.notices = try reader["Notices"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
-        value.railwayCrossing = try reader["RailwayCrossing"].readIfPresent()
-        value.region = try reader["Region"].readIfPresent()
-        value.roadAttributes = try reader["RoadAttributes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GeoRoutesClientTypes.RouteSpanRoadAttribute>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.routeNumbers = try reader["RouteNumbers"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteNumber.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.scooterAccess = try reader["ScooterAccess"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GeoRoutesClientTypes.RouteSpanScooterAccessAttribute>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.speedLimit = try reader["SpeedLimit"].readIfPresent(with: GeoRoutesClientTypes.RouteSpanSpeedLimitDetails.read(from:))
-        value.tollSystems = try reader["TollSystems"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
-        value.truckAccess = try reader["TruckAccess"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GeoRoutesClientTypes.RouteSpanTruckAccessAttribute>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.truckRoadTypes = try reader["TruckRoadTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
-        value.typicalDuration = try reader["TypicalDuration"].readIfPresent() ?? 0
-        value.zones = try reader["Zones"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RouteSpanSpeedLimitDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteSpanSpeedLimitDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteSpanSpeedLimitDetails()
-        value.maxSpeed = try reader["MaxSpeed"].readIfPresent() ?? 0
-        value.unlimited = try reader["Unlimited"].readIfPresent()
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RouteSpanDynamicSpeedDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteSpanDynamicSpeedDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteSpanDynamicSpeedDetails()
-        value.bestCaseSpeed = try reader["BestCaseSpeed"].readIfPresent() ?? 0
-        value.turnDuration = try reader["TurnDuration"].readIfPresent() ?? 0
-        value.typicalSpeed = try reader["TypicalSpeed"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RoutePassThroughWaypoint {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RoutePassThroughWaypoint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RoutePassThroughWaypoint()
-        value.geometryOffset = try reader["GeometryOffset"].readIfPresent()
-        value.place = try reader["Place"].readIfPresent(with: GeoRoutesClientTypes.RoutePassThroughPlace.read(from:))
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RoutePassThroughPlace {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RoutePassThroughPlace {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RoutePassThroughPlace()
-        value.originalPosition = try reader["OriginalPosition"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
-        value.position = try reader["Position"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.waypointIndex = try reader["WaypointIndex"].readIfPresent()
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RouteVehicleNotice {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteVehicleNotice {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteVehicleNotice()
-        value.code = try reader["Code"].readIfPresent() ?? .sdkUnknown("")
-        value.details = try reader["Details"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteVehicleNoticeDetail.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.impact = try reader["Impact"].readIfPresent()
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RouteVehicleNoticeDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteVehicleNoticeDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteVehicleNoticeDetail()
-        value.title = try reader["Title"].readIfPresent()
-        value.violatedConstraints = try reader["ViolatedConstraints"].readIfPresent(with: GeoRoutesClientTypes.RouteViolatedConstraints.read(from:))
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RouteViolatedConstraints {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteViolatedConstraints {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteViolatedConstraints()
-        value.allHazardsRestricted = try reader["AllHazardsRestricted"].readIfPresent()
-        value.axleCount = try reader["AxleCount"].readIfPresent(with: GeoRoutesClientTypes.RouteNoticeDetailRange.read(from:))
-        value.hazardousCargos = try reader["HazardousCargos"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GeoRoutesClientTypes.RouteHazardousCargoType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.maxHeight = try reader["MaxHeight"].readIfPresent() ?? 0
-        value.maxKpraLength = try reader["MaxKpraLength"].readIfPresent() ?? 0
-        value.maxLength = try reader["MaxLength"].readIfPresent() ?? 0
-        value.maxPayloadCapacity = try reader["MaxPayloadCapacity"].readIfPresent() ?? 0
-        value.maxWeight = try reader["MaxWeight"].readIfPresent(with: GeoRoutesClientTypes.RouteWeightConstraint.read(from:))
-        value.maxWeightPerAxle = try reader["MaxWeightPerAxle"].readIfPresent() ?? 0
-        value.maxWeightPerAxleGroup = try reader["MaxWeightPerAxleGroup"].readIfPresent(with: GeoRoutesClientTypes.WeightPerAxleGroup.read(from:))
-        value.maxWidth = try reader["MaxWidth"].readIfPresent() ?? 0
-        value.occupancy = try reader["Occupancy"].readIfPresent(with: GeoRoutesClientTypes.RouteNoticeDetailRange.read(from:))
-        value.restrictedTimes = try reader["RestrictedTimes"].readIfPresent()
-        value.timeDependent = try reader["TimeDependent"].readIfPresent()
-        value.trailerCount = try reader["TrailerCount"].readIfPresent(with: GeoRoutesClientTypes.RouteNoticeDetailRange.read(from:))
-        value.travelMode = try reader["TravelMode"].readIfPresent()
-        value.truckRoadType = try reader["TruckRoadType"].readIfPresent()
-        value.truckType = try reader["TruckType"].readIfPresent()
-        value.tunnelRestrictionCode = try reader["TunnelRestrictionCode"].readIfPresent()
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RouteNoticeDetailRange {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteNoticeDetailRange {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteNoticeDetailRange()
-        value.min = try reader["Min"].readIfPresent()
-        value.max = try reader["Max"].readIfPresent()
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.WeightPerAxleGroup {
-
-    static func write(value: GeoRoutesClientTypes.WeightPerAxleGroup?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Quad"].write(value.quad)
-        try writer["Quint"].write(value.quint)
-        try writer["Single"].write(value.single)
-        try writer["Tandem"].write(value.tandem)
-        try writer["Triple"].write(value.triple)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.WeightPerAxleGroup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.WeightPerAxleGroup()
-        value.single = try reader["Single"].readIfPresent() ?? 0
-        value.tandem = try reader["Tandem"].readIfPresent() ?? 0
-        value.triple = try reader["Triple"].readIfPresent() ?? 0
-        value.quad = try reader["Quad"].readIfPresent() ?? 0
-        value.quint = try reader["Quint"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RouteWeightConstraint {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteWeightConstraint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteWeightConstraint()
-        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
-        value.value = try reader["Value"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RouteVehicleIncident {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteVehicleIncident {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteVehicleIncident()
-        value.description = try reader["Description"].readIfPresent()
-        value.endTime = try reader["EndTime"].readIfPresent()
-        value.severity = try reader["Severity"].readIfPresent()
-        value.startTime = try reader["StartTime"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RouteVehicleDeparture {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteVehicleDeparture {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteVehicleDeparture()
-        value.place = try reader["Place"].readIfPresent(with: GeoRoutesClientTypes.RouteVehiclePlace.read(from:))
-        value.time = try reader["Time"].readIfPresent()
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RouteVehiclePlace {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteVehiclePlace {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteVehiclePlace()
-        value.name = try reader["Name"].readIfPresent()
-        value.originalPosition = try reader["OriginalPosition"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
-        value.position = try reader["Position"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.sideOfStreet = try reader["SideOfStreet"].readIfPresent()
-        value.waypointIndex = try reader["WaypointIndex"].readIfPresent()
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RouteVehicleArrival {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteVehicleArrival {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteVehicleArrival()
-        value.place = try reader["Place"].readIfPresent(with: GeoRoutesClientTypes.RouteVehiclePlace.read(from:))
-        value.time = try reader["Time"].readIfPresent()
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RoutePedestrianLegDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RoutePedestrianLegDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RoutePedestrianLegDetails()
-        value.arrival = try reader["Arrival"].readIfPresent(with: GeoRoutesClientTypes.RoutePedestrianArrival.read(from:))
-        value.departure = try reader["Departure"].readIfPresent(with: GeoRoutesClientTypes.RoutePedestrianDeparture.read(from:))
-        value.notices = try reader["Notices"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RoutePedestrianNotice.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.passThroughWaypoints = try reader["PassThroughWaypoints"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RoutePassThroughWaypoint.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.spans = try reader["Spans"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RoutePedestrianSpan.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.summary = try reader["Summary"].readIfPresent(with: GeoRoutesClientTypes.RoutePedestrianSummary.read(from:))
-        value.travelSteps = try reader["TravelSteps"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RoutePedestrianTravelStep.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RoutePedestrianTravelStep {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RoutePedestrianTravelStep {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RoutePedestrianTravelStep()
-        value.continueStepDetails = try reader["ContinueStepDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteContinueStepDetails.read(from:))
-        value.currentRoad = try reader["CurrentRoad"].readIfPresent(with: GeoRoutesClientTypes.RouteRoad.read(from:))
-        value.distance = try reader["Distance"].readIfPresent() ?? 0
-        value.duration = try reader["Duration"].readIfPresent() ?? 0
-        value.exitNumber = try reader["ExitNumber"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.LocalizedString.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.geometryOffset = try reader["GeometryOffset"].readIfPresent()
-        value.instruction = try reader["Instruction"].readIfPresent()
-        value.keepStepDetails = try reader["KeepStepDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteKeepStepDetails.read(from:))
-        value.nextRoad = try reader["NextRoad"].readIfPresent(with: GeoRoutesClientTypes.RouteRoad.read(from:))
-        value.roundaboutEnterStepDetails = try reader["RoundaboutEnterStepDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteRoundaboutEnterStepDetails.read(from:))
-        value.roundaboutExitStepDetails = try reader["RoundaboutExitStepDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteRoundaboutExitStepDetails.read(from:))
-        value.roundaboutPassStepDetails = try reader["RoundaboutPassStepDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteRoundaboutPassStepDetails.read(from:))
-        value.signpost = try reader["Signpost"].readIfPresent(with: GeoRoutesClientTypes.RouteSignpost.read(from:))
-        value.turnStepDetails = try reader["TurnStepDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteTurnStepDetails.read(from:))
-        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RoutePedestrianSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RoutePedestrianSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RoutePedestrianSummary()
-        value.overview = try reader["Overview"].readIfPresent(with: GeoRoutesClientTypes.RoutePedestrianOverviewSummary.read(from:))
-        value.travelOnly = try reader["TravelOnly"].readIfPresent(with: GeoRoutesClientTypes.RoutePedestrianTravelOnlySummary.read(from:))
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RoutePedestrianTravelOnlySummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RoutePedestrianTravelOnlySummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RoutePedestrianTravelOnlySummary()
-        value.duration = try reader["Duration"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RoutePedestrianOverviewSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RoutePedestrianOverviewSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RoutePedestrianOverviewSummary()
-        value.distance = try reader["Distance"].readIfPresent() ?? 0
-        value.duration = try reader["Duration"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RoutePedestrianSpan {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RoutePedestrianSpan {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RoutePedestrianSpan()
-        value.bestCaseDuration = try reader["BestCaseDuration"].readIfPresent() ?? 0
-        value.country = try reader["Country"].readIfPresent()
-        value.distance = try reader["Distance"].readIfPresent() ?? 0
-        value.duration = try reader["Duration"].readIfPresent() ?? 0
-        value.dynamicSpeed = try reader["DynamicSpeed"].readIfPresent(with: GeoRoutesClientTypes.RouteSpanDynamicSpeedDetails.read(from:))
-        value.functionalClassification = try reader["FunctionalClassification"].readIfPresent()
-        value.geometryOffset = try reader["GeometryOffset"].readIfPresent()
-        value.incidents = try reader["Incidents"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
-        value.names = try reader["Names"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.LocalizedString.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.pedestrianAccess = try reader["PedestrianAccess"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GeoRoutesClientTypes.RouteSpanPedestrianAccessAttribute>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.region = try reader["Region"].readIfPresent()
-        value.roadAttributes = try reader["RoadAttributes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GeoRoutesClientTypes.RouteSpanRoadAttribute>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.routeNumbers = try reader["RouteNumbers"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteNumber.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.speedLimit = try reader["SpeedLimit"].readIfPresent(with: GeoRoutesClientTypes.RouteSpanSpeedLimitDetails.read(from:))
-        value.typicalDuration = try reader["TypicalDuration"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RoutePedestrianNotice {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RoutePedestrianNotice {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RoutePedestrianNotice()
-        value.code = try reader["Code"].readIfPresent() ?? .sdkUnknown("")
-        value.impact = try reader["Impact"].readIfPresent()
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RoutePedestrianDeparture {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RoutePedestrianDeparture {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RoutePedestrianDeparture()
-        value.place = try reader["Place"].readIfPresent(with: GeoRoutesClientTypes.RoutePedestrianPlace.read(from:))
-        value.time = try reader["Time"].readIfPresent()
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RoutePedestrianPlace {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RoutePedestrianPlace {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RoutePedestrianPlace()
-        value.name = try reader["Name"].readIfPresent()
-        value.originalPosition = try reader["OriginalPosition"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
-        value.position = try reader["Position"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.sideOfStreet = try reader["SideOfStreet"].readIfPresent()
-        value.waypointIndex = try reader["WaypointIndex"].readIfPresent()
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RoutePedestrianArrival {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RoutePedestrianArrival {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RoutePedestrianArrival()
-        value.place = try reader["Place"].readIfPresent(with: GeoRoutesClientTypes.RoutePedestrianPlace.read(from:))
-        value.time = try reader["Time"].readIfPresent()
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RouteLegGeometry {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteLegGeometry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteLegGeometry()
-        value.lineString = try reader["LineString"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        value.polyline = try reader["Polyline"].readIfPresent()
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RouteFerryLegDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteFerryLegDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteFerryLegDetails()
-        value.afterTravelSteps = try reader["AfterTravelSteps"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteFerryAfterTravelStep.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.arrival = try reader["Arrival"].readIfPresent(with: GeoRoutesClientTypes.RouteFerryArrival.read(from:))
-        value.beforeTravelSteps = try reader["BeforeTravelSteps"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteFerryBeforeTravelStep.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.departure = try reader["Departure"].readIfPresent(with: GeoRoutesClientTypes.RouteFerryDeparture.read(from:))
-        value.notices = try reader["Notices"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteFerryNotice.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.passThroughWaypoints = try reader["PassThroughWaypoints"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RoutePassThroughWaypoint.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.routeName = try reader["RouteName"].readIfPresent()
-        value.spans = try reader["Spans"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteFerrySpan.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.summary = try reader["Summary"].readIfPresent(with: GeoRoutesClientTypes.RouteFerrySummary.read(from:))
-        value.travelSteps = try reader["TravelSteps"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteFerryTravelStep.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RouteFerryTravelStep {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteFerryTravelStep {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteFerryTravelStep()
-        value.distance = try reader["Distance"].readIfPresent() ?? 0
-        value.duration = try reader["Duration"].readIfPresent() ?? 0
-        value.geometryOffset = try reader["GeometryOffset"].readIfPresent()
-        value.instruction = try reader["Instruction"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RouteFerrySummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteFerrySummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteFerrySummary()
-        value.overview = try reader["Overview"].readIfPresent(with: GeoRoutesClientTypes.RouteFerryOverviewSummary.read(from:))
-        value.travelOnly = try reader["TravelOnly"].readIfPresent(with: GeoRoutesClientTypes.RouteFerryTravelOnlySummary.read(from:))
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RouteFerryTravelOnlySummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteFerryTravelOnlySummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteFerryTravelOnlySummary()
-        value.duration = try reader["Duration"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RouteFerryOverviewSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteFerryOverviewSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteFerryOverviewSummary()
-        value.distance = try reader["Distance"].readIfPresent() ?? 0
-        value.duration = try reader["Duration"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RouteFerrySpan {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteFerrySpan {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteFerrySpan()
-        value.country = try reader["Country"].readIfPresent()
-        value.distance = try reader["Distance"].readIfPresent() ?? 0
-        value.duration = try reader["Duration"].readIfPresent() ?? 0
-        value.geometryOffset = try reader["GeometryOffset"].readIfPresent()
-        value.names = try reader["Names"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.LocalizedString.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.region = try reader["Region"].readIfPresent()
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RouteFerryNotice {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteFerryNotice {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteFerryNotice()
-        value.code = try reader["Code"].readIfPresent() ?? .sdkUnknown("")
-        value.impact = try reader["Impact"].readIfPresent()
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RouteFerryDeparture {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteFerryDeparture {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteFerryDeparture()
-        value.place = try reader["Place"].readIfPresent(with: GeoRoutesClientTypes.RouteFerryPlace.read(from:))
-        value.time = try reader["Time"].readIfPresent()
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RouteFerryPlace {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteFerryPlace {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteFerryPlace()
-        value.name = try reader["Name"].readIfPresent()
-        value.originalPosition = try reader["OriginalPosition"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
-        value.position = try reader["Position"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.waypointIndex = try reader["WaypointIndex"].readIfPresent()
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RouteFerryBeforeTravelStep {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteFerryBeforeTravelStep {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteFerryBeforeTravelStep()
-        value.duration = try reader["Duration"].readIfPresent() ?? 0
-        value.instruction = try reader["Instruction"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RouteFerryArrival {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteFerryArrival {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteFerryArrival()
-        value.place = try reader["Place"].readIfPresent(with: GeoRoutesClientTypes.RouteFerryPlace.read(from:))
-        value.time = try reader["Time"].readIfPresent()
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RouteFerryAfterTravelStep {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteFerryAfterTravelStep {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RouteFerryAfterTravelStep()
-        value.duration = try reader["Duration"].readIfPresent() ?? 0
-        value.instruction = try reader["Instruction"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.WaypointOptimizationConnection {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.WaypointOptimizationConnection {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.WaypointOptimizationConnection()
-        value.distance = try reader["Distance"].readIfPresent() ?? 0
-        value.from = try reader["From"].readIfPresent() ?? ""
-        value.restDuration = try reader["RestDuration"].readIfPresent() ?? 0
-        value.to = try reader["To"].readIfPresent() ?? ""
-        value.travelDuration = try reader["TravelDuration"].readIfPresent() ?? 0
-        value.waitDuration = try reader["WaitDuration"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.WaypointOptimizationImpedingWaypoint {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.WaypointOptimizationImpedingWaypoint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.WaypointOptimizationImpedingWaypoint()
-        value.failedConstraints = try reader["FailedConstraints"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.WaypointOptimizationFailedConstraint.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        value.position = try reader["Position"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.WaypointOptimizationFailedConstraint {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.WaypointOptimizationFailedConstraint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.WaypointOptimizationFailedConstraint()
-        value.constraint = try reader["Constraint"].readIfPresent()
-        value.reason = try reader["Reason"].readIfPresent()
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.WaypointOptimizationOptimizedWaypoint {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.WaypointOptimizationOptimizedWaypoint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.WaypointOptimizationOptimizedWaypoint()
-        value.arrivalTime = try reader["ArrivalTime"].readIfPresent()
-        value.clusterIndex = try reader["ClusterIndex"].readIfPresent()
-        value.departureTime = try reader["DepartureTime"].readIfPresent() ?? ""
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        value.position = try reader["Position"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.WaypointOptimizationTimeBreakdown {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.WaypointOptimizationTimeBreakdown {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.WaypointOptimizationTimeBreakdown()
-        value.restDuration = try reader["RestDuration"].readIfPresent() ?? 0
-        value.serviceDuration = try reader["ServiceDuration"].readIfPresent() ?? 0
-        value.travelDuration = try reader["TravelDuration"].readIfPresent() ?? 0
-        value.waitDuration = try reader["WaitDuration"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RoadSnapNotice {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RoadSnapNotice {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RoadSnapNotice()
-        value.code = try reader["Code"].readIfPresent() ?? .sdkUnknown("")
-        value.title = try reader["Title"].readIfPresent() ?? ""
-        value.tracePointIndexes = try reader["TracePointIndexes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RoadSnapSnappedGeometry {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RoadSnapSnappedGeometry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RoadSnapSnappedGeometry()
-        value.lineString = try reader["LineString"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        value.polyline = try reader["Polyline"].readIfPresent()
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.RoadSnapSnappedTracePoint {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RoadSnapSnappedTracePoint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.RoadSnapSnappedTracePoint()
-        value.confidence = try reader["Confidence"].readIfPresent() ?? 0.0
-        value.originalPosition = try reader["OriginalPosition"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.snappedPosition = try reader["SnappedPosition"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.ValidationExceptionField {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.ValidationExceptionField {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoRoutesClientTypes.ValidationExceptionField()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.message = try reader["message"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension GeoRoutesClientTypes.IsolineAllowOptions {
-
-    static func write(value: GeoRoutesClientTypes.IsolineAllowOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Hot"].write(value.hot)
-        try writer["Hov"].write(value.hov)
-    }
-}
-
-extension GeoRoutesClientTypes.IsolineAvoidanceOptions {
-
-    static func write(value: GeoRoutesClientTypes.IsolineAvoidanceOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Areas"].writeList(value.areas, memberWritingClosure: GeoRoutesClientTypes.IsolineAvoidanceArea.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["CarShuttleTrains"].write(value.carShuttleTrains)
-        try writer["ControlledAccessHighways"].write(value.controlledAccessHighways)
-        try writer["DirtRoads"].write(value.dirtRoads)
-        try writer["Ferries"].write(value.ferries)
-        try writer["SeasonalClosure"].write(value.seasonalClosure)
-        try writer["TollRoads"].write(value.tollRoads)
-        try writer["TollTransponders"].write(value.tollTransponders)
-        try writer["TruckRoadTypes"].writeList(value.truckRoadTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Tunnels"].write(value.tunnels)
-        try writer["UTurns"].write(value.uTurns)
-        try writer["ZoneCategories"].writeList(value.zoneCategories, memberWritingClosure: GeoRoutesClientTypes.IsolineAvoidanceZoneCategory.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension GeoRoutesClientTypes.IsolineAvoidanceZoneCategory {
-
-    static func write(value: GeoRoutesClientTypes.IsolineAvoidanceZoneCategory?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Category"].write(value.category)
-    }
-}
-
-extension GeoRoutesClientTypes.IsolineAvoidanceArea {
-
-    static func write(value: GeoRoutesClientTypes.IsolineAvoidanceArea?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Except"].writeList(value.except, memberWritingClosure: GeoRoutesClientTypes.IsolineAvoidanceAreaGeometry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Geometry"].write(value.geometry, with: GeoRoutesClientTypes.IsolineAvoidanceAreaGeometry.write(value:to:))
-    }
-}
-
-extension GeoRoutesClientTypes.IsolineAvoidanceAreaGeometry {
-
-    static func write(value: GeoRoutesClientTypes.IsolineAvoidanceAreaGeometry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BoundingBox"].writeList(value.boundingBox, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Corridor"].write(value.corridor, with: GeoRoutesClientTypes.Corridor.write(value:to:))
-        try writer["Polygon"].writeList(value.polygon, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        try writer["PolylineCorridor"].write(value.polylineCorridor, with: GeoRoutesClientTypes.PolylineCorridor.write(value:to:))
-        try writer["PolylinePolygon"].writeList(value.polylinePolygon, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension GeoRoutesClientTypes.PolylineCorridor {
-
-    static func write(value: GeoRoutesClientTypes.PolylineCorridor?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Polyline"].write(value.polyline)
-        try writer["Radius"].write(value.radius)
-    }
-}
-
-extension GeoRoutesClientTypes.Corridor {
-
-    static func write(value: GeoRoutesClientTypes.Corridor?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LineString"].writeList(value.lineString, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        try writer["Radius"].write(value.radius)
-    }
-}
-
-extension GeoRoutesClientTypes.IsolineDestinationOptions {
-
-    static func write(value: GeoRoutesClientTypes.IsolineDestinationOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AvoidActionsForDistance"].write(value.avoidActionsForDistance)
-        try writer["Heading"].write(value.heading)
-        try writer["Matching"].write(value.matching, with: GeoRoutesClientTypes.IsolineMatchingOptions.write(value:to:))
-        try writer["SideOfStreet"].write(value.sideOfStreet, with: GeoRoutesClientTypes.IsolineSideOfStreetOptions.write(value:to:))
-    }
-}
-
-extension GeoRoutesClientTypes.IsolineSideOfStreetOptions {
-
-    static func write(value: GeoRoutesClientTypes.IsolineSideOfStreetOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Position"].writeList(value.position, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["UseWith"].write(value.useWith)
-    }
-}
-
-extension GeoRoutesClientTypes.IsolineMatchingOptions {
-
-    static func write(value: GeoRoutesClientTypes.IsolineMatchingOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["NameHint"].write(value.nameHint)
-        try writer["OnRoadThreshold"].write(value.onRoadThreshold)
-        try writer["Radius"].write(value.radius)
-        try writer["Strategy"].write(value.strategy)
-    }
-}
-
-extension GeoRoutesClientTypes.IsolineGranularityOptions {
-
-    static func write(value: GeoRoutesClientTypes.IsolineGranularityOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MaxPoints"].write(value.maxPoints)
-        try writer["MaxResolution"].write(value.maxResolution)
-    }
-}
-
-extension GeoRoutesClientTypes.IsolineOriginOptions {
-
-    static func write(value: GeoRoutesClientTypes.IsolineOriginOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AvoidActionsForDistance"].write(value.avoidActionsForDistance)
-        try writer["Heading"].write(value.heading)
-        try writer["Matching"].write(value.matching, with: GeoRoutesClientTypes.IsolineMatchingOptions.write(value:to:))
-        try writer["SideOfStreet"].write(value.sideOfStreet, with: GeoRoutesClientTypes.IsolineSideOfStreetOptions.write(value:to:))
-    }
-}
-
-extension GeoRoutesClientTypes.IsolineThresholds {
-
-    static func write(value: GeoRoutesClientTypes.IsolineThresholds?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Distance"].writeList(value.distance, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Time"].writeList(value.time, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension GeoRoutesClientTypes.IsolineTrafficOptions {
-
-    static func write(value: GeoRoutesClientTypes.IsolineTrafficOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FlowEventThresholdOverride"].write(value.flowEventThresholdOverride)
-        try writer["Usage"].write(value.usage)
-    }
-}
-
-extension GeoRoutesClientTypes.IsolineTravelModeOptions {
-
-    static func write(value: GeoRoutesClientTypes.IsolineTravelModeOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Car"].write(value.car, with: GeoRoutesClientTypes.IsolineCarOptions.write(value:to:))
-        try writer["Scooter"].write(value.scooter, with: GeoRoutesClientTypes.IsolineScooterOptions.write(value:to:))
-        try writer["Truck"].write(value.truck, with: GeoRoutesClientTypes.IsolineTruckOptions.write(value:to:))
-    }
-}
-
-extension GeoRoutesClientTypes.IsolineTruckOptions {
-
-    static func write(value: GeoRoutesClientTypes.IsolineTruckOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AxleCount"].write(value.axleCount)
-        try writer["EngineType"].write(value.engineType)
-        try writer["GrossWeight"].write(value.grossWeight)
-        try writer["HazardousCargos"].writeList(value.hazardousCargos, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GeoRoutesClientTypes.IsolineHazardousCargoType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Height"].write(value.height)
-        try writer["HeightAboveFirstAxle"].write(value.heightAboveFirstAxle)
-        try writer["KpraLength"].write(value.kpraLength)
-        try writer["Length"].write(value.length)
-        try writer["LicensePlate"].write(value.licensePlate, with: GeoRoutesClientTypes.IsolineVehicleLicensePlate.write(value:to:))
+        try writer["LicensePlate"].write(value.licensePlate, with: GeoRoutesClientTypes.RouteMatrixVehicleLicensePlate.write(value:to:))
         try writer["MaxSpeed"].write(value.maxSpeed)
         try writer["Occupancy"].write(value.occupancy)
-        try writer["PayloadCapacity"].write(value.payloadCapacity)
-        try writer["TireCount"].write(value.tireCount)
-        try writer["Trailer"].write(value.trailer, with: GeoRoutesClientTypes.IsolineTrailerOptions.write(value:to:))
-        try writer["TruckType"].write(value.truckType)
-        try writer["TunnelRestrictionCode"].write(value.tunnelRestrictionCode)
-        try writer["WeightPerAxle"].write(value.weightPerAxle)
-        try writer["WeightPerAxleGroup"].write(value.weightPerAxleGroup, with: GeoRoutesClientTypes.WeightPerAxleGroup.write(value:to:))
-        try writer["Width"].write(value.width)
-    }
-}
-
-extension GeoRoutesClientTypes.IsolineTrailerOptions {
-
-    static func write(value: GeoRoutesClientTypes.IsolineTrailerOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AxleCount"].write(value.axleCount)
-        try writer["TrailerCount"].write(value.trailerCount)
-    }
-}
-
-extension GeoRoutesClientTypes.IsolineVehicleLicensePlate {
-
-    static func write(value: GeoRoutesClientTypes.IsolineVehicleLicensePlate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LastCharacter"].write(value.lastCharacter)
-    }
-}
-
-extension GeoRoutesClientTypes.IsolineScooterOptions {
-
-    static func write(value: GeoRoutesClientTypes.IsolineScooterOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EngineType"].write(value.engineType)
-        try writer["LicensePlate"].write(value.licensePlate, with: GeoRoutesClientTypes.IsolineVehicleLicensePlate.write(value:to:))
-        try writer["MaxSpeed"].write(value.maxSpeed)
-        try writer["Occupancy"].write(value.occupancy)
-    }
-}
-
-extension GeoRoutesClientTypes.IsolineCarOptions {
-
-    static func write(value: GeoRoutesClientTypes.IsolineCarOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EngineType"].write(value.engineType)
-        try writer["LicensePlate"].write(value.licensePlate, with: GeoRoutesClientTypes.IsolineVehicleLicensePlate.write(value:to:))
-        try writer["MaxSpeed"].write(value.maxSpeed)
-        try writer["Occupancy"].write(value.occupancy)
-    }
-}
-
-extension GeoRoutesClientTypes.RouteMatrixAllowOptions {
-
-    static func write(value: GeoRoutesClientTypes.RouteMatrixAllowOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Hot"].write(value.hot)
-        try writer["Hov"].write(value.hov)
-    }
-}
-
-extension GeoRoutesClientTypes.RouteMatrixAvoidanceOptions {
-
-    static func write(value: GeoRoutesClientTypes.RouteMatrixAvoidanceOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Areas"].writeList(value.areas, memberWritingClosure: GeoRoutesClientTypes.RouteMatrixAvoidanceArea.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["CarShuttleTrains"].write(value.carShuttleTrains)
-        try writer["ControlledAccessHighways"].write(value.controlledAccessHighways)
-        try writer["DirtRoads"].write(value.dirtRoads)
-        try writer["Ferries"].write(value.ferries)
-        try writer["TollRoads"].write(value.tollRoads)
-        try writer["TollTransponders"].write(value.tollTransponders)
-        try writer["TruckRoadTypes"].writeList(value.truckRoadTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Tunnels"].write(value.tunnels)
-        try writer["UTurns"].write(value.uTurns)
-        try writer["ZoneCategories"].writeList(value.zoneCategories, memberWritingClosure: GeoRoutesClientTypes.RouteMatrixAvoidanceZoneCategory.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension GeoRoutesClientTypes.RouteMatrixAvoidanceZoneCategory {
-
-    static func write(value: GeoRoutesClientTypes.RouteMatrixAvoidanceZoneCategory?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Category"].write(value.category)
-    }
-}
-
-extension GeoRoutesClientTypes.RouteMatrixAvoidanceArea {
-
-    static func write(value: GeoRoutesClientTypes.RouteMatrixAvoidanceArea?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Geometry"].write(value.geometry, with: GeoRoutesClientTypes.RouteMatrixAvoidanceAreaGeometry.write(value:to:))
-    }
-}
-
-extension GeoRoutesClientTypes.RouteMatrixAvoidanceAreaGeometry {
-
-    static func write(value: GeoRoutesClientTypes.RouteMatrixAvoidanceAreaGeometry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BoundingBox"].writeList(value.boundingBox, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Polygon"].writeList(value.polygon, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        try writer["PolylinePolygon"].writeList(value.polylinePolygon, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -11185,12 +10613,23 @@ extension GeoRoutesClientTypes.RouteMatrixDestinationOptions {
     }
 }
 
-extension GeoRoutesClientTypes.RouteMatrixSideOfStreetOptions {
+extension GeoRoutesClientTypes.RouteMatrixEntry {
 
-    static func write(value: GeoRoutesClientTypes.RouteMatrixSideOfStreetOptions?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteMatrixEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteMatrixEntry()
+        value.distance = try reader["Distance"].readIfPresent() ?? 0
+        value.duration = try reader["Duration"].readIfPresent() ?? 0
+        value.error = try reader["Error"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteMatrixExclusionOptions {
+
+    static func write(value: GeoRoutesClientTypes.RouteMatrixExclusionOptions?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Position"].writeList(value.position, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["UseWith"].write(value.useWith)
+        try writer["Countries"].writeList(value.countries, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -11202,14 +10641,6 @@ extension GeoRoutesClientTypes.RouteMatrixMatchingOptions {
         try writer["OnRoadThreshold"].write(value.onRoadThreshold)
         try writer["Radius"].write(value.radius)
         try writer["Strategy"].write(value.strategy)
-    }
-}
-
-extension GeoRoutesClientTypes.RouteMatrixExclusionOptions {
-
-    static func write(value: GeoRoutesClientTypes.RouteMatrixExclusionOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Countries"].writeList(value.countries, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -11233,12 +10664,39 @@ extension GeoRoutesClientTypes.RouteMatrixOriginOptions {
     }
 }
 
+extension GeoRoutesClientTypes.RouteMatrixScooterOptions {
+
+    static func write(value: GeoRoutesClientTypes.RouteMatrixScooterOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LicensePlate"].write(value.licensePlate, with: GeoRoutesClientTypes.RouteMatrixVehicleLicensePlate.write(value:to:))
+        try writer["MaxSpeed"].write(value.maxSpeed)
+        try writer["Occupancy"].write(value.occupancy)
+    }
+}
+
+extension GeoRoutesClientTypes.RouteMatrixSideOfStreetOptions {
+
+    static func write(value: GeoRoutesClientTypes.RouteMatrixSideOfStreetOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Position"].writeList(value.position, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["UseWith"].write(value.useWith)
+    }
+}
+
 extension GeoRoutesClientTypes.RouteMatrixTrafficOptions {
 
     static func write(value: GeoRoutesClientTypes.RouteMatrixTrafficOptions?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["FlowEventThresholdOverride"].write(value.flowEventThresholdOverride)
         try writer["Usage"].write(value.usage)
+    }
+}
+
+extension GeoRoutesClientTypes.RouteMatrixTrailerOptions {
+
+    static func write(value: GeoRoutesClientTypes.RouteMatrixTrailerOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TrailerCount"].write(value.trailerCount)
     }
 }
 
@@ -11275,14 +10733,6 @@ extension GeoRoutesClientTypes.RouteMatrixTruckOptions {
     }
 }
 
-extension GeoRoutesClientTypes.RouteMatrixTrailerOptions {
-
-    static func write(value: GeoRoutesClientTypes.RouteMatrixTrailerOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["TrailerCount"].write(value.trailerCount)
-    }
-}
-
 extension GeoRoutesClientTypes.RouteMatrixVehicleLicensePlate {
 
     static func write(value: GeoRoutesClientTypes.RouteMatrixVehicleLicensePlate?, to writer: SmithyJSON.Writer) throws {
@@ -11291,138 +10741,26 @@ extension GeoRoutesClientTypes.RouteMatrixVehicleLicensePlate {
     }
 }
 
-extension GeoRoutesClientTypes.RouteMatrixScooterOptions {
+extension GeoRoutesClientTypes.RouteNoticeDetailRange {
 
-    static func write(value: GeoRoutesClientTypes.RouteMatrixScooterOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LicensePlate"].write(value.licensePlate, with: GeoRoutesClientTypes.RouteMatrixVehicleLicensePlate.write(value:to:))
-        try writer["MaxSpeed"].write(value.maxSpeed)
-        try writer["Occupancy"].write(value.occupancy)
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteNoticeDetailRange {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteNoticeDetailRange()
+        value.min = try reader["Min"].readIfPresent()
+        value.max = try reader["Max"].readIfPresent()
+        return value
     }
 }
 
-extension GeoRoutesClientTypes.RouteMatrixCarOptions {
+extension GeoRoutesClientTypes.RouteNumber {
 
-    static func write(value: GeoRoutesClientTypes.RouteMatrixCarOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LicensePlate"].write(value.licensePlate, with: GeoRoutesClientTypes.RouteMatrixVehicleLicensePlate.write(value:to:))
-        try writer["MaxSpeed"].write(value.maxSpeed)
-        try writer["Occupancy"].write(value.occupancy)
-    }
-}
-
-extension GeoRoutesClientTypes.RouteAllowOptions {
-
-    static func write(value: GeoRoutesClientTypes.RouteAllowOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Hot"].write(value.hot)
-        try writer["Hov"].write(value.hov)
-    }
-}
-
-extension GeoRoutesClientTypes.RouteAvoidanceOptions {
-
-    static func write(value: GeoRoutesClientTypes.RouteAvoidanceOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Areas"].writeList(value.areas, memberWritingClosure: GeoRoutesClientTypes.RouteAvoidanceArea.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["CarShuttleTrains"].write(value.carShuttleTrains)
-        try writer["ControlledAccessHighways"].write(value.controlledAccessHighways)
-        try writer["DirtRoads"].write(value.dirtRoads)
-        try writer["Ferries"].write(value.ferries)
-        try writer["SeasonalClosure"].write(value.seasonalClosure)
-        try writer["TollRoads"].write(value.tollRoads)
-        try writer["TollTransponders"].write(value.tollTransponders)
-        try writer["TruckRoadTypes"].writeList(value.truckRoadTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Tunnels"].write(value.tunnels)
-        try writer["UTurns"].write(value.uTurns)
-        try writer["ZoneCategories"].writeList(value.zoneCategories, memberWritingClosure: GeoRoutesClientTypes.RouteAvoidanceZoneCategory.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension GeoRoutesClientTypes.RouteAvoidanceZoneCategory {
-
-    static func write(value: GeoRoutesClientTypes.RouteAvoidanceZoneCategory?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Category"].write(value.category)
-    }
-}
-
-extension GeoRoutesClientTypes.RouteAvoidanceArea {
-
-    static func write(value: GeoRoutesClientTypes.RouteAvoidanceArea?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Except"].writeList(value.except, memberWritingClosure: GeoRoutesClientTypes.RouteAvoidanceAreaGeometry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Geometry"].write(value.geometry, with: GeoRoutesClientTypes.RouteAvoidanceAreaGeometry.write(value:to:))
-    }
-}
-
-extension GeoRoutesClientTypes.RouteAvoidanceAreaGeometry {
-
-    static func write(value: GeoRoutesClientTypes.RouteAvoidanceAreaGeometry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BoundingBox"].writeList(value.boundingBox, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Corridor"].write(value.corridor, with: GeoRoutesClientTypes.Corridor.write(value:to:))
-        try writer["Polygon"].writeList(value.polygon, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        try writer["PolylineCorridor"].write(value.polylineCorridor, with: GeoRoutesClientTypes.PolylineCorridor.write(value:to:))
-        try writer["PolylinePolygon"].writeList(value.polylinePolygon, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension GeoRoutesClientTypes.RouteDestinationOptions {
-
-    static func write(value: GeoRoutesClientTypes.RouteDestinationOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AvoidActionsForDistance"].write(value.avoidActionsForDistance)
-        try writer["AvoidUTurns"].write(value.avoidUTurns)
-        try writer["Heading"].write(value.heading)
-        try writer["Matching"].write(value.matching, with: GeoRoutesClientTypes.RouteMatchingOptions.write(value:to:))
-        try writer["SideOfStreet"].write(value.sideOfStreet, with: GeoRoutesClientTypes.RouteSideOfStreetOptions.write(value:to:))
-        try writer["StopDuration"].write(value.stopDuration)
-    }
-}
-
-extension GeoRoutesClientTypes.RouteSideOfStreetOptions {
-
-    static func write(value: GeoRoutesClientTypes.RouteSideOfStreetOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Position"].writeList(value.position, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["UseWith"].write(value.useWith)
-    }
-}
-
-extension GeoRoutesClientTypes.RouteMatchingOptions {
-
-    static func write(value: GeoRoutesClientTypes.RouteMatchingOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["NameHint"].write(value.nameHint)
-        try writer["OnRoadThreshold"].write(value.onRoadThreshold)
-        try writer["Radius"].write(value.radius)
-        try writer["Strategy"].write(value.strategy)
-    }
-}
-
-extension GeoRoutesClientTypes.RouteDriverOptions {
-
-    static func write(value: GeoRoutesClientTypes.RouteDriverOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Schedule"].writeList(value.schedule, memberWritingClosure: GeoRoutesClientTypes.RouteDriverScheduleInterval.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension GeoRoutesClientTypes.RouteDriverScheduleInterval {
-
-    static func write(value: GeoRoutesClientTypes.RouteDriverScheduleInterval?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DriveDuration"].write(value.driveDuration)
-        try writer["RestDuration"].write(value.restDuration)
-    }
-}
-
-extension GeoRoutesClientTypes.RouteExclusionOptions {
-
-    static func write(value: GeoRoutesClientTypes.RouteExclusionOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Countries"].writeList(value.countries, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteNumber {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteNumber()
+        value.direction = try reader["Direction"].readIfPresent()
+        value.language = try reader["Language"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
     }
 }
 
@@ -11438,6 +10776,345 @@ extension GeoRoutesClientTypes.RouteOriginOptions {
     }
 }
 
+extension GeoRoutesClientTypes.RoutePassThroughPlace {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RoutePassThroughPlace {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RoutePassThroughPlace()
+        value.originalPosition = try reader["OriginalPosition"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
+        value.position = try reader["Position"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.waypointIndex = try reader["WaypointIndex"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RoutePassThroughWaypoint {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RoutePassThroughWaypoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RoutePassThroughWaypoint()
+        value.geometryOffset = try reader["GeometryOffset"].readIfPresent()
+        value.place = try reader["Place"].readIfPresent(with: GeoRoutesClientTypes.RoutePassThroughPlace.read(from:))
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RoutePedestrianArrival {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RoutePedestrianArrival {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RoutePedestrianArrival()
+        value.place = try reader["Place"].readIfPresent(with: GeoRoutesClientTypes.RoutePedestrianPlace.read(from:))
+        value.time = try reader["Time"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RoutePedestrianDeparture {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RoutePedestrianDeparture {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RoutePedestrianDeparture()
+        value.place = try reader["Place"].readIfPresent(with: GeoRoutesClientTypes.RoutePedestrianPlace.read(from:))
+        value.time = try reader["Time"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RoutePedestrianLegDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RoutePedestrianLegDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RoutePedestrianLegDetails()
+        value.arrival = try reader["Arrival"].readIfPresent(with: GeoRoutesClientTypes.RoutePedestrianArrival.read(from:))
+        value.departure = try reader["Departure"].readIfPresent(with: GeoRoutesClientTypes.RoutePedestrianDeparture.read(from:))
+        value.notices = try reader["Notices"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RoutePedestrianNotice.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.passThroughWaypoints = try reader["PassThroughWaypoints"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RoutePassThroughWaypoint.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.spans = try reader["Spans"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RoutePedestrianSpan.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.summary = try reader["Summary"].readIfPresent(with: GeoRoutesClientTypes.RoutePedestrianSummary.read(from:))
+        value.travelSteps = try reader["TravelSteps"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RoutePedestrianTravelStep.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RoutePedestrianNotice {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RoutePedestrianNotice {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RoutePedestrianNotice()
+        value.code = try reader["Code"].readIfPresent() ?? .sdkUnknown("")
+        value.impact = try reader["Impact"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RoutePedestrianOptions {
+
+    static func write(value: GeoRoutesClientTypes.RoutePedestrianOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Speed"].write(value.speed)
+    }
+}
+
+extension GeoRoutesClientTypes.RoutePedestrianOverviewSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RoutePedestrianOverviewSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RoutePedestrianOverviewSummary()
+        value.distance = try reader["Distance"].readIfPresent() ?? 0
+        value.duration = try reader["Duration"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RoutePedestrianPlace {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RoutePedestrianPlace {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RoutePedestrianPlace()
+        value.name = try reader["Name"].readIfPresent()
+        value.originalPosition = try reader["OriginalPosition"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
+        value.position = try reader["Position"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.sideOfStreet = try reader["SideOfStreet"].readIfPresent()
+        value.waypointIndex = try reader["WaypointIndex"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RoutePedestrianSpan {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RoutePedestrianSpan {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RoutePedestrianSpan()
+        value.bestCaseDuration = try reader["BestCaseDuration"].readIfPresent() ?? 0
+        value.country = try reader["Country"].readIfPresent()
+        value.distance = try reader["Distance"].readIfPresent() ?? 0
+        value.duration = try reader["Duration"].readIfPresent() ?? 0
+        value.dynamicSpeed = try reader["DynamicSpeed"].readIfPresent(with: GeoRoutesClientTypes.RouteSpanDynamicSpeedDetails.read(from:))
+        value.functionalClassification = try reader["FunctionalClassification"].readIfPresent()
+        value.geometryOffset = try reader["GeometryOffset"].readIfPresent()
+        value.incidents = try reader["Incidents"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        value.names = try reader["Names"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.LocalizedString.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.pedestrianAccess = try reader["PedestrianAccess"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GeoRoutesClientTypes.RouteSpanPedestrianAccessAttribute>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.region = try reader["Region"].readIfPresent()
+        value.roadAttributes = try reader["RoadAttributes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GeoRoutesClientTypes.RouteSpanRoadAttribute>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.routeNumbers = try reader["RouteNumbers"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteNumber.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.speedLimit = try reader["SpeedLimit"].readIfPresent(with: GeoRoutesClientTypes.RouteSpanSpeedLimitDetails.read(from:))
+        value.typicalDuration = try reader["TypicalDuration"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RoutePedestrianSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RoutePedestrianSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RoutePedestrianSummary()
+        value.overview = try reader["Overview"].readIfPresent(with: GeoRoutesClientTypes.RoutePedestrianOverviewSummary.read(from:))
+        value.travelOnly = try reader["TravelOnly"].readIfPresent(with: GeoRoutesClientTypes.RoutePedestrianTravelOnlySummary.read(from:))
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RoutePedestrianTravelOnlySummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RoutePedestrianTravelOnlySummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RoutePedestrianTravelOnlySummary()
+        value.duration = try reader["Duration"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RoutePedestrianTravelStep {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RoutePedestrianTravelStep {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RoutePedestrianTravelStep()
+        value.continueStepDetails = try reader["ContinueStepDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteContinueStepDetails.read(from:))
+        value.currentRoad = try reader["CurrentRoad"].readIfPresent(with: GeoRoutesClientTypes.RouteRoad.read(from:))
+        value.distance = try reader["Distance"].readIfPresent() ?? 0
+        value.duration = try reader["Duration"].readIfPresent() ?? 0
+        value.exitNumber = try reader["ExitNumber"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.LocalizedString.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.geometryOffset = try reader["GeometryOffset"].readIfPresent()
+        value.instruction = try reader["Instruction"].readIfPresent()
+        value.keepStepDetails = try reader["KeepStepDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteKeepStepDetails.read(from:))
+        value.nextRoad = try reader["NextRoad"].readIfPresent(with: GeoRoutesClientTypes.RouteRoad.read(from:))
+        value.roundaboutEnterStepDetails = try reader["RoundaboutEnterStepDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteRoundaboutEnterStepDetails.read(from:))
+        value.roundaboutExitStepDetails = try reader["RoundaboutExitStepDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteRoundaboutExitStepDetails.read(from:))
+        value.roundaboutPassStepDetails = try reader["RoundaboutPassStepDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteRoundaboutPassStepDetails.read(from:))
+        value.signpost = try reader["Signpost"].readIfPresent(with: GeoRoutesClientTypes.RouteSignpost.read(from:))
+        value.turnStepDetails = try reader["TurnStepDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteTurnStepDetails.read(from:))
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteRampStepDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteRampStepDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteRampStepDetails()
+        value.intersection = try reader["Intersection"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.LocalizedString.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.steeringDirection = try reader["SteeringDirection"].readIfPresent()
+        value.turnAngle = try reader["TurnAngle"].readIfPresent() ?? 0
+        value.turnIntensity = try reader["TurnIntensity"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteResponseNotice {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteResponseNotice {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteResponseNotice()
+        value.code = try reader["Code"].readIfPresent() ?? .sdkUnknown("")
+        value.impact = try reader["Impact"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteRoad {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteRoad {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteRoad()
+        value.roadName = try reader["RoadName"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.LocalizedString.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.routeNumber = try reader["RouteNumber"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteNumber.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.towards = try reader["Towards"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.LocalizedString.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.type = try reader["Type"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteRoundaboutEnterStepDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteRoundaboutEnterStepDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteRoundaboutEnterStepDetails()
+        value.intersection = try reader["Intersection"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.LocalizedString.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.steeringDirection = try reader["SteeringDirection"].readIfPresent()
+        value.turnAngle = try reader["TurnAngle"].readIfPresent() ?? 0
+        value.turnIntensity = try reader["TurnIntensity"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteRoundaboutExitStepDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteRoundaboutExitStepDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteRoundaboutExitStepDetails()
+        value.intersection = try reader["Intersection"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.LocalizedString.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.relativeExit = try reader["RelativeExit"].readIfPresent()
+        value.roundaboutAngle = try reader["RoundaboutAngle"].readIfPresent() ?? 0
+        value.steeringDirection = try reader["SteeringDirection"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteRoundaboutPassStepDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteRoundaboutPassStepDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteRoundaboutPassStepDetails()
+        value.intersection = try reader["Intersection"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.LocalizedString.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.steeringDirection = try reader["SteeringDirection"].readIfPresent()
+        value.turnAngle = try reader["TurnAngle"].readIfPresent() ?? 0
+        value.turnIntensity = try reader["TurnIntensity"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteScooterOptions {
+
+    static func write(value: GeoRoutesClientTypes.RouteScooterOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EngineType"].write(value.engineType)
+        try writer["LicensePlate"].write(value.licensePlate, with: GeoRoutesClientTypes.RouteVehicleLicensePlate.write(value:to:))
+        try writer["MaxSpeed"].write(value.maxSpeed)
+        try writer["Occupancy"].write(value.occupancy)
+    }
+}
+
+extension GeoRoutesClientTypes.RouteSideOfStreetOptions {
+
+    static func write(value: GeoRoutesClientTypes.RouteSideOfStreetOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Position"].writeList(value.position, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["UseWith"].write(value.useWith)
+    }
+}
+
+extension GeoRoutesClientTypes.RouteSignpost {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteSignpost {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteSignpost()
+        value.labels = try reader["Labels"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteSignpostLabel.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteSignpostLabel {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteSignpostLabel {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteSignpostLabel()
+        value.routeNumber = try reader["RouteNumber"].readIfPresent(with: GeoRoutesClientTypes.RouteNumber.read(from:))
+        value.text = try reader["Text"].readIfPresent(with: GeoRoutesClientTypes.LocalizedString.read(from:))
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteSpanDynamicSpeedDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteSpanDynamicSpeedDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteSpanDynamicSpeedDetails()
+        value.bestCaseSpeed = try reader["BestCaseSpeed"].readIfPresent() ?? 0
+        value.turnDuration = try reader["TurnDuration"].readIfPresent() ?? 0
+        value.typicalSpeed = try reader["TypicalSpeed"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteSpanSpeedLimitDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteSpanSpeedLimitDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteSpanSpeedLimitDetails()
+        value.maxSpeed = try reader["MaxSpeed"].readIfPresent() ?? 0
+        value.unlimited = try reader["Unlimited"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteSummary()
+        value.distance = try reader["Distance"].readIfPresent() ?? 0
+        value.duration = try reader["Duration"].readIfPresent() ?? 0
+        value.tolls = try reader["Tolls"].readIfPresent(with: GeoRoutesClientTypes.RouteTollSummary.read(from:))
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteToll {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteToll {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteToll()
+        value.country = try reader["Country"].readIfPresent()
+        value.paymentSites = try reader["PaymentSites"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteTollPaymentSite.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.rates = try reader["Rates"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteTollRate.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.systems = try reader["Systems"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension GeoRoutesClientTypes.RouteTollOptions {
 
     static func write(value: GeoRoutesClientTypes.RouteTollOptions?, to writer: SmithyJSON.Writer) throws {
@@ -11450,12 +11127,116 @@ extension GeoRoutesClientTypes.RouteTollOptions {
     }
 }
 
-extension GeoRoutesClientTypes.RouteEmissionType {
+extension GeoRoutesClientTypes.RouteTollPass {
 
-    static func write(value: GeoRoutesClientTypes.RouteEmissionType?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Co2EmissionClass"].write(value.co2EmissionClass)
-        try writer["Type"].write(value.type)
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteTollPass {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteTollPass()
+        value.includesReturnTrip = try reader["IncludesReturnTrip"].readIfPresent()
+        value.seniorPass = try reader["SeniorPass"].readIfPresent()
+        value.transferCount = try reader["TransferCount"].readIfPresent()
+        value.tripCount = try reader["TripCount"].readIfPresent()
+        value.validityPeriod = try reader["ValidityPeriod"].readIfPresent(with: GeoRoutesClientTypes.RouteTollPassValidityPeriod.read(from:))
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTollPassValidityPeriod {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteTollPassValidityPeriod {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteTollPassValidityPeriod()
+        value.period = try reader["Period"].readIfPresent() ?? .sdkUnknown("")
+        value.periodCount = try reader["PeriodCount"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTollPaymentSite {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteTollPaymentSite {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteTollPaymentSite()
+        value.name = try reader["Name"].readIfPresent()
+        value.position = try reader["Position"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTollPrice {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteTollPrice {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteTollPrice()
+        value.currency = try reader["Currency"].readIfPresent() ?? ""
+        value.estimate = try reader["Estimate"].readIfPresent() ?? false
+        value.perDuration = try reader["PerDuration"].readIfPresent() ?? 0
+        value.range = try reader["Range"].readIfPresent() ?? false
+        value.rangeValue = try reader["RangeValue"].readIfPresent(with: GeoRoutesClientTypes.RouteTollPriceValueRange.read(from:))
+        value.value = try reader["Value"].readIfPresent() ?? 0.0
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTollPriceSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteTollPriceSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteTollPriceSummary()
+        value.currency = try reader["Currency"].readIfPresent() ?? ""
+        value.estimate = try reader["Estimate"].readIfPresent() ?? false
+        value.range = try reader["Range"].readIfPresent() ?? false
+        value.rangeValue = try reader["RangeValue"].readIfPresent(with: GeoRoutesClientTypes.RouteTollPriceValueRange.read(from:))
+        value.value = try reader["Value"].readIfPresent() ?? 0.0
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTollPriceValueRange {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteTollPriceValueRange {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteTollPriceValueRange()
+        value.min = try reader["Min"].readIfPresent() ?? 0.0
+        value.max = try reader["Max"].readIfPresent() ?? 0.0
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTollRate {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteTollRate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteTollRate()
+        value.applicableTimes = try reader["ApplicableTimes"].readIfPresent()
+        value.convertedPrice = try reader["ConvertedPrice"].readIfPresent(with: GeoRoutesClientTypes.RouteTollPrice.read(from:))
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.localPrice = try reader["LocalPrice"].readIfPresent(with: GeoRoutesClientTypes.RouteTollPrice.read(from:))
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.pass = try reader["Pass"].readIfPresent(with: GeoRoutesClientTypes.RouteTollPass.read(from:))
+        value.paymentMethods = try reader["PaymentMethods"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GeoRoutesClientTypes.RouteTollPaymentMethod>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.transponders = try reader["Transponders"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteTransponder.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTollSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteTollSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteTollSummary()
+        value.total = try reader["Total"].readIfPresent(with: GeoRoutesClientTypes.RouteTollPriceSummary.read(from:))
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTollSystem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteTollSystem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteTollSystem()
+        value.name = try reader["Name"].readIfPresent()
+        return value
     }
 }
 
@@ -11465,6 +11246,25 @@ extension GeoRoutesClientTypes.RouteTrafficOptions {
         guard let value else { return }
         try writer["FlowEventThresholdOverride"].write(value.flowEventThresholdOverride)
         try writer["Usage"].write(value.usage)
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTrailerOptions {
+
+    static func write(value: GeoRoutesClientTypes.RouteTrailerOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AxleCount"].write(value.axleCount)
+        try writer["TrailerCount"].write(value.trailerCount)
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTransponder {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteTransponder {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteTransponder()
+        value.systemName = try reader["SystemName"].readIfPresent()
+        return value
     }
 }
 
@@ -11505,12 +11305,86 @@ extension GeoRoutesClientTypes.RouteTruckOptions {
     }
 }
 
-extension GeoRoutesClientTypes.RouteTrailerOptions {
+extension GeoRoutesClientTypes.RouteTurnStepDetails {
 
-    static func write(value: GeoRoutesClientTypes.RouteTrailerOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AxleCount"].write(value.axleCount)
-        try writer["TrailerCount"].write(value.trailerCount)
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteTurnStepDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteTurnStepDetails()
+        value.intersection = try reader["Intersection"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.LocalizedString.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.steeringDirection = try reader["SteeringDirection"].readIfPresent()
+        value.turnAngle = try reader["TurnAngle"].readIfPresent() ?? 0
+        value.turnIntensity = try reader["TurnIntensity"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteUTurnStepDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteUTurnStepDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteUTurnStepDetails()
+        value.intersection = try reader["Intersection"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.LocalizedString.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.steeringDirection = try reader["SteeringDirection"].readIfPresent()
+        value.turnAngle = try reader["TurnAngle"].readIfPresent() ?? 0
+        value.turnIntensity = try reader["TurnIntensity"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteVehicleArrival {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteVehicleArrival {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteVehicleArrival()
+        value.place = try reader["Place"].readIfPresent(with: GeoRoutesClientTypes.RouteVehiclePlace.read(from:))
+        value.time = try reader["Time"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteVehicleDeparture {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteVehicleDeparture {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteVehicleDeparture()
+        value.place = try reader["Place"].readIfPresent(with: GeoRoutesClientTypes.RouteVehiclePlace.read(from:))
+        value.time = try reader["Time"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteVehicleIncident {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteVehicleIncident {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteVehicleIncident()
+        value.description = try reader["Description"].readIfPresent()
+        value.endTime = try reader["EndTime"].readIfPresent()
+        value.severity = try reader["Severity"].readIfPresent()
+        value.startTime = try reader["StartTime"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteVehicleLegDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteVehicleLegDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteVehicleLegDetails()
+        value.arrival = try reader["Arrival"].readIfPresent(with: GeoRoutesClientTypes.RouteVehicleArrival.read(from:))
+        value.departure = try reader["Departure"].readIfPresent(with: GeoRoutesClientTypes.RouteVehicleDeparture.read(from:))
+        value.incidents = try reader["Incidents"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteVehicleIncident.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.notices = try reader["Notices"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteVehicleNotice.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.passThroughWaypoints = try reader["PassThroughWaypoints"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RoutePassThroughWaypoint.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.spans = try reader["Spans"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteVehicleSpan.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.summary = try reader["Summary"].readIfPresent(with: GeoRoutesClientTypes.RouteVehicleSummary.read(from:))
+        value.tolls = try reader["Tolls"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteToll.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.tollSystems = try reader["TollSystems"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteTollSystem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.travelSteps = try reader["TravelSteps"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteVehicleTravelStep.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.truckRoadTypes = try reader["TruckRoadTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.zones = try reader["Zones"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteZone.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
     }
 }
 
@@ -11522,33 +11396,165 @@ extension GeoRoutesClientTypes.RouteVehicleLicensePlate {
     }
 }
 
-extension GeoRoutesClientTypes.RouteScooterOptions {
+extension GeoRoutesClientTypes.RouteVehicleNotice {
 
-    static func write(value: GeoRoutesClientTypes.RouteScooterOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EngineType"].write(value.engineType)
-        try writer["LicensePlate"].write(value.licensePlate, with: GeoRoutesClientTypes.RouteVehicleLicensePlate.write(value:to:))
-        try writer["MaxSpeed"].write(value.maxSpeed)
-        try writer["Occupancy"].write(value.occupancy)
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteVehicleNotice {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteVehicleNotice()
+        value.code = try reader["Code"].readIfPresent() ?? .sdkUnknown("")
+        value.details = try reader["Details"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteVehicleNoticeDetail.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.impact = try reader["Impact"].readIfPresent()
+        return value
     }
 }
 
-extension GeoRoutesClientTypes.RoutePedestrianOptions {
+extension GeoRoutesClientTypes.RouteVehicleNoticeDetail {
 
-    static func write(value: GeoRoutesClientTypes.RoutePedestrianOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Speed"].write(value.speed)
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteVehicleNoticeDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteVehicleNoticeDetail()
+        value.title = try reader["Title"].readIfPresent()
+        value.violatedConstraints = try reader["ViolatedConstraints"].readIfPresent(with: GeoRoutesClientTypes.RouteViolatedConstraints.read(from:))
+        return value
     }
 }
 
-extension GeoRoutesClientTypes.RouteCarOptions {
+extension GeoRoutesClientTypes.RouteVehicleOverviewSummary {
 
-    static func write(value: GeoRoutesClientTypes.RouteCarOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EngineType"].write(value.engineType)
-        try writer["LicensePlate"].write(value.licensePlate, with: GeoRoutesClientTypes.RouteVehicleLicensePlate.write(value:to:))
-        try writer["MaxSpeed"].write(value.maxSpeed)
-        try writer["Occupancy"].write(value.occupancy)
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteVehicleOverviewSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteVehicleOverviewSummary()
+        value.bestCaseDuration = try reader["BestCaseDuration"].readIfPresent() ?? 0
+        value.distance = try reader["Distance"].readIfPresent() ?? 0
+        value.duration = try reader["Duration"].readIfPresent() ?? 0
+        value.typicalDuration = try reader["TypicalDuration"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteVehiclePlace {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteVehiclePlace {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteVehiclePlace()
+        value.name = try reader["Name"].readIfPresent()
+        value.originalPosition = try reader["OriginalPosition"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
+        value.position = try reader["Position"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.sideOfStreet = try reader["SideOfStreet"].readIfPresent()
+        value.waypointIndex = try reader["WaypointIndex"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteVehicleSpan {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteVehicleSpan {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteVehicleSpan()
+        value.bestCaseDuration = try reader["BestCaseDuration"].readIfPresent() ?? 0
+        value.carAccess = try reader["CarAccess"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GeoRoutesClientTypes.RouteSpanCarAccessAttribute>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.country = try reader["Country"].readIfPresent()
+        value.distance = try reader["Distance"].readIfPresent() ?? 0
+        value.duration = try reader["Duration"].readIfPresent() ?? 0
+        value.dynamicSpeed = try reader["DynamicSpeed"].readIfPresent(with: GeoRoutesClientTypes.RouteSpanDynamicSpeedDetails.read(from:))
+        value.functionalClassification = try reader["FunctionalClassification"].readIfPresent()
+        value.gate = try reader["Gate"].readIfPresent()
+        value.geometryOffset = try reader["GeometryOffset"].readIfPresent()
+        value.incidents = try reader["Incidents"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        value.names = try reader["Names"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.LocalizedString.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.notices = try reader["Notices"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        value.railwayCrossing = try reader["RailwayCrossing"].readIfPresent()
+        value.region = try reader["Region"].readIfPresent()
+        value.roadAttributes = try reader["RoadAttributes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GeoRoutesClientTypes.RouteSpanRoadAttribute>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.routeNumbers = try reader["RouteNumbers"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteNumber.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.scooterAccess = try reader["ScooterAccess"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GeoRoutesClientTypes.RouteSpanScooterAccessAttribute>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.speedLimit = try reader["SpeedLimit"].readIfPresent(with: GeoRoutesClientTypes.RouteSpanSpeedLimitDetails.read(from:))
+        value.tollSystems = try reader["TollSystems"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        value.truckAccess = try reader["TruckAccess"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GeoRoutesClientTypes.RouteSpanTruckAccessAttribute>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.truckRoadTypes = try reader["TruckRoadTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        value.typicalDuration = try reader["TypicalDuration"].readIfPresent() ?? 0
+        value.zones = try reader["Zones"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteVehicleSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteVehicleSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteVehicleSummary()
+        value.overview = try reader["Overview"].readIfPresent(with: GeoRoutesClientTypes.RouteVehicleOverviewSummary.read(from:))
+        value.travelOnly = try reader["TravelOnly"].readIfPresent(with: GeoRoutesClientTypes.RouteVehicleTravelOnlySummary.read(from:))
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteVehicleTravelOnlySummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteVehicleTravelOnlySummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteVehicleTravelOnlySummary()
+        value.bestCaseDuration = try reader["BestCaseDuration"].readIfPresent() ?? 0
+        value.duration = try reader["Duration"].readIfPresent() ?? 0
+        value.typicalDuration = try reader["TypicalDuration"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteVehicleTravelStep {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteVehicleTravelStep {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteVehicleTravelStep()
+        value.continueHighwayStepDetails = try reader["ContinueHighwayStepDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteContinueHighwayStepDetails.read(from:))
+        value.continueStepDetails = try reader["ContinueStepDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteContinueStepDetails.read(from:))
+        value.currentRoad = try reader["CurrentRoad"].readIfPresent(with: GeoRoutesClientTypes.RouteRoad.read(from:))
+        value.distance = try reader["Distance"].readIfPresent() ?? 0
+        value.duration = try reader["Duration"].readIfPresent() ?? 0
+        value.enterHighwayStepDetails = try reader["EnterHighwayStepDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteEnterHighwayStepDetails.read(from:))
+        value.exitNumber = try reader["ExitNumber"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.LocalizedString.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.exitStepDetails = try reader["ExitStepDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteExitStepDetails.read(from:))
+        value.geometryOffset = try reader["GeometryOffset"].readIfPresent()
+        value.instruction = try reader["Instruction"].readIfPresent()
+        value.keepStepDetails = try reader["KeepStepDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteKeepStepDetails.read(from:))
+        value.nextRoad = try reader["NextRoad"].readIfPresent(with: GeoRoutesClientTypes.RouteRoad.read(from:))
+        value.rampStepDetails = try reader["RampStepDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteRampStepDetails.read(from:))
+        value.roundaboutEnterStepDetails = try reader["RoundaboutEnterStepDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteRoundaboutEnterStepDetails.read(from:))
+        value.roundaboutExitStepDetails = try reader["RoundaboutExitStepDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteRoundaboutExitStepDetails.read(from:))
+        value.roundaboutPassStepDetails = try reader["RoundaboutPassStepDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteRoundaboutPassStepDetails.read(from:))
+        value.signpost = try reader["Signpost"].readIfPresent(with: GeoRoutesClientTypes.RouteSignpost.read(from:))
+        value.turnStepDetails = try reader["TurnStepDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteTurnStepDetails.read(from:))
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.uTurnStepDetails = try reader["UTurnStepDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteUTurnStepDetails.read(from:))
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteViolatedConstraints {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteViolatedConstraints {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteViolatedConstraints()
+        value.allHazardsRestricted = try reader["AllHazardsRestricted"].readIfPresent()
+        value.axleCount = try reader["AxleCount"].readIfPresent(with: GeoRoutesClientTypes.RouteNoticeDetailRange.read(from:))
+        value.hazardousCargos = try reader["HazardousCargos"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GeoRoutesClientTypes.RouteHazardousCargoType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.maxHeight = try reader["MaxHeight"].readIfPresent() ?? 0
+        value.maxKpraLength = try reader["MaxKpraLength"].readIfPresent() ?? 0
+        value.maxLength = try reader["MaxLength"].readIfPresent() ?? 0
+        value.maxPayloadCapacity = try reader["MaxPayloadCapacity"].readIfPresent() ?? 0
+        value.maxWeight = try reader["MaxWeight"].readIfPresent(with: GeoRoutesClientTypes.RouteWeightConstraint.read(from:))
+        value.maxWeightPerAxle = try reader["MaxWeightPerAxle"].readIfPresent() ?? 0
+        value.maxWeightPerAxleGroup = try reader["MaxWeightPerAxleGroup"].readIfPresent(with: GeoRoutesClientTypes.WeightPerAxleGroup.read(from:))
+        value.maxWidth = try reader["MaxWidth"].readIfPresent() ?? 0
+        value.occupancy = try reader["Occupancy"].readIfPresent(with: GeoRoutesClientTypes.RouteNoticeDetailRange.read(from:))
+        value.restrictedTimes = try reader["RestrictedTimes"].readIfPresent()
+        value.timeDependent = try reader["TimeDependent"].readIfPresent()
+        value.trailerCount = try reader["TrailerCount"].readIfPresent(with: GeoRoutesClientTypes.RouteNoticeDetailRange.read(from:))
+        value.travelMode = try reader["TravelMode"].readIfPresent()
+        value.truckRoadType = try reader["TruckRoadType"].readIfPresent()
+        value.truckType = try reader["TruckType"].readIfPresent()
+        value.tunnelRestrictionCode = try reader["TunnelRestrictionCode"].readIfPresent()
+        return value
     }
 }
 
@@ -11567,73 +11573,36 @@ extension GeoRoutesClientTypes.RouteWaypoint {
     }
 }
 
-extension GeoRoutesClientTypes.WaypointOptimizationAvoidanceOptions {
+extension GeoRoutesClientTypes.RouteWeightConstraint {
 
-    static func write(value: GeoRoutesClientTypes.WaypointOptimizationAvoidanceOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Areas"].writeList(value.areas, memberWritingClosure: GeoRoutesClientTypes.WaypointOptimizationAvoidanceArea.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["CarShuttleTrains"].write(value.carShuttleTrains)
-        try writer["ControlledAccessHighways"].write(value.controlledAccessHighways)
-        try writer["DirtRoads"].write(value.dirtRoads)
-        try writer["Ferries"].write(value.ferries)
-        try writer["TollRoads"].write(value.tollRoads)
-        try writer["Tunnels"].write(value.tunnels)
-        try writer["UTurns"].write(value.uTurns)
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteWeightConstraint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteWeightConstraint()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["Value"].readIfPresent() ?? 0
+        return value
     }
 }
 
-extension GeoRoutesClientTypes.WaypointOptimizationAvoidanceArea {
+extension GeoRoutesClientTypes.RouteZone {
 
-    static func write(value: GeoRoutesClientTypes.WaypointOptimizationAvoidanceArea?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Geometry"].write(value.geometry, with: GeoRoutesClientTypes.WaypointOptimizationAvoidanceAreaGeometry.write(value:to:))
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteZone {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteZone()
+        value.category = try reader["Category"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        return value
     }
 }
 
-extension GeoRoutesClientTypes.WaypointOptimizationAvoidanceAreaGeometry {
+extension GeoRoutesClientTypes.ValidationExceptionField {
 
-    static func write(value: GeoRoutesClientTypes.WaypointOptimizationAvoidanceAreaGeometry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BoundingBox"].writeList(value.boundingBox, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension GeoRoutesClientTypes.WaypointOptimizationClusteringOptions {
-
-    static func write(value: GeoRoutesClientTypes.WaypointOptimizationClusteringOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Algorithm"].write(value.algorithm)
-        try writer["DrivingDistanceOptions"].write(value.drivingDistanceOptions, with: GeoRoutesClientTypes.WaypointOptimizationDrivingDistanceOptions.write(value:to:))
-    }
-}
-
-extension GeoRoutesClientTypes.WaypointOptimizationDrivingDistanceOptions {
-
-    static func write(value: GeoRoutesClientTypes.WaypointOptimizationDrivingDistanceOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DrivingDistance"].write(value.drivingDistance)
-    }
-}
-
-extension GeoRoutesClientTypes.WaypointOptimizationDestinationOptions {
-
-    static func write(value: GeoRoutesClientTypes.WaypointOptimizationDestinationOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccessHours"].write(value.accessHours, with: GeoRoutesClientTypes.WaypointOptimizationAccessHours.write(value:to:))
-        try writer["AppointmentTime"].write(value.appointmentTime)
-        try writer["Heading"].write(value.heading)
-        try writer["Id"].write(value.id)
-        try writer["ServiceDuration"].write(value.serviceDuration)
-        try writer["SideOfStreet"].write(value.sideOfStreet, with: GeoRoutesClientTypes.WaypointOptimizationSideOfStreetOptions.write(value:to:))
-    }
-}
-
-extension GeoRoutesClientTypes.WaypointOptimizationSideOfStreetOptions {
-
-    static func write(value: GeoRoutesClientTypes.WaypointOptimizationSideOfStreetOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Position"].writeList(value.position, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["UseWith"].write(value.useWith)
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.ValidationExceptionField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.ValidationExceptionField()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
     }
 }
 
@@ -11655,6 +11624,74 @@ extension GeoRoutesClientTypes.WaypointOptimizationAccessHoursEntry {
     }
 }
 
+extension GeoRoutesClientTypes.WaypointOptimizationAvoidanceArea {
+
+    static func write(value: GeoRoutesClientTypes.WaypointOptimizationAvoidanceArea?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Geometry"].write(value.geometry, with: GeoRoutesClientTypes.WaypointOptimizationAvoidanceAreaGeometry.write(value:to:))
+    }
+}
+
+extension GeoRoutesClientTypes.WaypointOptimizationAvoidanceAreaGeometry {
+
+    static func write(value: GeoRoutesClientTypes.WaypointOptimizationAvoidanceAreaGeometry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BoundingBox"].writeList(value.boundingBox, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension GeoRoutesClientTypes.WaypointOptimizationAvoidanceOptions {
+
+    static func write(value: GeoRoutesClientTypes.WaypointOptimizationAvoidanceOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Areas"].writeList(value.areas, memberWritingClosure: GeoRoutesClientTypes.WaypointOptimizationAvoidanceArea.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["CarShuttleTrains"].write(value.carShuttleTrains)
+        try writer["ControlledAccessHighways"].write(value.controlledAccessHighways)
+        try writer["DirtRoads"].write(value.dirtRoads)
+        try writer["Ferries"].write(value.ferries)
+        try writer["TollRoads"].write(value.tollRoads)
+        try writer["Tunnels"].write(value.tunnels)
+        try writer["UTurns"].write(value.uTurns)
+    }
+}
+
+extension GeoRoutesClientTypes.WaypointOptimizationClusteringOptions {
+
+    static func write(value: GeoRoutesClientTypes.WaypointOptimizationClusteringOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Algorithm"].write(value.algorithm)
+        try writer["DrivingDistanceOptions"].write(value.drivingDistanceOptions, with: GeoRoutesClientTypes.WaypointOptimizationDrivingDistanceOptions.write(value:to:))
+    }
+}
+
+extension GeoRoutesClientTypes.WaypointOptimizationConnection {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.WaypointOptimizationConnection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.WaypointOptimizationConnection()
+        value.distance = try reader["Distance"].readIfPresent() ?? 0
+        value.from = try reader["From"].readIfPresent() ?? ""
+        value.restDuration = try reader["RestDuration"].readIfPresent() ?? 0
+        value.to = try reader["To"].readIfPresent() ?? ""
+        value.travelDuration = try reader["TravelDuration"].readIfPresent() ?? 0
+        value.waitDuration = try reader["WaitDuration"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.WaypointOptimizationDestinationOptions {
+
+    static func write(value: GeoRoutesClientTypes.WaypointOptimizationDestinationOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AccessHours"].write(value.accessHours, with: GeoRoutesClientTypes.WaypointOptimizationAccessHours.write(value:to:))
+        try writer["AppointmentTime"].write(value.appointmentTime)
+        try writer["Heading"].write(value.heading)
+        try writer["Id"].write(value.id)
+        try writer["ServiceDuration"].write(value.serviceDuration)
+        try writer["SideOfStreet"].write(value.sideOfStreet, with: GeoRoutesClientTypes.WaypointOptimizationSideOfStreetOptions.write(value:to:))
+    }
+}
+
 extension GeoRoutesClientTypes.WaypointOptimizationDriverOptions {
 
     static func write(value: GeoRoutesClientTypes.WaypointOptimizationDriverOptions?, to writer: SmithyJSON.Writer) throws {
@@ -11665,20 +11702,72 @@ extension GeoRoutesClientTypes.WaypointOptimizationDriverOptions {
     }
 }
 
-extension GeoRoutesClientTypes.WaypointOptimizationRestProfile {
+extension GeoRoutesClientTypes.WaypointOptimizationDrivingDistanceOptions {
 
-    static func write(value: GeoRoutesClientTypes.WaypointOptimizationRestProfile?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GeoRoutesClientTypes.WaypointOptimizationDrivingDistanceOptions?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Profile"].write(value.profile)
+        try writer["DrivingDistance"].write(value.drivingDistance)
     }
 }
 
-extension GeoRoutesClientTypes.WaypointOptimizationRestCycles {
+extension GeoRoutesClientTypes.WaypointOptimizationExclusionOptions {
 
-    static func write(value: GeoRoutesClientTypes.WaypointOptimizationRestCycles?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GeoRoutesClientTypes.WaypointOptimizationExclusionOptions?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["LongCycle"].write(value.longCycle, with: GeoRoutesClientTypes.WaypointOptimizationRestCycleDurations.write(value:to:))
-        try writer["ShortCycle"].write(value.shortCycle, with: GeoRoutesClientTypes.WaypointOptimizationRestCycleDurations.write(value:to:))
+        try writer["Countries"].writeList(value.countries, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension GeoRoutesClientTypes.WaypointOptimizationFailedConstraint {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.WaypointOptimizationFailedConstraint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.WaypointOptimizationFailedConstraint()
+        value.constraint = try reader["Constraint"].readIfPresent()
+        value.reason = try reader["Reason"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.WaypointOptimizationImpedingWaypoint {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.WaypointOptimizationImpedingWaypoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.WaypointOptimizationImpedingWaypoint()
+        value.failedConstraints = try reader["FailedConstraints"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.WaypointOptimizationFailedConstraint.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.position = try reader["Position"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.WaypointOptimizationOptimizedWaypoint {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.WaypointOptimizationOptimizedWaypoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.WaypointOptimizationOptimizedWaypoint()
+        value.arrivalTime = try reader["ArrivalTime"].readIfPresent()
+        value.clusterIndex = try reader["ClusterIndex"].readIfPresent()
+        value.departureTime = try reader["DepartureTime"].readIfPresent() ?? ""
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.position = try reader["Position"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.WaypointOptimizationOriginOptions {
+
+    static func write(value: GeoRoutesClientTypes.WaypointOptimizationOriginOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Id"].write(value.id)
+    }
+}
+
+extension GeoRoutesClientTypes.WaypointOptimizationPedestrianOptions {
+
+    static func write(value: GeoRoutesClientTypes.WaypointOptimizationPedestrianOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Speed"].write(value.speed)
     }
 }
 
@@ -11691,19 +11780,42 @@ extension GeoRoutesClientTypes.WaypointOptimizationRestCycleDurations {
     }
 }
 
-extension GeoRoutesClientTypes.WaypointOptimizationExclusionOptions {
+extension GeoRoutesClientTypes.WaypointOptimizationRestCycles {
 
-    static func write(value: GeoRoutesClientTypes.WaypointOptimizationExclusionOptions?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GeoRoutesClientTypes.WaypointOptimizationRestCycles?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Countries"].writeList(value.countries, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["LongCycle"].write(value.longCycle, with: GeoRoutesClientTypes.WaypointOptimizationRestCycleDurations.write(value:to:))
+        try writer["ShortCycle"].write(value.shortCycle, with: GeoRoutesClientTypes.WaypointOptimizationRestCycleDurations.write(value:to:))
     }
 }
 
-extension GeoRoutesClientTypes.WaypointOptimizationOriginOptions {
+extension GeoRoutesClientTypes.WaypointOptimizationRestProfile {
 
-    static func write(value: GeoRoutesClientTypes.WaypointOptimizationOriginOptions?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GeoRoutesClientTypes.WaypointOptimizationRestProfile?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Id"].write(value.id)
+        try writer["Profile"].write(value.profile)
+    }
+}
+
+extension GeoRoutesClientTypes.WaypointOptimizationSideOfStreetOptions {
+
+    static func write(value: GeoRoutesClientTypes.WaypointOptimizationSideOfStreetOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Position"].writeList(value.position, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["UseWith"].write(value.useWith)
+    }
+}
+
+extension GeoRoutesClientTypes.WaypointOptimizationTimeBreakdown {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.WaypointOptimizationTimeBreakdown {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.WaypointOptimizationTimeBreakdown()
+        value.restDuration = try reader["RestDuration"].readIfPresent() ?? 0
+        value.serviceDuration = try reader["ServiceDuration"].readIfPresent() ?? 0
+        value.travelDuration = try reader["TravelDuration"].readIfPresent() ?? 0
+        value.waitDuration = try reader["WaitDuration"].readIfPresent() ?? 0
+        return value
     }
 }
 
@@ -11712,6 +11824,14 @@ extension GeoRoutesClientTypes.WaypointOptimizationTrafficOptions {
     static func write(value: GeoRoutesClientTypes.WaypointOptimizationTrafficOptions?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Usage"].write(value.usage)
+    }
+}
+
+extension GeoRoutesClientTypes.WaypointOptimizationTrailerOptions {
+
+    static func write(value: GeoRoutesClientTypes.WaypointOptimizationTrailerOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TrailerCount"].write(value.trailerCount)
     }
 }
 
@@ -11740,22 +11860,6 @@ extension GeoRoutesClientTypes.WaypointOptimizationTruckOptions {
     }
 }
 
-extension GeoRoutesClientTypes.WaypointOptimizationTrailerOptions {
-
-    static func write(value: GeoRoutesClientTypes.WaypointOptimizationTrailerOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["TrailerCount"].write(value.trailerCount)
-    }
-}
-
-extension GeoRoutesClientTypes.WaypointOptimizationPedestrianOptions {
-
-    static func write(value: GeoRoutesClientTypes.WaypointOptimizationPedestrianOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Speed"].write(value.speed)
-    }
-}
-
 extension GeoRoutesClientTypes.WaypointOptimizationWaypoint {
 
     static func write(value: GeoRoutesClientTypes.WaypointOptimizationWaypoint?, to writer: SmithyJSON.Writer) throws {
@@ -11771,44 +11875,26 @@ extension GeoRoutesClientTypes.WaypointOptimizationWaypoint {
     }
 }
 
-extension GeoRoutesClientTypes.RoadSnapTracePoint {
+extension GeoRoutesClientTypes.WeightPerAxleGroup {
 
-    static func write(value: GeoRoutesClientTypes.RoadSnapTracePoint?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GeoRoutesClientTypes.WeightPerAxleGroup?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Heading"].write(value.heading)
-        try writer["Position"].writeList(value.position, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Speed"].write(value.speed)
-        try writer["Timestamp"].write(value.timestamp)
+        try writer["Quad"].write(value.quad)
+        try writer["Quint"].write(value.quint)
+        try writer["Single"].write(value.single)
+        try writer["Tandem"].write(value.tandem)
+        try writer["Triple"].write(value.triple)
     }
-}
 
-extension GeoRoutesClientTypes.RoadSnapTravelModeOptions {
-
-    static func write(value: GeoRoutesClientTypes.RoadSnapTravelModeOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Truck"].write(value.truck, with: GeoRoutesClientTypes.RoadSnapTruckOptions.write(value:to:))
-    }
-}
-
-extension GeoRoutesClientTypes.RoadSnapTruckOptions {
-
-    static func write(value: GeoRoutesClientTypes.RoadSnapTruckOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["GrossWeight"].write(value.grossWeight)
-        try writer["HazardousCargos"].writeList(value.hazardousCargos, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GeoRoutesClientTypes.RoadSnapHazardousCargoType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Height"].write(value.height)
-        try writer["Length"].write(value.length)
-        try writer["Trailer"].write(value.trailer, with: GeoRoutesClientTypes.RoadSnapTrailerOptions.write(value:to:))
-        try writer["TunnelRestrictionCode"].write(value.tunnelRestrictionCode)
-        try writer["Width"].write(value.width)
-    }
-}
-
-extension GeoRoutesClientTypes.RoadSnapTrailerOptions {
-
-    static func write(value: GeoRoutesClientTypes.RoadSnapTrailerOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["TrailerCount"].write(value.trailerCount)
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.WeightPerAxleGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.WeightPerAxleGroup()
+        value.single = try reader["Single"].readIfPresent() ?? 0
+        value.tandem = try reader["Tandem"].readIfPresent() ?? 0
+        value.triple = try reader["Triple"].readIfPresent() ?? 0
+        value.quad = try reader["Quad"].readIfPresent() ?? 0
+        value.quint = try reader["Quint"].readIfPresent() ?? 0
+        return value
     }
 }
 

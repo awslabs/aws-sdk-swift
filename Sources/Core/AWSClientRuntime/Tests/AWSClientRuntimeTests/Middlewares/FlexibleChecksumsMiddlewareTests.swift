@@ -14,7 +14,7 @@ import struct AwsCommonRuntimeKit.SigningConfig
 @_spi(SmithyReadWrite) import SmithyTestUtil
 @testable import ClientRuntime
 import class SmithyStreams.BufferedStream
-import class SmithyChecksums.ChunkedStream
+@_spi(SmithyChecksums) import class SmithyChecksums.ChunkedStream
 import enum SmithyChecksums.ChecksumMismatchException
 import AWSClientRuntime
 

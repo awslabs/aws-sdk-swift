@@ -89,11 +89,11 @@ class PresignerGenerator : SwiftIntegration {
             writer.openBlock(
                 "${ctx.settings.visibility} func presign(config: \$L, expiration: \$N) async throws -> \$T {",
                 "}",
-                serviceConfig.typeName,
+                serviceConfig.sendableTypeName,
                 FoundationTypes.TimeInterval,
                 SmithyHTTPAPITypes.HTTPRequest,
             ) {
-                writer.write("let serviceName = \$S", ctx.settings.sdkId)
+                writer.write("let serviceName = \$S", ctx.settings.sdkIdStrippingService)
                 writer.write("let input = self")
                 writer.openBlock(
                     "let client: (\$N, \$N) async throws -> \$N = { (_, _) in",
@@ -120,6 +120,22 @@ class PresignerGenerator : SwiftIntegration {
                     )
                 generator.render(serviceShape, op, PRESIGN_REQUEST)
                 writer.write("return try await op.presignRequest(input: input)")
+            }
+
+            // Add deprecated overload for backward compatibility
+            writer.write("")
+            writer.write(
+                "@available(*, deprecated, message: \"Use presign(config: \$L, expiration:) instead\")",
+                serviceConfig.sendableTypeName,
+            )
+            writer.openBlock(
+                "${ctx.settings.visibility} func presign(config: \$L, expiration: \$N) async throws -> \$T {",
+                "}",
+                serviceConfig.typeName,
+                FoundationTypes.TimeInterval,
+                SmithyHTTPAPITypes.HTTPRequest,
+            ) {
+                writer.write("return try await self.presign(config: config.toSendable(), expiration: expiration)")
             }
         }
     }

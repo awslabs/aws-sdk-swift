@@ -1,0 +1,8 @@
+{
+    "service": "com.amazonaws.bcmdataexports#AWSBillingAndCostManagementDataExports",
+    "module": "AWSBCMDataExports",
+    "sdkId": "BCM Data Exports",
+    "internalClient": false,
+    "operations": [],
+    "modelPath": "codegen/sdk-codegen/aws-models/bcm-data-exports.json"
+}

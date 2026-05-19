@@ -1,8 +1,8 @@
 name: 'Checkout smithy-swift composite action'
 description: 'A composite action that sets up smithy-swift for the workflow.'
 inputs:
-  AUTOMATION_USER_SSH_PRIVATE_KEY:
-    description: 'SSH private key for the automation user'
+  STAGING_PARTNER_REPO_PRIVATE_DEPLOY_KEY:
+    description: 'SSH private deploy key for the staging partner repository'
     required: true
   STAGING_PARTNER_REPO:
     description: 'The staging partner repository'
@@ -14,7 +14,7 @@ runs:
       if: ${{ github.repository != 'awslabs/aws-sdk-swift' }}
       run: |
         mkdir -p ~/.ssh
-        echo "${{ inputs.AUTOMATION_USER_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        echo "${{ inputs.STAGING_PARTNER_REPO_PRIVATE_DEPLOY_KEY }}" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
         ssh-keyscan github.com >> ~/.ssh/known_hosts
       shell: bash
@@ -28,12 +28,12 @@ runs:
       shell: bash
     - name: Checkout staging smithy-swift
       if: ${{ github.repository != 'awslabs/aws-sdk-swift' }}
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
       with:
         repository: ${{ inputs.STAGING_PARTNER_REPO }}
         ref: ${{ env.DEPENDENCY_REPO_SHA }}
         path: smithy-swift
-        ssh-key: ${{ inputs.AUTOMATION_USER_SSH_PRIVATE_KEY }}
+        ssh-key: ${{ inputs.STAGING_PARTNER_REPO_PRIVATE_DEPLOY_KEY }}
     - name: Select smithy-swift branch
       if: ${{ github.repository == 'awslabs/aws-sdk-swift' }}
       run: |
@@ -44,7 +44,7 @@ runs:
       shell: bash
     - name: Checkout smithy-swift
       if: ${{ github.repository == 'awslabs/aws-sdk-swift' }}
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
       with:
         repository: smithy-lang/smithy-swift
         ref: ${{ env.DEPENDENCY_REPO_SHA }}

@@ -9,7 +9,7 @@
 
 @_spi(SmithyReadWrite) import ClientRuntime
 import Foundation
-import class SmithyEventStreams.DefaultMessageDecoder
+@_spi(SmithyEventStreams) import class SmithyEventStreams.DefaultMessageDecoder
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Reader
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
@@ -22,9 +22,9 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
-import struct SmithyEventStreams.DefaultMessageDecoderStream
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
+@_spi(SmithyEventStreams) import struct SmithyEventStreams.DefaultMessageDecoderStream
 import struct SmithyEventStreamsAPI.Header
 import struct SmithyEventStreamsAPI.Message
 import struct SmithyHTTPAPI.Header
@@ -47,9 +47,9 @@ public struct InputValidationError: ClientRuntime.ModeledError, AWSClientRuntime
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         errorCode: Swift.String? = nil,
@@ -75,9 +75,9 @@ public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         errorCode: Swift.String? = nil,
@@ -101,9 +101,9 @@ public struct InternalStreamFailure: ClientRuntime.ModeledError, AWSClientRuntim
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -133,9 +133,9 @@ public struct ModelError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServic
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         errorCode: Swift.String? = nil,
@@ -167,9 +167,9 @@ public struct ModelStreamError: ClientRuntime.ModeledError, AWSClientRuntime.AWS
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         errorCode: Swift.String? = nil,
@@ -195,9 +195,9 @@ public struct ServiceUnavailableError: ClientRuntime.ModeledError, AWSClientRunt
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         errorCode: Swift.String? = nil,
@@ -385,7 +385,7 @@ enum InvokeEndpointWithBidirectionalStreamOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InputValidationError": return try InputValidationError.makeError(baseError: baseError)
@@ -401,7 +401,7 @@ enum InvokeEndpointWithBidirectionalStreamOutputError {
 
 extension InputValidationError {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InputValidationError {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InputValidationError {
         let reader = baseError.errorBodyReader
         var value = InputValidationError()
         value.properties.errorCode = try reader["ErrorCode"].readIfPresent()
@@ -415,7 +415,7 @@ extension InputValidationError {
 
 extension InternalServerError {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerError {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalServerError {
         let reader = baseError.errorBodyReader
         var value = InternalServerError()
         value.properties.errorCode = try reader["ErrorCode"].readIfPresent()
@@ -429,7 +429,7 @@ extension InternalServerError {
 
 extension InternalStreamFailure {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalStreamFailure {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalStreamFailure {
         let reader = baseError.errorBodyReader
         var value = InternalStreamFailure()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -442,7 +442,7 @@ extension InternalStreamFailure {
 
 extension ModelError {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ModelError {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ModelError {
         let reader = baseError.errorBodyReader
         var value = ModelError()
         value.properties.errorCode = try reader["ErrorCode"].readIfPresent()
@@ -459,7 +459,7 @@ extension ModelError {
 
 extension ModelStreamError {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ModelStreamError {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ModelStreamError {
         let reader = baseError.errorBodyReader
         var value = ModelStreamError()
         value.properties.errorCode = try reader["ErrorCode"].readIfPresent()
@@ -473,7 +473,7 @@ extension ModelStreamError {
 
 extension ServiceUnavailableError {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceUnavailableError {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceUnavailableError {
         let reader = baseError.errorBodyReader
         var value = ServiceUnavailableError()
         value.properties.errorCode = try reader["ErrorCode"].readIfPresent()
@@ -581,6 +581,17 @@ extension ModelStreamError {
     }
 }
 
+extension SageMakerRuntimeHTTP2ClientTypes.RequestPayloadPart {
+
+    static func write(value: SageMakerRuntimeHTTP2ClientTypes.RequestPayloadPart?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Bytes"].write(value.bytes)
+        try writer["CompletionState"].write(value.completionState)
+        try writer["DataType"].write(value.dataType)
+        try writer["P"].write(value.p)
+    }
+}
+
 extension SageMakerRuntimeHTTP2ClientTypes.ResponsePayloadPart {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerRuntimeHTTP2ClientTypes.ResponsePayloadPart {
@@ -591,17 +602,6 @@ extension SageMakerRuntimeHTTP2ClientTypes.ResponsePayloadPart {
         value.completionState = try reader["CompletionState"].readIfPresent()
         value.p = try reader["P"].readIfPresent()
         return value
-    }
-}
-
-extension SageMakerRuntimeHTTP2ClientTypes.RequestPayloadPart {
-
-    static func write(value: SageMakerRuntimeHTTP2ClientTypes.RequestPayloadPart?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Bytes"].write(value.bytes)
-        try writer["CompletionState"].write(value.completionState)
-        try writer["DataType"].write(value.dataType)
-        try writer["P"].write(value.p)
     }
 }
 

@@ -28,10 +28,11 @@ public class MigrationHubOrchestratorClientEndpointPlugin: Plugin {
         self.init(endpointResolver: try DefaultEndpointResolver())
     }
 
-    public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if let config = clientConfiguration as? MigrationHubOrchestratorClient.MigrationHubOrchestratorClientConfiguration {
-            config.endpointResolver = self.endpointResolver
-        }
+    public func configureClient<Config: ClientRuntime.ClientConfiguration>(clientConfiguration: inout Config) async throws {
+        guard var config = clientConfiguration as? MigrationHubOrchestratorClient.MigrationHubOrchestratorClientConfig else { return }
+        config.endpointResolver = self.endpointResolver
+        guard let modifiedConfig = config as? Config else { return }
+        clientConfiguration = modifiedConfig
     }
 }
 
@@ -39,12 +40,14 @@ public class DefaultAWSAuthSchemePlugin: ClientRuntime.Plugin {
 
     public init() {}
 
-    public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if let config = clientConfiguration as? MigrationHubOrchestratorClient.MigrationHubOrchestratorClientConfiguration {
+    public func configureClient<Config: ClientRuntime.ClientConfiguration>(clientConfiguration: inout Config) async throws {
+        if var config = clientConfiguration as? MigrationHubOrchestratorClient.MigrationHubOrchestratorClientConfig {
             config.authSchemeResolver = DefaultMigrationHubOrchestratorAuthSchemeResolver()
             config.authSchemes = [AWSSDKHTTPAuth.SigV4AuthScheme()]
             config.awsCredentialIdentityResolver = AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain()
             config.bearerTokenIdentityResolver = SmithyIdentity.StaticBearerTokenIdentityResolver()
+            guard let modifiedConfig = config as? Config else { return }
+            clientConfiguration = modifiedConfig
         }
     }
 }
@@ -64,8 +67,8 @@ public class MigrationHubOrchestratorClientAuthSchemePlugin: ClientRuntime.Plugi
         self.bearerTokenIdentityResolver = bearerTokenIdentityResolver
     }
 
-    public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if let config = clientConfiguration as? MigrationHubOrchestratorClient.MigrationHubOrchestratorClientConfiguration {
+    public func configureClient<Config: ClientRuntime.ClientConfiguration>(clientConfiguration: inout Config) async throws {
+        if var config = clientConfiguration as? MigrationHubOrchestratorClient.MigrationHubOrchestratorClientConfig {
             if (self.authSchemes != nil) {
                 config.authSchemes = self.authSchemes
             }
@@ -79,6 +82,8 @@ public class MigrationHubOrchestratorClientAuthSchemePlugin: ClientRuntime.Plugi
             if (self.bearerTokenIdentityResolver != nil) {
                 config.bearerTokenIdentityResolver = self.bearerTokenIdentityResolver!
             }
+            guard let modifiedConfig = config as? Config else { return }
+            clientConfiguration = modifiedConfig
         }
     }
 }

@@ -25,8 +25,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
@@ -44,6 +44,11 @@ public struct DeleteCampaignCommunicationLimitsOutput: Swift.Sendable {
 }
 
 public struct DeleteCampaignCommunicationTimeOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteCampaignEntryLimitsOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -123,6 +128,11 @@ public struct UpdateCampaignCommunicationTimeOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct UpdateCampaignEntryLimitsOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct UpdateCampaignFlowAssociationOutput: Swift.Sendable {
 
     public init() { }
@@ -158,9 +168,9 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -222,9 +232,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -250,9 +260,9 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { true }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -278,9 +288,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -306,9 +316,9 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -334,9 +344,9 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { true }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -362,9 +372,9 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -1020,19 +1030,53 @@ extension ConnectCampaignsV2ClientTypes {
 
 extension ConnectCampaignsV2ClientTypes {
 
+    /// Local TimeZone Detection scope.
+    public enum LocalTimeZoneDetectionScope: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case allAvailable
+        case primaryOnly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LocalTimeZoneDetectionScope] {
+            return [
+                .allAvailable,
+                .primaryOnly
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .allAvailable: return "ALL_AVAILABLE"
+            case .primaryOnly: return "PRIMARY_ONLY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes {
+
     /// Local time zone config
     public struct LocalTimeZoneConfig: Swift.Sendable {
         /// Time Zone Id in the IANA format
         public var defaultTimeZone: Swift.String?
         /// Local TimeZone Detection method list
         public var localTimeZoneDetection: [ConnectCampaignsV2ClientTypes.LocalTimeZoneDetectionType]?
+        /// Local TimeZone Detection scope.
+        public var localTimeZoneDetectionScope: ConnectCampaignsV2ClientTypes.LocalTimeZoneDetectionScope?
 
         public init(
             defaultTimeZone: Swift.String? = nil,
-            localTimeZoneDetection: [ConnectCampaignsV2ClientTypes.LocalTimeZoneDetectionType]? = nil
+            localTimeZoneDetection: [ConnectCampaignsV2ClientTypes.LocalTimeZoneDetectionType]? = nil,
+            localTimeZoneDetectionScope: ConnectCampaignsV2ClientTypes.LocalTimeZoneDetectionScope? = nil
         ) {
             self.defaultTimeZone = defaultTimeZone
             self.localTimeZoneDetection = localTimeZoneDetection
+            self.localTimeZoneDetectionScope = localTimeZoneDetectionScope
         }
     }
 }
@@ -1065,6 +1109,27 @@ extension ConnectCampaignsV2ClientTypes {
             self.sms = sms
             self.telephony = telephony
             self.whatsApp = whatsApp
+        }
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes {
+
+    /// Campaign entry limits config
+    public struct EntryLimitsConfig: Swift.Sendable {
+        /// Maximum number of times a participant can enter the campaign. A value of 0 indicates unlimited entries. Values of 1 or greater specify the exact number of entries allowed.
+        /// This member is required.
+        public var maxEntryCount: Swift.Int?
+        /// Minimum time interval that must pass before a participant can enter the campaign again.
+        /// This member is required.
+        public var minEntryInterval: Swift.String?
+
+        public init(
+            maxEntryCount: Swift.Int? = nil,
+            minEntryInterval: Swift.String? = nil
+        ) {
+            self.maxEntryCount = maxEntryCount
+            self.minEntryInterval = minEntryInterval
         }
     }
 }
@@ -1164,6 +1229,8 @@ public struct CreateCampaignInput: Swift.Sendable {
     /// Amazon Connect Instance Id
     /// This member is required.
     public var connectInstanceId: Swift.String?
+    /// Campaign entry limits config
+    public var entryLimitsConfig: ConnectCampaignsV2ClientTypes.EntryLimitsConfig?
     /// The name of an Amazon Connect Campaign name.
     /// This member is required.
     public var name: Swift.String?
@@ -1182,6 +1249,7 @@ public struct CreateCampaignInput: Swift.Sendable {
         communicationTimeConfig: ConnectCampaignsV2ClientTypes.CommunicationTimeConfig? = nil,
         connectCampaignFlowArn: Swift.String? = nil,
         connectInstanceId: Swift.String? = nil,
+        entryLimitsConfig: ConnectCampaignsV2ClientTypes.EntryLimitsConfig? = nil,
         name: Swift.String? = nil,
         schedule: ConnectCampaignsV2ClientTypes.Schedule? = nil,
         source: ConnectCampaignsV2ClientTypes.Source? = nil,
@@ -1193,6 +1261,7 @@ public struct CreateCampaignInput: Swift.Sendable {
         self.communicationTimeConfig = communicationTimeConfig
         self.connectCampaignFlowArn = connectCampaignFlowArn
         self.connectInstanceId = connectInstanceId
+        self.entryLimitsConfig = entryLimitsConfig
         self.name = name
         self.schedule = schedule
         self.source = source
@@ -1354,9 +1423,9 @@ public struct InvalidCampaignStateException: ClientRuntime.ModeledError, AWSClie
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -1468,6 +1537,19 @@ public struct DeleteCampaignCommunicationTimeInput: Swift.Sendable {
     }
 }
 
+/// The request for DeleteCampaignEntryLimits API.
+public struct DeleteCampaignEntryLimitsInput: Swift.Sendable {
+    /// Identifier representing a Campaign
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        id: Swift.String? = nil
+    ) {
+        self.id = id
+    }
+}
+
 /// The request could not be processed because of conflict in the current state.
 public struct InvalidStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -1483,9 +1565,9 @@ public struct InvalidStateException: ClientRuntime.ModeledError, AWSClientRuntim
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -1667,6 +1749,8 @@ extension ConnectCampaignsV2ClientTypes {
         /// Amazon Connect Instance Id
         /// This member is required.
         public var connectInstanceId: Swift.String?
+        /// Campaign entry limits config
+        public var entryLimitsConfig: ConnectCampaignsV2ClientTypes.EntryLimitsConfig?
         /// Identifier representing a Campaign
         /// This member is required.
         public var id: Swift.String?
@@ -1689,6 +1773,7 @@ extension ConnectCampaignsV2ClientTypes {
             communicationTimeConfig: ConnectCampaignsV2ClientTypes.CommunicationTimeConfig? = nil,
             connectCampaignFlowArn: Swift.String? = nil,
             connectInstanceId: Swift.String? = nil,
+            entryLimitsConfig: ConnectCampaignsV2ClientTypes.EntryLimitsConfig? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             schedule: ConnectCampaignsV2ClientTypes.Schedule? = nil,
@@ -1702,6 +1787,7 @@ extension ConnectCampaignsV2ClientTypes {
             self.communicationTimeConfig = communicationTimeConfig
             self.connectCampaignFlowArn = connectCampaignFlowArn
             self.connectInstanceId = connectInstanceId
+            self.entryLimitsConfig = entryLimitsConfig
             self.id = id
             self.name = name
             self.schedule = schedule
@@ -2214,6 +2300,8 @@ extension ConnectCampaignsV2ClientTypes {
         /// Amazon Connect Instance Id
         /// This member is required.
         public var connectInstanceId: Swift.String?
+        /// Campaign entry limits config
+        public var entryLimitsConfig: ConnectCampaignsV2ClientTypes.EntryLimitsConfig?
         /// Identifier representing a Campaign
         /// This member is required.
         public var id: Swift.String?
@@ -2230,6 +2318,7 @@ extension ConnectCampaignsV2ClientTypes {
             channelSubtypes: [ConnectCampaignsV2ClientTypes.ChannelSubtype]? = nil,
             connectCampaignFlowArn: Swift.String? = nil,
             connectInstanceId: Swift.String? = nil,
+            entryLimitsConfig: ConnectCampaignsV2ClientTypes.EntryLimitsConfig? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             schedule: ConnectCampaignsV2ClientTypes.Schedule? = nil,
@@ -2239,6 +2328,7 @@ extension ConnectCampaignsV2ClientTypes {
             self.channelSubtypes = channelSubtypes
             self.connectCampaignFlowArn = connectCampaignFlowArn
             self.connectInstanceId = connectInstanceId
+            self.entryLimitsConfig = entryLimitsConfig
             self.id = id
             self.name = name
             self.schedule = schedule
@@ -2292,6 +2382,7 @@ extension ConnectCampaignsV2ClientTypes {
         case campaignOrchestration
         case campaignSms
         case campaignTelephony
+        case campaignWhatsApp
         case sdkUnknown(Swift.String)
 
         public static var allCases: [EventType] {
@@ -2299,7 +2390,8 @@ extension ConnectCampaignsV2ClientTypes {
                 .campaignEmail,
                 .campaignOrchestration,
                 .campaignSms,
-                .campaignTelephony
+                .campaignTelephony,
+                .campaignWhatsApp
             ]
         }
 
@@ -2314,6 +2406,7 @@ extension ConnectCampaignsV2ClientTypes {
             case .campaignOrchestration: return "Campaign-Orchestration"
             case .campaignSms: return "Campaign-SMS"
             case .campaignTelephony: return "Campaign-Telephony"
+            case .campaignWhatsApp: return "Campaign-WhatsApp"
             case let .sdkUnknown(s): return s
             }
         }
@@ -3146,6 +3239,24 @@ public struct UpdateCampaignCommunicationTimeInput: Swift.Sendable {
     }
 }
 
+/// The request for UpdateCampaignEntryLimits API.
+public struct UpdateCampaignEntryLimitsInput: Swift.Sendable {
+    /// Campaign entry limits config
+    /// This member is required.
+    public var entryLimitsConfig: ConnectCampaignsV2ClientTypes.EntryLimitsConfig?
+    /// Identifier representing a Campaign
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        entryLimitsConfig: ConnectCampaignsV2ClientTypes.EntryLimitsConfig? = nil,
+        id: Swift.String? = nil
+    ) {
+        self.entryLimitsConfig = entryLimitsConfig
+        self.id = id
+    }
+}
+
 /// The request for UpdateCampaignFlowAssociation API.
 public struct UpdateCampaignFlowAssociationInput: Swift.Sendable {
     /// Amazon Resource Names(ARN)
@@ -3304,6 +3415,16 @@ extension DeleteCampaignCommunicationTimeInput {
         let configQueryItem = Smithy.URIQueryItem(name: "config".urlPercentEncoding(), value: Swift.String(config.rawValue).urlPercentEncoding())
         items.append(configQueryItem)
         return items
+    }
+}
+
+extension DeleteCampaignEntryLimitsInput {
+
+    static func urlPathProvider(_ value: DeleteCampaignEntryLimitsInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/v2/campaigns/\(id.urlPercentEncoding())/entry-limits"
     }
 }
 
@@ -3605,6 +3726,16 @@ extension UpdateCampaignCommunicationTimeInput {
     }
 }
 
+extension UpdateCampaignEntryLimitsInput {
+
+    static func urlPathProvider(_ value: UpdateCampaignEntryLimitsInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/v2/campaigns/\(id.urlPercentEncoding())/entry-limits"
+    }
+}
+
 extension UpdateCampaignFlowAssociationInput {
 
     static func urlPathProvider(_ value: UpdateCampaignFlowAssociationInput) -> Swift.String? {
@@ -3654,6 +3785,7 @@ extension CreateCampaignInput {
         try writer["communicationTimeConfig"].write(value.communicationTimeConfig, with: ConnectCampaignsV2ClientTypes.CommunicationTimeConfig.write(value:to:))
         try writer["connectCampaignFlowArn"].write(value.connectCampaignFlowArn)
         try writer["connectInstanceId"].write(value.connectInstanceId)
+        try writer["entryLimitsConfig"].write(value.entryLimitsConfig, with: ConnectCampaignsV2ClientTypes.EntryLimitsConfig.write(value:to:))
         try writer["name"].write(value.name)
         try writer["schedule"].write(value.schedule, with: ConnectCampaignsV2ClientTypes.Schedule.write(value:to:))
         try writer["source"].write(value.source, with: ConnectCampaignsV2ClientTypes.Source.write(value:to:))
@@ -3760,6 +3892,14 @@ extension UpdateCampaignCommunicationTimeInput {
     }
 }
 
+extension UpdateCampaignEntryLimitsInput {
+
+    static func write(value: UpdateCampaignEntryLimitsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["entryLimitsConfig"].write(value.entryLimitsConfig, with: ConnectCampaignsV2ClientTypes.EntryLimitsConfig.write(value:to:))
+    }
+}
+
 extension UpdateCampaignFlowAssociationInput {
 
     static func write(value: UpdateCampaignFlowAssociationInput?, to writer: SmithyJSON.Writer) throws {
@@ -3831,6 +3971,13 @@ extension DeleteCampaignCommunicationTimeOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteCampaignCommunicationTimeOutput {
         return DeleteCampaignCommunicationTimeOutput()
+    }
+}
+
+extension DeleteCampaignEntryLimitsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteCampaignEntryLimitsOutput {
+        return DeleteCampaignEntryLimitsOutput()
     }
 }
 
@@ -4081,6 +4228,13 @@ extension UpdateCampaignCommunicationTimeOutput {
     }
 }
 
+extension UpdateCampaignEntryLimitsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateCampaignEntryLimitsOutput {
+        return UpdateCampaignEntryLimitsOutput()
+    }
+}
+
 extension UpdateCampaignFlowAssociationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateCampaignFlowAssociationOutput {
@@ -4114,7 +4268,7 @@ enum CreateCampaignOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4134,7 +4288,7 @@ enum DeleteCampaignOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4151,7 +4305,7 @@ enum DeleteCampaignChannelSubtypeConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4169,7 +4323,7 @@ enum DeleteCampaignCommunicationLimitsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4188,7 +4342,26 @@ enum DeleteCampaignCommunicationTimeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InvalidCampaignStateException": return try InvalidCampaignStateException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteCampaignEntryLimitsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4207,7 +4380,7 @@ enum DeleteConnectInstanceConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4226,7 +4399,7 @@ enum DeleteConnectInstanceIntegrationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4244,7 +4417,7 @@ enum DeleteInstanceOnboardingJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4262,7 +4435,7 @@ enum DescribeCampaignOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4279,7 +4452,7 @@ enum GetCampaignStateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4297,7 +4470,7 @@ enum GetCampaignStateBatchOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4314,7 +4487,7 @@ enum GetConnectInstanceConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4331,7 +4504,7 @@ enum GetInstanceCommunicationLimitsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4348,7 +4521,7 @@ enum GetInstanceOnboardingJobStatusOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4365,7 +4538,7 @@ enum ListCampaignsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4381,7 +4554,7 @@ enum ListConnectInstanceIntegrationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4399,7 +4572,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4417,7 +4590,7 @@ enum PauseCampaignOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4437,7 +4610,7 @@ enum PutConnectInstanceIntegrationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4456,7 +4629,7 @@ enum PutInstanceCommunicationLimitsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4474,7 +4647,7 @@ enum PutOutboundRequestBatchOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4494,7 +4667,7 @@ enum PutProfileOutboundRequestBatchOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4514,7 +4687,7 @@ enum ResumeCampaignOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4534,7 +4707,7 @@ enum StartCampaignOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4554,7 +4727,7 @@ enum StartInstanceOnboardingJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4573,7 +4746,7 @@ enum StopCampaignOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4593,7 +4766,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4611,7 +4784,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4629,7 +4802,7 @@ enum UpdateCampaignChannelSubtypeConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4647,7 +4820,7 @@ enum UpdateCampaignCommunicationLimitsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4666,7 +4839,26 @@ enum UpdateCampaignCommunicationTimeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InvalidCampaignStateException": return try InvalidCampaignStateException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateCampaignEntryLimitsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4685,7 +4877,7 @@ enum UpdateCampaignFlowAssociationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4704,7 +4896,7 @@ enum UpdateCampaignNameOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4722,7 +4914,7 @@ enum UpdateCampaignScheduleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4741,7 +4933,7 @@ enum UpdateCampaignSourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4757,7 +4949,7 @@ enum UpdateCampaignSourceOutputError {
 
 extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         let httpResponse = baseError.httpResponse
         var value = AccessDeniedException()
@@ -4774,7 +4966,7 @@ extension AccessDeniedException {
 
 extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         let httpResponse = baseError.httpResponse
         var value = ConflictException()
@@ -4791,7 +4983,7 @@ extension ConflictException {
 
 extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         let httpResponse = baseError.httpResponse
         var value = InternalServerException()
@@ -4808,7 +5000,7 @@ extension InternalServerException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         let httpResponse = baseError.httpResponse
         var value = ResourceNotFoundException()
@@ -4825,7 +5017,7 @@ extension ResourceNotFoundException {
 
 extension ServiceQuotaExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         let httpResponse = baseError.httpResponse
         var value = ServiceQuotaExceededException()
@@ -4842,7 +5034,7 @@ extension ServiceQuotaExceededException {
 
 extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         let httpResponse = baseError.httpResponse
         var value = ThrottlingException()
@@ -4859,7 +5051,7 @@ extension ThrottlingException {
 
 extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         let httpResponse = baseError.httpResponse
         var value = ValidationException()
@@ -4876,7 +5068,7 @@ extension ValidationException {
 
 extension InvalidCampaignStateException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidCampaignStateException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidCampaignStateException {
         let reader = baseError.errorBodyReader
         let httpResponse = baseError.httpResponse
         var value = InvalidCampaignStateException()
@@ -4894,7 +5086,7 @@ extension InvalidCampaignStateException {
 
 extension InvalidStateException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidStateException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidStateException {
         let reader = baseError.errorBodyReader
         let httpResponse = baseError.httpResponse
         var value = InvalidStateException()
@@ -4905,6 +5097,36 @@ extension InvalidStateException {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
+        return value
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes.AgentlessConfig {
+
+    static func write(value: ConnectCampaignsV2ClientTypes.AgentlessConfig?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.AgentlessConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return ConnectCampaignsV2ClientTypes.AgentlessConfig()
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes.AnswerMachineDetectionConfig {
+
+    static func write(value: ConnectCampaignsV2ClientTypes.AnswerMachineDetectionConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["awaitAnswerMachinePrompt"].write(value.awaitAnswerMachinePrompt)
+        try writer["enableAnswerMachineDetection"].write(value.enableAnswerMachineDetection)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.AnswerMachineDetectionConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCampaignsV2ClientTypes.AnswerMachineDetectionConfig()
+        value.enableAnswerMachineDetection = try reader["enableAnswerMachineDetection"].readIfPresent() ?? false
+        value.awaitAnswerMachinePrompt = try reader["awaitAnswerMachinePrompt"].readIfPresent()
         return value
     }
 }
@@ -4923,6 +5145,7 @@ extension ConnectCampaignsV2ClientTypes.Campaign {
         value.source = try reader["source"].readIfPresent(with: ConnectCampaignsV2ClientTypes.Source.read(from:))
         value.connectCampaignFlowArn = try reader["connectCampaignFlowArn"].readIfPresent()
         value.schedule = try reader["schedule"].readIfPresent(with: ConnectCampaignsV2ClientTypes.Schedule.read(from:))
+        value.entryLimitsConfig = try reader["entryLimitsConfig"].readIfPresent(with: ConnectCampaignsV2ClientTypes.EntryLimitsConfig.read(from:))
         value.communicationTimeConfig = try reader["communicationTimeConfig"].readIfPresent(with: ConnectCampaignsV2ClientTypes.CommunicationTimeConfig.read(from:))
         value.communicationLimitsOverride = try reader["communicationLimitsOverride"].readIfPresent(with: ConnectCampaignsV2ClientTypes.CommunicationLimitsConfig.read(from:))
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -4930,19 +5153,87 @@ extension ConnectCampaignsV2ClientTypes.Campaign {
     }
 }
 
-extension ConnectCampaignsV2ClientTypes.CommunicationLimitsConfig {
+extension ConnectCampaignsV2ClientTypes.CampaignFilters {
 
-    static func write(value: ConnectCampaignsV2ClientTypes.CommunicationLimitsConfig?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ConnectCampaignsV2ClientTypes.CampaignFilters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["allChannelSubtypes"].write(value.allChannelSubtypes, with: ConnectCampaignsV2ClientTypes.CommunicationLimits.write(value:to:))
-        try writer["instanceLimitsHandling"].write(value.instanceLimitsHandling)
+        try writer["instanceIdFilter"].write(value.instanceIdFilter, with: ConnectCampaignsV2ClientTypes.InstanceIdFilter.write(value:to:))
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes.CampaignSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.CampaignSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCampaignsV2ClientTypes.CampaignSummary()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.connectInstanceId = try reader["connectInstanceId"].readIfPresent() ?? ""
+        value.channelSubtypes = try reader["channelSubtypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ConnectCampaignsV2ClientTypes.ChannelSubtype>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.type = try reader["type"].readIfPresent()
+        value.schedule = try reader["schedule"].readIfPresent(with: ConnectCampaignsV2ClientTypes.Schedule.read(from:))
+        value.entryLimitsConfig = try reader["entryLimitsConfig"].readIfPresent(with: ConnectCampaignsV2ClientTypes.EntryLimitsConfig.read(from:))
+        value.connectCampaignFlowArn = try reader["connectCampaignFlowArn"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes.ChannelSubtypeConfig {
+
+    static func write(value: ConnectCampaignsV2ClientTypes.ChannelSubtypeConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["email"].write(value.email, with: ConnectCampaignsV2ClientTypes.EmailChannelSubtypeConfig.write(value:to:))
+        try writer["sms"].write(value.sms, with: ConnectCampaignsV2ClientTypes.SmsChannelSubtypeConfig.write(value:to:))
+        try writer["telephony"].write(value.telephony, with: ConnectCampaignsV2ClientTypes.TelephonyChannelSubtypeConfig.write(value:to:))
+        try writer["whatsApp"].write(value.whatsApp, with: ConnectCampaignsV2ClientTypes.WhatsAppChannelSubtypeConfig.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.CommunicationLimitsConfig {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.ChannelSubtypeConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCampaignsV2ClientTypes.CommunicationLimitsConfig()
-        value.allChannelSubtypes = try reader["allChannelSubtypes"].readIfPresent(with: ConnectCampaignsV2ClientTypes.CommunicationLimits.read(from:))
-        value.instanceLimitsHandling = try reader["instanceLimitsHandling"].readIfPresent()
+        var value = ConnectCampaignsV2ClientTypes.ChannelSubtypeConfig()
+        value.telephony = try reader["telephony"].readIfPresent(with: ConnectCampaignsV2ClientTypes.TelephonyChannelSubtypeConfig.read(from:))
+        value.sms = try reader["sms"].readIfPresent(with: ConnectCampaignsV2ClientTypes.SmsChannelSubtypeConfig.read(from:))
+        value.email = try reader["email"].readIfPresent(with: ConnectCampaignsV2ClientTypes.EmailChannelSubtypeConfig.read(from:))
+        value.whatsApp = try reader["whatsApp"].readIfPresent(with: ConnectCampaignsV2ClientTypes.WhatsAppChannelSubtypeConfig.read(from:))
+        return value
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes.ChannelSubtypeParameters {
+
+    static func write(value: ConnectCampaignsV2ClientTypes.ChannelSubtypeParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .email(email):
+                try writer["email"].write(email, with: ConnectCampaignsV2ClientTypes.EmailChannelSubtypeParameters.write(value:to:))
+            case let .sms(sms):
+                try writer["sms"].write(sms, with: ConnectCampaignsV2ClientTypes.SmsChannelSubtypeParameters.write(value:to:))
+            case let .telephony(telephony):
+                try writer["telephony"].write(telephony, with: ConnectCampaignsV2ClientTypes.TelephonyChannelSubtypeParameters.write(value:to:))
+            case let .whatsapp(whatsapp):
+                try writer["whatsApp"].write(whatsapp, with: ConnectCampaignsV2ClientTypes.WhatsAppChannelSubtypeParameters.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes.CommunicationLimit {
+
+    static func write(value: ConnectCampaignsV2ClientTypes.CommunicationLimit?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["frequency"].write(value.frequency)
+        try writer["maxCountPerRecipient"].write(value.maxCountPerRecipient)
+        try writer["unit"].write(value.unit)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.CommunicationLimit {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCampaignsV2ClientTypes.CommunicationLimit()
+        value.maxCountPerRecipient = try reader["maxCountPerRecipient"].readIfPresent() ?? 0
+        value.frequency = try reader["frequency"].readIfPresent() ?? 0
+        value.unit = try reader["unit"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -4971,21 +5262,19 @@ extension ConnectCampaignsV2ClientTypes.CommunicationLimits {
     }
 }
 
-extension ConnectCampaignsV2ClientTypes.CommunicationLimit {
+extension ConnectCampaignsV2ClientTypes.CommunicationLimitsConfig {
 
-    static func write(value: ConnectCampaignsV2ClientTypes.CommunicationLimit?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ConnectCampaignsV2ClientTypes.CommunicationLimitsConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["frequency"].write(value.frequency)
-        try writer["maxCountPerRecipient"].write(value.maxCountPerRecipient)
-        try writer["unit"].write(value.unit)
+        try writer["allChannelSubtypes"].write(value.allChannelSubtypes, with: ConnectCampaignsV2ClientTypes.CommunicationLimits.write(value:to:))
+        try writer["instanceLimitsHandling"].write(value.instanceLimitsHandling)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.CommunicationLimit {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.CommunicationLimitsConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCampaignsV2ClientTypes.CommunicationLimit()
-        value.maxCountPerRecipient = try reader["maxCountPerRecipient"].readIfPresent() ?? 0
-        value.frequency = try reader["frequency"].readIfPresent() ?? 0
-        value.unit = try reader["unit"].readIfPresent() ?? .sdkUnknown("")
+        var value = ConnectCampaignsV2ClientTypes.CommunicationLimitsConfig()
+        value.allChannelSubtypes = try reader["allChannelSubtypes"].readIfPresent(with: ConnectCampaignsV2ClientTypes.CommunicationLimits.read(from:))
+        value.instanceLimitsHandling = try reader["instanceLimitsHandling"].readIfPresent()
         return value
     }
 }
@@ -5013,277 +5302,31 @@ extension ConnectCampaignsV2ClientTypes.CommunicationTimeConfig {
     }
 }
 
-extension ConnectCampaignsV2ClientTypes.TimeWindow {
+extension ConnectCampaignsV2ClientTypes.CustomerProfilesIntegrationConfig {
 
-    static func write(value: ConnectCampaignsV2ClientTypes.TimeWindow?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ConnectCampaignsV2ClientTypes.CustomerProfilesIntegrationConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["openHours"].write(value.openHours, with: ConnectCampaignsV2ClientTypes.OpenHours.write(value:to:))
-        try writer["restrictedPeriods"].write(value.restrictedPeriods, with: ConnectCampaignsV2ClientTypes.RestrictedPeriods.write(value:to:))
+        try writer["domainArn"].write(value.domainArn)
+        try writer["objectTypeNames"].writeMap(value.objectTypeNames, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
+}
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.TimeWindow {
+extension ConnectCampaignsV2ClientTypes.CustomerProfilesIntegrationIdentifier {
+
+    static func write(value: ConnectCampaignsV2ClientTypes.CustomerProfilesIntegrationIdentifier?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["domainArn"].write(value.domainArn)
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes.CustomerProfilesIntegrationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.CustomerProfilesIntegrationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCampaignsV2ClientTypes.TimeWindow()
-        value.openHours = try reader["openHours"].readIfPresent(with: ConnectCampaignsV2ClientTypes.OpenHours.read(from:))
-        value.restrictedPeriods = try reader["restrictedPeriods"].readIfPresent(with: ConnectCampaignsV2ClientTypes.RestrictedPeriods.read(from:))
+        var value = ConnectCampaignsV2ClientTypes.CustomerProfilesIntegrationSummary()
+        value.domainArn = try reader["domainArn"].readIfPresent() ?? ""
+        value.objectTypeNames = try reader["objectTypeNames"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         return value
-    }
-}
-
-extension ConnectCampaignsV2ClientTypes.RestrictedPeriods {
-
-    static func write(value: ConnectCampaignsV2ClientTypes.RestrictedPeriods?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .restrictedperiodlist(restrictedperiodlist):
-                try writer["restrictedPeriodList"].writeList(restrictedperiodlist, memberWritingClosure: ConnectCampaignsV2ClientTypes.RestrictedPeriod.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.RestrictedPeriods {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "restrictedPeriodList":
-                return .restrictedperiodlist(try reader["restrictedPeriodList"].readList(memberReadingClosure: ConnectCampaignsV2ClientTypes.RestrictedPeriod.read(from:), memberNodeInfo: "member", isFlattened: false))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension ConnectCampaignsV2ClientTypes.RestrictedPeriod {
-
-    static func write(value: ConnectCampaignsV2ClientTypes.RestrictedPeriod?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["endDate"].write(value.endDate)
-        try writer["name"].write(value.name)
-        try writer["startDate"].write(value.startDate)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.RestrictedPeriod {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCampaignsV2ClientTypes.RestrictedPeriod()
-        value.name = try reader["name"].readIfPresent()
-        value.startDate = try reader["startDate"].readIfPresent() ?? ""
-        value.endDate = try reader["endDate"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension ConnectCampaignsV2ClientTypes.OpenHours {
-
-    static func write(value: ConnectCampaignsV2ClientTypes.OpenHours?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .dailyhours(dailyhours):
-                try writer["dailyHours"].writeMap(dailyhours, valueWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: ConnectCampaignsV2ClientTypes.TimeRange.write(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.OpenHours {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "dailyHours":
-                return .dailyhours(try reader["dailyHours"].readMap(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: ConnectCampaignsV2ClientTypes.TimeRange.read(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension ConnectCampaignsV2ClientTypes.TimeRange {
-
-    static func write(value: ConnectCampaignsV2ClientTypes.TimeRange?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["endTime"].write(value.endTime)
-        try writer["startTime"].write(value.startTime)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.TimeRange {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCampaignsV2ClientTypes.TimeRange()
-        value.startTime = try reader["startTime"].readIfPresent() ?? ""
-        value.endTime = try reader["endTime"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension ConnectCampaignsV2ClientTypes.LocalTimeZoneConfig {
-
-    static func write(value: ConnectCampaignsV2ClientTypes.LocalTimeZoneConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["defaultTimeZone"].write(value.defaultTimeZone)
-        try writer["localTimeZoneDetection"].writeList(value.localTimeZoneDetection, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ConnectCampaignsV2ClientTypes.LocalTimeZoneDetectionType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.LocalTimeZoneConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCampaignsV2ClientTypes.LocalTimeZoneConfig()
-        value.defaultTimeZone = try reader["defaultTimeZone"].readIfPresent()
-        value.localTimeZoneDetection = try reader["localTimeZoneDetection"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ConnectCampaignsV2ClientTypes.LocalTimeZoneDetectionType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ConnectCampaignsV2ClientTypes.Schedule {
-
-    static func write(value: ConnectCampaignsV2ClientTypes.Schedule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["endTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.dateTime)
-        try writer["refreshFrequency"].write(value.refreshFrequency)
-        try writer["startTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.dateTime)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.Schedule {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCampaignsV2ClientTypes.Schedule()
-        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.refreshFrequency = try reader["refreshFrequency"].readIfPresent()
-        return value
-    }
-}
-
-extension ConnectCampaignsV2ClientTypes.Source {
-
-    static func write(value: ConnectCampaignsV2ClientTypes.Source?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .customerprofilessegmentarn(customerprofilessegmentarn):
-                try writer["customerProfilesSegmentArn"].write(customerprofilessegmentarn)
-            case let .eventtrigger(eventtrigger):
-                try writer["eventTrigger"].write(eventtrigger, with: ConnectCampaignsV2ClientTypes.EventTrigger.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.Source {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "customerProfilesSegmentArn":
-                return .customerprofilessegmentarn(try reader["customerProfilesSegmentArn"].read())
-            case "eventTrigger":
-                return .eventtrigger(try reader["eventTrigger"].read(with: ConnectCampaignsV2ClientTypes.EventTrigger.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension ConnectCampaignsV2ClientTypes.EventTrigger {
-
-    static func write(value: ConnectCampaignsV2ClientTypes.EventTrigger?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["customerProfilesDomainArn"].write(value.customerProfilesDomainArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.EventTrigger {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCampaignsV2ClientTypes.EventTrigger()
-        value.customerProfilesDomainArn = try reader["customerProfilesDomainArn"].readIfPresent()
-        return value
-    }
-}
-
-extension ConnectCampaignsV2ClientTypes.ChannelSubtypeConfig {
-
-    static func write(value: ConnectCampaignsV2ClientTypes.ChannelSubtypeConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["email"].write(value.email, with: ConnectCampaignsV2ClientTypes.EmailChannelSubtypeConfig.write(value:to:))
-        try writer["sms"].write(value.sms, with: ConnectCampaignsV2ClientTypes.SmsChannelSubtypeConfig.write(value:to:))
-        try writer["telephony"].write(value.telephony, with: ConnectCampaignsV2ClientTypes.TelephonyChannelSubtypeConfig.write(value:to:))
-        try writer["whatsApp"].write(value.whatsApp, with: ConnectCampaignsV2ClientTypes.WhatsAppChannelSubtypeConfig.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.ChannelSubtypeConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCampaignsV2ClientTypes.ChannelSubtypeConfig()
-        value.telephony = try reader["telephony"].readIfPresent(with: ConnectCampaignsV2ClientTypes.TelephonyChannelSubtypeConfig.read(from:))
-        value.sms = try reader["sms"].readIfPresent(with: ConnectCampaignsV2ClientTypes.SmsChannelSubtypeConfig.read(from:))
-        value.email = try reader["email"].readIfPresent(with: ConnectCampaignsV2ClientTypes.EmailChannelSubtypeConfig.read(from:))
-        value.whatsApp = try reader["whatsApp"].readIfPresent(with: ConnectCampaignsV2ClientTypes.WhatsAppChannelSubtypeConfig.read(from:))
-        return value
-    }
-}
-
-extension ConnectCampaignsV2ClientTypes.WhatsAppChannelSubtypeConfig {
-
-    static func write(value: ConnectCampaignsV2ClientTypes.WhatsAppChannelSubtypeConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["capacity"].write(value.capacity)
-        try writer["defaultOutboundConfig"].write(value.defaultOutboundConfig, with: ConnectCampaignsV2ClientTypes.WhatsAppOutboundConfig.write(value:to:))
-        try writer["outboundMode"].write(value.outboundMode, with: ConnectCampaignsV2ClientTypes.WhatsAppOutboundMode.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.WhatsAppChannelSubtypeConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCampaignsV2ClientTypes.WhatsAppChannelSubtypeConfig()
-        value.capacity = try reader["capacity"].readIfPresent()
-        value.outboundMode = try reader["outboundMode"].readIfPresent(with: ConnectCampaignsV2ClientTypes.WhatsAppOutboundMode.read(from:))
-        value.defaultOutboundConfig = try reader["defaultOutboundConfig"].readIfPresent(with: ConnectCampaignsV2ClientTypes.WhatsAppOutboundConfig.read(from:))
-        return value
-    }
-}
-
-extension ConnectCampaignsV2ClientTypes.WhatsAppOutboundConfig {
-
-    static func write(value: ConnectCampaignsV2ClientTypes.WhatsAppOutboundConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["connectSourcePhoneNumberArn"].write(value.connectSourcePhoneNumberArn)
-        try writer["wisdomTemplateArn"].write(value.wisdomTemplateArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.WhatsAppOutboundConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCampaignsV2ClientTypes.WhatsAppOutboundConfig()
-        value.connectSourcePhoneNumberArn = try reader["connectSourcePhoneNumberArn"].readIfPresent() ?? ""
-        value.wisdomTemplateArn = try reader["wisdomTemplateArn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension ConnectCampaignsV2ClientTypes.WhatsAppOutboundMode {
-
-    static func write(value: ConnectCampaignsV2ClientTypes.WhatsAppOutboundMode?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .agentless(agentless):
-                try writer["agentless"].write(agentless, with: ConnectCampaignsV2ClientTypes.AgentlessConfig.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.WhatsAppOutboundMode {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "agentless":
-                return .agentless(try reader["agentless"].read(with: ConnectCampaignsV2ClientTypes.AgentlessConfig.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension ConnectCampaignsV2ClientTypes.AgentlessConfig {
-
-    static func write(value: ConnectCampaignsV2ClientTypes.AgentlessConfig?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.AgentlessConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        return ConnectCampaignsV2ClientTypes.AgentlessConfig()
     }
 }
 
@@ -5303,6 +5346,17 @@ extension ConnectCampaignsV2ClientTypes.EmailChannelSubtypeConfig {
         value.outboundMode = try reader["outboundMode"].readIfPresent(with: ConnectCampaignsV2ClientTypes.EmailOutboundMode.read(from:))
         value.defaultOutboundConfig = try reader["defaultOutboundConfig"].readIfPresent(with: ConnectCampaignsV2ClientTypes.EmailOutboundConfig.read(from:))
         return value
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes.EmailChannelSubtypeParameters {
+
+    static func write(value: ConnectCampaignsV2ClientTypes.EmailChannelSubtypeParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["connectSourceEmailAddress"].write(value.connectSourceEmailAddress)
+        try writer["destinationEmailAddress"].write(value.destinationEmailAddress)
+        try writer["templateArn"].write(value.templateArn)
+        try writer["templateParameters"].writeMap(value.templateParameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -5349,6 +5403,418 @@ extension ConnectCampaignsV2ClientTypes.EmailOutboundMode {
     }
 }
 
+extension ConnectCampaignsV2ClientTypes.EncryptionConfig {
+
+    static func write(value: ConnectCampaignsV2ClientTypes.EncryptionConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enabled"].write(value.enabled)
+        try writer["encryptionType"].write(value.encryptionType)
+        try writer["keyArn"].write(value.keyArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.EncryptionConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCampaignsV2ClientTypes.EncryptionConfig()
+        value.enabled = try reader["enabled"].readIfPresent() ?? false
+        value.encryptionType = try reader["encryptionType"].readIfPresent()
+        value.keyArn = try reader["keyArn"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes.EntryLimitsConfig {
+
+    static func write(value: ConnectCampaignsV2ClientTypes.EntryLimitsConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxEntryCount"].write(value.maxEntryCount)
+        try writer["minEntryInterval"].write(value.minEntryInterval)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.EntryLimitsConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCampaignsV2ClientTypes.EntryLimitsConfig()
+        value.maxEntryCount = try reader["maxEntryCount"].readIfPresent() ?? 0
+        value.minEntryInterval = try reader["minEntryInterval"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes.EventTrigger {
+
+    static func write(value: ConnectCampaignsV2ClientTypes.EventTrigger?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["customerProfilesDomainArn"].write(value.customerProfilesDomainArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.EventTrigger {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCampaignsV2ClientTypes.EventTrigger()
+        value.customerProfilesDomainArn = try reader["customerProfilesDomainArn"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes.FailedCampaignStateResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.FailedCampaignStateResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCampaignsV2ClientTypes.FailedCampaignStateResponse()
+        value.campaignId = try reader["campaignId"].readIfPresent()
+        value.failureCode = try reader["failureCode"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes.FailedProfileOutboundRequest {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.FailedProfileOutboundRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCampaignsV2ClientTypes.FailedProfileOutboundRequest()
+        value.clientToken = try reader["clientToken"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.failureCode = try reader["failureCode"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes.FailedRequest {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.FailedRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCampaignsV2ClientTypes.FailedRequest()
+        value.clientToken = try reader["clientToken"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.failureCode = try reader["failureCode"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes.InstanceCommunicationLimitsConfig {
+
+    static func write(value: ConnectCampaignsV2ClientTypes.InstanceCommunicationLimitsConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["allChannelSubtypes"].write(value.allChannelSubtypes, with: ConnectCampaignsV2ClientTypes.CommunicationLimits.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.InstanceCommunicationLimitsConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCampaignsV2ClientTypes.InstanceCommunicationLimitsConfig()
+        value.allChannelSubtypes = try reader["allChannelSubtypes"].readIfPresent(with: ConnectCampaignsV2ClientTypes.CommunicationLimits.read(from:))
+        return value
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes.InstanceConfig {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.InstanceConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCampaignsV2ClientTypes.InstanceConfig()
+        value.connectInstanceId = try reader["connectInstanceId"].readIfPresent() ?? ""
+        value.serviceLinkedRoleArn = try reader["serviceLinkedRoleArn"].readIfPresent() ?? ""
+        value.encryptionConfig = try reader["encryptionConfig"].readIfPresent(with: ConnectCampaignsV2ClientTypes.EncryptionConfig.read(from:))
+        return value
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes.InstanceIdFilter {
+
+    static func write(value: ConnectCampaignsV2ClientTypes.InstanceIdFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["operator"].write(value.`operator`)
+        try writer["value"].write(value.value)
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes.InstanceOnboardingJobStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.InstanceOnboardingJobStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCampaignsV2ClientTypes.InstanceOnboardingJobStatus()
+        value.connectInstanceId = try reader["connectInstanceId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.failureCode = try reader["failureCode"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes.IntegrationConfig {
+
+    static func write(value: ConnectCampaignsV2ClientTypes.IntegrationConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .customerprofiles(customerprofiles):
+                try writer["customerProfiles"].write(customerprofiles, with: ConnectCampaignsV2ClientTypes.CustomerProfilesIntegrationConfig.write(value:to:))
+            case let .lambda(lambda):
+                try writer["lambda"].write(lambda, with: ConnectCampaignsV2ClientTypes.LambdaIntegrationConfig.write(value:to:))
+            case let .qconnect(qconnect):
+                try writer["qConnect"].write(qconnect, with: ConnectCampaignsV2ClientTypes.QConnectIntegrationConfig.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes.IntegrationIdentifier {
+
+    static func write(value: ConnectCampaignsV2ClientTypes.IntegrationIdentifier?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .customerprofiles(customerprofiles):
+                try writer["customerProfiles"].write(customerprofiles, with: ConnectCampaignsV2ClientTypes.CustomerProfilesIntegrationIdentifier.write(value:to:))
+            case let .lambda(lambda):
+                try writer["lambda"].write(lambda, with: ConnectCampaignsV2ClientTypes.LambdaIntegrationIdentifier.write(value:to:))
+            case let .qconnect(qconnect):
+                try writer["qConnect"].write(qconnect, with: ConnectCampaignsV2ClientTypes.QConnectIntegrationIdentifier.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes.IntegrationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.IntegrationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "customerProfiles":
+                return .customerprofiles(try reader["customerProfiles"].read(with: ConnectCampaignsV2ClientTypes.CustomerProfilesIntegrationSummary.read(from:)))
+            case "qConnect":
+                return .qconnect(try reader["qConnect"].read(with: ConnectCampaignsV2ClientTypes.QConnectIntegrationSummary.read(from:)))
+            case "lambda":
+                return .lambda(try reader["lambda"].read(with: ConnectCampaignsV2ClientTypes.LambdaIntegrationSummary.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes.LambdaIntegrationConfig {
+
+    static func write(value: ConnectCampaignsV2ClientTypes.LambdaIntegrationConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["functionArn"].write(value.functionArn)
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes.LambdaIntegrationIdentifier {
+
+    static func write(value: ConnectCampaignsV2ClientTypes.LambdaIntegrationIdentifier?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["functionArn"].write(value.functionArn)
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes.LambdaIntegrationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.LambdaIntegrationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCampaignsV2ClientTypes.LambdaIntegrationSummary()
+        value.functionArn = try reader["functionArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes.LocalTimeZoneConfig {
+
+    static func write(value: ConnectCampaignsV2ClientTypes.LocalTimeZoneConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["defaultTimeZone"].write(value.defaultTimeZone)
+        try writer["localTimeZoneDetection"].writeList(value.localTimeZoneDetection, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ConnectCampaignsV2ClientTypes.LocalTimeZoneDetectionType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["localTimeZoneDetectionScope"].write(value.localTimeZoneDetectionScope)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.LocalTimeZoneConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCampaignsV2ClientTypes.LocalTimeZoneConfig()
+        value.defaultTimeZone = try reader["defaultTimeZone"].readIfPresent()
+        value.localTimeZoneDetection = try reader["localTimeZoneDetection"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ConnectCampaignsV2ClientTypes.LocalTimeZoneDetectionType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.localTimeZoneDetectionScope = try reader["localTimeZoneDetectionScope"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes.OpenHours {
+
+    static func write(value: ConnectCampaignsV2ClientTypes.OpenHours?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .dailyhours(dailyhours):
+                try writer["dailyHours"].writeMap(dailyhours, valueWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: ConnectCampaignsV2ClientTypes.TimeRange.write(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.OpenHours {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "dailyHours":
+                return .dailyhours(try reader["dailyHours"].readMap(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: ConnectCampaignsV2ClientTypes.TimeRange.read(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes.OutboundRequest {
+
+    static func write(value: ConnectCampaignsV2ClientTypes.OutboundRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["channelSubtypeParameters"].write(value.channelSubtypeParameters, with: ConnectCampaignsV2ClientTypes.ChannelSubtypeParameters.write(value:to:))
+        try writer["clientToken"].write(value.clientToken)
+        try writer["expirationTime"].writeTimestamp(value.expirationTime, format: SmithyTimestamps.TimestampFormat.dateTime)
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes.PredictiveConfig {
+
+    static func write(value: ConnectCampaignsV2ClientTypes.PredictiveConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bandwidthAllocation"].write(value.bandwidthAllocation)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.PredictiveConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCampaignsV2ClientTypes.PredictiveConfig()
+        value.bandwidthAllocation = try reader["bandwidthAllocation"].readIfPresent() ?? 0.0
+        return value
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes.PreviewConfig {
+
+    static func write(value: ConnectCampaignsV2ClientTypes.PreviewConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agentActions"].writeList(value.agentActions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ConnectCampaignsV2ClientTypes.AgentAction>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["bandwidthAllocation"].write(value.bandwidthAllocation)
+        try writer["timeoutConfig"].write(value.timeoutConfig, with: ConnectCampaignsV2ClientTypes.TimeoutConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.PreviewConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCampaignsV2ClientTypes.PreviewConfig()
+        value.bandwidthAllocation = try reader["bandwidthAllocation"].readIfPresent() ?? 0.0
+        value.timeoutConfig = try reader["timeoutConfig"].readIfPresent(with: ConnectCampaignsV2ClientTypes.TimeoutConfig.read(from:))
+        value.agentActions = try reader["agentActions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ConnectCampaignsV2ClientTypes.AgentAction>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes.ProfileOutboundRequest {
+
+    static func write(value: ConnectCampaignsV2ClientTypes.ProfileOutboundRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["expirationTime"].writeTimestamp(value.expirationTime, format: SmithyTimestamps.TimestampFormat.dateTime)
+        try writer["profileId"].write(value.profileId)
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes.ProgressiveConfig {
+
+    static func write(value: ConnectCampaignsV2ClientTypes.ProgressiveConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bandwidthAllocation"].write(value.bandwidthAllocation)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.ProgressiveConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCampaignsV2ClientTypes.ProgressiveConfig()
+        value.bandwidthAllocation = try reader["bandwidthAllocation"].readIfPresent() ?? 0.0
+        return value
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes.QConnectIntegrationConfig {
+
+    static func write(value: ConnectCampaignsV2ClientTypes.QConnectIntegrationConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["knowledgeBaseArn"].write(value.knowledgeBaseArn)
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes.QConnectIntegrationIdentifier {
+
+    static func write(value: ConnectCampaignsV2ClientTypes.QConnectIntegrationIdentifier?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["knowledgeBaseArn"].write(value.knowledgeBaseArn)
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes.QConnectIntegrationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.QConnectIntegrationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCampaignsV2ClientTypes.QConnectIntegrationSummary()
+        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes.RestrictedPeriod {
+
+    static func write(value: ConnectCampaignsV2ClientTypes.RestrictedPeriod?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["endDate"].write(value.endDate)
+        try writer["name"].write(value.name)
+        try writer["startDate"].write(value.startDate)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.RestrictedPeriod {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCampaignsV2ClientTypes.RestrictedPeriod()
+        value.name = try reader["name"].readIfPresent()
+        value.startDate = try reader["startDate"].readIfPresent() ?? ""
+        value.endDate = try reader["endDate"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes.RestrictedPeriods {
+
+    static func write(value: ConnectCampaignsV2ClientTypes.RestrictedPeriods?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .restrictedperiodlist(restrictedperiodlist):
+                try writer["restrictedPeriodList"].writeList(restrictedperiodlist, memberWritingClosure: ConnectCampaignsV2ClientTypes.RestrictedPeriod.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.RestrictedPeriods {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "restrictedPeriodList":
+                return .restrictedperiodlist(try reader["restrictedPeriodList"].readList(memberReadingClosure: ConnectCampaignsV2ClientTypes.RestrictedPeriod.read(from:), memberNodeInfo: "member", isFlattened: false))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes.Schedule {
+
+    static func write(value: ConnectCampaignsV2ClientTypes.Schedule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["endTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.dateTime)
+        try writer["refreshFrequency"].write(value.refreshFrequency)
+        try writer["startTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.dateTime)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.Schedule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCampaignsV2ClientTypes.Schedule()
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.refreshFrequency = try reader["refreshFrequency"].readIfPresent()
+        return value
+    }
+}
+
 extension ConnectCampaignsV2ClientTypes.SmsChannelSubtypeConfig {
 
     static func write(value: ConnectCampaignsV2ClientTypes.SmsChannelSubtypeConfig?, to writer: SmithyJSON.Writer) throws {
@@ -5365,6 +5831,17 @@ extension ConnectCampaignsV2ClientTypes.SmsChannelSubtypeConfig {
         value.outboundMode = try reader["outboundMode"].readIfPresent(with: ConnectCampaignsV2ClientTypes.SmsOutboundMode.read(from:))
         value.defaultOutboundConfig = try reader["defaultOutboundConfig"].readIfPresent(with: ConnectCampaignsV2ClientTypes.SmsOutboundConfig.read(from:))
         return value
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes.SmsChannelSubtypeParameters {
+
+    static func write(value: ConnectCampaignsV2ClientTypes.SmsChannelSubtypeParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["connectSourcePhoneNumberArn"].write(value.connectSourcePhoneNumberArn)
+        try writer["destinationPhoneNumber"].write(value.destinationPhoneNumber)
+        try writer["templateArn"].write(value.templateArn)
+        try writer["templateParameters"].writeMap(value.templateParameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -5409,6 +5886,67 @@ extension ConnectCampaignsV2ClientTypes.SmsOutboundMode {
     }
 }
 
+extension ConnectCampaignsV2ClientTypes.Source {
+
+    static func write(value: ConnectCampaignsV2ClientTypes.Source?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .customerprofilessegmentarn(customerprofilessegmentarn):
+                try writer["customerProfilesSegmentArn"].write(customerprofilessegmentarn)
+            case let .eventtrigger(eventtrigger):
+                try writer["eventTrigger"].write(eventtrigger, with: ConnectCampaignsV2ClientTypes.EventTrigger.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.Source {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "customerProfilesSegmentArn":
+                return .customerprofilessegmentarn(try reader["customerProfilesSegmentArn"].read())
+            case "eventTrigger":
+                return .eventtrigger(try reader["eventTrigger"].read(with: ConnectCampaignsV2ClientTypes.EventTrigger.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes.SuccessfulCampaignStateResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.SuccessfulCampaignStateResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCampaignsV2ClientTypes.SuccessfulCampaignStateResponse()
+        value.campaignId = try reader["campaignId"].readIfPresent()
+        value.state = try reader["state"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes.SuccessfulProfileOutboundRequest {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.SuccessfulProfileOutboundRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCampaignsV2ClientTypes.SuccessfulProfileOutboundRequest()
+        value.clientToken = try reader["clientToken"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes.SuccessfulRequest {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.SuccessfulRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCampaignsV2ClientTypes.SuccessfulRequest()
+        value.clientToken = try reader["clientToken"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        return value
+    }
+}
+
 extension ConnectCampaignsV2ClientTypes.TelephonyChannelSubtypeConfig {
 
     static func write(value: ConnectCampaignsV2ClientTypes.TelephonyChannelSubtypeConfig?, to writer: SmithyJSON.Writer) throws {
@@ -5430,6 +5968,18 @@ extension ConnectCampaignsV2ClientTypes.TelephonyChannelSubtypeConfig {
     }
 }
 
+extension ConnectCampaignsV2ClientTypes.TelephonyChannelSubtypeParameters {
+
+    static func write(value: ConnectCampaignsV2ClientTypes.TelephonyChannelSubtypeParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["answerMachineDetectionConfig"].write(value.answerMachineDetectionConfig, with: ConnectCampaignsV2ClientTypes.AnswerMachineDetectionConfig.write(value:to:))
+        try writer["attributes"].writeMap(value.attributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["connectSourcePhoneNumber"].write(value.connectSourcePhoneNumber)
+        try writer["destinationPhoneNumber"].write(value.destinationPhoneNumber)
+        try writer["ringTimeout"].write(value.ringTimeout)
+    }
+}
+
 extension ConnectCampaignsV2ClientTypes.TelephonyOutboundConfig {
 
     static func write(value: ConnectCampaignsV2ClientTypes.TelephonyOutboundConfig?, to writer: SmithyJSON.Writer) throws {
@@ -5447,23 +5997,6 @@ extension ConnectCampaignsV2ClientTypes.TelephonyOutboundConfig {
         value.connectSourcePhoneNumber = try reader["connectSourcePhoneNumber"].readIfPresent()
         value.answerMachineDetectionConfig = try reader["answerMachineDetectionConfig"].readIfPresent(with: ConnectCampaignsV2ClientTypes.AnswerMachineDetectionConfig.read(from:))
         value.ringTimeout = try reader["ringTimeout"].readIfPresent()
-        return value
-    }
-}
-
-extension ConnectCampaignsV2ClientTypes.AnswerMachineDetectionConfig {
-
-    static func write(value: ConnectCampaignsV2ClientTypes.AnswerMachineDetectionConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["awaitAnswerMachinePrompt"].write(value.awaitAnswerMachinePrompt)
-        try writer["enableAnswerMachineDetection"].write(value.enableAnswerMachineDetection)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.AnswerMachineDetectionConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCampaignsV2ClientTypes.AnswerMachineDetectionConfig()
-        value.enableAnswerMachineDetection = try reader["enableAnswerMachineDetection"].readIfPresent() ?? false
-        value.awaitAnswerMachinePrompt = try reader["awaitAnswerMachinePrompt"].readIfPresent()
         return value
     }
 }
@@ -5504,25 +6037,6 @@ extension ConnectCampaignsV2ClientTypes.TelephonyOutboundMode {
     }
 }
 
-extension ConnectCampaignsV2ClientTypes.PreviewConfig {
-
-    static func write(value: ConnectCampaignsV2ClientTypes.PreviewConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["agentActions"].writeList(value.agentActions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ConnectCampaignsV2ClientTypes.AgentAction>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["bandwidthAllocation"].write(value.bandwidthAllocation)
-        try writer["timeoutConfig"].write(value.timeoutConfig, with: ConnectCampaignsV2ClientTypes.TimeoutConfig.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.PreviewConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCampaignsV2ClientTypes.PreviewConfig()
-        value.bandwidthAllocation = try reader["bandwidthAllocation"].readIfPresent() ?? 0.0
-        value.timeoutConfig = try reader["timeoutConfig"].readIfPresent(with: ConnectCampaignsV2ClientTypes.TimeoutConfig.read(from:))
-        value.agentActions = try reader["agentActions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ConnectCampaignsV2ClientTypes.AgentAction>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
 extension ConnectCampaignsV2ClientTypes.TimeoutConfig {
 
     static func write(value: ConnectCampaignsV2ClientTypes.TimeoutConfig?, to writer: SmithyJSON.Writer) throws {
@@ -5538,354 +6052,56 @@ extension ConnectCampaignsV2ClientTypes.TimeoutConfig {
     }
 }
 
-extension ConnectCampaignsV2ClientTypes.PredictiveConfig {
+extension ConnectCampaignsV2ClientTypes.TimeRange {
 
-    static func write(value: ConnectCampaignsV2ClientTypes.PredictiveConfig?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ConnectCampaignsV2ClientTypes.TimeRange?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["bandwidthAllocation"].write(value.bandwidthAllocation)
+        try writer["endTime"].write(value.endTime)
+        try writer["startTime"].write(value.startTime)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.PredictiveConfig {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.TimeRange {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCampaignsV2ClientTypes.PredictiveConfig()
-        value.bandwidthAllocation = try reader["bandwidthAllocation"].readIfPresent() ?? 0.0
+        var value = ConnectCampaignsV2ClientTypes.TimeRange()
+        value.startTime = try reader["startTime"].readIfPresent() ?? ""
+        value.endTime = try reader["endTime"].readIfPresent() ?? ""
         return value
     }
 }
 
-extension ConnectCampaignsV2ClientTypes.ProgressiveConfig {
+extension ConnectCampaignsV2ClientTypes.TimeWindow {
 
-    static func write(value: ConnectCampaignsV2ClientTypes.ProgressiveConfig?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ConnectCampaignsV2ClientTypes.TimeWindow?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["bandwidthAllocation"].write(value.bandwidthAllocation)
+        try writer["openHours"].write(value.openHours, with: ConnectCampaignsV2ClientTypes.OpenHours.write(value:to:))
+        try writer["restrictedPeriods"].write(value.restrictedPeriods, with: ConnectCampaignsV2ClientTypes.RestrictedPeriods.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.ProgressiveConfig {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.TimeWindow {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCampaignsV2ClientTypes.ProgressiveConfig()
-        value.bandwidthAllocation = try reader["bandwidthAllocation"].readIfPresent() ?? 0.0
+        var value = ConnectCampaignsV2ClientTypes.TimeWindow()
+        value.openHours = try reader["openHours"].readIfPresent(with: ConnectCampaignsV2ClientTypes.OpenHours.read(from:))
+        value.restrictedPeriods = try reader["restrictedPeriods"].readIfPresent(with: ConnectCampaignsV2ClientTypes.RestrictedPeriods.read(from:))
         return value
     }
 }
 
-extension ConnectCampaignsV2ClientTypes.SuccessfulCampaignStateResponse {
+extension ConnectCampaignsV2ClientTypes.WhatsAppChannelSubtypeConfig {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.SuccessfulCampaignStateResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCampaignsV2ClientTypes.SuccessfulCampaignStateResponse()
-        value.campaignId = try reader["campaignId"].readIfPresent()
-        value.state = try reader["state"].readIfPresent()
-        return value
-    }
-}
-
-extension ConnectCampaignsV2ClientTypes.FailedCampaignStateResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.FailedCampaignStateResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCampaignsV2ClientTypes.FailedCampaignStateResponse()
-        value.campaignId = try reader["campaignId"].readIfPresent()
-        value.failureCode = try reader["failureCode"].readIfPresent()
-        return value
-    }
-}
-
-extension ConnectCampaignsV2ClientTypes.InstanceConfig {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.InstanceConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCampaignsV2ClientTypes.InstanceConfig()
-        value.connectInstanceId = try reader["connectInstanceId"].readIfPresent() ?? ""
-        value.serviceLinkedRoleArn = try reader["serviceLinkedRoleArn"].readIfPresent() ?? ""
-        value.encryptionConfig = try reader["encryptionConfig"].readIfPresent(with: ConnectCampaignsV2ClientTypes.EncryptionConfig.read(from:))
-        return value
-    }
-}
-
-extension ConnectCampaignsV2ClientTypes.EncryptionConfig {
-
-    static func write(value: ConnectCampaignsV2ClientTypes.EncryptionConfig?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ConnectCampaignsV2ClientTypes.WhatsAppChannelSubtypeConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["enabled"].write(value.enabled)
-        try writer["encryptionType"].write(value.encryptionType)
-        try writer["keyArn"].write(value.keyArn)
+        try writer["capacity"].write(value.capacity)
+        try writer["defaultOutboundConfig"].write(value.defaultOutboundConfig, with: ConnectCampaignsV2ClientTypes.WhatsAppOutboundConfig.write(value:to:))
+        try writer["outboundMode"].write(value.outboundMode, with: ConnectCampaignsV2ClientTypes.WhatsAppOutboundMode.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.EncryptionConfig {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.WhatsAppChannelSubtypeConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCampaignsV2ClientTypes.EncryptionConfig()
-        value.enabled = try reader["enabled"].readIfPresent() ?? false
-        value.encryptionType = try reader["encryptionType"].readIfPresent()
-        value.keyArn = try reader["keyArn"].readIfPresent()
+        var value = ConnectCampaignsV2ClientTypes.WhatsAppChannelSubtypeConfig()
+        value.capacity = try reader["capacity"].readIfPresent()
+        value.outboundMode = try reader["outboundMode"].readIfPresent(with: ConnectCampaignsV2ClientTypes.WhatsAppOutboundMode.read(from:))
+        value.defaultOutboundConfig = try reader["defaultOutboundConfig"].readIfPresent(with: ConnectCampaignsV2ClientTypes.WhatsAppOutboundConfig.read(from:))
         return value
-    }
-}
-
-extension ConnectCampaignsV2ClientTypes.InstanceCommunicationLimitsConfig {
-
-    static func write(value: ConnectCampaignsV2ClientTypes.InstanceCommunicationLimitsConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["allChannelSubtypes"].write(value.allChannelSubtypes, with: ConnectCampaignsV2ClientTypes.CommunicationLimits.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.InstanceCommunicationLimitsConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCampaignsV2ClientTypes.InstanceCommunicationLimitsConfig()
-        value.allChannelSubtypes = try reader["allChannelSubtypes"].readIfPresent(with: ConnectCampaignsV2ClientTypes.CommunicationLimits.read(from:))
-        return value
-    }
-}
-
-extension ConnectCampaignsV2ClientTypes.InstanceOnboardingJobStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.InstanceOnboardingJobStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCampaignsV2ClientTypes.InstanceOnboardingJobStatus()
-        value.connectInstanceId = try reader["connectInstanceId"].readIfPresent() ?? ""
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.failureCode = try reader["failureCode"].readIfPresent()
-        return value
-    }
-}
-
-extension ConnectCampaignsV2ClientTypes.CampaignSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.CampaignSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCampaignsV2ClientTypes.CampaignSummary()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.connectInstanceId = try reader["connectInstanceId"].readIfPresent() ?? ""
-        value.channelSubtypes = try reader["channelSubtypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ConnectCampaignsV2ClientTypes.ChannelSubtype>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.type = try reader["type"].readIfPresent()
-        value.schedule = try reader["schedule"].readIfPresent(with: ConnectCampaignsV2ClientTypes.Schedule.read(from:))
-        value.connectCampaignFlowArn = try reader["connectCampaignFlowArn"].readIfPresent()
-        return value
-    }
-}
-
-extension ConnectCampaignsV2ClientTypes.IntegrationSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.IntegrationSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "customerProfiles":
-                return .customerprofiles(try reader["customerProfiles"].read(with: ConnectCampaignsV2ClientTypes.CustomerProfilesIntegrationSummary.read(from:)))
-            case "qConnect":
-                return .qconnect(try reader["qConnect"].read(with: ConnectCampaignsV2ClientTypes.QConnectIntegrationSummary.read(from:)))
-            case "lambda":
-                return .lambda(try reader["lambda"].read(with: ConnectCampaignsV2ClientTypes.LambdaIntegrationSummary.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension ConnectCampaignsV2ClientTypes.LambdaIntegrationSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.LambdaIntegrationSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCampaignsV2ClientTypes.LambdaIntegrationSummary()
-        value.functionArn = try reader["functionArn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension ConnectCampaignsV2ClientTypes.QConnectIntegrationSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.QConnectIntegrationSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCampaignsV2ClientTypes.QConnectIntegrationSummary()
-        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension ConnectCampaignsV2ClientTypes.CustomerProfilesIntegrationSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.CustomerProfilesIntegrationSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCampaignsV2ClientTypes.CustomerProfilesIntegrationSummary()
-        value.domainArn = try reader["domainArn"].readIfPresent() ?? ""
-        value.objectTypeNames = try reader["objectTypeNames"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
-        return value
-    }
-}
-
-extension ConnectCampaignsV2ClientTypes.SuccessfulRequest {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.SuccessfulRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCampaignsV2ClientTypes.SuccessfulRequest()
-        value.clientToken = try reader["clientToken"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        return value
-    }
-}
-
-extension ConnectCampaignsV2ClientTypes.FailedRequest {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.FailedRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCampaignsV2ClientTypes.FailedRequest()
-        value.clientToken = try reader["clientToken"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.failureCode = try reader["failureCode"].readIfPresent()
-        return value
-    }
-}
-
-extension ConnectCampaignsV2ClientTypes.SuccessfulProfileOutboundRequest {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.SuccessfulProfileOutboundRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCampaignsV2ClientTypes.SuccessfulProfileOutboundRequest()
-        value.clientToken = try reader["clientToken"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        return value
-    }
-}
-
-extension ConnectCampaignsV2ClientTypes.FailedProfileOutboundRequest {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.FailedProfileOutboundRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCampaignsV2ClientTypes.FailedProfileOutboundRequest()
-        value.clientToken = try reader["clientToken"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.failureCode = try reader["failureCode"].readIfPresent()
-        return value
-    }
-}
-
-extension ConnectCampaignsV2ClientTypes.IntegrationIdentifier {
-
-    static func write(value: ConnectCampaignsV2ClientTypes.IntegrationIdentifier?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .customerprofiles(customerprofiles):
-                try writer["customerProfiles"].write(customerprofiles, with: ConnectCampaignsV2ClientTypes.CustomerProfilesIntegrationIdentifier.write(value:to:))
-            case let .lambda(lambda):
-                try writer["lambda"].write(lambda, with: ConnectCampaignsV2ClientTypes.LambdaIntegrationIdentifier.write(value:to:))
-            case let .qconnect(qconnect):
-                try writer["qConnect"].write(qconnect, with: ConnectCampaignsV2ClientTypes.QConnectIntegrationIdentifier.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension ConnectCampaignsV2ClientTypes.LambdaIntegrationIdentifier {
-
-    static func write(value: ConnectCampaignsV2ClientTypes.LambdaIntegrationIdentifier?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["functionArn"].write(value.functionArn)
-    }
-}
-
-extension ConnectCampaignsV2ClientTypes.QConnectIntegrationIdentifier {
-
-    static func write(value: ConnectCampaignsV2ClientTypes.QConnectIntegrationIdentifier?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["knowledgeBaseArn"].write(value.knowledgeBaseArn)
-    }
-}
-
-extension ConnectCampaignsV2ClientTypes.CustomerProfilesIntegrationIdentifier {
-
-    static func write(value: ConnectCampaignsV2ClientTypes.CustomerProfilesIntegrationIdentifier?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["domainArn"].write(value.domainArn)
-    }
-}
-
-extension ConnectCampaignsV2ClientTypes.CampaignFilters {
-
-    static func write(value: ConnectCampaignsV2ClientTypes.CampaignFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["instanceIdFilter"].write(value.instanceIdFilter, with: ConnectCampaignsV2ClientTypes.InstanceIdFilter.write(value:to:))
-    }
-}
-
-extension ConnectCampaignsV2ClientTypes.InstanceIdFilter {
-
-    static func write(value: ConnectCampaignsV2ClientTypes.InstanceIdFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["operator"].write(value.`operator`)
-        try writer["value"].write(value.value)
-    }
-}
-
-extension ConnectCampaignsV2ClientTypes.IntegrationConfig {
-
-    static func write(value: ConnectCampaignsV2ClientTypes.IntegrationConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .customerprofiles(customerprofiles):
-                try writer["customerProfiles"].write(customerprofiles, with: ConnectCampaignsV2ClientTypes.CustomerProfilesIntegrationConfig.write(value:to:))
-            case let .lambda(lambda):
-                try writer["lambda"].write(lambda, with: ConnectCampaignsV2ClientTypes.LambdaIntegrationConfig.write(value:to:))
-            case let .qconnect(qconnect):
-                try writer["qConnect"].write(qconnect, with: ConnectCampaignsV2ClientTypes.QConnectIntegrationConfig.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension ConnectCampaignsV2ClientTypes.LambdaIntegrationConfig {
-
-    static func write(value: ConnectCampaignsV2ClientTypes.LambdaIntegrationConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["functionArn"].write(value.functionArn)
-    }
-}
-
-extension ConnectCampaignsV2ClientTypes.QConnectIntegrationConfig {
-
-    static func write(value: ConnectCampaignsV2ClientTypes.QConnectIntegrationConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["knowledgeBaseArn"].write(value.knowledgeBaseArn)
-    }
-}
-
-extension ConnectCampaignsV2ClientTypes.CustomerProfilesIntegrationConfig {
-
-    static func write(value: ConnectCampaignsV2ClientTypes.CustomerProfilesIntegrationConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["domainArn"].write(value.domainArn)
-        try writer["objectTypeNames"].writeMap(value.objectTypeNames, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-}
-
-extension ConnectCampaignsV2ClientTypes.OutboundRequest {
-
-    static func write(value: ConnectCampaignsV2ClientTypes.OutboundRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["channelSubtypeParameters"].write(value.channelSubtypeParameters, with: ConnectCampaignsV2ClientTypes.ChannelSubtypeParameters.write(value:to:))
-        try writer["clientToken"].write(value.clientToken)
-        try writer["expirationTime"].writeTimestamp(value.expirationTime, format: SmithyTimestamps.TimestampFormat.dateTime)
-    }
-}
-
-extension ConnectCampaignsV2ClientTypes.ChannelSubtypeParameters {
-
-    static func write(value: ConnectCampaignsV2ClientTypes.ChannelSubtypeParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .email(email):
-                try writer["email"].write(email, with: ConnectCampaignsV2ClientTypes.EmailChannelSubtypeParameters.write(value:to:))
-            case let .sms(sms):
-                try writer["sms"].write(sms, with: ConnectCampaignsV2ClientTypes.SmsChannelSubtypeParameters.write(value:to:))
-            case let .telephony(telephony):
-                try writer["telephony"].write(telephony, with: ConnectCampaignsV2ClientTypes.TelephonyChannelSubtypeParameters.write(value:to:))
-            case let .whatsapp(whatsapp):
-                try writer["whatsApp"].write(whatsapp, with: ConnectCampaignsV2ClientTypes.WhatsAppChannelSubtypeParameters.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
     }
 }
 
@@ -5900,47 +6116,44 @@ extension ConnectCampaignsV2ClientTypes.WhatsAppChannelSubtypeParameters {
     }
 }
 
-extension ConnectCampaignsV2ClientTypes.EmailChannelSubtypeParameters {
+extension ConnectCampaignsV2ClientTypes.WhatsAppOutboundConfig {
 
-    static func write(value: ConnectCampaignsV2ClientTypes.EmailChannelSubtypeParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["connectSourceEmailAddress"].write(value.connectSourceEmailAddress)
-        try writer["destinationEmailAddress"].write(value.destinationEmailAddress)
-        try writer["templateArn"].write(value.templateArn)
-        try writer["templateParameters"].writeMap(value.templateParameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-}
-
-extension ConnectCampaignsV2ClientTypes.SmsChannelSubtypeParameters {
-
-    static func write(value: ConnectCampaignsV2ClientTypes.SmsChannelSubtypeParameters?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ConnectCampaignsV2ClientTypes.WhatsAppOutboundConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["connectSourcePhoneNumberArn"].write(value.connectSourcePhoneNumberArn)
-        try writer["destinationPhoneNumber"].write(value.destinationPhoneNumber)
-        try writer["templateArn"].write(value.templateArn)
-        try writer["templateParameters"].writeMap(value.templateParameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["wisdomTemplateArn"].write(value.wisdomTemplateArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.WhatsAppOutboundConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCampaignsV2ClientTypes.WhatsAppOutboundConfig()
+        value.connectSourcePhoneNumberArn = try reader["connectSourcePhoneNumberArn"].readIfPresent() ?? ""
+        value.wisdomTemplateArn = try reader["wisdomTemplateArn"].readIfPresent() ?? ""
+        return value
     }
 }
 
-extension ConnectCampaignsV2ClientTypes.TelephonyChannelSubtypeParameters {
+extension ConnectCampaignsV2ClientTypes.WhatsAppOutboundMode {
 
-    static func write(value: ConnectCampaignsV2ClientTypes.TelephonyChannelSubtypeParameters?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ConnectCampaignsV2ClientTypes.WhatsAppOutboundMode?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["answerMachineDetectionConfig"].write(value.answerMachineDetectionConfig, with: ConnectCampaignsV2ClientTypes.AnswerMachineDetectionConfig.write(value:to:))
-        try writer["attributes"].writeMap(value.attributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["connectSourcePhoneNumber"].write(value.connectSourcePhoneNumber)
-        try writer["destinationPhoneNumber"].write(value.destinationPhoneNumber)
-        try writer["ringTimeout"].write(value.ringTimeout)
+        switch value {
+            case let .agentless(agentless):
+                try writer["agentless"].write(agentless, with: ConnectCampaignsV2ClientTypes.AgentlessConfig.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
     }
-}
 
-extension ConnectCampaignsV2ClientTypes.ProfileOutboundRequest {
-
-    static func write(value: ConnectCampaignsV2ClientTypes.ProfileOutboundRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["clientToken"].write(value.clientToken)
-        try writer["expirationTime"].writeTimestamp(value.expirationTime, format: SmithyTimestamps.TimestampFormat.dateTime)
-        try writer["profileId"].write(value.profileId)
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.WhatsAppOutboundMode {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "agentless":
+                return .agentless(try reader["agentless"].read(with: ConnectCampaignsV2ClientTypes.AgentlessConfig.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 

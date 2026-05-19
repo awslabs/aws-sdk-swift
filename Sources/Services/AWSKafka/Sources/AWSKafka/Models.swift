@@ -23,8 +23,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
@@ -221,6 +221,36 @@ extension KafkaClientTypes {
 
 extension KafkaClientTypes {
 
+    /// The network type of the cluster, which is IPv4 or DUAL. The DUAL network type uses both IPv4 and IPv6 addresses for your cluster and its resources.By default, a cluster uses the IPv4 network type.
+    public enum NetworkType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dual
+        case ipv4
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NetworkType] {
+            return [
+                .dual,
+                .ipv4
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dual: return "DUAL"
+            case .ipv4: return "IPV4"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
     /// Public access control for brokers.
     public struct PublicAccess: Swift.Sendable {
         /// The value DISABLED indicates that public access is turned off. SERVICE_PROVIDED_EIPS indicates that public access is turned on.
@@ -336,15 +366,19 @@ extension KafkaClientTypes {
 
     /// Information about the broker access configuration.
     public struct ConnectivityInfo: Swift.Sendable {
+        /// The network type of the cluster, which is IPv4 or DUAL. The DUAL network type uses both IPv4 and IPv6 addresses for your cluster and its resources.By default, a cluster uses the IPv4 network type.
+        public var networkType: KafkaClientTypes.NetworkType?
         /// Public access control for brokers.
         public var publicAccess: KafkaClientTypes.PublicAccess?
         /// VPC connectivity access control for brokers.
         public var vpcConnectivity: KafkaClientTypes.VpcConnectivity?
 
         public init(
+            networkType: KafkaClientTypes.NetworkType? = nil,
             publicAccess: KafkaClientTypes.PublicAccess? = nil,
             vpcConnectivity: KafkaClientTypes.VpcConnectivity? = nil
         ) {
+            self.networkType = networkType
             self.publicAccess = publicAccess
             self.vpcConnectivity = vpcConnectivity
         }
@@ -1036,6 +1070,21 @@ extension KafkaClientTypes {
 
 extension KafkaClientTypes {
 
+    /// Describes the cluster's connectivity information, such as its network type, which is IPv4 or DUAL.
+    public struct ServerlessConnectivityInfo: Swift.Sendable {
+        /// The network type of the cluster, which is IPv4 or DUAL. The DUAL network type uses both IPv4 and IPv6 addresses for your cluster and its resources.By default, a cluster uses the IPv4 network type.
+        public var networkType: KafkaClientTypes.NetworkType?
+
+        public init(
+            networkType: KafkaClientTypes.NetworkType? = nil
+        ) {
+            self.networkType = networkType
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
     /// The configuration of the Amazon VPCs for the cluster.
     public struct VpcConfig: Swift.Sendable {
         /// The IDs of the security groups associated with the cluster.
@@ -1060,15 +1109,19 @@ extension KafkaClientTypes {
     public struct Serverless: Swift.Sendable {
         /// Includes all client authentication information.
         public var clientAuthentication: KafkaClientTypes.ServerlessClientAuthentication?
+        /// Describes the cluster's connectivity information, such as its network type, which is IPv4 or DUAL.
+        public var connectivityInfo: KafkaClientTypes.ServerlessConnectivityInfo?
         /// The configuration of the Amazon VPCs for the cluster.
         /// This member is required.
         public var vpcConfigs: [KafkaClientTypes.VpcConfig]?
 
         public init(
             clientAuthentication: KafkaClientTypes.ServerlessClientAuthentication? = nil,
+            connectivityInfo: KafkaClientTypes.ServerlessConnectivityInfo? = nil,
             vpcConfigs: [KafkaClientTypes.VpcConfig]? = nil
         ) {
             self.clientAuthentication = clientAuthentication
+            self.connectivityInfo = connectivityInfo
             self.vpcConfigs = vpcConfigs
         }
     }
@@ -1448,6 +1501,21 @@ extension KafkaClientTypes {
 
 extension KafkaClientTypes {
 
+    /// Access control settings for zookeeper
+    public struct ZookeeperAccess: Swift.Sendable {
+        /// Zookeeper Access was on or off for the cluster
+        public var enabled: Swift.Bool?
+
+        public init(
+            enabled: Swift.Bool? = nil
+        ) {
+            self.enabled = enabled
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
     /// Information about cluster attributes that can be updated via update APIs.
     public struct MutableClusterInfo: Swift.Sendable {
         /// Describes brokers being changed during a broker count update.
@@ -1478,6 +1546,8 @@ extension KafkaClientTypes {
         public var rebalancing: KafkaClientTypes.Rebalancing?
         /// This controls storage mode for supported storage tiers.
         public var storageMode: KafkaClientTypes.StorageMode?
+        /// Access control settings for zookeeper
+        public var zookeeperAccess: KafkaClientTypes.ZookeeperAccess?
 
         public init(
             brokerCountUpdateInfo: KafkaClientTypes.BrokerCountUpdateInfo? = nil,
@@ -1493,7 +1563,8 @@ extension KafkaClientTypes {
             numberOfBrokerNodes: Swift.Int? = nil,
             openMonitoring: KafkaClientTypes.OpenMonitoring? = nil,
             rebalancing: KafkaClientTypes.Rebalancing? = nil,
-            storageMode: KafkaClientTypes.StorageMode? = nil
+            storageMode: KafkaClientTypes.StorageMode? = nil,
+            zookeeperAccess: KafkaClientTypes.ZookeeperAccess? = nil
         ) {
             self.brokerCountUpdateInfo = brokerCountUpdateInfo
             self.brokerEBSVolumeInfo = brokerEBSVolumeInfo
@@ -1509,6 +1580,7 @@ extension KafkaClientTypes {
             self.openMonitoring = openMonitoring
             self.rebalancing = rebalancing
             self.storageMode = storageMode
+            self.zookeeperAccess = zookeeperAccess
         }
     }
 }
@@ -1828,6 +1900,141 @@ extension KafkaClientTypes {
 
 extension KafkaClientTypes {
 
+    /// Details of an Apache Kafka Cluster.
+    public struct ApacheKafkaCluster: Swift.Sendable {
+        /// The ID of the Apache Kafka cluster.
+        /// This member is required.
+        public var apacheKafkaClusterId: Swift.String?
+        /// The bootstrap broker string of the Apache Kafka cluster.
+        /// This member is required.
+        public var bootstrapBrokerString: Swift.String?
+
+        public init(
+            apacheKafkaClusterId: Swift.String? = nil,
+            bootstrapBrokerString: Swift.String? = nil
+        ) {
+            self.apacheKafkaClusterId = apacheKafkaClusterId
+            self.bootstrapBrokerString = bootstrapBrokerString
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// The SASL/SCRAM authentication mechanism.
+    public enum KafkaClusterSaslScramMechanism: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case sha256
+        case sha512
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [KafkaClusterSaslScramMechanism] {
+            return [
+                .sha256,
+                .sha512
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .sha256: return "SHA256"
+            case .sha512: return "SHA512"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// Details for SASL/SCRAM client authentication.
+    public struct KafkaClusterSaslScramAuthentication: Swift.Sendable {
+        /// The SASL/SCRAM authentication mechanism.
+        /// This member is required.
+        public var mechanism: KafkaClientTypes.KafkaClusterSaslScramMechanism?
+        /// The Amazon Resource Name (ARN) of the Secrets Manager secret.
+        /// This member is required.
+        public var secretArn: Swift.String?
+
+        public init(
+            mechanism: KafkaClientTypes.KafkaClusterSaslScramMechanism? = nil,
+            secretArn: Swift.String? = nil
+        ) {
+            self.mechanism = mechanism
+            self.secretArn = secretArn
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// Details of the client authentication used by the Apache Kafka cluster.
+    public struct KafkaClusterClientAuthentication: Swift.Sendable {
+        /// Details for SASL/SCRAM client authentication.
+        /// This member is required.
+        public var saslScram: KafkaClientTypes.KafkaClusterSaslScramAuthentication?
+
+        public init(
+            saslScram: KafkaClientTypes.KafkaClusterSaslScramAuthentication? = nil
+        ) {
+            self.saslScram = saslScram
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// The type of encryption in transit to the Apache Kafka cluster.
+    public enum KafkaClusterEncryptionInTransitType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case tls
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [KafkaClusterEncryptionInTransitType] {
+            return [
+                .tls
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .tls: return "TLS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// Details of encryption in transit to the Apache Kafka cluster.
+    public struct KafkaClusterEncryptionInTransit: Swift.Sendable {
+        /// The type of encryption in transit to the Apache Kafka cluster.
+        /// This member is required.
+        public var encryptionType: KafkaClientTypes.KafkaClusterEncryptionInTransitType?
+        /// The root CA certificate.
+        public var rootCaCertificate: Swift.String?
+
+        public init(
+            encryptionType: KafkaClientTypes.KafkaClusterEncryptionInTransitType? = nil,
+            rootCaCertificate: Swift.String? = nil
+        ) {
+            self.encryptionType = encryptionType
+            self.rootCaCertificate = rootCaCertificate
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
     /// Details of an Amazon VPC which has network connectivity to the Apache Kafka cluster.
     public struct KafkaClusterClientVpcConfig: Swift.Sendable {
         /// The security groups to attach to the ENIs for the broker nodes.
@@ -1851,17 +2058,27 @@ extension KafkaClientTypes {
     /// Information about Kafka Cluster to be used as source / target for replication.
     public struct KafkaCluster: Swift.Sendable {
         /// Details of an Amazon MSK Cluster.
-        /// This member is required.
         public var amazonMskCluster: KafkaClientTypes.AmazonMskCluster?
+        /// Details of an Apache Kafka Cluster.
+        public var apacheKafkaCluster: KafkaClientTypes.ApacheKafkaCluster?
+        /// Details of the client authentication used by the Apache Kafka cluster.
+        public var clientAuthentication: KafkaClientTypes.KafkaClusterClientAuthentication?
+        /// Details of encryption in transit to the Apache Kafka cluster.
+        public var encryptionInTransit: KafkaClientTypes.KafkaClusterEncryptionInTransit?
         /// Details of an Amazon VPC which has network connectivity to the Apache Kafka cluster.
-        /// This member is required.
         public var vpcConfig: KafkaClientTypes.KafkaClusterClientVpcConfig?
 
         public init(
             amazonMskCluster: KafkaClientTypes.AmazonMskCluster? = nil,
+            apacheKafkaCluster: KafkaClientTypes.ApacheKafkaCluster? = nil,
+            clientAuthentication: KafkaClientTypes.KafkaClusterClientAuthentication? = nil,
+            encryptionInTransit: KafkaClientTypes.KafkaClusterEncryptionInTransit? = nil,
             vpcConfig: KafkaClientTypes.KafkaClusterClientVpcConfig? = nil
         ) {
             self.amazonMskCluster = amazonMskCluster
+            self.apacheKafkaCluster = apacheKafkaCluster
+            self.clientAuthentication = clientAuthentication
+            self.encryptionInTransit = encryptionInTransit
             self.vpcConfig = vpcConfig
         }
     }
@@ -1873,6 +2090,12 @@ extension KafkaClientTypes {
     public struct KafkaClusterDescription: Swift.Sendable {
         /// Details of an Amazon MSK Cluster.
         public var amazonMskCluster: KafkaClientTypes.AmazonMskCluster?
+        /// Details of an Apache Kafka Cluster.
+        public var apacheKafkaCluster: KafkaClientTypes.ApacheKafkaCluster?
+        /// Details of the client authentication used by the Apache Kafka cluster.
+        public var clientAuthentication: KafkaClientTypes.KafkaClusterClientAuthentication?
+        /// Details of encryption in transit to the Apache Kafka cluster.
+        public var encryptionInTransit: KafkaClientTypes.KafkaClusterEncryptionInTransit?
         /// The alias of the Kafka cluster. Used to prefix names of replicated topics.
         public var kafkaClusterAlias: Swift.String?
         /// Details of an Amazon VPC which has network connectivity to the Apache Kafka cluster.
@@ -1880,10 +2103,16 @@ extension KafkaClientTypes {
 
         public init(
             amazonMskCluster: KafkaClientTypes.AmazonMskCluster? = nil,
+            apacheKafkaCluster: KafkaClientTypes.ApacheKafkaCluster? = nil,
+            clientAuthentication: KafkaClientTypes.KafkaClusterClientAuthentication? = nil,
+            encryptionInTransit: KafkaClientTypes.KafkaClusterEncryptionInTransit? = nil,
             kafkaClusterAlias: Swift.String? = nil,
             vpcConfig: KafkaClientTypes.KafkaClusterClientVpcConfig? = nil
         ) {
             self.amazonMskCluster = amazonMskCluster
+            self.apacheKafkaCluster = apacheKafkaCluster
+            self.clientAuthentication = clientAuthentication
+            self.encryptionInTransit = encryptionInTransit
             self.kafkaClusterAlias = kafkaClusterAlias
             self.vpcConfig = vpcConfig
         }
@@ -1896,14 +2125,18 @@ extension KafkaClientTypes {
     public struct KafkaClusterSummary: Swift.Sendable {
         /// Details of an Amazon MSK Cluster.
         public var amazonMskCluster: KafkaClientTypes.AmazonMskCluster?
+        /// Details of an Apache Kafka Cluster.
+        public var apacheKafkaCluster: KafkaClientTypes.ApacheKafkaCluster?
         /// The alias of the Kafka cluster. Used to prefix names of replicated topics.
         public var kafkaClusterAlias: Swift.String?
 
         public init(
             amazonMskCluster: KafkaClientTypes.AmazonMskCluster? = nil,
+            apacheKafkaCluster: KafkaClientTypes.ApacheKafkaCluster? = nil,
             kafkaClusterAlias: Swift.String? = nil
         ) {
             self.amazonMskCluster = amazonMskCluster
+            self.apacheKafkaCluster = apacheKafkaCluster
             self.kafkaClusterAlias = kafkaClusterAlias
         }
     }
@@ -2103,8 +2336,40 @@ extension KafkaClientTypes {
 
 extension KafkaClientTypes {
 
+    /// The consumer group offset synchronization mode. With LEGACY, offsets are synchronized when producers write to the source cluster. With ENHANCED, consumer offsets are synchronized regardless of producer location. ENHANCED requires a corresponding replicator that replicates data from the target cluster to the source cluster.
+    public enum ConsumerGroupOffsetSyncMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case enhanced
+        case legacy
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConsumerGroupOffsetSyncMode] {
+            return [
+                .enhanced,
+                .legacy
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .enhanced: return "ENHANCED"
+            case .legacy: return "LEGACY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
     /// Details about consumer group replication.
     public struct ConsumerGroupReplication: Swift.Sendable {
+        /// The consumer group offset synchronization mode. With LEGACY, offsets are synchronized when producers write to the source cluster. With ENHANCED, consumer offsets are synchronized regardless of producer location. ENHANCED requires a corresponding replicator that replicates data from the target cluster to the source cluster.
+        public var consumerGroupOffsetSyncMode: KafkaClientTypes.ConsumerGroupOffsetSyncMode?
         /// List of regular expression patterns indicating the consumer groups that should not be replicated.
         public var consumerGroupsToExclude: [Swift.String]?
         /// List of regular expression patterns indicating the consumer groups to copy.
@@ -2116,11 +2381,13 @@ extension KafkaClientTypes {
         public var synchroniseConsumerGroupOffsets: Swift.Bool?
 
         public init(
+            consumerGroupOffsetSyncMode: KafkaClientTypes.ConsumerGroupOffsetSyncMode? = nil,
             consumerGroupsToExclude: [Swift.String]? = nil,
             consumerGroupsToReplicate: [Swift.String]? = nil,
             detectAndCopyNewConsumerGroups: Swift.Bool? = nil,
             synchroniseConsumerGroupOffsets: Swift.Bool? = nil
         ) {
+            self.consumerGroupOffsetSyncMode = consumerGroupOffsetSyncMode
             self.consumerGroupsToExclude = consumerGroupsToExclude
             self.consumerGroupsToReplicate = consumerGroupsToReplicate
             self.detectAndCopyNewConsumerGroups = detectAndCopyNewConsumerGroups
@@ -2306,14 +2573,16 @@ extension KafkaClientTypes {
         /// This member is required.
         public var consumerGroupReplication: KafkaClientTypes.ConsumerGroupReplication?
         /// The ARN of the source Kafka cluster.
-        /// This member is required.
         public var sourceKafkaClusterArn: Swift.String?
+        /// The ID of the source Kafka cluster.
+        public var sourceKafkaClusterId: Swift.String?
         /// The compression type to use when producing records to target cluster.
         /// This member is required.
         public var targetCompressionType: KafkaClientTypes.TargetCompressionType?
         /// The ARN of the target Kafka cluster.
-        /// This member is required.
         public var targetKafkaClusterArn: Swift.String?
+        /// The ID of the target Kafka cluster.
+        public var targetKafkaClusterId: Swift.String?
         /// Configuration relating to topic replication.
         /// This member is required.
         public var topicReplication: KafkaClientTypes.TopicReplication?
@@ -2321,14 +2590,18 @@ extension KafkaClientTypes {
         public init(
             consumerGroupReplication: KafkaClientTypes.ConsumerGroupReplication? = nil,
             sourceKafkaClusterArn: Swift.String? = nil,
+            sourceKafkaClusterId: Swift.String? = nil,
             targetCompressionType: KafkaClientTypes.TargetCompressionType? = nil,
             targetKafkaClusterArn: Swift.String? = nil,
+            targetKafkaClusterId: Swift.String? = nil,
             topicReplication: KafkaClientTypes.TopicReplication? = nil
         ) {
             self.consumerGroupReplication = consumerGroupReplication
             self.sourceKafkaClusterArn = sourceKafkaClusterArn
+            self.sourceKafkaClusterId = sourceKafkaClusterId
             self.targetCompressionType = targetCompressionType
             self.targetKafkaClusterArn = targetKafkaClusterArn
+            self.targetKafkaClusterId = targetKafkaClusterId
             self.topicReplication = topicReplication
         }
     }
@@ -2603,9 +2876,9 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         invalidParameter: Swift.String? = nil,
@@ -2631,9 +2904,9 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         invalidParameter: Swift.String? = nil,
@@ -2659,9 +2932,9 @@ public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClien
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         invalidParameter: Swift.String? = nil,
@@ -2687,9 +2960,9 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         invalidParameter: Swift.String? = nil,
@@ -2715,9 +2988,9 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         invalidParameter: Swift.String? = nil,
@@ -2743,9 +3016,9 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         invalidParameter: Swift.String? = nil,
@@ -2771,9 +3044,9 @@ public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntim
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         invalidParameter: Swift.String? = nil,
@@ -2850,6 +3123,34 @@ public struct BatchDisassociateScramSecretOutput: Swift.Sendable {
     }
 }
 
+/// Returns information about an error.
+public struct ClusterConnectivityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The parameter that caused the error.
+        public internal(set) var invalidParameter: Swift.String? = nil
+        /// The description of the error.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ClusterConnectivityException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        invalidParameter: Swift.String? = nil,
+        message: Swift.String? = nil
+    ) {
+        self.properties.invalidParameter = invalidParameter
+        self.properties.message = message
+    }
+}
+
 extension KafkaClientTypes {
 
     /// Returns information about a provisioned cluster operation.
@@ -2908,12 +3209,20 @@ extension KafkaClientTypes {
 
     /// Returns information about a serverless cluster operation.
     public struct ClusterOperationV2Serverless: Swift.Sendable {
+        /// Describes the cluster's attributes before any updates are applied. For example, networkType, which can be either IPv4 or DUAL.
+        public var sourceClusterInfo: KafkaClientTypes.ServerlessConnectivityInfo?
+        /// Describes the cluster's attributes after any updates are applied. For example, networkType, which can be either IPv4 or DUAL.
+        public var targetClusterInfo: KafkaClientTypes.ServerlessConnectivityInfo?
         /// Description of the VPC connection for CreateVpcConnection and DeleteVpcConnection operations.
         public var vpcConnectionInfo: KafkaClientTypes.VpcConnectionInfoServerless?
 
         public init(
+            sourceClusterInfo: KafkaClientTypes.ServerlessConnectivityInfo? = nil,
+            targetClusterInfo: KafkaClientTypes.ServerlessConnectivityInfo? = nil,
             vpcConnectionInfo: KafkaClientTypes.VpcConnectionInfoServerless? = nil
         ) {
+            self.sourceClusterInfo = sourceClusterInfo
+            self.targetClusterInfo = targetClusterInfo
             self.vpcConnectionInfo = vpcConnectionInfo
         }
     }
@@ -2985,9 +3294,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         invalidParameter: Swift.String? = nil,
@@ -3026,6 +3335,34 @@ extension KafkaClientTypes {
             self.detectAndCopyNewConsumerGroups = detectAndCopyNewConsumerGroups
             self.synchroniseConsumerGroupOffsets = synchroniseConsumerGroupOffsets
         }
+    }
+}
+
+/// Returns information about an error.
+public struct ControllerMovedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The parameter that caused the error.
+        public internal(set) var invalidParameter: Swift.String? = nil
+        /// The description of the error.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ControllerMovedException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        invalidParameter: Swift.String? = nil,
+        message: Swift.String? = nil
+    ) {
+        self.properties.invalidParameter = invalidParameter
+        self.properties.message = message
     }
 }
 
@@ -3287,6 +3624,108 @@ public struct CreateConfigurationOutput: Swift.Sendable {
     }
 }
 
+extension KafkaClientTypes {
+
+    /// Details about delivering logs to CloudWatch Logs.
+    public struct ReplicatorCloudWatchLogs: Swift.Sendable {
+        /// Whether log delivery to CloudWatch Logs is enabled.
+        /// This member is required.
+        public var enabled: Swift.Bool?
+        /// The CloudWatch log group that is the destination for log delivery.
+        public var logGroup: Swift.String?
+
+        public init(
+            enabled: Swift.Bool? = nil,
+            logGroup: Swift.String? = nil
+        ) {
+            self.enabled = enabled
+            self.logGroup = logGroup
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// Details about delivering logs to Firehose.
+    public struct ReplicatorFirehose: Swift.Sendable {
+        /// The Firehose delivery stream that is the destination for log delivery.
+        public var deliveryStream: Swift.String?
+        /// Whether log delivery to Firehose is enabled.
+        /// This member is required.
+        public var enabled: Swift.Bool?
+
+        public init(
+            deliveryStream: Swift.String? = nil,
+            enabled: Swift.Bool? = nil
+        ) {
+            self.deliveryStream = deliveryStream
+            self.enabled = enabled
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// Details about delivering logs to S3.
+    public struct ReplicatorS3: Swift.Sendable {
+        /// The S3 bucket that is the destination for log delivery.
+        public var bucket: Swift.String?
+        /// Whether log delivery to S3 is enabled.
+        /// This member is required.
+        public var enabled: Swift.Bool?
+        /// The S3 prefix that is the destination for log delivery.
+        public var `prefix`: Swift.String?
+
+        public init(
+            bucket: Swift.String? = nil,
+            enabled: Swift.Bool? = nil,
+            `prefix`: Swift.String? = nil
+        ) {
+            self.bucket = bucket
+            self.enabled = enabled
+            self.`prefix` = `prefix`
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// Configuration for replicator log delivery.
+    public struct ReplicatorLogDelivery: Swift.Sendable {
+        /// Configuration for CloudWatch Logs delivery.
+        public var cloudWatchLogs: KafkaClientTypes.ReplicatorCloudWatchLogs?
+        /// Configuration for Firehose delivery.
+        public var firehose: KafkaClientTypes.ReplicatorFirehose?
+        /// Configuration for S3 delivery.
+        public var s3: KafkaClientTypes.ReplicatorS3?
+
+        public init(
+            cloudWatchLogs: KafkaClientTypes.ReplicatorCloudWatchLogs? = nil,
+            firehose: KafkaClientTypes.ReplicatorFirehose? = nil,
+            s3: KafkaClientTypes.ReplicatorS3? = nil
+        ) {
+            self.cloudWatchLogs = cloudWatchLogs
+            self.firehose = firehose
+            self.s3 = s3
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// Configuration for log delivery to customer destinations.
+    public struct LogDelivery: Swift.Sendable {
+        /// Configuration for replicator log delivery.
+        public var replicatorLogDelivery: KafkaClientTypes.ReplicatorLogDelivery?
+
+        public init(
+            replicatorLogDelivery: KafkaClientTypes.ReplicatorLogDelivery? = nil
+        ) {
+            self.replicatorLogDelivery = replicatorLogDelivery
+        }
+    }
+}
+
 /// Creates a replicator using the specified configuration.
 public struct CreateReplicatorInput: Swift.Sendable {
     /// A summary description of the replicator.
@@ -3294,6 +3733,8 @@ public struct CreateReplicatorInput: Swift.Sendable {
     /// Kafka Clusters to use in setting up sources / targets for replication.
     /// This member is required.
     public var kafkaClusters: [KafkaClientTypes.KafkaCluster]?
+    /// Configuration for delivering replicator logs to customer destinations.
+    public var logDelivery: KafkaClientTypes.LogDelivery?
     /// A list of replication configurations, where each configuration targets a given source cluster to target cluster replication flow.
     /// This member is required.
     public var replicationInfoList: [KafkaClientTypes.ReplicationInfo]?
@@ -3309,6 +3750,7 @@ public struct CreateReplicatorInput: Swift.Sendable {
     public init(
         description: Swift.String? = nil,
         kafkaClusters: [KafkaClientTypes.KafkaCluster]? = nil,
+        logDelivery: KafkaClientTypes.LogDelivery? = nil,
         replicationInfoList: [KafkaClientTypes.ReplicationInfo]? = nil,
         replicatorName: Swift.String? = nil,
         serviceExecutionRoleArn: Swift.String? = nil,
@@ -3316,6 +3758,7 @@ public struct CreateReplicatorInput: Swift.Sendable {
     ) {
         self.description = description
         self.kafkaClusters = kafkaClusters
+        self.logDelivery = logDelivery
         self.replicationInfoList = replicationInfoList
         self.replicatorName = replicatorName
         self.serviceExecutionRoleArn = serviceExecutionRoleArn
@@ -3339,6 +3782,288 @@ public struct CreateReplicatorOutput: Swift.Sendable {
         self.replicatorArn = replicatorArn
         self.replicatorName = replicatorName
         self.replicatorState = replicatorState
+    }
+}
+
+/// Returns information about an error.
+public struct GroupSubscribedToTopicException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The parameter that caused the error.
+        public internal(set) var invalidParameter: Swift.String? = nil
+        /// The description of the error.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "GroupSubscribedToTopicException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        invalidParameter: Swift.String? = nil,
+        message: Swift.String? = nil
+    ) {
+        self.properties.invalidParameter = invalidParameter
+        self.properties.message = message
+    }
+}
+
+/// Returns information about an error.
+public struct KafkaRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The parameter that caused the error.
+        public internal(set) var invalidParameter: Swift.String? = nil
+        /// The description of the error.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "KafkaRequestException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        invalidParameter: Swift.String? = nil,
+        message: Swift.String? = nil
+    ) {
+        self.properties.invalidParameter = invalidParameter
+        self.properties.message = message
+    }
+}
+
+/// Returns information about an error.
+public struct KafkaTimeoutException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The parameter that caused the error.
+        public internal(set) var invalidParameter: Swift.String? = nil
+        /// The description of the error.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "KafkaTimeoutException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        invalidParameter: Swift.String? = nil,
+        message: Swift.String? = nil
+    ) {
+        self.properties.invalidParameter = invalidParameter
+        self.properties.message = message
+    }
+}
+
+/// Returns information about an error.
+public struct NotControllerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The parameter that caused the error.
+        public internal(set) var invalidParameter: Swift.String? = nil
+        /// The description of the error.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "NotControllerException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        invalidParameter: Swift.String? = nil,
+        message: Swift.String? = nil
+    ) {
+        self.properties.invalidParameter = invalidParameter
+        self.properties.message = message
+    }
+}
+
+/// Returns information about an error.
+public struct ReassignmentInProgressException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The parameter that caused the error.
+        public internal(set) var invalidParameter: Swift.String? = nil
+        /// The description of the error.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ReassignmentInProgressException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        invalidParameter: Swift.String? = nil,
+        message: Swift.String? = nil
+    ) {
+        self.properties.invalidParameter = invalidParameter
+        self.properties.message = message
+    }
+}
+
+/// Returns information about an error.
+public struct TopicExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The parameter that caused the error.
+        public internal(set) var invalidParameter: Swift.String? = nil
+        /// The description of the error.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TopicExistsException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        invalidParameter: Swift.String? = nil,
+        message: Swift.String? = nil
+    ) {
+        self.properties.invalidParameter = invalidParameter
+        self.properties.message = message
+    }
+}
+
+/// Returns information about an error.
+public struct UnknownTopicOrPartitionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The parameter that caused the error.
+        public internal(set) var invalidParameter: Swift.String? = nil
+        /// The description of the error.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "UnknownTopicOrPartitionException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        invalidParameter: Swift.String? = nil,
+        message: Swift.String? = nil
+    ) {
+        self.properties.invalidParameter = invalidParameter
+        self.properties.message = message
+    }
+}
+
+public struct CreateTopicInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+    /// This member is required.
+    public var clusterArn: Swift.String?
+    /// Topic configurations encoded as a Base64 string.
+    public var configs: Swift.String?
+    /// The number of partitions for the topic.
+    /// This member is required.
+    public var partitionCount: Swift.Int?
+    /// The replication factor for the topic.
+    /// This member is required.
+    public var replicationFactor: Swift.Int?
+    /// The name of the topic to create.
+    /// This member is required.
+    public var topicName: Swift.String?
+
+    public init(
+        clusterArn: Swift.String? = nil,
+        configs: Swift.String? = nil,
+        partitionCount: Swift.Int? = nil,
+        replicationFactor: Swift.Int? = nil,
+        topicName: Swift.String? = nil
+    ) {
+        self.clusterArn = clusterArn
+        self.configs = configs
+        self.partitionCount = partitionCount
+        self.replicationFactor = replicationFactor
+        self.topicName = topicName
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// The state of a topic request.
+    public enum TopicState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case creating
+        case deleting
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TopicState] {
+            return [
+                .active,
+                .creating,
+                .deleting,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateTopicOutput: Swift.Sendable {
+    /// The status of the topic creation.
+    public var status: KafkaClientTypes.TopicState?
+    /// The Amazon Resource Name (ARN) of the topic.
+    public var topicArn: Swift.String?
+    /// The name of the topic that was created.
+    public var topicName: Swift.String?
+
+    public init(
+        status: KafkaClientTypes.TopicState? = nil,
+        topicArn: Swift.String? = nil,
+        topicName: Swift.String? = nil
+    ) {
+        self.status = status
+        self.topicArn = topicArn
+        self.topicName = topicName
     }
 }
 
@@ -3520,6 +4245,42 @@ public struct DeleteReplicatorOutput: Swift.Sendable {
     ) {
         self.replicatorArn = replicatorArn
         self.replicatorState = replicatorState
+    }
+}
+
+public struct DeleteTopicInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+    /// This member is required.
+    public var clusterArn: Swift.String?
+    /// The name of the topic to delete.
+    /// This member is required.
+    public var topicName: Swift.String?
+
+    public init(
+        clusterArn: Swift.String? = nil,
+        topicName: Swift.String? = nil
+    ) {
+        self.clusterArn = clusterArn
+        self.topicName = topicName
+    }
+}
+
+public struct DeleteTopicOutput: Swift.Sendable {
+    /// The status of the topic deletion.
+    public var status: KafkaClientTypes.TopicState?
+    /// The Amazon Resource Name (ARN) of the topic.
+    public var topicArn: Swift.String?
+    /// The name of the topic that was deleted.
+    public var topicName: Swift.String?
+
+    public init(
+        status: KafkaClientTypes.TopicState? = nil,
+        topicArn: Swift.String? = nil,
+        topicName: Swift.String? = nil
+    ) {
+        self.status = status
+        self.topicArn = topicArn
+        self.topicName = topicName
     }
 }
 
@@ -3773,6 +4534,8 @@ public struct DescribeReplicatorOutput: Swift.Sendable {
     public var isReplicatorReference: Swift.Bool?
     /// Kafka Clusters used in setting up sources / targets for replication.
     public var kafkaClusters: [KafkaClientTypes.KafkaClusterDescription]?
+    /// Configuration for log delivery.
+    public var logDelivery: KafkaClientTypes.LogDelivery?
     /// A list of replication configurations, where each configuration targets a given source cluster to target cluster replication flow.
     public var replicationInfoList: [KafkaClientTypes.ReplicationInfoDescription]?
     /// The Amazon Resource Name (ARN) of the replicator.
@@ -3797,6 +4560,7 @@ public struct DescribeReplicatorOutput: Swift.Sendable {
         currentVersion: Swift.String? = nil,
         isReplicatorReference: Swift.Bool? = nil,
         kafkaClusters: [KafkaClientTypes.KafkaClusterDescription]? = nil,
+        logDelivery: KafkaClientTypes.LogDelivery? = nil,
         replicationInfoList: [KafkaClientTypes.ReplicationInfoDescription]? = nil,
         replicatorArn: Swift.String? = nil,
         replicatorDescription: Swift.String? = nil,
@@ -3811,6 +4575,7 @@ public struct DescribeReplicatorOutput: Swift.Sendable {
         self.currentVersion = currentVersion
         self.isReplicatorReference = isReplicatorReference
         self.kafkaClusters = kafkaClusters
+        self.logDelivery = logDelivery
         self.replicationInfoList = replicationInfoList
         self.replicatorArn = replicatorArn
         self.replicatorDescription = replicatorDescription
@@ -3837,42 +4602,6 @@ public struct DescribeTopicInput: Swift.Sendable {
     ) {
         self.clusterArn = clusterArn
         self.topicName = topicName
-    }
-}
-
-extension KafkaClientTypes {
-
-    /// The state of a topic request.
-    public enum TopicState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case active
-        case creating
-        case deleting
-        case updating
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [TopicState] {
-            return [
-                .active,
-                .creating,
-                .deleting,
-                .updating
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .active: return "ACTIVE"
-            case .creating: return "CREATING"
-            case .deleting: return "DELETING"
-            case .updating: return "UPDATING"
-            case let .sdkUnknown(s): return s
-            }
-        }
     }
 }
 
@@ -4017,6 +4746,8 @@ public struct GetBootstrapBrokersInput: Swift.Sendable {
 public struct GetBootstrapBrokersOutput: Swift.Sendable {
     /// A string containing one or more hostname:port pairs.
     public var bootstrapBrokerString: Swift.String?
+    /// A string that contains one or more DNS names (or IP) and port pairs for IPv6 connectivity.
+    public var bootstrapBrokerStringIpv6: Swift.String?
     /// A string that contains one or more DNS names (or IP addresses) and SASL IAM port pairs.
     public var bootstrapBrokerStringPublicSaslIam: Swift.String?
     /// A string containing one or more DNS names (or IP) and Sasl Scram port pairs.
@@ -4025,10 +4756,16 @@ public struct GetBootstrapBrokersOutput: Swift.Sendable {
     public var bootstrapBrokerStringPublicTls: Swift.String?
     /// A string that contains one or more DNS names (or IP addresses) and SASL IAM port pairs.
     public var bootstrapBrokerStringSaslIam: Swift.String?
+    /// A string that contains one or more DNS names (or IP) and SASL IAM port pairs for IPv6 connectivity.
+    public var bootstrapBrokerStringSaslIamIpv6: Swift.String?
     /// A string containing one or more DNS names (or IP) and Sasl Scram port pairs.
     public var bootstrapBrokerStringSaslScram: Swift.String?
+    /// A string that contains one or more DNS names (or IP) and SASL SCRAM port pairs for IPv6 connectivity.
+    public var bootstrapBrokerStringSaslScramIpv6: Swift.String?
     /// A string containing one or more DNS names (or IP) and TLS port pairs.
     public var bootstrapBrokerStringTls: Swift.String?
+    /// A string that contains one or more DNS names (or IP) and TLS port pairs for IPv6 connectivity.
+    public var bootstrapBrokerStringTlsIpv6: Swift.String?
     /// A string containing one or more DNS names (or IP) and SASL/IAM port pairs for VPC connectivity.
     public var bootstrapBrokerStringVpcConnectivitySaslIam: Swift.String?
     /// A string containing one or more DNS names (or IP) and SASL/SCRAM port pairs for VPC connectivity.
@@ -4038,23 +4775,31 @@ public struct GetBootstrapBrokersOutput: Swift.Sendable {
 
     public init(
         bootstrapBrokerString: Swift.String? = nil,
+        bootstrapBrokerStringIpv6: Swift.String? = nil,
         bootstrapBrokerStringPublicSaslIam: Swift.String? = nil,
         bootstrapBrokerStringPublicSaslScram: Swift.String? = nil,
         bootstrapBrokerStringPublicTls: Swift.String? = nil,
         bootstrapBrokerStringSaslIam: Swift.String? = nil,
+        bootstrapBrokerStringSaslIamIpv6: Swift.String? = nil,
         bootstrapBrokerStringSaslScram: Swift.String? = nil,
+        bootstrapBrokerStringSaslScramIpv6: Swift.String? = nil,
         bootstrapBrokerStringTls: Swift.String? = nil,
+        bootstrapBrokerStringTlsIpv6: Swift.String? = nil,
         bootstrapBrokerStringVpcConnectivitySaslIam: Swift.String? = nil,
         bootstrapBrokerStringVpcConnectivitySaslScram: Swift.String? = nil,
         bootstrapBrokerStringVpcConnectivityTls: Swift.String? = nil
     ) {
         self.bootstrapBrokerString = bootstrapBrokerString
+        self.bootstrapBrokerStringIpv6 = bootstrapBrokerStringIpv6
         self.bootstrapBrokerStringPublicSaslIam = bootstrapBrokerStringPublicSaslIam
         self.bootstrapBrokerStringPublicSaslScram = bootstrapBrokerStringPublicSaslScram
         self.bootstrapBrokerStringPublicTls = bootstrapBrokerStringPublicTls
         self.bootstrapBrokerStringSaslIam = bootstrapBrokerStringSaslIam
+        self.bootstrapBrokerStringSaslIamIpv6 = bootstrapBrokerStringSaslIamIpv6
         self.bootstrapBrokerStringSaslScram = bootstrapBrokerStringSaslScram
+        self.bootstrapBrokerStringSaslScramIpv6 = bootstrapBrokerStringSaslScramIpv6
         self.bootstrapBrokerStringTls = bootstrapBrokerStringTls
+        self.bootstrapBrokerStringTlsIpv6 = bootstrapBrokerStringTlsIpv6
         self.bootstrapBrokerStringVpcConnectivitySaslIam = bootstrapBrokerStringVpcConnectivitySaslIam
         self.bootstrapBrokerStringVpcConnectivitySaslScram = bootstrapBrokerStringVpcConnectivitySaslScram
         self.bootstrapBrokerStringVpcConnectivityTls = bootstrapBrokerStringVpcConnectivityTls
@@ -4936,20 +5681,23 @@ public struct UpdateConnectivityInput: Swift.Sendable {
     /// This member is required.
     public var clusterArn: Swift.String?
     /// Information about the broker access configuration.
-    /// This member is required.
     public var connectivityInfo: KafkaClientTypes.ConnectivityInfo?
     /// The version of the MSK cluster to update. Cluster versions aren't simple numbers. You can describe an MSK cluster to find its version. When this update operation is successful, it generates a new cluster version.
     /// This member is required.
     public var currentVersion: Swift.String?
+    /// Access control settings for zookeeper
+    public var zookeeperAccess: KafkaClientTypes.ZookeeperAccess?
 
     public init(
         clusterArn: Swift.String? = nil,
         connectivityInfo: KafkaClientTypes.ConnectivityInfo? = nil,
-        currentVersion: Swift.String? = nil
+        currentVersion: Swift.String? = nil,
+        zookeeperAccess: KafkaClientTypes.ZookeeperAccess? = nil
     ) {
         self.clusterArn = clusterArn
         self.connectivityInfo = connectivityInfo
         self.currentVersion = currentVersion
+        self.zookeeperAccess = zookeeperAccess
     }
 }
 
@@ -5092,31 +5840,41 @@ public struct UpdateReplicationInfoInput: Swift.Sendable {
     /// Current replicator version.
     /// This member is required.
     public var currentVersion: Swift.String?
+    /// Configuration for delivering replicator logs to customer destinations.
+    public var logDelivery: KafkaClientTypes.LogDelivery?
     /// The Amazon Resource Name (ARN) of the replicator to be updated.
     /// This member is required.
     public var replicatorArn: Swift.String?
     /// The ARN of the source Kafka cluster.
-    /// This member is required.
     public var sourceKafkaClusterArn: Swift.String?
+    /// The ID of the source Kafka cluster.
+    public var sourceKafkaClusterId: Swift.String?
     /// The ARN of the target Kafka cluster.
-    /// This member is required.
     public var targetKafkaClusterArn: Swift.String?
+    /// The ID of the target Kafka cluster.
+    public var targetKafkaClusterId: Swift.String?
     /// Updated topic replication information.
     public var topicReplication: KafkaClientTypes.TopicReplicationUpdate?
 
     public init(
         consumerGroupReplication: KafkaClientTypes.ConsumerGroupReplicationUpdate? = nil,
         currentVersion: Swift.String? = nil,
+        logDelivery: KafkaClientTypes.LogDelivery? = nil,
         replicatorArn: Swift.String? = nil,
         sourceKafkaClusterArn: Swift.String? = nil,
+        sourceKafkaClusterId: Swift.String? = nil,
         targetKafkaClusterArn: Swift.String? = nil,
+        targetKafkaClusterId: Swift.String? = nil,
         topicReplication: KafkaClientTypes.TopicReplicationUpdate? = nil
     ) {
         self.consumerGroupReplication = consumerGroupReplication
         self.currentVersion = currentVersion
+        self.logDelivery = logDelivery
         self.replicatorArn = replicatorArn
         self.sourceKafkaClusterArn = sourceKafkaClusterArn
+        self.sourceKafkaClusterId = sourceKafkaClusterId
         self.targetKafkaClusterArn = targetKafkaClusterArn
+        self.targetKafkaClusterId = targetKafkaClusterId
         self.topicReplication = topicReplication
     }
 }
@@ -5221,6 +5979,50 @@ public struct UpdateStorageOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateTopicInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+    /// This member is required.
+    public var clusterArn: Swift.String?
+    /// The new topic configurations encoded as a Base64 string.
+    public var configs: Swift.String?
+    /// The new total number of partitions for the topic.
+    public var partitionCount: Swift.Int?
+    /// The name of the topic to update configuration for.
+    /// This member is required.
+    public var topicName: Swift.String?
+
+    public init(
+        clusterArn: Swift.String? = nil,
+        configs: Swift.String? = nil,
+        partitionCount: Swift.Int? = nil,
+        topicName: Swift.String? = nil
+    ) {
+        self.clusterArn = clusterArn
+        self.configs = configs
+        self.partitionCount = partitionCount
+        self.topicName = topicName
+    }
+}
+
+public struct UpdateTopicOutput: Swift.Sendable {
+    /// The status of the topic update.
+    public var status: KafkaClientTypes.TopicState?
+    /// The Amazon Resource Name (ARN) of the topic.
+    public var topicArn: Swift.String?
+    /// The name of the topic whose configuration was updated.
+    public var topicName: Swift.String?
+
+    public init(
+        status: KafkaClientTypes.TopicState? = nil,
+        topicArn: Swift.String? = nil,
+        topicName: Swift.String? = nil
+    ) {
+        self.status = status
+        self.topicArn = topicArn
+        self.topicName = topicName
+    }
+}
+
 extension BatchAssociateScramSecretInput {
 
     static func urlPathProvider(_ value: BatchAssociateScramSecretInput) -> Swift.String? {
@@ -5266,6 +6068,16 @@ extension CreateReplicatorInput {
 
     static func urlPathProvider(_ value: CreateReplicatorInput) -> Swift.String? {
         return "/replication/v1/replicators"
+    }
+}
+
+extension CreateTopicInput {
+
+    static func urlPathProvider(_ value: CreateTopicInput) -> Swift.String? {
+        guard let clusterArn = value.clusterArn else {
+            return nil
+        }
+        return "/v1/clusters/\(clusterArn.urlPercentEncoding())/topics"
     }
 }
 
@@ -5337,6 +6149,19 @@ extension DeleteReplicatorInput {
             items.append(currentVersionQueryItem)
         }
         return items
+    }
+}
+
+extension DeleteTopicInput {
+
+    static func urlPathProvider(_ value: DeleteTopicInput) -> Swift.String? {
+        guard let clusterArn = value.clusterArn else {
+            return nil
+        }
+        guard let topicName = value.topicName else {
+            return nil
+        }
+        return "/v1/clusters/\(clusterArn.urlPercentEncoding())/topics/\(topicName.urlPercentEncoding())"
     }
 }
 
@@ -6050,6 +6875,19 @@ extension UpdateStorageInput {
     }
 }
 
+extension UpdateTopicInput {
+
+    static func urlPathProvider(_ value: UpdateTopicInput) -> Swift.String? {
+        guard let clusterArn = value.clusterArn else {
+            return nil
+        }
+        guard let topicName = value.topicName else {
+            return nil
+        }
+        return "/v1/clusters/\(clusterArn.urlPercentEncoding())/topics/\(topicName.urlPercentEncoding())"
+    }
+}
+
 extension BatchAssociateScramSecretInput {
 
     static func write(value: BatchAssociateScramSecretInput?, to writer: SmithyJSON.Writer) throws {
@@ -6114,10 +6952,22 @@ extension CreateReplicatorInput {
         guard let value else { return }
         try writer["description"].write(value.description)
         try writer["kafkaClusters"].writeList(value.kafkaClusters, memberWritingClosure: KafkaClientTypes.KafkaCluster.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["logDelivery"].write(value.logDelivery, with: KafkaClientTypes.LogDelivery.write(value:to:))
         try writer["replicationInfoList"].writeList(value.replicationInfoList, memberWritingClosure: KafkaClientTypes.ReplicationInfo.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["replicatorName"].write(value.replicatorName)
         try writer["serviceExecutionRoleArn"].write(value.serviceExecutionRoleArn)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension CreateTopicInput {
+
+    static func write(value: CreateTopicInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["configs"].write(value.configs)
+        try writer["partitionCount"].write(value.partitionCount)
+        try writer["replicationFactor"].write(value.replicationFactor)
+        try writer["topicName"].write(value.topicName)
     }
 }
 
@@ -6228,6 +7078,7 @@ extension UpdateConnectivityInput {
         guard let value else { return }
         try writer["connectivityInfo"].write(value.connectivityInfo, with: KafkaClientTypes.ConnectivityInfo.write(value:to:))
         try writer["currentVersion"].write(value.currentVersion)
+        try writer["zookeeperAccess"].write(value.zookeeperAccess, with: KafkaClientTypes.ZookeeperAccess.write(value:to:))
     }
 }
 
@@ -6257,8 +7108,11 @@ extension UpdateReplicationInfoInput {
         guard let value else { return }
         try writer["consumerGroupReplication"].write(value.consumerGroupReplication, with: KafkaClientTypes.ConsumerGroupReplicationUpdate.write(value:to:))
         try writer["currentVersion"].write(value.currentVersion)
+        try writer["logDelivery"].write(value.logDelivery, with: KafkaClientTypes.LogDelivery.write(value:to:))
         try writer["sourceKafkaClusterArn"].write(value.sourceKafkaClusterArn)
+        try writer["sourceKafkaClusterId"].write(value.sourceKafkaClusterId)
         try writer["targetKafkaClusterArn"].write(value.targetKafkaClusterArn)
+        try writer["targetKafkaClusterId"].write(value.targetKafkaClusterId)
         try writer["topicReplication"].write(value.topicReplication, with: KafkaClientTypes.TopicReplicationUpdate.write(value:to:))
     }
 }
@@ -6281,6 +7135,15 @@ extension UpdateStorageInput {
         try writer["provisionedThroughput"].write(value.provisionedThroughput, with: KafkaClientTypes.ProvisionedThroughput.write(value:to:))
         try writer["storageMode"].write(value.storageMode)
         try writer["volumeSizeGB"].write(value.volumeSizeGB)
+    }
+}
+
+extension UpdateTopicInput {
+
+    static func write(value: UpdateTopicInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["configs"].write(value.configs)
+        try writer["partitionCount"].write(value.partitionCount)
     }
 }
 
@@ -6369,6 +7232,20 @@ extension CreateReplicatorOutput {
     }
 }
 
+extension CreateTopicOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateTopicOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateTopicOutput()
+        value.status = try reader["status"].readIfPresent()
+        value.topicArn = try reader["topicArn"].readIfPresent()
+        value.topicName = try reader["topicName"].readIfPresent()
+        return value
+    }
+}
+
 extension CreateVpcConnectionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateVpcConnectionOutput {
@@ -6430,6 +7307,20 @@ extension DeleteReplicatorOutput {
         var value = DeleteReplicatorOutput()
         value.replicatorArn = try reader["replicatorArn"].readIfPresent()
         value.replicatorState = try reader["replicatorState"].readIfPresent()
+        return value
+    }
+}
+
+extension DeleteTopicOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteTopicOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteTopicOutput()
+        value.status = try reader["status"].readIfPresent()
+        value.topicArn = try reader["topicArn"].readIfPresent()
+        value.topicName = try reader["topicName"].readIfPresent()
         return value
     }
 }
@@ -6540,6 +7431,7 @@ extension DescribeReplicatorOutput {
         value.currentVersion = try reader["currentVersion"].readIfPresent()
         value.isReplicatorReference = try reader["isReplicatorReference"].readIfPresent()
         value.kafkaClusters = try reader["kafkaClusters"].readListIfPresent(memberReadingClosure: KafkaClientTypes.KafkaClusterDescription.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.logDelivery = try reader["logDelivery"].readIfPresent(with: KafkaClientTypes.LogDelivery.read(from:))
         value.replicationInfoList = try reader["replicationInfoList"].readListIfPresent(memberReadingClosure: KafkaClientTypes.ReplicationInfoDescription.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.replicatorArn = try reader["replicatorArn"].readIfPresent()
         value.replicatorDescription = try reader["replicatorDescription"].readIfPresent()
@@ -6611,12 +7503,16 @@ extension GetBootstrapBrokersOutput {
         let reader = responseReader
         var value = GetBootstrapBrokersOutput()
         value.bootstrapBrokerString = try reader["bootstrapBrokerString"].readIfPresent()
+        value.bootstrapBrokerStringIpv6 = try reader["bootstrapBrokerStringIpv6"].readIfPresent()
         value.bootstrapBrokerStringPublicSaslIam = try reader["bootstrapBrokerStringPublicSaslIam"].readIfPresent()
         value.bootstrapBrokerStringPublicSaslScram = try reader["bootstrapBrokerStringPublicSaslScram"].readIfPresent()
         value.bootstrapBrokerStringPublicTls = try reader["bootstrapBrokerStringPublicTls"].readIfPresent()
         value.bootstrapBrokerStringSaslIam = try reader["bootstrapBrokerStringSaslIam"].readIfPresent()
+        value.bootstrapBrokerStringSaslIamIpv6 = try reader["bootstrapBrokerStringSaslIamIpv6"].readIfPresent()
         value.bootstrapBrokerStringSaslScram = try reader["bootstrapBrokerStringSaslScram"].readIfPresent()
+        value.bootstrapBrokerStringSaslScramIpv6 = try reader["bootstrapBrokerStringSaslScramIpv6"].readIfPresent()
         value.bootstrapBrokerStringTls = try reader["bootstrapBrokerStringTls"].readIfPresent()
+        value.bootstrapBrokerStringTlsIpv6 = try reader["bootstrapBrokerStringTlsIpv6"].readIfPresent()
         value.bootstrapBrokerStringVpcConnectivitySaslIam = try reader["bootstrapBrokerStringVpcConnectivitySaslIam"].readIfPresent()
         value.bootstrapBrokerStringVpcConnectivitySaslScram = try reader["bootstrapBrokerStringVpcConnectivitySaslScram"].readIfPresent()
         value.bootstrapBrokerStringVpcConnectivityTls = try reader["bootstrapBrokerStringVpcConnectivityTls"].readIfPresent()
@@ -7032,12 +7928,26 @@ extension UpdateStorageOutput {
     }
 }
 
+extension UpdateTopicOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateTopicOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateTopicOutput()
+        value.status = try reader["status"].readIfPresent()
+        value.topicArn = try reader["topicArn"].readIfPresent()
+        value.topicName = try reader["topicName"].readIfPresent()
+        return value
+    }
+}
+
 enum BatchAssociateScramSecretOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -7057,7 +7967,7 @@ enum BatchDisassociateScramSecretOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -7077,7 +7987,7 @@ enum CreateClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -7097,7 +8007,7 @@ enum CreateClusterV2OutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -7117,7 +8027,7 @@ enum CreateConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -7137,7 +8047,7 @@ enum CreateReplicatorOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -7153,12 +8063,41 @@ enum CreateReplicatorOutputError {
     }
 }
 
+enum CreateTopicOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ClusterConnectivityException": return try ClusterConnectivityException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ControllerMovedException": return try ControllerMovedException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "GroupSubscribedToTopicException": return try GroupSubscribedToTopicException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "KafkaRequestException": return try KafkaRequestException.makeError(baseError: baseError)
+            case "KafkaTimeoutException": return try KafkaTimeoutException.makeError(baseError: baseError)
+            case "NotControllerException": return try NotControllerException.makeError(baseError: baseError)
+            case "ReassignmentInProgressException": return try ReassignmentInProgressException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "TopicExistsException": return try TopicExistsException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            case "UnknownTopicOrPartitionException": return try UnknownTopicOrPartitionException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateVpcConnectionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -7177,7 +8116,7 @@ enum DeleteClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -7194,7 +8133,7 @@ enum DeleteClusterPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -7211,7 +8150,7 @@ enum DeleteConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -7228,7 +8167,7 @@ enum DeleteReplicatorOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -7243,12 +8182,37 @@ enum DeleteReplicatorOutputError {
     }
 }
 
+enum DeleteTopicOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ClusterConnectivityException": return try ClusterConnectivityException.makeError(baseError: baseError)
+            case "ControllerMovedException": return try ControllerMovedException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "GroupSubscribedToTopicException": return try GroupSubscribedToTopicException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "KafkaRequestException": return try KafkaRequestException.makeError(baseError: baseError)
+            case "KafkaTimeoutException": return try KafkaTimeoutException.makeError(baseError: baseError)
+            case "NotControllerException": return try NotControllerException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ReassignmentInProgressException": return try ReassignmentInProgressException.makeError(baseError: baseError)
+            case "UnknownTopicOrPartitionException": return try UnknownTopicOrPartitionException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteVpcConnectionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -7265,7 +8229,7 @@ enum DescribeClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -7283,7 +8247,7 @@ enum DescribeClusterOperationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -7301,7 +8265,7 @@ enum DescribeClusterOperationV2OutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -7321,7 +8285,7 @@ enum DescribeClusterV2OutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -7339,7 +8303,7 @@ enum DescribeConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -7358,7 +8322,7 @@ enum DescribeConfigurationRevisionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -7377,7 +8341,7 @@ enum DescribeReplicatorOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -7397,7 +8361,7 @@ enum DescribeTopicOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -7415,7 +8379,7 @@ enum DescribeTopicPartitionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -7433,7 +8397,7 @@ enum DescribeVpcConnectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -7452,7 +8416,7 @@ enum GetBootstrapBrokersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -7470,7 +8434,7 @@ enum GetClusterPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -7487,7 +8451,7 @@ enum GetCompatibleKafkaVersionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -7507,7 +8471,7 @@ enum ListClientVpcConnectionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -7525,7 +8489,7 @@ enum ListClusterOperationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -7542,7 +8506,7 @@ enum ListClusterOperationsV2OutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -7562,7 +8526,7 @@ enum ListClustersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -7579,7 +8543,7 @@ enum ListClustersV2OutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -7596,7 +8560,7 @@ enum ListConfigurationRevisionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -7615,7 +8579,7 @@ enum ListConfigurationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -7633,7 +8597,7 @@ enum ListKafkaVersionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -7650,7 +8614,7 @@ enum ListNodesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -7667,7 +8631,7 @@ enum ListReplicatorsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -7687,7 +8651,7 @@ enum ListScramSecretsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -7707,7 +8671,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -7723,7 +8687,7 @@ enum ListTopicsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -7741,7 +8705,7 @@ enum ListVpcConnectionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -7759,7 +8723,7 @@ enum PutClusterPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -7775,7 +8739,7 @@ enum RebootBrokerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -7795,7 +8759,7 @@ enum RejectClientVpcConnectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -7813,7 +8777,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -7829,7 +8793,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -7845,7 +8809,7 @@ enum UpdateBrokerCountOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -7863,7 +8827,7 @@ enum UpdateBrokerStorageOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -7881,7 +8845,7 @@ enum UpdateBrokerTypeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -7901,7 +8865,7 @@ enum UpdateClusterConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -7920,7 +8884,7 @@ enum UpdateClusterKafkaVersionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -7940,7 +8904,7 @@ enum UpdateConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -7959,7 +8923,7 @@ enum UpdateConnectivityOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -7978,7 +8942,7 @@ enum UpdateMonitoringOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -7996,7 +8960,7 @@ enum UpdateRebalancingOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -8016,7 +8980,7 @@ enum UpdateReplicationInfoOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -8036,7 +9000,7 @@ enum UpdateSecurityOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -8056,7 +9020,7 @@ enum UpdateStorageOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -8071,9 +9035,36 @@ enum UpdateStorageOutputError {
     }
 }
 
+enum UpdateTopicOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ClusterConnectivityException": return try ClusterConnectivityException.makeError(baseError: baseError)
+            case "ControllerMovedException": return try ControllerMovedException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "GroupSubscribedToTopicException": return try GroupSubscribedToTopicException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "KafkaRequestException": return try KafkaRequestException.makeError(baseError: baseError)
+            case "KafkaTimeoutException": return try KafkaTimeoutException.makeError(baseError: baseError)
+            case "NotControllerException": return try NotControllerException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ReassignmentInProgressException": return try ReassignmentInProgressException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            case "UnknownTopicOrPartitionException": return try UnknownTopicOrPartitionException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 extension BadRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> BadRequestException {
         let reader = baseError.errorBodyReader
         var value = BadRequestException()
         value.properties.invalidParameter = try reader["invalidParameter"].readIfPresent()
@@ -8087,7 +9078,7 @@ extension BadRequestException {
 
 extension ForbiddenException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ForbiddenException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ForbiddenException {
         let reader = baseError.errorBodyReader
         var value = ForbiddenException()
         value.properties.invalidParameter = try reader["invalidParameter"].readIfPresent()
@@ -8101,7 +9092,7 @@ extension ForbiddenException {
 
 extension InternalServerErrorException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerErrorException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalServerErrorException {
         let reader = baseError.errorBodyReader
         var value = InternalServerErrorException()
         value.properties.invalidParameter = try reader["invalidParameter"].readIfPresent()
@@ -8115,7 +9106,7 @@ extension InternalServerErrorException {
 
 extension NotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> NotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> NotFoundException {
         let reader = baseError.errorBodyReader
         var value = NotFoundException()
         value.properties.invalidParameter = try reader["invalidParameter"].readIfPresent()
@@ -8129,7 +9120,7 @@ extension NotFoundException {
 
 extension ServiceUnavailableException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
         let reader = baseError.errorBodyReader
         var value = ServiceUnavailableException()
         value.properties.invalidParameter = try reader["invalidParameter"].readIfPresent()
@@ -8143,7 +9134,7 @@ extension ServiceUnavailableException {
 
 extension TooManyRequestsException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TooManyRequestsException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> TooManyRequestsException {
         let reader = baseError.errorBodyReader
         var value = TooManyRequestsException()
         value.properties.invalidParameter = try reader["invalidParameter"].readIfPresent()
@@ -8157,7 +9148,7 @@ extension TooManyRequestsException {
 
 extension UnauthorizedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnauthorizedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> UnauthorizedException {
         let reader = baseError.errorBodyReader
         var value = UnauthorizedException()
         value.properties.invalidParameter = try reader["invalidParameter"].readIfPresent()
@@ -8171,7 +9162,7 @@ extension UnauthorizedException {
 
 extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.invalidParameter = try reader["invalidParameter"].readIfPresent()
@@ -8183,26 +9174,333 @@ extension ConflictException {
     }
 }
 
-extension KafkaClientTypes.UnprocessedScramSecret {
+extension ClusterConnectivityException {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.UnprocessedScramSecret {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.UnprocessedScramSecret()
-        value.errorCode = try reader["errorCode"].readIfPresent()
-        value.errorMessage = try reader["errorMessage"].readIfPresent()
-        value.secretArn = try reader["secretArn"].readIfPresent()
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ClusterConnectivityException {
+        let reader = baseError.errorBodyReader
+        var value = ClusterConnectivityException()
+        value.properties.invalidParameter = try reader["invalidParameter"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
 
-extension KafkaClientTypes.ConfigurationRevision {
+extension ControllerMovedException {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ConfigurationRevision {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ControllerMovedException {
+        let reader = baseError.errorBodyReader
+        var value = ControllerMovedException()
+        value.properties.invalidParameter = try reader["invalidParameter"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension GroupSubscribedToTopicException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> GroupSubscribedToTopicException {
+        let reader = baseError.errorBodyReader
+        var value = GroupSubscribedToTopicException()
+        value.properties.invalidParameter = try reader["invalidParameter"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension KafkaRequestException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> KafkaRequestException {
+        let reader = baseError.errorBodyReader
+        var value = KafkaRequestException()
+        value.properties.invalidParameter = try reader["invalidParameter"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension KafkaTimeoutException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> KafkaTimeoutException {
+        let reader = baseError.errorBodyReader
+        var value = KafkaTimeoutException()
+        value.properties.invalidParameter = try reader["invalidParameter"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension NotControllerException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> NotControllerException {
+        let reader = baseError.errorBodyReader
+        var value = NotControllerException()
+        value.properties.invalidParameter = try reader["invalidParameter"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ReassignmentInProgressException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ReassignmentInProgressException {
+        let reader = baseError.errorBodyReader
+        var value = ReassignmentInProgressException()
+        value.properties.invalidParameter = try reader["invalidParameter"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TopicExistsException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> TopicExistsException {
+        let reader = baseError.errorBodyReader
+        var value = TopicExistsException()
+        value.properties.invalidParameter = try reader["invalidParameter"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension UnknownTopicOrPartitionException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> UnknownTopicOrPartitionException {
+        let reader = baseError.errorBodyReader
+        var value = UnknownTopicOrPartitionException()
+        value.properties.invalidParameter = try reader["invalidParameter"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension KafkaClientTypes.AmazonMskCluster {
+
+    static func write(value: KafkaClientTypes.AmazonMskCluster?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["mskClusterArn"].write(value.mskClusterArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.AmazonMskCluster {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.ConfigurationRevision()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.description = try reader["description"].readIfPresent()
-        value.revision = try reader["revision"].readIfPresent() ?? 0
+        var value = KafkaClientTypes.AmazonMskCluster()
+        value.mskClusterArn = try reader["mskClusterArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension KafkaClientTypes.ApacheKafkaCluster {
+
+    static func write(value: KafkaClientTypes.ApacheKafkaCluster?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["apacheKafkaClusterId"].write(value.apacheKafkaClusterId)
+        try writer["bootstrapBrokerString"].write(value.bootstrapBrokerString)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ApacheKafkaCluster {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.ApacheKafkaCluster()
+        value.apacheKafkaClusterId = try reader["apacheKafkaClusterId"].readIfPresent() ?? ""
+        value.bootstrapBrokerString = try reader["bootstrapBrokerString"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension KafkaClientTypes.BrokerCountUpdateInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.BrokerCountUpdateInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.BrokerCountUpdateInfo()
+        value.createdBrokerIds = try reader["createdBrokerIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
+        value.deletedBrokerIds = try reader["deletedBrokerIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension KafkaClientTypes.BrokerEBSVolumeInfo {
+
+    static func write(value: KafkaClientTypes.BrokerEBSVolumeInfo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["kafkaBrokerNodeId"].write(value.kafkaBrokerNodeId)
+        try writer["provisionedThroughput"].write(value.provisionedThroughput, with: KafkaClientTypes.ProvisionedThroughput.write(value:to:))
+        try writer["volumeSizeGB"].write(value.volumeSizeGB)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.BrokerEBSVolumeInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.BrokerEBSVolumeInfo()
+        value.kafkaBrokerNodeId = try reader["kafkaBrokerNodeId"].readIfPresent() ?? ""
+        value.provisionedThroughput = try reader["provisionedThroughput"].readIfPresent(with: KafkaClientTypes.ProvisionedThroughput.read(from:))
+        value.volumeSizeGB = try reader["volumeSizeGB"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.BrokerLogs {
+
+    static func write(value: KafkaClientTypes.BrokerLogs?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["cloudWatchLogs"].write(value.cloudWatchLogs, with: KafkaClientTypes.CloudWatchLogs.write(value:to:))
+        try writer["firehose"].write(value.firehose, with: KafkaClientTypes.Firehose.write(value:to:))
+        try writer["s3"].write(value.s3, with: KafkaClientTypes.S3.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.BrokerLogs {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.BrokerLogs()
+        value.cloudWatchLogs = try reader["cloudWatchLogs"].readIfPresent(with: KafkaClientTypes.CloudWatchLogs.read(from:))
+        value.firehose = try reader["firehose"].readIfPresent(with: KafkaClientTypes.Firehose.read(from:))
+        value.s3 = try reader["s3"].readIfPresent(with: KafkaClientTypes.S3.read(from:))
+        return value
+    }
+}
+
+extension KafkaClientTypes.BrokerNodeGroupInfo {
+
+    static func write(value: KafkaClientTypes.BrokerNodeGroupInfo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["brokerAZDistribution"].write(value.brokerAZDistribution)
+        try writer["clientSubnets"].writeList(value.clientSubnets, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["connectivityInfo"].write(value.connectivityInfo, with: KafkaClientTypes.ConnectivityInfo.write(value:to:))
+        try writer["instanceType"].write(value.instanceType)
+        try writer["securityGroups"].writeList(value.securityGroups, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["storageInfo"].write(value.storageInfo, with: KafkaClientTypes.StorageInfo.write(value:to:))
+        try writer["zoneIds"].writeList(value.zoneIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.BrokerNodeGroupInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.BrokerNodeGroupInfo()
+        value.brokerAZDistribution = try reader["brokerAZDistribution"].readIfPresent()
+        value.clientSubnets = try reader["clientSubnets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.instanceType = try reader["instanceType"].readIfPresent() ?? ""
+        value.securityGroups = try reader["securityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.storageInfo = try reader["storageInfo"].readIfPresent(with: KafkaClientTypes.StorageInfo.read(from:))
+        value.connectivityInfo = try reader["connectivityInfo"].readIfPresent(with: KafkaClientTypes.ConnectivityInfo.read(from:))
+        value.zoneIds = try reader["zoneIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension KafkaClientTypes.BrokerNodeInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.BrokerNodeInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.BrokerNodeInfo()
+        value.attachedENIId = try reader["attachedENIId"].readIfPresent()
+        value.brokerId = try reader["brokerId"].readIfPresent()
+        value.clientSubnet = try reader["clientSubnet"].readIfPresent()
+        value.clientVpcIpAddress = try reader["clientVpcIpAddress"].readIfPresent()
+        value.currentBrokerSoftwareInfo = try reader["currentBrokerSoftwareInfo"].readIfPresent(with: KafkaClientTypes.BrokerSoftwareInfo.read(from:))
+        value.endpoints = try reader["endpoints"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension KafkaClientTypes.BrokerSoftwareInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.BrokerSoftwareInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.BrokerSoftwareInfo()
+        value.configurationArn = try reader["configurationArn"].readIfPresent()
+        value.configurationRevision = try reader["configurationRevision"].readIfPresent()
+        value.kafkaVersion = try reader["kafkaVersion"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.ClientAuthentication {
+
+    static func write(value: KafkaClientTypes.ClientAuthentication?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["sasl"].write(value.sasl, with: KafkaClientTypes.Sasl.write(value:to:))
+        try writer["tls"].write(value.tls, with: KafkaClientTypes.Tls.write(value:to:))
+        try writer["unauthenticated"].write(value.unauthenticated, with: KafkaClientTypes.Unauthenticated.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ClientAuthentication {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.ClientAuthentication()
+        value.sasl = try reader["sasl"].readIfPresent(with: KafkaClientTypes.Sasl.read(from:))
+        value.tls = try reader["tls"].readIfPresent(with: KafkaClientTypes.Tls.read(from:))
+        value.unauthenticated = try reader["unauthenticated"].readIfPresent(with: KafkaClientTypes.Unauthenticated.read(from:))
+        return value
+    }
+}
+
+extension KafkaClientTypes.ClientVpcConnection {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ClientVpcConnection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.ClientVpcConnection()
+        value.authentication = try reader["authentication"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.state = try reader["state"].readIfPresent()
+        value.vpcConnectionArn = try reader["vpcConnectionArn"].readIfPresent() ?? ""
+        value.owner = try reader["owner"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.CloudWatchLogs {
+
+    static func write(value: KafkaClientTypes.CloudWatchLogs?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enabled"].write(value.enabled)
+        try writer["logGroup"].write(value.logGroup)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.CloudWatchLogs {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.CloudWatchLogs()
+        value.enabled = try reader["enabled"].readIfPresent() ?? false
+        value.logGroup = try reader["logGroup"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.Cluster {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.Cluster {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.Cluster()
+        value.activeOperationArn = try reader["activeOperationArn"].readIfPresent()
+        value.clusterType = try reader["clusterType"].readIfPresent()
+        value.clusterArn = try reader["clusterArn"].readIfPresent()
+        value.clusterName = try reader["clusterName"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.currentVersion = try reader["currentVersion"].readIfPresent()
+        value.state = try reader["state"].readIfPresent()
+        value.stateInfo = try reader["stateInfo"].readIfPresent(with: KafkaClientTypes.StateInfo.read(from:))
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.provisioned = try reader["provisioned"].readIfPresent(with: KafkaClientTypes.Provisioned.read(from:))
+        value.serverless = try reader["serverless"].readIfPresent(with: KafkaClientTypes.Serverless.read(from:))
         return value
     }
 }
@@ -8237,141 +9535,255 @@ extension KafkaClientTypes.ClusterInfo {
     }
 }
 
-extension KafkaClientTypes.StateInfo {
+extension KafkaClientTypes.ClusterOperationInfo {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.StateInfo {
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ClusterOperationInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.StateInfo()
-        value.code = try reader["code"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
+        var value = KafkaClientTypes.ClusterOperationInfo()
+        value.clientRequestId = try reader["clientRequestId"].readIfPresent()
+        value.clusterArn = try reader["clusterArn"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.errorInfo = try reader["errorInfo"].readIfPresent(with: KafkaClientTypes.ErrorInfo.read(from:))
+        value.operationArn = try reader["operationArn"].readIfPresent()
+        value.operationState = try reader["operationState"].readIfPresent()
+        value.operationSteps = try reader["operationSteps"].readListIfPresent(memberReadingClosure: KafkaClientTypes.ClusterOperationStep.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.operationType = try reader["operationType"].readIfPresent()
+        value.sourceClusterInfo = try reader["sourceClusterInfo"].readIfPresent(with: KafkaClientTypes.MutableClusterInfo.read(from:))
+        value.targetClusterInfo = try reader["targetClusterInfo"].readIfPresent(with: KafkaClientTypes.MutableClusterInfo.read(from:))
+        value.vpcConnectionInfo = try reader["vpcConnectionInfo"].readIfPresent(with: KafkaClientTypes.VpcConnectionInfo.read(from:))
         return value
     }
 }
 
-extension KafkaClientTypes.LoggingInfo {
+extension KafkaClientTypes.ClusterOperationStep {
 
-    static func write(value: KafkaClientTypes.LoggingInfo?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ClusterOperationStep {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.ClusterOperationStep()
+        value.stepInfo = try reader["stepInfo"].readIfPresent(with: KafkaClientTypes.ClusterOperationStepInfo.read(from:))
+        value.stepName = try reader["stepName"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.ClusterOperationStepInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ClusterOperationStepInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.ClusterOperationStepInfo()
+        value.stepStatus = try reader["stepStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.ClusterOperationV2 {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ClusterOperationV2 {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.ClusterOperationV2()
+        value.clusterArn = try reader["clusterArn"].readIfPresent()
+        value.clusterType = try reader["clusterType"].readIfPresent()
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.errorInfo = try reader["errorInfo"].readIfPresent(with: KafkaClientTypes.ErrorInfo.read(from:))
+        value.operationArn = try reader["operationArn"].readIfPresent()
+        value.operationState = try reader["operationState"].readIfPresent()
+        value.operationType = try reader["operationType"].readIfPresent()
+        value.provisioned = try reader["provisioned"].readIfPresent(with: KafkaClientTypes.ClusterOperationV2Provisioned.read(from:))
+        value.serverless = try reader["serverless"].readIfPresent(with: KafkaClientTypes.ClusterOperationV2Serverless.read(from:))
+        return value
+    }
+}
+
+extension KafkaClientTypes.ClusterOperationV2Provisioned {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ClusterOperationV2Provisioned {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.ClusterOperationV2Provisioned()
+        value.operationSteps = try reader["operationSteps"].readListIfPresent(memberReadingClosure: KafkaClientTypes.ClusterOperationStep.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sourceClusterInfo = try reader["sourceClusterInfo"].readIfPresent(with: KafkaClientTypes.MutableClusterInfo.read(from:))
+        value.targetClusterInfo = try reader["targetClusterInfo"].readIfPresent(with: KafkaClientTypes.MutableClusterInfo.read(from:))
+        value.vpcConnectionInfo = try reader["vpcConnectionInfo"].readIfPresent(with: KafkaClientTypes.VpcConnectionInfo.read(from:))
+        return value
+    }
+}
+
+extension KafkaClientTypes.ClusterOperationV2Serverless {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ClusterOperationV2Serverless {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.ClusterOperationV2Serverless()
+        value.sourceClusterInfo = try reader["sourceClusterInfo"].readIfPresent(with: KafkaClientTypes.ServerlessConnectivityInfo.read(from:))
+        value.targetClusterInfo = try reader["targetClusterInfo"].readIfPresent(with: KafkaClientTypes.ServerlessConnectivityInfo.read(from:))
+        value.vpcConnectionInfo = try reader["vpcConnectionInfo"].readIfPresent(with: KafkaClientTypes.VpcConnectionInfoServerless.read(from:))
+        return value
+    }
+}
+
+extension KafkaClientTypes.ClusterOperationV2Summary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ClusterOperationV2Summary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.ClusterOperationV2Summary()
+        value.clusterArn = try reader["clusterArn"].readIfPresent()
+        value.clusterType = try reader["clusterType"].readIfPresent()
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.operationArn = try reader["operationArn"].readIfPresent()
+        value.operationState = try reader["operationState"].readIfPresent()
+        value.operationType = try reader["operationType"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.CompatibleKafkaVersion {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.CompatibleKafkaVersion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.CompatibleKafkaVersion()
+        value.sourceVersion = try reader["sourceVersion"].readIfPresent()
+        value.targetVersions = try reader["targetVersions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension KafkaClientTypes.Configuration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.Configuration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.Configuration()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.description = try reader["description"].readIfPresent() ?? ""
+        value.kafkaVersions = try reader["kafkaVersions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.latestRevision = try reader["latestRevision"].readIfPresent(with: KafkaClientTypes.ConfigurationRevision.read(from:))
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension KafkaClientTypes.ConfigurationInfo {
+
+    static func write(value: KafkaClientTypes.ConfigurationInfo?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["brokerLogs"].write(value.brokerLogs, with: KafkaClientTypes.BrokerLogs.write(value:to:))
+        try writer["arn"].write(value.arn)
+        try writer["revision"].write(value.revision)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.LoggingInfo {
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ConfigurationInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.LoggingInfo()
-        value.brokerLogs = try reader["brokerLogs"].readIfPresent(with: KafkaClientTypes.BrokerLogs.read(from:))
+        var value = KafkaClientTypes.ConfigurationInfo()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.revision = try reader["revision"].readIfPresent() ?? 0
         return value
     }
 }
 
-extension KafkaClientTypes.BrokerLogs {
+extension KafkaClientTypes.ConfigurationRevision {
 
-    static func write(value: KafkaClientTypes.BrokerLogs?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ConfigurationRevision {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.ConfigurationRevision()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.description = try reader["description"].readIfPresent()
+        value.revision = try reader["revision"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension KafkaClientTypes.ConnectivityInfo {
+
+    static func write(value: KafkaClientTypes.ConnectivityInfo?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["cloudWatchLogs"].write(value.cloudWatchLogs, with: KafkaClientTypes.CloudWatchLogs.write(value:to:))
-        try writer["firehose"].write(value.firehose, with: KafkaClientTypes.Firehose.write(value:to:))
-        try writer["s3"].write(value.s3, with: KafkaClientTypes.S3.write(value:to:))
+        try writer["networkType"].write(value.networkType)
+        try writer["publicAccess"].write(value.publicAccess, with: KafkaClientTypes.PublicAccess.write(value:to:))
+        try writer["vpcConnectivity"].write(value.vpcConnectivity, with: KafkaClientTypes.VpcConnectivity.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.BrokerLogs {
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ConnectivityInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.BrokerLogs()
-        value.cloudWatchLogs = try reader["cloudWatchLogs"].readIfPresent(with: KafkaClientTypes.CloudWatchLogs.read(from:))
-        value.firehose = try reader["firehose"].readIfPresent(with: KafkaClientTypes.Firehose.read(from:))
-        value.s3 = try reader["s3"].readIfPresent(with: KafkaClientTypes.S3.read(from:))
+        var value = KafkaClientTypes.ConnectivityInfo()
+        value.publicAccess = try reader["publicAccess"].readIfPresent(with: KafkaClientTypes.PublicAccess.read(from:))
+        value.vpcConnectivity = try reader["vpcConnectivity"].readIfPresent(with: KafkaClientTypes.VpcConnectivity.read(from:))
+        value.networkType = try reader["networkType"].readIfPresent()
         return value
     }
 }
 
-extension KafkaClientTypes.S3 {
+extension KafkaClientTypes.ConsumerGroupReplication {
 
-    static func write(value: KafkaClientTypes.S3?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: KafkaClientTypes.ConsumerGroupReplication?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["bucket"].write(value.bucket)
-        try writer["enabled"].write(value.enabled)
-        try writer["prefix"].write(value.`prefix`)
+        try writer["consumerGroupOffsetSyncMode"].write(value.consumerGroupOffsetSyncMode)
+        try writer["consumerGroupsToExclude"].writeList(value.consumerGroupsToExclude, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["consumerGroupsToReplicate"].writeList(value.consumerGroupsToReplicate, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["detectAndCopyNewConsumerGroups"].write(value.detectAndCopyNewConsumerGroups)
+        try writer["synchroniseConsumerGroupOffsets"].write(value.synchroniseConsumerGroupOffsets)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.S3 {
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ConsumerGroupReplication {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.S3()
-        value.bucket = try reader["bucket"].readIfPresent()
-        value.enabled = try reader["enabled"].readIfPresent() ?? false
-        value.`prefix` = try reader["prefix"].readIfPresent()
+        var value = KafkaClientTypes.ConsumerGroupReplication()
+        value.consumerGroupsToExclude = try reader["consumerGroupsToExclude"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.consumerGroupsToReplicate = try reader["consumerGroupsToReplicate"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.detectAndCopyNewConsumerGroups = try reader["detectAndCopyNewConsumerGroups"].readIfPresent()
+        value.synchroniseConsumerGroupOffsets = try reader["synchroniseConsumerGroupOffsets"].readIfPresent()
+        value.consumerGroupOffsetSyncMode = try reader["consumerGroupOffsetSyncMode"].readIfPresent()
         return value
     }
 }
 
-extension KafkaClientTypes.Firehose {
+extension KafkaClientTypes.ConsumerGroupReplicationUpdate {
 
-    static func write(value: KafkaClientTypes.Firehose?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: KafkaClientTypes.ConsumerGroupReplicationUpdate?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["deliveryStream"].write(value.deliveryStream)
-        try writer["enabled"].write(value.enabled)
+        try writer["consumerGroupsToExclude"].writeList(value.consumerGroupsToExclude, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["consumerGroupsToReplicate"].writeList(value.consumerGroupsToReplicate, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["detectAndCopyNewConsumerGroups"].write(value.detectAndCopyNewConsumerGroups)
+        try writer["synchroniseConsumerGroupOffsets"].write(value.synchroniseConsumerGroupOffsets)
     }
+}
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.Firehose {
+extension KafkaClientTypes.ControllerNodeInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ControllerNodeInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.Firehose()
-        value.deliveryStream = try reader["deliveryStream"].readIfPresent()
-        value.enabled = try reader["enabled"].readIfPresent() ?? false
+        var value = KafkaClientTypes.ControllerNodeInfo()
+        value.endpoints = try reader["endpoints"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension KafkaClientTypes.CloudWatchLogs {
+extension KafkaClientTypes.EBSStorageInfo {
 
-    static func write(value: KafkaClientTypes.CloudWatchLogs?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: KafkaClientTypes.EBSStorageInfo?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["enabled"].write(value.enabled)
-        try writer["logGroup"].write(value.logGroup)
+        try writer["provisionedThroughput"].write(value.provisionedThroughput, with: KafkaClientTypes.ProvisionedThroughput.write(value:to:))
+        try writer["volumeSize"].write(value.volumeSize)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.CloudWatchLogs {
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.EBSStorageInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.CloudWatchLogs()
-        value.enabled = try reader["enabled"].readIfPresent() ?? false
-        value.logGroup = try reader["logGroup"].readIfPresent()
+        var value = KafkaClientTypes.EBSStorageInfo()
+        value.provisionedThroughput = try reader["provisionedThroughput"].readIfPresent(with: KafkaClientTypes.ProvisionedThroughput.read(from:))
+        value.volumeSize = try reader["volumeSize"].readIfPresent()
         return value
     }
 }
 
-extension KafkaClientTypes.OpenMonitoring {
+extension KafkaClientTypes.EncryptionAtRest {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.OpenMonitoring {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.OpenMonitoring()
-        value.prometheus = try reader["prometheus"].readIfPresent(with: KafkaClientTypes.Prometheus.read(from:))
-        return value
+    static func write(value: KafkaClientTypes.EncryptionAtRest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dataVolumeKMSKeyId"].write(value.dataVolumeKMSKeyId)
     }
-}
 
-extension KafkaClientTypes.Prometheus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.Prometheus {
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.EncryptionAtRest {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.Prometheus()
-        value.jmxExporter = try reader["jmxExporter"].readIfPresent(with: KafkaClientTypes.JmxExporter.read(from:))
-        value.nodeExporter = try reader["nodeExporter"].readIfPresent(with: KafkaClientTypes.NodeExporter.read(from:))
-        return value
-    }
-}
-
-extension KafkaClientTypes.NodeExporter {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.NodeExporter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.NodeExporter()
-        value.enabledInBroker = try reader["enabledInBroker"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension KafkaClientTypes.JmxExporter {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.JmxExporter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.JmxExporter()
-        value.enabledInBroker = try reader["enabledInBroker"].readIfPresent() ?? false
+        var value = KafkaClientTypes.EncryptionAtRest()
+        value.dataVolumeKMSKeyId = try reader["dataVolumeKMSKeyId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8410,80 +9822,610 @@ extension KafkaClientTypes.EncryptionInTransit {
     }
 }
 
-extension KafkaClientTypes.EncryptionAtRest {
+extension KafkaClientTypes.ErrorInfo {
 
-    static func write(value: KafkaClientTypes.EncryptionAtRest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["dataVolumeKMSKeyId"].write(value.dataVolumeKMSKeyId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.EncryptionAtRest {
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ErrorInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.EncryptionAtRest()
-        value.dataVolumeKMSKeyId = try reader["dataVolumeKMSKeyId"].readIfPresent() ?? ""
+        var value = KafkaClientTypes.ErrorInfo()
+        value.errorCode = try reader["errorCode"].readIfPresent()
+        value.errorString = try reader["errorString"].readIfPresent()
         return value
     }
 }
 
-extension KafkaClientTypes.BrokerSoftwareInfo {
+extension KafkaClientTypes.Firehose {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.BrokerSoftwareInfo {
+    static func write(value: KafkaClientTypes.Firehose?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["deliveryStream"].write(value.deliveryStream)
+        try writer["enabled"].write(value.enabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.Firehose {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.BrokerSoftwareInfo()
-        value.configurationArn = try reader["configurationArn"].readIfPresent()
-        value.configurationRevision = try reader["configurationRevision"].readIfPresent()
+        var value = KafkaClientTypes.Firehose()
+        value.deliveryStream = try reader["deliveryStream"].readIfPresent()
+        value.enabled = try reader["enabled"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension KafkaClientTypes.Iam {
+
+    static func write(value: KafkaClientTypes.Iam?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enabled"].write(value.enabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.Iam {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.Iam()
+        value.enabled = try reader["enabled"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.JmxExporter {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.JmxExporter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.JmxExporter()
+        value.enabledInBroker = try reader["enabledInBroker"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension KafkaClientTypes.JmxExporterInfo {
+
+    static func write(value: KafkaClientTypes.JmxExporterInfo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enabledInBroker"].write(value.enabledInBroker)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.JmxExporterInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.JmxExporterInfo()
+        value.enabledInBroker = try reader["enabledInBroker"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension KafkaClientTypes.KafkaCluster {
+
+    static func write(value: KafkaClientTypes.KafkaCluster?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["amazonMskCluster"].write(value.amazonMskCluster, with: KafkaClientTypes.AmazonMskCluster.write(value:to:))
+        try writer["apacheKafkaCluster"].write(value.apacheKafkaCluster, with: KafkaClientTypes.ApacheKafkaCluster.write(value:to:))
+        try writer["clientAuthentication"].write(value.clientAuthentication, with: KafkaClientTypes.KafkaClusterClientAuthentication.write(value:to:))
+        try writer["encryptionInTransit"].write(value.encryptionInTransit, with: KafkaClientTypes.KafkaClusterEncryptionInTransit.write(value:to:))
+        try writer["vpcConfig"].write(value.vpcConfig, with: KafkaClientTypes.KafkaClusterClientVpcConfig.write(value:to:))
+    }
+}
+
+extension KafkaClientTypes.KafkaClusterClientAuthentication {
+
+    static func write(value: KafkaClientTypes.KafkaClusterClientAuthentication?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["saslScram"].write(value.saslScram, with: KafkaClientTypes.KafkaClusterSaslScramAuthentication.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.KafkaClusterClientAuthentication {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.KafkaClusterClientAuthentication()
+        value.saslScram = try reader["saslScram"].readIfPresent(with: KafkaClientTypes.KafkaClusterSaslScramAuthentication.read(from:))
+        return value
+    }
+}
+
+extension KafkaClientTypes.KafkaClusterClientVpcConfig {
+
+    static func write(value: KafkaClientTypes.KafkaClusterClientVpcConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.KafkaClusterClientVpcConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.KafkaClusterClientVpcConfig()
+        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension KafkaClientTypes.KafkaClusterDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.KafkaClusterDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.KafkaClusterDescription()
+        value.amazonMskCluster = try reader["amazonMskCluster"].readIfPresent(with: KafkaClientTypes.AmazonMskCluster.read(from:))
+        value.apacheKafkaCluster = try reader["apacheKafkaCluster"].readIfPresent(with: KafkaClientTypes.ApacheKafkaCluster.read(from:))
+        value.kafkaClusterAlias = try reader["kafkaClusterAlias"].readIfPresent()
+        value.vpcConfig = try reader["vpcConfig"].readIfPresent(with: KafkaClientTypes.KafkaClusterClientVpcConfig.read(from:))
+        value.clientAuthentication = try reader["clientAuthentication"].readIfPresent(with: KafkaClientTypes.KafkaClusterClientAuthentication.read(from:))
+        value.encryptionInTransit = try reader["encryptionInTransit"].readIfPresent(with: KafkaClientTypes.KafkaClusterEncryptionInTransit.read(from:))
+        return value
+    }
+}
+
+extension KafkaClientTypes.KafkaClusterEncryptionInTransit {
+
+    static func write(value: KafkaClientTypes.KafkaClusterEncryptionInTransit?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["encryptionType"].write(value.encryptionType)
+        try writer["rootCaCertificate"].write(value.rootCaCertificate)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.KafkaClusterEncryptionInTransit {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.KafkaClusterEncryptionInTransit()
+        value.encryptionType = try reader["encryptionType"].readIfPresent() ?? .sdkUnknown("")
+        value.rootCaCertificate = try reader["rootCaCertificate"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.KafkaClusterSaslScramAuthentication {
+
+    static func write(value: KafkaClientTypes.KafkaClusterSaslScramAuthentication?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["mechanism"].write(value.mechanism)
+        try writer["secretArn"].write(value.secretArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.KafkaClusterSaslScramAuthentication {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.KafkaClusterSaslScramAuthentication()
+        value.mechanism = try reader["mechanism"].readIfPresent() ?? .sdkUnknown("")
+        value.secretArn = try reader["secretArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension KafkaClientTypes.KafkaClusterSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.KafkaClusterSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.KafkaClusterSummary()
+        value.amazonMskCluster = try reader["amazonMskCluster"].readIfPresent(with: KafkaClientTypes.AmazonMskCluster.read(from:))
+        value.apacheKafkaCluster = try reader["apacheKafkaCluster"].readIfPresent(with: KafkaClientTypes.ApacheKafkaCluster.read(from:))
+        value.kafkaClusterAlias = try reader["kafkaClusterAlias"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.KafkaVersion {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.KafkaVersion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.KafkaVersion()
+        value.version = try reader["version"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.LogDelivery {
+
+    static func write(value: KafkaClientTypes.LogDelivery?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["replicatorLogDelivery"].write(value.replicatorLogDelivery, with: KafkaClientTypes.ReplicatorLogDelivery.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.LogDelivery {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.LogDelivery()
+        value.replicatorLogDelivery = try reader["replicatorLogDelivery"].readIfPresent(with: KafkaClientTypes.ReplicatorLogDelivery.read(from:))
+        return value
+    }
+}
+
+extension KafkaClientTypes.LoggingInfo {
+
+    static func write(value: KafkaClientTypes.LoggingInfo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["brokerLogs"].write(value.brokerLogs, with: KafkaClientTypes.BrokerLogs.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.LoggingInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.LoggingInfo()
+        value.brokerLogs = try reader["brokerLogs"].readIfPresent(with: KafkaClientTypes.BrokerLogs.read(from:))
+        return value
+    }
+}
+
+extension KafkaClientTypes.MutableClusterInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.MutableClusterInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.MutableClusterInfo()
+        value.brokerEBSVolumeInfo = try reader["brokerEBSVolumeInfo"].readListIfPresent(memberReadingClosure: KafkaClientTypes.BrokerEBSVolumeInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.configurationInfo = try reader["configurationInfo"].readIfPresent(with: KafkaClientTypes.ConfigurationInfo.read(from:))
+        value.numberOfBrokerNodes = try reader["numberOfBrokerNodes"].readIfPresent()
+        value.enhancedMonitoring = try reader["enhancedMonitoring"].readIfPresent()
+        value.openMonitoring = try reader["openMonitoring"].readIfPresent(with: KafkaClientTypes.OpenMonitoring.read(from:))
+        value.zookeeperAccess = try reader["zookeeperAccess"].readIfPresent(with: KafkaClientTypes.ZookeeperAccess.read(from:))
         value.kafkaVersion = try reader["kafkaVersion"].readIfPresent()
+        value.loggingInfo = try reader["loggingInfo"].readIfPresent(with: KafkaClientTypes.LoggingInfo.read(from:))
+        value.instanceType = try reader["instanceType"].readIfPresent()
+        value.clientAuthentication = try reader["clientAuthentication"].readIfPresent(with: KafkaClientTypes.ClientAuthentication.read(from:))
+        value.encryptionInfo = try reader["encryptionInfo"].readIfPresent(with: KafkaClientTypes.EncryptionInfo.read(from:))
+        value.connectivityInfo = try reader["connectivityInfo"].readIfPresent(with: KafkaClientTypes.ConnectivityInfo.read(from:))
+        value.storageMode = try reader["storageMode"].readIfPresent()
+        value.brokerCountUpdateInfo = try reader["brokerCountUpdateInfo"].readIfPresent(with: KafkaClientTypes.BrokerCountUpdateInfo.read(from:))
+        value.rebalancing = try reader["rebalancing"].readIfPresent(with: KafkaClientTypes.Rebalancing.read(from:))
         return value
     }
 }
 
-extension KafkaClientTypes.ClientAuthentication {
+extension KafkaClientTypes.NodeExporter {
 
-    static func write(value: KafkaClientTypes.ClientAuthentication?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["sasl"].write(value.sasl, with: KafkaClientTypes.Sasl.write(value:to:))
-        try writer["tls"].write(value.tls, with: KafkaClientTypes.Tls.write(value:to:))
-        try writer["unauthenticated"].write(value.unauthenticated, with: KafkaClientTypes.Unauthenticated.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ClientAuthentication {
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.NodeExporter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.ClientAuthentication()
-        value.sasl = try reader["sasl"].readIfPresent(with: KafkaClientTypes.Sasl.read(from:))
-        value.tls = try reader["tls"].readIfPresent(with: KafkaClientTypes.Tls.read(from:))
-        value.unauthenticated = try reader["unauthenticated"].readIfPresent(with: KafkaClientTypes.Unauthenticated.read(from:))
+        var value = KafkaClientTypes.NodeExporter()
+        value.enabledInBroker = try reader["enabledInBroker"].readIfPresent() ?? false
         return value
     }
 }
 
-extension KafkaClientTypes.Unauthenticated {
+extension KafkaClientTypes.NodeExporterInfo {
 
-    static func write(value: KafkaClientTypes.Unauthenticated?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: KafkaClientTypes.NodeExporterInfo?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["enabledInBroker"].write(value.enabledInBroker)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.NodeExporterInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.NodeExporterInfo()
+        value.enabledInBroker = try reader["enabledInBroker"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension KafkaClientTypes.NodeInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.NodeInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.NodeInfo()
+        value.addedToClusterTime = try reader["addedToClusterTime"].readIfPresent()
+        value.brokerNodeInfo = try reader["brokerNodeInfo"].readIfPresent(with: KafkaClientTypes.BrokerNodeInfo.read(from:))
+        value.controllerNodeInfo = try reader["controllerNodeInfo"].readIfPresent(with: KafkaClientTypes.ControllerNodeInfo.read(from:))
+        value.instanceType = try reader["instanceType"].readIfPresent()
+        value.nodeARN = try reader["nodeARN"].readIfPresent()
+        value.nodeType = try reader["nodeType"].readIfPresent()
+        value.zookeeperNodeInfo = try reader["zookeeperNodeInfo"].readIfPresent(with: KafkaClientTypes.ZookeeperNodeInfo.read(from:))
+        return value
+    }
+}
+
+extension KafkaClientTypes.OpenMonitoring {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.OpenMonitoring {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.OpenMonitoring()
+        value.prometheus = try reader["prometheus"].readIfPresent(with: KafkaClientTypes.Prometheus.read(from:))
+        return value
+    }
+}
+
+extension KafkaClientTypes.OpenMonitoringInfo {
+
+    static func write(value: KafkaClientTypes.OpenMonitoringInfo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["prometheus"].write(value.prometheus, with: KafkaClientTypes.PrometheusInfo.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.OpenMonitoringInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.OpenMonitoringInfo()
+        value.prometheus = try reader["prometheus"].readIfPresent(with: KafkaClientTypes.PrometheusInfo.read(from:))
+        return value
+    }
+}
+
+extension KafkaClientTypes.Prometheus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.Prometheus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.Prometheus()
+        value.jmxExporter = try reader["jmxExporter"].readIfPresent(with: KafkaClientTypes.JmxExporter.read(from:))
+        value.nodeExporter = try reader["nodeExporter"].readIfPresent(with: KafkaClientTypes.NodeExporter.read(from:))
+        return value
+    }
+}
+
+extension KafkaClientTypes.PrometheusInfo {
+
+    static func write(value: KafkaClientTypes.PrometheusInfo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["jmxExporter"].write(value.jmxExporter, with: KafkaClientTypes.JmxExporterInfo.write(value:to:))
+        try writer["nodeExporter"].write(value.nodeExporter, with: KafkaClientTypes.NodeExporterInfo.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.PrometheusInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.PrometheusInfo()
+        value.jmxExporter = try reader["jmxExporter"].readIfPresent(with: KafkaClientTypes.JmxExporterInfo.read(from:))
+        value.nodeExporter = try reader["nodeExporter"].readIfPresent(with: KafkaClientTypes.NodeExporterInfo.read(from:))
+        return value
+    }
+}
+
+extension KafkaClientTypes.Provisioned {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.Provisioned {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.Provisioned()
+        value.brokerNodeGroupInfo = try reader["brokerNodeGroupInfo"].readIfPresent(with: KafkaClientTypes.BrokerNodeGroupInfo.read(from:))
+        value.rebalancing = try reader["rebalancing"].readIfPresent(with: KafkaClientTypes.Rebalancing.read(from:))
+        value.currentBrokerSoftwareInfo = try reader["currentBrokerSoftwareInfo"].readIfPresent(with: KafkaClientTypes.BrokerSoftwareInfo.read(from:))
+        value.clientAuthentication = try reader["clientAuthentication"].readIfPresent(with: KafkaClientTypes.ClientAuthentication.read(from:))
+        value.encryptionInfo = try reader["encryptionInfo"].readIfPresent(with: KafkaClientTypes.EncryptionInfo.read(from:))
+        value.enhancedMonitoring = try reader["enhancedMonitoring"].readIfPresent()
+        value.openMonitoring = try reader["openMonitoring"].readIfPresent(with: KafkaClientTypes.OpenMonitoringInfo.read(from:))
+        value.loggingInfo = try reader["loggingInfo"].readIfPresent(with: KafkaClientTypes.LoggingInfo.read(from:))
+        value.numberOfBrokerNodes = try reader["numberOfBrokerNodes"].readIfPresent() ?? 0
+        value.zookeeperConnectString = try reader["zookeeperConnectString"].readIfPresent()
+        value.zookeeperConnectStringTls = try reader["zookeeperConnectStringTls"].readIfPresent()
+        value.storageMode = try reader["storageMode"].readIfPresent()
+        value.customerActionStatus = try reader["customerActionStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.ProvisionedRequest {
+
+    static func write(value: KafkaClientTypes.ProvisionedRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["brokerNodeGroupInfo"].write(value.brokerNodeGroupInfo, with: KafkaClientTypes.BrokerNodeGroupInfo.write(value:to:))
+        try writer["clientAuthentication"].write(value.clientAuthentication, with: KafkaClientTypes.ClientAuthentication.write(value:to:))
+        try writer["configurationInfo"].write(value.configurationInfo, with: KafkaClientTypes.ConfigurationInfo.write(value:to:))
+        try writer["encryptionInfo"].write(value.encryptionInfo, with: KafkaClientTypes.EncryptionInfo.write(value:to:))
+        try writer["enhancedMonitoring"].write(value.enhancedMonitoring)
+        try writer["kafkaVersion"].write(value.kafkaVersion)
+        try writer["loggingInfo"].write(value.loggingInfo, with: KafkaClientTypes.LoggingInfo.write(value:to:))
+        try writer["numberOfBrokerNodes"].write(value.numberOfBrokerNodes)
+        try writer["openMonitoring"].write(value.openMonitoring, with: KafkaClientTypes.OpenMonitoringInfo.write(value:to:))
+        try writer["rebalancing"].write(value.rebalancing, with: KafkaClientTypes.Rebalancing.write(value:to:))
+        try writer["storageMode"].write(value.storageMode)
+    }
+}
+
+extension KafkaClientTypes.ProvisionedThroughput {
+
+    static func write(value: KafkaClientTypes.ProvisionedThroughput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enabled"].write(value.enabled)
+        try writer["volumeThroughput"].write(value.volumeThroughput)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ProvisionedThroughput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.ProvisionedThroughput()
+        value.enabled = try reader["enabled"].readIfPresent()
+        value.volumeThroughput = try reader["volumeThroughput"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.PublicAccess {
+
+    static func write(value: KafkaClientTypes.PublicAccess?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.PublicAccess {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.PublicAccess()
+        value.type = try reader["type"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.Rebalancing {
+
+    static func write(value: KafkaClientTypes.Rebalancing?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["status"].write(value.status)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.Rebalancing {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.Rebalancing()
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.ReplicationInfo {
+
+    static func write(value: KafkaClientTypes.ReplicationInfo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["consumerGroupReplication"].write(value.consumerGroupReplication, with: KafkaClientTypes.ConsumerGroupReplication.write(value:to:))
+        try writer["sourceKafkaClusterArn"].write(value.sourceKafkaClusterArn)
+        try writer["sourceKafkaClusterId"].write(value.sourceKafkaClusterId)
+        try writer["targetCompressionType"].write(value.targetCompressionType)
+        try writer["targetKafkaClusterArn"].write(value.targetKafkaClusterArn)
+        try writer["targetKafkaClusterId"].write(value.targetKafkaClusterId)
+        try writer["topicReplication"].write(value.topicReplication, with: KafkaClientTypes.TopicReplication.write(value:to:))
+    }
+}
+
+extension KafkaClientTypes.ReplicationInfoDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ReplicationInfoDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.ReplicationInfoDescription()
+        value.consumerGroupReplication = try reader["consumerGroupReplication"].readIfPresent(with: KafkaClientTypes.ConsumerGroupReplication.read(from:))
+        value.sourceKafkaClusterAlias = try reader["sourceKafkaClusterAlias"].readIfPresent()
+        value.targetCompressionType = try reader["targetCompressionType"].readIfPresent()
+        value.targetKafkaClusterAlias = try reader["targetKafkaClusterAlias"].readIfPresent()
+        value.topicReplication = try reader["topicReplication"].readIfPresent(with: KafkaClientTypes.TopicReplication.read(from:))
+        return value
+    }
+}
+
+extension KafkaClientTypes.ReplicationInfoSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ReplicationInfoSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.ReplicationInfoSummary()
+        value.sourceKafkaClusterAlias = try reader["sourceKafkaClusterAlias"].readIfPresent()
+        value.targetKafkaClusterAlias = try reader["targetKafkaClusterAlias"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.ReplicationStartingPosition {
+
+    static func write(value: KafkaClientTypes.ReplicationStartingPosition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ReplicationStartingPosition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.ReplicationStartingPosition()
+        value.type = try reader["type"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.ReplicationStateInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ReplicationStateInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.ReplicationStateInfo()
+        value.code = try reader["code"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.ReplicationTopicNameConfiguration {
+
+    static func write(value: KafkaClientTypes.ReplicationTopicNameConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ReplicationTopicNameConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.ReplicationTopicNameConfiguration()
+        value.type = try reader["type"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.ReplicatorCloudWatchLogs {
+
+    static func write(value: KafkaClientTypes.ReplicatorCloudWatchLogs?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enabled"].write(value.enabled)
+        try writer["logGroup"].write(value.logGroup)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ReplicatorCloudWatchLogs {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.ReplicatorCloudWatchLogs()
+        value.enabled = try reader["enabled"].readIfPresent() ?? false
+        value.logGroup = try reader["logGroup"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.ReplicatorFirehose {
+
+    static func write(value: KafkaClientTypes.ReplicatorFirehose?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["deliveryStream"].write(value.deliveryStream)
         try writer["enabled"].write(value.enabled)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.Unauthenticated {
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ReplicatorFirehose {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.Unauthenticated()
-        value.enabled = try reader["enabled"].readIfPresent()
+        var value = KafkaClientTypes.ReplicatorFirehose()
+        value.enabled = try reader["enabled"].readIfPresent() ?? false
+        value.deliveryStream = try reader["deliveryStream"].readIfPresent()
         return value
     }
 }
 
-extension KafkaClientTypes.Tls {
+extension KafkaClientTypes.ReplicatorLogDelivery {
 
-    static func write(value: KafkaClientTypes.Tls?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: KafkaClientTypes.ReplicatorLogDelivery?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["certificateAuthorityArnList"].writeList(value.certificateAuthorityArnList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["enabled"].write(value.enabled)
+        try writer["cloudWatchLogs"].write(value.cloudWatchLogs, with: KafkaClientTypes.ReplicatorCloudWatchLogs.write(value:to:))
+        try writer["firehose"].write(value.firehose, with: KafkaClientTypes.ReplicatorFirehose.write(value:to:))
+        try writer["s3"].write(value.s3, with: KafkaClientTypes.ReplicatorS3.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.Tls {
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ReplicatorLogDelivery {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.Tls()
-        value.certificateAuthorityArnList = try reader["certificateAuthorityArnList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.enabled = try reader["enabled"].readIfPresent()
+        var value = KafkaClientTypes.ReplicatorLogDelivery()
+        value.cloudWatchLogs = try reader["cloudWatchLogs"].readIfPresent(with: KafkaClientTypes.ReplicatorCloudWatchLogs.read(from:))
+        value.firehose = try reader["firehose"].readIfPresent(with: KafkaClientTypes.ReplicatorFirehose.read(from:))
+        value.s3 = try reader["s3"].readIfPresent(with: KafkaClientTypes.ReplicatorS3.read(from:))
+        return value
+    }
+}
+
+extension KafkaClientTypes.ReplicatorS3 {
+
+    static func write(value: KafkaClientTypes.ReplicatorS3?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bucket"].write(value.bucket)
+        try writer["enabled"].write(value.enabled)
+        try writer["prefix"].write(value.`prefix`)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ReplicatorS3 {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.ReplicatorS3()
+        value.enabled = try reader["enabled"].readIfPresent() ?? false
+        value.bucket = try reader["bucket"].readIfPresent()
+        value.`prefix` = try reader["prefix"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.ReplicatorSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ReplicatorSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.ReplicatorSummary()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.currentVersion = try reader["currentVersion"].readIfPresent()
+        value.isReplicatorReference = try reader["isReplicatorReference"].readIfPresent()
+        value.kafkaClustersSummary = try reader["kafkaClustersSummary"].readListIfPresent(memberReadingClosure: KafkaClientTypes.KafkaClusterSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.replicationInfoSummaryList = try reader["replicationInfoSummaryList"].readListIfPresent(memberReadingClosure: KafkaClientTypes.ReplicationInfoSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.replicatorArn = try reader["replicatorArn"].readIfPresent()
+        value.replicatorName = try reader["replicatorName"].readIfPresent()
+        value.replicatorResourceArn = try reader["replicatorResourceArn"].readIfPresent()
+        value.replicatorState = try reader["replicatorState"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.S3 {
+
+    static func write(value: KafkaClientTypes.S3?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bucket"].write(value.bucket)
+        try writer["enabled"].write(value.enabled)
+        try writer["prefix"].write(value.`prefix`)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.S3 {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.S3()
+        value.bucket = try reader["bucket"].readIfPresent()
+        value.enabled = try reader["enabled"].readIfPresent() ?? false
+        value.`prefix` = try reader["prefix"].readIfPresent()
         return value
     }
 }
@@ -8505,21 +10447,6 @@ extension KafkaClientTypes.Sasl {
     }
 }
 
-extension KafkaClientTypes.Iam {
-
-    static func write(value: KafkaClientTypes.Iam?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["enabled"].write(value.enabled)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.Iam {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.Iam()
-        value.enabled = try reader["enabled"].readIfPresent()
-        return value
-    }
-}
-
 extension KafkaClientTypes.Scram {
 
     static func write(value: KafkaClientTypes.Scram?, to writer: SmithyJSON.Writer) throws {
@@ -8535,61 +10462,268 @@ extension KafkaClientTypes.Scram {
     }
 }
 
-extension KafkaClientTypes.Rebalancing {
+extension KafkaClientTypes.Serverless {
 
-    static func write(value: KafkaClientTypes.Rebalancing?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["status"].write(value.status)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.Rebalancing {
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.Serverless {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.Rebalancing()
-        value.status = try reader["status"].readIfPresent()
+        var value = KafkaClientTypes.Serverless()
+        value.vpcConfigs = try reader["vpcConfigs"].readListIfPresent(memberReadingClosure: KafkaClientTypes.VpcConfig.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.clientAuthentication = try reader["clientAuthentication"].readIfPresent(with: KafkaClientTypes.ServerlessClientAuthentication.read(from:))
+        value.connectivityInfo = try reader["connectivityInfo"].readIfPresent(with: KafkaClientTypes.ServerlessConnectivityInfo.read(from:))
         return value
     }
 }
 
-extension KafkaClientTypes.BrokerNodeGroupInfo {
+extension KafkaClientTypes.ServerlessClientAuthentication {
 
-    static func write(value: KafkaClientTypes.BrokerNodeGroupInfo?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: KafkaClientTypes.ServerlessClientAuthentication?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["brokerAZDistribution"].write(value.brokerAZDistribution)
-        try writer["clientSubnets"].writeList(value.clientSubnets, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["connectivityInfo"].write(value.connectivityInfo, with: KafkaClientTypes.ConnectivityInfo.write(value:to:))
-        try writer["instanceType"].write(value.instanceType)
-        try writer["securityGroups"].writeList(value.securityGroups, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["storageInfo"].write(value.storageInfo, with: KafkaClientTypes.StorageInfo.write(value:to:))
-        try writer["zoneIds"].writeList(value.zoneIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["sasl"].write(value.sasl, with: KafkaClientTypes.ServerlessSasl.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.BrokerNodeGroupInfo {
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ServerlessClientAuthentication {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.BrokerNodeGroupInfo()
-        value.brokerAZDistribution = try reader["brokerAZDistribution"].readIfPresent()
-        value.clientSubnets = try reader["clientSubnets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.instanceType = try reader["instanceType"].readIfPresent() ?? ""
-        value.securityGroups = try reader["securityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.storageInfo = try reader["storageInfo"].readIfPresent(with: KafkaClientTypes.StorageInfo.read(from:))
-        value.connectivityInfo = try reader["connectivityInfo"].readIfPresent(with: KafkaClientTypes.ConnectivityInfo.read(from:))
-        value.zoneIds = try reader["zoneIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = KafkaClientTypes.ServerlessClientAuthentication()
+        value.sasl = try reader["sasl"].readIfPresent(with: KafkaClientTypes.ServerlessSasl.read(from:))
         return value
     }
 }
 
-extension KafkaClientTypes.ConnectivityInfo {
+extension KafkaClientTypes.ServerlessConnectivityInfo {
 
-    static func write(value: KafkaClientTypes.ConnectivityInfo?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ServerlessConnectivityInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.ServerlessConnectivityInfo()
+        value.networkType = try reader["networkType"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.ServerlessRequest {
+
+    static func write(value: KafkaClientTypes.ServerlessRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["publicAccess"].write(value.publicAccess, with: KafkaClientTypes.PublicAccess.write(value:to:))
-        try writer["vpcConnectivity"].write(value.vpcConnectivity, with: KafkaClientTypes.VpcConnectivity.write(value:to:))
+        try writer["clientAuthentication"].write(value.clientAuthentication, with: KafkaClientTypes.ServerlessClientAuthentication.write(value:to:))
+        try writer["vpcConfigs"].writeList(value.vpcConfigs, memberWritingClosure: KafkaClientTypes.VpcConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension KafkaClientTypes.ServerlessSasl {
+
+    static func write(value: KafkaClientTypes.ServerlessSasl?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["iam"].write(value.iam, with: KafkaClientTypes.Iam.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ConnectivityInfo {
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ServerlessSasl {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.ConnectivityInfo()
-        value.publicAccess = try reader["publicAccess"].readIfPresent(with: KafkaClientTypes.PublicAccess.read(from:))
-        value.vpcConnectivity = try reader["vpcConnectivity"].readIfPresent(with: KafkaClientTypes.VpcConnectivity.read(from:))
+        var value = KafkaClientTypes.ServerlessSasl()
+        value.iam = try reader["iam"].readIfPresent(with: KafkaClientTypes.Iam.read(from:))
+        return value
+    }
+}
+
+extension KafkaClientTypes.StateInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.StateInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.StateInfo()
+        value.code = try reader["code"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.StorageInfo {
+
+    static func write(value: KafkaClientTypes.StorageInfo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ebsStorageInfo"].write(value.ebsStorageInfo, with: KafkaClientTypes.EBSStorageInfo.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.StorageInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.StorageInfo()
+        value.ebsStorageInfo = try reader["ebsStorageInfo"].readIfPresent(with: KafkaClientTypes.EBSStorageInfo.read(from:))
+        return value
+    }
+}
+
+extension KafkaClientTypes.Tls {
+
+    static func write(value: KafkaClientTypes.Tls?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["certificateAuthorityArnList"].writeList(value.certificateAuthorityArnList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["enabled"].write(value.enabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.Tls {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.Tls()
+        value.certificateAuthorityArnList = try reader["certificateAuthorityArnList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.enabled = try reader["enabled"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.TopicInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.TopicInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.TopicInfo()
+        value.topicArn = try reader["topicArn"].readIfPresent()
+        value.topicName = try reader["topicName"].readIfPresent()
+        value.replicationFactor = try reader["replicationFactor"].readIfPresent()
+        value.partitionCount = try reader["partitionCount"].readIfPresent()
+        value.outOfSyncReplicaCount = try reader["outOfSyncReplicaCount"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.TopicPartitionInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.TopicPartitionInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.TopicPartitionInfo()
+        value.partition = try reader["partition"].readIfPresent()
+        value.leader = try reader["leader"].readIfPresent()
+        value.replicas = try reader["replicas"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        value.isr = try reader["isr"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension KafkaClientTypes.TopicReplication {
+
+    static func write(value: KafkaClientTypes.TopicReplication?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["copyAccessControlListsForTopics"].write(value.copyAccessControlListsForTopics)
+        try writer["copyTopicConfigurations"].write(value.copyTopicConfigurations)
+        try writer["detectAndCopyNewTopics"].write(value.detectAndCopyNewTopics)
+        try writer["startingPosition"].write(value.startingPosition, with: KafkaClientTypes.ReplicationStartingPosition.write(value:to:))
+        try writer["topicNameConfiguration"].write(value.topicNameConfiguration, with: KafkaClientTypes.ReplicationTopicNameConfiguration.write(value:to:))
+        try writer["topicsToExclude"].writeList(value.topicsToExclude, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["topicsToReplicate"].writeList(value.topicsToReplicate, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.TopicReplication {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.TopicReplication()
+        value.copyAccessControlListsForTopics = try reader["copyAccessControlListsForTopics"].readIfPresent()
+        value.copyTopicConfigurations = try reader["copyTopicConfigurations"].readIfPresent()
+        value.detectAndCopyNewTopics = try reader["detectAndCopyNewTopics"].readIfPresent()
+        value.startingPosition = try reader["startingPosition"].readIfPresent(with: KafkaClientTypes.ReplicationStartingPosition.read(from:))
+        value.topicNameConfiguration = try reader["topicNameConfiguration"].readIfPresent(with: KafkaClientTypes.ReplicationTopicNameConfiguration.read(from:))
+        value.topicsToExclude = try reader["topicsToExclude"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.topicsToReplicate = try reader["topicsToReplicate"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension KafkaClientTypes.TopicReplicationUpdate {
+
+    static func write(value: KafkaClientTypes.TopicReplicationUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["copyAccessControlListsForTopics"].write(value.copyAccessControlListsForTopics)
+        try writer["copyTopicConfigurations"].write(value.copyTopicConfigurations)
+        try writer["detectAndCopyNewTopics"].write(value.detectAndCopyNewTopics)
+        try writer["topicsToExclude"].writeList(value.topicsToExclude, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["topicsToReplicate"].writeList(value.topicsToReplicate, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension KafkaClientTypes.Unauthenticated {
+
+    static func write(value: KafkaClientTypes.Unauthenticated?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enabled"].write(value.enabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.Unauthenticated {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.Unauthenticated()
+        value.enabled = try reader["enabled"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.UnprocessedScramSecret {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.UnprocessedScramSecret {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.UnprocessedScramSecret()
+        value.errorCode = try reader["errorCode"].readIfPresent()
+        value.errorMessage = try reader["errorMessage"].readIfPresent()
+        value.secretArn = try reader["secretArn"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.UserIdentity {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.UserIdentity {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.UserIdentity()
+        value.type = try reader["type"].readIfPresent()
+        value.principalId = try reader["principalId"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.VpcConfig {
+
+    static func write(value: KafkaClientTypes.VpcConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.VpcConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.VpcConfig()
+        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension KafkaClientTypes.VpcConnection {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.VpcConnection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.VpcConnection()
+        value.vpcConnectionArn = try reader["vpcConnectionArn"].readIfPresent() ?? ""
+        value.targetClusterArn = try reader["targetClusterArn"].readIfPresent() ?? ""
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.authentication = try reader["authentication"].readIfPresent()
+        value.vpcId = try reader["vpcId"].readIfPresent()
+        value.state = try reader["state"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.VpcConnectionInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.VpcConnectionInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.VpcConnectionInfo()
+        value.vpcConnectionArn = try reader["vpcConnectionArn"].readIfPresent()
+        value.owner = try reader["owner"].readIfPresent()
+        value.userIdentity = try reader["userIdentity"].readIfPresent(with: KafkaClientTypes.UserIdentity.read(from:))
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension KafkaClientTypes.VpcConnectionInfoServerless {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.VpcConnectionInfoServerless {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.VpcConnectionInfoServerless()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.owner = try reader["owner"].readIfPresent()
+        value.userIdentity = try reader["userIdentity"].readIfPresent(with: KafkaClientTypes.UserIdentity.read(from:))
+        value.vpcConnectionArn = try reader["vpcConnectionArn"].readIfPresent()
         return value
     }
 }
@@ -8626,16 +10760,16 @@ extension KafkaClientTypes.VpcConnectivityClientAuthentication {
     }
 }
 
-extension KafkaClientTypes.VpcConnectivityTls {
+extension KafkaClientTypes.VpcConnectivityIam {
 
-    static func write(value: KafkaClientTypes.VpcConnectivityTls?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: KafkaClientTypes.VpcConnectivityIam?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["enabled"].write(value.enabled)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.VpcConnectivityTls {
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.VpcConnectivityIam {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.VpcConnectivityTls()
+        var value = KafkaClientTypes.VpcConnectivityIam()
         value.enabled = try reader["enabled"].readIfPresent()
         return value
     }
@@ -8658,21 +10792,6 @@ extension KafkaClientTypes.VpcConnectivitySasl {
     }
 }
 
-extension KafkaClientTypes.VpcConnectivityIam {
-
-    static func write(value: KafkaClientTypes.VpcConnectivityIam?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["enabled"].write(value.enabled)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.VpcConnectivityIam {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.VpcConnectivityIam()
-        value.enabled = try reader["enabled"].readIfPresent()
-        return value
-    }
-}
-
 extension KafkaClientTypes.VpcConnectivityScram {
 
     static func write(value: KafkaClientTypes.VpcConnectivityScram?, to writer: SmithyJSON.Writer) throws {
@@ -8688,674 +10807,32 @@ extension KafkaClientTypes.VpcConnectivityScram {
     }
 }
 
-extension KafkaClientTypes.PublicAccess {
+extension KafkaClientTypes.VpcConnectivityTls {
 
-    static func write(value: KafkaClientTypes.PublicAccess?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.PublicAccess {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.PublicAccess()
-        value.type = try reader["type"].readIfPresent()
-        return value
-    }
-}
-
-extension KafkaClientTypes.StorageInfo {
-
-    static func write(value: KafkaClientTypes.StorageInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ebsStorageInfo"].write(value.ebsStorageInfo, with: KafkaClientTypes.EBSStorageInfo.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.StorageInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.StorageInfo()
-        value.ebsStorageInfo = try reader["ebsStorageInfo"].readIfPresent(with: KafkaClientTypes.EBSStorageInfo.read(from:))
-        return value
-    }
-}
-
-extension KafkaClientTypes.EBSStorageInfo {
-
-    static func write(value: KafkaClientTypes.EBSStorageInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["provisionedThroughput"].write(value.provisionedThroughput, with: KafkaClientTypes.ProvisionedThroughput.write(value:to:))
-        try writer["volumeSize"].write(value.volumeSize)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.EBSStorageInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.EBSStorageInfo()
-        value.provisionedThroughput = try reader["provisionedThroughput"].readIfPresent(with: KafkaClientTypes.ProvisionedThroughput.read(from:))
-        value.volumeSize = try reader["volumeSize"].readIfPresent()
-        return value
-    }
-}
-
-extension KafkaClientTypes.ProvisionedThroughput {
-
-    static func write(value: KafkaClientTypes.ProvisionedThroughput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: KafkaClientTypes.VpcConnectivityTls?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["enabled"].write(value.enabled)
-        try writer["volumeThroughput"].write(value.volumeThroughput)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ProvisionedThroughput {
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.VpcConnectivityTls {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.ProvisionedThroughput()
+        var value = KafkaClientTypes.VpcConnectivityTls()
         value.enabled = try reader["enabled"].readIfPresent()
-        value.volumeThroughput = try reader["volumeThroughput"].readIfPresent()
         return value
     }
 }
 
-extension KafkaClientTypes.ClusterOperationInfo {
+extension KafkaClientTypes.ZookeeperAccess {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ClusterOperationInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.ClusterOperationInfo()
-        value.clientRequestId = try reader["clientRequestId"].readIfPresent()
-        value.clusterArn = try reader["clusterArn"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.errorInfo = try reader["errorInfo"].readIfPresent(with: KafkaClientTypes.ErrorInfo.read(from:))
-        value.operationArn = try reader["operationArn"].readIfPresent()
-        value.operationState = try reader["operationState"].readIfPresent()
-        value.operationSteps = try reader["operationSteps"].readListIfPresent(memberReadingClosure: KafkaClientTypes.ClusterOperationStep.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.operationType = try reader["operationType"].readIfPresent()
-        value.sourceClusterInfo = try reader["sourceClusterInfo"].readIfPresent(with: KafkaClientTypes.MutableClusterInfo.read(from:))
-        value.targetClusterInfo = try reader["targetClusterInfo"].readIfPresent(with: KafkaClientTypes.MutableClusterInfo.read(from:))
-        value.vpcConnectionInfo = try reader["vpcConnectionInfo"].readIfPresent(with: KafkaClientTypes.VpcConnectionInfo.read(from:))
-        return value
-    }
-}
-
-extension KafkaClientTypes.VpcConnectionInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.VpcConnectionInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.VpcConnectionInfo()
-        value.vpcConnectionArn = try reader["vpcConnectionArn"].readIfPresent()
-        value.owner = try reader["owner"].readIfPresent()
-        value.userIdentity = try reader["userIdentity"].readIfPresent(with: KafkaClientTypes.UserIdentity.read(from:))
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension KafkaClientTypes.UserIdentity {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.UserIdentity {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.UserIdentity()
-        value.type = try reader["type"].readIfPresent()
-        value.principalId = try reader["principalId"].readIfPresent()
-        return value
-    }
-}
-
-extension KafkaClientTypes.MutableClusterInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.MutableClusterInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.MutableClusterInfo()
-        value.brokerEBSVolumeInfo = try reader["brokerEBSVolumeInfo"].readListIfPresent(memberReadingClosure: KafkaClientTypes.BrokerEBSVolumeInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.configurationInfo = try reader["configurationInfo"].readIfPresent(with: KafkaClientTypes.ConfigurationInfo.read(from:))
-        value.numberOfBrokerNodes = try reader["numberOfBrokerNodes"].readIfPresent()
-        value.enhancedMonitoring = try reader["enhancedMonitoring"].readIfPresent()
-        value.openMonitoring = try reader["openMonitoring"].readIfPresent(with: KafkaClientTypes.OpenMonitoring.read(from:))
-        value.kafkaVersion = try reader["kafkaVersion"].readIfPresent()
-        value.loggingInfo = try reader["loggingInfo"].readIfPresent(with: KafkaClientTypes.LoggingInfo.read(from:))
-        value.instanceType = try reader["instanceType"].readIfPresent()
-        value.clientAuthentication = try reader["clientAuthentication"].readIfPresent(with: KafkaClientTypes.ClientAuthentication.read(from:))
-        value.encryptionInfo = try reader["encryptionInfo"].readIfPresent(with: KafkaClientTypes.EncryptionInfo.read(from:))
-        value.connectivityInfo = try reader["connectivityInfo"].readIfPresent(with: KafkaClientTypes.ConnectivityInfo.read(from:))
-        value.storageMode = try reader["storageMode"].readIfPresent()
-        value.brokerCountUpdateInfo = try reader["brokerCountUpdateInfo"].readIfPresent(with: KafkaClientTypes.BrokerCountUpdateInfo.read(from:))
-        value.rebalancing = try reader["rebalancing"].readIfPresent(with: KafkaClientTypes.Rebalancing.read(from:))
-        return value
-    }
-}
-
-extension KafkaClientTypes.BrokerCountUpdateInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.BrokerCountUpdateInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.BrokerCountUpdateInfo()
-        value.createdBrokerIds = try reader["createdBrokerIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
-        value.deletedBrokerIds = try reader["deletedBrokerIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension KafkaClientTypes.ConfigurationInfo {
-
-    static func write(value: KafkaClientTypes.ConfigurationInfo?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: KafkaClientTypes.ZookeeperAccess?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["revision"].write(value.revision)
+        try writer["enabled"].write(value.enabled)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ConfigurationInfo {
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ZookeeperAccess {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.ConfigurationInfo()
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.revision = try reader["revision"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension KafkaClientTypes.BrokerEBSVolumeInfo {
-
-    static func write(value: KafkaClientTypes.BrokerEBSVolumeInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["kafkaBrokerNodeId"].write(value.kafkaBrokerNodeId)
-        try writer["provisionedThroughput"].write(value.provisionedThroughput, with: KafkaClientTypes.ProvisionedThroughput.write(value:to:))
-        try writer["volumeSizeGB"].write(value.volumeSizeGB)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.BrokerEBSVolumeInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.BrokerEBSVolumeInfo()
-        value.kafkaBrokerNodeId = try reader["kafkaBrokerNodeId"].readIfPresent() ?? ""
-        value.provisionedThroughput = try reader["provisionedThroughput"].readIfPresent(with: KafkaClientTypes.ProvisionedThroughput.read(from:))
-        value.volumeSizeGB = try reader["volumeSizeGB"].readIfPresent()
-        return value
-    }
-}
-
-extension KafkaClientTypes.ClusterOperationStep {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ClusterOperationStep {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.ClusterOperationStep()
-        value.stepInfo = try reader["stepInfo"].readIfPresent(with: KafkaClientTypes.ClusterOperationStepInfo.read(from:))
-        value.stepName = try reader["stepName"].readIfPresent()
-        return value
-    }
-}
-
-extension KafkaClientTypes.ClusterOperationStepInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ClusterOperationStepInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.ClusterOperationStepInfo()
-        value.stepStatus = try reader["stepStatus"].readIfPresent()
-        return value
-    }
-}
-
-extension KafkaClientTypes.ErrorInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ErrorInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.ErrorInfo()
-        value.errorCode = try reader["errorCode"].readIfPresent()
-        value.errorString = try reader["errorString"].readIfPresent()
-        return value
-    }
-}
-
-extension KafkaClientTypes.ClusterOperationV2 {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ClusterOperationV2 {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.ClusterOperationV2()
-        value.clusterArn = try reader["clusterArn"].readIfPresent()
-        value.clusterType = try reader["clusterType"].readIfPresent()
-        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.errorInfo = try reader["errorInfo"].readIfPresent(with: KafkaClientTypes.ErrorInfo.read(from:))
-        value.operationArn = try reader["operationArn"].readIfPresent()
-        value.operationState = try reader["operationState"].readIfPresent()
-        value.operationType = try reader["operationType"].readIfPresent()
-        value.provisioned = try reader["provisioned"].readIfPresent(with: KafkaClientTypes.ClusterOperationV2Provisioned.read(from:))
-        value.serverless = try reader["serverless"].readIfPresent(with: KafkaClientTypes.ClusterOperationV2Serverless.read(from:))
-        return value
-    }
-}
-
-extension KafkaClientTypes.ClusterOperationV2Serverless {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ClusterOperationV2Serverless {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.ClusterOperationV2Serverless()
-        value.vpcConnectionInfo = try reader["vpcConnectionInfo"].readIfPresent(with: KafkaClientTypes.VpcConnectionInfoServerless.read(from:))
-        return value
-    }
-}
-
-extension KafkaClientTypes.VpcConnectionInfoServerless {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.VpcConnectionInfoServerless {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.VpcConnectionInfoServerless()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.owner = try reader["owner"].readIfPresent()
-        value.userIdentity = try reader["userIdentity"].readIfPresent(with: KafkaClientTypes.UserIdentity.read(from:))
-        value.vpcConnectionArn = try reader["vpcConnectionArn"].readIfPresent()
-        return value
-    }
-}
-
-extension KafkaClientTypes.ClusterOperationV2Provisioned {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ClusterOperationV2Provisioned {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.ClusterOperationV2Provisioned()
-        value.operationSteps = try reader["operationSteps"].readListIfPresent(memberReadingClosure: KafkaClientTypes.ClusterOperationStep.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.sourceClusterInfo = try reader["sourceClusterInfo"].readIfPresent(with: KafkaClientTypes.MutableClusterInfo.read(from:))
-        value.targetClusterInfo = try reader["targetClusterInfo"].readIfPresent(with: KafkaClientTypes.MutableClusterInfo.read(from:))
-        value.vpcConnectionInfo = try reader["vpcConnectionInfo"].readIfPresent(with: KafkaClientTypes.VpcConnectionInfo.read(from:))
-        return value
-    }
-}
-
-extension KafkaClientTypes.Cluster {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.Cluster {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.Cluster()
-        value.activeOperationArn = try reader["activeOperationArn"].readIfPresent()
-        value.clusterType = try reader["clusterType"].readIfPresent()
-        value.clusterArn = try reader["clusterArn"].readIfPresent()
-        value.clusterName = try reader["clusterName"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.currentVersion = try reader["currentVersion"].readIfPresent()
-        value.state = try reader["state"].readIfPresent()
-        value.stateInfo = try reader["stateInfo"].readIfPresent(with: KafkaClientTypes.StateInfo.read(from:))
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.provisioned = try reader["provisioned"].readIfPresent(with: KafkaClientTypes.Provisioned.read(from:))
-        value.serverless = try reader["serverless"].readIfPresent(with: KafkaClientTypes.Serverless.read(from:))
-        return value
-    }
-}
-
-extension KafkaClientTypes.Serverless {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.Serverless {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.Serverless()
-        value.vpcConfigs = try reader["vpcConfigs"].readListIfPresent(memberReadingClosure: KafkaClientTypes.VpcConfig.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.clientAuthentication = try reader["clientAuthentication"].readIfPresent(with: KafkaClientTypes.ServerlessClientAuthentication.read(from:))
-        return value
-    }
-}
-
-extension KafkaClientTypes.ServerlessClientAuthentication {
-
-    static func write(value: KafkaClientTypes.ServerlessClientAuthentication?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["sasl"].write(value.sasl, with: KafkaClientTypes.ServerlessSasl.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ServerlessClientAuthentication {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.ServerlessClientAuthentication()
-        value.sasl = try reader["sasl"].readIfPresent(with: KafkaClientTypes.ServerlessSasl.read(from:))
-        return value
-    }
-}
-
-extension KafkaClientTypes.ServerlessSasl {
-
-    static func write(value: KafkaClientTypes.ServerlessSasl?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["iam"].write(value.iam, with: KafkaClientTypes.Iam.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ServerlessSasl {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.ServerlessSasl()
-        value.iam = try reader["iam"].readIfPresent(with: KafkaClientTypes.Iam.read(from:))
-        return value
-    }
-}
-
-extension KafkaClientTypes.VpcConfig {
-
-    static func write(value: KafkaClientTypes.VpcConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.VpcConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.VpcConfig()
-        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension KafkaClientTypes.Provisioned {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.Provisioned {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.Provisioned()
-        value.brokerNodeGroupInfo = try reader["brokerNodeGroupInfo"].readIfPresent(with: KafkaClientTypes.BrokerNodeGroupInfo.read(from:))
-        value.rebalancing = try reader["rebalancing"].readIfPresent(with: KafkaClientTypes.Rebalancing.read(from:))
-        value.currentBrokerSoftwareInfo = try reader["currentBrokerSoftwareInfo"].readIfPresent(with: KafkaClientTypes.BrokerSoftwareInfo.read(from:))
-        value.clientAuthentication = try reader["clientAuthentication"].readIfPresent(with: KafkaClientTypes.ClientAuthentication.read(from:))
-        value.encryptionInfo = try reader["encryptionInfo"].readIfPresent(with: KafkaClientTypes.EncryptionInfo.read(from:))
-        value.enhancedMonitoring = try reader["enhancedMonitoring"].readIfPresent()
-        value.openMonitoring = try reader["openMonitoring"].readIfPresent(with: KafkaClientTypes.OpenMonitoringInfo.read(from:))
-        value.loggingInfo = try reader["loggingInfo"].readIfPresent(with: KafkaClientTypes.LoggingInfo.read(from:))
-        value.numberOfBrokerNodes = try reader["numberOfBrokerNodes"].readIfPresent() ?? 0
-        value.zookeeperConnectString = try reader["zookeeperConnectString"].readIfPresent()
-        value.zookeeperConnectStringTls = try reader["zookeeperConnectStringTls"].readIfPresent()
-        value.storageMode = try reader["storageMode"].readIfPresent()
-        value.customerActionStatus = try reader["customerActionStatus"].readIfPresent()
-        return value
-    }
-}
-
-extension KafkaClientTypes.OpenMonitoringInfo {
-
-    static func write(value: KafkaClientTypes.OpenMonitoringInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["prometheus"].write(value.prometheus, with: KafkaClientTypes.PrometheusInfo.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.OpenMonitoringInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.OpenMonitoringInfo()
-        value.prometheus = try reader["prometheus"].readIfPresent(with: KafkaClientTypes.PrometheusInfo.read(from:))
-        return value
-    }
-}
-
-extension KafkaClientTypes.PrometheusInfo {
-
-    static func write(value: KafkaClientTypes.PrometheusInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["jmxExporter"].write(value.jmxExporter, with: KafkaClientTypes.JmxExporterInfo.write(value:to:))
-        try writer["nodeExporter"].write(value.nodeExporter, with: KafkaClientTypes.NodeExporterInfo.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.PrometheusInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.PrometheusInfo()
-        value.jmxExporter = try reader["jmxExporter"].readIfPresent(with: KafkaClientTypes.JmxExporterInfo.read(from:))
-        value.nodeExporter = try reader["nodeExporter"].readIfPresent(with: KafkaClientTypes.NodeExporterInfo.read(from:))
-        return value
-    }
-}
-
-extension KafkaClientTypes.NodeExporterInfo {
-
-    static func write(value: KafkaClientTypes.NodeExporterInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["enabledInBroker"].write(value.enabledInBroker)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.NodeExporterInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.NodeExporterInfo()
-        value.enabledInBroker = try reader["enabledInBroker"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension KafkaClientTypes.JmxExporterInfo {
-
-    static func write(value: KafkaClientTypes.JmxExporterInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["enabledInBroker"].write(value.enabledInBroker)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.JmxExporterInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.JmxExporterInfo()
-        value.enabledInBroker = try reader["enabledInBroker"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension KafkaClientTypes.KafkaClusterDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.KafkaClusterDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.KafkaClusterDescription()
-        value.amazonMskCluster = try reader["amazonMskCluster"].readIfPresent(with: KafkaClientTypes.AmazonMskCluster.read(from:))
-        value.kafkaClusterAlias = try reader["kafkaClusterAlias"].readIfPresent()
-        value.vpcConfig = try reader["vpcConfig"].readIfPresent(with: KafkaClientTypes.KafkaClusterClientVpcConfig.read(from:))
-        return value
-    }
-}
-
-extension KafkaClientTypes.KafkaClusterClientVpcConfig {
-
-    static func write(value: KafkaClientTypes.KafkaClusterClientVpcConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.KafkaClusterClientVpcConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.KafkaClusterClientVpcConfig()
-        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension KafkaClientTypes.AmazonMskCluster {
-
-    static func write(value: KafkaClientTypes.AmazonMskCluster?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["mskClusterArn"].write(value.mskClusterArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.AmazonMskCluster {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.AmazonMskCluster()
-        value.mskClusterArn = try reader["mskClusterArn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension KafkaClientTypes.ReplicationInfoDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ReplicationInfoDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.ReplicationInfoDescription()
-        value.consumerGroupReplication = try reader["consumerGroupReplication"].readIfPresent(with: KafkaClientTypes.ConsumerGroupReplication.read(from:))
-        value.sourceKafkaClusterAlias = try reader["sourceKafkaClusterAlias"].readIfPresent()
-        value.targetCompressionType = try reader["targetCompressionType"].readIfPresent()
-        value.targetKafkaClusterAlias = try reader["targetKafkaClusterAlias"].readIfPresent()
-        value.topicReplication = try reader["topicReplication"].readIfPresent(with: KafkaClientTypes.TopicReplication.read(from:))
-        return value
-    }
-}
-
-extension KafkaClientTypes.TopicReplication {
-
-    static func write(value: KafkaClientTypes.TopicReplication?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["copyAccessControlListsForTopics"].write(value.copyAccessControlListsForTopics)
-        try writer["copyTopicConfigurations"].write(value.copyTopicConfigurations)
-        try writer["detectAndCopyNewTopics"].write(value.detectAndCopyNewTopics)
-        try writer["startingPosition"].write(value.startingPosition, with: KafkaClientTypes.ReplicationStartingPosition.write(value:to:))
-        try writer["topicNameConfiguration"].write(value.topicNameConfiguration, with: KafkaClientTypes.ReplicationTopicNameConfiguration.write(value:to:))
-        try writer["topicsToExclude"].writeList(value.topicsToExclude, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["topicsToReplicate"].writeList(value.topicsToReplicate, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.TopicReplication {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.TopicReplication()
-        value.copyAccessControlListsForTopics = try reader["copyAccessControlListsForTopics"].readIfPresent()
-        value.copyTopicConfigurations = try reader["copyTopicConfigurations"].readIfPresent()
-        value.detectAndCopyNewTopics = try reader["detectAndCopyNewTopics"].readIfPresent()
-        value.startingPosition = try reader["startingPosition"].readIfPresent(with: KafkaClientTypes.ReplicationStartingPosition.read(from:))
-        value.topicNameConfiguration = try reader["topicNameConfiguration"].readIfPresent(with: KafkaClientTypes.ReplicationTopicNameConfiguration.read(from:))
-        value.topicsToExclude = try reader["topicsToExclude"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.topicsToReplicate = try reader["topicsToReplicate"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension KafkaClientTypes.ReplicationTopicNameConfiguration {
-
-    static func write(value: KafkaClientTypes.ReplicationTopicNameConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ReplicationTopicNameConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.ReplicationTopicNameConfiguration()
-        value.type = try reader["type"].readIfPresent()
-        return value
-    }
-}
-
-extension KafkaClientTypes.ReplicationStartingPosition {
-
-    static func write(value: KafkaClientTypes.ReplicationStartingPosition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ReplicationStartingPosition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.ReplicationStartingPosition()
-        value.type = try reader["type"].readIfPresent()
-        return value
-    }
-}
-
-extension KafkaClientTypes.ConsumerGroupReplication {
-
-    static func write(value: KafkaClientTypes.ConsumerGroupReplication?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["consumerGroupsToExclude"].writeList(value.consumerGroupsToExclude, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["consumerGroupsToReplicate"].writeList(value.consumerGroupsToReplicate, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["detectAndCopyNewConsumerGroups"].write(value.detectAndCopyNewConsumerGroups)
-        try writer["synchroniseConsumerGroupOffsets"].write(value.synchroniseConsumerGroupOffsets)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ConsumerGroupReplication {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.ConsumerGroupReplication()
-        value.consumerGroupsToExclude = try reader["consumerGroupsToExclude"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.consumerGroupsToReplicate = try reader["consumerGroupsToReplicate"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.detectAndCopyNewConsumerGroups = try reader["detectAndCopyNewConsumerGroups"].readIfPresent()
-        value.synchroniseConsumerGroupOffsets = try reader["synchroniseConsumerGroupOffsets"].readIfPresent()
-        return value
-    }
-}
-
-extension KafkaClientTypes.ReplicationStateInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ReplicationStateInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.ReplicationStateInfo()
-        value.code = try reader["code"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
-extension KafkaClientTypes.TopicPartitionInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.TopicPartitionInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.TopicPartitionInfo()
-        value.partition = try reader["partition"].readIfPresent()
-        value.leader = try reader["leader"].readIfPresent()
-        value.replicas = try reader["replicas"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
-        value.isr = try reader["isr"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension KafkaClientTypes.CompatibleKafkaVersion {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.CompatibleKafkaVersion {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.CompatibleKafkaVersion()
-        value.sourceVersion = try reader["sourceVersion"].readIfPresent()
-        value.targetVersions = try reader["targetVersions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension KafkaClientTypes.ClientVpcConnection {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ClientVpcConnection {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.ClientVpcConnection()
-        value.authentication = try reader["authentication"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.state = try reader["state"].readIfPresent()
-        value.vpcConnectionArn = try reader["vpcConnectionArn"].readIfPresent() ?? ""
-        value.owner = try reader["owner"].readIfPresent()
-        return value
-    }
-}
-
-extension KafkaClientTypes.ClusterOperationV2Summary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ClusterOperationV2Summary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.ClusterOperationV2Summary()
-        value.clusterArn = try reader["clusterArn"].readIfPresent()
-        value.clusterType = try reader["clusterType"].readIfPresent()
-        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.operationArn = try reader["operationArn"].readIfPresent()
-        value.operationState = try reader["operationState"].readIfPresent()
-        value.operationType = try reader["operationType"].readIfPresent()
-        return value
-    }
-}
-
-extension KafkaClientTypes.Configuration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.Configuration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.Configuration()
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.description = try reader["description"].readIfPresent() ?? ""
-        value.kafkaVersions = try reader["kafkaVersions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.latestRevision = try reader["latestRevision"].readIfPresent(with: KafkaClientTypes.ConfigurationRevision.read(from:))
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension KafkaClientTypes.KafkaVersion {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.KafkaVersion {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.KafkaVersion()
-        value.version = try reader["version"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        return value
-    }
-}
-
-extension KafkaClientTypes.NodeInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.NodeInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.NodeInfo()
-        value.addedToClusterTime = try reader["addedToClusterTime"].readIfPresent()
-        value.brokerNodeInfo = try reader["brokerNodeInfo"].readIfPresent(with: KafkaClientTypes.BrokerNodeInfo.read(from:))
-        value.controllerNodeInfo = try reader["controllerNodeInfo"].readIfPresent(with: KafkaClientTypes.ControllerNodeInfo.read(from:))
-        value.instanceType = try reader["instanceType"].readIfPresent()
-        value.nodeARN = try reader["nodeARN"].readIfPresent()
-        value.nodeType = try reader["nodeType"].readIfPresent()
-        value.zookeeperNodeInfo = try reader["zookeeperNodeInfo"].readIfPresent(with: KafkaClientTypes.ZookeeperNodeInfo.read(from:))
+        var value = KafkaClientTypes.ZookeeperAccess()
+        value.enabled = try reader["enabled"].readIfPresent()
         return value
     }
 }
@@ -9371,171 +10848,6 @@ extension KafkaClientTypes.ZookeeperNodeInfo {
         value.zookeeperId = try reader["zookeeperId"].readIfPresent()
         value.zookeeperVersion = try reader["zookeeperVersion"].readIfPresent()
         return value
-    }
-}
-
-extension KafkaClientTypes.ControllerNodeInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ControllerNodeInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.ControllerNodeInfo()
-        value.endpoints = try reader["endpoints"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension KafkaClientTypes.BrokerNodeInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.BrokerNodeInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.BrokerNodeInfo()
-        value.attachedENIId = try reader["attachedENIId"].readIfPresent()
-        value.brokerId = try reader["brokerId"].readIfPresent()
-        value.clientSubnet = try reader["clientSubnet"].readIfPresent()
-        value.clientVpcIpAddress = try reader["clientVpcIpAddress"].readIfPresent()
-        value.currentBrokerSoftwareInfo = try reader["currentBrokerSoftwareInfo"].readIfPresent(with: KafkaClientTypes.BrokerSoftwareInfo.read(from:))
-        value.endpoints = try reader["endpoints"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension KafkaClientTypes.ReplicatorSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ReplicatorSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.ReplicatorSummary()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.currentVersion = try reader["currentVersion"].readIfPresent()
-        value.isReplicatorReference = try reader["isReplicatorReference"].readIfPresent()
-        value.kafkaClustersSummary = try reader["kafkaClustersSummary"].readListIfPresent(memberReadingClosure: KafkaClientTypes.KafkaClusterSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.replicationInfoSummaryList = try reader["replicationInfoSummaryList"].readListIfPresent(memberReadingClosure: KafkaClientTypes.ReplicationInfoSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.replicatorArn = try reader["replicatorArn"].readIfPresent()
-        value.replicatorName = try reader["replicatorName"].readIfPresent()
-        value.replicatorResourceArn = try reader["replicatorResourceArn"].readIfPresent()
-        value.replicatorState = try reader["replicatorState"].readIfPresent()
-        return value
-    }
-}
-
-extension KafkaClientTypes.ReplicationInfoSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ReplicationInfoSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.ReplicationInfoSummary()
-        value.sourceKafkaClusterAlias = try reader["sourceKafkaClusterAlias"].readIfPresent()
-        value.targetKafkaClusterAlias = try reader["targetKafkaClusterAlias"].readIfPresent()
-        return value
-    }
-}
-
-extension KafkaClientTypes.KafkaClusterSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.KafkaClusterSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.KafkaClusterSummary()
-        value.amazonMskCluster = try reader["amazonMskCluster"].readIfPresent(with: KafkaClientTypes.AmazonMskCluster.read(from:))
-        value.kafkaClusterAlias = try reader["kafkaClusterAlias"].readIfPresent()
-        return value
-    }
-}
-
-extension KafkaClientTypes.TopicInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.TopicInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.TopicInfo()
-        value.topicArn = try reader["topicArn"].readIfPresent()
-        value.topicName = try reader["topicName"].readIfPresent()
-        value.replicationFactor = try reader["replicationFactor"].readIfPresent()
-        value.partitionCount = try reader["partitionCount"].readIfPresent()
-        value.outOfSyncReplicaCount = try reader["outOfSyncReplicaCount"].readIfPresent()
-        return value
-    }
-}
-
-extension KafkaClientTypes.VpcConnection {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.VpcConnection {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.VpcConnection()
-        value.vpcConnectionArn = try reader["vpcConnectionArn"].readIfPresent() ?? ""
-        value.targetClusterArn = try reader["targetClusterArn"].readIfPresent() ?? ""
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.authentication = try reader["authentication"].readIfPresent()
-        value.vpcId = try reader["vpcId"].readIfPresent()
-        value.state = try reader["state"].readIfPresent()
-        return value
-    }
-}
-
-extension KafkaClientTypes.ProvisionedRequest {
-
-    static func write(value: KafkaClientTypes.ProvisionedRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["brokerNodeGroupInfo"].write(value.brokerNodeGroupInfo, with: KafkaClientTypes.BrokerNodeGroupInfo.write(value:to:))
-        try writer["clientAuthentication"].write(value.clientAuthentication, with: KafkaClientTypes.ClientAuthentication.write(value:to:))
-        try writer["configurationInfo"].write(value.configurationInfo, with: KafkaClientTypes.ConfigurationInfo.write(value:to:))
-        try writer["encryptionInfo"].write(value.encryptionInfo, with: KafkaClientTypes.EncryptionInfo.write(value:to:))
-        try writer["enhancedMonitoring"].write(value.enhancedMonitoring)
-        try writer["kafkaVersion"].write(value.kafkaVersion)
-        try writer["loggingInfo"].write(value.loggingInfo, with: KafkaClientTypes.LoggingInfo.write(value:to:))
-        try writer["numberOfBrokerNodes"].write(value.numberOfBrokerNodes)
-        try writer["openMonitoring"].write(value.openMonitoring, with: KafkaClientTypes.OpenMonitoringInfo.write(value:to:))
-        try writer["rebalancing"].write(value.rebalancing, with: KafkaClientTypes.Rebalancing.write(value:to:))
-        try writer["storageMode"].write(value.storageMode)
-    }
-}
-
-extension KafkaClientTypes.ServerlessRequest {
-
-    static func write(value: KafkaClientTypes.ServerlessRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["clientAuthentication"].write(value.clientAuthentication, with: KafkaClientTypes.ServerlessClientAuthentication.write(value:to:))
-        try writer["vpcConfigs"].writeList(value.vpcConfigs, memberWritingClosure: KafkaClientTypes.VpcConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension KafkaClientTypes.KafkaCluster {
-
-    static func write(value: KafkaClientTypes.KafkaCluster?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["amazonMskCluster"].write(value.amazonMskCluster, with: KafkaClientTypes.AmazonMskCluster.write(value:to:))
-        try writer["vpcConfig"].write(value.vpcConfig, with: KafkaClientTypes.KafkaClusterClientVpcConfig.write(value:to:))
-    }
-}
-
-extension KafkaClientTypes.ReplicationInfo {
-
-    static func write(value: KafkaClientTypes.ReplicationInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["consumerGroupReplication"].write(value.consumerGroupReplication, with: KafkaClientTypes.ConsumerGroupReplication.write(value:to:))
-        try writer["sourceKafkaClusterArn"].write(value.sourceKafkaClusterArn)
-        try writer["targetCompressionType"].write(value.targetCompressionType)
-        try writer["targetKafkaClusterArn"].write(value.targetKafkaClusterArn)
-        try writer["topicReplication"].write(value.topicReplication, with: KafkaClientTypes.TopicReplication.write(value:to:))
-    }
-}
-
-extension KafkaClientTypes.ConsumerGroupReplicationUpdate {
-
-    static func write(value: KafkaClientTypes.ConsumerGroupReplicationUpdate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["consumerGroupsToExclude"].writeList(value.consumerGroupsToExclude, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["consumerGroupsToReplicate"].writeList(value.consumerGroupsToReplicate, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["detectAndCopyNewConsumerGroups"].write(value.detectAndCopyNewConsumerGroups)
-        try writer["synchroniseConsumerGroupOffsets"].write(value.synchroniseConsumerGroupOffsets)
-    }
-}
-
-extension KafkaClientTypes.TopicReplicationUpdate {
-
-    static func write(value: KafkaClientTypes.TopicReplicationUpdate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["copyAccessControlListsForTopics"].write(value.copyAccessControlListsForTopics)
-        try writer["copyTopicConfigurations"].write(value.copyTopicConfigurations)
-        try writer["detectAndCopyNewTopics"].write(value.detectAndCopyNewTopics)
-        try writer["topicsToExclude"].writeList(value.topicsToExclude, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["topicsToReplicate"].writeList(value.topicsToReplicate, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 

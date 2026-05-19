@@ -12,7 +12,7 @@ import SmithyHTTPAPI
 @testable import ClientRuntime
 import AWSIntegrationTestUtils
 import class SmithyStreams.BufferedStream
-import class SmithyChecksums.ValidatingBufferedStream
+@_spi(SmithyChecksums) import class SmithyChecksums.ValidatingBufferedStream
 
 final class S3FlexibleChecksumsTests: S3XCTestCase {
     var originalData: Data!
@@ -114,7 +114,7 @@ final class S3FlexibleChecksumsTests: S3XCTestCase {
     }
 
     func test_putGetObject_streamining_unsigned_chunked() async throws {
-        let config = try await S3Client.S3ClientConfiguration(region: region)
+        var config = try await S3Client.S3ClientConfig(region: region)
         config.addInterceptorProvider(DisablePayloadSigningProvider())
         let customizedClient = S3Client(config: config)
 

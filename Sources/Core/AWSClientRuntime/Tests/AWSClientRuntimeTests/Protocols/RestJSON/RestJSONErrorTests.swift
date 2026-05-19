@@ -7,7 +7,7 @@ import Smithy
 import SmithyHTTPAPI
 @_spi(SmithyReadWrite) import SmithyReadWrite
 @_spi(SmithyReadWrite) import SmithyJSON
-import ClientRuntime
+@_spi(SmithyReadWrite) import ClientRuntime
 import SmithyTestUtil
 import XCTest
 @_spi(SmithyReadWrite) @testable import AWSClientRuntime
@@ -90,7 +90,7 @@ struct ComplexErrorBody {
 
 extension ComplexError {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ComplexError {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ComplexError {
         let reader = baseError.errorBodyReader
         var value = ComplexError()
         if let Header = baseError.httpResponse.headers.value(for: "X-Header") {
@@ -111,7 +111,7 @@ public enum GreetingWithErrorsError {
     static func httpError(from httpResponse: HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
         case "ComplexError": return try ComplexError.makeError(baseError: baseError)

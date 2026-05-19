@@ -9,7 +9,7 @@ import struct AwsCommonRuntimeKit.SigningConfig
 import enum Smithy.ByteStream
 import enum Smithy.ClientError
 import class Smithy.Context
-import class SmithyChecksums.ChunkedStream
+@_spi(SmithyChecksums) import class SmithyChecksums.ChunkedStream
 import struct SmithyHTTPAPI.Headers
 import class SmithyHTTPAPI.HTTPRequestBuilder
 
@@ -26,6 +26,8 @@ extension HTTPRequestBuilder {
                 throw ClientError.dataNotFound("Cannot use aws-chunked encoding with an unknown stream length!")
             }
             self.withHeader(name: "X-Amz-Decoded-Content-Length", value: String(decodedContentLength))
+            // Content-Length must not accompany Transfer-Encoding.
+            self.headers.remove(name: "Content-Length")
         } else {
             throw ClientError.dataNotFound("aws-chunked encoding requires a streaming payload!")
         }

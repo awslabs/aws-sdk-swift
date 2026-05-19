@@ -1215,6 +1215,21 @@
                 }
             }
         },
+        "com.amazonaws.cloudfront#CacheTagConfig": {
+            "type": "structure",
+            "members": {
+                "HeaderName": {
+                    "target": "com.amazonaws.cloudfront#string",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the HTTP header that your origin includes in responses. CloudFront uses this header to extract cache tags. The header value must contain comma-separated tag values (for example, <code>product:electronics, category:tv, brand:example</code>).</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>A complex type that specifies the HTTP header name from which CloudFront extracts cache tags from origin responses. When you add <code>CacheTagConfig</code> to a distribution, CloudFront reads the specified header from origin responses, parses the comma-separated tag values, and stores them with the cached object. You can then invalidate cached objects by tag using the <code>CreateInvalidation</code> API.</p>"
+            }
+        },
         "com.amazonaws.cloudfront#CachedMethods": {
             "type": "structure",
             "members": {
@@ -5622,6 +5637,9 @@
                         "smithy.api#documentation": "<p>The function code. For more information about writing a CloudFront function, see <a href=\"https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/writing-function-code.html\">Writing function code for CloudFront Functions</a> in the <i>Amazon CloudFront Developer Guide</i>.</p>",
                         "smithy.api#required": {}
                     }
+                },
+                "Tags": {
+                    "target": "com.amazonaws.cloudfront#Tags"
                 }
             },
             "traits": {
@@ -5992,6 +6010,9 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The S3 bucket that provides the source for the import. The source must be in a valid JSON format.</p>"
                     }
+                },
+                "Tags": {
+                    "target": "com.amazonaws.cloudfront#Tags"
                 }
             },
             "traits": {
@@ -6774,6 +6795,12 @@
                         "smithy.api#required": {}
                     }
                 },
+                "UseClientCertificateOCSPEndpoint": {
+                    "target": "com.amazonaws.cloudfront#boolean",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A Boolean that determines whether to use the CA certificate's OCSP endpoint to check certificate revocation status.</p>"
+                    }
+                },
                 "Tags": {
                     "target": "com.amazonaws.cloudfront#Tags"
                 }
@@ -7068,6 +7095,12 @@
                     "target": "com.amazonaws.cloudfront#IpAddressType",
                     "traits": {
                         "smithy.api#documentation": "<p>Specifies which IP protocol CloudFront uses when connecting to your origin. If your origin uses both IPv4 and IPv6 protocols, you can choose <code>dualstack</code> to help optimize reliability.</p>"
+                    }
+                },
+                "OriginMtlsConfig": {
+                    "target": "com.amazonaws.cloudfront#OriginMtlsConfig",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Configures mutual TLS authentication between CloudFront and your origin server.</p>"
                     }
                 }
             },
@@ -9292,6 +9325,12 @@
                     "target": "com.amazonaws.cloudfront#ConnectionFunctionAssociation",
                     "traits": {
                         "smithy.api#documentation": "<p>The distribution's connection function association.</p>"
+                    }
+                },
+                "CacheTagConfig": {
+                    "target": "com.amazonaws.cloudfront#CacheTagConfig",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Configuration for cache tag extraction from origin responses. When specified, CloudFront reads the header named in <code>HeaderName</code> from origin responses and stores the comma-separated values as cache tags on the object.</p> <p>Distributions without <code>CacheTagConfig</code> do not extract tags. When <code>CacheTagConfig</code> is removed from a distribution via <code>UpdateDistribution</code>, CloudFront stops extracting tags from origin responses.</p> <note> <p>Changing the <code>HeaderName</code> on an existing distribution does not retroactively affect previously cached objects. Tag-based invalidations will not apply to objects already cached using a previous header. To ensure tag invalidations function after updating the header name, use path-based invalidations to recache all objects that use cache tags.</p> </note>"
                     }
                 }
             },
@@ -19007,6 +19046,21 @@
                 }
             }
         },
+        "com.amazonaws.cloudfront#OriginMtlsConfig": {
+            "type": "structure",
+            "members": {
+                "ClientCertificateArn": {
+                    "target": "com.amazonaws.cloudfront#string",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the client certificate stored in Amazon Web Services Certificate Manager (ACM) that CloudFront uses to authenticate with your origin using Mutual TLS.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Configures mutual TLS authentication between CloudFront and your origin server.</p>"
+            }
+        },
         "com.amazonaws.cloudfront#OriginProtocolPolicy": {
             "type": "enum",
             "members": {
@@ -22909,6 +22963,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The trust store's reason.</p>"
                     }
+                },
+                "UseClientCertificateOCSPEndpoint": {
+                    "target": "com.amazonaws.cloudfront#boolean",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A Boolean that determines whether the trust store uses the CA certificate's OCSP endpoint to check certificate revocation status.</p>"
+                    }
                 }
             },
             "traits": {
@@ -23250,6 +23310,12 @@
                     "target": "com.amazonaws.cloudfront#IpAddressType",
                     "traits": {
                         "smithy.api#documentation": "<p>The IP address type for the Anycast static IP list. You can specify one of the following options:</p> <ul> <li> <p> <code>ipv4</code> only</p> </li> <li> <p> <code>ipv6</code> only</p> </li> <li> <p> <code>dualstack</code> - Allocate a list of both IPv4 and IPv6 addresses</p> </li> </ul>"
+                    }
+                },
+                "IpamCidrConfigs": {
+                    "target": "com.amazonaws.cloudfront#IpamCidrConfigList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A list of IPAM CIDR configurations that specify the IP address ranges and IPAM pool settings for updating the Anycast static IP list.</p>"
                     }
                 },
                 "IfMatch": {
@@ -25763,8 +25829,14 @@
                     "target": "com.amazonaws.cloudfront#CaCertificatesBundleSource",
                     "traits": {
                         "smithy.api#documentation": "<p>The CA certificates bundle source.</p>",
-                        "smithy.api#httpPayload": {},
-                        "smithy.api#required": {}
+                        "smithy.api#httpPayload": {}
+                    }
+                },
+                "UseClientCertificateOCSPEndpoint": {
+                    "target": "com.amazonaws.cloudfront#boolean",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A Boolean that determines whether to use the CA certificate's OCSP endpoint to check certificate revocation status.</p>",
+                        "smithy.api#httpHeader": "UseClientCertificateOCSPEndpoint"
                     }
                 },
                 "IfMatch": {
@@ -26094,7 +26166,7 @@
                 "SSLSupportMethod": {
                     "target": "com.amazonaws.cloudfront#SSLSupportMethod",
                     "traits": {
-                        "smithy.api#documentation": "<p>If the distribution uses <code>Aliases</code> (alternate domain names or CNAMEs), specify which viewers the distribution accepts HTTPS connections from.</p> <ul> <li> <p> <code>sni-only</code> – The distribution accepts HTTPS connections from only viewers that support <a href=\"https://en.wikipedia.org/wiki/Server_Name_Indication\">server name indication (SNI)</a>. This is recommended. Most browsers and clients support SNI.</p> </li> <li> <p> <code>vip</code> – The distribution accepts HTTPS connections from all viewers including those that don't support SNI. This is not recommended, and results in additional monthly charges from CloudFront.</p> </li> <li> <p> <code>static-ip</code> - Do not specify this value unless your distribution has been enabled for this feature by the CloudFront team. If you have a use case that requires static IP addresses for a distribution, contact CloudFront through the <a href=\"https://console.aws.amazon.com/support/home\">Amazon Web ServicesSupport Center</a>.</p> </li> </ul> <p>If the distribution uses the CloudFront domain name such as <code>d111111abcdef8.cloudfront.net</code>, don't set a value for this field.</p>"
+                        "smithy.api#documentation": "<p>If the distribution uses <code>Aliases</code> (alternate domain names or CNAMEs), specify which viewers the distribution accepts HTTPS connections from.</p> <ul> <li> <p> <code>sni-only</code> – The distribution accepts HTTPS connections from only viewers that support <a href=\"https://en.wikipedia.org/wiki/Server_Name_Indication\">server name indication (SNI)</a>. This is recommended. Most browsers and clients support SNI.</p> </li> <li> <p> <code>vip</code> – The distribution accepts HTTPS connections from all viewers including those that don't support SNI. This is not recommended, and results in additional monthly charges from CloudFront.</p> </li> <li> <p> <code>static-ip</code> - Do not specify this value unless your distribution has been enabled for this feature by the CloudFront team. If you have a use case that requires static IP addresses for a distribution, contact CloudFront through the <a href=\"https://console.aws.amazon.com/support/home\">Amazon Web Services Support Center</a>.</p> </li> </ul> <p>If the distribution uses the CloudFront domain name such as <code>d111111abcdef8.cloudfront.net</code>, don't set a value for this field.</p>"
                     }
                 },
                 "MinimumProtocolVersion": {
@@ -26156,6 +26228,12 @@
                     "target": "smithy.api#Unit",
                     "traits": {
                         "smithy.api#enumValue": "optional"
+                    }
+                },
+                "Passthrough": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "passthrough"
                     }
                 }
             }

@@ -1,0 +1,8 @@
+{
+    "service": "com.amazonaws.acm#CertificateManager",
+    "module": "AWSACM",
+    "sdkId": "ACM",
+    "internalClient": false,
+    "operations": [],
+    "modelPath": "codegen/sdk-codegen/aws-models/acm.json"
+}

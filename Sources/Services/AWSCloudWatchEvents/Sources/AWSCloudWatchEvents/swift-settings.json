@@ -1,0 +1,8 @@
+{
+    "service": "com.amazonaws.cloudwatchevents#AWSEvents",
+    "module": "AWSCloudWatchEvents",
+    "sdkId": "CloudWatch Events",
+    "internalClient": false,
+    "operations": [],
+    "modelPath": "codegen/sdk-codegen/aws-models/cloudwatch-events.json"
+}

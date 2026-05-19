@@ -6,12 +6,12 @@
 package software.amazon.smithy.aws.swift.codegen.protocols.awsquery
 
 import software.amazon.smithy.aws.swift.codegen.AWSHTTPProtocolCustomizations
-import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSClientRuntimeTypes
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.shapes.Shape
 import software.amazon.smithy.model.traits.TimestampFormatTrait
 import software.amazon.smithy.protocoltests.traits.HttpRequestTestCase
 import software.amazon.smithy.swift.codegen.SwiftWriter
+import software.amazon.smithy.swift.codegen.swiftmodules.ClientRuntimeTypes
 
 class AWSQueryCustomizations : AWSHTTPProtocolCustomizations() {
     override fun customRenderBodyComparison(
@@ -31,7 +31,7 @@ class AWSQueryCustomizations : AWSHTTPProtocolCustomizations() {
 
     override fun alwaysHasHttpBody(): Boolean = true
 
-    override val baseErrorSymbol: Symbol = AWSClientRuntimeTypes.AWSQuery.AWSQueryError
+    override val baseErrorSymbol: Symbol = ClientRuntimeTypes.AWSQuery.AWSQueryError
 
     override val defaultTimestampFormat = TimestampFormatTrait.Format.DATE_TIME
 }

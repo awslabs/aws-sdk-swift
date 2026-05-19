@@ -6,6 +6,7 @@
 //
 
 @_spi(FileBasedConfig) import AWSSDKCommon
+import class Foundation.DispatchQueue
 import class Foundation.ISO8601DateFormatter
 import class Foundation.JSONDecoder
 import class Foundation.Pipe
@@ -69,7 +70,7 @@ public struct ProcessAWSCredentialIdentityResolver: AWSCredentialIdentityResolve
         let (process, pipe) = setupProcessAndOutputPipe(externalProcess: externalProcess)
 
         return try await withCheckedThrowingContinuation { continuation in
-            Task.detached(priority: .userInitiated) {
+            DispatchQueue.global().async {
                 do {
                     try process.run()
                     process.waitUntilExit()
@@ -83,7 +84,7 @@ public struct ProcessAWSCredentialIdentityResolver: AWSCredentialIdentityResolve
                     let creds = try decodeCredentials(from: jsonData)
                     continuation.resume(returning: creds)
                 } catch let error as AWSCredentialIdentityResolverError {
-                    throw error
+                    continuation.resume(throwing: error)
                 } catch {
                     continuation.resume(throwing: AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
                         "ProcessAWSCredentialsResolver: failed to fetch credentials."
@@ -186,8 +187,7 @@ private struct ProcessJSONCredentialResponse: Codable {
 
         // Handle the Expiration field which is a string in ISO8601 format.
         if let expirationString = try container.decodeIfPresent(String.self, forKey: .expiration) {
-            let formatter = ISO8601DateFormatter()
-            expiration = formatter.date(from: expirationString)
+            expiration = RFC3339DateParser.parse(expirationString)
         } else {
             expiration = nil
         }

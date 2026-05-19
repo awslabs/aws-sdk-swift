@@ -18,7 +18,7 @@ class CloudFrontKeyValueStoreSigV4ATests: XCTestCase {
     private var client: CloudFrontClient!
     // The sig4a-only KVS client to call CloudFrontKeyValueStore::listKeys
     private var kvsClient: CloudFrontKeyValueStoreClient!
-    private var kvsConfig: CloudFrontKeyValueStoreClient.CloudFrontKeyValueStoreClientConfiguration!
+    private var kvsConfig: CloudFrontKeyValueStoreClient.CloudFrontKeyValueStoreClientConfig!
     // Region to use for clients
     private let region = "us-east-1"
 
@@ -45,7 +45,7 @@ class CloudFrontKeyValueStoreSigV4ATests: XCTestCase {
         // Initialize CloudFront client
         client = try CloudFrontClient(region: region)
         // Initiailize KVS client with only SigV4A enabled
-        kvsConfig = try await CloudFrontKeyValueStoreClient.CloudFrontKeyValueStoreClientConfiguration(region: region)
+        kvsConfig = try await CloudFrontKeyValueStoreClient.CloudFrontKeyValueStoreClientConfig(region: region)
         kvsConfig.authSchemes = [SigV4AAuthScheme()]
         kvsClient = CloudFrontKeyValueStoreClient(config: kvsConfig)
 

@@ -25,8 +25,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
 
 
@@ -73,9 +73,9 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         code: Swift.String? = nil,
@@ -118,9 +118,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         code: Swift.String? = nil,
@@ -150,9 +150,9 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -180,9 +180,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         code: Swift.String? = nil,
@@ -218,9 +218,9 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         code: Swift.String? = nil,
@@ -258,9 +258,9 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -288,9 +288,9 @@ public struct UninitializedAccountException: ClientRuntime.ModeledError, AWSClie
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         code: Swift.String? = nil,
@@ -372,9 +372,9 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         code: Swift.String? = nil,
@@ -2207,6 +2207,35 @@ extension DrsClientTypes {
 
 extension DrsClientTypes {
 
+    public enum InternetProtocol: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ipv4
+        case ipv6
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InternetProtocol] {
+            return [
+                .ipv4,
+                .ipv6
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ipv4: return "IPV4"
+            case .ipv6: return "IPV6"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DrsClientTypes {
+
     public enum PITPolicyRuleUnits: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case day
         case hour
@@ -2273,32 +2302,29 @@ extension DrsClientTypes {
 
 public struct CreateReplicationConfigurationTemplateInput: Swift.Sendable {
     /// Whether to associate the default Elastic Disaster Recovery Security group with the Replication Configuration Template.
-    /// This member is required.
     public var associateDefaultSecurityGroup: Swift.Bool?
     /// Whether to allow the AWS replication agent to automatically replicate newly added disks.
     public var autoReplicateNewDisks: Swift.Bool?
     /// Configure bandwidth throttling for the outbound data transfer rate of the Source Server in Mbps.
     /// This member is required.
-    public var bandwidthThrottling: Swift.Int
+    public var bandwidthThrottling: Swift.Int?
     /// Whether to create a Public IP for the Recovery Instance by default.
-    /// This member is required.
     public var createPublicIP: Swift.Bool?
     /// The data plane routing mechanism that will be used for replication.
-    /// This member is required.
     public var dataPlaneRouting: DrsClientTypes.ReplicationConfigurationDataPlaneRouting?
     /// The Staging Disk EBS volume type to be used during replication.
-    /// This member is required.
     public var defaultLargeStagingDiskType: DrsClientTypes.ReplicationConfigurationDefaultLargeStagingDiskType?
     /// The type of EBS encryption to be used during replication.
     /// This member is required.
     public var ebsEncryption: DrsClientTypes.ReplicationConfigurationEbsEncryption?
     /// The ARN of the EBS encryption key to be used during replication.
     public var ebsEncryptionKeyArn: Swift.String?
+    /// Which version of the Internet Protocol to use for replication of data. (IPv4 or IPv6)
+    public var internetProtocol: DrsClientTypes.InternetProtocol?
     /// The Point in time (PIT) policy to manage snapshots taken during replication.
     /// This member is required.
     public var pitPolicy: [DrsClientTypes.PITPolicyRule]?
     /// The instance type to be used for the replication server.
-    /// This member is required.
     public var replicationServerInstanceType: Swift.String?
     /// The security group IDs that will be used by the replication server.
     /// This member is required.
@@ -2312,18 +2338,18 @@ public struct CreateReplicationConfigurationTemplateInput: Swift.Sendable {
     /// A set of tags to be associated with the Replication Configuration Template resource.
     public var tags: [Swift.String: Swift.String]?
     /// Whether to use a dedicated Replication Server in the replication staging area.
-    /// This member is required.
     public var useDedicatedReplicationServer: Swift.Bool?
 
     public init(
         associateDefaultSecurityGroup: Swift.Bool? = nil,
         autoReplicateNewDisks: Swift.Bool? = nil,
-        bandwidthThrottling: Swift.Int = 0,
+        bandwidthThrottling: Swift.Int? = 0,
         createPublicIP: Swift.Bool? = nil,
         dataPlaneRouting: DrsClientTypes.ReplicationConfigurationDataPlaneRouting? = nil,
         defaultLargeStagingDiskType: DrsClientTypes.ReplicationConfigurationDefaultLargeStagingDiskType? = nil,
         ebsEncryption: DrsClientTypes.ReplicationConfigurationEbsEncryption? = nil,
         ebsEncryptionKeyArn: Swift.String? = nil,
+        internetProtocol: DrsClientTypes.InternetProtocol? = nil,
         pitPolicy: [DrsClientTypes.PITPolicyRule]? = nil,
         replicationServerInstanceType: Swift.String? = nil,
         replicationServersSecurityGroupsIDs: [Swift.String]? = nil,
@@ -2340,6 +2366,7 @@ public struct CreateReplicationConfigurationTemplateInput: Swift.Sendable {
         self.defaultLargeStagingDiskType = defaultLargeStagingDiskType
         self.ebsEncryption = ebsEncryption
         self.ebsEncryptionKeyArn = ebsEncryptionKeyArn
+        self.internetProtocol = internetProtocol
         self.pitPolicy = pitPolicy
         self.replicationServerInstanceType = replicationServerInstanceType
         self.replicationServersSecurityGroupsIDs = replicationServersSecurityGroupsIDs
@@ -2352,7 +2379,7 @@ public struct CreateReplicationConfigurationTemplateInput: Swift.Sendable {
 
 extension CreateReplicationConfigurationTemplateInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateReplicationConfigurationTemplateInput(associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), autoReplicateNewDisks: \(Swift.String(describing: autoReplicateNewDisks)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), pitPolicy: \(Swift.String(describing: pitPolicy)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "CreateReplicationConfigurationTemplateInput(associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), autoReplicateNewDisks: \(Swift.String(describing: autoReplicateNewDisks)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), pitPolicy: \(Swift.String(describing: pitPolicy)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateReplicationConfigurationTemplateOutput: Swift.Sendable {
@@ -2374,6 +2401,8 @@ public struct CreateReplicationConfigurationTemplateOutput: Swift.Sendable {
     public var ebsEncryption: DrsClientTypes.ReplicationConfigurationEbsEncryption?
     /// The ARN of the EBS encryption key to be used during replication.
     public var ebsEncryptionKeyArn: Swift.String?
+    /// Which version of the Internet Protocol to use for replication of data. (IPv4 or IPv6)
+    public var internetProtocol: DrsClientTypes.InternetProtocol?
     /// The Point in time (PIT) policy to manage snapshots taken during replication.
     public var pitPolicy: [DrsClientTypes.PITPolicyRule]?
     /// The Replication Configuration Template ID.
@@ -2402,6 +2431,7 @@ public struct CreateReplicationConfigurationTemplateOutput: Swift.Sendable {
         defaultLargeStagingDiskType: DrsClientTypes.ReplicationConfigurationDefaultLargeStagingDiskType? = nil,
         ebsEncryption: DrsClientTypes.ReplicationConfigurationEbsEncryption? = nil,
         ebsEncryptionKeyArn: Swift.String? = nil,
+        internetProtocol: DrsClientTypes.InternetProtocol? = nil,
         pitPolicy: [DrsClientTypes.PITPolicyRule]? = nil,
         replicationConfigurationTemplateID: Swift.String? = nil,
         replicationServerInstanceType: Swift.String? = nil,
@@ -2420,6 +2450,7 @@ public struct CreateReplicationConfigurationTemplateOutput: Swift.Sendable {
         self.defaultLargeStagingDiskType = defaultLargeStagingDiskType
         self.ebsEncryption = ebsEncryption
         self.ebsEncryptionKeyArn = ebsEncryptionKeyArn
+        self.internetProtocol = internetProtocol
         self.pitPolicy = pitPolicy
         self.replicationConfigurationTemplateID = replicationConfigurationTemplateID
         self.replicationServerInstanceType = replicationServerInstanceType
@@ -2433,7 +2464,7 @@ public struct CreateReplicationConfigurationTemplateOutput: Swift.Sendable {
 
 extension CreateReplicationConfigurationTemplateOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateReplicationConfigurationTemplateOutput(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), autoReplicateNewDisks: \(Swift.String(describing: autoReplicateNewDisks)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), pitPolicy: \(Swift.String(describing: pitPolicy)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "CreateReplicationConfigurationTemplateOutput(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), autoReplicateNewDisks: \(Swift.String(describing: autoReplicateNewDisks)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), pitPolicy: \(Swift.String(describing: pitPolicy)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateSourceNetworkInput: Swift.Sendable {
@@ -2762,12 +2793,16 @@ extension DrsClientTypes {
 
     /// Metadata associated with a Job log.
     public struct JobLogEventData: Swift.Sendable {
+        /// Retries for this operation.
+        public var attemptCount: Swift.Int
         /// Properties of a conversion job
         public var conversionProperties: DrsClientTypes.ConversionProperties?
         /// The ID of a conversion server.
         public var conversionServerID: Swift.String?
         /// Properties of resource related to a job event.
         public var eventResourceData: DrsClientTypes.EventResourceData?
+        /// The maximum number of retries that will be attempted if this operation failed.
+        public var maxAttemptsCount: Swift.Int
         /// A string representing a job error.
         public var rawError: Swift.String?
         /// The ID of a Source Server.
@@ -2776,16 +2811,20 @@ extension DrsClientTypes {
         public var targetInstanceID: Swift.String?
 
         public init(
+            attemptCount: Swift.Int = 0,
             conversionProperties: DrsClientTypes.ConversionProperties? = nil,
             conversionServerID: Swift.String? = nil,
             eventResourceData: DrsClientTypes.EventResourceData? = nil,
+            maxAttemptsCount: Swift.Int = 0,
             rawError: Swift.String? = nil,
             sourceServerID: Swift.String? = nil,
             targetInstanceID: Swift.String? = nil
         ) {
+            self.attemptCount = attemptCount
             self.conversionProperties = conversionProperties
             self.conversionServerID = conversionServerID
             self.eventResourceData = eventResourceData
+            self.maxAttemptsCount = maxAttemptsCount
             self.rawError = rawError
             self.sourceServerID = sourceServerID
             self.targetInstanceID = targetInstanceID
@@ -3870,6 +3909,8 @@ extension DrsClientTypes {
         public var ebsEncryption: DrsClientTypes.ReplicationConfigurationEbsEncryption?
         /// The ARN of the EBS encryption key to be used during replication.
         public var ebsEncryptionKeyArn: Swift.String?
+        /// Which version of the Internet Protocol to use for replication of data. (IPv4 or IPv6)
+        public var internetProtocol: DrsClientTypes.InternetProtocol?
         /// The Point in time (PIT) policy to manage snapshots taken during replication.
         public var pitPolicy: [DrsClientTypes.PITPolicyRule]?
         /// The Replication Configuration Template ID.
@@ -3898,6 +3939,7 @@ extension DrsClientTypes {
             defaultLargeStagingDiskType: DrsClientTypes.ReplicationConfigurationDefaultLargeStagingDiskType? = nil,
             ebsEncryption: DrsClientTypes.ReplicationConfigurationEbsEncryption? = nil,
             ebsEncryptionKeyArn: Swift.String? = nil,
+            internetProtocol: DrsClientTypes.InternetProtocol? = nil,
             pitPolicy: [DrsClientTypes.PITPolicyRule]? = nil,
             replicationConfigurationTemplateID: Swift.String? = nil,
             replicationServerInstanceType: Swift.String? = nil,
@@ -3916,6 +3958,7 @@ extension DrsClientTypes {
             self.defaultLargeStagingDiskType = defaultLargeStagingDiskType
             self.ebsEncryption = ebsEncryption
             self.ebsEncryptionKeyArn = ebsEncryptionKeyArn
+            self.internetProtocol = internetProtocol
             self.pitPolicy = pitPolicy
             self.replicationConfigurationTemplateID = replicationConfigurationTemplateID
             self.replicationServerInstanceType = replicationServerInstanceType
@@ -3930,7 +3973,7 @@ extension DrsClientTypes {
 
 extension DrsClientTypes.ReplicationConfigurationTemplate: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ReplicationConfigurationTemplate(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), autoReplicateNewDisks: \(Swift.String(describing: autoReplicateNewDisks)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), pitPolicy: \(Swift.String(describing: pitPolicy)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "ReplicationConfigurationTemplate(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), autoReplicateNewDisks: \(Swift.String(describing: autoReplicateNewDisks)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), pitPolicy: \(Swift.String(describing: pitPolicy)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct DescribeReplicationConfigurationTemplatesOutput: Swift.Sendable {
@@ -4687,6 +4730,8 @@ public struct GetFailbackReplicationConfigurationInput: Swift.Sendable {
 public struct GetFailbackReplicationConfigurationOutput: Swift.Sendable {
     /// Configure bandwidth throttling for the outbound data transfer rate of the Recovery Instance in Mbps.
     public var bandwidthThrottling: Swift.Int
+    /// Which version of the Internet Protocol to use for replication of data. (IPv4 or IPv6)
+    public var internetProtocol: DrsClientTypes.InternetProtocol?
     /// The name of the Failback Replication Configuration.
     public var name: Swift.String?
     /// The ID of the Recovery Instance.
@@ -4697,11 +4742,13 @@ public struct GetFailbackReplicationConfigurationOutput: Swift.Sendable {
 
     public init(
         bandwidthThrottling: Swift.Int = 0,
+        internetProtocol: DrsClientTypes.InternetProtocol? = nil,
         name: Swift.String? = nil,
         recoveryInstanceID: Swift.String? = nil,
         usePrivateIP: Swift.Bool? = nil
     ) {
         self.bandwidthThrottling = bandwidthThrottling
+        self.internetProtocol = internetProtocol
         self.name = name
         self.recoveryInstanceID = recoveryInstanceID
         self.usePrivateIP = usePrivateIP
@@ -4801,6 +4848,8 @@ public struct TerminateRecoveryInstancesOutput: Swift.Sendable {
 public struct UpdateFailbackReplicationConfigurationInput: Swift.Sendable {
     /// Configure bandwidth throttling for the outbound data transfer rate of the Recovery Instance in Mbps.
     public var bandwidthThrottling: Swift.Int
+    /// Which version of the Internet Protocol to use for replication of data. (IPv4 or IPv6)
+    public var internetProtocol: DrsClientTypes.InternetProtocol?
     /// The name of the Failback Replication Configuration.
     public var name: Swift.String?
     /// The ID of the Recovery Instance.
@@ -4811,11 +4860,13 @@ public struct UpdateFailbackReplicationConfigurationInput: Swift.Sendable {
 
     public init(
         bandwidthThrottling: Swift.Int = 0,
+        internetProtocol: DrsClientTypes.InternetProtocol? = nil,
         name: Swift.String? = nil,
         recoveryInstanceID: Swift.String? = nil,
         usePrivateIP: Swift.Bool? = nil
     ) {
         self.bandwidthThrottling = bandwidthThrottling
+        self.internetProtocol = internetProtocol
         self.name = name
         self.recoveryInstanceID = recoveryInstanceID
         self.usePrivateIP = usePrivateIP
@@ -4841,6 +4892,8 @@ public struct UpdateReplicationConfigurationTemplateInput: Swift.Sendable {
     public var ebsEncryption: DrsClientTypes.ReplicationConfigurationEbsEncryption?
     /// The ARN of the EBS encryption key to be used during replication.
     public var ebsEncryptionKeyArn: Swift.String?
+    /// Which version of the Internet Protocol to use for replication of data. (IPv4 or IPv6)
+    public var internetProtocol: DrsClientTypes.InternetProtocol?
     /// The Point in time (PIT) policy to manage snapshots taken during replication.
     public var pitPolicy: [DrsClientTypes.PITPolicyRule]?
     /// The Replication Configuration Template ID.
@@ -4867,6 +4920,7 @@ public struct UpdateReplicationConfigurationTemplateInput: Swift.Sendable {
         defaultLargeStagingDiskType: DrsClientTypes.ReplicationConfigurationDefaultLargeStagingDiskType? = nil,
         ebsEncryption: DrsClientTypes.ReplicationConfigurationEbsEncryption? = nil,
         ebsEncryptionKeyArn: Swift.String? = nil,
+        internetProtocol: DrsClientTypes.InternetProtocol? = nil,
         pitPolicy: [DrsClientTypes.PITPolicyRule]? = nil,
         replicationConfigurationTemplateID: Swift.String? = nil,
         replicationServerInstanceType: Swift.String? = nil,
@@ -4884,6 +4938,7 @@ public struct UpdateReplicationConfigurationTemplateInput: Swift.Sendable {
         self.defaultLargeStagingDiskType = defaultLargeStagingDiskType
         self.ebsEncryption = ebsEncryption
         self.ebsEncryptionKeyArn = ebsEncryptionKeyArn
+        self.internetProtocol = internetProtocol
         self.pitPolicy = pitPolicy
         self.replicationConfigurationTemplateID = replicationConfigurationTemplateID
         self.replicationServerInstanceType = replicationServerInstanceType
@@ -4896,7 +4951,7 @@ public struct UpdateReplicationConfigurationTemplateInput: Swift.Sendable {
 
 extension UpdateReplicationConfigurationTemplateInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateReplicationConfigurationTemplateInput(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), autoReplicateNewDisks: \(Swift.String(describing: autoReplicateNewDisks)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), pitPolicy: \(Swift.String(describing: pitPolicy)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), stagingAreaTags: \"CONTENT_REDACTED\")"}
+        "UpdateReplicationConfigurationTemplateInput(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), autoReplicateNewDisks: \(Swift.String(describing: autoReplicateNewDisks)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), pitPolicy: \(Swift.String(describing: pitPolicy)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), stagingAreaTags: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateReplicationConfigurationTemplateOutput: Swift.Sendable {
@@ -4918,6 +4973,8 @@ public struct UpdateReplicationConfigurationTemplateOutput: Swift.Sendable {
     public var ebsEncryption: DrsClientTypes.ReplicationConfigurationEbsEncryption?
     /// The ARN of the EBS encryption key to be used during replication.
     public var ebsEncryptionKeyArn: Swift.String?
+    /// Which version of the Internet Protocol to use for replication of data. (IPv4 or IPv6)
+    public var internetProtocol: DrsClientTypes.InternetProtocol?
     /// The Point in time (PIT) policy to manage snapshots taken during replication.
     public var pitPolicy: [DrsClientTypes.PITPolicyRule]?
     /// The Replication Configuration Template ID.
@@ -4946,6 +5003,7 @@ public struct UpdateReplicationConfigurationTemplateOutput: Swift.Sendable {
         defaultLargeStagingDiskType: DrsClientTypes.ReplicationConfigurationDefaultLargeStagingDiskType? = nil,
         ebsEncryption: DrsClientTypes.ReplicationConfigurationEbsEncryption? = nil,
         ebsEncryptionKeyArn: Swift.String? = nil,
+        internetProtocol: DrsClientTypes.InternetProtocol? = nil,
         pitPolicy: [DrsClientTypes.PITPolicyRule]? = nil,
         replicationConfigurationTemplateID: Swift.String? = nil,
         replicationServerInstanceType: Swift.String? = nil,
@@ -4964,6 +5022,7 @@ public struct UpdateReplicationConfigurationTemplateOutput: Swift.Sendable {
         self.defaultLargeStagingDiskType = defaultLargeStagingDiskType
         self.ebsEncryption = ebsEncryption
         self.ebsEncryptionKeyArn = ebsEncryptionKeyArn
+        self.internetProtocol = internetProtocol
         self.pitPolicy = pitPolicy
         self.replicationConfigurationTemplateID = replicationConfigurationTemplateID
         self.replicationServerInstanceType = replicationServerInstanceType
@@ -4977,7 +5036,7 @@ public struct UpdateReplicationConfigurationTemplateOutput: Swift.Sendable {
 
 extension UpdateReplicationConfigurationTemplateOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateReplicationConfigurationTemplateOutput(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), autoReplicateNewDisks: \(Swift.String(describing: autoReplicateNewDisks)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), pitPolicy: \(Swift.String(describing: pitPolicy)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "UpdateReplicationConfigurationTemplateOutput(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), autoReplicateNewDisks: \(Swift.String(describing: autoReplicateNewDisks)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), pitPolicy: \(Swift.String(describing: pitPolicy)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct ExportSourceNetworkCfnTemplateInput: Swift.Sendable {
@@ -5292,6 +5351,8 @@ public struct GetReplicationConfigurationOutput: Swift.Sendable {
     public var ebsEncryption: DrsClientTypes.ReplicationConfigurationEbsEncryption?
     /// The ARN of the EBS encryption key to be used during replication.
     public var ebsEncryptionKeyArn: Swift.String?
+    /// Which version of the Internet Protocol to use for replication of data. (IPv4 or IPv6)
+    public var internetProtocol: DrsClientTypes.InternetProtocol?
     /// The name of the Replication Configuration.
     public var name: Swift.String?
     /// The Point in time (PIT) policy to manage snapshots taken during replication.
@@ -5320,6 +5381,7 @@ public struct GetReplicationConfigurationOutput: Swift.Sendable {
         defaultLargeStagingDiskType: DrsClientTypes.ReplicationConfigurationDefaultLargeStagingDiskType? = nil,
         ebsEncryption: DrsClientTypes.ReplicationConfigurationEbsEncryption? = nil,
         ebsEncryptionKeyArn: Swift.String? = nil,
+        internetProtocol: DrsClientTypes.InternetProtocol? = nil,
         name: Swift.String? = nil,
         pitPolicy: [DrsClientTypes.PITPolicyRule]? = nil,
         replicatedDisks: [DrsClientTypes.ReplicationConfigurationReplicatedDisk]? = nil,
@@ -5338,6 +5400,7 @@ public struct GetReplicationConfigurationOutput: Swift.Sendable {
         self.defaultLargeStagingDiskType = defaultLargeStagingDiskType
         self.ebsEncryption = ebsEncryption
         self.ebsEncryptionKeyArn = ebsEncryptionKeyArn
+        self.internetProtocol = internetProtocol
         self.name = name
         self.pitPolicy = pitPolicy
         self.replicatedDisks = replicatedDisks
@@ -5352,7 +5415,7 @@ public struct GetReplicationConfigurationOutput: Swift.Sendable {
 
 extension GetReplicationConfigurationOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetReplicationConfigurationOutput(associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), autoReplicateNewDisks: \(Swift.String(describing: autoReplicateNewDisks)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), name: \(Swift.String(describing: name)), pitPolicy: \(Swift.String(describing: pitPolicy)), replicatedDisks: \(Swift.String(describing: replicatedDisks)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), stagingAreaTags: \"CONTENT_REDACTED\")"}
+        "GetReplicationConfigurationOutput(associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), autoReplicateNewDisks: \(Swift.String(describing: autoReplicateNewDisks)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), name: \(Swift.String(describing: name)), pitPolicy: \(Swift.String(describing: pitPolicy)), replicatedDisks: \(Swift.String(describing: replicatedDisks)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), stagingAreaTags: \"CONTENT_REDACTED\")"}
 }
 
 @available(*, deprecated, message: "WARNING: RetryDataReplication is deprecated")
@@ -5646,6 +5709,8 @@ public struct UpdateReplicationConfigurationInput: Swift.Sendable {
     public var ebsEncryption: DrsClientTypes.ReplicationConfigurationEbsEncryption?
     /// The ARN of the EBS encryption key to be used during replication.
     public var ebsEncryptionKeyArn: Swift.String?
+    /// Which version of the Internet Protocol to use for replication of data. (IPv4 or IPv6)
+    public var internetProtocol: DrsClientTypes.InternetProtocol?
     /// The name of the Replication Configuration.
     public var name: Swift.String?
     /// The Point in time (PIT) policy to manage snapshots taken during replication.
@@ -5675,6 +5740,7 @@ public struct UpdateReplicationConfigurationInput: Swift.Sendable {
         defaultLargeStagingDiskType: DrsClientTypes.ReplicationConfigurationDefaultLargeStagingDiskType? = nil,
         ebsEncryption: DrsClientTypes.ReplicationConfigurationEbsEncryption? = nil,
         ebsEncryptionKeyArn: Swift.String? = nil,
+        internetProtocol: DrsClientTypes.InternetProtocol? = nil,
         name: Swift.String? = nil,
         pitPolicy: [DrsClientTypes.PITPolicyRule]? = nil,
         replicatedDisks: [DrsClientTypes.ReplicationConfigurationReplicatedDisk]? = nil,
@@ -5693,6 +5759,7 @@ public struct UpdateReplicationConfigurationInput: Swift.Sendable {
         self.defaultLargeStagingDiskType = defaultLargeStagingDiskType
         self.ebsEncryption = ebsEncryption
         self.ebsEncryptionKeyArn = ebsEncryptionKeyArn
+        self.internetProtocol = internetProtocol
         self.name = name
         self.pitPolicy = pitPolicy
         self.replicatedDisks = replicatedDisks
@@ -5707,7 +5774,7 @@ public struct UpdateReplicationConfigurationInput: Swift.Sendable {
 
 extension UpdateReplicationConfigurationInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateReplicationConfigurationInput(associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), autoReplicateNewDisks: \(Swift.String(describing: autoReplicateNewDisks)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), name: \(Swift.String(describing: name)), pitPolicy: \(Swift.String(describing: pitPolicy)), replicatedDisks: \(Swift.String(describing: replicatedDisks)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), stagingAreaTags: \"CONTENT_REDACTED\")"}
+        "UpdateReplicationConfigurationInput(associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), autoReplicateNewDisks: \(Swift.String(describing: autoReplicateNewDisks)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), name: \(Swift.String(describing: name)), pitPolicy: \(Swift.String(describing: pitPolicy)), replicatedDisks: \(Swift.String(describing: replicatedDisks)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), stagingAreaTags: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateReplicationConfigurationOutput: Swift.Sendable {
@@ -5727,6 +5794,8 @@ public struct UpdateReplicationConfigurationOutput: Swift.Sendable {
     public var ebsEncryption: DrsClientTypes.ReplicationConfigurationEbsEncryption?
     /// The ARN of the EBS encryption key to be used during replication.
     public var ebsEncryptionKeyArn: Swift.String?
+    /// Which version of the Internet Protocol to use for replication of data. (IPv4 or IPv6)
+    public var internetProtocol: DrsClientTypes.InternetProtocol?
     /// The name of the Replication Configuration.
     public var name: Swift.String?
     /// The Point in time (PIT) policy to manage snapshots taken during replication.
@@ -5755,6 +5824,7 @@ public struct UpdateReplicationConfigurationOutput: Swift.Sendable {
         defaultLargeStagingDiskType: DrsClientTypes.ReplicationConfigurationDefaultLargeStagingDiskType? = nil,
         ebsEncryption: DrsClientTypes.ReplicationConfigurationEbsEncryption? = nil,
         ebsEncryptionKeyArn: Swift.String? = nil,
+        internetProtocol: DrsClientTypes.InternetProtocol? = nil,
         name: Swift.String? = nil,
         pitPolicy: [DrsClientTypes.PITPolicyRule]? = nil,
         replicatedDisks: [DrsClientTypes.ReplicationConfigurationReplicatedDisk]? = nil,
@@ -5773,6 +5843,7 @@ public struct UpdateReplicationConfigurationOutput: Swift.Sendable {
         self.defaultLargeStagingDiskType = defaultLargeStagingDiskType
         self.ebsEncryption = ebsEncryption
         self.ebsEncryptionKeyArn = ebsEncryptionKeyArn
+        self.internetProtocol = internetProtocol
         self.name = name
         self.pitPolicy = pitPolicy
         self.replicatedDisks = replicatedDisks
@@ -5787,7 +5858,7 @@ public struct UpdateReplicationConfigurationOutput: Swift.Sendable {
 
 extension UpdateReplicationConfigurationOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateReplicationConfigurationOutput(associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), autoReplicateNewDisks: \(Swift.String(describing: autoReplicateNewDisks)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), name: \(Swift.String(describing: name)), pitPolicy: \(Swift.String(describing: pitPolicy)), replicatedDisks: \(Swift.String(describing: replicatedDisks)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), stagingAreaTags: \"CONTENT_REDACTED\")"}
+        "UpdateReplicationConfigurationOutput(associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), autoReplicateNewDisks: \(Swift.String(describing: autoReplicateNewDisks)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), name: \(Swift.String(describing: name)), pitPolicy: \(Swift.String(describing: pitPolicy)), replicatedDisks: \(Swift.String(describing: replicatedDisks)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), stagingAreaTags: \"CONTENT_REDACTED\")"}
 }
 
 public struct TagResourceInput: Swift.Sendable {
@@ -6271,6 +6342,7 @@ extension CreateReplicationConfigurationTemplateInput {
         try writer["defaultLargeStagingDiskType"].write(value.defaultLargeStagingDiskType)
         try writer["ebsEncryption"].write(value.ebsEncryption)
         try writer["ebsEncryptionKeyArn"].write(value.ebsEncryptionKeyArn)
+        try writer["internetProtocol"].write(value.internetProtocol)
         try writer["pitPolicy"].writeList(value.pitPolicy, memberWritingClosure: DrsClientTypes.PITPolicyRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["replicationServerInstanceType"].write(value.replicationServerInstanceType)
         try writer["replicationServersSecurityGroupsIDs"].writeList(value.replicationServersSecurityGroupsIDs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -6624,6 +6696,7 @@ extension UpdateFailbackReplicationConfigurationInput {
     static func write(value: UpdateFailbackReplicationConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["bandwidthThrottling"].write(value.bandwidthThrottling)
+        try writer["internetProtocol"].write(value.internetProtocol)
         try writer["name"].write(value.name)
         try writer["recoveryInstanceID"].write(value.recoveryInstanceID)
         try writer["usePrivateIP"].write(value.usePrivateIP)
@@ -6674,6 +6747,7 @@ extension UpdateReplicationConfigurationInput {
         try writer["defaultLargeStagingDiskType"].write(value.defaultLargeStagingDiskType)
         try writer["ebsEncryption"].write(value.ebsEncryption)
         try writer["ebsEncryptionKeyArn"].write(value.ebsEncryptionKeyArn)
+        try writer["internetProtocol"].write(value.internetProtocol)
         try writer["name"].write(value.name)
         try writer["pitPolicy"].writeList(value.pitPolicy, memberWritingClosure: DrsClientTypes.PITPolicyRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["replicatedDisks"].writeList(value.replicatedDisks, memberWritingClosure: DrsClientTypes.ReplicationConfigurationReplicatedDisk.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -6699,6 +6773,7 @@ extension UpdateReplicationConfigurationTemplateInput {
         try writer["defaultLargeStagingDiskType"].write(value.defaultLargeStagingDiskType)
         try writer["ebsEncryption"].write(value.ebsEncryption)
         try writer["ebsEncryptionKeyArn"].write(value.ebsEncryptionKeyArn)
+        try writer["internetProtocol"].write(value.internetProtocol)
         try writer["pitPolicy"].writeList(value.pitPolicy, memberWritingClosure: DrsClientTypes.PITPolicyRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["replicationConfigurationTemplateID"].write(value.replicationConfigurationTemplateID)
         try writer["replicationServerInstanceType"].write(value.replicationServerInstanceType)
@@ -6761,6 +6836,7 @@ extension CreateReplicationConfigurationTemplateOutput {
         value.defaultLargeStagingDiskType = try reader["defaultLargeStagingDiskType"].readIfPresent()
         value.ebsEncryption = try reader["ebsEncryption"].readIfPresent()
         value.ebsEncryptionKeyArn = try reader["ebsEncryptionKeyArn"].readIfPresent()
+        value.internetProtocol = try reader["internetProtocol"].readIfPresent()
         value.pitPolicy = try reader["pitPolicy"].readListIfPresent(memberReadingClosure: DrsClientTypes.PITPolicyRule.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.replicationConfigurationTemplateID = try reader["replicationConfigurationTemplateID"].readIfPresent() ?? ""
         value.replicationServerInstanceType = try reader["replicationServerInstanceType"].readIfPresent()
@@ -6990,6 +7066,7 @@ extension GetFailbackReplicationConfigurationOutput {
         let reader = responseReader
         var value = GetFailbackReplicationConfigurationOutput()
         value.bandwidthThrottling = try reader["bandwidthThrottling"].readIfPresent() ?? 0
+        value.internetProtocol = try reader["internetProtocol"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
         value.recoveryInstanceID = try reader["recoveryInstanceID"].readIfPresent() ?? ""
         value.usePrivateIP = try reader["usePrivateIP"].readIfPresent()
@@ -7033,6 +7110,7 @@ extension GetReplicationConfigurationOutput {
         value.defaultLargeStagingDiskType = try reader["defaultLargeStagingDiskType"].readIfPresent()
         value.ebsEncryption = try reader["ebsEncryption"].readIfPresent()
         value.ebsEncryptionKeyArn = try reader["ebsEncryptionKeyArn"].readIfPresent()
+        value.internetProtocol = try reader["internetProtocol"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
         value.pitPolicy = try reader["pitPolicy"].readListIfPresent(memberReadingClosure: DrsClientTypes.PITPolicyRule.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.replicatedDisks = try reader["replicatedDisks"].readListIfPresent(memberReadingClosure: DrsClientTypes.ReplicationConfigurationReplicatedDisk.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -7336,6 +7414,7 @@ extension UpdateReplicationConfigurationOutput {
         value.defaultLargeStagingDiskType = try reader["defaultLargeStagingDiskType"].readIfPresent()
         value.ebsEncryption = try reader["ebsEncryption"].readIfPresent()
         value.ebsEncryptionKeyArn = try reader["ebsEncryptionKeyArn"].readIfPresent()
+        value.internetProtocol = try reader["internetProtocol"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
         value.pitPolicy = try reader["pitPolicy"].readListIfPresent(memberReadingClosure: DrsClientTypes.PITPolicyRule.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.replicatedDisks = try reader["replicatedDisks"].readListIfPresent(memberReadingClosure: DrsClientTypes.ReplicationConfigurationReplicatedDisk.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -7365,6 +7444,7 @@ extension UpdateReplicationConfigurationTemplateOutput {
         value.defaultLargeStagingDiskType = try reader["defaultLargeStagingDiskType"].readIfPresent()
         value.ebsEncryption = try reader["ebsEncryption"].readIfPresent()
         value.ebsEncryptionKeyArn = try reader["ebsEncryptionKeyArn"].readIfPresent()
+        value.internetProtocol = try reader["internetProtocol"].readIfPresent()
         value.pitPolicy = try reader["pitPolicy"].readListIfPresent(memberReadingClosure: DrsClientTypes.PITPolicyRule.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.replicationConfigurationTemplateID = try reader["replicationConfigurationTemplateID"].readIfPresent() ?? ""
         value.replicationServerInstanceType = try reader["replicationServerInstanceType"].readIfPresent()
@@ -7382,7 +7462,7 @@ enum AssociateSourceNetworkStackOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -7402,7 +7482,7 @@ enum CreateExtendedSourceServerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7422,7 +7502,7 @@ enum CreateLaunchConfigurationTemplateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7441,7 +7521,7 @@ enum CreateReplicationConfigurationTemplateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7460,7 +7540,7 @@ enum CreateSourceNetworkOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -7480,7 +7560,7 @@ enum DeleteJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -7498,7 +7578,7 @@ enum DeleteLaunchActionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -7516,7 +7596,7 @@ enum DeleteLaunchConfigurationTemplateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -7534,7 +7614,7 @@ enum DeleteRecoveryInstanceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7552,7 +7632,7 @@ enum DeleteReplicationConfigurationTemplateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -7570,7 +7650,7 @@ enum DeleteSourceNetworkOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -7588,7 +7668,7 @@ enum DeleteSourceServerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -7606,7 +7686,7 @@ enum DescribeJobLogItemsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -7623,7 +7703,7 @@ enum DescribeJobsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -7640,7 +7720,7 @@ enum DescribeLaunchConfigurationTemplatesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -7658,7 +7738,7 @@ enum DescribeRecoveryInstancesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7675,7 +7755,7 @@ enum DescribeRecoverySnapshotsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7693,7 +7773,7 @@ enum DescribeReplicationConfigurationTemplatesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -7711,7 +7791,7 @@ enum DescribeSourceNetworksOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -7728,7 +7808,7 @@ enum DescribeSourceServersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -7745,7 +7825,7 @@ enum DisconnectRecoveryInstanceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7764,7 +7844,7 @@ enum DisconnectSourceServerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -7782,7 +7862,7 @@ enum ExportSourceNetworkCfnTemplateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -7801,7 +7881,7 @@ enum GetFailbackReplicationConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -7818,7 +7898,7 @@ enum GetLaunchConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -7835,7 +7915,7 @@ enum GetReplicationConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7853,7 +7933,7 @@ enum InitializeServiceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7870,7 +7950,7 @@ enum ListExtensibleSourceServersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7888,7 +7968,7 @@ enum ListLaunchActionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -7906,7 +7986,7 @@ enum ListStagingAccountsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7924,7 +8004,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7942,7 +8022,7 @@ enum PutLaunchActionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -7961,7 +8041,7 @@ enum RetryDataReplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -7979,7 +8059,7 @@ enum ReverseReplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -7999,7 +8079,7 @@ enum StartFailbackLaunchOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -8018,7 +8098,7 @@ enum StartRecoveryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -8036,7 +8116,7 @@ enum StartReplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -8054,7 +8134,7 @@ enum StartSourceNetworkRecoveryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -8073,7 +8153,7 @@ enum StartSourceNetworkReplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -8091,7 +8171,7 @@ enum StopFailbackOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -8108,7 +8188,7 @@ enum StopReplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -8126,7 +8206,7 @@ enum StopSourceNetworkReplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -8145,7 +8225,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8163,7 +8243,7 @@ enum TerminateRecoveryInstancesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -8181,7 +8261,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8199,7 +8279,7 @@ enum UpdateFailbackReplicationConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8217,7 +8297,7 @@ enum UpdateLaunchConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -8236,7 +8316,7 @@ enum UpdateLaunchConfigurationTemplateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8255,7 +8335,7 @@ enum UpdateReplicationConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8275,7 +8355,7 @@ enum UpdateReplicationConfigurationTemplateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -8291,7 +8371,7 @@ enum UpdateReplicationConfigurationTemplateOutputError {
 
 extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.code = try reader["code"].readIfPresent()
@@ -8307,7 +8387,7 @@ extension ConflictException {
 
 extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         let httpResponse = baseError.httpResponse
         var value = InternalServerException()
@@ -8324,7 +8404,7 @@ extension InternalServerException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.code = try reader["code"].readIfPresent()
@@ -8340,7 +8420,7 @@ extension ResourceNotFoundException {
 
 extension ServiceQuotaExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
         value.properties.code = try reader["code"].readIfPresent()
@@ -8358,7 +8438,7 @@ extension ServiceQuotaExceededException {
 
 extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         let httpResponse = baseError.httpResponse
         var value = ThrottlingException()
@@ -8377,7 +8457,7 @@ extension ThrottlingException {
 
 extension UninitializedAccountException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UninitializedAccountException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> UninitializedAccountException {
         let reader = baseError.errorBodyReader
         var value = UninitializedAccountException()
         value.properties.code = try reader["code"].readIfPresent()
@@ -8391,7 +8471,7 @@ extension UninitializedAccountException {
 
 extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.code = try reader["code"].readIfPresent()
@@ -8407,7 +8487,7 @@ extension ValidationException {
 
 extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.code = try reader["code"].readIfPresent()
@@ -8419,197 +8499,27 @@ extension AccessDeniedException {
     }
 }
 
-extension DrsClientTypes.Job {
+extension DrsClientTypes.Account {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.Job {
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.Account {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.Job()
-        value.jobID = try reader["jobID"].readIfPresent() ?? ""
-        value.arn = try reader["arn"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        value.initiatedBy = try reader["initiatedBy"].readIfPresent()
-        value.creationDateTime = try reader["creationDateTime"].readIfPresent()
-        value.endDateTime = try reader["endDateTime"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.participatingServers = try reader["participatingServers"].readListIfPresent(memberReadingClosure: DrsClientTypes.ParticipatingServer.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.participatingResources = try reader["participatingResources"].readListIfPresent(memberReadingClosure: DrsClientTypes.ParticipatingResource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = DrsClientTypes.Account()
+        value.accountID = try reader["accountID"].readIfPresent()
         return value
     }
 }
 
-extension DrsClientTypes.ParticipatingResource {
+extension DrsClientTypes.ConversionProperties {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.ParticipatingResource {
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.ConversionProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.ParticipatingResource()
-        value.participatingResourceID = try reader["participatingResourceID"].readIfPresent(with: DrsClientTypes.ParticipatingResourceID.read(from:))
-        value.launchStatus = try reader["launchStatus"].readIfPresent()
-        return value
-    }
-}
-
-extension DrsClientTypes.ParticipatingResourceID {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.ParticipatingResourceID {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "sourceNetworkID":
-                return .sourcenetworkid(try reader["sourceNetworkID"].read())
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension DrsClientTypes.ParticipatingServer {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.ParticipatingServer {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.ParticipatingServer()
-        value.sourceServerID = try reader["sourceServerID"].readIfPresent()
-        value.recoveryInstanceID = try reader["recoveryInstanceID"].readIfPresent()
-        value.launchStatus = try reader["launchStatus"].readIfPresent()
-        value.launchActionsStatus = try reader["launchActionsStatus"].readIfPresent(with: DrsClientTypes.LaunchActionsStatus.read(from:))
-        return value
-    }
-}
-
-extension DrsClientTypes.LaunchActionsStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.LaunchActionsStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.LaunchActionsStatus()
-        value.ssmAgentDiscoveryDatetime = try reader["ssmAgentDiscoveryDatetime"].readIfPresent()
-        value.runs = try reader["runs"].readListIfPresent(memberReadingClosure: DrsClientTypes.LaunchActionRun.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DrsClientTypes.LaunchActionRun {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.LaunchActionRun {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.LaunchActionRun()
-        value.action = try reader["action"].readIfPresent(with: DrsClientTypes.LaunchAction.read(from:))
-        value.runId = try reader["runId"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.failureReason = try reader["failureReason"].readIfPresent()
-        return value
-    }
-}
-
-extension DrsClientTypes.LaunchAction {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.LaunchAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.LaunchAction()
-        value.actionId = try reader["actionId"].readIfPresent()
-        value.actionCode = try reader["actionCode"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.active = try reader["active"].readIfPresent()
-        value.order = try reader["order"].readIfPresent()
-        value.actionVersion = try reader["actionVersion"].readIfPresent()
-        value.`optional` = try reader["optional"].readIfPresent()
-        value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: DrsClientTypes.LaunchActionParameter.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.description = try reader["description"].readIfPresent()
-        value.category = try reader["category"].readIfPresent()
-        return value
-    }
-}
-
-extension DrsClientTypes.LaunchActionParameter {
-
-    static func write(value: DrsClientTypes.LaunchActionParameter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["type"].write(value.type)
-        try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.LaunchActionParameter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.LaunchActionParameter()
-        value.value = try reader["value"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        return value
-    }
-}
-
-extension DrsClientTypes.SourceServer {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.SourceServer {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.SourceServer()
-        value.sourceServerID = try reader["sourceServerID"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.recoveryInstanceId = try reader["recoveryInstanceId"].readIfPresent()
-        value.lastLaunchResult = try reader["lastLaunchResult"].readIfPresent()
-        value.dataReplicationInfo = try reader["dataReplicationInfo"].readIfPresent(with: DrsClientTypes.DataReplicationInfo.read(from:))
-        value.lifeCycle = try reader["lifeCycle"].readIfPresent(with: DrsClientTypes.LifeCycle.read(from:))
-        value.sourceProperties = try reader["sourceProperties"].readIfPresent(with: DrsClientTypes.SourceProperties.read(from:))
-        value.stagingArea = try reader["stagingArea"].readIfPresent(with: DrsClientTypes.StagingArea.read(from:))
-        value.sourceCloudProperties = try reader["sourceCloudProperties"].readIfPresent(with: DrsClientTypes.SourceCloudProperties.read(from:))
-        value.replicationDirection = try reader["replicationDirection"].readIfPresent()
-        value.reversedDirectionSourceServerArn = try reader["reversedDirectionSourceServerArn"].readIfPresent()
-        value.sourceNetworkID = try reader["sourceNetworkID"].readIfPresent()
-        value.agentVersion = try reader["agentVersion"].readIfPresent()
-        return value
-    }
-}
-
-extension DrsClientTypes.SourceCloudProperties {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.SourceCloudProperties {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.SourceCloudProperties()
-        value.originAccountID = try reader["originAccountID"].readIfPresent()
-        value.originRegion = try reader["originRegion"].readIfPresent()
-        value.originAvailabilityZone = try reader["originAvailabilityZone"].readIfPresent()
-        value.sourceOutpostArn = try reader["sourceOutpostArn"].readIfPresent()
-        return value
-    }
-}
-
-extension DrsClientTypes.StagingArea {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.StagingArea {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.StagingArea()
-        value.status = try reader["status"].readIfPresent()
-        value.stagingAccountID = try reader["stagingAccountID"].readIfPresent()
-        value.stagingSourceServerArn = try reader["stagingSourceServerArn"].readIfPresent()
-        value.errorMessage = try reader["errorMessage"].readIfPresent()
-        return value
-    }
-}
-
-extension DrsClientTypes.SourceProperties {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.SourceProperties {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.SourceProperties()
-        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readIfPresent()
-        value.recommendedInstanceType = try reader["recommendedInstanceType"].readIfPresent()
-        value.identificationHints = try reader["identificationHints"].readIfPresent(with: DrsClientTypes.IdentificationHints.read(from:))
-        value.networkInterfaces = try reader["networkInterfaces"].readListIfPresent(memberReadingClosure: DrsClientTypes.NetworkInterface.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.disks = try reader["disks"].readListIfPresent(memberReadingClosure: DrsClientTypes.Disk.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.cpus = try reader["cpus"].readListIfPresent(memberReadingClosure: DrsClientTypes.CPU.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.ramBytes = try reader["ramBytes"].readIfPresent() ?? 0
-        value.os = try reader["os"].readIfPresent(with: DrsClientTypes.OS.read(from:))
-        value.supportsNitroInstances = try reader["supportsNitroInstances"].readIfPresent()
-        return value
-    }
-}
-
-extension DrsClientTypes.OS {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.OS {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.OS()
-        value.fullString = try reader["fullString"].readIfPresent()
+        var value = DrsClientTypes.ConversionProperties()
+        value.volumeToConversionMap = try reader["volumeToConversionMap"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.rootVolumeName = try reader["rootVolumeName"].readIfPresent()
+        value.forceUefi = try reader["forceUefi"].readIfPresent()
+        value.dataTimestamp = try reader["dataTimestamp"].readIfPresent()
+        value.volumeToVolumeSize = try reader["volumeToVolumeSize"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.volumeToProductCodes = try reader["volumeToProductCodes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: DrsClientTypes.ProductCode.read(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -8625,75 +8535,13 @@ extension DrsClientTypes.CPU {
     }
 }
 
-extension DrsClientTypes.Disk {
+extension DrsClientTypes.DataReplicationError {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.Disk {
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.DataReplicationError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.Disk()
-        value.deviceName = try reader["deviceName"].readIfPresent()
-        value.bytes = try reader["bytes"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension DrsClientTypes.NetworkInterface {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.NetworkInterface {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.NetworkInterface()
-        value.macAddress = try reader["macAddress"].readIfPresent()
-        value.ips = try reader["ips"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.isPrimary = try reader["isPrimary"].readIfPresent()
-        return value
-    }
-}
-
-extension DrsClientTypes.IdentificationHints {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.IdentificationHints {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.IdentificationHints()
-        value.fqdn = try reader["fqdn"].readIfPresent()
-        value.hostname = try reader["hostname"].readIfPresent()
-        value.vmWareUuid = try reader["vmWareUuid"].readIfPresent()
-        value.awsInstanceID = try reader["awsInstanceID"].readIfPresent()
-        return value
-    }
-}
-
-extension DrsClientTypes.LifeCycle {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.LifeCycle {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.LifeCycle()
-        value.addedToServiceDateTime = try reader["addedToServiceDateTime"].readIfPresent()
-        value.firstByteDateTime = try reader["firstByteDateTime"].readIfPresent()
-        value.elapsedReplicationDuration = try reader["elapsedReplicationDuration"].readIfPresent()
-        value.lastSeenByServiceDateTime = try reader["lastSeenByServiceDateTime"].readIfPresent()
-        value.lastLaunch = try reader["lastLaunch"].readIfPresent(with: DrsClientTypes.LifeCycleLastLaunch.read(from:))
-        return value
-    }
-}
-
-extension DrsClientTypes.LifeCycleLastLaunch {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.LifeCycleLastLaunch {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.LifeCycleLastLaunch()
-        value.initiated = try reader["initiated"].readIfPresent(with: DrsClientTypes.LifeCycleLastLaunchInitiated.read(from:))
-        value.status = try reader["status"].readIfPresent()
-        return value
-    }
-}
-
-extension DrsClientTypes.LifeCycleLastLaunchInitiated {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.LifeCycleLastLaunchInitiated {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.LifeCycleLastLaunchInitiated()
-        value.apiCallDateTime = try reader["apiCallDateTime"].readIfPresent()
-        value.jobID = try reader["jobID"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
+        var value = DrsClientTypes.DataReplicationError()
+        value.error = try reader["error"].readIfPresent()
+        value.rawError = try reader["rawError"].readIfPresent()
         return value
     }
 }
@@ -8715,13 +8563,17 @@ extension DrsClientTypes.DataReplicationInfo {
     }
 }
 
-extension DrsClientTypes.DataReplicationError {
+extension DrsClientTypes.DataReplicationInfoReplicatedDisk {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.DataReplicationError {
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.DataReplicationInfoReplicatedDisk {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.DataReplicationError()
-        value.error = try reader["error"].readIfPresent()
-        value.rawError = try reader["rawError"].readIfPresent()
+        var value = DrsClientTypes.DataReplicationInfoReplicatedDisk()
+        value.deviceName = try reader["deviceName"].readIfPresent()
+        value.totalStorageBytes = try reader["totalStorageBytes"].readIfPresent() ?? 0
+        value.replicatedStorageBytes = try reader["replicatedStorageBytes"].readIfPresent() ?? 0
+        value.rescannedStorageBytes = try reader["rescannedStorageBytes"].readIfPresent() ?? 0
+        value.backloggedStorageBytes = try reader["backloggedStorageBytes"].readIfPresent() ?? 0
+        value.volumeStatus = try reader["volumeStatus"].readIfPresent()
         return value
     }
 }
@@ -8745,440 +8597,6 @@ extension DrsClientTypes.DataReplicationInitiationStep {
         var value = DrsClientTypes.DataReplicationInitiationStep()
         value.name = try reader["name"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
-        return value
-    }
-}
-
-extension DrsClientTypes.DataReplicationInfoReplicatedDisk {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.DataReplicationInfoReplicatedDisk {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.DataReplicationInfoReplicatedDisk()
-        value.deviceName = try reader["deviceName"].readIfPresent()
-        value.totalStorageBytes = try reader["totalStorageBytes"].readIfPresent() ?? 0
-        value.replicatedStorageBytes = try reader["replicatedStorageBytes"].readIfPresent() ?? 0
-        value.rescannedStorageBytes = try reader["rescannedStorageBytes"].readIfPresent() ?? 0
-        value.backloggedStorageBytes = try reader["backloggedStorageBytes"].readIfPresent() ?? 0
-        value.volumeStatus = try reader["volumeStatus"].readIfPresent()
-        return value
-    }
-}
-
-extension DrsClientTypes.LaunchConfigurationTemplate {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.LaunchConfigurationTemplate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.LaunchConfigurationTemplate()
-        value.launchConfigurationTemplateID = try reader["launchConfigurationTemplateID"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.launchDisposition = try reader["launchDisposition"].readIfPresent()
-        value.targetInstanceTypeRightSizingMethod = try reader["targetInstanceTypeRightSizingMethod"].readIfPresent()
-        value.copyPrivateIp = try reader["copyPrivateIp"].readIfPresent()
-        value.copyTags = try reader["copyTags"].readIfPresent()
-        value.licensing = try reader["licensing"].readIfPresent(with: DrsClientTypes.Licensing.read(from:))
-        value.exportBucketArn = try reader["exportBucketArn"].readIfPresent()
-        value.postLaunchEnabled = try reader["postLaunchEnabled"].readIfPresent()
-        value.launchIntoSourceInstance = try reader["launchIntoSourceInstance"].readIfPresent()
-        return value
-    }
-}
-
-extension DrsClientTypes.Licensing {
-
-    static func write(value: DrsClientTypes.Licensing?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["osByol"].write(value.osByol)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.Licensing {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.Licensing()
-        value.osByol = try reader["osByol"].readIfPresent()
-        return value
-    }
-}
-
-extension DrsClientTypes.PITPolicyRule {
-
-    static func write(value: DrsClientTypes.PITPolicyRule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["enabled"].write(value.enabled)
-        try writer["interval"].write(value.interval)
-        try writer["retentionDuration"].write(value.retentionDuration)
-        try writer["ruleID"].write(value.ruleID)
-        try writer["units"].write(value.units)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.PITPolicyRule {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.PITPolicyRule()
-        value.ruleID = try reader["ruleID"].readIfPresent() ?? 0
-        value.units = try reader["units"].readIfPresent() ?? .sdkUnknown("")
-        value.interval = try reader["interval"].readIfPresent() ?? 0
-        value.retentionDuration = try reader["retentionDuration"].readIfPresent() ?? 0
-        value.enabled = try reader["enabled"].readIfPresent()
-        return value
-    }
-}
-
-extension DrsClientTypes.JobLog {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.JobLog {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.JobLog()
-        value.logDateTime = try reader["logDateTime"].readIfPresent()
-        value.event = try reader["event"].readIfPresent()
-        value.eventData = try reader["eventData"].readIfPresent(with: DrsClientTypes.JobLogEventData.read(from:))
-        return value
-    }
-}
-
-extension DrsClientTypes.JobLogEventData {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.JobLogEventData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.JobLogEventData()
-        value.sourceServerID = try reader["sourceServerID"].readIfPresent()
-        value.conversionServerID = try reader["conversionServerID"].readIfPresent()
-        value.targetInstanceID = try reader["targetInstanceID"].readIfPresent()
-        value.rawError = try reader["rawError"].readIfPresent()
-        value.conversionProperties = try reader["conversionProperties"].readIfPresent(with: DrsClientTypes.ConversionProperties.read(from:))
-        value.eventResourceData = try reader["eventResourceData"].readIfPresent(with: DrsClientTypes.EventResourceData.read(from:))
-        return value
-    }
-}
-
-extension DrsClientTypes.EventResourceData {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.EventResourceData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "sourceNetworkData":
-                return .sourcenetworkdata(try reader["sourceNetworkData"].read(with: DrsClientTypes.SourceNetworkData.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension DrsClientTypes.SourceNetworkData {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.SourceNetworkData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.SourceNetworkData()
-        value.sourceNetworkID = try reader["sourceNetworkID"].readIfPresent()
-        value.sourceVpc = try reader["sourceVpc"].readIfPresent()
-        value.targetVpc = try reader["targetVpc"].readIfPresent()
-        value.stackName = try reader["stackName"].readIfPresent()
-        return value
-    }
-}
-
-extension DrsClientTypes.ConversionProperties {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.ConversionProperties {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.ConversionProperties()
-        value.volumeToConversionMap = try reader["volumeToConversionMap"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.rootVolumeName = try reader["rootVolumeName"].readIfPresent()
-        value.forceUefi = try reader["forceUefi"].readIfPresent()
-        value.dataTimestamp = try reader["dataTimestamp"].readIfPresent()
-        value.volumeToVolumeSize = try reader["volumeToVolumeSize"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.volumeToProductCodes = try reader["volumeToProductCodes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: DrsClientTypes.ProductCode.read(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension DrsClientTypes.ProductCode {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.ProductCode {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.ProductCode()
-        value.productCodeId = try reader["productCodeId"].readIfPresent()
-        value.productCodeMode = try reader["productCodeMode"].readIfPresent()
-        return value
-    }
-}
-
-extension DrsClientTypes.RecoveryInstance {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoveryInstance {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.RecoveryInstance()
-        value.ec2InstanceID = try reader["ec2InstanceID"].readIfPresent()
-        value.ec2InstanceState = try reader["ec2InstanceState"].readIfPresent()
-        value.jobID = try reader["jobID"].readIfPresent()
-        value.recoveryInstanceID = try reader["recoveryInstanceID"].readIfPresent()
-        value.sourceServerID = try reader["sourceServerID"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.failback = try reader["failback"].readIfPresent(with: DrsClientTypes.RecoveryInstanceFailback.read(from:))
-        value.dataReplicationInfo = try reader["dataReplicationInfo"].readIfPresent(with: DrsClientTypes.RecoveryInstanceDataReplicationInfo.read(from:))
-        value.recoveryInstanceProperties = try reader["recoveryInstanceProperties"].readIfPresent(with: DrsClientTypes.RecoveryInstanceProperties.read(from:))
-        value.pointInTimeSnapshotDateTime = try reader["pointInTimeSnapshotDateTime"].readIfPresent()
-        value.isDrill = try reader["isDrill"].readIfPresent()
-        value.originEnvironment = try reader["originEnvironment"].readIfPresent()
-        value.originAvailabilityZone = try reader["originAvailabilityZone"].readIfPresent()
-        value.agentVersion = try reader["agentVersion"].readIfPresent()
-        value.sourceOutpostArn = try reader["sourceOutpostArn"].readIfPresent()
-        return value
-    }
-}
-
-extension DrsClientTypes.RecoveryInstanceProperties {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoveryInstanceProperties {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.RecoveryInstanceProperties()
-        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readIfPresent()
-        value.identificationHints = try reader["identificationHints"].readIfPresent(with: DrsClientTypes.IdentificationHints.read(from:))
-        value.networkInterfaces = try reader["networkInterfaces"].readListIfPresent(memberReadingClosure: DrsClientTypes.NetworkInterface.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.disks = try reader["disks"].readListIfPresent(memberReadingClosure: DrsClientTypes.RecoveryInstanceDisk.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.cpus = try reader["cpus"].readListIfPresent(memberReadingClosure: DrsClientTypes.CPU.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.ramBytes = try reader["ramBytes"].readIfPresent() ?? 0
-        value.os = try reader["os"].readIfPresent(with: DrsClientTypes.OS.read(from:))
-        return value
-    }
-}
-
-extension DrsClientTypes.RecoveryInstanceDisk {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoveryInstanceDisk {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.RecoveryInstanceDisk()
-        value.internalDeviceName = try reader["internalDeviceName"].readIfPresent()
-        value.bytes = try reader["bytes"].readIfPresent() ?? 0
-        value.ebsVolumeID = try reader["ebsVolumeID"].readIfPresent()
-        return value
-    }
-}
-
-extension DrsClientTypes.RecoveryInstanceDataReplicationInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoveryInstanceDataReplicationInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.RecoveryInstanceDataReplicationInfo()
-        value.lagDuration = try reader["lagDuration"].readIfPresent()
-        value.etaDateTime = try reader["etaDateTime"].readIfPresent()
-        value.replicatedDisks = try reader["replicatedDisks"].readListIfPresent(memberReadingClosure: DrsClientTypes.RecoveryInstanceDataReplicationInfoReplicatedDisk.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.dataReplicationState = try reader["dataReplicationState"].readIfPresent()
-        value.dataReplicationInitiation = try reader["dataReplicationInitiation"].readIfPresent(with: DrsClientTypes.RecoveryInstanceDataReplicationInitiation.read(from:))
-        value.dataReplicationError = try reader["dataReplicationError"].readIfPresent(with: DrsClientTypes.RecoveryInstanceDataReplicationError.read(from:))
-        value.stagingAvailabilityZone = try reader["stagingAvailabilityZone"].readIfPresent()
-        value.stagingOutpostArn = try reader["stagingOutpostArn"].readIfPresent()
-        return value
-    }
-}
-
-extension DrsClientTypes.RecoveryInstanceDataReplicationError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoveryInstanceDataReplicationError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.RecoveryInstanceDataReplicationError()
-        value.error = try reader["error"].readIfPresent()
-        value.rawError = try reader["rawError"].readIfPresent()
-        return value
-    }
-}
-
-extension DrsClientTypes.RecoveryInstanceDataReplicationInitiation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoveryInstanceDataReplicationInitiation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.RecoveryInstanceDataReplicationInitiation()
-        value.startDateTime = try reader["startDateTime"].readIfPresent()
-        value.steps = try reader["steps"].readListIfPresent(memberReadingClosure: DrsClientTypes.RecoveryInstanceDataReplicationInitiationStep.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DrsClientTypes.RecoveryInstanceDataReplicationInitiationStep {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoveryInstanceDataReplicationInitiationStep {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.RecoveryInstanceDataReplicationInitiationStep()
-        value.name = try reader["name"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        return value
-    }
-}
-
-extension DrsClientTypes.RecoveryInstanceDataReplicationInfoReplicatedDisk {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoveryInstanceDataReplicationInfoReplicatedDisk {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.RecoveryInstanceDataReplicationInfoReplicatedDisk()
-        value.deviceName = try reader["deviceName"].readIfPresent()
-        value.totalStorageBytes = try reader["totalStorageBytes"].readIfPresent() ?? 0
-        value.replicatedStorageBytes = try reader["replicatedStorageBytes"].readIfPresent() ?? 0
-        value.rescannedStorageBytes = try reader["rescannedStorageBytes"].readIfPresent() ?? 0
-        value.backloggedStorageBytes = try reader["backloggedStorageBytes"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension DrsClientTypes.RecoveryInstanceFailback {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoveryInstanceFailback {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.RecoveryInstanceFailback()
-        value.failbackClientID = try reader["failbackClientID"].readIfPresent()
-        value.failbackJobID = try reader["failbackJobID"].readIfPresent()
-        value.failbackInitiationTime = try reader["failbackInitiationTime"].readIfPresent()
-        value.state = try reader["state"].readIfPresent()
-        value.agentLastSeenByServiceDateTime = try reader["agentLastSeenByServiceDateTime"].readIfPresent()
-        value.failbackClientLastSeenByServiceDateTime = try reader["failbackClientLastSeenByServiceDateTime"].readIfPresent()
-        value.failbackToOriginalServer = try reader["failbackToOriginalServer"].readIfPresent()
-        value.firstByteDateTime = try reader["firstByteDateTime"].readIfPresent()
-        value.elapsedReplicationDuration = try reader["elapsedReplicationDuration"].readIfPresent()
-        value.failbackLaunchType = try reader["failbackLaunchType"].readIfPresent()
-        return value
-    }
-}
-
-extension DrsClientTypes.RecoverySnapshot {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoverySnapshot {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.RecoverySnapshot()
-        value.snapshotID = try reader["snapshotID"].readIfPresent() ?? ""
-        value.sourceServerID = try reader["sourceServerID"].readIfPresent() ?? ""
-        value.expectedTimestamp = try reader["expectedTimestamp"].readIfPresent() ?? ""
-        value.timestamp = try reader["timestamp"].readIfPresent()
-        value.ebsSnapshots = try reader["ebsSnapshots"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DrsClientTypes.ReplicationConfigurationTemplate {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.ReplicationConfigurationTemplate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.ReplicationConfigurationTemplate()
-        value.replicationConfigurationTemplateID = try reader["replicationConfigurationTemplateID"].readIfPresent() ?? ""
-        value.arn = try reader["arn"].readIfPresent()
-        value.stagingAreaSubnetId = try reader["stagingAreaSubnetId"].readIfPresent()
-        value.associateDefaultSecurityGroup = try reader["associateDefaultSecurityGroup"].readIfPresent()
-        value.replicationServersSecurityGroupsIDs = try reader["replicationServersSecurityGroupsIDs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.replicationServerInstanceType = try reader["replicationServerInstanceType"].readIfPresent()
-        value.useDedicatedReplicationServer = try reader["useDedicatedReplicationServer"].readIfPresent()
-        value.defaultLargeStagingDiskType = try reader["defaultLargeStagingDiskType"].readIfPresent()
-        value.ebsEncryption = try reader["ebsEncryption"].readIfPresent()
-        value.ebsEncryptionKeyArn = try reader["ebsEncryptionKeyArn"].readIfPresent()
-        value.bandwidthThrottling = try reader["bandwidthThrottling"].readIfPresent() ?? 0
-        value.dataPlaneRouting = try reader["dataPlaneRouting"].readIfPresent()
-        value.createPublicIP = try reader["createPublicIP"].readIfPresent()
-        value.stagingAreaTags = try reader["stagingAreaTags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.pitPolicy = try reader["pitPolicy"].readListIfPresent(memberReadingClosure: DrsClientTypes.PITPolicyRule.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.autoReplicateNewDisks = try reader["autoReplicateNewDisks"].readIfPresent()
-        return value
-    }
-}
-
-extension DrsClientTypes.SourceNetwork {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.SourceNetwork {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.SourceNetwork()
-        value.sourceNetworkID = try reader["sourceNetworkID"].readIfPresent()
-        value.sourceVpcID = try reader["sourceVpcID"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.replicationStatus = try reader["replicationStatus"].readIfPresent()
-        value.replicationStatusDetails = try reader["replicationStatusDetails"].readIfPresent()
-        value.cfnStackName = try reader["cfnStackName"].readIfPresent()
-        value.sourceRegion = try reader["sourceRegion"].readIfPresent()
-        value.sourceAccountID = try reader["sourceAccountID"].readIfPresent()
-        value.lastRecovery = try reader["lastRecovery"].readIfPresent(with: DrsClientTypes.RecoveryLifeCycle.read(from:))
-        value.launchedVpcID = try reader["launchedVpcID"].readIfPresent()
-        return value
-    }
-}
-
-extension DrsClientTypes.RecoveryLifeCycle {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoveryLifeCycle {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.RecoveryLifeCycle()
-        value.apiCallDateTime = try reader["apiCallDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.jobID = try reader["jobID"].readIfPresent()
-        value.lastRecoveryResult = try reader["lastRecoveryResult"].readIfPresent()
-        return value
-    }
-}
-
-extension DrsClientTypes.LaunchIntoInstanceProperties {
-
-    static func write(value: DrsClientTypes.LaunchIntoInstanceProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["launchIntoEC2InstanceID"].write(value.launchIntoEC2InstanceID)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.LaunchIntoInstanceProperties {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.LaunchIntoInstanceProperties()
-        value.launchIntoEC2InstanceID = try reader["launchIntoEC2InstanceID"].readIfPresent()
-        return value
-    }
-}
-
-extension DrsClientTypes.ReplicationConfigurationReplicatedDisk {
-
-    static func write(value: DrsClientTypes.ReplicationConfigurationReplicatedDisk?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["deviceName"].write(value.deviceName)
-        try writer["iops"].write(value.iops)
-        try writer["isBootDisk"].write(value.isBootDisk)
-        try writer["optimizedStagingDiskType"].write(value.optimizedStagingDiskType)
-        try writer["stagingDiskType"].write(value.stagingDiskType)
-        try writer["throughput"].write(value.throughput)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.ReplicationConfigurationReplicatedDisk {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.ReplicationConfigurationReplicatedDisk()
-        value.deviceName = try reader["deviceName"].readIfPresent()
-        value.isBootDisk = try reader["isBootDisk"].readIfPresent()
-        value.stagingDiskType = try reader["stagingDiskType"].readIfPresent()
-        value.iops = try reader["iops"].readIfPresent() ?? 0
-        value.throughput = try reader["throughput"].readIfPresent() ?? 0
-        value.optimizedStagingDiskType = try reader["optimizedStagingDiskType"].readIfPresent()
-        return value
-    }
-}
-
-extension DrsClientTypes.StagingSourceServer {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.StagingSourceServer {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.StagingSourceServer()
-        value.hostname = try reader["hostname"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension DrsClientTypes.Account {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.Account {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.Account()
-        value.accountID = try reader["accountID"].readIfPresent()
-        return value
-    }
-}
-
-extension DrsClientTypes.ValidationExceptionField {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.ValidationExceptionField {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.ValidationExceptionField()
-        value.name = try reader["name"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
         return value
     }
 }
@@ -9231,11 +8649,665 @@ extension DrsClientTypes.DescribeSourceServersRequestFilters {
     }
 }
 
+extension DrsClientTypes.Disk {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.Disk {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.Disk()
+        value.deviceName = try reader["deviceName"].readIfPresent()
+        value.bytes = try reader["bytes"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension DrsClientTypes.EventResourceData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.EventResourceData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "sourceNetworkData":
+                return .sourcenetworkdata(try reader["sourceNetworkData"].read(with: DrsClientTypes.SourceNetworkData.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DrsClientTypes.IdentificationHints {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.IdentificationHints {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.IdentificationHints()
+        value.fqdn = try reader["fqdn"].readIfPresent()
+        value.hostname = try reader["hostname"].readIfPresent()
+        value.vmWareUuid = try reader["vmWareUuid"].readIfPresent()
+        value.awsInstanceID = try reader["awsInstanceID"].readIfPresent()
+        return value
+    }
+}
+
+extension DrsClientTypes.Job {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.Job {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.Job()
+        value.jobID = try reader["jobID"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
+        value.initiatedBy = try reader["initiatedBy"].readIfPresent()
+        value.creationDateTime = try reader["creationDateTime"].readIfPresent()
+        value.endDateTime = try reader["endDateTime"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.participatingServers = try reader["participatingServers"].readListIfPresent(memberReadingClosure: DrsClientTypes.ParticipatingServer.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.participatingResources = try reader["participatingResources"].readListIfPresent(memberReadingClosure: DrsClientTypes.ParticipatingResource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DrsClientTypes.JobLog {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.JobLog {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.JobLog()
+        value.logDateTime = try reader["logDateTime"].readIfPresent()
+        value.event = try reader["event"].readIfPresent()
+        value.eventData = try reader["eventData"].readIfPresent(with: DrsClientTypes.JobLogEventData.read(from:))
+        return value
+    }
+}
+
+extension DrsClientTypes.JobLogEventData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.JobLogEventData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.JobLogEventData()
+        value.sourceServerID = try reader["sourceServerID"].readIfPresent()
+        value.conversionServerID = try reader["conversionServerID"].readIfPresent()
+        value.targetInstanceID = try reader["targetInstanceID"].readIfPresent()
+        value.rawError = try reader["rawError"].readIfPresent()
+        value.conversionProperties = try reader["conversionProperties"].readIfPresent(with: DrsClientTypes.ConversionProperties.read(from:))
+        value.eventResourceData = try reader["eventResourceData"].readIfPresent(with: DrsClientTypes.EventResourceData.read(from:))
+        value.attemptCount = try reader["attemptCount"].readIfPresent() ?? 0
+        value.maxAttemptsCount = try reader["maxAttemptsCount"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension DrsClientTypes.LaunchAction {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.LaunchAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.LaunchAction()
+        value.actionId = try reader["actionId"].readIfPresent()
+        value.actionCode = try reader["actionCode"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.active = try reader["active"].readIfPresent()
+        value.order = try reader["order"].readIfPresent()
+        value.actionVersion = try reader["actionVersion"].readIfPresent()
+        value.`optional` = try reader["optional"].readIfPresent()
+        value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: DrsClientTypes.LaunchActionParameter.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.description = try reader["description"].readIfPresent()
+        value.category = try reader["category"].readIfPresent()
+        return value
+    }
+}
+
+extension DrsClientTypes.LaunchActionParameter {
+
+    static func write(value: DrsClientTypes.LaunchActionParameter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["type"].write(value.type)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.LaunchActionParameter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.LaunchActionParameter()
+        value.value = try reader["value"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
+        return value
+    }
+}
+
+extension DrsClientTypes.LaunchActionRun {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.LaunchActionRun {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.LaunchActionRun()
+        value.action = try reader["action"].readIfPresent(with: DrsClientTypes.LaunchAction.read(from:))
+        value.runId = try reader["runId"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.failureReason = try reader["failureReason"].readIfPresent()
+        return value
+    }
+}
+
 extension DrsClientTypes.LaunchActionsRequestFilters {
 
     static func write(value: DrsClientTypes.LaunchActionsRequestFilters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["actionIds"].writeList(value.actionIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension DrsClientTypes.LaunchActionsStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.LaunchActionsStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.LaunchActionsStatus()
+        value.ssmAgentDiscoveryDatetime = try reader["ssmAgentDiscoveryDatetime"].readIfPresent()
+        value.runs = try reader["runs"].readListIfPresent(memberReadingClosure: DrsClientTypes.LaunchActionRun.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DrsClientTypes.LaunchConfigurationTemplate {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.LaunchConfigurationTemplate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.LaunchConfigurationTemplate()
+        value.launchConfigurationTemplateID = try reader["launchConfigurationTemplateID"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.launchDisposition = try reader["launchDisposition"].readIfPresent()
+        value.targetInstanceTypeRightSizingMethod = try reader["targetInstanceTypeRightSizingMethod"].readIfPresent()
+        value.copyPrivateIp = try reader["copyPrivateIp"].readIfPresent()
+        value.copyTags = try reader["copyTags"].readIfPresent()
+        value.licensing = try reader["licensing"].readIfPresent(with: DrsClientTypes.Licensing.read(from:))
+        value.exportBucketArn = try reader["exportBucketArn"].readIfPresent()
+        value.postLaunchEnabled = try reader["postLaunchEnabled"].readIfPresent()
+        value.launchIntoSourceInstance = try reader["launchIntoSourceInstance"].readIfPresent()
+        return value
+    }
+}
+
+extension DrsClientTypes.LaunchIntoInstanceProperties {
+
+    static func write(value: DrsClientTypes.LaunchIntoInstanceProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["launchIntoEC2InstanceID"].write(value.launchIntoEC2InstanceID)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.LaunchIntoInstanceProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.LaunchIntoInstanceProperties()
+        value.launchIntoEC2InstanceID = try reader["launchIntoEC2InstanceID"].readIfPresent()
+        return value
+    }
+}
+
+extension DrsClientTypes.Licensing {
+
+    static func write(value: DrsClientTypes.Licensing?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["osByol"].write(value.osByol)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.Licensing {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.Licensing()
+        value.osByol = try reader["osByol"].readIfPresent()
+        return value
+    }
+}
+
+extension DrsClientTypes.LifeCycle {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.LifeCycle {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.LifeCycle()
+        value.addedToServiceDateTime = try reader["addedToServiceDateTime"].readIfPresent()
+        value.firstByteDateTime = try reader["firstByteDateTime"].readIfPresent()
+        value.elapsedReplicationDuration = try reader["elapsedReplicationDuration"].readIfPresent()
+        value.lastSeenByServiceDateTime = try reader["lastSeenByServiceDateTime"].readIfPresent()
+        value.lastLaunch = try reader["lastLaunch"].readIfPresent(with: DrsClientTypes.LifeCycleLastLaunch.read(from:))
+        return value
+    }
+}
+
+extension DrsClientTypes.LifeCycleLastLaunch {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.LifeCycleLastLaunch {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.LifeCycleLastLaunch()
+        value.initiated = try reader["initiated"].readIfPresent(with: DrsClientTypes.LifeCycleLastLaunchInitiated.read(from:))
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
+extension DrsClientTypes.LifeCycleLastLaunchInitiated {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.LifeCycleLastLaunchInitiated {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.LifeCycleLastLaunchInitiated()
+        value.apiCallDateTime = try reader["apiCallDateTime"].readIfPresent()
+        value.jobID = try reader["jobID"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
+        return value
+    }
+}
+
+extension DrsClientTypes.NetworkInterface {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.NetworkInterface {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.NetworkInterface()
+        value.macAddress = try reader["macAddress"].readIfPresent()
+        value.ips = try reader["ips"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.isPrimary = try reader["isPrimary"].readIfPresent()
+        return value
+    }
+}
+
+extension DrsClientTypes.OS {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.OS {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.OS()
+        value.fullString = try reader["fullString"].readIfPresent()
+        return value
+    }
+}
+
+extension DrsClientTypes.ParticipatingResource {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.ParticipatingResource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.ParticipatingResource()
+        value.participatingResourceID = try reader["participatingResourceID"].readIfPresent(with: DrsClientTypes.ParticipatingResourceID.read(from:))
+        value.launchStatus = try reader["launchStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension DrsClientTypes.ParticipatingResourceID {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.ParticipatingResourceID {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "sourceNetworkID":
+                return .sourcenetworkid(try reader["sourceNetworkID"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DrsClientTypes.ParticipatingServer {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.ParticipatingServer {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.ParticipatingServer()
+        value.sourceServerID = try reader["sourceServerID"].readIfPresent()
+        value.recoveryInstanceID = try reader["recoveryInstanceID"].readIfPresent()
+        value.launchStatus = try reader["launchStatus"].readIfPresent()
+        value.launchActionsStatus = try reader["launchActionsStatus"].readIfPresent(with: DrsClientTypes.LaunchActionsStatus.read(from:))
+        return value
+    }
+}
+
+extension DrsClientTypes.PITPolicyRule {
+
+    static func write(value: DrsClientTypes.PITPolicyRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enabled"].write(value.enabled)
+        try writer["interval"].write(value.interval)
+        try writer["retentionDuration"].write(value.retentionDuration)
+        try writer["ruleID"].write(value.ruleID)
+        try writer["units"].write(value.units)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.PITPolicyRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.PITPolicyRule()
+        value.ruleID = try reader["ruleID"].readIfPresent() ?? 0
+        value.units = try reader["units"].readIfPresent() ?? .sdkUnknown("")
+        value.interval = try reader["interval"].readIfPresent() ?? 0
+        value.retentionDuration = try reader["retentionDuration"].readIfPresent() ?? 0
+        value.enabled = try reader["enabled"].readIfPresent()
+        return value
+    }
+}
+
+extension DrsClientTypes.ProductCode {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.ProductCode {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.ProductCode()
+        value.productCodeId = try reader["productCodeId"].readIfPresent()
+        value.productCodeMode = try reader["productCodeMode"].readIfPresent()
+        return value
+    }
+}
+
+extension DrsClientTypes.RecoveryInstance {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoveryInstance {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.RecoveryInstance()
+        value.ec2InstanceID = try reader["ec2InstanceID"].readIfPresent()
+        value.ec2InstanceState = try reader["ec2InstanceState"].readIfPresent()
+        value.jobID = try reader["jobID"].readIfPresent()
+        value.recoveryInstanceID = try reader["recoveryInstanceID"].readIfPresent()
+        value.sourceServerID = try reader["sourceServerID"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.failback = try reader["failback"].readIfPresent(with: DrsClientTypes.RecoveryInstanceFailback.read(from:))
+        value.dataReplicationInfo = try reader["dataReplicationInfo"].readIfPresent(with: DrsClientTypes.RecoveryInstanceDataReplicationInfo.read(from:))
+        value.recoveryInstanceProperties = try reader["recoveryInstanceProperties"].readIfPresent(with: DrsClientTypes.RecoveryInstanceProperties.read(from:))
+        value.pointInTimeSnapshotDateTime = try reader["pointInTimeSnapshotDateTime"].readIfPresent()
+        value.isDrill = try reader["isDrill"].readIfPresent()
+        value.originEnvironment = try reader["originEnvironment"].readIfPresent()
+        value.originAvailabilityZone = try reader["originAvailabilityZone"].readIfPresent()
+        value.agentVersion = try reader["agentVersion"].readIfPresent()
+        value.sourceOutpostArn = try reader["sourceOutpostArn"].readIfPresent()
+        return value
+    }
+}
+
+extension DrsClientTypes.RecoveryInstanceDataReplicationError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoveryInstanceDataReplicationError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.RecoveryInstanceDataReplicationError()
+        value.error = try reader["error"].readIfPresent()
+        value.rawError = try reader["rawError"].readIfPresent()
+        return value
+    }
+}
+
+extension DrsClientTypes.RecoveryInstanceDataReplicationInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoveryInstanceDataReplicationInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.RecoveryInstanceDataReplicationInfo()
+        value.lagDuration = try reader["lagDuration"].readIfPresent()
+        value.etaDateTime = try reader["etaDateTime"].readIfPresent()
+        value.replicatedDisks = try reader["replicatedDisks"].readListIfPresent(memberReadingClosure: DrsClientTypes.RecoveryInstanceDataReplicationInfoReplicatedDisk.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dataReplicationState = try reader["dataReplicationState"].readIfPresent()
+        value.dataReplicationInitiation = try reader["dataReplicationInitiation"].readIfPresent(with: DrsClientTypes.RecoveryInstanceDataReplicationInitiation.read(from:))
+        value.dataReplicationError = try reader["dataReplicationError"].readIfPresent(with: DrsClientTypes.RecoveryInstanceDataReplicationError.read(from:))
+        value.stagingAvailabilityZone = try reader["stagingAvailabilityZone"].readIfPresent()
+        value.stagingOutpostArn = try reader["stagingOutpostArn"].readIfPresent()
+        return value
+    }
+}
+
+extension DrsClientTypes.RecoveryInstanceDataReplicationInfoReplicatedDisk {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoveryInstanceDataReplicationInfoReplicatedDisk {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.RecoveryInstanceDataReplicationInfoReplicatedDisk()
+        value.deviceName = try reader["deviceName"].readIfPresent()
+        value.totalStorageBytes = try reader["totalStorageBytes"].readIfPresent() ?? 0
+        value.replicatedStorageBytes = try reader["replicatedStorageBytes"].readIfPresent() ?? 0
+        value.rescannedStorageBytes = try reader["rescannedStorageBytes"].readIfPresent() ?? 0
+        value.backloggedStorageBytes = try reader["backloggedStorageBytes"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension DrsClientTypes.RecoveryInstanceDataReplicationInitiation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoveryInstanceDataReplicationInitiation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.RecoveryInstanceDataReplicationInitiation()
+        value.startDateTime = try reader["startDateTime"].readIfPresent()
+        value.steps = try reader["steps"].readListIfPresent(memberReadingClosure: DrsClientTypes.RecoveryInstanceDataReplicationInitiationStep.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DrsClientTypes.RecoveryInstanceDataReplicationInitiationStep {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoveryInstanceDataReplicationInitiationStep {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.RecoveryInstanceDataReplicationInitiationStep()
+        value.name = try reader["name"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
+extension DrsClientTypes.RecoveryInstanceDisk {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoveryInstanceDisk {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.RecoveryInstanceDisk()
+        value.internalDeviceName = try reader["internalDeviceName"].readIfPresent()
+        value.bytes = try reader["bytes"].readIfPresent() ?? 0
+        value.ebsVolumeID = try reader["ebsVolumeID"].readIfPresent()
+        return value
+    }
+}
+
+extension DrsClientTypes.RecoveryInstanceFailback {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoveryInstanceFailback {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.RecoveryInstanceFailback()
+        value.failbackClientID = try reader["failbackClientID"].readIfPresent()
+        value.failbackJobID = try reader["failbackJobID"].readIfPresent()
+        value.failbackInitiationTime = try reader["failbackInitiationTime"].readIfPresent()
+        value.state = try reader["state"].readIfPresent()
+        value.agentLastSeenByServiceDateTime = try reader["agentLastSeenByServiceDateTime"].readIfPresent()
+        value.failbackClientLastSeenByServiceDateTime = try reader["failbackClientLastSeenByServiceDateTime"].readIfPresent()
+        value.failbackToOriginalServer = try reader["failbackToOriginalServer"].readIfPresent()
+        value.firstByteDateTime = try reader["firstByteDateTime"].readIfPresent()
+        value.elapsedReplicationDuration = try reader["elapsedReplicationDuration"].readIfPresent()
+        value.failbackLaunchType = try reader["failbackLaunchType"].readIfPresent()
+        return value
+    }
+}
+
+extension DrsClientTypes.RecoveryInstanceProperties {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoveryInstanceProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.RecoveryInstanceProperties()
+        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readIfPresent()
+        value.identificationHints = try reader["identificationHints"].readIfPresent(with: DrsClientTypes.IdentificationHints.read(from:))
+        value.networkInterfaces = try reader["networkInterfaces"].readListIfPresent(memberReadingClosure: DrsClientTypes.NetworkInterface.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.disks = try reader["disks"].readListIfPresent(memberReadingClosure: DrsClientTypes.RecoveryInstanceDisk.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.cpus = try reader["cpus"].readListIfPresent(memberReadingClosure: DrsClientTypes.CPU.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ramBytes = try reader["ramBytes"].readIfPresent() ?? 0
+        value.os = try reader["os"].readIfPresent(with: DrsClientTypes.OS.read(from:))
+        return value
+    }
+}
+
+extension DrsClientTypes.RecoveryLifeCycle {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoveryLifeCycle {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.RecoveryLifeCycle()
+        value.apiCallDateTime = try reader["apiCallDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.jobID = try reader["jobID"].readIfPresent()
+        value.lastRecoveryResult = try reader["lastRecoveryResult"].readIfPresent()
+        return value
+    }
+}
+
+extension DrsClientTypes.RecoverySnapshot {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoverySnapshot {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.RecoverySnapshot()
+        value.snapshotID = try reader["snapshotID"].readIfPresent() ?? ""
+        value.sourceServerID = try reader["sourceServerID"].readIfPresent() ?? ""
+        value.expectedTimestamp = try reader["expectedTimestamp"].readIfPresent() ?? ""
+        value.timestamp = try reader["timestamp"].readIfPresent()
+        value.ebsSnapshots = try reader["ebsSnapshots"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DrsClientTypes.ReplicationConfigurationReplicatedDisk {
+
+    static func write(value: DrsClientTypes.ReplicationConfigurationReplicatedDisk?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["deviceName"].write(value.deviceName)
+        try writer["iops"].write(value.iops)
+        try writer["isBootDisk"].write(value.isBootDisk)
+        try writer["optimizedStagingDiskType"].write(value.optimizedStagingDiskType)
+        try writer["stagingDiskType"].write(value.stagingDiskType)
+        try writer["throughput"].write(value.throughput)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.ReplicationConfigurationReplicatedDisk {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.ReplicationConfigurationReplicatedDisk()
+        value.deviceName = try reader["deviceName"].readIfPresent()
+        value.isBootDisk = try reader["isBootDisk"].readIfPresent()
+        value.stagingDiskType = try reader["stagingDiskType"].readIfPresent()
+        value.iops = try reader["iops"].readIfPresent() ?? 0
+        value.throughput = try reader["throughput"].readIfPresent() ?? 0
+        value.optimizedStagingDiskType = try reader["optimizedStagingDiskType"].readIfPresent()
+        return value
+    }
+}
+
+extension DrsClientTypes.ReplicationConfigurationTemplate {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.ReplicationConfigurationTemplate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.ReplicationConfigurationTemplate()
+        value.replicationConfigurationTemplateID = try reader["replicationConfigurationTemplateID"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent()
+        value.stagingAreaSubnetId = try reader["stagingAreaSubnetId"].readIfPresent()
+        value.associateDefaultSecurityGroup = try reader["associateDefaultSecurityGroup"].readIfPresent()
+        value.replicationServersSecurityGroupsIDs = try reader["replicationServersSecurityGroupsIDs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.replicationServerInstanceType = try reader["replicationServerInstanceType"].readIfPresent()
+        value.useDedicatedReplicationServer = try reader["useDedicatedReplicationServer"].readIfPresent()
+        value.defaultLargeStagingDiskType = try reader["defaultLargeStagingDiskType"].readIfPresent()
+        value.ebsEncryption = try reader["ebsEncryption"].readIfPresent()
+        value.ebsEncryptionKeyArn = try reader["ebsEncryptionKeyArn"].readIfPresent()
+        value.bandwidthThrottling = try reader["bandwidthThrottling"].readIfPresent() ?? 0
+        value.dataPlaneRouting = try reader["dataPlaneRouting"].readIfPresent()
+        value.createPublicIP = try reader["createPublicIP"].readIfPresent()
+        value.stagingAreaTags = try reader["stagingAreaTags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.pitPolicy = try reader["pitPolicy"].readListIfPresent(memberReadingClosure: DrsClientTypes.PITPolicyRule.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.autoReplicateNewDisks = try reader["autoReplicateNewDisks"].readIfPresent()
+        value.internetProtocol = try reader["internetProtocol"].readIfPresent()
+        return value
+    }
+}
+
+extension DrsClientTypes.SourceCloudProperties {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.SourceCloudProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.SourceCloudProperties()
+        value.originAccountID = try reader["originAccountID"].readIfPresent()
+        value.originRegion = try reader["originRegion"].readIfPresent()
+        value.originAvailabilityZone = try reader["originAvailabilityZone"].readIfPresent()
+        value.sourceOutpostArn = try reader["sourceOutpostArn"].readIfPresent()
+        return value
+    }
+}
+
+extension DrsClientTypes.SourceNetwork {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.SourceNetwork {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.SourceNetwork()
+        value.sourceNetworkID = try reader["sourceNetworkID"].readIfPresent()
+        value.sourceVpcID = try reader["sourceVpcID"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.replicationStatus = try reader["replicationStatus"].readIfPresent()
+        value.replicationStatusDetails = try reader["replicationStatusDetails"].readIfPresent()
+        value.cfnStackName = try reader["cfnStackName"].readIfPresent()
+        value.sourceRegion = try reader["sourceRegion"].readIfPresent()
+        value.sourceAccountID = try reader["sourceAccountID"].readIfPresent()
+        value.lastRecovery = try reader["lastRecovery"].readIfPresent(with: DrsClientTypes.RecoveryLifeCycle.read(from:))
+        value.launchedVpcID = try reader["launchedVpcID"].readIfPresent()
+        return value
+    }
+}
+
+extension DrsClientTypes.SourceNetworkData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.SourceNetworkData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.SourceNetworkData()
+        value.sourceNetworkID = try reader["sourceNetworkID"].readIfPresent()
+        value.sourceVpc = try reader["sourceVpc"].readIfPresent()
+        value.targetVpc = try reader["targetVpc"].readIfPresent()
+        value.stackName = try reader["stackName"].readIfPresent()
+        return value
+    }
+}
+
+extension DrsClientTypes.SourceProperties {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.SourceProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.SourceProperties()
+        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readIfPresent()
+        value.recommendedInstanceType = try reader["recommendedInstanceType"].readIfPresent()
+        value.identificationHints = try reader["identificationHints"].readIfPresent(with: DrsClientTypes.IdentificationHints.read(from:))
+        value.networkInterfaces = try reader["networkInterfaces"].readListIfPresent(memberReadingClosure: DrsClientTypes.NetworkInterface.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.disks = try reader["disks"].readListIfPresent(memberReadingClosure: DrsClientTypes.Disk.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.cpus = try reader["cpus"].readListIfPresent(memberReadingClosure: DrsClientTypes.CPU.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ramBytes = try reader["ramBytes"].readIfPresent() ?? 0
+        value.os = try reader["os"].readIfPresent(with: DrsClientTypes.OS.read(from:))
+        value.supportsNitroInstances = try reader["supportsNitroInstances"].readIfPresent()
+        return value
+    }
+}
+
+extension DrsClientTypes.SourceServer {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.SourceServer {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.SourceServer()
+        value.sourceServerID = try reader["sourceServerID"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.recoveryInstanceId = try reader["recoveryInstanceId"].readIfPresent()
+        value.lastLaunchResult = try reader["lastLaunchResult"].readIfPresent()
+        value.dataReplicationInfo = try reader["dataReplicationInfo"].readIfPresent(with: DrsClientTypes.DataReplicationInfo.read(from:))
+        value.lifeCycle = try reader["lifeCycle"].readIfPresent(with: DrsClientTypes.LifeCycle.read(from:))
+        value.sourceProperties = try reader["sourceProperties"].readIfPresent(with: DrsClientTypes.SourceProperties.read(from:))
+        value.stagingArea = try reader["stagingArea"].readIfPresent(with: DrsClientTypes.StagingArea.read(from:))
+        value.sourceCloudProperties = try reader["sourceCloudProperties"].readIfPresent(with: DrsClientTypes.SourceCloudProperties.read(from:))
+        value.replicationDirection = try reader["replicationDirection"].readIfPresent()
+        value.reversedDirectionSourceServerArn = try reader["reversedDirectionSourceServerArn"].readIfPresent()
+        value.sourceNetworkID = try reader["sourceNetworkID"].readIfPresent()
+        value.agentVersion = try reader["agentVersion"].readIfPresent()
+        return value
+    }
+}
+
+extension DrsClientTypes.StagingArea {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.StagingArea {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.StagingArea()
+        value.status = try reader["status"].readIfPresent()
+        value.stagingAccountID = try reader["stagingAccountID"].readIfPresent()
+        value.stagingSourceServerArn = try reader["stagingSourceServerArn"].readIfPresent()
+        value.errorMessage = try reader["errorMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension DrsClientTypes.StagingSourceServer {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.StagingSourceServer {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.StagingSourceServer()
+        value.hostname = try reader["hostname"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
     }
 }
 
@@ -9254,6 +9326,17 @@ extension DrsClientTypes.StartSourceNetworkRecoveryRequestNetworkEntry {
         guard let value else { return }
         try writer["cfnStackName"].write(value.cfnStackName)
         try writer["sourceNetworkID"].write(value.sourceNetworkID)
+    }
+}
+
+extension DrsClientTypes.ValidationExceptionField {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.ValidationExceptionField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.ValidationExceptionField()
+        value.name = try reader["name"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
+        return value
     }
 }
 

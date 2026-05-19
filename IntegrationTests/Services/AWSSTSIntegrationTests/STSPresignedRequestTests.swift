@@ -13,11 +13,11 @@ import AWSSDKHTTPAuth
 
 /// Tests presigned request using STS::getCallerIdentity.
 class STSPresignedRequestTests: XCTestCase {
-    private var stsConfig: STSClient.STSClientConfiguration!
+    private var stsConfig: STSClient.STSClientConfig!
 
     override func setUp() async throws {
         try await super.setUp()
-        stsConfig = try await STSClient.STSClientConfiguration(region: "us-east-1")
+        stsConfig = try await STSClient.STSClientConfig(region: "us-east-1")
         stsConfig.authSchemes = [SigV4AuthScheme()]
     }
 

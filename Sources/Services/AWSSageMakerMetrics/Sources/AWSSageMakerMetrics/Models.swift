@@ -17,8 +17,8 @@ import enum SmithyReadWrite.ReaderError
 @_spi(SmithyTimestamps) import enum SmithyTimestamps.TimestampFormat
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 
 extension SageMakerMetricsClientTypes {
 
@@ -437,7 +437,7 @@ enum BatchGetMetricsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -450,24 +450,11 @@ enum BatchPutMetricsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
-    }
-}
-
-extension SageMakerMetricsClientTypes.MetricQueryResult {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerMetricsClientTypes.MetricQueryResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerMetricsClientTypes.MetricQueryResult()
-        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
-        value.message = try reader["Message"].readIfPresent()
-        value.xAxisValues = try reader["XAxisValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.metricValues = try reader["MetricValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
     }
 }
 
@@ -493,6 +480,19 @@ extension SageMakerMetricsClientTypes.MetricQuery {
         try writer["ResourceArn"].write(value.resourceArn)
         try writer["Start"].write(value.start)
         try writer["XAxisType"].write(value.xAxisType)
+    }
+}
+
+extension SageMakerMetricsClientTypes.MetricQueryResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerMetricsClientTypes.MetricQueryResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerMetricsClientTypes.MetricQueryResult()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.message = try reader["Message"].readIfPresent()
+        value.xAxisValues = try reader["XAxisValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.metricValues = try reader["MetricValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
     }
 }
 

@@ -15,7 +15,7 @@ permissions:
   actions: read
 
 jobs:
-  apple:
+  apple-int:
     if: github.repository == 'awslabs/aws-sdk-swift' || github.event_name == 'pull_request'
     runs-on: ${{ matrix.runner }}
     strategy:
@@ -27,55 +27,55 @@ jobs:
           - macos-26
         xcode:
           - Xcode_15.2
-          - Xcode_26.0
+          - Xcode_26.4
         destination:
           - 'platform=iOS Simulator,OS=17.2,name=iPhone 15'
-          - 'platform=iOS Simulator,OS=26.0.1,name=iPhone 17'
+          - 'platform=iOS Simulator,OS=26.4.1,name=iPhone 17'
           - 'platform=tvOS Simulator,OS=17.2,name=Apple TV 4K (3rd generation) (at 1080p)'
-          - 'platform=tvOS Simulator,OS=26.0,name=Apple TV 4K (3rd generation) (at 1080p)'
+          - 'platform=tvOS Simulator,OS=26.4,name=Apple TV 4K (3rd generation) (at 1080p)'
           - 'platform=visionOS Simulator,OS=1.0,name=Apple Vision Pro'
-          - 'platform=visionOS Simulator,OS=26.0,name=Apple Vision Pro'
+          - 'platform=visionOS Simulator,OS=26.4.1,name=Apple Vision Pro'
           - 'platform=macOS'
         exclude:
           # Don't run old macOS with new Xcode
           - runner: macos-14
-            xcode: Xcode_26.0
+            xcode: Xcode_26.4
           # Don't run new macOS with old Xcode
           - runner: macos-26
             xcode: Xcode_15.2
           # Don't run old simulators with new Xcode
           - destination: 'platform=tvOS Simulator,OS=17.2,name=Apple TV 4K (3rd generation) (at 1080p)'
-            xcode: Xcode_26.0
+            xcode: Xcode_26.4
           - destination: 'platform=iOS Simulator,OS=17.2,name=iPhone 15'
-            xcode: Xcode_26.0
+            xcode: Xcode_26.4
           - destination: 'platform=visionOS Simulator,OS=1.0,name=Apple Vision Pro'
-            xcode: Xcode_26.0
+            xcode: Xcode_26.4
           # Don't run new simulators with old Xcode
-          - destination: 'platform=tvOS Simulator,OS=26.0,name=Apple TV 4K (3rd generation) (at 1080p)'
+          - destination: 'platform=tvOS Simulator,OS=26.4,name=Apple TV 4K (3rd generation) (at 1080p)'
             xcode: Xcode_15.2
-          - destination: 'platform=iOS Simulator,OS=26.0.1,name=iPhone 17'
+          - destination: 'platform=iOS Simulator,OS=26.4.1,name=iPhone 17'
             xcode: Xcode_15.2
-          - destination: 'platform=visionOS Simulator,OS=26.0,name=Apple Vision Pro'
+          - destination: 'platform=visionOS Simulator,OS=26.4.1,name=Apple Vision Pro'
             xcode: Xcode_15.2
     steps:
       - name: Configure Xcode
         run: sudo xcode-select -s /Applications/${{ matrix.xcode }}.app
       - name: Configure AWS Credentials for Integration Tests
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v6
         with:
           role-to-assume: ${{ secrets.INTEGRATION_TEST_ROLE_ARN }}
           aws-region: us-west-2
       - name: Checkout aws-sdk-swift
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           path: aws-sdk-swift
       - name: Checkout smithy-swift with composite action
         uses: ./aws-sdk-swift/.github/actions/checkout-smithy-swift-composite-action
         with:
-          AUTOMATION_USER_SSH_PRIVATE_KEY: ${{ secrets.AUTOMATION_USER_SSH_PRIVATE_KEY }}
+          STAGING_PARTNER_REPO_PRIVATE_DEPLOY_KEY: ${{ secrets.STAGING_PARTNER_REPO_PRIVATE_DEPLOY_KEY }}
           STAGING_PARTNER_REPO: ${{ secrets.STAGING_PARTNER_REPO }}
       - name: Cache Gradle
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             ~/.gradle/caches
@@ -85,7 +85,7 @@ jobs:
             2-${{ runner.os }}-gradle-${{ hashFiles('*.gradle.kts', 'gradle/wrapper/gradle-wrapper.properties') }}
             2-${{ runner.os }}-gradle-
       - name: Cache Swift
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             ~/Library/Caches/org.swift.swiftpm
@@ -95,7 +95,7 @@ jobs:
             1-${{ runner.os }}-${{ matrix.xcode }}-${{ hashFiles('Package.swift', 'AWSSDKSwiftCLI/Package.swift') }}
             1-${{ runner.os }}-${{ matrix.xcode }}-
       - name: Setup Java
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: corretto
           java-version: 17
@@ -130,8 +130,7 @@ jobs:
             test 2>&1 \
             | xcbeautify
 
-  linux:
-    # Details on why AL2 isn't included: https://github.com/awslabs/aws-sdk-swift/pull/1833
+  linux-int:
     if: github.repository == 'awslabs/aws-sdk-swift' || github.event_name == 'pull_request'
     runs-on: ${{ matrix.runner }}
     container: swift:${{ matrix.swift }}
@@ -142,29 +141,27 @@ jobs:
           - ubuntu-24.04
           - ubuntu-24.04-arm
         swift:
-          - "5.9-jammy"
-          - "6.2-noble"
-    env:
-      ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
+          - 5.9-jammy
+          - 5.9-rhel-ubi9
+          - 6.3-noble
+          - 6.3-amazonlinux2023
     steps:
       - name: Configure AWS Credentials for Integration Tests
-        # configure-aws-credentials@v4 does not work with AL2 images, so @v3 is used instead.  See:
-        #   https://github.com/aws-actions/configure-aws-credentials/issues/862
-        uses: aws-actions/configure-aws-credentials@v3
+        uses: aws-actions/configure-aws-credentials@v6
         with:
           role-to-assume: ${{ secrets.INTEGRATION_TEST_ROLE_ARN }}
           aws-region: us-west-2
       - name: Checkout aws-sdk-swift
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           path: aws-sdk-swift
       - name: Checkout smithy-swift with composite action
         uses: ./aws-sdk-swift/.github/actions/checkout-smithy-swift-composite-action
         with:
-          AUTOMATION_USER_SSH_PRIVATE_KEY: ${{ secrets.AUTOMATION_USER_SSH_PRIVATE_KEY }}
+          STAGING_PARTNER_REPO_PRIVATE_DEPLOY_KEY: ${{ secrets.STAGING_PARTNER_REPO_PRIVATE_DEPLOY_KEY }}
           STAGING_PARTNER_REPO: ${{ secrets.STAGING_PARTNER_REPO }}
       - name: Cache Gradle
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             ~/.gradle/caches
@@ -174,7 +171,7 @@ jobs:
             2-${{ runner.os }}-gradle-${{ hashFiles('*.gradle.kts', 'gradle/wrapper/gradle-wrapper.properties') }}
             2-${{ runner.os }}-gradle-
       - name: Cache Swift
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             ~/Library/Caches/org.swift.swiftpm
@@ -184,7 +181,7 @@ jobs:
             1-${{ runner.os }}-swift-${{ matrix.swift }}-spm-${{ hashFiles('Package.swift', 'AWSSDKSwiftCLI/Package.swift') }}
             1-${{ runner.os }}-swift-${{ matrix.swift }}-spm-
       - name: Setup Java
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: corretto
           java-version: 17

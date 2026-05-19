@@ -6,7 +6,7 @@
 //
 
 import SmithyEventStreamsAPI
-import SmithyEventStreams
+@_spi(SmithyEventStreams) import SmithyEventStreams
 import XCTest
 import class SmithyStreams.BufferedStream
 

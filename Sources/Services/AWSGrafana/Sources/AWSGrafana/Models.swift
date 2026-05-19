@@ -23,8 +23,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
 import struct SmithyHTTPAPI.Header
 import struct SmithyHTTPAPI.Headers
@@ -45,9 +45,9 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -107,9 +107,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -138,9 +138,9 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { true }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -171,9 +171,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -212,9 +212,9 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -251,9 +251,9 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { true }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -343,9 +343,9 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         fieldList: [GrafanaClientTypes.ValidationExceptionField]? = nil,
@@ -676,6 +676,37 @@ extension GrafanaClientTypes {
 
 extension GrafanaClientTypes {
 
+    public enum IPAddressType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Indicates that connections to this workspace can be made over IPv4 or IPv6.
+        case dualStack
+        /// Indicates that connections to this workspace can only be made over IPv4.
+        case ipv4
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IPAddressType] {
+            return [
+                .dualStack,
+                .ipv4
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dualStack: return "DualStack"
+            case .ipv4: return "IPv4"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GrafanaClientTypes {
+
     /// The configuration settings for in-bound network access to your workspace. When this is configured, only listed IP addresses and VPC endpoints will be able to access your workspace. Standard Grafana authentication and authorization are still required. Access is granted to a caller that is in either the IP address list or the VPC endpoint list - they do not need to be in both. If this is not configured, or is removed, then all IP addresses and VPC endpoints are allowed. Standard Grafana authentication and authorization are still required. While both prefixListIds and vpceIds are required, you can pass in an empty array of strings for either parameter if you do not want to allow any of that type. If both are passed as empty arrays, no traffic is allowed to the workspace, because only explicitly allowed connections are accepted.
     public struct NetworkAccessConfiguration: Swift.Sendable {
         /// An array of prefix list IDs. A prefix list is a list of CIDR ranges of IP addresses. The IP addresses specified are allowed to access your workspace. If the list is not included in the configuration (passed an empty array) then no IP addresses are allowed to access the workspace. You create a prefix list using the Amazon VPC console. Prefix list IDs have the format pl-1a2b3c4d . For more information about prefix lists, see [Group CIDR blocks using managed prefix lists](https://docs.aws.amazon.com/vpc/latest/userguide/managed-prefix-lists.html)in the Amazon Virtual Private Cloud User Guide.
@@ -762,6 +793,8 @@ extension GrafanaClientTypes {
         case creating
         /// Workspace creation failed.
         case creationFailed
+        /// Workspace is degraded.
+        case degraded
         /// Workspace is being deleted.
         case deleting
         /// Workspace deletion failed.
@@ -789,6 +822,7 @@ extension GrafanaClientTypes {
                 .active,
                 .creating,
                 .creationFailed,
+                .degraded,
                 .deleting,
                 .deletionFailed,
                 .failed,
@@ -812,6 +846,7 @@ extension GrafanaClientTypes {
             case .active: return "ACTIVE"
             case .creating: return "CREATING"
             case .creationFailed: return "CREATION_FAILED"
+            case .degraded: return "DEGRADED"
             case .deleting: return "DELETING"
             case .deletionFailed: return "DELETION_FAILED"
             case .failed: return "FAILED"
@@ -864,6 +899,8 @@ extension GrafanaClientTypes {
         /// Specifies the Amazon Web Services data sources that have been configured to have IAM roles and permissions created to allow Amazon Managed Grafana to read data from these sources. This list is only used when the workspace was created through the Amazon Web Services console, and the permissionType is SERVICE_MANAGED.
         /// This member is required.
         public var dataSources: [GrafanaClientTypes.DataSourceType]?
+        /// If the workspace is in the DEGRADED status, this field describes the reason the workspace is degraded.
+        public var degradedWorkspaceReason: Swift.String?
         /// The user-defined description of the workspace.
         public var description: Swift.String?
         /// The URL that users can use to access the Grafana console in the workspace.
@@ -881,6 +918,10 @@ extension GrafanaClientTypes {
         /// The unique ID of this workspace.
         /// This member is required.
         public var id: Swift.String?
+        /// The type of IP addresses supported for connection to the workspace. Valid values are IPv4 and DualStack.
+        public var ipAddressType: GrafanaClientTypes.IPAddressType?
+        /// The ID or ARN of the Key Management Service key used for encrypting workspace data.
+        public var kmsKeyId: Swift.String?
         /// If this workspace has a full Grafana Enterprise license purchased through Amazon Web Services Marketplace, this specifies when the license ends and will need to be renewed. Purchasing the Enterprise plugins option through Amazon Managed Grafana does not have an expiration. It is valid until the license is removed.
         public var licenseExpiration: Foundation.Date?
         /// Specifies whether this workspace has a full Grafana Enterprise license. Amazon Managed Grafana workspaces no longer support Grafana Enterprise free trials.
@@ -917,6 +958,7 @@ extension GrafanaClientTypes {
             authentication: GrafanaClientTypes.AuthenticationSummary? = nil,
             created: Foundation.Date? = nil,
             dataSources: [GrafanaClientTypes.DataSourceType]? = nil,
+            degradedWorkspaceReason: Swift.String? = nil,
             description: Swift.String? = nil,
             endpoint: Swift.String? = nil,
             freeTrialConsumed: Swift.Bool? = nil,
@@ -924,6 +966,8 @@ extension GrafanaClientTypes {
             grafanaToken: Swift.String? = nil,
             grafanaVersion: Swift.String? = nil,
             id: Swift.String? = nil,
+            ipAddressType: GrafanaClientTypes.IPAddressType? = nil,
+            kmsKeyId: Swift.String? = nil,
             licenseExpiration: Foundation.Date? = nil,
             licenseType: GrafanaClientTypes.LicenseType? = nil,
             modified: Foundation.Date? = nil,
@@ -943,6 +987,7 @@ extension GrafanaClientTypes {
             self.authentication = authentication
             self.created = created
             self.dataSources = dataSources
+            self.degradedWorkspaceReason = degradedWorkspaceReason
             self.description = description
             self.endpoint = endpoint
             self.freeTrialConsumed = freeTrialConsumed
@@ -950,6 +995,8 @@ extension GrafanaClientTypes {
             self.grafanaToken = grafanaToken
             self.grafanaVersion = grafanaVersion
             self.id = id
+            self.ipAddressType = ipAddressType
+            self.kmsKeyId = kmsKeyId
             self.licenseExpiration = licenseExpiration
             self.licenseType = licenseType
             self.modified = modified
@@ -970,7 +1017,7 @@ extension GrafanaClientTypes {
 
 extension GrafanaClientTypes.WorkspaceDescription: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "WorkspaceDescription(accountAccessType: \(Swift.String(describing: accountAccessType)), authentication: \(Swift.String(describing: authentication)), created: \(Swift.String(describing: created)), dataSources: \(Swift.String(describing: dataSources)), endpoint: \(Swift.String(describing: endpoint)), freeTrialConsumed: \(Swift.String(describing: freeTrialConsumed)), freeTrialExpiration: \(Swift.String(describing: freeTrialExpiration)), grafanaToken: \(Swift.String(describing: grafanaToken)), grafanaVersion: \(Swift.String(describing: grafanaVersion)), id: \(Swift.String(describing: id)), licenseExpiration: \(Swift.String(describing: licenseExpiration)), licenseType: \(Swift.String(describing: licenseType)), modified: \(Swift.String(describing: modified)), networkAccessControl: \(Swift.String(describing: networkAccessControl)), notificationDestinations: \(Swift.String(describing: notificationDestinations)), permissionType: \(Swift.String(describing: permissionType)), stackSetName: \(Swift.String(describing: stackSetName)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), vpcConfiguration: \(Swift.String(describing: vpcConfiguration)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", organizationRoleName: \"CONTENT_REDACTED\", organizationalUnits: \"CONTENT_REDACTED\", workspaceRoleArn: \"CONTENT_REDACTED\")"}
+        "WorkspaceDescription(accountAccessType: \(Swift.String(describing: accountAccessType)), authentication: \(Swift.String(describing: authentication)), created: \(Swift.String(describing: created)), dataSources: \(Swift.String(describing: dataSources)), degradedWorkspaceReason: \(Swift.String(describing: degradedWorkspaceReason)), endpoint: \(Swift.String(describing: endpoint)), freeTrialConsumed: \(Swift.String(describing: freeTrialConsumed)), freeTrialExpiration: \(Swift.String(describing: freeTrialExpiration)), grafanaToken: \(Swift.String(describing: grafanaToken)), grafanaVersion: \(Swift.String(describing: grafanaVersion)), id: \(Swift.String(describing: id)), ipAddressType: \(Swift.String(describing: ipAddressType)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), licenseExpiration: \(Swift.String(describing: licenseExpiration)), licenseType: \(Swift.String(describing: licenseType)), modified: \(Swift.String(describing: modified)), networkAccessControl: \(Swift.String(describing: networkAccessControl)), notificationDestinations: \(Swift.String(describing: notificationDestinations)), permissionType: \(Swift.String(describing: permissionType)), stackSetName: \(Swift.String(describing: stackSetName)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), vpcConfiguration: \(Swift.String(describing: vpcConfiguration)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", organizationRoleName: \"CONTENT_REDACTED\", organizationalUnits: \"CONTENT_REDACTED\", workspaceRoleArn: \"CONTENT_REDACTED\")"}
 }
 
 public struct AssociateLicenseOutput: Swift.Sendable {
@@ -1999,6 +2046,10 @@ public struct CreateWorkspaceInput: Swift.Sendable {
     public var configuration: Swift.String?
     /// Specifies the version of Grafana to support in the new workspace. If not specified, defaults to the latest version (for example, 10.4). To get a list of supported versions, use the ListVersions operation.
     public var grafanaVersion: Swift.String?
+    /// Specifies whether the workspace supports IPv4 only, or IPv4 and IPv6. Valid values are IPv4 and DualStack. For more information about IP address types, see [Network access control](https://docs.aws.amazon.com/grafana/latest/userguide/AMG-configure-nac.html).
+    public var ipAddressType: GrafanaClientTypes.IPAddressType?
+    /// The ID or ARN of the Key Management Service key to use for encrypting workspace data.
+    public var kmsKeyId: Swift.String?
     /// Configuration for network access to your workspace. When this is configured, only listed IP addresses and VPC endpoints will be able to access your workspace. Standard Grafana authentication and authorization will still be required. If this is not configured, or is removed, then all IP addresses and VPC endpoints will be allowed. Standard Grafana authentication and authorization will still be required.
     public var networkAccessControl: GrafanaClientTypes.NetworkAccessConfiguration?
     /// The name of an IAM role that already exists to use with Organizations to access Amazon Web Services data sources and notification channels in other accounts in an organization.
@@ -2031,6 +2082,8 @@ public struct CreateWorkspaceInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         configuration: Swift.String? = nil,
         grafanaVersion: Swift.String? = nil,
+        ipAddressType: GrafanaClientTypes.IPAddressType? = nil,
+        kmsKeyId: Swift.String? = nil,
         networkAccessControl: GrafanaClientTypes.NetworkAccessConfiguration? = nil,
         organizationRoleName: Swift.String? = nil,
         permissionType: GrafanaClientTypes.PermissionType? = nil,
@@ -2049,6 +2102,8 @@ public struct CreateWorkspaceInput: Swift.Sendable {
         self.clientToken = clientToken
         self.configuration = configuration
         self.grafanaVersion = grafanaVersion
+        self.ipAddressType = ipAddressType
+        self.kmsKeyId = kmsKeyId
         self.networkAccessControl = networkAccessControl
         self.organizationRoleName = organizationRoleName
         self.permissionType = permissionType
@@ -2066,7 +2121,7 @@ public struct CreateWorkspaceInput: Swift.Sendable {
 
 extension CreateWorkspaceInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateWorkspaceInput(accountAccessType: \(Swift.String(describing: accountAccessType)), authenticationProviders: \(Swift.String(describing: authenticationProviders)), clientToken: \(Swift.String(describing: clientToken)), configuration: \(Swift.String(describing: configuration)), grafanaVersion: \(Swift.String(describing: grafanaVersion)), networkAccessControl: \(Swift.String(describing: networkAccessControl)), permissionType: \(Swift.String(describing: permissionType)), stackSetName: \(Swift.String(describing: stackSetName)), tags: \(Swift.String(describing: tags)), vpcConfiguration: \(Swift.String(describing: vpcConfiguration)), workspaceDataSources: \(Swift.String(describing: workspaceDataSources)), workspaceNotificationDestinations: \(Swift.String(describing: workspaceNotificationDestinations)), organizationRoleName: \"CONTENT_REDACTED\", workspaceDescription: \"CONTENT_REDACTED\", workspaceName: \"CONTENT_REDACTED\", workspaceOrganizationalUnits: \"CONTENT_REDACTED\", workspaceRoleArn: \"CONTENT_REDACTED\")"}
+        "CreateWorkspaceInput(accountAccessType: \(Swift.String(describing: accountAccessType)), authenticationProviders: \(Swift.String(describing: authenticationProviders)), clientToken: \(Swift.String(describing: clientToken)), configuration: \(Swift.String(describing: configuration)), grafanaVersion: \(Swift.String(describing: grafanaVersion)), ipAddressType: \(Swift.String(describing: ipAddressType)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), networkAccessControl: \(Swift.String(describing: networkAccessControl)), permissionType: \(Swift.String(describing: permissionType)), stackSetName: \(Swift.String(describing: stackSetName)), tags: \(Swift.String(describing: tags)), vpcConfiguration: \(Swift.String(describing: vpcConfiguration)), workspaceDataSources: \(Swift.String(describing: workspaceDataSources)), workspaceNotificationDestinations: \(Swift.String(describing: workspaceNotificationDestinations)), organizationRoleName: \"CONTENT_REDACTED\", workspaceDescription: \"CONTENT_REDACTED\", workspaceName: \"CONTENT_REDACTED\", workspaceOrganizationalUnits: \"CONTENT_REDACTED\", workspaceRoleArn: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateWorkspaceOutput: Swift.Sendable {
@@ -2238,6 +2293,8 @@ public struct ListWorkspacesOutput: Swift.Sendable {
 public struct UpdateWorkspaceInput: Swift.Sendable {
     /// Specifies whether the workspace can access Amazon Web Services resources in this Amazon Web Services account only, or whether it can also access Amazon Web Services resources in other accounts in the same organization. If you specify ORGANIZATION, you must specify which organizational units the workspace can access in the workspaceOrganizationalUnits parameter.
     public var accountAccessType: GrafanaClientTypes.AccountAccessType?
+    /// Specifies whether the workspace supports IPv4 only, or IPv4 and IPv6. Valid values are IPv4 and DualStack. For more information about IP address types, see [Network access control](https://docs.aws.amazon.com/grafana/latest/userguide/AMG-configure-nac.html).
+    public var ipAddressType: GrafanaClientTypes.IPAddressType?
     /// The configuration settings for network access to your workspace. When this is configured, only listed IP addresses and VPC endpoints will be able to access your workspace. Standard Grafana authentication and authorization will still be required. If this is not configured, or is removed, then all IP addresses and VPC endpoints will be allowed. Standard Grafana authentication and authorization will still be required.
     public var networkAccessControl: GrafanaClientTypes.NetworkAccessConfiguration?
     /// The name of an IAM role that already exists to use to access resources through Organizations. This can only be used with a workspace that has the permissionType set to CUSTOMER_MANAGED.
@@ -2270,6 +2327,7 @@ public struct UpdateWorkspaceInput: Swift.Sendable {
 
     public init(
         accountAccessType: GrafanaClientTypes.AccountAccessType? = nil,
+        ipAddressType: GrafanaClientTypes.IPAddressType? = nil,
         networkAccessControl: GrafanaClientTypes.NetworkAccessConfiguration? = nil,
         organizationRoleName: Swift.String? = nil,
         permissionType: GrafanaClientTypes.PermissionType? = nil,
@@ -2286,6 +2344,7 @@ public struct UpdateWorkspaceInput: Swift.Sendable {
         workspaceRoleArn: Swift.String? = nil
     ) {
         self.accountAccessType = accountAccessType
+        self.ipAddressType = ipAddressType
         self.networkAccessControl = networkAccessControl
         self.organizationRoleName = organizationRoleName
         self.permissionType = permissionType
@@ -2305,7 +2364,7 @@ public struct UpdateWorkspaceInput: Swift.Sendable {
 
 extension UpdateWorkspaceInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateWorkspaceInput(accountAccessType: \(Swift.String(describing: accountAccessType)), networkAccessControl: \(Swift.String(describing: networkAccessControl)), permissionType: \(Swift.String(describing: permissionType)), removeNetworkAccessConfiguration: \(Swift.String(describing: removeNetworkAccessConfiguration)), removeVpcConfiguration: \(Swift.String(describing: removeVpcConfiguration)), stackSetName: \(Swift.String(describing: stackSetName)), vpcConfiguration: \(Swift.String(describing: vpcConfiguration)), workspaceDataSources: \(Swift.String(describing: workspaceDataSources)), workspaceId: \(Swift.String(describing: workspaceId)), workspaceNotificationDestinations: \(Swift.String(describing: workspaceNotificationDestinations)), organizationRoleName: \"CONTENT_REDACTED\", workspaceDescription: \"CONTENT_REDACTED\", workspaceName: \"CONTENT_REDACTED\", workspaceOrganizationalUnits: \"CONTENT_REDACTED\", workspaceRoleArn: \"CONTENT_REDACTED\")"}
+        "UpdateWorkspaceInput(accountAccessType: \(Swift.String(describing: accountAccessType)), ipAddressType: \(Swift.String(describing: ipAddressType)), networkAccessControl: \(Swift.String(describing: networkAccessControl)), permissionType: \(Swift.String(describing: permissionType)), removeNetworkAccessConfiguration: \(Swift.String(describing: removeNetworkAccessConfiguration)), removeVpcConfiguration: \(Swift.String(describing: removeVpcConfiguration)), stackSetName: \(Swift.String(describing: stackSetName)), vpcConfiguration: \(Swift.String(describing: vpcConfiguration)), workspaceDataSources: \(Swift.String(describing: workspaceDataSources)), workspaceId: \(Swift.String(describing: workspaceId)), workspaceNotificationDestinations: \(Swift.String(describing: workspaceNotificationDestinations)), organizationRoleName: \"CONTENT_REDACTED\", workspaceDescription: \"CONTENT_REDACTED\", workspaceName: \"CONTENT_REDACTED\", workspaceOrganizationalUnits: \"CONTENT_REDACTED\", workspaceRoleArn: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateWorkspaceOutput: Swift.Sendable {
@@ -2717,6 +2776,8 @@ extension CreateWorkspaceInput {
         try writer["clientToken"].write(value.clientToken)
         try writer["configuration"].write(value.configuration)
         try writer["grafanaVersion"].write(value.grafanaVersion)
+        try writer["ipAddressType"].write(value.ipAddressType)
+        try writer["kmsKeyId"].write(value.kmsKeyId)
         try writer["networkAccessControl"].write(value.networkAccessControl, with: GrafanaClientTypes.NetworkAccessConfiguration.write(value:to:))
         try writer["organizationRoleName"].write(value.organizationRoleName)
         try writer["permissionType"].write(value.permissionType)
@@ -2781,6 +2842,7 @@ extension UpdateWorkspaceInput {
     static func write(value: UpdateWorkspaceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["accountAccessType"].write(value.accountAccessType)
+        try writer["ipAddressType"].write(value.ipAddressType)
         try writer["networkAccessControl"].write(value.networkAccessControl, with: GrafanaClientTypes.NetworkAccessConfiguration.write(value:to:))
         try writer["organizationRoleName"].write(value.organizationRoleName)
         try writer["permissionType"].write(value.permissionType)
@@ -3125,7 +3187,7 @@ enum AssociateLicenseOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3143,7 +3205,7 @@ enum CreateWorkspaceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3162,7 +3224,7 @@ enum CreateWorkspaceApiKeyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3182,7 +3244,7 @@ enum CreateWorkspaceServiceAccountOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3202,7 +3264,7 @@ enum CreateWorkspaceServiceAccountTokenOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3222,7 +3284,7 @@ enum DeleteWorkspaceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3241,7 +3303,7 @@ enum DeleteWorkspaceApiKeyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3260,7 +3322,7 @@ enum DeleteWorkspaceServiceAccountOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3279,7 +3341,7 @@ enum DeleteWorkspaceServiceAccountTokenOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3298,7 +3360,7 @@ enum DescribeWorkspaceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3316,7 +3378,7 @@ enum DescribeWorkspaceAuthenticationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3335,7 +3397,7 @@ enum DescribeWorkspaceConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3352,7 +3414,7 @@ enum DisassociateLicenseOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3370,7 +3432,7 @@ enum ListPermissionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3388,7 +3450,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3406,7 +3468,7 @@ enum ListVersionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3424,7 +3486,7 @@ enum ListWorkspacesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3440,7 +3502,7 @@ enum ListWorkspaceServiceAccountsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3459,7 +3521,7 @@ enum ListWorkspaceServiceAccountTokensOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3478,7 +3540,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3496,7 +3558,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3514,7 +3576,7 @@ enum UpdatePermissionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3532,7 +3594,7 @@ enum UpdateWorkspaceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3551,7 +3613,7 @@ enum UpdateWorkspaceAuthenticationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3570,7 +3632,7 @@ enum UpdateWorkspaceConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3586,7 +3648,7 @@ enum UpdateWorkspaceConfigurationOutputError {
 
 extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -3599,7 +3661,7 @@ extension AccessDeniedException {
 
 extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         let httpResponse = baseError.httpResponse
         var value = InternalServerException()
@@ -3616,7 +3678,7 @@ extension InternalServerException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -3631,7 +3693,7 @@ extension ResourceNotFoundException {
 
 extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         let httpResponse = baseError.httpResponse
         var value = ThrottlingException()
@@ -3650,7 +3712,7 @@ extension ThrottlingException {
 
 extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: GrafanaClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -3665,7 +3727,7 @@ extension ValidationException {
 
 extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -3680,7 +3742,7 @@ extension ConflictException {
 
 extension ServiceQuotaExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -3695,37 +3757,89 @@ extension ServiceQuotaExceededException {
     }
 }
 
-extension GrafanaClientTypes.WorkspaceDescription {
+extension GrafanaClientTypes.AssertionAttributes {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.WorkspaceDescription {
+    static func write(value: GrafanaClientTypes.AssertionAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["email"].write(value.email)
+        try writer["groups"].write(value.groups)
+        try writer["login"].write(value.login)
+        try writer["name"].write(value.name)
+        try writer["org"].write(value.org)
+        try writer["role"].write(value.role)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.AssertionAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GrafanaClientTypes.WorkspaceDescription()
-        value.accountAccessType = try reader["accountAccessType"].readIfPresent()
-        value.created = try reader["created"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.dataSources = try reader["dataSources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GrafanaClientTypes.DataSourceType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.description = try reader["description"].readIfPresent()
-        value.endpoint = try reader["endpoint"].readIfPresent() ?? ""
-        value.grafanaVersion = try reader["grafanaVersion"].readIfPresent() ?? ""
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.modified = try reader["modified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        var value = GrafanaClientTypes.AssertionAttributes()
         value.name = try reader["name"].readIfPresent()
-        value.organizationRoleName = try reader["organizationRoleName"].readIfPresent()
-        value.notificationDestinations = try reader["notificationDestinations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GrafanaClientTypes.NotificationDestinationType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.organizationalUnits = try reader["organizationalUnits"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.permissionType = try reader["permissionType"].readIfPresent()
-        value.stackSetName = try reader["stackSetName"].readIfPresent()
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.workspaceRoleArn = try reader["workspaceRoleArn"].readIfPresent()
-        value.licenseType = try reader["licenseType"].readIfPresent()
-        value.freeTrialConsumed = try reader["freeTrialConsumed"].readIfPresent()
-        value.licenseExpiration = try reader["licenseExpiration"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.freeTrialExpiration = try reader["freeTrialExpiration"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.authentication = try reader["authentication"].readIfPresent(with: GrafanaClientTypes.AuthenticationSummary.read(from:))
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.vpcConfiguration = try reader["vpcConfiguration"].readIfPresent(with: GrafanaClientTypes.VpcConfiguration.read(from:))
-        value.networkAccessControl = try reader["networkAccessControl"].readIfPresent(with: GrafanaClientTypes.NetworkAccessConfiguration.read(from:))
-        value.grafanaToken = try reader["grafanaToken"].readIfPresent()
+        value.login = try reader["login"].readIfPresent()
+        value.email = try reader["email"].readIfPresent()
+        value.groups = try reader["groups"].readIfPresent()
+        value.role = try reader["role"].readIfPresent()
+        value.org = try reader["org"].readIfPresent()
         return value
+    }
+}
+
+extension GrafanaClientTypes.AuthenticationDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.AuthenticationDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GrafanaClientTypes.AuthenticationDescription()
+        value.providers = try reader["providers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GrafanaClientTypes.AuthenticationProviderTypes>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.saml = try reader["saml"].readIfPresent(with: GrafanaClientTypes.SamlAuthentication.read(from:))
+        value.awsSso = try reader["awsSso"].readIfPresent(with: GrafanaClientTypes.AwsSsoAuthentication.read(from:))
+        return value
+    }
+}
+
+extension GrafanaClientTypes.AuthenticationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.AuthenticationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GrafanaClientTypes.AuthenticationSummary()
+        value.providers = try reader["providers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GrafanaClientTypes.AuthenticationProviderTypes>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.samlConfigurationStatus = try reader["samlConfigurationStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension GrafanaClientTypes.AwsSsoAuthentication {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.AwsSsoAuthentication {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GrafanaClientTypes.AwsSsoAuthentication()
+        value.ssoClientId = try reader["ssoClientId"].readIfPresent()
+        return value
+    }
+}
+
+extension GrafanaClientTypes.IdpMetadata {
+
+    static func write(value: GrafanaClientTypes.IdpMetadata?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .url(url):
+                try writer["url"].write(url)
+            case let .xml(xml):
+                try writer["xml"].write(xml)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.IdpMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "url":
+                return .url(try reader["url"].read())
+            case "xml":
+                return .xml(try reader["xml"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
@@ -3746,64 +3860,30 @@ extension GrafanaClientTypes.NetworkAccessConfiguration {
     }
 }
 
-extension GrafanaClientTypes.VpcConfiguration {
+extension GrafanaClientTypes.PermissionEntry {
 
-    static func write(value: GrafanaClientTypes.VpcConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.PermissionEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GrafanaClientTypes.PermissionEntry()
+        value.user = try reader["user"].readIfPresent(with: GrafanaClientTypes.User.read(from:))
+        value.role = try reader["role"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension GrafanaClientTypes.RoleValues {
+
+    static func write(value: GrafanaClientTypes.RoleValues?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["admin"].writeList(value.admin, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["editor"].writeList(value.editor, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.VpcConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.RoleValues {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GrafanaClientTypes.VpcConfiguration()
-        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension GrafanaClientTypes.AuthenticationSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.AuthenticationSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GrafanaClientTypes.AuthenticationSummary()
-        value.providers = try reader["providers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GrafanaClientTypes.AuthenticationProviderTypes>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.samlConfigurationStatus = try reader["samlConfigurationStatus"].readIfPresent()
-        return value
-    }
-}
-
-extension GrafanaClientTypes.ServiceAccountTokenSummaryWithKey {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.ServiceAccountTokenSummaryWithKey {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GrafanaClientTypes.ServiceAccountTokenSummaryWithKey()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.key = try reader["key"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension GrafanaClientTypes.AuthenticationDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.AuthenticationDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GrafanaClientTypes.AuthenticationDescription()
-        value.providers = try reader["providers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GrafanaClientTypes.AuthenticationProviderTypes>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.saml = try reader["saml"].readIfPresent(with: GrafanaClientTypes.SamlAuthentication.read(from:))
-        value.awsSso = try reader["awsSso"].readIfPresent(with: GrafanaClientTypes.AwsSsoAuthentication.read(from:))
-        return value
-    }
-}
-
-extension GrafanaClientTypes.AwsSsoAuthentication {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.AwsSsoAuthentication {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GrafanaClientTypes.AwsSsoAuthentication()
-        value.ssoClientId = try reader["ssoClientId"].readIfPresent()
+        var value = GrafanaClientTypes.RoleValues()
+        value.editor = try reader["editor"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.admin = try reader["admin"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -3842,126 +3922,6 @@ extension GrafanaClientTypes.SamlConfiguration {
     }
 }
 
-extension GrafanaClientTypes.RoleValues {
-
-    static func write(value: GrafanaClientTypes.RoleValues?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["admin"].writeList(value.admin, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["editor"].writeList(value.editor, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.RoleValues {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GrafanaClientTypes.RoleValues()
-        value.editor = try reader["editor"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.admin = try reader["admin"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GrafanaClientTypes.AssertionAttributes {
-
-    static func write(value: GrafanaClientTypes.AssertionAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["email"].write(value.email)
-        try writer["groups"].write(value.groups)
-        try writer["login"].write(value.login)
-        try writer["name"].write(value.name)
-        try writer["org"].write(value.org)
-        try writer["role"].write(value.role)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.AssertionAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GrafanaClientTypes.AssertionAttributes()
-        value.name = try reader["name"].readIfPresent()
-        value.login = try reader["login"].readIfPresent()
-        value.email = try reader["email"].readIfPresent()
-        value.groups = try reader["groups"].readIfPresent()
-        value.role = try reader["role"].readIfPresent()
-        value.org = try reader["org"].readIfPresent()
-        return value
-    }
-}
-
-extension GrafanaClientTypes.IdpMetadata {
-
-    static func write(value: GrafanaClientTypes.IdpMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .url(url):
-                try writer["url"].write(url)
-            case let .xml(xml):
-                try writer["xml"].write(xml)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.IdpMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "url":
-                return .url(try reader["url"].read())
-            case "xml":
-                return .xml(try reader["xml"].read())
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension GrafanaClientTypes.PermissionEntry {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.PermissionEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GrafanaClientTypes.PermissionEntry()
-        value.user = try reader["user"].readIfPresent(with: GrafanaClientTypes.User.read(from:))
-        value.role = try reader["role"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension GrafanaClientTypes.User {
-
-    static func write(value: GrafanaClientTypes.User?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["id"].write(value.id)
-        try writer["type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.User {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GrafanaClientTypes.User()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension GrafanaClientTypes.WorkspaceSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.WorkspaceSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GrafanaClientTypes.WorkspaceSummary()
-        value.created = try reader["created"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.description = try reader["description"].readIfPresent()
-        value.endpoint = try reader["endpoint"].readIfPresent() ?? ""
-        value.grafanaVersion = try reader["grafanaVersion"].readIfPresent() ?? ""
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.modified = try reader["modified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.name = try reader["name"].readIfPresent()
-        value.notificationDestinations = try reader["notificationDestinations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GrafanaClientTypes.NotificationDestinationType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.authentication = try reader["authentication"].readIfPresent(with: GrafanaClientTypes.AuthenticationSummary.read(from:))
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.licenseType = try reader["licenseType"].readIfPresent()
-        value.grafanaToken = try reader["grafanaToken"].readIfPresent()
-        return value
-    }
-}
-
 extension GrafanaClientTypes.ServiceAccountSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.ServiceAccountSummary {
@@ -3985,6 +3945,18 @@ extension GrafanaClientTypes.ServiceAccountTokenSummary {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.expiresAt = try reader["expiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastUsedAt = try reader["lastUsedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension GrafanaClientTypes.ServiceAccountTokenSummaryWithKey {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.ServiceAccountTokenSummaryWithKey {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GrafanaClientTypes.ServiceAccountTokenSummaryWithKey()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.key = try reader["key"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4020,6 +3992,23 @@ extension GrafanaClientTypes.UpdateInstruction {
     }
 }
 
+extension GrafanaClientTypes.User {
+
+    static func write(value: GrafanaClientTypes.User?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["id"].write(value.id)
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.User {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GrafanaClientTypes.User()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension GrafanaClientTypes.ValidationExceptionField {
 
     static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.ValidationExceptionField {
@@ -4027,6 +4016,82 @@ extension GrafanaClientTypes.ValidationExceptionField {
         var value = GrafanaClientTypes.ValidationExceptionField()
         value.name = try reader["name"].readIfPresent() ?? ""
         value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension GrafanaClientTypes.VpcConfiguration {
+
+    static func write(value: GrafanaClientTypes.VpcConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.VpcConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GrafanaClientTypes.VpcConfiguration()
+        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension GrafanaClientTypes.WorkspaceDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.WorkspaceDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GrafanaClientTypes.WorkspaceDescription()
+        value.accountAccessType = try reader["accountAccessType"].readIfPresent()
+        value.created = try reader["created"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.dataSources = try reader["dataSources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GrafanaClientTypes.DataSourceType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.description = try reader["description"].readIfPresent()
+        value.endpoint = try reader["endpoint"].readIfPresent() ?? ""
+        value.grafanaVersion = try reader["grafanaVersion"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.modified = try reader["modified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.name = try reader["name"].readIfPresent()
+        value.organizationRoleName = try reader["organizationRoleName"].readIfPresent()
+        value.notificationDestinations = try reader["notificationDestinations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GrafanaClientTypes.NotificationDestinationType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.organizationalUnits = try reader["organizationalUnits"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.permissionType = try reader["permissionType"].readIfPresent()
+        value.stackSetName = try reader["stackSetName"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.workspaceRoleArn = try reader["workspaceRoleArn"].readIfPresent()
+        value.licenseType = try reader["licenseType"].readIfPresent()
+        value.freeTrialConsumed = try reader["freeTrialConsumed"].readIfPresent()
+        value.licenseExpiration = try reader["licenseExpiration"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.freeTrialExpiration = try reader["freeTrialExpiration"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.authentication = try reader["authentication"].readIfPresent(with: GrafanaClientTypes.AuthenticationSummary.read(from:))
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.vpcConfiguration = try reader["vpcConfiguration"].readIfPresent(with: GrafanaClientTypes.VpcConfiguration.read(from:))
+        value.networkAccessControl = try reader["networkAccessControl"].readIfPresent(with: GrafanaClientTypes.NetworkAccessConfiguration.read(from:))
+        value.grafanaToken = try reader["grafanaToken"].readIfPresent()
+        value.ipAddressType = try reader["ipAddressType"].readIfPresent()
+        value.kmsKeyId = try reader["kmsKeyId"].readIfPresent()
+        value.degradedWorkspaceReason = try reader["degradedWorkspaceReason"].readIfPresent()
+        return value
+    }
+}
+
+extension GrafanaClientTypes.WorkspaceSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.WorkspaceSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GrafanaClientTypes.WorkspaceSummary()
+        value.created = try reader["created"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.description = try reader["description"].readIfPresent()
+        value.endpoint = try reader["endpoint"].readIfPresent() ?? ""
+        value.grafanaVersion = try reader["grafanaVersion"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.modified = try reader["modified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.name = try reader["name"].readIfPresent()
+        value.notificationDestinations = try reader["notificationDestinations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GrafanaClientTypes.NotificationDestinationType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.authentication = try reader["authentication"].readIfPresent(with: GrafanaClientTypes.AuthenticationSummary.read(from:))
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.licenseType = try reader["licenseType"].readIfPresent()
+        value.grafanaToken = try reader["grafanaToken"].readIfPresent()
         return value
     }
 }

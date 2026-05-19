@@ -18,15 +18,9 @@ import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 import software.amazon.smithy.swift.codegen.protocols.rpcv2cbor.RpcV2CborProtocolGenerator
 
 /**
- * Integration that registers protocol generators this package provides
+ * Registers protocol generators configured with AWS-specific middleware and symbols.
  */
 class AddProtocols : SwiftIntegration {
-    /**
-     * Gets the sort order of the customization from -128 to 127, with lowest
-     * executed first.
-     *
-     * @return Returns the sort order, defaults to -10.
-     */
     override val order: Byte = -10
 
     override val protocolGenerators: List<ProtocolGenerator> =
@@ -39,13 +33,11 @@ class AddProtocols : SwiftIntegration {
             EC2QueryProtocolGenerator(),
             RpcV2CborProtocolGenerator(
                 customizations = AWSRpcV2CborCustomizations(),
-                operationEndpointResolverMiddlewareFactory = { ctx, endpointMiddlewareSymbol ->
-                    AWSOperationEndpointResolverMiddleware(ctx, endpointMiddlewareSymbol)
+                operationEndpointResolverMiddlewareFactory = { ctx, sym ->
+                    AWSOperationEndpointResolverMiddleware(ctx, sym)
                 },
                 userAgentMiddlewareFactory = { ctx ->
-                    UserAgentMiddleware(
-                        ctx.settings,
-                    )
+                    UserAgentMiddleware(ctx.settings)
                 },
             ),
         )

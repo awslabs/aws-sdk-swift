@@ -23,8 +23,9 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
+import struct Smithy.Document
 import struct Smithy.URIQueryItem
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
@@ -131,9 +132,9 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -154,9 +155,9 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -177,9 +178,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -200,9 +201,9 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -223,9 +224,9 @@ public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClien
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -246,9 +247,9 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -269,9 +270,9 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -391,8 +392,60 @@ extension S3TablesClientTypes {
 
 extension S3TablesClientTypes {
 
+    /// Defines a single partition field in an Iceberg partition specification.
+    public struct IcebergPartitionField: Swift.Sendable {
+        /// An optional unique identifier for this partition field. If not specified, S3 Tables automatically assigns a field ID.
+        public var fieldId: Swift.Int?
+        /// The name for this partition field. This name is used in the partitioned file paths.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The ID of the source schema field to partition by. This must reference a valid field ID from the table schema.
+        /// This member is required.
+        public var sourceId: Swift.Int?
+        /// The partition transform to apply to the source field. Supported transforms include identity, year, month, day, hour, bucket, and truncate. For more information, see the [Apache Iceberg partition transforms documentation](https://iceberg.apache.org/spec/#partition-transforms).
+        /// This member is required.
+        public var transform: Swift.String?
+
+        public init(
+            fieldId: Swift.Int? = nil,
+            name: Swift.String? = nil,
+            sourceId: Swift.Int? = nil,
+            transform: Swift.String? = nil
+        ) {
+            self.fieldId = fieldId
+            self.name = name
+            self.sourceId = sourceId
+            self.transform = transform
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
+    /// Defines how data in an Iceberg table is partitioned. Partitioning helps optimize query performance by organizing data into separate files based on field values. Each partition field specifies a transform to apply to a source field.
+    public struct IcebergPartitionSpec: Swift.Sendable {
+        /// The list of partition fields that define how the table data is partitioned. Each field specifies a source field and a transform to apply. This field is required if partitionSpec is provided.
+        /// This member is required.
+        public var fields: [S3TablesClientTypes.IcebergPartitionField]?
+        /// The unique identifier for this partition specification. If not specified, defaults to 0.
+        public var specId: Swift.Int?
+
+        public init(
+            fields: [S3TablesClientTypes.IcebergPartitionField]? = nil,
+            specId: Swift.Int? = nil
+        ) {
+            self.fields = fields
+            self.specId = specId
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
     /// Contains details about a schema field.
     public struct SchemaField: Swift.Sendable {
+        /// An optional unique identifier for the schema field. Field IDs are used by Apache Iceberg to track schema evolution and maintain compatibility across schema changes. If not specified, S3 Tables automatically assigns field IDs.
+        public var id: Swift.Int?
         /// The name of the field.
         /// This member is required.
         public var name: Swift.String?
@@ -403,10 +456,12 @@ extension S3TablesClientTypes {
         public var type: Swift.String?
 
         public init(
+            id: Swift.Int? = nil,
             name: Swift.String? = nil,
             `required`: Swift.Bool = false,
             type: Swift.String? = nil
         ) {
+            self.id = id
             self.name = name
             self.`required` = `required`
             self.type = type
@@ -432,20 +487,231 @@ extension S3TablesClientTypes {
 
 extension S3TablesClientTypes {
 
-    /// Contains details about the metadata for an Iceberg table.
-    public struct IcebergMetadata: Swift.Sendable {
-        /// Contains configuration properties for an Iceberg table.
-        public var properties: [Swift.String: Swift.String]?
-        /// The schema for an Iceberg table.
+    /// Contains details about a schema field in the V2 format. This field format supports nested and complex data types such as struct, list, and map, in addition to primitive types.
+    public struct SchemaV2Field: Swift.Sendable {
+        /// An optional description of the field.
+        public var doc: Swift.String?
+        /// The unique identifier for the schema field. Field IDs are used by Apache Iceberg to track schema evolution and maintain compatibility across schema changes.
         /// This member is required.
-        public var schema: S3TablesClientTypes.IcebergSchema?
+        public var id: Swift.Int?
+        /// The name of the field.
+        /// This member is required.
+        public var name: Swift.String?
+        /// A Boolean value that specifies whether values are required for each row in this field. If this is true, the field does not allow null values.
+        /// This member is required.
+        public var `required`: Swift.Bool?
+        /// The data type of the field. This can be a primitive type string such as boolean, int, long, float, double, string, binary, date, timestamp, or timestamptz, or a complex type represented as a JSON object for nested types such as struct, list, or map. For more information, see the [Apache Iceberg schemas and data types documentation](https://iceberg.apache.org/spec/#schemas-and-data-types).
+        /// This member is required.
+        public var type: Smithy.Document?
 
         public init(
-            properties: [Swift.String: Swift.String]? = nil,
-            schema: S3TablesClientTypes.IcebergSchema? = nil
+            doc: Swift.String? = nil,
+            id: Swift.Int? = nil,
+            name: Swift.String? = nil,
+            `required`: Swift.Bool? = nil,
+            type: Smithy.Document? = nil
         ) {
+            self.doc = doc
+            self.id = id
+            self.name = name
+            self.`required` = `required`
+            self.type = type
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
+    public enum SchemaV2FieldType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `struct`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SchemaV2FieldType] {
+            return [
+                .struct
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .struct: return "struct"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
+    /// Contains details about the schema for an Iceberg table using the V2 format. This schema format supports nested and complex data types such as struct, list, and map, in addition to primitive types.
+    public struct IcebergSchemaV2: Swift.Sendable {
+        /// The schema fields for the table. Each field defines a column in the table, including its name, type, and whether it is required.
+        /// This member is required.
+        public var fields: [S3TablesClientTypes.SchemaV2Field]?
+        /// A list of field IDs that are used as the identifier fields for the table. Identifier fields uniquely identify a row in the table.
+        public var identifierFieldIds: [Swift.Int]?
+        /// An optional unique identifier for the schema. Schema IDs are used by Apache Iceberg to track schema evolution.
+        public var schemaId: Swift.Int?
+        /// The type of the top-level schema, which is always a struct type as defined in the [Apache Iceberg specification](https://iceberg.apache.org/spec/#schemas-and-data-types). This value must be struct.
+        /// This member is required.
+        public var type: S3TablesClientTypes.SchemaV2FieldType?
+
+        public init(
+            fields: [S3TablesClientTypes.SchemaV2Field]? = nil,
+            identifierFieldIds: [Swift.Int]? = nil,
+            schemaId: Swift.Int? = nil,
+            type: S3TablesClientTypes.SchemaV2FieldType? = nil
+        ) {
+            self.fields = fields
+            self.identifierFieldIds = identifierFieldIds
+            self.schemaId = schemaId
+            self.type = type
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
+    public enum IcebergSortDirection: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case asc
+        case desc
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IcebergSortDirection] {
+            return [
+                .asc,
+                .desc
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .asc: return "asc"
+            case .desc: return "desc"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
+    public enum IcebergNullOrder: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case nullsFirst
+        case nullsLast
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IcebergNullOrder] {
+            return [
+                .nullsFirst,
+                .nullsLast
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .nullsFirst: return "nulls-first"
+            case .nullsLast: return "nulls-last"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
+    /// Defines a single sort field in an Iceberg sort order specification.
+    public struct IcebergSortField: Swift.Sendable {
+        /// The sort direction. Valid values are asc for ascending order or desc for descending order.
+        /// This member is required.
+        public var direction: S3TablesClientTypes.IcebergSortDirection?
+        /// Specifies how null values are ordered. Valid values are nulls-first to place nulls before non-null values, or nulls-last to place nulls after non-null values.
+        /// This member is required.
+        public var nullOrder: S3TablesClientTypes.IcebergNullOrder?
+        /// The ID of the source schema field to sort by. This must reference a valid field ID from the table schema.
+        /// This member is required.
+        public var sourceId: Swift.Int?
+        /// The transform to apply to the source field before sorting. Use identity to sort by the field value directly, or specify other transforms as needed.
+        /// This member is required.
+        public var transform: Swift.String?
+
+        public init(
+            direction: S3TablesClientTypes.IcebergSortDirection? = nil,
+            nullOrder: S3TablesClientTypes.IcebergNullOrder? = nil,
+            sourceId: Swift.Int? = nil,
+            transform: Swift.String? = nil
+        ) {
+            self.direction = direction
+            self.nullOrder = nullOrder
+            self.sourceId = sourceId
+            self.transform = transform
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
+    /// Defines the sort order for data within an Iceberg table. Sorting data can improve query performance by enabling more efficient data skipping.
+    public struct IcebergSortOrder: Swift.Sendable {
+        /// The list of sort fields that define how data is sorted within files. Each field specifies a source field, sort direction, and null ordering. This field is required if writeOrder is provided.
+        /// This member is required.
+        public var fields: [S3TablesClientTypes.IcebergSortField]?
+        /// The unique identifier for this sort order. If not specified, defaults to 1. The order ID is used by Apache Iceberg to track sort order evolution.
+        /// This member is required.
+        public var orderId: Swift.Int?
+
+        public init(
+            fields: [S3TablesClientTypes.IcebergSortField]? = nil,
+            orderId: Swift.Int? = nil
+        ) {
+            self.fields = fields
+            self.orderId = orderId
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
+    /// Contains details about the metadata for an Iceberg table.
+    public struct IcebergMetadata: Swift.Sendable {
+        /// The partition specification for the Iceberg table. Partitioning organizes data into separate files based on the values of one or more fields, which can improve query performance by reducing the amount of data scanned. Each partition field applies a transform (such as identity, year, month, or bucket) to a single field.
+        public var partitionSpec: S3TablesClientTypes.IcebergPartitionSpec?
+        /// A map of custom configuration properties for the Iceberg table.
+        public var properties: [Swift.String: Swift.String]?
+        /// The schema for an Iceberg table. Use this property to define table schemas with primitive types only. For schemas that include nested or complex types such as struct, list, or map, use schemaV2 instead.
+        public var schema: S3TablesClientTypes.IcebergSchema?
+        /// The schema for an Iceberg table using the V2 format. Use this property to define table schemas that include nested or complex data types such as struct, list, or map, in addition to primitive types. For schemas with only primitive types, you can use either schema or schemaV2.
+        public var schemaV2: S3TablesClientTypes.IcebergSchemaV2?
+        /// The sort order for the Iceberg table. Sort order defines how data is sorted within data files, which can improve query performance by enabling more efficient data skipping and filtering.
+        public var writeOrder: S3TablesClientTypes.IcebergSortOrder?
+
+        public init(
+            partitionSpec: S3TablesClientTypes.IcebergPartitionSpec? = nil,
+            properties: [Swift.String: Swift.String]? = nil,
+            schema: S3TablesClientTypes.IcebergSchema? = nil,
+            schemaV2: S3TablesClientTypes.IcebergSchemaV2? = nil,
+            writeOrder: S3TablesClientTypes.IcebergSortOrder? = nil
+        ) {
+            self.partitionSpec = partitionSpec
             self.properties = properties
             self.schema = schema
+            self.schemaV2 = schemaV2
+            self.writeOrder = writeOrder
         }
     }
 }
@@ -1784,9 +2050,9 @@ public struct MethodNotAllowedException: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -4336,7 +4602,7 @@ enum CreateNamespaceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -4355,7 +4621,7 @@ enum CreateTableOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -4374,7 +4640,7 @@ enum CreateTableBucketOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -4393,7 +4659,7 @@ enum DeleteNamespaceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -4412,7 +4678,7 @@ enum DeleteTableOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -4431,7 +4697,7 @@ enum DeleteTableBucketOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -4450,7 +4716,7 @@ enum DeleteTableBucketEncryptionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -4469,7 +4735,7 @@ enum DeleteTableBucketMetricsConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -4488,7 +4754,7 @@ enum DeleteTableBucketPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -4507,7 +4773,7 @@ enum DeleteTableBucketReplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4527,7 +4793,7 @@ enum DeleteTablePolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -4546,7 +4812,7 @@ enum DeleteTableReplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4566,7 +4832,7 @@ enum GetNamespaceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4586,7 +4852,7 @@ enum GetTableOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4606,7 +4872,7 @@ enum GetTableBucketOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4626,7 +4892,7 @@ enum GetTableBucketEncryptionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4645,7 +4911,7 @@ enum GetTableBucketMaintenanceConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -4664,7 +4930,7 @@ enum GetTableBucketMetricsConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -4683,7 +4949,7 @@ enum GetTableBucketPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -4702,7 +4968,7 @@ enum GetTableBucketReplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4722,7 +4988,7 @@ enum GetTableBucketStorageClassOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4741,7 +5007,7 @@ enum GetTableEncryptionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4760,7 +5026,7 @@ enum GetTableMaintenanceConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -4779,7 +5045,7 @@ enum GetTableMaintenanceJobStatusOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -4798,7 +5064,7 @@ enum GetTableMetadataLocationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -4817,7 +5083,7 @@ enum GetTablePolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -4836,7 +5102,7 @@ enum GetTableRecordExpirationConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -4855,7 +5121,7 @@ enum GetTableRecordExpirationJobStatusOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -4874,7 +5140,7 @@ enum GetTableReplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4894,7 +5160,7 @@ enum GetTableReplicationStatusOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -4913,7 +5179,7 @@ enum GetTableStorageClassOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4932,7 +5198,7 @@ enum ListNamespacesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4952,7 +5218,7 @@ enum ListTableBucketsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -4972,7 +5238,7 @@ enum ListTablesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -4991,7 +5257,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5010,7 +5276,7 @@ enum PutTableBucketEncryptionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5029,7 +5295,7 @@ enum PutTableBucketMaintenanceConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5048,7 +5314,7 @@ enum PutTableBucketMetricsConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5067,7 +5333,7 @@ enum PutTableBucketPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5086,7 +5352,7 @@ enum PutTableBucketReplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5106,7 +5372,7 @@ enum PutTableBucketStorageClassOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5125,7 +5391,7 @@ enum PutTableMaintenanceConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5144,7 +5410,7 @@ enum PutTablePolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5163,7 +5429,7 @@ enum PutTableRecordExpirationConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5182,7 +5448,7 @@ enum PutTableReplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5202,7 +5468,7 @@ enum RenameTableOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5221,7 +5487,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5240,7 +5506,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5259,7 +5525,7 @@ enum UpdateTableMetadataLocationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -5275,7 +5541,7 @@ enum UpdateTableMetadataLocationOutputError {
 
 extension BadRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> BadRequestException {
         let reader = baseError.errorBodyReader
         var value = BadRequestException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5288,7 +5554,7 @@ extension BadRequestException {
 
 extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5301,7 +5567,7 @@ extension ConflictException {
 
 extension ForbiddenException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ForbiddenException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ForbiddenException {
         let reader = baseError.errorBodyReader
         var value = ForbiddenException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5314,7 +5580,7 @@ extension ForbiddenException {
 
 extension InternalServerErrorException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerErrorException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalServerErrorException {
         let reader = baseError.errorBodyReader
         var value = InternalServerErrorException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5327,7 +5593,7 @@ extension InternalServerErrorException {
 
 extension NotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> NotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> NotFoundException {
         let reader = baseError.errorBodyReader
         var value = NotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5340,7 +5606,7 @@ extension NotFoundException {
 
 extension TooManyRequestsException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TooManyRequestsException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> TooManyRequestsException {
         let reader = baseError.errorBodyReader
         var value = TooManyRequestsException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5353,7 +5619,7 @@ extension TooManyRequestsException {
 
 extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5366,33 +5632,13 @@ extension AccessDeniedException {
 
 extension MethodNotAllowedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MethodNotAllowedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> MethodNotAllowedException {
         let reader = baseError.errorBodyReader
         var value = MethodNotAllowedException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension S3TablesClientTypes.ManagedTableInformation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> S3TablesClientTypes.ManagedTableInformation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = S3TablesClientTypes.ManagedTableInformation()
-        value.replicationInformation = try reader["replicationInformation"].readIfPresent(with: S3TablesClientTypes.ReplicationInformation.read(from:))
-        return value
-    }
-}
-
-extension S3TablesClientTypes.ReplicationInformation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> S3TablesClientTypes.ReplicationInformation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = S3TablesClientTypes.ReplicationInformation()
-        value.sourceTableARN = try reader["sourceTableARN"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5410,6 +5656,241 @@ extension S3TablesClientTypes.EncryptionConfiguration {
         var value = S3TablesClientTypes.EncryptionConfiguration()
         value.sseAlgorithm = try reader["sseAlgorithm"].readIfPresent() ?? .sdkUnknown("")
         value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
+        return value
+    }
+}
+
+extension S3TablesClientTypes.IcebergCompactionSettings {
+
+    static func write(value: S3TablesClientTypes.IcebergCompactionSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["strategy"].write(value.strategy)
+        try writer["targetFileSizeMB"].write(value.targetFileSizeMB)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> S3TablesClientTypes.IcebergCompactionSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3TablesClientTypes.IcebergCompactionSettings()
+        value.targetFileSizeMB = try reader["targetFileSizeMB"].readIfPresent()
+        value.strategy = try reader["strategy"].readIfPresent()
+        return value
+    }
+}
+
+extension S3TablesClientTypes.IcebergMetadata {
+
+    static func write(value: S3TablesClientTypes.IcebergMetadata?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["partitionSpec"].write(value.partitionSpec, with: S3TablesClientTypes.IcebergPartitionSpec.write(value:to:))
+        try writer["properties"].writeMap(value.properties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["schema"].write(value.schema, with: S3TablesClientTypes.IcebergSchema.write(value:to:))
+        try writer["schemaV2"].write(value.schemaV2, with: S3TablesClientTypes.IcebergSchemaV2.write(value:to:))
+        try writer["writeOrder"].write(value.writeOrder, with: S3TablesClientTypes.IcebergSortOrder.write(value:to:))
+    }
+}
+
+extension S3TablesClientTypes.IcebergPartitionField {
+
+    static func write(value: S3TablesClientTypes.IcebergPartitionField?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["field-id"].write(value.fieldId)
+        try writer["name"].write(value.name)
+        try writer["source-id"].write(value.sourceId)
+        try writer["transform"].write(value.transform)
+    }
+}
+
+extension S3TablesClientTypes.IcebergPartitionSpec {
+
+    static func write(value: S3TablesClientTypes.IcebergPartitionSpec?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["fields"].writeList(value.fields, memberWritingClosure: S3TablesClientTypes.IcebergPartitionField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["spec-id"].write(value.specId)
+    }
+}
+
+extension S3TablesClientTypes.IcebergSchema {
+
+    static func write(value: S3TablesClientTypes.IcebergSchema?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["fields"].writeList(value.fields, memberWritingClosure: S3TablesClientTypes.SchemaField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension S3TablesClientTypes.IcebergSchemaV2 {
+
+    static func write(value: S3TablesClientTypes.IcebergSchemaV2?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["fields"].writeList(value.fields, memberWritingClosure: S3TablesClientTypes.SchemaV2Field.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["identifier-field-ids"].writeList(value.identifierFieldIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["schema-id"].write(value.schemaId)
+        try writer["type"].write(value.type)
+    }
+}
+
+extension S3TablesClientTypes.IcebergSnapshotManagementSettings {
+
+    static func write(value: S3TablesClientTypes.IcebergSnapshotManagementSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxSnapshotAgeHours"].write(value.maxSnapshotAgeHours)
+        try writer["minSnapshotsToKeep"].write(value.minSnapshotsToKeep)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> S3TablesClientTypes.IcebergSnapshotManagementSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3TablesClientTypes.IcebergSnapshotManagementSettings()
+        value.minSnapshotsToKeep = try reader["minSnapshotsToKeep"].readIfPresent()
+        value.maxSnapshotAgeHours = try reader["maxSnapshotAgeHours"].readIfPresent()
+        return value
+    }
+}
+
+extension S3TablesClientTypes.IcebergSortField {
+
+    static func write(value: S3TablesClientTypes.IcebergSortField?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["direction"].write(value.direction)
+        try writer["null-order"].write(value.nullOrder)
+        try writer["source-id"].write(value.sourceId)
+        try writer["transform"].write(value.transform)
+    }
+}
+
+extension S3TablesClientTypes.IcebergSortOrder {
+
+    static func write(value: S3TablesClientTypes.IcebergSortOrder?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["fields"].writeList(value.fields, memberWritingClosure: S3TablesClientTypes.IcebergSortField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["order-id"].write(value.orderId)
+    }
+}
+
+extension S3TablesClientTypes.IcebergUnreferencedFileRemovalSettings {
+
+    static func write(value: S3TablesClientTypes.IcebergUnreferencedFileRemovalSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["nonCurrentDays"].write(value.nonCurrentDays)
+        try writer["unreferencedDays"].write(value.unreferencedDays)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> S3TablesClientTypes.IcebergUnreferencedFileRemovalSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3TablesClientTypes.IcebergUnreferencedFileRemovalSettings()
+        value.unreferencedDays = try reader["unreferencedDays"].readIfPresent()
+        value.nonCurrentDays = try reader["nonCurrentDays"].readIfPresent()
+        return value
+    }
+}
+
+extension S3TablesClientTypes.LastSuccessfulReplicatedUpdate {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> S3TablesClientTypes.LastSuccessfulReplicatedUpdate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3TablesClientTypes.LastSuccessfulReplicatedUpdate()
+        value.metadataLocation = try reader["metadataLocation"].readIfPresent() ?? ""
+        value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension S3TablesClientTypes.ManagedTableInformation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> S3TablesClientTypes.ManagedTableInformation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3TablesClientTypes.ManagedTableInformation()
+        value.replicationInformation = try reader["replicationInformation"].readIfPresent(with: S3TablesClientTypes.ReplicationInformation.read(from:))
+        return value
+    }
+}
+
+extension S3TablesClientTypes.NamespaceSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> S3TablesClientTypes.NamespaceSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3TablesClientTypes.NamespaceSummary()
+        value.namespace = try reader["namespace"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
+        value.ownerAccountId = try reader["ownerAccountId"].readIfPresent() ?? ""
+        value.namespaceId = try reader["namespaceId"].readIfPresent()
+        value.tableBucketId = try reader["tableBucketId"].readIfPresent()
+        return value
+    }
+}
+
+extension S3TablesClientTypes.ReplicationDestination {
+
+    static func write(value: S3TablesClientTypes.ReplicationDestination?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["destinationTableBucketARN"].write(value.destinationTableBucketARN)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> S3TablesClientTypes.ReplicationDestination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3TablesClientTypes.ReplicationDestination()
+        value.destinationTableBucketARN = try reader["destinationTableBucketARN"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension S3TablesClientTypes.ReplicationDestinationStatusModel {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> S3TablesClientTypes.ReplicationDestinationStatusModel {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3TablesClientTypes.ReplicationDestinationStatusModel()
+        value.replicationStatus = try reader["replicationStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.destinationTableBucketArn = try reader["destinationTableBucketArn"].readIfPresent() ?? ""
+        value.destinationTableArn = try reader["destinationTableArn"].readIfPresent()
+        value.lastSuccessfulReplicatedUpdate = try reader["lastSuccessfulReplicatedUpdate"].readIfPresent(with: S3TablesClientTypes.LastSuccessfulReplicatedUpdate.read(from:))
+        value.failureMessage = try reader["failureMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension S3TablesClientTypes.ReplicationInformation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> S3TablesClientTypes.ReplicationInformation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3TablesClientTypes.ReplicationInformation()
+        value.sourceTableARN = try reader["sourceTableARN"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension S3TablesClientTypes.SchemaField {
+
+    static func write(value: S3TablesClientTypes.SchemaField?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["id"].write(value.id)
+        try writer["name"].write(value.name)
+        try writer["required"].write(value.`required`)
+        try writer["type"].write(value.type)
+    }
+}
+
+extension S3TablesClientTypes.SchemaV2Field {
+
+    static func write(value: S3TablesClientTypes.SchemaV2Field?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["doc"].write(value.doc)
+        try writer["id"].write(value.id)
+        try writer["name"].write(value.name)
+        try writer["required"].write(value.`required`)
+        try writer["type"].write(value.type)
+    }
+}
+
+extension S3TablesClientTypes.StorageClassConfiguration {
+
+    static func write(value: S3TablesClientTypes.StorageClassConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["storageClass"].write(value.storageClass)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> S3TablesClientTypes.StorageClassConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3TablesClientTypes.StorageClassConfiguration()
+        value.storageClass = try reader["storageClass"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -5455,23 +5936,6 @@ extension S3TablesClientTypes.TableBucketMaintenanceSettings {
     }
 }
 
-extension S3TablesClientTypes.IcebergUnreferencedFileRemovalSettings {
-
-    static func write(value: S3TablesClientTypes.IcebergUnreferencedFileRemovalSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["nonCurrentDays"].write(value.nonCurrentDays)
-        try writer["unreferencedDays"].write(value.unreferencedDays)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> S3TablesClientTypes.IcebergUnreferencedFileRemovalSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = S3TablesClientTypes.IcebergUnreferencedFileRemovalSettings()
-        value.unreferencedDays = try reader["unreferencedDays"].readIfPresent()
-        value.nonCurrentDays = try reader["nonCurrentDays"].readIfPresent()
-        return value
-    }
-}
-
 extension S3TablesClientTypes.TableBucketReplicationConfiguration {
 
     static func write(value: S3TablesClientTypes.TableBucketReplicationConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -5504,32 +5968,17 @@ extension S3TablesClientTypes.TableBucketReplicationRule {
     }
 }
 
-extension S3TablesClientTypes.ReplicationDestination {
+extension S3TablesClientTypes.TableBucketSummary {
 
-    static func write(value: S3TablesClientTypes.ReplicationDestination?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["destinationTableBucketARN"].write(value.destinationTableBucketARN)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> S3TablesClientTypes.ReplicationDestination {
+    static func read(from reader: SmithyJSON.Reader) throws -> S3TablesClientTypes.TableBucketSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = S3TablesClientTypes.ReplicationDestination()
-        value.destinationTableBucketARN = try reader["destinationTableBucketARN"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension S3TablesClientTypes.StorageClassConfiguration {
-
-    static func write(value: S3TablesClientTypes.StorageClassConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["storageClass"].write(value.storageClass)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> S3TablesClientTypes.StorageClassConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = S3TablesClientTypes.StorageClassConfiguration()
-        value.storageClass = try reader["storageClass"].readIfPresent() ?? .sdkUnknown("")
+        var value = S3TablesClientTypes.TableBucketSummary()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.ownerAccountId = try reader["ownerAccountId"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.tableBucketId = try reader["tableBucketId"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
         return value
     }
 }
@@ -5547,6 +5996,18 @@ extension S3TablesClientTypes.TableMaintenanceConfigurationValue {
         var value = S3TablesClientTypes.TableMaintenanceConfigurationValue()
         value.status = try reader["status"].readIfPresent()
         value.settings = try reader["settings"].readIfPresent(with: S3TablesClientTypes.TableMaintenanceSettings.read(from:))
+        return value
+    }
+}
+
+extension S3TablesClientTypes.TableMaintenanceJobStatusValue {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> S3TablesClientTypes.TableMaintenanceJobStatusValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3TablesClientTypes.TableMaintenanceJobStatusValue()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.lastRunTimestamp = try reader["lastRunTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.failureMessage = try reader["failureMessage"].readIfPresent()
         return value
     }
 }
@@ -5579,49 +6040,16 @@ extension S3TablesClientTypes.TableMaintenanceSettings {
     }
 }
 
-extension S3TablesClientTypes.IcebergSnapshotManagementSettings {
+extension S3TablesClientTypes.TableMetadata {
 
-    static func write(value: S3TablesClientTypes.IcebergSnapshotManagementSettings?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: S3TablesClientTypes.TableMetadata?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["maxSnapshotAgeHours"].write(value.maxSnapshotAgeHours)
-        try writer["minSnapshotsToKeep"].write(value.minSnapshotsToKeep)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> S3TablesClientTypes.IcebergSnapshotManagementSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = S3TablesClientTypes.IcebergSnapshotManagementSettings()
-        value.minSnapshotsToKeep = try reader["minSnapshotsToKeep"].readIfPresent()
-        value.maxSnapshotAgeHours = try reader["maxSnapshotAgeHours"].readIfPresent()
-        return value
-    }
-}
-
-extension S3TablesClientTypes.IcebergCompactionSettings {
-
-    static func write(value: S3TablesClientTypes.IcebergCompactionSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["strategy"].write(value.strategy)
-        try writer["targetFileSizeMB"].write(value.targetFileSizeMB)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> S3TablesClientTypes.IcebergCompactionSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = S3TablesClientTypes.IcebergCompactionSettings()
-        value.targetFileSizeMB = try reader["targetFileSizeMB"].readIfPresent()
-        value.strategy = try reader["strategy"].readIfPresent()
-        return value
-    }
-}
-
-extension S3TablesClientTypes.TableMaintenanceJobStatusValue {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> S3TablesClientTypes.TableMaintenanceJobStatusValue {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = S3TablesClientTypes.TableMaintenanceJobStatusValue()
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.lastRunTimestamp = try reader["lastRunTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.failureMessage = try reader["failureMessage"].readIfPresent()
-        return value
+        switch value {
+            case let .iceberg(iceberg):
+                try writer["iceberg"].write(iceberg, with: S3TablesClientTypes.IcebergMetadata.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
     }
 }
 
@@ -5642,6 +6070,18 @@ extension S3TablesClientTypes.TableRecordExpirationConfigurationValue {
     }
 }
 
+extension S3TablesClientTypes.TableRecordExpirationJobMetrics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> S3TablesClientTypes.TableRecordExpirationJobMetrics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3TablesClientTypes.TableRecordExpirationJobMetrics()
+        value.deletedDataFiles = try reader["deletedDataFiles"].readIfPresent()
+        value.deletedRecords = try reader["deletedRecords"].readIfPresent()
+        value.removedFilesSize = try reader["removedFilesSize"].readIfPresent()
+        return value
+    }
+}
+
 extension S3TablesClientTypes.TableRecordExpirationSettings {
 
     static func write(value: S3TablesClientTypes.TableRecordExpirationSettings?, to writer: SmithyJSON.Writer) throws {
@@ -5653,18 +6093,6 @@ extension S3TablesClientTypes.TableRecordExpirationSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3TablesClientTypes.TableRecordExpirationSettings()
         value.days = try reader["days"].readIfPresent()
-        return value
-    }
-}
-
-extension S3TablesClientTypes.TableRecordExpirationJobMetrics {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> S3TablesClientTypes.TableRecordExpirationJobMetrics {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = S3TablesClientTypes.TableRecordExpirationJobMetrics()
-        value.deletedDataFiles = try reader["deletedDataFiles"].readIfPresent()
-        value.deletedRecords = try reader["deletedRecords"].readIfPresent()
-        value.removedFilesSize = try reader["removedFilesSize"].readIfPresent()
         return value
     }
 }
@@ -5701,61 +6129,6 @@ extension S3TablesClientTypes.TableReplicationRule {
     }
 }
 
-extension S3TablesClientTypes.ReplicationDestinationStatusModel {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> S3TablesClientTypes.ReplicationDestinationStatusModel {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = S3TablesClientTypes.ReplicationDestinationStatusModel()
-        value.replicationStatus = try reader["replicationStatus"].readIfPresent() ?? .sdkUnknown("")
-        value.destinationTableBucketArn = try reader["destinationTableBucketArn"].readIfPresent() ?? ""
-        value.destinationTableArn = try reader["destinationTableArn"].readIfPresent()
-        value.lastSuccessfulReplicatedUpdate = try reader["lastSuccessfulReplicatedUpdate"].readIfPresent(with: S3TablesClientTypes.LastSuccessfulReplicatedUpdate.read(from:))
-        value.failureMessage = try reader["failureMessage"].readIfPresent()
-        return value
-    }
-}
-
-extension S3TablesClientTypes.LastSuccessfulReplicatedUpdate {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> S3TablesClientTypes.LastSuccessfulReplicatedUpdate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = S3TablesClientTypes.LastSuccessfulReplicatedUpdate()
-        value.metadataLocation = try reader["metadataLocation"].readIfPresent() ?? ""
-        value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension S3TablesClientTypes.NamespaceSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> S3TablesClientTypes.NamespaceSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = S3TablesClientTypes.NamespaceSummary()
-        value.namespace = try reader["namespace"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
-        value.ownerAccountId = try reader["ownerAccountId"].readIfPresent() ?? ""
-        value.namespaceId = try reader["namespaceId"].readIfPresent()
-        value.tableBucketId = try reader["tableBucketId"].readIfPresent()
-        return value
-    }
-}
-
-extension S3TablesClientTypes.TableBucketSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> S3TablesClientTypes.TableBucketSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = S3TablesClientTypes.TableBucketSummary()
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.ownerAccountId = try reader["ownerAccountId"].readIfPresent() ?? ""
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.tableBucketId = try reader["tableBucketId"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        return value
-    }
-}
-
 extension S3TablesClientTypes.TableSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> S3TablesClientTypes.TableSummary {
@@ -5771,46 +6144,6 @@ extension S3TablesClientTypes.TableSummary {
         value.namespaceId = try reader["namespaceId"].readIfPresent()
         value.tableBucketId = try reader["tableBucketId"].readIfPresent()
         return value
-    }
-}
-
-extension S3TablesClientTypes.TableMetadata {
-
-    static func write(value: S3TablesClientTypes.TableMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .iceberg(iceberg):
-                try writer["iceberg"].write(iceberg, with: S3TablesClientTypes.IcebergMetadata.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension S3TablesClientTypes.IcebergMetadata {
-
-    static func write(value: S3TablesClientTypes.IcebergMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["properties"].writeMap(value.properties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["schema"].write(value.schema, with: S3TablesClientTypes.IcebergSchema.write(value:to:))
-    }
-}
-
-extension S3TablesClientTypes.IcebergSchema {
-
-    static func write(value: S3TablesClientTypes.IcebergSchema?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["fields"].writeList(value.fields, memberWritingClosure: S3TablesClientTypes.SchemaField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension S3TablesClientTypes.SchemaField {
-
-    static func write(value: S3TablesClientTypes.SchemaField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["required"].write(value.`required`)
-        try writer["type"].write(value.type)
     }
 }
 

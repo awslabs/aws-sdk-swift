@@ -42,36 +42,6 @@ extension PaginatorSequence where OperationStackInput == ListExecutionsInput, Op
     }
 }
 extension BCMDataExportsClient {
-    /// Paginate over `[ListExportsOutput]` results.
-    ///
-    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
-    /// - Parameters:
-    ///     - input: A `[ListExportsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListExportsOutput`
-    public func listExportsPaginated(input: ListExportsInput) -> ClientRuntime.PaginatorSequence<ListExportsInput, ListExportsOutput> {
-        return ClientRuntime.PaginatorSequence<ListExportsInput, ListExportsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listExports(input:))
-    }
-}
-
-extension ListExportsInput: ClientRuntime.PaginateToken {
-    public func usingPaginationToken(_ token: Swift.String) -> ListExportsInput {
-        return ListExportsInput(
-            maxResults: self.maxResults,
-            nextToken: token
-        )}
-}
-
-extension PaginatorSequence where OperationStackInput == ListExportsInput, OperationStackOutput == ListExportsOutput {
-    /// This paginator transforms the `AsyncSequence` returned by `listExportsPaginated`
-    /// to access the nested member `[BCMDataExportsClientTypes.ExportReference]`
-    /// - Returns: `[BCMDataExportsClientTypes.ExportReference]`
-    public func exports() async throws -> [BCMDataExportsClientTypes.ExportReference] {
-        return try await self.asyncCompactMap { item in item.exports }
-    }
-}
-extension BCMDataExportsClient {
     /// Paginate over `[ListTablesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

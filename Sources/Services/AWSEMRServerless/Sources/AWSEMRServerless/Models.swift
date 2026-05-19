@@ -25,8 +25,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
@@ -210,14 +210,18 @@ extension EMRServerlessClientTypes {
     public struct InteractiveConfiguration: Swift.Sendable {
         /// Enables an Apache Livy endpoint that you can connect to and run interactive jobs.
         public var livyEndpointEnabled: Swift.Bool?
+        /// Enables interactive sessions on the application. When set to true, you can start interactive sessions using the StartSession operation.
+        public var sessionEnabled: Swift.Bool?
         /// Enables you to connect an application to Amazon EMR Studio to run interactive workloads in a notebook.
         public var studioEnabled: Swift.Bool?
 
         public init(
             livyEndpointEnabled: Swift.Bool? = nil,
+            sessionEnabled: Swift.Bool? = nil,
             studioEnabled: Swift.Bool? = nil
         ) {
             self.livyEndpointEnabled = livyEndpointEnabled
+            self.sessionEnabled = sessionEnabled
             self.studioEnabled = studioEnabled
         }
     }
@@ -547,9 +551,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -571,9 +575,9 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -595,9 +599,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -619,9 +623,9 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -729,6 +733,65 @@ public struct GetApplicationInput: Swift.Sendable {
     }
 }
 
+extension EMRServerlessClientTypes {
+
+    public enum ResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case session
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceType] {
+            return [
+                .session
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .session: return "SESSION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetResourceDashboardInput: Swift.Sendable {
+    /// The ID of the application that the resource belongs to.
+    /// This member is required.
+    public var applicationId: Swift.String?
+    /// The ID of the resource.
+    /// This member is required.
+    public var resourceId: Swift.String?
+    /// The type of resource to access the dashboard for. Currently, only Session is supported.
+    /// This member is required.
+    public var resourceType: EMRServerlessClientTypes.ResourceType?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        resourceId: Swift.String? = nil,
+        resourceType: EMRServerlessClientTypes.ResourceType? = nil
+    ) {
+        self.applicationId = applicationId
+        self.resourceId = resourceId
+        self.resourceType = resourceType
+    }
+}
+
+public struct GetResourceDashboardOutput: Swift.Sendable {
+    /// A URL to the resource dashboard. For an active resource, this URL opens the live application UI. For a terminated resource, this URL opens the persistent application UI. This value is not included in the response if the URL is not available.
+    public var url: Swift.String?
+
+    public init(
+        url: Swift.String? = nil
+    ) {
+        self.url = url
+    }
+}
+
 public struct ListApplicationsInput: Swift.Sendable {
     /// The maximum number of applications that can be listed.
     public var maxResults: Swift.Int?
@@ -777,9 +840,9 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -1455,6 +1518,293 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     }
 }
 
+public struct GetSessionInput: Swift.Sendable {
+    /// The ID of the application that the session belongs to.
+    /// This member is required.
+    public var applicationId: Swift.String?
+    /// The ID of the session.
+    /// This member is required.
+    public var sessionId: Swift.String?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        sessionId: Swift.String? = nil
+    ) {
+        self.applicationId = applicationId
+        self.sessionId = sessionId
+    }
+}
+
+extension EMRServerlessClientTypes {
+
+    public enum SessionState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case busy
+        case failed
+        case idle
+        case started
+        case starting
+        case submitted
+        case terminated
+        case terminating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SessionState] {
+            return [
+                .busy,
+                .failed,
+                .idle,
+                .started,
+                .starting,
+                .submitted,
+                .terminated,
+                .terminating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .busy: return "BUSY"
+            case .failed: return "FAILED"
+            case .idle: return "IDLE"
+            case .started: return "STARTED"
+            case .starting: return "STARTING"
+            case .submitted: return "SUBMITTED"
+            case .terminated: return "TERMINATED"
+            case .terminating: return "TERMINATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetSessionEndpointInput: Swift.Sendable {
+    /// The ID of the application that the session belongs to.
+    /// This member is required.
+    public var applicationId: Swift.String?
+    /// The ID of the session.
+    /// This member is required.
+    public var sessionId: Swift.String?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        sessionId: Swift.String? = nil
+    ) {
+        self.applicationId = applicationId
+        self.sessionId = sessionId
+    }
+}
+
+public struct GetSessionEndpointOutput: Swift.Sendable {
+    /// The output contains the ID of the application.
+    /// This member is required.
+    public var applicationId: Swift.String?
+    /// Authentication token for accessing the session endpoint.
+    /// This member is required.
+    public var authToken: Swift.String?
+    /// The expiration time of the authentication token.
+    /// This member is required.
+    public var authTokenExpiresAt: Foundation.Date?
+    /// The endpoint URL for connecting to the session.
+    /// This member is required.
+    public var endpoint: Swift.String?
+    /// The output contains the ID of the session.
+    /// This member is required.
+    public var sessionId: Swift.String?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        authToken: Swift.String? = nil,
+        authTokenExpiresAt: Foundation.Date? = nil,
+        endpoint: Swift.String? = nil,
+        sessionId: Swift.String? = nil
+    ) {
+        self.applicationId = applicationId
+        self.authToken = authToken
+        self.authTokenExpiresAt = authTokenExpiresAt
+        self.endpoint = endpoint
+        self.sessionId = sessionId
+    }
+}
+
+extension GetSessionEndpointOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetSessionEndpointOutput(applicationId: \(Swift.String(describing: applicationId)), authTokenExpiresAt: \(Swift.String(describing: authTokenExpiresAt)), endpoint: \(Swift.String(describing: endpoint)), sessionId: \(Swift.String(describing: sessionId)), authToken: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListSessionsInput: Swift.Sendable {
+    /// The ID of the application to list sessions for.
+    /// This member is required.
+    public var applicationId: Swift.String?
+    /// The lower bound of the option to filter by creation date and time.
+    public var createdAtAfter: Foundation.Date?
+    /// The upper bound of the option to filter by creation date and time.
+    public var createdAtBefore: Foundation.Date?
+    /// The maximum number of sessions to return in each page of results.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of session results.
+    public var nextToken: Swift.String?
+    /// An optional filter for session states. Note that if this filter contains multiple states, the resulting list will be grouped by the state.
+    public var states: [EMRServerlessClientTypes.SessionState]?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        createdAtAfter: Foundation.Date? = nil,
+        createdAtBefore: Foundation.Date? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        states: [EMRServerlessClientTypes.SessionState]? = nil
+    ) {
+        self.applicationId = applicationId
+        self.createdAtAfter = createdAtAfter
+        self.createdAtBefore = createdAtBefore
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.states = states
+    }
+}
+
+extension EMRServerlessClientTypes {
+
+    /// The summary of attributes associated with a session.
+    public struct SessionSummary: Swift.Sendable {
+        /// The ID of the application that the session belongs to.
+        /// This member is required.
+        public var applicationId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the session.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The date and time that the session was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The IAM principal that created the session.
+        /// This member is required.
+        public var createdBy: Swift.String?
+        /// The Amazon Resource Name (ARN) of the execution role for the session.
+        /// This member is required.
+        public var executionRoleArn: Swift.String?
+        /// The optional name of the session.
+        public var name: Swift.String?
+        /// The Amazon EMR release label associated with the session.
+        /// This member is required.
+        public var releaseLabel: Swift.String?
+        /// The ID of the session.
+        /// This member is required.
+        public var sessionId: Swift.String?
+        /// The state of the session.
+        /// This member is required.
+        public var state: EMRServerlessClientTypes.SessionState?
+        /// Additional details about the current state of the session.
+        /// This member is required.
+        public var stateDetails: Swift.String?
+        /// The date and time that the session was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            applicationId: Swift.String? = nil,
+            arn: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            createdBy: Swift.String? = nil,
+            executionRoleArn: Swift.String? = nil,
+            name: Swift.String? = nil,
+            releaseLabel: Swift.String? = nil,
+            sessionId: Swift.String? = nil,
+            state: EMRServerlessClientTypes.SessionState? = nil,
+            stateDetails: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.applicationId = applicationId
+            self.arn = arn
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.executionRoleArn = executionRoleArn
+            self.name = name
+            self.releaseLabel = releaseLabel
+            self.sessionId = sessionId
+            self.state = state
+            self.stateDetails = stateDetails
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct ListSessionsOutput: Swift.Sendable {
+    /// The output displays the token for the next set of session results. This is required for pagination and is available as a response of the previous request.
+    public var nextToken: Swift.String?
+    /// The output lists information about the specified sessions.
+    /// This member is required.
+    public var sessions: [EMRServerlessClientTypes.SessionSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        sessions: [EMRServerlessClientTypes.SessionSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.sessions = sessions
+    }
+}
+
+public struct StartSessionOutput: Swift.Sendable {
+    /// The output contains the application ID on which the session was started.
+    /// This member is required.
+    public var applicationId: Swift.String?
+    /// The output contains the ARN of the session.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The output contains the ID of the session.
+    /// This member is required.
+    public var sessionId: Swift.String?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        arn: Swift.String? = nil,
+        sessionId: Swift.String? = nil
+    ) {
+        self.applicationId = applicationId
+        self.arn = arn
+        self.sessionId = sessionId
+    }
+}
+
+public struct TerminateSessionInput: Swift.Sendable {
+    /// The ID of the application that the session belongs to.
+    /// This member is required.
+    public var applicationId: Swift.String?
+    /// The ID of the session to terminate.
+    /// This member is required.
+    public var sessionId: Swift.String?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        sessionId: Swift.String? = nil
+    ) {
+        self.applicationId = applicationId
+        self.sessionId = sessionId
+    }
+}
+
+public struct TerminateSessionOutput: Swift.Sendable {
+    /// The output contains the application ID on which the session was terminated.
+    /// This member is required.
+    public var applicationId: Swift.String?
+    /// The output contains the ID of the terminated session.
+    /// This member is required.
+    public var sessionId: Swift.String?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        sessionId: Swift.String? = nil
+    ) {
+        self.applicationId = applicationId
+        self.sessionId = sessionId
+    }
+}
+
 public struct TagResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) that identifies the resource to list the tags for. Currently, the supported resources are Amazon EMR Serverless applications and job runs.
     /// This member is required.
@@ -1665,6 +2015,21 @@ extension EMRServerlessClientTypes {
             self.applicationConfiguration = applicationConfiguration
             self.diskEncryptionConfiguration = diskEncryptionConfiguration
             self.monitoringConfiguration = monitoringConfiguration
+        }
+    }
+}
+
+extension EMRServerlessClientTypes {
+
+    /// The configuration overrides for a session.
+    public struct SessionConfigurationOverrides: Swift.Sendable {
+        /// The runtime configuration for the session. Contains Spark configuration properties specified at session creation time.
+        public var runtimeConfiguration: [EMRServerlessClientTypes.Configuration]?
+
+        public init(
+            runtimeConfiguration: [EMRServerlessClientTypes.Configuration]? = nil
+        ) {
+            self.runtimeConfiguration = runtimeConfiguration
         }
     }
 }
@@ -1974,6 +2339,111 @@ extension EMRServerlessClientTypes {
     }
 }
 
+extension EMRServerlessClientTypes {
+
+    /// Information about a session, including the session state, configuration, and timestamps.
+    public struct Session: Swift.Sendable {
+        /// The ID of the application that the session belongs to.
+        /// This member is required.
+        public var applicationId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the session.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The aggregate vCPU, memory, and storage that Amazon Web Services has billed for the session. The billed resources include a 1-minute minimum usage for workers, plus additional storage over 20 GB per worker. Note that billed resources do not include usage for idle pre-initialized workers.
+        public var billedResourceUtilization: EMRServerlessClientTypes.ResourceUtilization?
+        /// The configuration overrides for the session, including runtime configuration properties.
+        public var configurationOverrides: EMRServerlessClientTypes.SessionConfigurationOverrides?
+        /// The date and time that the session was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The IAM principal that created the session.
+        /// This member is required.
+        public var createdBy: Swift.String?
+        /// The date and time that the session was terminated or failed.
+        public var endedAt: Foundation.Date?
+        /// The Amazon Resource Name (ARN) of the execution role for the session.
+        /// This member is required.
+        public var executionRoleArn: Swift.String?
+        /// The date and time that the session became idle.
+        public var idleSince: Foundation.Date?
+        /// The idle timeout in minutes for the session. After the session remains idle for this duration, it is automatically terminated.
+        public var idleTimeoutMinutes: Swift.Int?
+        /// The optional name of the session.
+        public var name: Swift.String?
+        /// The network configuration for customer VPC connectivity for the session.
+        public var networkConfiguration: EMRServerlessClientTypes.NetworkConfiguration?
+        /// The Amazon EMR release label associated with the session.
+        /// This member is required.
+        public var releaseLabel: Swift.String?
+        /// The ID of the session.
+        /// This member is required.
+        public var sessionId: Swift.String?
+        /// The date and time that the session moved to a running state.
+        public var startedAt: Foundation.Date?
+        /// The state of the session.
+        /// This member is required.
+        public var state: EMRServerlessClientTypes.SessionState?
+        /// Additional details about the current state of the session.
+        /// This member is required.
+        public var stateDetails: Swift.String?
+        /// The tags assigned to the session.
+        public var tags: [Swift.String: Swift.String]?
+        /// The total execution duration of the session in seconds.
+        public var totalExecutionDurationSeconds: Swift.Int?
+        /// The aggregate vCPU, memory, and storage resources used from the time the session starts to execute, until the time the session terminates, rounded up to the nearest second.
+        public var totalResourceUtilization: EMRServerlessClientTypes.TotalResourceUtilization?
+        /// The date and time that the session was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            applicationId: Swift.String? = nil,
+            arn: Swift.String? = nil,
+            billedResourceUtilization: EMRServerlessClientTypes.ResourceUtilization? = nil,
+            configurationOverrides: EMRServerlessClientTypes.SessionConfigurationOverrides? = nil,
+            createdAt: Foundation.Date? = nil,
+            createdBy: Swift.String? = nil,
+            endedAt: Foundation.Date? = nil,
+            executionRoleArn: Swift.String? = nil,
+            idleSince: Foundation.Date? = nil,
+            idleTimeoutMinutes: Swift.Int? = 0,
+            name: Swift.String? = nil,
+            networkConfiguration: EMRServerlessClientTypes.NetworkConfiguration? = nil,
+            releaseLabel: Swift.String? = nil,
+            sessionId: Swift.String? = nil,
+            startedAt: Foundation.Date? = nil,
+            state: EMRServerlessClientTypes.SessionState? = nil,
+            stateDetails: Swift.String? = nil,
+            tags: [Swift.String: Swift.String]? = nil,
+            totalExecutionDurationSeconds: Swift.Int? = nil,
+            totalResourceUtilization: EMRServerlessClientTypes.TotalResourceUtilization? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.applicationId = applicationId
+            self.arn = arn
+            self.billedResourceUtilization = billedResourceUtilization
+            self.configurationOverrides = configurationOverrides
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.endedAt = endedAt
+            self.executionRoleArn = executionRoleArn
+            self.idleSince = idleSince
+            self.idleTimeoutMinutes = idleTimeoutMinutes
+            self.name = name
+            self.networkConfiguration = networkConfiguration
+            self.releaseLabel = releaseLabel
+            self.sessionId = sessionId
+            self.startedAt = startedAt
+            self.state = state
+            self.stateDetails = stateDetails
+            self.tags = tags
+            self.totalExecutionDurationSeconds = totalExecutionDurationSeconds
+            self.totalResourceUtilization = totalResourceUtilization
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
 public struct GetApplicationOutput: Swift.Sendable {
     /// The output displays information about the specified application.
     /// This member is required.
@@ -2040,6 +2510,44 @@ public struct StartJobRunInput: Swift.Sendable {
     }
 }
 
+public struct StartSessionInput: Swift.Sendable {
+    /// The ID of the application on which to start the session.
+    /// This member is required.
+    public var applicationId: Swift.String?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token, the server returns the successful response without performing the operation again.
+    /// This member is required.
+    public var clientToken: Swift.String?
+    /// The configuration overrides for the session. Only runtime configuration overrides are supported.
+    public var configurationOverrides: EMRServerlessClientTypes.SessionConfigurationOverrides?
+    /// The execution role ARN for the session. Amazon EMR Serverless uses this role to access Amazon Web Services resources on your behalf during session execution.
+    /// This member is required.
+    public var executionRoleArn: Swift.String?
+    /// The idle timeout in minutes for the session. After the session remains idle for this duration, Amazon EMR Serverless automatically terminates it.
+    public var idleTimeoutMinutes: Swift.Int?
+    /// The optional name for the session.
+    public var name: Swift.String?
+    /// The tags to assign to the session.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        configurationOverrides: EMRServerlessClientTypes.SessionConfigurationOverrides? = nil,
+        executionRoleArn: Swift.String? = nil,
+        idleTimeoutMinutes: Swift.Int? = 0,
+        name: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.applicationId = applicationId
+        self.clientToken = clientToken
+        self.configurationOverrides = configurationOverrides
+        self.executionRoleArn = executionRoleArn
+        self.idleTimeoutMinutes = idleTimeoutMinutes
+        self.name = name
+        self.tags = tags
+    }
+}
+
 public struct UpdateApplicationOutput: Swift.Sendable {
     /// Information about the updated application.
     /// This member is required.
@@ -2061,6 +2569,18 @@ public struct GetJobRunOutput: Swift.Sendable {
         jobRun: EMRServerlessClientTypes.JobRun? = nil
     ) {
         self.jobRun = jobRun
+    }
+}
+
+public struct GetSessionOutput: Swift.Sendable {
+    /// The output displays information about the session.
+    /// This member is required.
+    public var session: EMRServerlessClientTypes.Session?
+
+    public init(
+        session: EMRServerlessClientTypes.Session? = nil
+    ) {
+        self.session = session
     }
 }
 
@@ -2170,6 +2690,62 @@ extension GetJobRunInput {
     }
 }
 
+extension GetResourceDashboardInput {
+
+    static func urlPathProvider(_ value: GetResourceDashboardInput) -> Swift.String? {
+        guard let applicationId = value.applicationId else {
+            return nil
+        }
+        return "/applications/\(applicationId.urlPercentEncoding())/dashboard"
+    }
+}
+
+extension GetResourceDashboardInput {
+
+    static func queryItemProvider(_ value: GetResourceDashboardInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let resourceId = value.resourceId else {
+            let message = "Creating a URL Query Item failed. resourceId is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let resourceIdQueryItem = Smithy.URIQueryItem(name: "resourceId".urlPercentEncoding(), value: Swift.String(resourceId).urlPercentEncoding())
+        items.append(resourceIdQueryItem)
+        guard let resourceType = value.resourceType else {
+            let message = "Creating a URL Query Item failed. resourceType is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let resourceTypeQueryItem = Smithy.URIQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(resourceType.rawValue).urlPercentEncoding())
+        items.append(resourceTypeQueryItem)
+        return items
+    }
+}
+
+extension GetSessionInput {
+
+    static func urlPathProvider(_ value: GetSessionInput) -> Swift.String? {
+        guard let applicationId = value.applicationId else {
+            return nil
+        }
+        guard let sessionId = value.sessionId else {
+            return nil
+        }
+        return "/applications/\(applicationId.urlPercentEncoding())/sessions/\(sessionId.urlPercentEncoding())"
+    }
+}
+
+extension GetSessionEndpointInput {
+
+    static func urlPathProvider(_ value: GetSessionEndpointInput) -> Swift.String? {
+        guard let applicationId = value.applicationId else {
+            return nil
+        }
+        guard let sessionId = value.sessionId else {
+            return nil
+        }
+        return "/applications/\(applicationId.urlPercentEncoding())/sessions/\(sessionId.urlPercentEncoding())/endpoint"
+    }
+}
+
 extension ListApplicationsInput {
 
     static func urlPathProvider(_ value: ListApplicationsInput) -> Swift.String? {
@@ -2272,6 +2848,46 @@ extension ListJobRunsInput {
     }
 }
 
+extension ListSessionsInput {
+
+    static func urlPathProvider(_ value: ListSessionsInput) -> Swift.String? {
+        guard let applicationId = value.applicationId else {
+            return nil
+        }
+        return "/applications/\(applicationId.urlPercentEncoding())/sessions"
+    }
+}
+
+extension ListSessionsInput {
+
+    static func queryItemProvider(_ value: ListSessionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let createdAtAfter = value.createdAtAfter {
+            let createdAtAfterQueryItem = Smithy.URIQueryItem(name: "createdAtAfter".urlPercentEncoding(), value: Swift.String(SmithyTimestamps.TimestampFormatter(format: .dateTime).string(from: createdAtAfter)).urlPercentEncoding())
+            items.append(createdAtAfterQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let createdAtBefore = value.createdAtBefore {
+            let createdAtBeforeQueryItem = Smithy.URIQueryItem(name: "createdAtBefore".urlPercentEncoding(), value: Swift.String(SmithyTimestamps.TimestampFormatter(format: .dateTime).string(from: createdAtBefore)).urlPercentEncoding())
+            items.append(createdAtBeforeQueryItem)
+        }
+        if let states = value.states {
+            states.forEach { queryItemValue in
+                let queryItem = Smithy.URIQueryItem(name: "states".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
+                items.append(queryItem)
+            }
+        }
+        return items
+    }
+}
+
 extension ListTagsForResourceInput {
 
     static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
@@ -2302,6 +2918,16 @@ extension StartJobRunInput {
     }
 }
 
+extension StartSessionInput {
+
+    static func urlPathProvider(_ value: StartSessionInput) -> Swift.String? {
+        guard let applicationId = value.applicationId else {
+            return nil
+        }
+        return "/applications/\(applicationId.urlPercentEncoding())/sessions"
+    }
+}
+
 extension StopApplicationInput {
 
     static func urlPathProvider(_ value: StopApplicationInput) -> Swift.String? {
@@ -2319,6 +2945,19 @@ extension TagResourceInput {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
+    }
+}
+
+extension TerminateSessionInput {
+
+    static func urlPathProvider(_ value: TerminateSessionInput) -> Swift.String? {
+        guard let applicationId = value.applicationId else {
+            return nil
+        }
+        guard let sessionId = value.sessionId else {
+            return nil
+        }
+        return "/applications/\(applicationId.urlPercentEncoding())/sessions/\(sessionId.urlPercentEncoding())"
     }
 }
 
@@ -2398,6 +3037,19 @@ extension StartJobRunInput {
         try writer["mode"].write(value.mode)
         try writer["name"].write(value.name)
         try writer["retryPolicy"].write(value.retryPolicy, with: EMRServerlessClientTypes.RetryPolicy.write(value:to:))
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension StartSessionInput {
+
+    static func write(value: StartSessionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["configurationOverrides"].write(value.configurationOverrides, with: EMRServerlessClientTypes.SessionConfigurationOverrides.write(value:to:))
+        try writer["executionRoleArn"].write(value.executionRoleArn)
+        try writer["idleTimeoutMinutes"].write(value.idleTimeoutMinutes)
+        try writer["name"].write(value.name)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -2504,6 +3156,46 @@ extension GetJobRunOutput {
     }
 }
 
+extension GetResourceDashboardOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetResourceDashboardOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetResourceDashboardOutput()
+        value.url = try reader["url"].readIfPresent()
+        return value
+    }
+}
+
+extension GetSessionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetSessionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetSessionOutput()
+        value.session = try reader["session"].readIfPresent(with: EMRServerlessClientTypes.Session.read(from:))
+        return value
+    }
+}
+
+extension GetSessionEndpointOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetSessionEndpointOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetSessionEndpointOutput()
+        value.applicationId = try reader["applicationId"].readIfPresent() ?? ""
+        value.authToken = try reader["authToken"].readIfPresent() ?? ""
+        value.authTokenExpiresAt = try reader["authTokenExpiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.endpoint = try reader["endpoint"].readIfPresent() ?? ""
+        value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension ListApplicationsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListApplicationsOutput {
@@ -2543,6 +3235,19 @@ extension ListJobRunsOutput {
     }
 }
 
+extension ListSessionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListSessionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListSessionsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.sessions = try reader["sessions"].readListIfPresent(memberReadingClosure: EMRServerlessClientTypes.SessionSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension ListTagsForResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTagsForResourceOutput {
@@ -2576,6 +3281,20 @@ extension StartJobRunOutput {
     }
 }
 
+extension StartSessionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartSessionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartSessionOutput()
+        value.applicationId = try reader["applicationId"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension StopApplicationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopApplicationOutput {
@@ -2587,6 +3306,19 @@ extension TagResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
+    }
+}
+
+extension TerminateSessionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> TerminateSessionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = TerminateSessionOutput()
+        value.applicationId = try reader["applicationId"].readIfPresent() ?? ""
+        value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
+        return value
     }
 }
 
@@ -2614,7 +3346,7 @@ enum CancelJobRunOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -2630,7 +3362,7 @@ enum CreateApplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -2647,7 +3379,7 @@ enum DeleteApplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -2663,7 +3395,7 @@ enum GetApplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -2679,7 +3411,7 @@ enum GetDashboardForJobRunOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -2695,7 +3427,55 @@ enum GetJobRunOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetResourceDashboardOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetSessionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetSessionEndpointOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -2711,7 +3491,7 @@ enum ListApplicationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -2726,7 +3506,7 @@ enum ListJobRunAttemptsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -2742,10 +3522,26 @@ enum ListJobRunsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListSessionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -2757,7 +3553,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -2773,7 +3569,7 @@ enum StartApplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -2790,7 +3586,7 @@ enum StartJobRunOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -2802,12 +3598,30 @@ enum StartJobRunOutputError {
     }
 }
 
+enum StartSessionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum StopApplicationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -2823,7 +3637,23 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum TerminateSessionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -2839,7 +3669,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -2855,7 +3685,7 @@ enum UpdateApplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -2868,7 +3698,7 @@ enum UpdateApplicationOutputError {
 
 extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -2881,7 +3711,7 @@ extension InternalServerException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -2894,7 +3724,7 @@ extension ResourceNotFoundException {
 
 extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -2907,7 +3737,7 @@ extension ValidationException {
 
 extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -2920,7 +3750,7 @@ extension ConflictException {
 
 extension ServiceQuotaExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -2965,116 +3795,53 @@ extension EMRServerlessClientTypes.Application {
     }
 }
 
-extension EMRServerlessClientTypes.JobLevelCostAllocationConfiguration {
+extension EMRServerlessClientTypes.ApplicationSummary {
 
-    static func write(value: EMRServerlessClientTypes.JobLevelCostAllocationConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.ApplicationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRServerlessClientTypes.ApplicationSummary()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.releaseLabel = try reader["releaseLabel"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? ""
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        value.stateDetails = try reader["stateDetails"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.architecture = try reader["architecture"].readIfPresent()
+        return value
+    }
+}
+
+extension EMRServerlessClientTypes.AutoStartConfig {
+
+    static func write(value: EMRServerlessClientTypes.AutoStartConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["enabled"].write(value.enabled)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.JobLevelCostAllocationConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.AutoStartConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EMRServerlessClientTypes.JobLevelCostAllocationConfiguration()
+        var value = EMRServerlessClientTypes.AutoStartConfig()
         value.enabled = try reader["enabled"].readIfPresent()
         return value
     }
 }
 
-extension EMRServerlessClientTypes.IdentityCenterConfiguration {
+extension EMRServerlessClientTypes.AutoStopConfig {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.IdentityCenterConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EMRServerlessClientTypes.IdentityCenterConfiguration()
-        value.identityCenterInstanceArn = try reader["identityCenterInstanceArn"].readIfPresent()
-        value.identityCenterApplicationArn = try reader["identityCenterApplicationArn"].readIfPresent()
-        value.userBackgroundSessionsEnabled = try reader["userBackgroundSessionsEnabled"].readIfPresent()
-        return value
-    }
-}
-
-extension EMRServerlessClientTypes.SchedulerConfiguration {
-
-    static func write(value: EMRServerlessClientTypes.SchedulerConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: EMRServerlessClientTypes.AutoStopConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["maxConcurrentRuns"].write(value.maxConcurrentRuns)
-        try writer["queueTimeoutMinutes"].write(value.queueTimeoutMinutes)
+        try writer["enabled"].write(value.enabled)
+        try writer["idleTimeoutMinutes"].write(value.idleTimeoutMinutes)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.SchedulerConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.AutoStopConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EMRServerlessClientTypes.SchedulerConfiguration()
-        value.queueTimeoutMinutes = try reader["queueTimeoutMinutes"].readIfPresent()
-        value.maxConcurrentRuns = try reader["maxConcurrentRuns"].readIfPresent()
-        return value
-    }
-}
-
-extension EMRServerlessClientTypes.InteractiveConfiguration {
-
-    static func write(value: EMRServerlessClientTypes.InteractiveConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["livyEndpointEnabled"].write(value.livyEndpointEnabled)
-        try writer["studioEnabled"].write(value.studioEnabled)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.InteractiveConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EMRServerlessClientTypes.InteractiveConfiguration()
-        value.studioEnabled = try reader["studioEnabled"].readIfPresent()
-        value.livyEndpointEnabled = try reader["livyEndpointEnabled"].readIfPresent()
-        return value
-    }
-}
-
-extension EMRServerlessClientTypes.DiskEncryptionConfiguration {
-
-    static func write(value: EMRServerlessClientTypes.DiskEncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["encryptionContext"].writeMap(value.encryptionContext, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["encryptionKeyArn"].write(value.encryptionKeyArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.DiskEncryptionConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EMRServerlessClientTypes.DiskEncryptionConfiguration()
-        value.encryptionContext = try reader["encryptionContext"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.encryptionKeyArn = try reader["encryptionKeyArn"].readIfPresent()
-        return value
-    }
-}
-
-extension EMRServerlessClientTypes.MonitoringConfiguration {
-
-    static func write(value: EMRServerlessClientTypes.MonitoringConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cloudWatchLoggingConfiguration"].write(value.cloudWatchLoggingConfiguration, with: EMRServerlessClientTypes.CloudWatchLoggingConfiguration.write(value:to:))
-        try writer["managedPersistenceMonitoringConfiguration"].write(value.managedPersistenceMonitoringConfiguration, with: EMRServerlessClientTypes.ManagedPersistenceMonitoringConfiguration.write(value:to:))
-        try writer["prometheusMonitoringConfiguration"].write(value.prometheusMonitoringConfiguration, with: EMRServerlessClientTypes.PrometheusMonitoringConfiguration.write(value:to:))
-        try writer["s3MonitoringConfiguration"].write(value.s3MonitoringConfiguration, with: EMRServerlessClientTypes.S3MonitoringConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.MonitoringConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EMRServerlessClientTypes.MonitoringConfiguration()
-        value.s3MonitoringConfiguration = try reader["s3MonitoringConfiguration"].readIfPresent(with: EMRServerlessClientTypes.S3MonitoringConfiguration.read(from:))
-        value.managedPersistenceMonitoringConfiguration = try reader["managedPersistenceMonitoringConfiguration"].readIfPresent(with: EMRServerlessClientTypes.ManagedPersistenceMonitoringConfiguration.read(from:))
-        value.cloudWatchLoggingConfiguration = try reader["cloudWatchLoggingConfiguration"].readIfPresent(with: EMRServerlessClientTypes.CloudWatchLoggingConfiguration.read(from:))
-        value.prometheusMonitoringConfiguration = try reader["prometheusMonitoringConfiguration"].readIfPresent(with: EMRServerlessClientTypes.PrometheusMonitoringConfiguration.read(from:))
-        return value
-    }
-}
-
-extension EMRServerlessClientTypes.PrometheusMonitoringConfiguration {
-
-    static func write(value: EMRServerlessClientTypes.PrometheusMonitoringConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["remoteWriteUrl"].write(value.remoteWriteUrl)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.PrometheusMonitoringConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EMRServerlessClientTypes.PrometheusMonitoringConfiguration()
-        value.remoteWriteUrl = try reader["remoteWriteUrl"].readIfPresent()
+        var value = EMRServerlessClientTypes.AutoStopConfig()
+        value.enabled = try reader["enabled"].readIfPresent()
+        value.idleTimeoutMinutes = try reader["idleTimeoutMinutes"].readIfPresent()
         return value
     }
 }
@@ -3102,40 +3869,6 @@ extension EMRServerlessClientTypes.CloudWatchLoggingConfiguration {
     }
 }
 
-extension EMRServerlessClientTypes.ManagedPersistenceMonitoringConfiguration {
-
-    static func write(value: EMRServerlessClientTypes.ManagedPersistenceMonitoringConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["enabled"].write(value.enabled)
-        try writer["encryptionKeyArn"].write(value.encryptionKeyArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.ManagedPersistenceMonitoringConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EMRServerlessClientTypes.ManagedPersistenceMonitoringConfiguration()
-        value.enabled = try reader["enabled"].readIfPresent()
-        value.encryptionKeyArn = try reader["encryptionKeyArn"].readIfPresent()
-        return value
-    }
-}
-
-extension EMRServerlessClientTypes.S3MonitoringConfiguration {
-
-    static func write(value: EMRServerlessClientTypes.S3MonitoringConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["encryptionKeyArn"].write(value.encryptionKeyArn)
-        try writer["logUri"].write(value.logUri)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.S3MonitoringConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EMRServerlessClientTypes.S3MonitoringConfiguration()
-        value.logUri = try reader["logUri"].readIfPresent()
-        value.encryptionKeyArn = try reader["encryptionKeyArn"].readIfPresent()
-        return value
-    }
-}
-
 extension EMRServerlessClientTypes.Configuration {
 
     static func write(value: EMRServerlessClientTypes.Configuration?, to writer: SmithyJSON.Writer) throws {
@@ -3155,13 +3888,79 @@ extension EMRServerlessClientTypes.Configuration {
     }
 }
 
-extension EMRServerlessClientTypes.WorkerTypeSpecification {
+extension EMRServerlessClientTypes.ConfigurationOverrides {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.WorkerTypeSpecification {
+    static func write(value: EMRServerlessClientTypes.ConfigurationOverrides?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["applicationConfiguration"].writeList(value.applicationConfiguration, memberWritingClosure: EMRServerlessClientTypes.Configuration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["diskEncryptionConfiguration"].write(value.diskEncryptionConfiguration, with: EMRServerlessClientTypes.DiskEncryptionConfiguration.write(value:to:))
+        try writer["monitoringConfiguration"].write(value.monitoringConfiguration, with: EMRServerlessClientTypes.MonitoringConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.ConfigurationOverrides {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EMRServerlessClientTypes.WorkerTypeSpecification()
-        value.imageConfiguration = try reader["imageConfiguration"].readIfPresent(with: EMRServerlessClientTypes.ImageConfiguration.read(from:))
+        var value = EMRServerlessClientTypes.ConfigurationOverrides()
+        value.applicationConfiguration = try reader["applicationConfiguration"].readListIfPresent(memberReadingClosure: EMRServerlessClientTypes.Configuration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.monitoringConfiguration = try reader["monitoringConfiguration"].readIfPresent(with: EMRServerlessClientTypes.MonitoringConfiguration.read(from:))
+        value.diskEncryptionConfiguration = try reader["diskEncryptionConfiguration"].readIfPresent(with: EMRServerlessClientTypes.DiskEncryptionConfiguration.read(from:))
         return value
+    }
+}
+
+extension EMRServerlessClientTypes.DiskEncryptionConfiguration {
+
+    static func write(value: EMRServerlessClientTypes.DiskEncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["encryptionContext"].writeMap(value.encryptionContext, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["encryptionKeyArn"].write(value.encryptionKeyArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.DiskEncryptionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRServerlessClientTypes.DiskEncryptionConfiguration()
+        value.encryptionContext = try reader["encryptionContext"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.encryptionKeyArn = try reader["encryptionKeyArn"].readIfPresent()
+        return value
+    }
+}
+
+extension EMRServerlessClientTypes.Hive {
+
+    static func write(value: EMRServerlessClientTypes.Hive?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["initQueryFile"].write(value.initQueryFile)
+        try writer["parameters"].write(value.parameters)
+        try writer["query"].write(value.query)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.Hive {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRServerlessClientTypes.Hive()
+        value.query = try reader["query"].readIfPresent() ?? ""
+        value.initQueryFile = try reader["initQueryFile"].readIfPresent()
+        value.parameters = try reader["parameters"].readIfPresent()
+        return value
+    }
+}
+
+extension EMRServerlessClientTypes.IdentityCenterConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.IdentityCenterConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRServerlessClientTypes.IdentityCenterConfiguration()
+        value.identityCenterInstanceArn = try reader["identityCenterInstanceArn"].readIfPresent()
+        value.identityCenterApplicationArn = try reader["identityCenterApplicationArn"].readIfPresent()
+        value.userBackgroundSessionsEnabled = try reader["userBackgroundSessionsEnabled"].readIfPresent()
+        return value
+    }
+}
+
+extension EMRServerlessClientTypes.IdentityCenterConfigurationInput {
+
+    static func write(value: EMRServerlessClientTypes.IdentityCenterConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["identityCenterInstanceArn"].write(value.identityCenterInstanceArn)
+        try writer["userBackgroundSessionsEnabled"].write(value.userBackgroundSessionsEnabled)
     }
 }
 
@@ -3176,71 +3975,11 @@ extension EMRServerlessClientTypes.ImageConfiguration {
     }
 }
 
-extension EMRServerlessClientTypes.NetworkConfiguration {
+extension EMRServerlessClientTypes.ImageConfigurationInput {
 
-    static func write(value: EMRServerlessClientTypes.NetworkConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: EMRServerlessClientTypes.ImageConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.NetworkConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EMRServerlessClientTypes.NetworkConfiguration()
-        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension EMRServerlessClientTypes.AutoStopConfig {
-
-    static func write(value: EMRServerlessClientTypes.AutoStopConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["enabled"].write(value.enabled)
-        try writer["idleTimeoutMinutes"].write(value.idleTimeoutMinutes)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.AutoStopConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EMRServerlessClientTypes.AutoStopConfig()
-        value.enabled = try reader["enabled"].readIfPresent()
-        value.idleTimeoutMinutes = try reader["idleTimeoutMinutes"].readIfPresent()
-        return value
-    }
-}
-
-extension EMRServerlessClientTypes.AutoStartConfig {
-
-    static func write(value: EMRServerlessClientTypes.AutoStartConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["enabled"].write(value.enabled)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.AutoStartConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EMRServerlessClientTypes.AutoStartConfig()
-        value.enabled = try reader["enabled"].readIfPresent()
-        return value
-    }
-}
-
-extension EMRServerlessClientTypes.MaximumAllowedResources {
-
-    static func write(value: EMRServerlessClientTypes.MaximumAllowedResources?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cpu"].write(value.cpu)
-        try writer["disk"].write(value.disk)
-        try writer["memory"].write(value.memory)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.MaximumAllowedResources {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EMRServerlessClientTypes.MaximumAllowedResources()
-        value.cpu = try reader["cpu"].readIfPresent() ?? ""
-        value.memory = try reader["memory"].readIfPresent() ?? ""
-        value.disk = try reader["disk"].readIfPresent()
-        return value
+        try writer["imageUri"].write(value.imageUri)
     }
 }
 
@@ -3261,23 +4000,64 @@ extension EMRServerlessClientTypes.InitialCapacityConfig {
     }
 }
 
-extension EMRServerlessClientTypes.WorkerResourceConfig {
+extension EMRServerlessClientTypes.InteractiveConfiguration {
 
-    static func write(value: EMRServerlessClientTypes.WorkerResourceConfig?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: EMRServerlessClientTypes.InteractiveConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["cpu"].write(value.cpu)
-        try writer["disk"].write(value.disk)
-        try writer["diskType"].write(value.diskType)
-        try writer["memory"].write(value.memory)
+        try writer["livyEndpointEnabled"].write(value.livyEndpointEnabled)
+        try writer["sessionEnabled"].write(value.sessionEnabled)
+        try writer["studioEnabled"].write(value.studioEnabled)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.WorkerResourceConfig {
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.InteractiveConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EMRServerlessClientTypes.WorkerResourceConfig()
-        value.cpu = try reader["cpu"].readIfPresent() ?? ""
-        value.memory = try reader["memory"].readIfPresent() ?? ""
-        value.disk = try reader["disk"].readIfPresent()
-        value.diskType = try reader["diskType"].readIfPresent()
+        var value = EMRServerlessClientTypes.InteractiveConfiguration()
+        value.studioEnabled = try reader["studioEnabled"].readIfPresent()
+        value.livyEndpointEnabled = try reader["livyEndpointEnabled"].readIfPresent()
+        value.sessionEnabled = try reader["sessionEnabled"].readIfPresent()
+        return value
+    }
+}
+
+extension EMRServerlessClientTypes.JobDriver {
+
+    static func write(value: EMRServerlessClientTypes.JobDriver?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .hive(hive):
+                try writer["hive"].write(hive, with: EMRServerlessClientTypes.Hive.write(value:to:))
+            case let .sparksubmit(sparksubmit):
+                try writer["sparkSubmit"].write(sparksubmit, with: EMRServerlessClientTypes.SparkSubmit.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.JobDriver {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "sparkSubmit":
+                return .sparksubmit(try reader["sparkSubmit"].read(with: EMRServerlessClientTypes.SparkSubmit.read(from:)))
+            case "hive":
+                return .hive(try reader["hive"].read(with: EMRServerlessClientTypes.Hive.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension EMRServerlessClientTypes.JobLevelCostAllocationConfiguration {
+
+    static func write(value: EMRServerlessClientTypes.JobLevelCostAllocationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enabled"].write(value.enabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.JobLevelCostAllocationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRServerlessClientTypes.JobLevelCostAllocationConfiguration()
+        value.enabled = try reader["enabled"].readIfPresent()
         return value
     }
 }
@@ -3319,168 +4099,6 @@ extension EMRServerlessClientTypes.JobRun {
     }
 }
 
-extension EMRServerlessClientTypes.RetryPolicy {
-
-    static func write(value: EMRServerlessClientTypes.RetryPolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["maxAttempts"].write(value.maxAttempts)
-        try writer["maxFailedAttemptsPerHour"].write(value.maxFailedAttemptsPerHour)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.RetryPolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EMRServerlessClientTypes.RetryPolicy()
-        value.maxAttempts = try reader["maxAttempts"].readIfPresent()
-        value.maxFailedAttemptsPerHour = try reader["maxFailedAttemptsPerHour"].readIfPresent()
-        return value
-    }
-}
-
-extension EMRServerlessClientTypes.ResourceUtilization {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.ResourceUtilization {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EMRServerlessClientTypes.ResourceUtilization()
-        value.vCPUHour = try reader["vCPUHour"].readIfPresent()
-        value.memoryGBHour = try reader["memoryGBHour"].readIfPresent()
-        value.storageGBHour = try reader["storageGBHour"].readIfPresent()
-        return value
-    }
-}
-
-extension EMRServerlessClientTypes.TotalResourceUtilization {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.TotalResourceUtilization {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EMRServerlessClientTypes.TotalResourceUtilization()
-        value.vCPUHour = try reader["vCPUHour"].readIfPresent()
-        value.memoryGBHour = try reader["memoryGBHour"].readIfPresent()
-        value.storageGBHour = try reader["storageGBHour"].readIfPresent()
-        return value
-    }
-}
-
-extension EMRServerlessClientTypes.JobDriver {
-
-    static func write(value: EMRServerlessClientTypes.JobDriver?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .hive(hive):
-                try writer["hive"].write(hive, with: EMRServerlessClientTypes.Hive.write(value:to:))
-            case let .sparksubmit(sparksubmit):
-                try writer["sparkSubmit"].write(sparksubmit, with: EMRServerlessClientTypes.SparkSubmit.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.JobDriver {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "sparkSubmit":
-                return .sparksubmit(try reader["sparkSubmit"].read(with: EMRServerlessClientTypes.SparkSubmit.read(from:)))
-            case "hive":
-                return .hive(try reader["hive"].read(with: EMRServerlessClientTypes.Hive.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension EMRServerlessClientTypes.Hive {
-
-    static func write(value: EMRServerlessClientTypes.Hive?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["initQueryFile"].write(value.initQueryFile)
-        try writer["parameters"].write(value.parameters)
-        try writer["query"].write(value.query)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.Hive {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EMRServerlessClientTypes.Hive()
-        value.query = try reader["query"].readIfPresent() ?? ""
-        value.initQueryFile = try reader["initQueryFile"].readIfPresent()
-        value.parameters = try reader["parameters"].readIfPresent()
-        return value
-    }
-}
-
-extension EMRServerlessClientTypes.SparkSubmit {
-
-    static func write(value: EMRServerlessClientTypes.SparkSubmit?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["entryPoint"].write(value.entryPoint)
-        try writer["entryPointArguments"].writeList(value.entryPointArguments, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["sparkSubmitParameters"].write(value.sparkSubmitParameters)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.SparkSubmit {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EMRServerlessClientTypes.SparkSubmit()
-        value.entryPoint = try reader["entryPoint"].readIfPresent() ?? ""
-        value.entryPointArguments = try reader["entryPointArguments"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.sparkSubmitParameters = try reader["sparkSubmitParameters"].readIfPresent()
-        return value
-    }
-}
-
-extension EMRServerlessClientTypes.ConfigurationOverrides {
-
-    static func write(value: EMRServerlessClientTypes.ConfigurationOverrides?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["applicationConfiguration"].writeList(value.applicationConfiguration, memberWritingClosure: EMRServerlessClientTypes.Configuration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["diskEncryptionConfiguration"].write(value.diskEncryptionConfiguration, with: EMRServerlessClientTypes.DiskEncryptionConfiguration.write(value:to:))
-        try writer["monitoringConfiguration"].write(value.monitoringConfiguration, with: EMRServerlessClientTypes.MonitoringConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.ConfigurationOverrides {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EMRServerlessClientTypes.ConfigurationOverrides()
-        value.applicationConfiguration = try reader["applicationConfiguration"].readListIfPresent(memberReadingClosure: EMRServerlessClientTypes.Configuration.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.monitoringConfiguration = try reader["monitoringConfiguration"].readIfPresent(with: EMRServerlessClientTypes.MonitoringConfiguration.read(from:))
-        value.diskEncryptionConfiguration = try reader["diskEncryptionConfiguration"].readIfPresent(with: EMRServerlessClientTypes.DiskEncryptionConfiguration.read(from:))
-        return value
-    }
-}
-
-extension EMRServerlessClientTypes.JobRunExecutionIamPolicy {
-
-    static func write(value: EMRServerlessClientTypes.JobRunExecutionIamPolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["policy"].write(value.policy)
-        try writer["policyArns"].writeList(value.policyArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.JobRunExecutionIamPolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EMRServerlessClientTypes.JobRunExecutionIamPolicy()
-        value.policy = try reader["policy"].readIfPresent()
-        value.policyArns = try reader["policyArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension EMRServerlessClientTypes.ApplicationSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.ApplicationSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EMRServerlessClientTypes.ApplicationSummary()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.releaseLabel = try reader["releaseLabel"].readIfPresent() ?? ""
-        value.type = try reader["type"].readIfPresent() ?? ""
-        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
-        value.stateDetails = try reader["stateDetails"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.architecture = try reader["architecture"].readIfPresent()
-        return value
-    }
-}
-
 extension EMRServerlessClientTypes.JobRunAttemptSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.JobRunAttemptSummary {
@@ -3501,6 +4119,23 @@ extension EMRServerlessClientTypes.JobRunAttemptSummary {
         value.releaseLabel = try reader["releaseLabel"].readIfPresent() ?? ""
         value.type = try reader["type"].readIfPresent()
         value.attempt = try reader["attempt"].readIfPresent()
+        return value
+    }
+}
+
+extension EMRServerlessClientTypes.JobRunExecutionIamPolicy {
+
+    static func write(value: EMRServerlessClientTypes.JobRunExecutionIamPolicy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["policy"].write(value.policy)
+        try writer["policyArns"].writeList(value.policyArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.JobRunExecutionIamPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRServerlessClientTypes.JobRunExecutionIamPolicy()
+        value.policy = try reader["policy"].readIfPresent()
+        value.policyArns = try reader["policyArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -3530,11 +4165,282 @@ extension EMRServerlessClientTypes.JobRunSummary {
     }
 }
 
-extension EMRServerlessClientTypes.ImageConfigurationInput {
+extension EMRServerlessClientTypes.ManagedPersistenceMonitoringConfiguration {
 
-    static func write(value: EMRServerlessClientTypes.ImageConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: EMRServerlessClientTypes.ManagedPersistenceMonitoringConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["imageUri"].write(value.imageUri)
+        try writer["enabled"].write(value.enabled)
+        try writer["encryptionKeyArn"].write(value.encryptionKeyArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.ManagedPersistenceMonitoringConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRServerlessClientTypes.ManagedPersistenceMonitoringConfiguration()
+        value.enabled = try reader["enabled"].readIfPresent()
+        value.encryptionKeyArn = try reader["encryptionKeyArn"].readIfPresent()
+        return value
+    }
+}
+
+extension EMRServerlessClientTypes.MaximumAllowedResources {
+
+    static func write(value: EMRServerlessClientTypes.MaximumAllowedResources?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["cpu"].write(value.cpu)
+        try writer["disk"].write(value.disk)
+        try writer["memory"].write(value.memory)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.MaximumAllowedResources {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRServerlessClientTypes.MaximumAllowedResources()
+        value.cpu = try reader["cpu"].readIfPresent() ?? ""
+        value.memory = try reader["memory"].readIfPresent() ?? ""
+        value.disk = try reader["disk"].readIfPresent()
+        return value
+    }
+}
+
+extension EMRServerlessClientTypes.MonitoringConfiguration {
+
+    static func write(value: EMRServerlessClientTypes.MonitoringConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["cloudWatchLoggingConfiguration"].write(value.cloudWatchLoggingConfiguration, with: EMRServerlessClientTypes.CloudWatchLoggingConfiguration.write(value:to:))
+        try writer["managedPersistenceMonitoringConfiguration"].write(value.managedPersistenceMonitoringConfiguration, with: EMRServerlessClientTypes.ManagedPersistenceMonitoringConfiguration.write(value:to:))
+        try writer["prometheusMonitoringConfiguration"].write(value.prometheusMonitoringConfiguration, with: EMRServerlessClientTypes.PrometheusMonitoringConfiguration.write(value:to:))
+        try writer["s3MonitoringConfiguration"].write(value.s3MonitoringConfiguration, with: EMRServerlessClientTypes.S3MonitoringConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.MonitoringConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRServerlessClientTypes.MonitoringConfiguration()
+        value.s3MonitoringConfiguration = try reader["s3MonitoringConfiguration"].readIfPresent(with: EMRServerlessClientTypes.S3MonitoringConfiguration.read(from:))
+        value.managedPersistenceMonitoringConfiguration = try reader["managedPersistenceMonitoringConfiguration"].readIfPresent(with: EMRServerlessClientTypes.ManagedPersistenceMonitoringConfiguration.read(from:))
+        value.cloudWatchLoggingConfiguration = try reader["cloudWatchLoggingConfiguration"].readIfPresent(with: EMRServerlessClientTypes.CloudWatchLoggingConfiguration.read(from:))
+        value.prometheusMonitoringConfiguration = try reader["prometheusMonitoringConfiguration"].readIfPresent(with: EMRServerlessClientTypes.PrometheusMonitoringConfiguration.read(from:))
+        return value
+    }
+}
+
+extension EMRServerlessClientTypes.NetworkConfiguration {
+
+    static func write(value: EMRServerlessClientTypes.NetworkConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.NetworkConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRServerlessClientTypes.NetworkConfiguration()
+        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension EMRServerlessClientTypes.PrometheusMonitoringConfiguration {
+
+    static func write(value: EMRServerlessClientTypes.PrometheusMonitoringConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["remoteWriteUrl"].write(value.remoteWriteUrl)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.PrometheusMonitoringConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRServerlessClientTypes.PrometheusMonitoringConfiguration()
+        value.remoteWriteUrl = try reader["remoteWriteUrl"].readIfPresent()
+        return value
+    }
+}
+
+extension EMRServerlessClientTypes.ResourceUtilization {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.ResourceUtilization {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRServerlessClientTypes.ResourceUtilization()
+        value.vCPUHour = try reader["vCPUHour"].readIfPresent()
+        value.memoryGBHour = try reader["memoryGBHour"].readIfPresent()
+        value.storageGBHour = try reader["storageGBHour"].readIfPresent()
+        return value
+    }
+}
+
+extension EMRServerlessClientTypes.RetryPolicy {
+
+    static func write(value: EMRServerlessClientTypes.RetryPolicy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxAttempts"].write(value.maxAttempts)
+        try writer["maxFailedAttemptsPerHour"].write(value.maxFailedAttemptsPerHour)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.RetryPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRServerlessClientTypes.RetryPolicy()
+        value.maxAttempts = try reader["maxAttempts"].readIfPresent()
+        value.maxFailedAttemptsPerHour = try reader["maxFailedAttemptsPerHour"].readIfPresent()
+        return value
+    }
+}
+
+extension EMRServerlessClientTypes.S3MonitoringConfiguration {
+
+    static func write(value: EMRServerlessClientTypes.S3MonitoringConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["encryptionKeyArn"].write(value.encryptionKeyArn)
+        try writer["logUri"].write(value.logUri)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.S3MonitoringConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRServerlessClientTypes.S3MonitoringConfiguration()
+        value.logUri = try reader["logUri"].readIfPresent()
+        value.encryptionKeyArn = try reader["encryptionKeyArn"].readIfPresent()
+        return value
+    }
+}
+
+extension EMRServerlessClientTypes.SchedulerConfiguration {
+
+    static func write(value: EMRServerlessClientTypes.SchedulerConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxConcurrentRuns"].write(value.maxConcurrentRuns)
+        try writer["queueTimeoutMinutes"].write(value.queueTimeoutMinutes)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.SchedulerConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRServerlessClientTypes.SchedulerConfiguration()
+        value.queueTimeoutMinutes = try reader["queueTimeoutMinutes"].readIfPresent()
+        value.maxConcurrentRuns = try reader["maxConcurrentRuns"].readIfPresent()
+        return value
+    }
+}
+
+extension EMRServerlessClientTypes.Session {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.Session {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRServerlessClientTypes.Session()
+        value.applicationId = try reader["applicationId"].readIfPresent() ?? ""
+        value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent()
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        value.stateDetails = try reader["stateDetails"].readIfPresent() ?? ""
+        value.releaseLabel = try reader["releaseLabel"].readIfPresent() ?? ""
+        value.executionRoleArn = try reader["executionRoleArn"].readIfPresent() ?? ""
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endedAt = try reader["endedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.idleSince = try reader["idleSince"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.configurationOverrides = try reader["configurationOverrides"].readIfPresent(with: EMRServerlessClientTypes.SessionConfigurationOverrides.read(from:))
+        value.networkConfiguration = try reader["networkConfiguration"].readIfPresent(with: EMRServerlessClientTypes.NetworkConfiguration.read(from:))
+        value.idleTimeoutMinutes = try reader["idleTimeoutMinutes"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.totalResourceUtilization = try reader["totalResourceUtilization"].readIfPresent(with: EMRServerlessClientTypes.TotalResourceUtilization.read(from:))
+        value.billedResourceUtilization = try reader["billedResourceUtilization"].readIfPresent(with: EMRServerlessClientTypes.ResourceUtilization.read(from:))
+        value.totalExecutionDurationSeconds = try reader["totalExecutionDurationSeconds"].readIfPresent()
+        return value
+    }
+}
+
+extension EMRServerlessClientTypes.SessionConfigurationOverrides {
+
+    static func write(value: EMRServerlessClientTypes.SessionConfigurationOverrides?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["runtimeConfiguration"].writeList(value.runtimeConfiguration, memberWritingClosure: EMRServerlessClientTypes.Configuration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.SessionConfigurationOverrides {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRServerlessClientTypes.SessionConfigurationOverrides()
+        value.runtimeConfiguration = try reader["runtimeConfiguration"].readListIfPresent(memberReadingClosure: EMRServerlessClientTypes.Configuration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension EMRServerlessClientTypes.SessionSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.SessionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRServerlessClientTypes.SessionSummary()
+        value.applicationId = try reader["applicationId"].readIfPresent() ?? ""
+        value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent()
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        value.stateDetails = try reader["stateDetails"].readIfPresent() ?? ""
+        value.releaseLabel = try reader["releaseLabel"].readIfPresent() ?? ""
+        value.executionRoleArn = try reader["executionRoleArn"].readIfPresent() ?? ""
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension EMRServerlessClientTypes.SparkSubmit {
+
+    static func write(value: EMRServerlessClientTypes.SparkSubmit?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["entryPoint"].write(value.entryPoint)
+        try writer["entryPointArguments"].writeList(value.entryPointArguments, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["sparkSubmitParameters"].write(value.sparkSubmitParameters)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.SparkSubmit {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRServerlessClientTypes.SparkSubmit()
+        value.entryPoint = try reader["entryPoint"].readIfPresent() ?? ""
+        value.entryPointArguments = try reader["entryPointArguments"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sparkSubmitParameters = try reader["sparkSubmitParameters"].readIfPresent()
+        return value
+    }
+}
+
+extension EMRServerlessClientTypes.TotalResourceUtilization {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.TotalResourceUtilization {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRServerlessClientTypes.TotalResourceUtilization()
+        value.vCPUHour = try reader["vCPUHour"].readIfPresent()
+        value.memoryGBHour = try reader["memoryGBHour"].readIfPresent()
+        value.storageGBHour = try reader["storageGBHour"].readIfPresent()
+        return value
+    }
+}
+
+extension EMRServerlessClientTypes.WorkerResourceConfig {
+
+    static func write(value: EMRServerlessClientTypes.WorkerResourceConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["cpu"].write(value.cpu)
+        try writer["disk"].write(value.disk)
+        try writer["diskType"].write(value.diskType)
+        try writer["memory"].write(value.memory)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.WorkerResourceConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRServerlessClientTypes.WorkerResourceConfig()
+        value.cpu = try reader["cpu"].readIfPresent() ?? ""
+        value.memory = try reader["memory"].readIfPresent() ?? ""
+        value.disk = try reader["disk"].readIfPresent()
+        value.diskType = try reader["diskType"].readIfPresent()
+        return value
+    }
+}
+
+extension EMRServerlessClientTypes.WorkerTypeSpecification {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.WorkerTypeSpecification {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRServerlessClientTypes.WorkerTypeSpecification()
+        value.imageConfiguration = try reader["imageConfiguration"].readIfPresent(with: EMRServerlessClientTypes.ImageConfiguration.read(from:))
+        return value
     }
 }
 
@@ -3543,15 +4449,6 @@ extension EMRServerlessClientTypes.WorkerTypeSpecificationInput {
     static func write(value: EMRServerlessClientTypes.WorkerTypeSpecificationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["imageConfiguration"].write(value.imageConfiguration, with: EMRServerlessClientTypes.ImageConfigurationInput.write(value:to:))
-    }
-}
-
-extension EMRServerlessClientTypes.IdentityCenterConfigurationInput {
-
-    static func write(value: EMRServerlessClientTypes.IdentityCenterConfigurationInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["identityCenterInstanceArn"].write(value.identityCenterInstanceArn)
-        try writer["userBackgroundSessionsEnabled"].write(value.userBackgroundSessionsEnabled)
     }
 }
 

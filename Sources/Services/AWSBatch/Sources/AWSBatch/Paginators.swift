@@ -235,6 +235,37 @@ extension PaginatorSequence where OperationStackInput == ListJobsByConsumableRes
     }
 }
 extension BatchClient {
+    /// Paginate over `[ListQuotaSharesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListQuotaSharesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListQuotaSharesOutput`
+    public func listQuotaSharesPaginated(input: ListQuotaSharesInput) -> ClientRuntime.PaginatorSequence<ListQuotaSharesInput, ListQuotaSharesOutput> {
+        return ClientRuntime.PaginatorSequence<ListQuotaSharesInput, ListQuotaSharesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listQuotaShares(input:))
+    }
+}
+
+extension ListQuotaSharesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListQuotaSharesInput {
+        return ListQuotaSharesInput(
+            jobQueue: self.jobQueue,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListQuotaSharesInput, OperationStackOutput == ListQuotaSharesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listQuotaSharesPaginated`
+    /// to access the nested member `[BatchClientTypes.QuotaShareDetail]`
+    /// - Returns: `[BatchClientTypes.QuotaShareDetail]`
+    public func quotaShares() async throws -> [BatchClientTypes.QuotaShareDetail] {
+        return try await self.asyncCompactMap { item in item.quotaShares }
+    }
+}
+extension BatchClient {
     /// Paginate over `[ListSchedulingPoliciesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

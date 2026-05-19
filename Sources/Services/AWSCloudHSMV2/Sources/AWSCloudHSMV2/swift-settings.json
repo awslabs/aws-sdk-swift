@@ -1,0 +1,8 @@
+{
+    "service": "com.amazonaws.cloudhsmv2#BaldrApiService",
+    "module": "AWSCloudHSMV2",
+    "sdkId": "CloudHSM V2",
+    "internalClient": false,
+    "operations": [],
+    "modelPath": "codegen/sdk-codegen/aws-models/cloudhsm-v2.json"
+}

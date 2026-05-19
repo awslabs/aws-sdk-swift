@@ -1,0 +1,8 @@
+{
+    "service": "com.amazonaws.appstream#PhotonAdminProxyService",
+    "module": "AWSAppStream",
+    "sdkId": "AppStream",
+    "internalClient": false,
+    "operations": [],
+    "modelPath": "codegen/sdk-codegen/aws-models/appstream.json"
+}

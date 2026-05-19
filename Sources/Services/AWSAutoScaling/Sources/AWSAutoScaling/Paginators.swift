@@ -256,6 +256,7 @@ extension DescribeScalingActivitiesInput: ClientRuntime.PaginateToken {
         return DescribeScalingActivitiesInput(
             activityIds: self.activityIds,
             autoScalingGroupName: self.autoScalingGroupName,
+            filters: self.filters,
             includeDeletedGroups: self.includeDeletedGroups,
             maxRecords: self.maxRecords,
             nextToken: token

@@ -6,7 +6,7 @@
 //
 
 import Smithy
-import SmithyEventStreams
+@_spi(SmithyEventStreams) import SmithyEventStreams
 import SmithyEventStreamsAPI
 import SmithyEventStreamsAuthAPI
 import SmithyHTTPAPI

@@ -1,0 +1,8 @@
+{
+    "service": "com.amazonaws.marketplacemetering#AWSMPMeteringService",
+    "module": "AWSMarketplaceMetering",
+    "sdkId": "Marketplace Metering",
+    "internalClient": false,
+    "operations": [],
+    "modelPath": "codegen/sdk-codegen/aws-models/marketplace-metering.json"
+}

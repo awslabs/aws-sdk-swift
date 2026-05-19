@@ -19,6 +19,8 @@ extension Target.Dependency {
     // Smithy modules
     static var ClientRuntime: Self { .product(name: "ClientRuntime", package: "smithy-swift") }
     static var Smithy: Self { .product(name: "Smithy", package: "smithy-swift") }
+    static var SmithyAWSJSON: Self { .product(name: "SmithyAWSJSON", package: "smithy-swift") }
+    static var SmithyRPCv2CBOR: Self { .product(name: "SmithyRPCv2CBOR", package: "smithy-swift") }
     static var SmithyCBOR: Self { .product(name: "SmithyCBOR", package: "smithy-swift") }
     static var SmithyChecksumsAPI: Self { .product(name: "SmithyChecksumsAPI", package: "smithy-swift") }
     static var SmithyChecksums: Self { .product(name: "SmithyChecksums", package: "smithy-swift") }
@@ -40,6 +42,11 @@ extension Target.Dependency {
     static var SmithyTimestamps: Self { .product(name: "SmithyTimestamps", package: "smithy-swift") }
     static var SmithyWaitersAPI: Self { .product(name: "SmithyWaitersAPI", package: "smithy-swift") }
     static var SmithyXML: Self { .product(name: "SmithyXML", package: "smithy-swift") }
+}
+
+extension Target.PluginUsage {
+    // Smithy plugins
+    static var SmithyCodeGeneratorPlugin: Self { .plugin(name: "SmithyCodeGeneratorPlugin", package: "smithy-swift") }
 }
 
 // MARK: Base Package
@@ -79,7 +86,7 @@ private var runtimeProducts: [Product] {
 }
 
 private var serviceProducts: [Product] {
-    serviceClientData.filter { $0.serviceType == .awsServiceClient }.map(productForService(_:))
+    selectedServiceClientData.filter { $0.serviceType == .awsServiceClient }.map(productForService(_:))
 }
 
 private func productForService(_ service: ServiceClientData) -> Product {
@@ -119,11 +126,6 @@ private var doccDependencyOrNil: Package.Dependency? {
 
 private var runtimeTargets: [Target] {
     [
-        .target(
-            name: "AWSSDKForSwift",
-            path: "Sources/Core/AWSSDKForSwift",
-            exclude: ["Documentation.docc/AWSSDKForSwift.md"]
-        ),
         .target(
             name: "SDKForSwift",
             path: "Sources/Core/SDKForSwift",
@@ -225,7 +227,8 @@ private var internalServiceTargets: [Target] {
 }
 
 private var runtimeTestTargets: [Target] {
-    guard !excludeRuntimeUnitTests else { return [] }
+    if excludeRuntimeUnitTests { return [] }
+    if let batch, batch.number != 0 { return [] } // only run these tests with batch 0 if batching
     return [
         .testTarget(
             name: "AWSClientRuntimeTests",
@@ -275,16 +278,16 @@ private var runtimeTestTargets: [Target] {
 }
 
 private var serviceTargets: [Target] {
-    serviceClientData.filter { $0.serviceType == .awsServiceClient }.map(target(_:))
+    selectedServiceClientData.filter { $0.serviceType == .awsServiceClient }.map(target(_:))
 }
 
 private func target(_ service: ServiceClientData) -> Target {
-    .target(name: service.name, dependencies: service.dependencies, path: service.sourcePath)
+    .target(name: service.name, dependencies: service.dependencies, path: service.sourcePath, plugins: [.SmithyCodeGeneratorPlugin])
 }
 
 private var serviceTestTargets: [Target] {
     guard ProcessInfo.processInfo.environment["AWS_SWIFT_SDK_ENABLE_SERVICE_TESTS"] != nil else { return [] }
-    return serviceClientData.filter { $0.serviceType == .awsServiceClient }.map(unitTestTarget(_:))
+    return selectedServiceClientData.filter { $0.serviceType == .awsServiceClient }.map(unitTestTarget(_:))
 }
 
 private func unitTestTarget(_ service: ServiceClientData) -> Target {
@@ -300,6 +303,32 @@ private func unitTestTarget(_ service: ServiceClientData) -> Target {
         ],
         path: "codegen/sdk-codegen/build/smithyprojections/sdk-codegen/\(modelName)/swift-codegen/Tests/\(testName)"
     )
+}
+
+private var selectedServiceClientData: [ServiceClientData] {
+    if let batch {
+        // If batching, select services to include, batching by their index
+        return serviceClientData.enumerated().filter { $0.offset % batch.total == batch.number }.map { $0.element }
+    } else {
+        // If not batching, select all services
+        return serviceClientData
+    }
+}
+
+private var batch: Batch? {
+    let env = ProcessInfo.processInfo.environment
+    guard let numberString = env["AWS_SWIFT_SDK_BATCH_NUMBER"],
+          let totalString = env["AWS_SWIFT_SDK_BATCH_TOTAL"],
+          let number = Int(numberString),
+          let total = Int(totalString),
+          number >= 0 && number < total
+        else { return nil }
+    return Batch(number: number, total: total)
+}
+
+private struct Batch {
+    let number: Int
+    let total: Int
 }
 
 // As of Swift 6.2, @unchecked is not needed, but for Swift 6.0 it is

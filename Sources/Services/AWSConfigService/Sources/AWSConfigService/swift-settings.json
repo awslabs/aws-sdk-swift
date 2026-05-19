@@ -1,0 +1,8 @@
+{
+    "service": "com.amazonaws.configservice#StarlingDoveService",
+    "module": "AWSConfigService",
+    "sdkId": "Config Service",
+    "internalClient": false,
+    "operations": [],
+    "modelPath": "codegen/sdk-codegen/aws-models/config-service.json"
+}

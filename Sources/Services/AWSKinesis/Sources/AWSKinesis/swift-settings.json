@@ -1,0 +1,8 @@
+{
+    "service": "com.amazonaws.kinesis#Kinesis_20131202",
+    "module": "AWSKinesis",
+    "sdkId": "Kinesis",
+    "internalClient": false,
+    "operations": [],
+    "modelPath": "codegen/sdk-codegen/aws-models/kinesis.json"
+}

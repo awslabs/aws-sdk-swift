@@ -3784,6 +3784,12 @@
                         "smithy.api#documentation": "<p>The metrics configuration for your event source. For more information, see <a href=\"https://docs.aws.amazon.com/lambda/latest/dg/monitoring-metrics-types.html#event-source-mapping-metrics\">Event source mapping metrics</a>.</p>"
                     }
                 },
+                "LoggingConfig": {
+                    "target": "com.amazonaws.lambda#EventSourceMappingLoggingConfig",
+                    "traits": {
+                        "smithy.api#documentation": "<p>(Amazon MSK, and self-managed Apache Kafka only) The logging configuration for your event source. For more information, see <a href=\"https://docs.aws.amazon.com/lambda/latest/dg/esm-logging.html\">Event source mapping logging</a>.</p>"
+                    }
+                },
                 "ProvisionedPollerConfig": {
                     "target": "com.amazonaws.lambda#ProvisionedPollerConfig",
                     "traits": {
@@ -4053,7 +4059,7 @@
                 "FileSystemConfigs": {
                     "target": "com.amazonaws.lambda#FileSystemConfigList",
                     "traits": {
-                        "smithy.api#documentation": "<p>Connection settings for an Amazon EFS file system.</p>"
+                        "smithy.api#documentation": "<p>Connection settings for an Amazon EFS file system or an Amazon S3 Files file system.</p>"
                     }
                 },
                 "ImageConfig": {
@@ -6056,6 +6062,12 @@
                         "smithy.api#documentation": "<p>The metrics configuration for your event source. For more information, see <a href=\"https://docs.aws.amazon.com/lambda/latest/dg/monitoring-metrics-types.html#event-source-mapping-metrics\">Event source mapping metrics</a>.</p>"
                     }
                 },
+                "LoggingConfig": {
+                    "target": "com.amazonaws.lambda#EventSourceMappingLoggingConfig",
+                    "traits": {
+                        "smithy.api#documentation": "<p>(Amazon MSK, and self-managed Apache Kafka only) The logging configuration for your event source. For more information, see <a href=\"https://docs.aws.amazon.com/lambda/latest/dg/esm-logging.html\">Event source mapping logging</a>.</p>"
+                    }
+                },
                 "ProvisionedPollerConfig": {
                     "target": "com.amazonaws.lambda#ProvisionedPollerConfig",
                     "traits": {
@@ -6067,6 +6079,20 @@
                 "smithy.api#documentation": "<p>A mapping between an Amazon Web Services resource and a Lambda function. For details, see <a>CreateEventSourceMapping</a>.</p>"
             }
         },
+        "com.amazonaws.lambda#EventSourceMappingLoggingConfig": {
+            "type": "structure",
+            "members": {
+                "SystemLogLevel": {
+                    "target": "com.amazonaws.lambda#EventSourceMappingSystemLogLevel",
+                    "traits": {
+                        "smithy.api#documentation": "<p> The log level you want your event source mapping to use. Lambda event poller only sends system logs at the selected level of detail and lower, where <code>DEBUG</code> is the highest level and <code>WARN</code> is the lowest. For more information about these metrics, see <a href=\"https://docs.aws.amazon.com/lambda/latest/dg/esm-logging.html\"> Event source mapping logging</a>. </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>(Amazon MSK, and self-managed Apache Kafka only) The logging configuration for your event source. Use this configuration object to define the level of logs for your event source mapping. </p>"
+            }
+        },
         "com.amazonaws.lambda#EventSourceMappingMetric": {
             "type": "enum",
             "members": {
@@ -6074,6 +6100,18 @@
                     "target": "smithy.api#Unit",
                     "traits": {
                         "smithy.api#enumValue": "EventCount"
+                    }
+                },
+                "ErrorCount": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ErrorCount"
+                    }
+                },
+                "KafkaMetrics": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "KafkaMetrics"
                     }
                 }
             }
@@ -6086,7 +6124,7 @@
             "traits": {
                 "smithy.api#length": {
                     "min": 0,
-                    "max": 1
+                    "max": 3
                 }
             }
         },
@@ -6096,12 +6134,35 @@
                 "Metrics": {
                     "target": "com.amazonaws.lambda#EventSourceMappingMetricList",
                     "traits": {
-                        "smithy.api#documentation": "<p> The metrics you want your event source mapping to produce. Include <code>EventCount</code> to receive event source mapping metrics related to the number of events processed by your event source mapping. For more information about these metrics, see <a href=\"https://docs.aws.amazon.com/lambda/latest/dg/monitoring-metrics-types.html#event-source-mapping-metrics\"> Event source mapping metrics</a>. </p>"
+                        "smithy.api#documentation": "<p> The metrics you want your event source mapping to produce, including <code>EventCount</code>, <code>ErrorCount</code>, <code>KafkaMetrics</code>. </p> <ul> <li> <p> <code>EventCount</code> to receive metrics related to the number of events processed by your event source mapping.</p> </li> <li> <p> <code>ErrorCount</code> (Amazon MSK and self-managed Apache Kafka) to receive metrics related to the number of errors in your event source mapping processing.</p> </li> <li> <p> <code>KafkaMetrics</code> (Amazon MSK and self-managed Apache Kafka) to receive metrics related to the Kafka consumers from your event source mapping.</p> </li> </ul> <p> For more information about these metrics, see <a href=\"https://docs.aws.amazon.com/lambda/latest/dg/monitoring-metrics-types.html#event-source-mapping-metrics\"> Event source mapping metrics</a>. </p>"
                     }
                 }
             },
             "traits": {
                 "smithy.api#documentation": "<p>The metrics configuration for your event source. Use this configuration object to define which metrics you want your event source mapping to produce.</p>"
+            }
+        },
+        "com.amazonaws.lambda#EventSourceMappingSystemLogLevel": {
+            "type": "enum",
+            "members": {
+                "Debug": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "DEBUG"
+                    }
+                },
+                "Info": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "INFO"
+                    }
+                },
+                "Warn": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "WARN"
+                    }
+                }
             }
         },
         "com.amazonaws.lambda#EventSourceMappingsList": {
@@ -6515,9 +6576,9 @@
             "traits": {
                 "smithy.api#length": {
                     "min": 0,
-                    "max": 200
+                    "max": 256
                 },
-                "smithy.api#pattern": "^arn:aws[a-zA-Z-]*:elasticfilesystem:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:\\d{12}:access-point/fsap-[a-f0-9]{17}$"
+                "smithy.api#pattern": "^arn:aws[a-zA-Z-]*:elasticfilesystem:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:\\d{12}:access-point/fsap-[a-f0-9]{17}$|^arn:aws[-a-z]*:s3files:[0-9a-z-:]+:file-system/fs-[0-9a-f]{17,40}/access-point/fsap-[0-9a-f]{17,40}$"
             }
         },
         "com.amazonaws.lambda#FileSystemConfig": {
@@ -6526,7 +6587,7 @@
                 "Arn": {
                     "target": "com.amazonaws.lambda#FileSystemArn",
                     "traits": {
-                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the Amazon EFS access point that provides access to the file system.</p>",
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the Amazon EFS or Amazon S3 Files access point that provides access to the file system.</p>",
                         "smithy.api#required": {}
                     }
                 },
@@ -6539,7 +6600,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>Details about the connection between a Lambda function and an <a href=\"https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html\">Amazon EFS file system</a>.</p>"
+                "smithy.api#documentation": "<p>Details about the connection between a Lambda function and an <a href=\"https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html\">Amazon EFS file system</a> or an <a href=\"https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html\">Amazon S3 Files file system</a>.</p>"
             }
         },
         "com.amazonaws.lambda#FileSystemConfigList": {
@@ -7066,7 +7127,7 @@
                 "FileSystemConfigs": {
                     "target": "com.amazonaws.lambda#FileSystemConfigList",
                     "traits": {
-                        "smithy.api#documentation": "<p>Connection settings for an <a href=\"https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html\">Amazon EFS file system</a>.</p>"
+                        "smithy.api#documentation": "<p>Connection settings for an <a href=\"https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html\">Amazon EFS file system</a> or an <a href=\"https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html\">Amazon S3 Files file system</a>.</p>"
                     }
                 },
                 "PackageType": {
@@ -10386,6 +10447,15 @@
                     "target": "com.amazonaws.lambda#ResourceNotReadyException"
                 },
                 {
+                    "target": "com.amazonaws.lambda#S3FilesMountConnectivityException"
+                },
+                {
+                    "target": "com.amazonaws.lambda#S3FilesMountFailureException"
+                },
+                {
+                    "target": "com.amazonaws.lambda#S3FilesMountTimeoutException"
+                },
+                {
                     "target": "com.amazonaws.lambda#SerializedRequestEntityTooLargeException"
                 },
                 {
@@ -10693,6 +10763,15 @@
                 },
                 {
                     "target": "com.amazonaws.lambda#ResourceNotReadyException"
+                },
+                {
+                    "target": "com.amazonaws.lambda#S3FilesMountConnectivityException"
+                },
+                {
+                    "target": "com.amazonaws.lambda#S3FilesMountFailureException"
+                },
+                {
+                    "target": "com.amazonaws.lambda#S3FilesMountTimeoutException"
                 },
                 {
                     "target": "com.amazonaws.lambda#SerializedRequestEntityTooLargeException"
@@ -12048,7 +12127,7 @@
                 "DurableExecutionName": {
                     "target": "com.amazonaws.lambda#DurableExecutionName",
                     "traits": {
-                        "smithy.api#documentation": "<p>Filter executions by name. Only executions with names that contain this string are returned.</p>",
+                        "smithy.api#documentation": "<p>Filter executions by name. Only executions with names that matches this string are returned.</p>",
                         "smithy.api#httpQuery": "DurableExecutionName"
                     }
                 },
@@ -16188,6 +16267,12 @@
                     "traits": {
                         "smithy.api#enumValue": "dotnet10"
                     }
+                },
+                "ruby40": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ruby4.0"
+                    }
                 }
             }
         },
@@ -16249,6 +16334,72 @@
                     "max": 63
                 },
                 "smithy.api#pattern": "^[0-9A-Za-z\\.\\-_]*(?<!\\.)$"
+            }
+        },
+        "com.amazonaws.lambda#S3FilesMountConnectivityException": {
+            "type": "structure",
+            "members": {
+                "Type": {
+                    "target": "com.amazonaws.lambda#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The exception type.</p>"
+                    }
+                },
+                "Message": {
+                    "target": "com.amazonaws.lambda#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The exception message.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The Lambda function couldn't make a network connection to the configured S3 Files access point.</p>",
+                "smithy.api#error": "client",
+                "smithy.api#httpError": 408
+            }
+        },
+        "com.amazonaws.lambda#S3FilesMountFailureException": {
+            "type": "structure",
+            "members": {
+                "Type": {
+                    "target": "com.amazonaws.lambda#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The exception type.</p>"
+                    }
+                },
+                "Message": {
+                    "target": "com.amazonaws.lambda#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The exception message.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The Lambda function couldn't mount the configured S3 Files access point due to a permission or configuration issue.</p>",
+                "smithy.api#error": "client",
+                "smithy.api#httpError": 403
+            }
+        },
+        "com.amazonaws.lambda#S3FilesMountTimeoutException": {
+            "type": "structure",
+            "members": {
+                "Type": {
+                    "target": "com.amazonaws.lambda#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The exception type.</p>"
+                    }
+                },
+                "Message": {
+                    "target": "com.amazonaws.lambda#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The exception message.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The Lambda function made a network connection to the configured S3 Files access point, but the mount operation timed out.</p>",
+                "smithy.api#error": "client",
+                "smithy.api#httpError": 408
             }
         },
         "com.amazonaws.lambda#S3Key": {
@@ -18342,6 +18493,9 @@
                         "smithy.api#documentation": "<p>The metrics configuration for your event source. For more information, see <a href=\"https://docs.aws.amazon.com/lambda/latest/dg/monitoring-metrics-types.html#event-source-mapping-metrics\">Event source mapping metrics</a>.</p>"
                     }
                 },
+                "LoggingConfig": {
+                    "target": "com.amazonaws.lambda#EventSourceMappingLoggingConfig"
+                },
                 "ProvisionedPollerConfig": {
                     "target": "com.amazonaws.lambda#ProvisionedPollerConfig",
                     "traits": {
@@ -18716,7 +18870,7 @@
                 "FileSystemConfigs": {
                     "target": "com.amazonaws.lambda#FileSystemConfigList",
                     "traits": {
-                        "smithy.api#documentation": "<p>Connection settings for an Amazon EFS file system.</p>"
+                        "smithy.api#documentation": "<p>Connection settings for an Amazon EFS file system or an Amazon S3 Files file system.</p>"
                     }
                 },
                 "ImageConfig": {

@@ -9,7 +9,7 @@
 import struct Foundation.Date
 import struct Smithy.Attributes
 import struct Smithy.SwiftLogger
-import protocol SmithyIdentity.AWSCredentialIdentityResolvedByCRT
+@_spi(SmithyIdentity) import protocol SmithyIdentity.AWSCredentialIdentityResolvedByCRT
 import protocol SmithyIdentity.AWSCredentialIdentityResolver
 
 // swiftlint:disable type_name

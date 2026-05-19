@@ -25,18 +25,19 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// Dependency encountered an error.
 public struct DependencyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
-        ///
+        /// Name of the parameter that caused the exception.
         public internal(set) var parameterName: Swift.String? = nil
     }
 
@@ -45,9 +46,9 @@ public struct DependencyException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -63,7 +64,7 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
-        ///
+        /// Name of the invalid parameter.
         public internal(set) var parameterName: Swift.String? = nil
     }
 
@@ -72,9 +73,9 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -97,9 +98,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -685,6 +686,32 @@ extension GroundStationClientTypes {
 
 extension GroundStationClientTypes {
 
+    /// An antenna at a ground station.
+    public struct AntennaListItem: Swift.Sendable {
+        /// Name of the antenna.
+        /// This member is required.
+        public var antennaName: Swift.String?
+        /// Name of the ground station the antenna is associated with.
+        /// This member is required.
+        public var groundStationName: Swift.String?
+        /// Region of the antenna.
+        /// This member is required.
+        public var region: Swift.String?
+
+        public init(
+            antennaName: Swift.String? = nil,
+            groundStationName: Swift.String? = nil,
+            region: Swift.String? = nil
+        ) {
+            self.antennaName = antennaName
+            self.groundStationName = groundStationName
+            self.region = region
+        }
+    }
+}
+
+extension GroundStationClientTypes {
+
     /// Information about the uplink spectral Config.
     public struct UplinkSpectrumConfig: Swift.Sendable {
         /// Center frequency of an uplink spectral Config. Valid values are between 2025 to 2120 MHz.
@@ -1137,7 +1164,7 @@ extension GroundStationClientTypes {
     }
 }
 
-///
+/// Input for the CancelContact operation.
 public struct CancelContactInput: Swift.Sendable {
     /// UUID of a contact.
     /// This member is required.
@@ -1150,15 +1177,19 @@ public struct CancelContactInput: Swift.Sendable {
     }
 }
 
-///
+/// Response containing the ID of a contact.
 public struct CancelContactOutput: Swift.Sendable {
     /// UUID of a contact.
     public var contactId: Swift.String?
+    /// Version ID of a contact.
+    public var versionId: Swift.Int?
 
     public init(
-        contactId: Swift.String? = nil
+        contactId: Swift.String? = nil,
+        versionId: Swift.Int? = nil
     ) {
         self.contactId = contactId
+        self.versionId = versionId
     }
 }
 
@@ -1243,6 +1274,7 @@ extension GroundStationClientTypes {
         case antennaUplink
         case dataflowEndpoint
         case s3Recording
+        case telemetrySink
         case tracking
         case uplinkEcho
         case sdkUnknown(Swift.String)
@@ -1254,6 +1286,7 @@ extension GroundStationClientTypes {
                 .antennaUplink,
                 .dataflowEndpoint,
                 .s3Recording,
+                .telemetrySink,
                 .tracking,
                 .uplinkEcho
             ]
@@ -1271,6 +1304,7 @@ extension GroundStationClientTypes {
             case .antennaUplink: return "antenna-uplink"
             case .dataflowEndpoint: return "dataflow-endpoint"
             case .s3Recording: return "s3-recording"
+            case .telemetrySink: return "telemetry-sink"
             case .tracking: return "tracking"
             case .uplinkEcho: return "uplink-echo"
             case let .sdkUnknown(s): return s
@@ -1284,7 +1318,7 @@ public struct ResourceLimitExceededException: ClientRuntime.ModeledError, AWSCli
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
-        ///
+        /// Name of the parameter that exceeded the resource limit.
         public internal(set) var parameterName: Swift.String? = nil
     }
 
@@ -1293,9 +1327,9 @@ public struct ResourceLimitExceededException: ClientRuntime.ModeledError, AWSCli
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -1353,6 +1387,84 @@ extension GroundStationClientTypes {
 
 extension GroundStationClientTypes {
 
+    /// Information for telemetry delivery to Kinesis Data Streams.
+    public struct KinesisDataStreamData: Swift.Sendable {
+        /// ARN of the Kinesis Data Stream to deliver telemetry to.
+        /// This member is required.
+        public var kinesisDataStreamArn: Swift.String?
+        /// ARN of the IAM Role used by AWS Ground Station to deliver telemetry.
+        /// This member is required.
+        public var kinesisRoleArn: Swift.String?
+
+        public init(
+            kinesisDataStreamArn: Swift.String? = nil,
+            kinesisRoleArn: Swift.String? = nil
+        ) {
+            self.kinesisDataStreamArn = kinesisDataStreamArn
+            self.kinesisRoleArn = kinesisRoleArn
+        }
+    }
+}
+
+extension GroundStationClientTypes {
+
+    /// Information about a telemetry sink.
+    public enum TelemetrySinkData: Swift.Sendable {
+        /// Information about a telemetry sink of type KINESIS_DATA_STREAM.
+        case kinesisdatastreamdata(GroundStationClientTypes.KinesisDataStreamData)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension GroundStationClientTypes {
+
+    public enum TelemetrySinkType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case kinesisDataStream
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TelemetrySinkType] {
+            return [
+                .kinesisDataStream
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .kinesisDataStream: return "KINESIS_DATA_STREAM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GroundStationClientTypes {
+
+    /// Information about a telemetry sink Config.
+    public struct TelemetrySinkConfig: Swift.Sendable {
+        /// Information about the telemetry sink specified by the telemetrySinkType.
+        /// This member is required.
+        public var telemetrySinkData: GroundStationClientTypes.TelemetrySinkData?
+        /// The type of telemetry sink.
+        /// This member is required.
+        public var telemetrySinkType: GroundStationClientTypes.TelemetrySinkType?
+
+        public init(
+            telemetrySinkData: GroundStationClientTypes.TelemetrySinkData? = nil,
+            telemetrySinkType: GroundStationClientTypes.TelemetrySinkType? = nil
+        ) {
+            self.telemetrySinkData = telemetrySinkData
+            self.telemetrySinkType = telemetrySinkType
+        }
+    }
+}
+
+extension GroundStationClientTypes {
+
     public enum Criticality: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case preferred
         case removed
@@ -1401,7 +1513,7 @@ extension GroundStationClientTypes {
 
 extension GroundStationClientTypes {
 
-    /// Information about an uplink echo Config. Parameters from the AntennaUplinkConfig, corresponding to the specified AntennaUplinkConfigArn, are used when this UplinkEchoConfig is used in a contact.
+    /// Information about an uplink echo Config. Parameters from the AntennaUplinkConfig, corresponding to the specified  AntennaUplinkConfigArn, are used when this UplinkEchoConfig is used in a contact.
     public struct UplinkEchoConfig: Swift.Sendable {
         /// ARN of an uplink Config.
         /// This member is required.
@@ -1434,15 +1546,17 @@ extension GroundStationClientTypes {
         case antennadownlinkdemoddecodeconfig(GroundStationClientTypes.AntennaDownlinkDemodDecodeConfig)
         /// Information about how AWS Ground Station should conﬁgure an antenna for uplink during a contact.
         case antennauplinkconfig(GroundStationClientTypes.AntennaUplinkConfig)
-        /// Information about an uplink echo Config. Parameters from the AntennaUplinkConfig, corresponding to the specified AntennaUplinkConfigArn, are used when this UplinkEchoConfig is used in a contact.
+        /// Information about an uplink echo Config. Parameters from the AntennaUplinkConfig, corresponding to the specified  AntennaUplinkConfigArn, are used when this UplinkEchoConfig is used in a contact.
         case uplinkechoconfig(GroundStationClientTypes.UplinkEchoConfig)
         /// Information about an S3 recording Config.
         case s3recordingconfig(GroundStationClientTypes.S3RecordingConfig)
+        /// Information about a telemetry sink Config.
+        case telemetrysinkconfig(GroundStationClientTypes.TelemetrySinkConfig)
         case sdkUnknown(Swift.String)
     }
 }
 
-///
+/// Input for the CreateConfig operation.
 public struct CreateConfigInput: Swift.Sendable {
     /// Parameters of a Config.
     /// This member is required.
@@ -1464,7 +1578,7 @@ public struct CreateConfigInput: Swift.Sendable {
     }
 }
 
-///
+/// Response containing the ARN, ID, and type of a Config.
 public struct CreateConfigOutput: Swift.Sendable {
     /// ARN of a Config.
     public var configArn: Swift.String?
@@ -1484,7 +1598,7 @@ public struct CreateConfigOutput: Swift.Sendable {
     }
 }
 
-///
+/// Input for the DeleteConfig operation.
 public struct DeleteConfigInput: Swift.Sendable {
     /// UUID of a Config.
     /// This member is required.
@@ -1502,7 +1616,7 @@ public struct DeleteConfigInput: Swift.Sendable {
     }
 }
 
-///
+/// Response containing the ARN, ID, and type of a Config.
 public struct DeleteConfigOutput: Swift.Sendable {
     /// ARN of a Config.
     public var configArn: Swift.String?
@@ -1522,7 +1636,7 @@ public struct DeleteConfigOutput: Swift.Sendable {
     }
 }
 
-///
+/// Input for the GetConfig operation.
 public struct GetConfigInput: Swift.Sendable {
     /// UUID of a Config.
     /// This member is required.
@@ -1540,7 +1654,7 @@ public struct GetConfigInput: Swift.Sendable {
     }
 }
 
-///
+/// Output for the GetConfig operation.
 public struct GetConfigOutput: Swift.Sendable {
     /// ARN of a Config
     /// This member is required.
@@ -1576,7 +1690,7 @@ public struct GetConfigOutput: Swift.Sendable {
     }
 }
 
-///
+/// Input for the ListConfigs operation.
 public struct ListConfigsInput: Swift.Sendable {
     /// Maximum number of Configs returned.
     public var maxResults: Swift.Int?
@@ -1619,7 +1733,7 @@ extension GroundStationClientTypes {
     }
 }
 
-///
+/// Output for the ListConfigs operation.
 public struct ListConfigsOutput: Swift.Sendable {
     /// List of Config items.
     public var configList: [GroundStationClientTypes.ConfigListItem]?
@@ -1635,7 +1749,7 @@ public struct ListConfigsOutput: Swift.Sendable {
     }
 }
 
-///
+/// Input for the UpdateConfig operation.
 public struct UpdateConfigInput: Swift.Sendable {
     /// Parameters of a Config.
     /// This member is required.
@@ -1663,7 +1777,7 @@ public struct UpdateConfigInput: Swift.Sendable {
     }
 }
 
-///
+/// Response containing the ARN, ID, and type of a Config.
 public struct UpdateConfigOutput: Swift.Sendable {
     /// ARN of a Config.
     public var configArn: Swift.String?
@@ -1966,7 +2080,7 @@ extension GroundStationClientTypes {
     }
 }
 
-///
+/// Input for the DescribeContact operation.
 public struct DescribeContactInput: Swift.Sendable {
     /// UUID of a contact.
     /// This member is required.
@@ -2196,10 +2310,46 @@ extension GroundStationClientTypes {
 
 extension GroundStationClientTypes {
 
+    /// Program track settings for [OEMEphemeris].
+    public struct OemProgramTrackSettings: Swift.Sendable {
+        /// Unique identifier of the OEM ephemeris.
+        /// This member is required.
+        public var ephemerisId: Swift.String?
+
+        public init(
+            ephemerisId: Swift.String? = nil
+        ) {
+            self.ephemerisId = ephemerisId
+        }
+    }
+}
+
+extension GroundStationClientTypes {
+
+    /// Program track settings for [TLEEphemeris].
+    public struct TleProgramTrackSettings: Swift.Sendable {
+        /// Unique identifier of the TLE ephemeris.
+        /// This member is required.
+        public var ephemerisId: Swift.String?
+
+        public init(
+            ephemerisId: Swift.String? = nil
+        ) {
+            self.ephemerisId = ephemerisId
+        }
+    }
+}
+
+extension GroundStationClientTypes {
+
     /// Program track settings for an antenna during a contact.
     public enum ProgramTrackSettings: Swift.Sendable {
         /// Program track settings for [AzElEphemeris].
         case azel(GroundStationClientTypes.AzElProgramTrackSettings)
+        /// Program track settings for [OEMEphemeris].
+        case oem(GroundStationClientTypes.OemProgramTrackSettings)
+        /// Program track settings for [TLEEphemeris].
+        case tle(GroundStationClientTypes.TleProgramTrackSettings)
         case sdkUnknown(Swift.String)
     }
 }
@@ -2209,7 +2359,6 @@ extension GroundStationClientTypes {
     /// Overrides the default tracking configuration on an antenna during a contact.
     public struct TrackingOverrides: Swift.Sendable {
         /// Program track settings to override for antenna tracking during the contact.
-        /// This member is required.
         public var programTrackSettings: GroundStationClientTypes.ProgramTrackSettings?
 
         public init(
@@ -2220,7 +2369,148 @@ extension GroundStationClientTypes {
     }
 }
 
-///
+extension GroundStationClientTypes {
+
+    public enum VersionFailureReasonCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case azelEphemerisInvalidStatus
+        case azelEphemerisNotFound
+        case azelEphemerisTimeRangeInvalid
+        case azelEphemerisWrongGroundStation
+        case ephemerisNotEnabled
+        case ephemerisNotFound
+        case ephemerisTimeRangeInvalid
+        case internalError
+        case invalidSatelliteArn
+        case invalidUpdateContactRequest
+        case notOnboardedToAzelEphemeris
+        case satelliteDoesNotMatchEphemeris
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VersionFailureReasonCode] {
+            return [
+                .azelEphemerisInvalidStatus,
+                .azelEphemerisNotFound,
+                .azelEphemerisTimeRangeInvalid,
+                .azelEphemerisWrongGroundStation,
+                .ephemerisNotEnabled,
+                .ephemerisNotFound,
+                .ephemerisTimeRangeInvalid,
+                .internalError,
+                .invalidSatelliteArn,
+                .invalidUpdateContactRequest,
+                .notOnboardedToAzelEphemeris,
+                .satelliteDoesNotMatchEphemeris
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .azelEphemerisInvalidStatus: return "AZEL_EPHEMERIS_INVALID_STATUS"
+            case .azelEphemerisNotFound: return "AZEL_EPHEMERIS_NOT_FOUND"
+            case .azelEphemerisTimeRangeInvalid: return "AZEL_EPHEMERIS_TIME_RANGE_INVALID"
+            case .azelEphemerisWrongGroundStation: return "AZEL_EPHEMERIS_WRONG_GROUND_STATION"
+            case .ephemerisNotEnabled: return "EPHEMERIS_NOT_ENABLED"
+            case .ephemerisNotFound: return "EPHEMERIS_NOT_FOUND"
+            case .ephemerisTimeRangeInvalid: return "EPHEMERIS_TIME_RANGE_INVALID"
+            case .internalError: return "INTERNAL_ERROR"
+            case .invalidSatelliteArn: return "INVALID_SATELLITE_ARN"
+            case .invalidUpdateContactRequest: return "INVALID_UPDATE_CONTACT_REQUEST"
+            case .notOnboardedToAzelEphemeris: return "NOT_ONBOARDED_TO_AZEL_EPHEMERIS"
+            case .satelliteDoesNotMatchEphemeris: return "SATELLITE_DOES_NOT_MATCH_EPHEMERIS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GroundStationClientTypes {
+
+    public enum VersionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The version is the current active version of the contact.
+        case active
+        /// The version update failed.
+        case failedToUpdate
+        /// The version has been replaced by a newer version.
+        case superseded
+        /// The version is being applied to the contact.
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VersionStatus] {
+            return [
+                .active,
+                .failedToUpdate,
+                .superseded,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .failedToUpdate: return "FAILED_TO_UPDATE"
+            case .superseded: return "SUPERSEDED"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GroundStationClientTypes {
+
+    /// Version information for a contact.
+    public struct ContactVersion: Swift.Sendable {
+        /// Time the contact version was activated in UTC. A version is activated when it becomes the current active version of the contact.
+        public var activated: Foundation.Date?
+        /// Time the contact version was created in UTC.
+        public var created: Foundation.Date?
+        /// List of failure codes for the contact version.
+        public var failureCodes: [GroundStationClientTypes.VersionFailureReasonCode]?
+        /// Failure message for the contact version.
+        public var failureMessage: Swift.String?
+        /// Time the contact version was last updated in UTC.
+        public var lastUpdated: Foundation.Date?
+        /// Status of the contact version.
+        public var status: GroundStationClientTypes.VersionStatus?
+        /// Time the contact version was superseded in UTC. A version is superseded when a newer version becomes active.
+        public var superseded: Foundation.Date?
+        /// Version ID of a contact.
+        public var versionId: Swift.Int?
+
+        public init(
+            activated: Foundation.Date? = nil,
+            created: Foundation.Date? = nil,
+            failureCodes: [GroundStationClientTypes.VersionFailureReasonCode]? = nil,
+            failureMessage: Swift.String? = nil,
+            lastUpdated: Foundation.Date? = nil,
+            status: GroundStationClientTypes.VersionStatus? = nil,
+            superseded: Foundation.Date? = nil,
+            versionId: Swift.Int? = nil
+        ) {
+            self.activated = activated
+            self.created = created
+            self.failureCodes = failureCodes
+            self.failureMessage = failureMessage
+            self.lastUpdated = lastUpdated
+            self.status = status
+            self.superseded = superseded
+            self.versionId = versionId
+        }
+    }
+}
+
+/// Output for the DescribeContact operation.
 public struct DescribeContactOutput: Swift.Sendable {
     /// UUID of a contact.
     public var contactId: Swift.String?
@@ -2240,11 +2530,11 @@ public struct DescribeContactOutput: Swift.Sendable {
     public var maximumElevation: GroundStationClientTypes.Elevation?
     /// ARN of a mission profile.
     public var missionProfileArn: Swift.String?
-    /// Amount of time after a contact ends that you’d like to receive a CloudWatch event indicating the pass has finished.
+    /// End time in UTC of the post-pass period, at which you receive a CloudWatch event indicating the pass has finished.
     public var postPassEndTime: Foundation.Date?
-    /// Amount of time prior to contact start you’d like to receive a CloudWatch event indicating an upcoming pass.
+    /// Start time in UTC of the pre-pass period, at which you receive a CloudWatch event indicating an upcoming pass.
     public var prePassStartTime: Foundation.Date?
-    /// Region of a contact.
+    /// Region where the ReserveContact API was called to schedule this contact.
     public var region: Swift.String?
     /// ARN of a satellite.
     public var satelliteArn: Swift.String?
@@ -2254,6 +2544,8 @@ public struct DescribeContactOutput: Swift.Sendable {
     public var tags: [Swift.String: Swift.String]?
     /// Tracking configuration overrides specified when the contact was reserved.
     public var trackingOverrides: GroundStationClientTypes.TrackingOverrides?
+    /// Version information for a contact.
+    public var version: GroundStationClientTypes.ContactVersion?
     /// Projected time in UTC your satellite will set below the [receive mask](https://docs.aws.amazon.com/ground-station/latest/ug/site-masks.html). This time is based on the satellite's current active ephemeris for future contacts and the ephemeris that was active during contact execution for completed contacts.
     public var visibilityEndTime: Foundation.Date?
     /// Projected time in UTC your satellite will rise above the [receive mask](https://docs.aws.amazon.com/ground-station/latest/ug/site-masks.html). This time is based on the satellite's current active ephemeris for future contacts and the ephemeris that was active during contact execution for completed contacts.
@@ -2276,6 +2568,7 @@ public struct DescribeContactOutput: Swift.Sendable {
         startTime: Foundation.Date? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         trackingOverrides: GroundStationClientTypes.TrackingOverrides? = nil,
+        version: GroundStationClientTypes.ContactVersion? = nil,
         visibilityEndTime: Foundation.Date? = nil,
         visibilityStartTime: Foundation.Date? = nil
     ) {
@@ -2295,6 +2588,107 @@ public struct DescribeContactOutput: Swift.Sendable {
         self.startTime = startTime
         self.tags = tags
         self.trackingOverrides = trackingOverrides
+        self.version = version
+        self.visibilityEndTime = visibilityEndTime
+        self.visibilityStartTime = visibilityStartTime
+    }
+}
+
+public struct DescribeContactVersionInput: Swift.Sendable {
+    /// UUID of a contact.
+    /// This member is required.
+    public var contactId: Swift.String?
+    /// Version ID of a contact.
+    /// This member is required.
+    public var versionId: Swift.Int?
+
+    public init(
+        contactId: Swift.String? = nil,
+        versionId: Swift.Int? = nil
+    ) {
+        self.contactId = contactId
+        self.versionId = versionId
+    }
+}
+
+public struct DescribeContactVersionOutput: Swift.Sendable {
+    /// UUID of a contact.
+    public var contactId: Swift.String?
+    /// Status of a contact.
+    public var contactStatus: GroundStationClientTypes.ContactStatus?
+    /// List describing source and destination details for each dataflow edge.
+    public var dataflowList: [GroundStationClientTypes.DataflowDetail]?
+    /// End time of a contact in UTC.
+    public var endTime: Foundation.Date?
+    /// The ephemeris that determines antenna pointing directions for the contact.
+    public var ephemeris: GroundStationClientTypes.EphemerisResponseData?
+    /// Error message for a contact.
+    public var errorMessage: Swift.String?
+    /// Ground station for a contact.
+    public var groundStation: Swift.String?
+    /// Maximum elevation angle of a contact.
+    public var maximumElevation: GroundStationClientTypes.Elevation?
+    /// ARN of the contact's mission profile.
+    public var missionProfileArn: Swift.String?
+    /// End time in UTC of the post-pass period, at which you receive a CloudWatch event indicating the pass has finished.
+    public var postPassEndTime: Foundation.Date?
+    /// Start time in UTC of the pre-pass period, at which you receive a CloudWatch event indicating an upcoming pass.
+    public var prePassStartTime: Foundation.Date?
+    /// Region where the ReserveContact API was called to schedule this contact.
+    public var region: Swift.String?
+    /// ARN of a satellite.
+    public var satelliteArn: Swift.String?
+    /// Start time of a contact in UTC.
+    public var startTime: Foundation.Date?
+    /// Tags assigned to a contact.
+    public var tags: [Swift.String: Swift.String]?
+    /// Tracking configuration overrides applied to this contact version. For the initial version, these are the overrides specified when the contact was reserved. For subsequent versions, these are the overrides associated with that specific version update.
+    public var trackingOverrides: GroundStationClientTypes.TrackingOverrides?
+    /// Version information for a contact.
+    public var version: GroundStationClientTypes.ContactVersion?
+    /// Projected time in UTC your satellite will set below the [receive mask](https://docs.aws.amazon.com/ground-station/latest/ug/site-masks.html). This time is based on the satellite's current active ephemeris for future contacts and the ephemeris that was active during contact execution for completed contacts.
+    public var visibilityEndTime: Foundation.Date?
+    /// Projected time in UTC your satellite will rise above the [receive mask](https://docs.aws.amazon.com/ground-station/latest/ug/site-masks.html). This time is based on the satellite's current active ephemeris for future contacts and the ephemeris that was active during contact execution for completed contacts.
+    public var visibilityStartTime: Foundation.Date?
+
+    public init(
+        contactId: Swift.String? = nil,
+        contactStatus: GroundStationClientTypes.ContactStatus? = nil,
+        dataflowList: [GroundStationClientTypes.DataflowDetail]? = nil,
+        endTime: Foundation.Date? = nil,
+        ephemeris: GroundStationClientTypes.EphemerisResponseData? = nil,
+        errorMessage: Swift.String? = nil,
+        groundStation: Swift.String? = nil,
+        maximumElevation: GroundStationClientTypes.Elevation? = nil,
+        missionProfileArn: Swift.String? = nil,
+        postPassEndTime: Foundation.Date? = nil,
+        prePassStartTime: Foundation.Date? = nil,
+        region: Swift.String? = nil,
+        satelliteArn: Swift.String? = nil,
+        startTime: Foundation.Date? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        trackingOverrides: GroundStationClientTypes.TrackingOverrides? = nil,
+        version: GroundStationClientTypes.ContactVersion? = nil,
+        visibilityEndTime: Foundation.Date? = nil,
+        visibilityStartTime: Foundation.Date? = nil
+    ) {
+        self.contactId = contactId
+        self.contactStatus = contactStatus
+        self.dataflowList = dataflowList
+        self.endTime = endTime
+        self.ephemeris = ephemeris
+        self.errorMessage = errorMessage
+        self.groundStation = groundStation
+        self.maximumElevation = maximumElevation
+        self.missionProfileArn = missionProfileArn
+        self.postPassEndTime = postPassEndTime
+        self.prePassStartTime = prePassStartTime
+        self.region = region
+        self.satelliteArn = satelliteArn
+        self.startTime = startTime
+        self.tags = tags
+        self.trackingOverrides = trackingOverrides
+        self.version = version
         self.visibilityEndTime = visibilityEndTime
         self.visibilityStartTime = visibilityStartTime
     }
@@ -2310,7 +2704,7 @@ extension GroundStationClientTypes {
     }
 }
 
-///
+/// Input for the ListContacts operation.
 public struct ListContactsInput: Swift.Sendable {
     /// End time of a contact in UTC.
     /// This member is required.
@@ -2377,9 +2771,9 @@ extension GroundStationClientTypes {
         public var maximumElevation: GroundStationClientTypes.Elevation?
         /// ARN of a mission profile.
         public var missionProfileArn: Swift.String?
-        /// Amount of time after a contact ends that you’d like to receive a CloudWatch event indicating the pass has finished.
+        /// End time in UTC of the post-pass period, at which you receive a CloudWatch event indicating the pass has finished.
         public var postPassEndTime: Foundation.Date?
-        /// Amount of time prior to contact start you’d like to receive a CloudWatch event indicating an upcoming pass.
+        /// Start time in UTC of the pre-pass period, at which you receive a CloudWatch event indicating an upcoming pass.
         public var prePassStartTime: Foundation.Date?
         /// Region of a contact.
         public var region: Swift.String?
@@ -2389,6 +2783,8 @@ extension GroundStationClientTypes {
         public var startTime: Foundation.Date?
         /// Tags assigned to a contact.
         public var tags: [Swift.String: Swift.String]?
+        /// Version information for a contact.
+        public var version: GroundStationClientTypes.ContactVersion?
         /// Projected time in UTC your satellite will set below the [receive mask](https://docs.aws.amazon.com/ground-station/latest/ug/site-masks.html). This time is based on the satellite's current active ephemeris for future contacts and the ephemeris that was active during contact execution for completed contacts. This field is not present for contacts with a SCHEDULING or SCHEDULED status.
         public var visibilityEndTime: Foundation.Date?
         /// Projected time in UTC your satellite will rise above the [receive mask](https://docs.aws.amazon.com/ground-station/latest/ug/site-masks.html). This time is based on the satellite's current active ephemeris for future contacts and the ephemeris that was active during contact execution for completed contacts. This field is not present for contacts with a SCHEDULING or SCHEDULED status.
@@ -2409,6 +2805,7 @@ extension GroundStationClientTypes {
             satelliteArn: Swift.String? = nil,
             startTime: Foundation.Date? = nil,
             tags: [Swift.String: Swift.String]? = nil,
+            version: GroundStationClientTypes.ContactVersion? = nil,
             visibilityEndTime: Foundation.Date? = nil,
             visibilityStartTime: Foundation.Date? = nil
         ) {
@@ -2426,13 +2823,14 @@ extension GroundStationClientTypes {
             self.satelliteArn = satelliteArn
             self.startTime = startTime
             self.tags = tags
+            self.version = version
             self.visibilityEndTime = visibilityEndTime
             self.visibilityStartTime = visibilityStartTime
         }
     }
 }
 
-///
+/// Output for the ListContacts operation.
 public struct ListContactsOutput: Swift.Sendable {
     /// List of contacts.
     public var contactList: [GroundStationClientTypes.ContactData]?
@@ -2448,7 +2846,42 @@ public struct ListContactsOutput: Swift.Sendable {
     }
 }
 
-///
+public struct ListContactVersionsInput: Swift.Sendable {
+    /// UUID of a contact.
+    /// This member is required.
+    public var contactId: Swift.String?
+    /// Maximum number of contact versions returned.
+    public var maxResults: Swift.Int?
+    /// Next token returned in the request of a previous ListContactVersions call. Used to get the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        contactId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.contactId = contactId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListContactVersionsOutput: Swift.Sendable {
+    /// List of contact versions.
+    public var contactVersionsList: [GroundStationClientTypes.ContactVersion]?
+    /// Next token to be used in a subsequent ListContactVersions call to retrieve the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        contactVersionsList: [GroundStationClientTypes.ContactVersion]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.contactVersionsList = contactVersionsList
+        self.nextToken = nextToken
+    }
+}
+
+/// Input for the ReserveContact operation.
 public struct ReserveContactInput: Swift.Sendable {
     /// End time of a contact in UTC.
     /// This member is required.
@@ -2488,23 +2921,81 @@ public struct ReserveContactInput: Swift.Sendable {
     }
 }
 
-///
+/// Response containing the ID of a contact.
 public struct ReserveContactOutput: Swift.Sendable {
     /// UUID of a contact.
     public var contactId: Swift.String?
+    /// Version ID of a contact.
+    public var versionId: Swift.Int?
 
     public init(
-        contactId: Swift.String? = nil
+        contactId: Swift.String? = nil,
+        versionId: Swift.Int? = nil
     ) {
         self.contactId = contactId
+        self.versionId = versionId
     }
 }
 
-///
+public struct UpdateContactInput: Swift.Sendable {
+    /// A client token is a unique, case-sensitive string of up to 64 ASCII characters. It is generated by the client to ensure idempotent operations, allowing safe retries without unintended side effects.
+    public var clientToken: Swift.String?
+    /// UUID of a contact.
+    /// This member is required.
+    public var contactId: Swift.String?
+    /// ARN of a satellite.
+    public var satelliteArn: Swift.String?
+    /// Overrides the default tracking configuration on an antenna during a contact.
+    public var trackingOverrides: GroundStationClientTypes.TrackingOverrides?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        contactId: Swift.String? = nil,
+        satelliteArn: Swift.String? = nil,
+        trackingOverrides: GroundStationClientTypes.TrackingOverrides? = nil
+    ) {
+        self.clientToken = clientToken
+        self.contactId = contactId
+        self.satelliteArn = satelliteArn
+        self.trackingOverrides = trackingOverrides
+    }
+}
+
+public struct UpdateContactOutput: Swift.Sendable {
+    /// UUID of a contact.
+    public var contactId: Swift.String?
+    /// Version ID of a contact.
+    public var versionId: Swift.Int?
+
+    public init(
+        contactId: Swift.String? = nil,
+        versionId: Swift.Int? = nil
+    ) {
+        self.contactId = contactId
+        self.versionId = versionId
+    }
+}
+
+extension GroundStationClientTypes {
+
+    /// Details of a contact reservation.
+    public struct ContactReservationDetails: Swift.Sendable {
+        /// UUID of a contact.
+        public var contactId: Swift.String?
+
+        public init(
+            contactId: Swift.String? = nil
+        ) {
+            self.contactId = contactId
+        }
+    }
+}
+
+/// Input for the CreateDataflowEndpointGroup operation.
 public struct CreateDataflowEndpointGroupInput: Swift.Sendable {
-    /// Amount of time, in seconds, after a contact ends that the Ground Station Dataflow Endpoint Group will be in a POSTPASS state. A Ground Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint Group enters and exits the POSTPASS state.
+    /// Amount of time, in seconds, after a contact ends that the Ground Station Dataflow Endpoint Group will be in a POSTPASS state. A [Ground Station Dataflow Endpoint Group State Change event](https://docs.aws.amazon.com/ground-station/latest/ug/monitoring.automating-events.html) will be emitted when the Dataflow Endpoint Group enters and exits the POSTPASS state.
     public var contactPostPassDurationSeconds: Swift.Int?
-    /// Amount of time, in seconds, before a contact starts that the Ground Station Dataflow Endpoint Group will be in a PREPASS state. A Ground Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint Group enters and exits the PREPASS state.
+    /// Amount of time, in seconds, before a contact starts that the Ground Station Dataflow Endpoint Group will be in a PREPASS state. A [Ground Station Dataflow Endpoint Group State Change event](https://docs.aws.amazon.com/ground-station/latest/ug/monitoring.automating-events.html) will be emitted when the Dataflow Endpoint Group enters and exits the PREPASS state.
     public var contactPrePassDurationSeconds: Swift.Int?
     /// Endpoint details of each endpoint in the dataflow endpoint group. All dataflow endpoints within a single dataflow endpoint group must be of the same type. You cannot mix [ AWS Ground Station Agent endpoints](https://docs.aws.amazon.com/ground-station/latest/APIReference/API_AwsGroundStationAgentEndpoint.html) with [Dataflow endpoints](https://docs.aws.amazon.com/ground-station/latest/APIReference/API_DataflowEndpoint.html) in the same group. If your use case requires both types of endpoints, you must create separate dataflow endpoint groups for each type.
     /// This member is required.
@@ -2525,7 +3016,7 @@ public struct CreateDataflowEndpointGroupInput: Swift.Sendable {
     }
 }
 
-///
+/// Response containing the ID of a dataflow endpoint group.
 public struct CreateDataflowEndpointGroupOutput: Swift.Sendable {
     /// UUID of a dataflow endpoint group.
     public var dataflowEndpointGroupId: Swift.String?
@@ -2551,9 +3042,9 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -2619,9 +3110,9 @@ extension GroundStationClientTypes {
 }
 
 public struct CreateDataflowEndpointGroupV2Input: Swift.Sendable {
-    /// Amount of time, in seconds, after a contact ends that the Ground Station Dataflow Endpoint Group will be in a POSTPASS state. A Ground Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint Group enters and exits the POSTPASS state.
+    /// Amount of time, in seconds, after a contact ends that the Ground Station Dataflow Endpoint Group will be in a POSTPASS state. A [Ground Station Dataflow Endpoint Group State Change event](https://docs.aws.amazon.com/ground-station/latest/ug/monitoring.automating-events.html) will be emitted when the Dataflow Endpoint Group enters and exits the POSTPASS state.
     public var contactPostPassDurationSeconds: Swift.Int?
-    /// Amount of time, in seconds, before a contact starts that the Ground Station Dataflow Endpoint Group will be in a PREPASS state. A Ground Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint Group enters and exits the PREPASS state.
+    /// Amount of time, in seconds, before a contact starts that the Ground Station Dataflow Endpoint Group will be in a PREPASS state. A [Ground Station Dataflow Endpoint Group State Change event](https://docs.aws.amazon.com/ground-station/latest/ug/monitoring.automating-events.html) will be emitted when the Dataflow Endpoint Group enters and exits the PREPASS state.
     public var contactPrePassDurationSeconds: Swift.Int?
     /// Dataflow endpoint group's endpoint definitions
     /// This member is required.
@@ -2655,7 +3146,7 @@ public struct CreateDataflowEndpointGroupV2Output: Swift.Sendable {
 
 extension GroundStationClientTypes {
 
-    /// Ephemeris data in Orbit Ephemeris Message (OEM) format. AWS Ground Station processes OEM ephemerides according to the [CCSDS standard](https://ccsds.org/wp-content/uploads/gravity_forms/5-448e85c647331d9cbaf66c096458bdd5/2025/01//502x0b3e1.pdf) with some extra restrictions. OEM files should be in KVN format. For more detail about the OEM format that AWS Ground Station supports, see [OEM ephemeris format](https://docs.aws.amazon.com/ground-station/latest/ug/providing-oem-ephemeris-data.html#oem-ephemeris-format) in the AWS Ground Station user guide.
+    /// Ephemeris data in Orbit Ephemeris Message (OEM) format. AWS Ground Station processes OEM ephemerides according to the [CCSDS standard](https://ccsds.org/Pubs/502x0b3e1.pdf) with some extra restrictions. OEM files should be in KVN format. For more detail about the OEM format that AWS Ground Station supports, see [OEM ephemeris format](https://docs.aws.amazon.com/ground-station/latest/ug/providing-oem-ephemeris-data.html#oem-ephemeris-format) in the AWS Ground Station user guide.
     public struct OEMEphemeris: Swift.Sendable {
         /// OEM data that you provide directly instead of using an Amazon S3 object.
         public var oemData: Swift.String?
@@ -2744,7 +3235,7 @@ extension GroundStationClientTypes {
     public enum EphemerisData: Swift.Sendable {
         /// Two-line element set (TLE) ephemeris. For more detail about providing Two-line element sets to AWS Ground Station, see the [TLE section](https://docs.aws.amazon.com/ground-station/latest/ug/providing-tle-ephemeris-data.html) of the AWS Ground Station user guide.
         case tle(GroundStationClientTypes.TLEEphemeris)
-        /// Ephemeris data in Orbit Ephemeris Message (OEM) format. AWS Ground Station processes OEM ephemerides according to the [CCSDS standard](https://ccsds.org/wp-content/uploads/gravity_forms/5-448e85c647331d9cbaf66c096458bdd5/2025/01//502x0b3e1.pdf) with some extra restrictions. OEM files should be in KVN format. For more detail about the OEM format that AWS Ground Station supports, see [OEM ephemeris format](https://docs.aws.amazon.com/ground-station/latest/ug/providing-oem-ephemeris-data.html#oem-ephemeris-format) in the AWS Ground Station user guide.
+        /// Ephemeris data in Orbit Ephemeris Message (OEM) format. AWS Ground Station processes OEM ephemerides according to the [CCSDS standard](https://ccsds.org/Pubs/502x0b3e1.pdf) with some extra restrictions. OEM files should be in KVN format. For more detail about the OEM format that AWS Ground Station supports, see [OEM ephemeris format](https://docs.aws.amazon.com/ground-station/latest/ug/providing-oem-ephemeris-data.html#oem-ephemeris-format) in the AWS Ground Station user guide.
         case oem(GroundStationClientTypes.OEMEphemeris)
         /// Azimuth elevation ephemeris data. Use this ephemeris type to provide pointing angles directly, rather than satellite orbital elements. Use this when you need precise antenna pointing but have imprecise or unknown satellite trajectory information. The azimuth elevation data specifies the antenna pointing direction at specific times relative to a ground station location. AWS Ground Station uses 4th order Lagrange interpolation to compute pointing angles between the provided data points. AWS Ground Station automatically filters interpolated pointing angles, including only those that are above the site mask elevation of the specified ground station. For more detail about providing azimuth elevation ephemerides to AWS Ground Station, see the [azimuth elevation ephemeris section](https://docs.aws.amazon.com/ground-station/latest/ug/providing-azimuth-elevation-ephemeris-data.html) of the AWS Ground Station User Guide.
         case azel(GroundStationClientTypes.AzElEphemeris)
@@ -2817,16 +3308,16 @@ extension GroundStationClientTypes {
     }
 }
 
-///
+/// Input for the CreateMissionProfile operation.
 public struct CreateMissionProfileInput: Swift.Sendable {
-    /// Amount of time after a contact ends that you’d like to receive a Ground Station Contact State Change event indicating the pass has finished.
+    /// Amount of time after a contact ends that you'd like to receive a Ground Station Contact State Change event indicating the pass has finished.
     public var contactPostPassDurationSeconds: Swift.Int?
-    /// Amount of time prior to contact start you’d like to receive a Ground Station Contact State Change event indicating an upcoming pass.
+    /// Amount of time prior to contact start you'd like to receive a Ground Station Contact State Change event indicating an upcoming pass.
     public var contactPrePassDurationSeconds: Swift.Int?
-    /// A list of lists of ARNs. Each list of ARNs is an edge, with a from Config and a to Config.
+    /// A list of lists of ARNs. Each list of ARNs is an edge, with a from  Config and a to Config.
     /// This member is required.
     public var dataflowEdges: [[Swift.String]]?
-    /// Smallest amount of time in seconds that you’d like to see for an available contact. AWS Ground Station will not present you with contacts shorter than this duration.
+    /// Smallest amount of time in seconds that you'd like to see for an available contact. AWS Ground Station will not present you with contacts shorter than this duration.
     /// This member is required.
     public var minimumViableContactDurationSeconds: Swift.Int?
     /// Name of a mission profile.
@@ -2838,6 +3329,8 @@ public struct CreateMissionProfileInput: Swift.Sendable {
     public var streamsKmsRole: Swift.String?
     /// Tags assigned to a mission profile.
     public var tags: [Swift.String: Swift.String]?
+    /// ARN of a telemetry sink Config.
+    public var telemetrySinkConfigArn: Swift.String?
     /// ARN of a tracking Config.
     /// This member is required.
     public var trackingConfigArn: Swift.String?
@@ -2851,6 +3344,7 @@ public struct CreateMissionProfileInput: Swift.Sendable {
         streamsKmsKey: GroundStationClientTypes.KmsKey? = nil,
         streamsKmsRole: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
+        telemetrySinkConfigArn: Swift.String? = nil,
         trackingConfigArn: Swift.String? = nil
     ) {
         self.contactPostPassDurationSeconds = contactPostPassDurationSeconds
@@ -2861,11 +3355,12 @@ public struct CreateMissionProfileInput: Swift.Sendable {
         self.streamsKmsKey = streamsKmsKey
         self.streamsKmsRole = streamsKmsRole
         self.tags = tags
+        self.telemetrySinkConfigArn = telemetrySinkConfigArn
         self.trackingConfigArn = trackingConfigArn
     }
 }
 
-///
+/// Response containing the ID of a mission profile.
 public struct CreateMissionProfileOutput: Swift.Sendable {
     /// UUID of a mission profile.
     public var missionProfileId: Swift.String?
@@ -2877,7 +3372,7 @@ public struct CreateMissionProfileOutput: Swift.Sendable {
     }
 }
 
-///
+/// Input for the DeleteDataflowEndpointGroup operation.
 public struct DeleteDataflowEndpointGroupInput: Swift.Sendable {
     /// UUID of a dataflow endpoint group.
     /// This member is required.
@@ -2890,7 +3385,7 @@ public struct DeleteDataflowEndpointGroupInput: Swift.Sendable {
     }
 }
 
-///
+/// Response containing the ID of a dataflow endpoint group.
 public struct DeleteDataflowEndpointGroupOutput: Swift.Sendable {
     /// UUID of a dataflow endpoint group.
     public var dataflowEndpointGroupId: Swift.String?
@@ -2902,7 +3397,7 @@ public struct DeleteDataflowEndpointGroupOutput: Swift.Sendable {
     }
 }
 
-///
+/// Input for the GetDataflowEndpointGroup operation.
 public struct GetDataflowEndpointGroupInput: Swift.Sendable {
     /// UUID of a dataflow endpoint group.
     /// This member is required.
@@ -2915,7 +3410,7 @@ public struct GetDataflowEndpointGroupInput: Swift.Sendable {
     }
 }
 
-///
+/// Output for the GetDataflowEndpointGroup operation.
 public struct GetDataflowEndpointGroupOutput: Swift.Sendable {
     /// Amount of time, in seconds, after a contact ends that the Ground Station Dataflow Endpoint Group will be in a POSTPASS state. A Ground Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint Group enters and exits the POSTPASS state.
     public var contactPostPassDurationSeconds: Swift.Int?
@@ -2947,7 +3442,7 @@ public struct GetDataflowEndpointGroupOutput: Swift.Sendable {
     }
 }
 
-///
+/// Input for the ListDataflowEndpointGroups operation.
 public struct ListDataflowEndpointGroupsInput: Swift.Sendable {
     /// Maximum number of dataflow endpoint groups returned.
     public var maxResults: Swift.Int?
@@ -2982,7 +3477,7 @@ extension GroundStationClientTypes {
     }
 }
 
-///
+/// Output for the ListDataflowEndpointGroups operation.
 public struct ListDataflowEndpointGroupsOutput: Swift.Sendable {
     /// A list of dataflow endpoint groups.
     public var dataflowEndpointGroupList: [GroundStationClientTypes.DataflowEndpointListItem]?
@@ -3010,9 +3505,9 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -3044,7 +3539,7 @@ public struct DeleteEphemerisOutput: Swift.Sendable {
     }
 }
 
-///
+/// Input for the DeleteMissionProfile operation.
 public struct DeleteMissionProfileInput: Swift.Sendable {
     /// UUID of a mission profile.
     /// This member is required.
@@ -3057,7 +3552,7 @@ public struct DeleteMissionProfileInput: Swift.Sendable {
     }
 }
 
-///
+/// Response containing the ID of a mission profile.
 public struct DeleteMissionProfileOutput: Swift.Sendable {
     /// UUID of a mission profile.
     public var missionProfileId: Swift.String?
@@ -3242,15 +3737,15 @@ extension GroundStationClientTypes {
 extension GroundStationClientTypes {
 
     public enum EphemerisInvalidReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        /// Provided KMS key is invalid
+        /// Provided KMS key is invalid.
         case kmsKeyInvalid
-        /// Provided spacecraft identifiers such as spacecraft NORAD Id are invalid
+        /// Provided spacecraft identifiers such as spacecraft NORAD ID are invalid.
         case metadataInvalid
-        /// Start, end, or expiration time(s) are invalid for the provided ephemeris
+        /// Start, end, or expiration time(s) are invalid for the provided ephemeris.
         case timeRangeInvalid
-        /// Provided ephemeris defines invalid spacecraft trajectory
+        /// Provided ephemeris defines invalid spacecraft trajectory.
         case trajectoryInvalid
-        /// Internal Service Error occurred while processing ephemeris
+        /// Internal service error occurred while processing ephemeris.
         case validationError
         case sdkUnknown(Swift.String)
 
@@ -3634,7 +4129,7 @@ public struct GetAgentTaskResponseUrlOutput: Swift.Sendable {
     }
 }
 
-///
+/// Input for the GetMinuteUsage operation.
 public struct GetMinuteUsageInput: Swift.Sendable {
     /// The month being requested, with a value of 1-12.
     /// This member is required.
@@ -3652,7 +4147,7 @@ public struct GetMinuteUsageInput: Swift.Sendable {
     }
 }
 
-///
+/// Output for the GetMinuteUsage operation.
 public struct GetMinuteUsageOutput: Swift.Sendable {
     /// Estimated number of minutes remaining for an account, specific to the month being requested.
     public var estimatedMinutesRemaining: Swift.Int?
@@ -3680,7 +4175,7 @@ public struct GetMinuteUsageOutput: Swift.Sendable {
     }
 }
 
-///
+/// Input for the GetMissionProfile operation.
 public struct GetMissionProfileInput: Swift.Sendable {
     /// UUID of a mission profile.
     /// This member is required.
@@ -3693,15 +4188,15 @@ public struct GetMissionProfileInput: Swift.Sendable {
     }
 }
 
-///
+/// Output for the GetMissionProfile operation.
 public struct GetMissionProfileOutput: Swift.Sendable {
-    /// Amount of time after a contact ends that you’d like to receive a CloudWatch event indicating the pass has finished.
+    /// Amount of time after a contact ends that you'd like to receive a CloudWatch event indicating the pass has finished.
     public var contactPostPassDurationSeconds: Swift.Int?
-    /// Amount of time prior to contact start you’d like to receive a CloudWatch event indicating an upcoming pass.
+    /// Amount of time prior to contact start you'd like to receive a CloudWatch event indicating an upcoming pass.
     public var contactPrePassDurationSeconds: Swift.Int?
-    /// A list of lists of ARNs. Each list of ARNs is an edge, with a from Config and a to Config.
+    /// A list of lists of ARNs. Each list of ARNs is an edge, with a from  Config and a to Config.
     public var dataflowEdges: [[Swift.String]]?
-    /// Smallest amount of time in seconds that you’d like to see for an available contact. AWS Ground Station will not present you with contacts shorter than this duration.
+    /// Smallest amount of time in seconds that you'd like to see for an available contact. AWS Ground Station will not present you with contacts shorter than this duration.
     public var minimumViableContactDurationSeconds: Swift.Int?
     /// ARN of a mission profile.
     public var missionProfileArn: Swift.String?
@@ -3717,6 +4212,8 @@ public struct GetMissionProfileOutput: Swift.Sendable {
     public var streamsKmsRole: Swift.String?
     /// Tags assigned to a mission profile.
     public var tags: [Swift.String: Swift.String]?
+    /// ARN of a telemetry sink Config.
+    public var telemetrySinkConfigArn: Swift.String?
     /// ARN of a tracking Config.
     public var trackingConfigArn: Swift.String?
 
@@ -3732,6 +4229,7 @@ public struct GetMissionProfileOutput: Swift.Sendable {
         streamsKmsKey: GroundStationClientTypes.KmsKey? = nil,
         streamsKmsRole: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
+        telemetrySinkConfigArn: Swift.String? = nil,
         trackingConfigArn: Swift.String? = nil
     ) {
         self.contactPostPassDurationSeconds = contactPostPassDurationSeconds
@@ -3745,11 +4243,12 @@ public struct GetMissionProfileOutput: Swift.Sendable {
         self.streamsKmsKey = streamsKmsKey
         self.streamsKmsRole = streamsKmsRole
         self.tags = tags
+        self.telemetrySinkConfigArn = telemetrySinkConfigArn
         self.trackingConfigArn = trackingConfigArn
     }
 }
 
-///
+/// Input for the GetSatellite operation.
 public struct GetSatelliteInput: Swift.Sendable {
     /// UUID of a satellite.
     /// This member is required.
@@ -3762,7 +4261,7 @@ public struct GetSatelliteInput: Swift.Sendable {
     }
 }
 
-///
+/// Output for the GetSatellite operation.
 public struct GetSatelliteOutput: Swift.Sendable {
     /// The current ephemeris being used to compute the trajectory of the satellite.
     public var currentEphemeris: GroundStationClientTypes.EphemerisMetaData?
@@ -3790,7 +4289,220 @@ public struct GetSatelliteOutput: Swift.Sendable {
     }
 }
 
-///
+public struct ListAntennasInput: Swift.Sendable {
+    /// ID of a ground station.
+    /// This member is required.
+    public var groundStationId: Swift.String?
+    /// Maximum number of antennas returned.
+    public var maxResults: Swift.Int?
+    /// Next token returned in the request of a previous ListAntennas call. Used to get the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        groundStationId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.groundStationId = groundStationId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListAntennasOutput: Swift.Sendable {
+    /// List of antennas.
+    /// This member is required.
+    public var antennaList: [GroundStationClientTypes.AntennaListItem]?
+    /// Next token to be used in a subsequent ListAntennas call to retrieve the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        antennaList: [GroundStationClientTypes.AntennaListItem]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.antennaList = antennaList
+        self.nextToken = nextToken
+    }
+}
+
+extension GroundStationClientTypes {
+
+    public enum ReservationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case contact
+        case maintenance
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ReservationType] {
+            return [
+                .contact,
+                .maintenance
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .contact: return "CONTACT"
+            case .maintenance: return "MAINTENANCE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct ListGroundStationReservationsInput: Swift.Sendable {
+    /// End time of the reservation window in UTC.
+    /// This member is required.
+    public var endTime: Foundation.Date?
+    /// ID of a ground station.
+    /// This member is required.
+    public var groundStationId: Swift.String?
+    /// Maximum number of ground station reservations returned.
+    public var maxResults: Swift.Int?
+    /// Next token returned in the request of a previous ListGroundStationReservations call. Used to get the next page of results.
+    public var nextToken: Swift.String?
+    /// Types of reservations to filter by.
+    public var reservationTypes: [GroundStationClientTypes.ReservationType]?
+    /// Start time of the reservation window in UTC.
+    /// This member is required.
+    public var startTime: Foundation.Date?
+
+    public init(
+        endTime: Foundation.Date? = nil,
+        groundStationId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        reservationTypes: [GroundStationClientTypes.ReservationType]? = nil,
+        startTime: Foundation.Date? = nil
+    ) {
+        self.endTime = endTime
+        self.groundStationId = groundStationId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.reservationTypes = reservationTypes
+        self.startTime = startTime
+    }
+}
+
+extension GroundStationClientTypes {
+
+    public enum MaintenanceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case planned
+        case unplanned
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MaintenanceType] {
+            return [
+                .planned,
+                .unplanned
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .planned: return "PLANNED"
+            case .unplanned: return "UNPLANNED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GroundStationClientTypes {
+
+    /// Details of a maintenance reservation.
+    public struct MaintenanceReservationDetails: Swift.Sendable {
+        /// Type of maintenance.
+        /// This member is required.
+        public var maintenanceType: GroundStationClientTypes.MaintenanceType?
+
+        public init(
+            maintenanceType: GroundStationClientTypes.MaintenanceType? = nil
+        ) {
+            self.maintenanceType = maintenanceType
+        }
+    }
+}
+
+extension GroundStationClientTypes {
+
+    /// Details of a ground station reservation.
+    public enum ReservationDetails: Swift.Sendable {
+        /// Details of a maintenance reservation.
+        case maintenance(GroundStationClientTypes.MaintenanceReservationDetails)
+        /// Details of a contact reservation.
+        case contact(GroundStationClientTypes.ContactReservationDetails)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension GroundStationClientTypes {
+
+    /// Item in a list of ground station reservations.
+    public struct GroundStationReservationListItem: Swift.Sendable {
+        /// Name of an antenna.
+        /// This member is required.
+        public var antennaName: Swift.String?
+        /// End time of a ground station reservation in UTC.
+        /// This member is required.
+        public var endTime: Foundation.Date?
+        /// ID of a ground station.
+        /// This member is required.
+        public var groundStationId: Swift.String?
+        /// Details of a ground station reservation.
+        /// This member is required.
+        public var reservationDetails: GroundStationClientTypes.ReservationDetails?
+        /// Type of a ground station reservation.
+        /// This member is required.
+        public var reservationType: GroundStationClientTypes.ReservationType?
+        /// Start time of a ground station reservation in UTC.
+        /// This member is required.
+        public var startTime: Foundation.Date?
+
+        public init(
+            antennaName: Swift.String? = nil,
+            endTime: Foundation.Date? = nil,
+            groundStationId: Swift.String? = nil,
+            reservationDetails: GroundStationClientTypes.ReservationDetails? = nil,
+            reservationType: GroundStationClientTypes.ReservationType? = nil,
+            startTime: Foundation.Date? = nil
+        ) {
+            self.antennaName = antennaName
+            self.endTime = endTime
+            self.groundStationId = groundStationId
+            self.reservationDetails = reservationDetails
+            self.reservationType = reservationType
+            self.startTime = startTime
+        }
+    }
+}
+
+public struct ListGroundStationReservationsOutput: Swift.Sendable {
+    /// Next token to be used in a subsequent ListGroundStationReservations call to retrieve the next page of results.
+    public var nextToken: Swift.String?
+    /// List of ground station reservations.
+    /// This member is required.
+    public var reservationList: [GroundStationClientTypes.GroundStationReservationListItem]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        reservationList: [GroundStationClientTypes.GroundStationReservationListItem]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.reservationList = reservationList
+    }
+}
+
+/// Input for the ListGroundStations operation.
 public struct ListGroundStationsInput: Swift.Sendable {
     /// Maximum number of ground stations returned.
     public var maxResults: Swift.Int?
@@ -3814,7 +4526,7 @@ extension GroundStationClientTypes {
 
     /// Information about the ground station data.
     public struct GroundStationData: Swift.Sendable {
-        /// UUID of a ground station.
+        /// ID of a ground station.
         public var groundStationId: Swift.String?
         /// Name of a ground station.
         public var groundStationName: Swift.String?
@@ -3833,7 +4545,7 @@ extension GroundStationClientTypes {
     }
 }
 
-///
+/// Output for the ListGroundStations operation.
 public struct ListGroundStationsOutput: Swift.Sendable {
     /// List of ground stations.
     public var groundStationList: [GroundStationClientTypes.GroundStationData]?
@@ -3849,7 +4561,7 @@ public struct ListGroundStationsOutput: Swift.Sendable {
     }
 }
 
-///
+/// Input for the ListTagsForResource operation.
 public struct ListTagsForResourceInput: Swift.Sendable {
     /// ARN of a resource.
     /// This member is required.
@@ -3862,7 +4574,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
     }
 }
 
-///
+/// Output for the ListTagsForResource operation.
 public struct ListTagsForResourceOutput: Swift.Sendable {
     /// Tags assigned to a resource.
     public var tags: [Swift.String: Swift.String]?
@@ -3874,7 +4586,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     }
 }
 
-///
+/// Input for the ListMissionProfiles operation.
 public struct ListMissionProfilesInput: Swift.Sendable {
     /// Maximum number of mission profiles returned.
     public var maxResults: Swift.Int?
@@ -3917,7 +4629,7 @@ extension GroundStationClientTypes {
     }
 }
 
-///
+/// Output for the ListMissionProfiles operation.
 public struct ListMissionProfilesOutput: Swift.Sendable {
     /// List of mission profiles.
     public var missionProfileList: [GroundStationClientTypes.MissionProfileListItem]?
@@ -3933,15 +4645,15 @@ public struct ListMissionProfilesOutput: Swift.Sendable {
     }
 }
 
-///
+/// Input for the UpdateMissionProfile operation.
 public struct UpdateMissionProfileInput: Swift.Sendable {
-    /// Amount of time after a contact ends that you’d like to receive a Ground Station Contact State Change event indicating the pass has finished.
+    /// Amount of time after a contact ends that you'd like to receive a Ground Station Contact State Change event indicating the pass has finished.
     public var contactPostPassDurationSeconds: Swift.Int?
-    /// Amount of time after a contact ends that you’d like to receive a Ground Station Contact State Change event indicating the pass has finished.
+    /// Amount of time after a contact ends that you'd like to receive a Ground Station Contact State Change event indicating the pass has finished.
     public var contactPrePassDurationSeconds: Swift.Int?
-    /// A list of lists of ARNs. Each list of ARNs is an edge, with a from Config and a to Config.
+    /// A list of lists of ARNs. Each list of ARNs is an edge, with a from  Config and a to Config.
     public var dataflowEdges: [[Swift.String]]?
-    /// Smallest amount of time in seconds that you’d like to see for an available contact. AWS Ground Station will not present you with contacts shorter than this duration.
+    /// Smallest amount of time in seconds that you'd like to see for an available contact. AWS Ground Station will not present you with contacts shorter than this duration.
     public var minimumViableContactDurationSeconds: Swift.Int?
     /// UUID of a mission profile.
     /// This member is required.
@@ -3952,6 +4664,8 @@ public struct UpdateMissionProfileInput: Swift.Sendable {
     public var streamsKmsKey: GroundStationClientTypes.KmsKey?
     /// Role to use for encrypting streams with KMS key.
     public var streamsKmsRole: Swift.String?
+    /// ARN of a telemetry sink Config.
+    public var telemetrySinkConfigArn: Swift.String?
     /// ARN of a tracking Config.
     public var trackingConfigArn: Swift.String?
 
@@ -3964,6 +4678,7 @@ public struct UpdateMissionProfileInput: Swift.Sendable {
         name: Swift.String? = nil,
         streamsKmsKey: GroundStationClientTypes.KmsKey? = nil,
         streamsKmsRole: Swift.String? = nil,
+        telemetrySinkConfigArn: Swift.String? = nil,
         trackingConfigArn: Swift.String? = nil
     ) {
         self.contactPostPassDurationSeconds = contactPostPassDurationSeconds
@@ -3974,11 +4689,12 @@ public struct UpdateMissionProfileInput: Swift.Sendable {
         self.name = name
         self.streamsKmsKey = streamsKmsKey
         self.streamsKmsRole = streamsKmsRole
+        self.telemetrySinkConfigArn = telemetrySinkConfigArn
         self.trackingConfigArn = trackingConfigArn
     }
 }
 
-///
+/// Response containing the ID of a mission profile.
 public struct UpdateMissionProfileOutput: Swift.Sendable {
     /// UUID of a mission profile.
     public var missionProfileId: Swift.String?
@@ -3990,7 +4706,7 @@ public struct UpdateMissionProfileOutput: Swift.Sendable {
     }
 }
 
-///
+/// Input for the ListSatellites operation.
 public struct ListSatellitesInput: Swift.Sendable {
     /// Maximum number of satellites returned.
     public var maxResults: Swift.Int?
@@ -4037,7 +4753,7 @@ extension GroundStationClientTypes {
     }
 }
 
-///
+/// Output for the ListSatellites operation.
 public struct ListSatellitesOutput: Swift.Sendable {
     /// Next token that can be supplied in the next call to get the next page of satellites.
     public var nextToken: Swift.String?
@@ -4053,7 +4769,7 @@ public struct ListSatellitesOutput: Swift.Sendable {
     }
 }
 
-///
+/// Input for the TagResource operation.
 public struct TagResourceInput: Swift.Sendable {
     /// ARN of a resource tag.
     /// This member is required.
@@ -4071,13 +4787,13 @@ public struct TagResourceInput: Swift.Sendable {
     }
 }
 
-///
+/// Output for the TagResource operation.
 public struct TagResourceOutput: Swift.Sendable {
 
     public init() { }
 }
 
-///
+/// Input for the UntagResource operation.
 public struct UntagResourceInput: Swift.Sendable {
     /// ARN of a resource.
     /// This member is required.
@@ -4095,7 +4811,7 @@ public struct UntagResourceInput: Swift.Sendable {
     }
 }
 
-///
+/// Output for the UntagResource operation.
 public struct UntagResourceOutput: Swift.Sendable {
 
     public init() { }
@@ -4199,6 +4915,19 @@ extension DescribeContactInput {
     }
 }
 
+extension DescribeContactVersionInput {
+
+    static func urlPathProvider(_ value: DescribeContactVersionInput) -> Swift.String? {
+        guard let contactId = value.contactId else {
+            return nil
+        }
+        guard let versionId = value.versionId else {
+            return nil
+        }
+        return "/contact/\(contactId.urlPercentEncoding())/versions/\(versionId)"
+    }
+}
+
 extension DescribeEphemerisInput {
 
     static func urlPathProvider(_ value: DescribeEphemerisInput) -> Swift.String? {
@@ -4282,6 +5011,32 @@ extension GetSatelliteInput {
     }
 }
 
+extension ListAntennasInput {
+
+    static func urlPathProvider(_ value: ListAntennasInput) -> Swift.String? {
+        guard let groundStationId = value.groundStationId else {
+            return nil
+        }
+        return "/groundstation/\(groundStationId.urlPercentEncoding())/antenna"
+    }
+}
+
+extension ListAntennasInput {
+
+    static func queryItemProvider(_ value: ListAntennasInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListConfigsInput {
 
     static func urlPathProvider(_ value: ListConfigsInput) -> Swift.String? {
@@ -4309,6 +5064,32 @@ extension ListContactsInput {
 
     static func urlPathProvider(_ value: ListContactsInput) -> Swift.String? {
         return "/contacts"
+    }
+}
+
+extension ListContactVersionsInput {
+
+    static func urlPathProvider(_ value: ListContactVersionsInput) -> Swift.String? {
+        guard let contactId = value.contactId else {
+            return nil
+        }
+        return "/contact/\(contactId.urlPercentEncoding())/versions"
+    }
+}
+
+extension ListContactVersionsInput {
+
+    static func queryItemProvider(_ value: ListContactVersionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
     }
 }
 
@@ -4353,6 +5134,50 @@ extension ListEphemeridesInput {
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListGroundStationReservationsInput {
+
+    static func urlPathProvider(_ value: ListGroundStationReservationsInput) -> Swift.String? {
+        guard let groundStationId = value.groundStationId else {
+            return nil
+        }
+        return "/groundstation/\(groundStationId.urlPercentEncoding())/reservation"
+    }
+}
+
+extension ListGroundStationReservationsInput {
+
+    static func queryItemProvider(_ value: ListGroundStationReservationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        guard let startTime = value.startTime else {
+            let message = "Creating a URL Query Item failed. startTime is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let startTimeQueryItem = Smithy.URIQueryItem(name: "startTime".urlPercentEncoding(), value: Swift.String(SmithyTimestamps.TimestampFormatter(format: .epochSeconds).string(from: startTime)).urlPercentEncoding())
+        items.append(startTimeQueryItem)
+        guard let endTime = value.endTime else {
+            let message = "Creating a URL Query Item failed. endTime is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let endTimeQueryItem = Smithy.URIQueryItem(name: "endTime".urlPercentEncoding(), value: Swift.String(SmithyTimestamps.TimestampFormatter(format: .epochSeconds).string(from: endTime)).urlPercentEncoding())
+        items.append(endTimeQueryItem)
+        if let reservationTypes = value.reservationTypes {
+            reservationTypes.forEach { queryItemValue in
+                let queryItem = Smithy.URIQueryItem(name: "reservationTypes".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
+                items.append(queryItem)
+            }
         }
         return items
     }
@@ -4514,6 +5339,16 @@ extension UpdateConfigInput {
     }
 }
 
+extension UpdateContactInput {
+
+    static func urlPathProvider(_ value: UpdateContactInput) -> Swift.String? {
+        guard let contactId = value.contactId else {
+            return nil
+        }
+        return "/contact/\(contactId.urlPercentEncoding())/versions"
+    }
+}
+
 extension UpdateEphemerisInput {
 
     static func urlPathProvider(_ value: UpdateEphemerisInput) -> Swift.String? {
@@ -4593,6 +5428,7 @@ extension CreateMissionProfileInput {
         try writer["streamsKmsKey"].write(value.streamsKmsKey, with: GroundStationClientTypes.KmsKey.write(value:to:))
         try writer["streamsKmsRole"].write(value.streamsKmsRole)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["telemetrySinkConfigArn"].write(value.telemetrySinkConfigArn)
         try writer["trackingConfigArn"].write(value.trackingConfigArn)
     }
 }
@@ -4685,6 +5521,16 @@ extension UpdateConfigInput {
     }
 }
 
+extension UpdateContactInput {
+
+    static func write(value: UpdateContactInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["satelliteArn"].write(value.satelliteArn)
+        try writer["trackingOverrides"].write(value.trackingOverrides, with: GroundStationClientTypes.TrackingOverrides.write(value:to:))
+    }
+}
+
 extension UpdateEphemerisInput {
 
     static func write(value: UpdateEphemerisInput?, to writer: SmithyJSON.Writer) throws {
@@ -4706,6 +5552,7 @@ extension UpdateMissionProfileInput {
         try writer["name"].write(value.name)
         try writer["streamsKmsKey"].write(value.streamsKmsKey, with: GroundStationClientTypes.KmsKey.write(value:to:))
         try writer["streamsKmsRole"].write(value.streamsKmsRole)
+        try writer["telemetrySinkConfigArn"].write(value.telemetrySinkConfigArn)
         try writer["trackingConfigArn"].write(value.trackingConfigArn)
     }
 }
@@ -4718,6 +5565,7 @@ extension CancelContactOutput {
         let reader = responseReader
         var value = CancelContactOutput()
         value.contactId = try reader["contactId"].readIfPresent()
+        value.versionId = try reader["versionId"].readIfPresent()
         return value
     }
 }
@@ -4857,6 +5705,37 @@ extension DescribeContactOutput {
         value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.trackingOverrides = try reader["trackingOverrides"].readIfPresent(with: GroundStationClientTypes.TrackingOverrides.read(from:))
+        value.version = try reader["version"].readIfPresent(with: GroundStationClientTypes.ContactVersion.read(from:))
+        value.visibilityEndTime = try reader["visibilityEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.visibilityStartTime = try reader["visibilityStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension DescribeContactVersionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeContactVersionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeContactVersionOutput()
+        value.contactId = try reader["contactId"].readIfPresent()
+        value.contactStatus = try reader["contactStatus"].readIfPresent()
+        value.dataflowList = try reader["dataflowList"].readListIfPresent(memberReadingClosure: GroundStationClientTypes.DataflowDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.ephemeris = try reader["ephemeris"].readIfPresent(with: GroundStationClientTypes.EphemerisResponseData.read(from:))
+        value.errorMessage = try reader["errorMessage"].readIfPresent()
+        value.groundStation = try reader["groundStation"].readIfPresent()
+        value.maximumElevation = try reader["maximumElevation"].readIfPresent(with: GroundStationClientTypes.Elevation.read(from:))
+        value.missionProfileArn = try reader["missionProfileArn"].readIfPresent()
+        value.postPassEndTime = try reader["postPassEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.prePassStartTime = try reader["prePassStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.region = try reader["region"].readIfPresent()
+        value.satelliteArn = try reader["satelliteArn"].readIfPresent()
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.trackingOverrides = try reader["trackingOverrides"].readIfPresent(with: GroundStationClientTypes.TrackingOverrides.read(from:))
+        value.version = try reader["version"].readIfPresent(with: GroundStationClientTypes.ContactVersion.read(from:))
         value.visibilityEndTime = try reader["visibilityEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.visibilityStartTime = try reader["visibilityStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
@@ -4980,6 +5859,7 @@ extension GetMissionProfileOutput {
         value.streamsKmsKey = try reader["streamsKmsKey"].readIfPresent(with: GroundStationClientTypes.KmsKey.read(from:))
         value.streamsKmsRole = try reader["streamsKmsRole"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.telemetrySinkConfigArn = try reader["telemetrySinkConfigArn"].readIfPresent()
         value.trackingConfigArn = try reader["trackingConfigArn"].readIfPresent()
         return value
     }
@@ -4997,6 +5877,19 @@ extension GetSatelliteOutput {
         value.noradSatelliteID = try reader["noradSatelliteID"].readIfPresent() ?? 0
         value.satelliteArn = try reader["satelliteArn"].readIfPresent()
         value.satelliteId = try reader["satelliteId"].readIfPresent()
+        return value
+    }
+}
+
+extension ListAntennasOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAntennasOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAntennasOutput()
+        value.antennaList = try reader["antennaList"].readListIfPresent(memberReadingClosure: GroundStationClientTypes.AntennaListItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
 }
@@ -5027,6 +5920,19 @@ extension ListContactsOutput {
     }
 }
 
+extension ListContactVersionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListContactVersionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListContactVersionsOutput()
+        value.contactVersionsList = try reader["contactVersionsList"].readListIfPresent(memberReadingClosure: GroundStationClientTypes.ContactVersion.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListDataflowEndpointGroupsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDataflowEndpointGroupsOutput {
@@ -5049,6 +5955,19 @@ extension ListEphemeridesOutput {
         var value = ListEphemeridesOutput()
         value.ephemerides = try reader["ephemerides"].readListIfPresent(memberReadingClosure: GroundStationClientTypes.EphemerisItem.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListGroundStationReservationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListGroundStationReservationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListGroundStationReservationsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.reservationList = try reader["reservationList"].readListIfPresent(memberReadingClosure: GroundStationClientTypes.GroundStationReservationListItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -5124,6 +6043,7 @@ extension ReserveContactOutput {
         let reader = responseReader
         var value = ReserveContactOutput()
         value.contactId = try reader["contactId"].readIfPresent()
+        value.versionId = try reader["versionId"].readIfPresent()
         return value
     }
 }
@@ -5168,6 +6088,19 @@ extension UpdateConfigOutput {
     }
 }
 
+extension UpdateContactOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateContactOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateContactOutput()
+        value.contactId = try reader["contactId"].readIfPresent()
+        value.versionId = try reader["versionId"].readIfPresent()
+        return value
+    }
+}
+
 extension UpdateEphemerisOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateEphemerisOutput {
@@ -5197,7 +6130,7 @@ enum CancelContactOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DependencyException": return try DependencyException.makeError(baseError: baseError)
@@ -5213,7 +6146,7 @@ enum CreateConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DependencyException": return try DependencyException.makeError(baseError: baseError)
@@ -5230,7 +6163,7 @@ enum CreateDataflowEndpointGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DependencyException": return try DependencyException.makeError(baseError: baseError)
@@ -5246,7 +6179,7 @@ enum CreateDataflowEndpointGroupV2OutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DependencyException": return try DependencyException.makeError(baseError: baseError)
@@ -5263,7 +6196,7 @@ enum CreateEphemerisOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DependencyException": return try DependencyException.makeError(baseError: baseError)
@@ -5279,7 +6212,7 @@ enum CreateMissionProfileOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DependencyException": return try DependencyException.makeError(baseError: baseError)
@@ -5295,7 +6228,7 @@ enum DeleteConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DependencyException": return try DependencyException.makeError(baseError: baseError)
@@ -5311,7 +6244,7 @@ enum DeleteDataflowEndpointGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DependencyException": return try DependencyException.makeError(baseError: baseError)
@@ -5327,7 +6260,7 @@ enum DeleteEphemerisOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DependencyException": return try DependencyException.makeError(baseError: baseError)
@@ -5344,7 +6277,7 @@ enum DeleteMissionProfileOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DependencyException": return try DependencyException.makeError(baseError: baseError)
@@ -5360,7 +6293,23 @@ enum DescribeContactOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "DependencyException": return try DependencyException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeContactVersionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DependencyException": return try DependencyException.makeError(baseError: baseError)
@@ -5376,7 +6325,7 @@ enum DescribeEphemerisOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DependencyException": return try DependencyException.makeError(baseError: baseError)
@@ -5392,7 +6341,7 @@ enum GetAgentConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DependencyException": return try DependencyException.makeError(baseError: baseError)
@@ -5408,7 +6357,7 @@ enum GetAgentTaskResponseUrlOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DependencyException": return try DependencyException.makeError(baseError: baseError)
@@ -5424,7 +6373,7 @@ enum GetConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DependencyException": return try DependencyException.makeError(baseError: baseError)
@@ -5440,7 +6389,7 @@ enum GetDataflowEndpointGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DependencyException": return try DependencyException.makeError(baseError: baseError)
@@ -5456,7 +6405,7 @@ enum GetMinuteUsageOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DependencyException": return try DependencyException.makeError(baseError: baseError)
@@ -5472,7 +6421,7 @@ enum GetMissionProfileOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DependencyException": return try DependencyException.makeError(baseError: baseError)
@@ -5488,7 +6437,7 @@ enum GetSatelliteOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DependencyException": return try DependencyException.makeError(baseError: baseError)
@@ -5499,12 +6448,27 @@ enum GetSatelliteOutputError {
     }
 }
 
+enum ListAntennasOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "DependencyException": return try DependencyException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListConfigsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DependencyException": return try DependencyException.makeError(baseError: baseError)
@@ -5520,7 +6484,23 @@ enum ListContactsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "DependencyException": return try DependencyException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListContactVersionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DependencyException": return try DependencyException.makeError(baseError: baseError)
@@ -5536,7 +6516,7 @@ enum ListDataflowEndpointGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DependencyException": return try DependencyException.makeError(baseError: baseError)
@@ -5552,7 +6532,7 @@ enum ListEphemeridesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DependencyException": return try DependencyException.makeError(baseError: baseError)
@@ -5563,12 +6543,27 @@ enum ListEphemeridesOutputError {
     }
 }
 
+enum ListGroundStationReservationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "DependencyException": return try DependencyException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListGroundStationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DependencyException": return try DependencyException.makeError(baseError: baseError)
@@ -5584,7 +6579,7 @@ enum ListMissionProfilesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DependencyException": return try DependencyException.makeError(baseError: baseError)
@@ -5600,7 +6595,7 @@ enum ListSatellitesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DependencyException": return try DependencyException.makeError(baseError: baseError)
@@ -5616,7 +6611,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DependencyException": return try DependencyException.makeError(baseError: baseError)
@@ -5632,7 +6627,7 @@ enum RegisterAgentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DependencyException": return try DependencyException.makeError(baseError: baseError)
@@ -5648,7 +6643,7 @@ enum ReserveContactOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DependencyException": return try DependencyException.makeError(baseError: baseError)
@@ -5665,7 +6660,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DependencyException": return try DependencyException.makeError(baseError: baseError)
@@ -5681,7 +6676,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DependencyException": return try DependencyException.makeError(baseError: baseError)
@@ -5697,7 +6692,7 @@ enum UpdateAgentStatusOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DependencyException": return try DependencyException.makeError(baseError: baseError)
@@ -5713,11 +6708,28 @@ enum UpdateConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DependencyException": return try DependencyException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateContactOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "DependencyException": return try DependencyException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ResourceLimitExceededException": return try ResourceLimitExceededException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -5729,7 +6741,7 @@ enum UpdateEphemerisOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DependencyException": return try DependencyException.makeError(baseError: baseError)
@@ -5745,7 +6757,7 @@ enum UpdateMissionProfileOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DependencyException": return try DependencyException.makeError(baseError: baseError)
@@ -5758,7 +6770,7 @@ enum UpdateMissionProfileOutputError {
 
 extension DependencyException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DependencyException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> DependencyException {
         let reader = baseError.errorBodyReader
         var value = DependencyException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5772,7 +6784,7 @@ extension DependencyException {
 
 extension InvalidParameterException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidParameterException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidParameterException {
         let reader = baseError.errorBodyReader
         var value = InvalidParameterException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5786,7 +6798,7 @@ extension InvalidParameterException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5799,7 +6811,7 @@ extension ResourceNotFoundException {
 
 extension ResourceLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceLimitExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = ResourceLimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5813,7 +6825,7 @@ extension ResourceLimitExceededException {
 
 extension ServiceQuotaExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5827,7 +6839,7 @@ extension ServiceQuotaExceededException {
 
 extension ResourceInUseException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceInUseException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceInUseException {
         let reader = baseError.errorBodyReader
         var value = ResourceInUseException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5838,39 +6850,212 @@ extension ResourceInUseException {
     }
 }
 
-extension GroundStationClientTypes.Elevation {
+extension GroundStationClientTypes.AgentDetails {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.Elevation {
+    static func write(value: GroundStationClientTypes.AgentDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agentCpuCores"].writeList(value.agentCpuCores, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["agentVersion"].write(value.agentVersion)
+        try writer["componentVersions"].writeList(value.componentVersions, memberWritingClosure: GroundStationClientTypes.ComponentVersion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["instanceId"].write(value.instanceId)
+        try writer["instanceType"].write(value.instanceType)
+        try writer["reservedCpuCores"].writeList(value.reservedCpuCores, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension GroundStationClientTypes.AggregateStatus {
+
+    static func write(value: GroundStationClientTypes.AggregateStatus?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["signatureMap"].writeMap(value.signatureMap, valueWritingClosure: SmithyReadWrite.WritingClosures.writeBool(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["status"].write(value.status)
+    }
+}
+
+extension GroundStationClientTypes.AntennaDemodDecodeDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.AntennaDemodDecodeDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GroundStationClientTypes.Elevation()
-        value.value = try reader["value"].readIfPresent() ?? 0.0
-        value.unit = try reader["unit"].readIfPresent() ?? .sdkUnknown("")
+        var value = GroundStationClientTypes.AntennaDemodDecodeDetails()
+        value.outputNode = try reader["outputNode"].readIfPresent()
         return value
     }
 }
 
-extension GroundStationClientTypes.DataflowDetail {
+extension GroundStationClientTypes.AntennaDownlinkConfig {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.DataflowDetail {
+    static func write(value: GroundStationClientTypes.AntennaDownlinkConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["spectrumConfig"].write(value.spectrumConfig, with: GroundStationClientTypes.SpectrumConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.AntennaDownlinkConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GroundStationClientTypes.DataflowDetail()
-        value.source = try reader["source"].readIfPresent(with: GroundStationClientTypes.Source.read(from:))
-        value.destination = try reader["destination"].readIfPresent(with: GroundStationClientTypes.Destination.read(from:))
-        value.errorMessage = try reader["errorMessage"].readIfPresent()
+        var value = GroundStationClientTypes.AntennaDownlinkConfig()
+        value.spectrumConfig = try reader["spectrumConfig"].readIfPresent(with: GroundStationClientTypes.SpectrumConfig.read(from:))
         return value
     }
 }
 
-extension GroundStationClientTypes.Destination {
+extension GroundStationClientTypes.AntennaDownlinkDemodDecodeConfig {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.Destination {
+    static func write(value: GroundStationClientTypes.AntennaDownlinkDemodDecodeConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["decodeConfig"].write(value.decodeConfig, with: GroundStationClientTypes.DecodeConfig.write(value:to:))
+        try writer["demodulationConfig"].write(value.demodulationConfig, with: GroundStationClientTypes.DemodulationConfig.write(value:to:))
+        try writer["spectrumConfig"].write(value.spectrumConfig, with: GroundStationClientTypes.SpectrumConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.AntennaDownlinkDemodDecodeConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GroundStationClientTypes.Destination()
-        value.configType = try reader["configType"].readIfPresent()
-        value.configId = try reader["configId"].readIfPresent()
-        value.configDetails = try reader["configDetails"].readIfPresent(with: GroundStationClientTypes.ConfigDetails.read(from:))
-        value.dataflowDestinationRegion = try reader["dataflowDestinationRegion"].readIfPresent()
+        var value = GroundStationClientTypes.AntennaDownlinkDemodDecodeConfig()
+        value.spectrumConfig = try reader["spectrumConfig"].readIfPresent(with: GroundStationClientTypes.SpectrumConfig.read(from:))
+        value.demodulationConfig = try reader["demodulationConfig"].readIfPresent(with: GroundStationClientTypes.DemodulationConfig.read(from:))
+        value.decodeConfig = try reader["decodeConfig"].readIfPresent(with: GroundStationClientTypes.DecodeConfig.read(from:))
         return value
+    }
+}
+
+extension GroundStationClientTypes.AntennaListItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.AntennaListItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GroundStationClientTypes.AntennaListItem()
+        value.groundStationName = try reader["groundStationName"].readIfPresent() ?? ""
+        value.antennaName = try reader["antennaName"].readIfPresent() ?? ""
+        value.region = try reader["region"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension GroundStationClientTypes.AntennaUplinkConfig {
+
+    static func write(value: GroundStationClientTypes.AntennaUplinkConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["spectrumConfig"].write(value.spectrumConfig, with: GroundStationClientTypes.UplinkSpectrumConfig.write(value:to:))
+        try writer["targetEirp"].write(value.targetEirp, with: GroundStationClientTypes.Eirp.write(value:to:))
+        try writer["transmitDisabled"].write(value.transmitDisabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.AntennaUplinkConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GroundStationClientTypes.AntennaUplinkConfig()
+        value.transmitDisabled = try reader["transmitDisabled"].readIfPresent()
+        value.spectrumConfig = try reader["spectrumConfig"].readIfPresent(with: GroundStationClientTypes.UplinkSpectrumConfig.read(from:))
+        value.targetEirp = try reader["targetEirp"].readIfPresent(with: GroundStationClientTypes.Eirp.read(from:))
+        return value
+    }
+}
+
+extension GroundStationClientTypes.AwsGroundStationAgentEndpoint {
+
+    static func write(value: GroundStationClientTypes.AwsGroundStationAgentEndpoint?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agentStatus"].write(value.agentStatus)
+        try writer["auditResults"].write(value.auditResults)
+        try writer["egressAddress"].write(value.egressAddress, with: GroundStationClientTypes.ConnectionDetails.write(value:to:))
+        try writer["ingressAddress"].write(value.ingressAddress, with: GroundStationClientTypes.RangedConnectionDetails.write(value:to:))
+        try writer["name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.AwsGroundStationAgentEndpoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GroundStationClientTypes.AwsGroundStationAgentEndpoint()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.egressAddress = try reader["egressAddress"].readIfPresent(with: GroundStationClientTypes.ConnectionDetails.read(from:))
+        value.ingressAddress = try reader["ingressAddress"].readIfPresent(with: GroundStationClientTypes.RangedConnectionDetails.read(from:))
+        value.agentStatus = try reader["agentStatus"].readIfPresent()
+        value.auditResults = try reader["auditResults"].readIfPresent()
+        return value
+    }
+}
+
+extension GroundStationClientTypes.AzElEphemeris {
+
+    static func write(value: GroundStationClientTypes.AzElEphemeris?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["data"].write(value.data, with: GroundStationClientTypes.AzElSegmentsData.write(value:to:))
+        try writer["groundStation"].write(value.groundStation)
+    }
+}
+
+extension GroundStationClientTypes.AzElEphemerisFilter {
+
+    static func write(value: GroundStationClientTypes.AzElEphemerisFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["id"].write(value.id)
+    }
+}
+
+extension GroundStationClientTypes.AzElProgramTrackSettings {
+
+    static func write(value: GroundStationClientTypes.AzElProgramTrackSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ephemerisId"].write(value.ephemerisId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.AzElProgramTrackSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GroundStationClientTypes.AzElProgramTrackSettings()
+        value.ephemerisId = try reader["ephemerisId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension GroundStationClientTypes.AzElSegment {
+
+    static func write(value: GroundStationClientTypes.AzElSegment?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["azElList"].writeList(value.azElList, memberWritingClosure: GroundStationClientTypes.TimeAzEl.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["referenceEpoch"].writeTimestamp(value.referenceEpoch, format: SmithyTimestamps.TimestampFormat.dateTime)
+        try writer["validTimeRange"].write(value.validTimeRange, with: GroundStationClientTypes.ISO8601TimeRange.write(value:to:))
+    }
+}
+
+extension GroundStationClientTypes.AzElSegments {
+
+    static func write(value: GroundStationClientTypes.AzElSegments?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["angleUnit"].write(value.angleUnit)
+        try writer["azElSegmentList"].writeList(value.azElSegmentList, memberWritingClosure: GroundStationClientTypes.AzElSegment.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension GroundStationClientTypes.AzElSegmentsData {
+
+    static func write(value: GroundStationClientTypes.AzElSegmentsData?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .azeldata(azeldata):
+                try writer["azElData"].write(azeldata, with: GroundStationClientTypes.AzElSegments.write(value:to:))
+            case let .s3object(s3object):
+                try writer["s3Object"].write(s3object, with: GroundStationClientTypes.S3Object.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension GroundStationClientTypes.ComponentStatusData {
+
+    static func write(value: GroundStationClientTypes.ComponentStatusData?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bytesReceived"].write(value.bytesReceived)
+        try writer["bytesSent"].write(value.bytesSent)
+        try writer["capabilityArn"].write(value.capabilityArn)
+        try writer["componentType"].write(value.componentType)
+        try writer["dataflowId"].write(value.dataflowId)
+        try writer["packetsDropped"].write(value.packetsDropped)
+        try writer["status"].write(value.status)
+    }
+}
+
+extension GroundStationClientTypes.ComponentVersion {
+
+    static func write(value: GroundStationClientTypes.ComponentVersion?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["componentType"].write(value.componentType)
+        try writer["versions"].writeList(value.versions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -5892,23 +7077,365 @@ extension GroundStationClientTypes.ConfigDetails {
     }
 }
 
-extension GroundStationClientTypes.S3RecordingDetails {
+extension GroundStationClientTypes.ConfigListItem {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.S3RecordingDetails {
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.ConfigListItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GroundStationClientTypes.S3RecordingDetails()
-        value.bucketArn = try reader["bucketArn"].readIfPresent()
-        value.keyTemplate = try reader["keyTemplate"].readIfPresent()
+        var value = GroundStationClientTypes.ConfigListItem()
+        value.configId = try reader["configId"].readIfPresent()
+        value.configType = try reader["configType"].readIfPresent()
+        value.configArn = try reader["configArn"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
         return value
     }
 }
 
-extension GroundStationClientTypes.AntennaDemodDecodeDetails {
+extension GroundStationClientTypes.ConfigTypeData {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.AntennaDemodDecodeDetails {
+    static func write(value: GroundStationClientTypes.ConfigTypeData?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .antennadownlinkconfig(antennadownlinkconfig):
+                try writer["antennaDownlinkConfig"].write(antennadownlinkconfig, with: GroundStationClientTypes.AntennaDownlinkConfig.write(value:to:))
+            case let .antennadownlinkdemoddecodeconfig(antennadownlinkdemoddecodeconfig):
+                try writer["antennaDownlinkDemodDecodeConfig"].write(antennadownlinkdemoddecodeconfig, with: GroundStationClientTypes.AntennaDownlinkDemodDecodeConfig.write(value:to:))
+            case let .antennauplinkconfig(antennauplinkconfig):
+                try writer["antennaUplinkConfig"].write(antennauplinkconfig, with: GroundStationClientTypes.AntennaUplinkConfig.write(value:to:))
+            case let .dataflowendpointconfig(dataflowendpointconfig):
+                try writer["dataflowEndpointConfig"].write(dataflowendpointconfig, with: GroundStationClientTypes.DataflowEndpointConfig.write(value:to:))
+            case let .s3recordingconfig(s3recordingconfig):
+                try writer["s3RecordingConfig"].write(s3recordingconfig, with: GroundStationClientTypes.S3RecordingConfig.write(value:to:))
+            case let .telemetrysinkconfig(telemetrysinkconfig):
+                try writer["telemetrySinkConfig"].write(telemetrysinkconfig, with: GroundStationClientTypes.TelemetrySinkConfig.write(value:to:))
+            case let .trackingconfig(trackingconfig):
+                try writer["trackingConfig"].write(trackingconfig, with: GroundStationClientTypes.TrackingConfig.write(value:to:))
+            case let .uplinkechoconfig(uplinkechoconfig):
+                try writer["uplinkEchoConfig"].write(uplinkechoconfig, with: GroundStationClientTypes.UplinkEchoConfig.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.ConfigTypeData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GroundStationClientTypes.AntennaDemodDecodeDetails()
-        value.outputNode = try reader["outputNode"].readIfPresent()
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "antennaDownlinkConfig":
+                return .antennadownlinkconfig(try reader["antennaDownlinkConfig"].read(with: GroundStationClientTypes.AntennaDownlinkConfig.read(from:)))
+            case "trackingConfig":
+                return .trackingconfig(try reader["trackingConfig"].read(with: GroundStationClientTypes.TrackingConfig.read(from:)))
+            case "dataflowEndpointConfig":
+                return .dataflowendpointconfig(try reader["dataflowEndpointConfig"].read(with: GroundStationClientTypes.DataflowEndpointConfig.read(from:)))
+            case "antennaDownlinkDemodDecodeConfig":
+                return .antennadownlinkdemoddecodeconfig(try reader["antennaDownlinkDemodDecodeConfig"].read(with: GroundStationClientTypes.AntennaDownlinkDemodDecodeConfig.read(from:)))
+            case "antennaUplinkConfig":
+                return .antennauplinkconfig(try reader["antennaUplinkConfig"].read(with: GroundStationClientTypes.AntennaUplinkConfig.read(from:)))
+            case "uplinkEchoConfig":
+                return .uplinkechoconfig(try reader["uplinkEchoConfig"].read(with: GroundStationClientTypes.UplinkEchoConfig.read(from:)))
+            case "s3RecordingConfig":
+                return .s3recordingconfig(try reader["s3RecordingConfig"].read(with: GroundStationClientTypes.S3RecordingConfig.read(from:)))
+            case "telemetrySinkConfig":
+                return .telemetrysinkconfig(try reader["telemetrySinkConfig"].read(with: GroundStationClientTypes.TelemetrySinkConfig.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension GroundStationClientTypes.ConnectionDetails {
+
+    static func write(value: GroundStationClientTypes.ConnectionDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["mtu"].write(value.mtu)
+        try writer["socketAddress"].write(value.socketAddress, with: GroundStationClientTypes.SocketAddress.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.ConnectionDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GroundStationClientTypes.ConnectionDetails()
+        value.socketAddress = try reader["socketAddress"].readIfPresent(with: GroundStationClientTypes.SocketAddress.read(from:))
+        value.mtu = try reader["mtu"].readIfPresent()
+        return value
+    }
+}
+
+extension GroundStationClientTypes.ContactData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.ContactData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GroundStationClientTypes.ContactData()
+        value.contactId = try reader["contactId"].readIfPresent()
+        value.missionProfileArn = try reader["missionProfileArn"].readIfPresent()
+        value.satelliteArn = try reader["satelliteArn"].readIfPresent()
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.prePassStartTime = try reader["prePassStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.postPassEndTime = try reader["postPassEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.groundStation = try reader["groundStation"].readIfPresent()
+        value.contactStatus = try reader["contactStatus"].readIfPresent()
+        value.errorMessage = try reader["errorMessage"].readIfPresent()
+        value.maximumElevation = try reader["maximumElevation"].readIfPresent(with: GroundStationClientTypes.Elevation.read(from:))
+        value.region = try reader["region"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.visibilityStartTime = try reader["visibilityStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.visibilityEndTime = try reader["visibilityEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.ephemeris = try reader["ephemeris"].readIfPresent(with: GroundStationClientTypes.EphemerisResponseData.read(from:))
+        value.version = try reader["version"].readIfPresent(with: GroundStationClientTypes.ContactVersion.read(from:))
+        return value
+    }
+}
+
+extension GroundStationClientTypes.ContactReservationDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.ContactReservationDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GroundStationClientTypes.ContactReservationDetails()
+        value.contactId = try reader["contactId"].readIfPresent()
+        return value
+    }
+}
+
+extension GroundStationClientTypes.ContactVersion {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.ContactVersion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GroundStationClientTypes.ContactVersion()
+        value.versionId = try reader["versionId"].readIfPresent()
+        value.created = try reader["created"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.activated = try reader["activated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.superseded = try reader["superseded"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdated = try reader["lastUpdated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["status"].readIfPresent()
+        value.failureCodes = try reader["failureCodes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GroundStationClientTypes.VersionFailureReasonCode>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.failureMessage = try reader["failureMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension GroundStationClientTypes.CreateEndpointDetails {
+
+    static func write(value: GroundStationClientTypes.CreateEndpointDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .downlinkawsgroundstationagentendpoint(downlinkawsgroundstationagentendpoint):
+                try writer["downlinkAwsGroundStationAgentEndpoint"].write(downlinkawsgroundstationagentendpoint, with: GroundStationClientTypes.DownlinkAwsGroundStationAgentEndpoint.write(value:to:))
+            case let .uplinkawsgroundstationagentendpoint(uplinkawsgroundstationagentendpoint):
+                try writer["uplinkAwsGroundStationAgentEndpoint"].write(uplinkawsgroundstationagentendpoint, with: GroundStationClientTypes.UplinkAwsGroundStationAgentEndpoint.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension GroundStationClientTypes.DataflowDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.DataflowDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GroundStationClientTypes.DataflowDetail()
+        value.source = try reader["source"].readIfPresent(with: GroundStationClientTypes.Source.read(from:))
+        value.destination = try reader["destination"].readIfPresent(with: GroundStationClientTypes.Destination.read(from:))
+        value.errorMessage = try reader["errorMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension GroundStationClientTypes.DataflowEndpoint {
+
+    static func write(value: GroundStationClientTypes.DataflowEndpoint?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["address"].write(value.address, with: GroundStationClientTypes.SocketAddress.write(value:to:))
+        try writer["mtu"].write(value.mtu)
+        try writer["name"].write(value.name)
+        try writer["status"].write(value.status)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.DataflowEndpoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GroundStationClientTypes.DataflowEndpoint()
+        value.name = try reader["name"].readIfPresent()
+        value.address = try reader["address"].readIfPresent(with: GroundStationClientTypes.SocketAddress.read(from:))
+        value.status = try reader["status"].readIfPresent()
+        value.mtu = try reader["mtu"].readIfPresent()
+        return value
+    }
+}
+
+extension GroundStationClientTypes.DataflowEndpointConfig {
+
+    static func write(value: GroundStationClientTypes.DataflowEndpointConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dataflowEndpointName"].write(value.dataflowEndpointName)
+        try writer["dataflowEndpointRegion"].write(value.dataflowEndpointRegion)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.DataflowEndpointConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GroundStationClientTypes.DataflowEndpointConfig()
+        value.dataflowEndpointName = try reader["dataflowEndpointName"].readIfPresent() ?? ""
+        value.dataflowEndpointRegion = try reader["dataflowEndpointRegion"].readIfPresent()
+        return value
+    }
+}
+
+extension GroundStationClientTypes.DataflowEndpointListItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.DataflowEndpointListItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GroundStationClientTypes.DataflowEndpointListItem()
+        value.dataflowEndpointGroupId = try reader["dataflowEndpointGroupId"].readIfPresent()
+        value.dataflowEndpointGroupArn = try reader["dataflowEndpointGroupArn"].readIfPresent()
+        return value
+    }
+}
+
+extension GroundStationClientTypes.DecodeConfig {
+
+    static func write(value: GroundStationClientTypes.DecodeConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["unvalidatedJSON"].write(value.unvalidatedJSON)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.DecodeConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GroundStationClientTypes.DecodeConfig()
+        value.unvalidatedJSON = try reader["unvalidatedJSON"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension GroundStationClientTypes.DemodulationConfig {
+
+    static func write(value: GroundStationClientTypes.DemodulationConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["unvalidatedJSON"].write(value.unvalidatedJSON)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.DemodulationConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GroundStationClientTypes.DemodulationConfig()
+        value.unvalidatedJSON = try reader["unvalidatedJSON"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension GroundStationClientTypes.Destination {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.Destination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GroundStationClientTypes.Destination()
+        value.configType = try reader["configType"].readIfPresent()
+        value.configId = try reader["configId"].readIfPresent()
+        value.configDetails = try reader["configDetails"].readIfPresent(with: GroundStationClientTypes.ConfigDetails.read(from:))
+        value.dataflowDestinationRegion = try reader["dataflowDestinationRegion"].readIfPresent()
+        return value
+    }
+}
+
+extension GroundStationClientTypes.DiscoveryData {
+
+    static func write(value: GroundStationClientTypes.DiscoveryData?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["capabilityArns"].writeList(value.capabilityArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["privateIpAddresses"].writeList(value.privateIpAddresses, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["publicIpAddresses"].writeList(value.publicIpAddresses, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension GroundStationClientTypes.DownlinkAwsGroundStationAgentEndpoint {
+
+    static func write(value: GroundStationClientTypes.DownlinkAwsGroundStationAgentEndpoint?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dataflowDetails"].write(value.dataflowDetails, with: GroundStationClientTypes.DownlinkDataflowDetails.write(value:to:))
+        try writer["name"].write(value.name)
+    }
+}
+
+extension GroundStationClientTypes.DownlinkAwsGroundStationAgentEndpointDetails {
+
+    static func write(value: GroundStationClientTypes.DownlinkAwsGroundStationAgentEndpointDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agentStatus"].write(value.agentStatus)
+        try writer["auditResults"].write(value.auditResults)
+        try writer["dataflowDetails"].write(value.dataflowDetails, with: GroundStationClientTypes.DownlinkDataflowDetails.write(value:to:))
+        try writer["name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.DownlinkAwsGroundStationAgentEndpointDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GroundStationClientTypes.DownlinkAwsGroundStationAgentEndpointDetails()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.dataflowDetails = try reader["dataflowDetails"].readIfPresent(with: GroundStationClientTypes.DownlinkDataflowDetails.read(from:))
+        value.agentStatus = try reader["agentStatus"].readIfPresent()
+        value.auditResults = try reader["auditResults"].readIfPresent()
+        return value
+    }
+}
+
+extension GroundStationClientTypes.DownlinkConnectionDetails {
+
+    static func write(value: GroundStationClientTypes.DownlinkConnectionDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agentIpAndPortAddress"].write(value.agentIpAndPortAddress, with: GroundStationClientTypes.RangedConnectionDetails.write(value:to:))
+        try writer["egressAddressAndPort"].write(value.egressAddressAndPort, with: GroundStationClientTypes.ConnectionDetails.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.DownlinkConnectionDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GroundStationClientTypes.DownlinkConnectionDetails()
+        value.agentIpAndPortAddress = try reader["agentIpAndPortAddress"].readIfPresent(with: GroundStationClientTypes.RangedConnectionDetails.read(from:))
+        value.egressAddressAndPort = try reader["egressAddressAndPort"].readIfPresent(with: GroundStationClientTypes.ConnectionDetails.read(from:))
+        return value
+    }
+}
+
+extension GroundStationClientTypes.DownlinkDataflowDetails {
+
+    static func write(value: GroundStationClientTypes.DownlinkDataflowDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .agentconnectiondetails(agentconnectiondetails):
+                try writer["agentConnectionDetails"].write(agentconnectiondetails, with: GroundStationClientTypes.DownlinkConnectionDetails.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.DownlinkDataflowDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "agentConnectionDetails":
+                return .agentconnectiondetails(try reader["agentConnectionDetails"].read(with: GroundStationClientTypes.DownlinkConnectionDetails.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension GroundStationClientTypes.Eirp {
+
+    static func write(value: GroundStationClientTypes.Eirp?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["units"].write(value.units)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.Eirp {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GroundStationClientTypes.Eirp()
+        value.value = try reader["value"].readIfPresent() ?? 0.0
+        value.units = try reader["units"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension GroundStationClientTypes.Elevation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.Elevation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GroundStationClientTypes.Elevation()
+        value.value = try reader["value"].readIfPresent() ?? 0.0
+        value.unit = try reader["unit"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -5940,99 +7467,329 @@ extension GroundStationClientTypes.EndpointDetails {
     }
 }
 
-extension GroundStationClientTypes.DownlinkAwsGroundStationAgentEndpointDetails {
+extension GroundStationClientTypes.EphemerisData {
 
-    static func write(value: GroundStationClientTypes.DownlinkAwsGroundStationAgentEndpointDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["agentStatus"].write(value.agentStatus)
-        try writer["auditResults"].write(value.auditResults)
-        try writer["dataflowDetails"].write(value.dataflowDetails, with: GroundStationClientTypes.DownlinkDataflowDetails.write(value:to:))
-        try writer["name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.DownlinkAwsGroundStationAgentEndpointDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GroundStationClientTypes.DownlinkAwsGroundStationAgentEndpointDetails()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.dataflowDetails = try reader["dataflowDetails"].readIfPresent(with: GroundStationClientTypes.DownlinkDataflowDetails.read(from:))
-        value.agentStatus = try reader["agentStatus"].readIfPresent()
-        value.auditResults = try reader["auditResults"].readIfPresent()
-        return value
-    }
-}
-
-extension GroundStationClientTypes.DownlinkDataflowDetails {
-
-    static func write(value: GroundStationClientTypes.DownlinkDataflowDetails?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GroundStationClientTypes.EphemerisData?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
-            case let .agentconnectiondetails(agentconnectiondetails):
-                try writer["agentConnectionDetails"].write(agentconnectiondetails, with: GroundStationClientTypes.DownlinkConnectionDetails.write(value:to:))
+            case let .azel(azel):
+                try writer["azEl"].write(azel, with: GroundStationClientTypes.AzElEphemeris.write(value:to:))
+            case let .oem(oem):
+                try writer["oem"].write(oem, with: GroundStationClientTypes.OEMEphemeris.write(value:to:))
+            case let .tle(tle):
+                try writer["tle"].write(tle, with: GroundStationClientTypes.TLEEphemeris.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
     }
+}
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.DownlinkDataflowDetails {
+extension GroundStationClientTypes.EphemerisDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.EphemerisDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GroundStationClientTypes.EphemerisDescription()
+        value.sourceS3Object = try reader["sourceS3Object"].readIfPresent(with: GroundStationClientTypes.S3Object.read(from:))
+        value.ephemerisData = try reader["ephemerisData"].readIfPresent()
+        return value
+    }
+}
+
+extension GroundStationClientTypes.EphemerisErrorReason {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.EphemerisErrorReason {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GroundStationClientTypes.EphemerisErrorReason()
+        value.errorCode = try reader["errorCode"].readIfPresent() ?? .sdkUnknown("")
+        value.errorMessage = try reader["errorMessage"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension GroundStationClientTypes.EphemerisFilter {
+
+    static func write(value: GroundStationClientTypes.EphemerisFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .azel(azel):
+                try writer["azEl"].write(azel, with: GroundStationClientTypes.AzElEphemerisFilter.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension GroundStationClientTypes.EphemerisItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.EphemerisItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GroundStationClientTypes.EphemerisItem()
+        value.ephemerisId = try reader["ephemerisId"].readIfPresent()
+        value.ephemerisType = try reader["ephemerisType"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.priority = try reader["priority"].readIfPresent()
+        value.enabled = try reader["enabled"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.name = try reader["name"].readIfPresent()
+        value.sourceS3Object = try reader["sourceS3Object"].readIfPresent(with: GroundStationClientTypes.S3Object.read(from:))
+        return value
+    }
+}
+
+extension GroundStationClientTypes.EphemerisMetaData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.EphemerisMetaData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GroundStationClientTypes.EphemerisMetaData()
+        value.source = try reader["source"].readIfPresent() ?? .sdkUnknown("")
+        value.ephemerisId = try reader["ephemerisId"].readIfPresent()
+        value.epoch = try reader["epoch"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.name = try reader["name"].readIfPresent()
+        return value
+    }
+}
+
+extension GroundStationClientTypes.EphemerisResponseData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.EphemerisResponseData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GroundStationClientTypes.EphemerisResponseData()
+        value.ephemerisId = try reader["ephemerisId"].readIfPresent()
+        value.ephemerisType = try reader["ephemerisType"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension GroundStationClientTypes.EphemerisTypeDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.EphemerisTypeDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
         switch name {
-            case "agentConnectionDetails":
-                return .agentconnectiondetails(try reader["agentConnectionDetails"].read(with: GroundStationClientTypes.DownlinkConnectionDetails.read(from:)))
+            case "tle":
+                return .tle(try reader["tle"].read(with: GroundStationClientTypes.EphemerisDescription.read(from:)))
+            case "oem":
+                return .oem(try reader["oem"].read(with: GroundStationClientTypes.EphemerisDescription.read(from:)))
+            case "azEl":
+                return .azel(try reader["azEl"].read(with: GroundStationClientTypes.EphemerisDescription.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
     }
 }
 
-extension GroundStationClientTypes.DownlinkConnectionDetails {
+extension GroundStationClientTypes.Frequency {
 
-    static func write(value: GroundStationClientTypes.DownlinkConnectionDetails?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GroundStationClientTypes.Frequency?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["agentIpAndPortAddress"].write(value.agentIpAndPortAddress, with: GroundStationClientTypes.RangedConnectionDetails.write(value:to:))
-        try writer["egressAddressAndPort"].write(value.egressAddressAndPort, with: GroundStationClientTypes.ConnectionDetails.write(value:to:))
+        try writer["units"].write(value.units)
+        try writer["value"].write(value.value)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.DownlinkConnectionDetails {
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.Frequency {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GroundStationClientTypes.DownlinkConnectionDetails()
-        value.agentIpAndPortAddress = try reader["agentIpAndPortAddress"].readIfPresent(with: GroundStationClientTypes.RangedConnectionDetails.read(from:))
-        value.egressAddressAndPort = try reader["egressAddressAndPort"].readIfPresent(with: GroundStationClientTypes.ConnectionDetails.read(from:))
+        var value = GroundStationClientTypes.Frequency()
+        value.value = try reader["value"].readIfPresent() ?? 0.0
+        value.units = try reader["units"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
 
-extension GroundStationClientTypes.ConnectionDetails {
+extension GroundStationClientTypes.FrequencyBandwidth {
 
-    static func write(value: GroundStationClientTypes.ConnectionDetails?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GroundStationClientTypes.FrequencyBandwidth?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["mtu"].write(value.mtu)
-        try writer["socketAddress"].write(value.socketAddress, with: GroundStationClientTypes.SocketAddress.write(value:to:))
+        try writer["units"].write(value.units)
+        try writer["value"].write(value.value)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.ConnectionDetails {
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.FrequencyBandwidth {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GroundStationClientTypes.ConnectionDetails()
-        value.socketAddress = try reader["socketAddress"].readIfPresent(with: GroundStationClientTypes.SocketAddress.read(from:))
-        value.mtu = try reader["mtu"].readIfPresent()
+        var value = GroundStationClientTypes.FrequencyBandwidth()
+        value.value = try reader["value"].readIfPresent() ?? 0.0
+        value.units = try reader["units"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
 
-extension GroundStationClientTypes.SocketAddress {
+extension GroundStationClientTypes.GroundStationData {
 
-    static func write(value: GroundStationClientTypes.SocketAddress?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.GroundStationData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GroundStationClientTypes.GroundStationData()
+        value.groundStationId = try reader["groundStationId"].readIfPresent()
+        value.groundStationName = try reader["groundStationName"].readIfPresent()
+        value.region = try reader["region"].readIfPresent()
+        return value
+    }
+}
+
+extension GroundStationClientTypes.GroundStationReservationListItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.GroundStationReservationListItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GroundStationClientTypes.GroundStationReservationListItem()
+        value.reservationType = try reader["reservationType"].readIfPresent() ?? .sdkUnknown("")
+        value.groundStationId = try reader["groundStationId"].readIfPresent() ?? ""
+        value.antennaName = try reader["antennaName"].readIfPresent() ?? ""
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.reservationDetails = try reader["reservationDetails"].readIfPresent(with: GroundStationClientTypes.ReservationDetails.read(from:))
+        return value
+    }
+}
+
+extension GroundStationClientTypes.IntegerRange {
+
+    static func write(value: GroundStationClientTypes.IntegerRange?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["port"].write(value.port)
+        try writer["maximum"].write(value.maximum)
+        try writer["minimum"].write(value.minimum)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.SocketAddress {
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.IntegerRange {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GroundStationClientTypes.SocketAddress()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.port = try reader["port"].readIfPresent() ?? 0
+        var value = GroundStationClientTypes.IntegerRange()
+        value.minimum = try reader["minimum"].readIfPresent() ?? 0
+        value.maximum = try reader["maximum"].readIfPresent() ?? 0
         return value
+    }
+}
+
+extension GroundStationClientTypes.ISO8601TimeRange {
+
+    static func write(value: GroundStationClientTypes.ISO8601TimeRange?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["endTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.dateTime)
+        try writer["startTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.dateTime)
+    }
+}
+
+extension GroundStationClientTypes.KinesisDataStreamData {
+
+    static func write(value: GroundStationClientTypes.KinesisDataStreamData?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["kinesisDataStreamArn"].write(value.kinesisDataStreamArn)
+        try writer["kinesisRoleArn"].write(value.kinesisRoleArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.KinesisDataStreamData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GroundStationClientTypes.KinesisDataStreamData()
+        value.kinesisRoleArn = try reader["kinesisRoleArn"].readIfPresent() ?? ""
+        value.kinesisDataStreamArn = try reader["kinesisDataStreamArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension GroundStationClientTypes.KmsKey {
+
+    static func write(value: GroundStationClientTypes.KmsKey?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .kmsaliasarn(kmsaliasarn):
+                try writer["kmsAliasArn"].write(kmsaliasarn)
+            case let .kmsaliasname(kmsaliasname):
+                try writer["kmsAliasName"].write(kmsaliasname)
+            case let .kmskeyarn(kmskeyarn):
+                try writer["kmsKeyArn"].write(kmskeyarn)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.KmsKey {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "kmsKeyArn":
+                return .kmskeyarn(try reader["kmsKeyArn"].read())
+            case "kmsAliasArn":
+                return .kmsaliasarn(try reader["kmsAliasArn"].read())
+            case "kmsAliasName":
+                return .kmsaliasname(try reader["kmsAliasName"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension GroundStationClientTypes.MaintenanceReservationDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.MaintenanceReservationDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GroundStationClientTypes.MaintenanceReservationDetails()
+        value.maintenanceType = try reader["maintenanceType"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension GroundStationClientTypes.MissionProfileListItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.MissionProfileListItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GroundStationClientTypes.MissionProfileListItem()
+        value.missionProfileId = try reader["missionProfileId"].readIfPresent()
+        value.missionProfileArn = try reader["missionProfileArn"].readIfPresent()
+        value.region = try reader["region"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        return value
+    }
+}
+
+extension GroundStationClientTypes.OEMEphemeris {
+
+    static func write(value: GroundStationClientTypes.OEMEphemeris?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["oemData"].write(value.oemData)
+        try writer["s3Object"].write(value.s3Object, with: GroundStationClientTypes.S3Object.write(value:to:))
+    }
+}
+
+extension GroundStationClientTypes.OemProgramTrackSettings {
+
+    static func write(value: GroundStationClientTypes.OemProgramTrackSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ephemerisId"].write(value.ephemerisId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.OemProgramTrackSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GroundStationClientTypes.OemProgramTrackSettings()
+        value.ephemerisId = try reader["ephemerisId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension GroundStationClientTypes.ProgramTrackSettings {
+
+    static func write(value: GroundStationClientTypes.ProgramTrackSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .azel(azel):
+                try writer["azEl"].write(azel, with: GroundStationClientTypes.AzElProgramTrackSettings.write(value:to:))
+            case let .oem(oem):
+                try writer["oem"].write(oem, with: GroundStationClientTypes.OemProgramTrackSettings.write(value:to:))
+            case let .tle(tle):
+                try writer["tle"].write(tle, with: GroundStationClientTypes.TleProgramTrackSettings.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.ProgramTrackSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "azEl":
+                return .azel(try reader["azEl"].read(with: GroundStationClientTypes.AzElProgramTrackSettings.read(from:)))
+            case "oem":
+                return .oem(try reader["oem"].read(with: GroundStationClientTypes.OemProgramTrackSettings.read(from:)))
+            case "tle":
+                return .tle(try reader["tle"].read(with: GroundStationClientTypes.TleProgramTrackSettings.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
@@ -6070,20 +7827,283 @@ extension GroundStationClientTypes.RangedSocketAddress {
     }
 }
 
-extension GroundStationClientTypes.IntegerRange {
+extension GroundStationClientTypes.ReservationDetails {
 
-    static func write(value: GroundStationClientTypes.IntegerRange?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.ReservationDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "maintenance":
+                return .maintenance(try reader["maintenance"].read(with: GroundStationClientTypes.MaintenanceReservationDetails.read(from:)))
+            case "contact":
+                return .contact(try reader["contact"].read(with: GroundStationClientTypes.ContactReservationDetails.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension GroundStationClientTypes.S3Object {
+
+    static func write(value: GroundStationClientTypes.S3Object?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["maximum"].write(value.maximum)
-        try writer["minimum"].write(value.minimum)
+        try writer["bucket"].write(value.bucket)
+        try writer["key"].write(value.key)
+        try writer["version"].write(value.version)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.IntegerRange {
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.S3Object {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GroundStationClientTypes.IntegerRange()
-        value.minimum = try reader["minimum"].readIfPresent() ?? 0
-        value.maximum = try reader["maximum"].readIfPresent() ?? 0
+        var value = GroundStationClientTypes.S3Object()
+        value.bucket = try reader["bucket"].readIfPresent()
+        value.key = try reader["key"].readIfPresent()
+        value.version = try reader["version"].readIfPresent()
         return value
+    }
+}
+
+extension GroundStationClientTypes.S3RecordingConfig {
+
+    static func write(value: GroundStationClientTypes.S3RecordingConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bucketArn"].write(value.bucketArn)
+        try writer["prefix"].write(value.`prefix`)
+        try writer["roleArn"].write(value.roleArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.S3RecordingConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GroundStationClientTypes.S3RecordingConfig()
+        value.bucketArn = try reader["bucketArn"].readIfPresent() ?? ""
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.`prefix` = try reader["prefix"].readIfPresent()
+        return value
+    }
+}
+
+extension GroundStationClientTypes.S3RecordingDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.S3RecordingDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GroundStationClientTypes.S3RecordingDetails()
+        value.bucketArn = try reader["bucketArn"].readIfPresent()
+        value.keyTemplate = try reader["keyTemplate"].readIfPresent()
+        return value
+    }
+}
+
+extension GroundStationClientTypes.SatelliteListItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.SatelliteListItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GroundStationClientTypes.SatelliteListItem()
+        value.satelliteId = try reader["satelliteId"].readIfPresent()
+        value.satelliteArn = try reader["satelliteArn"].readIfPresent()
+        value.noradSatelliteID = try reader["noradSatelliteID"].readIfPresent() ?? 0
+        value.groundStations = try reader["groundStations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.currentEphemeris = try reader["currentEphemeris"].readIfPresent(with: GroundStationClientTypes.EphemerisMetaData.read(from:))
+        return value
+    }
+}
+
+extension GroundStationClientTypes.SecurityDetails {
+
+    static func write(value: GroundStationClientTypes.SecurityDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["roleArn"].write(value.roleArn)
+        try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.SecurityDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GroundStationClientTypes.SecurityDetails()
+        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension GroundStationClientTypes.SocketAddress {
+
+    static func write(value: GroundStationClientTypes.SocketAddress?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["port"].write(value.port)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.SocketAddress {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GroundStationClientTypes.SocketAddress()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.port = try reader["port"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension GroundStationClientTypes.Source {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.Source {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GroundStationClientTypes.Source()
+        value.configType = try reader["configType"].readIfPresent()
+        value.configId = try reader["configId"].readIfPresent()
+        value.configDetails = try reader["configDetails"].readIfPresent(with: GroundStationClientTypes.ConfigDetails.read(from:))
+        value.dataflowSourceRegion = try reader["dataflowSourceRegion"].readIfPresent()
+        return value
+    }
+}
+
+extension GroundStationClientTypes.SpectrumConfig {
+
+    static func write(value: GroundStationClientTypes.SpectrumConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bandwidth"].write(value.bandwidth, with: GroundStationClientTypes.FrequencyBandwidth.write(value:to:))
+        try writer["centerFrequency"].write(value.centerFrequency, with: GroundStationClientTypes.Frequency.write(value:to:))
+        try writer["polarization"].write(value.polarization)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.SpectrumConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GroundStationClientTypes.SpectrumConfig()
+        value.centerFrequency = try reader["centerFrequency"].readIfPresent(with: GroundStationClientTypes.Frequency.read(from:))
+        value.bandwidth = try reader["bandwidth"].readIfPresent(with: GroundStationClientTypes.FrequencyBandwidth.read(from:))
+        value.polarization = try reader["polarization"].readIfPresent() ?? GroundStationClientTypes.Polarization.`none`
+        return value
+    }
+}
+
+extension GroundStationClientTypes.TelemetrySinkConfig {
+
+    static func write(value: GroundStationClientTypes.TelemetrySinkConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["telemetrySinkData"].write(value.telemetrySinkData, with: GroundStationClientTypes.TelemetrySinkData.write(value:to:))
+        try writer["telemetrySinkType"].write(value.telemetrySinkType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.TelemetrySinkConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GroundStationClientTypes.TelemetrySinkConfig()
+        value.telemetrySinkType = try reader["telemetrySinkType"].readIfPresent() ?? .sdkUnknown("")
+        value.telemetrySinkData = try reader["telemetrySinkData"].readIfPresent(with: GroundStationClientTypes.TelemetrySinkData.read(from:))
+        return value
+    }
+}
+
+extension GroundStationClientTypes.TelemetrySinkData {
+
+    static func write(value: GroundStationClientTypes.TelemetrySinkData?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .kinesisdatastreamdata(kinesisdatastreamdata):
+                try writer["kinesisDataStreamData"].write(kinesisdatastreamdata, with: GroundStationClientTypes.KinesisDataStreamData.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.TelemetrySinkData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "kinesisDataStreamData":
+                return .kinesisdatastreamdata(try reader["kinesisDataStreamData"].read(with: GroundStationClientTypes.KinesisDataStreamData.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension GroundStationClientTypes.TimeAzEl {
+
+    static func write(value: GroundStationClientTypes.TimeAzEl?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["az"].write(value.az)
+        try writer["dt"].write(value.dt)
+        try writer["el"].write(value.el)
+    }
+}
+
+extension GroundStationClientTypes.TimeRange {
+
+    static func write(value: GroundStationClientTypes.TimeRange?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["endTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["startTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+}
+
+extension GroundStationClientTypes.TLEData {
+
+    static func write(value: GroundStationClientTypes.TLEData?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["tleLine1"].write(value.tleLine1)
+        try writer["tleLine2"].write(value.tleLine2)
+        try writer["validTimeRange"].write(value.validTimeRange, with: GroundStationClientTypes.TimeRange.write(value:to:))
+    }
+}
+
+extension GroundStationClientTypes.TLEEphemeris {
+
+    static func write(value: GroundStationClientTypes.TLEEphemeris?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["s3Object"].write(value.s3Object, with: GroundStationClientTypes.S3Object.write(value:to:))
+        try writer["tleData"].writeList(value.tleData, memberWritingClosure: GroundStationClientTypes.TLEData.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension GroundStationClientTypes.TleProgramTrackSettings {
+
+    static func write(value: GroundStationClientTypes.TleProgramTrackSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ephemerisId"].write(value.ephemerisId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.TleProgramTrackSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GroundStationClientTypes.TleProgramTrackSettings()
+        value.ephemerisId = try reader["ephemerisId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension GroundStationClientTypes.TrackingConfig {
+
+    static func write(value: GroundStationClientTypes.TrackingConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["autotrack"].write(value.autotrack)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.TrackingConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GroundStationClientTypes.TrackingConfig()
+        value.autotrack = try reader["autotrack"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension GroundStationClientTypes.TrackingOverrides {
+
+    static func write(value: GroundStationClientTypes.TrackingOverrides?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["programTrackSettings"].write(value.programTrackSettings, with: GroundStationClientTypes.ProgramTrackSettings.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.TrackingOverrides {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GroundStationClientTypes.TrackingOverrides()
+        value.programTrackSettings = try reader["programTrackSettings"].readIfPresent(with: GroundStationClientTypes.ProgramTrackSettings.read(from:))
+        return value
+    }
+}
+
+extension GroundStationClientTypes.UplinkAwsGroundStationAgentEndpoint {
+
+    static func write(value: GroundStationClientTypes.UplinkAwsGroundStationAgentEndpoint?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dataflowDetails"].write(value.dataflowDetails, with: GroundStationClientTypes.UplinkDataflowDetails.write(value:to:))
+        try writer["name"].write(value.name)
     }
 }
 
@@ -6104,6 +8124,23 @@ extension GroundStationClientTypes.UplinkAwsGroundStationAgentEndpointDetails {
         value.dataflowDetails = try reader["dataflowDetails"].readIfPresent(with: GroundStationClientTypes.UplinkDataflowDetails.read(from:))
         value.agentStatus = try reader["agentStatus"].readIfPresent()
         value.auditResults = try reader["auditResults"].readIfPresent()
+        return value
+    }
+}
+
+extension GroundStationClientTypes.UplinkConnectionDetails {
+
+    static func write(value: GroundStationClientTypes.UplinkConnectionDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agentIpAndPortAddress"].write(value.agentIpAndPortAddress, with: GroundStationClientTypes.RangedConnectionDetails.write(value:to:))
+        try writer["ingressAddressAndPort"].write(value.ingressAddressAndPort, with: GroundStationClientTypes.ConnectionDetails.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.UplinkConnectionDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GroundStationClientTypes.UplinkConnectionDetails()
+        value.ingressAddressAndPort = try reader["ingressAddressAndPort"].readIfPresent(with: GroundStationClientTypes.ConnectionDetails.read(from:))
+        value.agentIpAndPortAddress = try reader["agentIpAndPortAddress"].readIfPresent(with: GroundStationClientTypes.RangedConnectionDetails.read(from:))
         return value
     }
 }
@@ -6132,290 +8169,6 @@ extension GroundStationClientTypes.UplinkDataflowDetails {
     }
 }
 
-extension GroundStationClientTypes.UplinkConnectionDetails {
-
-    static func write(value: GroundStationClientTypes.UplinkConnectionDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["agentIpAndPortAddress"].write(value.agentIpAndPortAddress, with: GroundStationClientTypes.RangedConnectionDetails.write(value:to:))
-        try writer["ingressAddressAndPort"].write(value.ingressAddressAndPort, with: GroundStationClientTypes.ConnectionDetails.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.UplinkConnectionDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GroundStationClientTypes.UplinkConnectionDetails()
-        value.ingressAddressAndPort = try reader["ingressAddressAndPort"].readIfPresent(with: GroundStationClientTypes.ConnectionDetails.read(from:))
-        value.agentIpAndPortAddress = try reader["agentIpAndPortAddress"].readIfPresent(with: GroundStationClientTypes.RangedConnectionDetails.read(from:))
-        return value
-    }
-}
-
-extension GroundStationClientTypes.AwsGroundStationAgentEndpoint {
-
-    static func write(value: GroundStationClientTypes.AwsGroundStationAgentEndpoint?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["agentStatus"].write(value.agentStatus)
-        try writer["auditResults"].write(value.auditResults)
-        try writer["egressAddress"].write(value.egressAddress, with: GroundStationClientTypes.ConnectionDetails.write(value:to:))
-        try writer["ingressAddress"].write(value.ingressAddress, with: GroundStationClientTypes.RangedConnectionDetails.write(value:to:))
-        try writer["name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.AwsGroundStationAgentEndpoint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GroundStationClientTypes.AwsGroundStationAgentEndpoint()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.egressAddress = try reader["egressAddress"].readIfPresent(with: GroundStationClientTypes.ConnectionDetails.read(from:))
-        value.ingressAddress = try reader["ingressAddress"].readIfPresent(with: GroundStationClientTypes.RangedConnectionDetails.read(from:))
-        value.agentStatus = try reader["agentStatus"].readIfPresent()
-        value.auditResults = try reader["auditResults"].readIfPresent()
-        return value
-    }
-}
-
-extension GroundStationClientTypes.DataflowEndpoint {
-
-    static func write(value: GroundStationClientTypes.DataflowEndpoint?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["address"].write(value.address, with: GroundStationClientTypes.SocketAddress.write(value:to:))
-        try writer["mtu"].write(value.mtu)
-        try writer["name"].write(value.name)
-        try writer["status"].write(value.status)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.DataflowEndpoint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GroundStationClientTypes.DataflowEndpoint()
-        value.name = try reader["name"].readIfPresent()
-        value.address = try reader["address"].readIfPresent(with: GroundStationClientTypes.SocketAddress.read(from:))
-        value.status = try reader["status"].readIfPresent()
-        value.mtu = try reader["mtu"].readIfPresent()
-        return value
-    }
-}
-
-extension GroundStationClientTypes.SecurityDetails {
-
-    static func write(value: GroundStationClientTypes.SecurityDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["roleArn"].write(value.roleArn)
-        try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.SecurityDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GroundStationClientTypes.SecurityDetails()
-        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension GroundStationClientTypes.Source {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.Source {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GroundStationClientTypes.Source()
-        value.configType = try reader["configType"].readIfPresent()
-        value.configId = try reader["configId"].readIfPresent()
-        value.configDetails = try reader["configDetails"].readIfPresent(with: GroundStationClientTypes.ConfigDetails.read(from:))
-        value.dataflowSourceRegion = try reader["dataflowSourceRegion"].readIfPresent()
-        return value
-    }
-}
-
-extension GroundStationClientTypes.TrackingOverrides {
-
-    static func write(value: GroundStationClientTypes.TrackingOverrides?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["programTrackSettings"].write(value.programTrackSettings, with: GroundStationClientTypes.ProgramTrackSettings.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.TrackingOverrides {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GroundStationClientTypes.TrackingOverrides()
-        value.programTrackSettings = try reader["programTrackSettings"].readIfPresent(with: GroundStationClientTypes.ProgramTrackSettings.read(from:))
-        return value
-    }
-}
-
-extension GroundStationClientTypes.ProgramTrackSettings {
-
-    static func write(value: GroundStationClientTypes.ProgramTrackSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .azel(azel):
-                try writer["azEl"].write(azel, with: GroundStationClientTypes.AzElProgramTrackSettings.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.ProgramTrackSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "azEl":
-                return .azel(try reader["azEl"].read(with: GroundStationClientTypes.AzElProgramTrackSettings.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension GroundStationClientTypes.AzElProgramTrackSettings {
-
-    static func write(value: GroundStationClientTypes.AzElProgramTrackSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ephemerisId"].write(value.ephemerisId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.AzElProgramTrackSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GroundStationClientTypes.AzElProgramTrackSettings()
-        value.ephemerisId = try reader["ephemerisId"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension GroundStationClientTypes.EphemerisResponseData {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.EphemerisResponseData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GroundStationClientTypes.EphemerisResponseData()
-        value.ephemerisId = try reader["ephemerisId"].readIfPresent()
-        value.ephemerisType = try reader["ephemerisType"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension GroundStationClientTypes.EphemerisTypeDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.EphemerisTypeDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "tle":
-                return .tle(try reader["tle"].read(with: GroundStationClientTypes.EphemerisDescription.read(from:)))
-            case "oem":
-                return .oem(try reader["oem"].read(with: GroundStationClientTypes.EphemerisDescription.read(from:)))
-            case "azEl":
-                return .azel(try reader["azEl"].read(with: GroundStationClientTypes.EphemerisDescription.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension GroundStationClientTypes.EphemerisDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.EphemerisDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GroundStationClientTypes.EphemerisDescription()
-        value.sourceS3Object = try reader["sourceS3Object"].readIfPresent(with: GroundStationClientTypes.S3Object.read(from:))
-        value.ephemerisData = try reader["ephemerisData"].readIfPresent()
-        return value
-    }
-}
-
-extension GroundStationClientTypes.S3Object {
-
-    static func write(value: GroundStationClientTypes.S3Object?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["bucket"].write(value.bucket)
-        try writer["key"].write(value.key)
-        try writer["version"].write(value.version)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.S3Object {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GroundStationClientTypes.S3Object()
-        value.bucket = try reader["bucket"].readIfPresent()
-        value.key = try reader["key"].readIfPresent()
-        value.version = try reader["version"].readIfPresent()
-        return value
-    }
-}
-
-extension GroundStationClientTypes.EphemerisErrorReason {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.EphemerisErrorReason {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GroundStationClientTypes.EphemerisErrorReason()
-        value.errorCode = try reader["errorCode"].readIfPresent() ?? .sdkUnknown("")
-        value.errorMessage = try reader["errorMessage"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension GroundStationClientTypes.ConfigTypeData {
-
-    static func write(value: GroundStationClientTypes.ConfigTypeData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .antennadownlinkconfig(antennadownlinkconfig):
-                try writer["antennaDownlinkConfig"].write(antennadownlinkconfig, with: GroundStationClientTypes.AntennaDownlinkConfig.write(value:to:))
-            case let .antennadownlinkdemoddecodeconfig(antennadownlinkdemoddecodeconfig):
-                try writer["antennaDownlinkDemodDecodeConfig"].write(antennadownlinkdemoddecodeconfig, with: GroundStationClientTypes.AntennaDownlinkDemodDecodeConfig.write(value:to:))
-            case let .antennauplinkconfig(antennauplinkconfig):
-                try writer["antennaUplinkConfig"].write(antennauplinkconfig, with: GroundStationClientTypes.AntennaUplinkConfig.write(value:to:))
-            case let .dataflowendpointconfig(dataflowendpointconfig):
-                try writer["dataflowEndpointConfig"].write(dataflowendpointconfig, with: GroundStationClientTypes.DataflowEndpointConfig.write(value:to:))
-            case let .s3recordingconfig(s3recordingconfig):
-                try writer["s3RecordingConfig"].write(s3recordingconfig, with: GroundStationClientTypes.S3RecordingConfig.write(value:to:))
-            case let .trackingconfig(trackingconfig):
-                try writer["trackingConfig"].write(trackingconfig, with: GroundStationClientTypes.TrackingConfig.write(value:to:))
-            case let .uplinkechoconfig(uplinkechoconfig):
-                try writer["uplinkEchoConfig"].write(uplinkechoconfig, with: GroundStationClientTypes.UplinkEchoConfig.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.ConfigTypeData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "antennaDownlinkConfig":
-                return .antennadownlinkconfig(try reader["antennaDownlinkConfig"].read(with: GroundStationClientTypes.AntennaDownlinkConfig.read(from:)))
-            case "trackingConfig":
-                return .trackingconfig(try reader["trackingConfig"].read(with: GroundStationClientTypes.TrackingConfig.read(from:)))
-            case "dataflowEndpointConfig":
-                return .dataflowendpointconfig(try reader["dataflowEndpointConfig"].read(with: GroundStationClientTypes.DataflowEndpointConfig.read(from:)))
-            case "antennaDownlinkDemodDecodeConfig":
-                return .antennadownlinkdemoddecodeconfig(try reader["antennaDownlinkDemodDecodeConfig"].read(with: GroundStationClientTypes.AntennaDownlinkDemodDecodeConfig.read(from:)))
-            case "antennaUplinkConfig":
-                return .antennauplinkconfig(try reader["antennaUplinkConfig"].read(with: GroundStationClientTypes.AntennaUplinkConfig.read(from:)))
-            case "uplinkEchoConfig":
-                return .uplinkechoconfig(try reader["uplinkEchoConfig"].read(with: GroundStationClientTypes.UplinkEchoConfig.read(from:)))
-            case "s3RecordingConfig":
-                return .s3recordingconfig(try reader["s3RecordingConfig"].read(with: GroundStationClientTypes.S3RecordingConfig.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension GroundStationClientTypes.S3RecordingConfig {
-
-    static func write(value: GroundStationClientTypes.S3RecordingConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["bucketArn"].write(value.bucketArn)
-        try writer["prefix"].write(value.`prefix`)
-        try writer["roleArn"].write(value.roleArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.S3RecordingConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GroundStationClientTypes.S3RecordingConfig()
-        value.bucketArn = try reader["bucketArn"].readIfPresent() ?? ""
-        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
-        value.`prefix` = try reader["prefix"].readIfPresent()
-        return value
-    }
-}
-
 extension GroundStationClientTypes.UplinkEchoConfig {
 
     static func write(value: GroundStationClientTypes.UplinkEchoConfig?, to writer: SmithyJSON.Writer) throws {
@@ -6429,42 +8182,6 @@ extension GroundStationClientTypes.UplinkEchoConfig {
         var value = GroundStationClientTypes.UplinkEchoConfig()
         value.enabled = try reader["enabled"].readIfPresent() ?? false
         value.antennaUplinkConfigArn = try reader["antennaUplinkConfigArn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension GroundStationClientTypes.AntennaUplinkConfig {
-
-    static func write(value: GroundStationClientTypes.AntennaUplinkConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["spectrumConfig"].write(value.spectrumConfig, with: GroundStationClientTypes.UplinkSpectrumConfig.write(value:to:))
-        try writer["targetEirp"].write(value.targetEirp, with: GroundStationClientTypes.Eirp.write(value:to:))
-        try writer["transmitDisabled"].write(value.transmitDisabled)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.AntennaUplinkConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GroundStationClientTypes.AntennaUplinkConfig()
-        value.transmitDisabled = try reader["transmitDisabled"].readIfPresent()
-        value.spectrumConfig = try reader["spectrumConfig"].readIfPresent(with: GroundStationClientTypes.UplinkSpectrumConfig.read(from:))
-        value.targetEirp = try reader["targetEirp"].readIfPresent(with: GroundStationClientTypes.Eirp.read(from:))
-        return value
-    }
-}
-
-extension GroundStationClientTypes.Eirp {
-
-    static func write(value: GroundStationClientTypes.Eirp?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["units"].write(value.units)
-        try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.Eirp {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GroundStationClientTypes.Eirp()
-        value.value = try reader["value"].readIfPresent() ?? 0.0
-        value.units = try reader["units"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -6483,530 +8200,6 @@ extension GroundStationClientTypes.UplinkSpectrumConfig {
         value.centerFrequency = try reader["centerFrequency"].readIfPresent(with: GroundStationClientTypes.Frequency.read(from:))
         value.polarization = try reader["polarization"].readIfPresent()
         return value
-    }
-}
-
-extension GroundStationClientTypes.Frequency {
-
-    static func write(value: GroundStationClientTypes.Frequency?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["units"].write(value.units)
-        try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.Frequency {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GroundStationClientTypes.Frequency()
-        value.value = try reader["value"].readIfPresent() ?? 0.0
-        value.units = try reader["units"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension GroundStationClientTypes.AntennaDownlinkDemodDecodeConfig {
-
-    static func write(value: GroundStationClientTypes.AntennaDownlinkDemodDecodeConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["decodeConfig"].write(value.decodeConfig, with: GroundStationClientTypes.DecodeConfig.write(value:to:))
-        try writer["demodulationConfig"].write(value.demodulationConfig, with: GroundStationClientTypes.DemodulationConfig.write(value:to:))
-        try writer["spectrumConfig"].write(value.spectrumConfig, with: GroundStationClientTypes.SpectrumConfig.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.AntennaDownlinkDemodDecodeConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GroundStationClientTypes.AntennaDownlinkDemodDecodeConfig()
-        value.spectrumConfig = try reader["spectrumConfig"].readIfPresent(with: GroundStationClientTypes.SpectrumConfig.read(from:))
-        value.demodulationConfig = try reader["demodulationConfig"].readIfPresent(with: GroundStationClientTypes.DemodulationConfig.read(from:))
-        value.decodeConfig = try reader["decodeConfig"].readIfPresent(with: GroundStationClientTypes.DecodeConfig.read(from:))
-        return value
-    }
-}
-
-extension GroundStationClientTypes.DecodeConfig {
-
-    static func write(value: GroundStationClientTypes.DecodeConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["unvalidatedJSON"].write(value.unvalidatedJSON)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.DecodeConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GroundStationClientTypes.DecodeConfig()
-        value.unvalidatedJSON = try reader["unvalidatedJSON"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension GroundStationClientTypes.DemodulationConfig {
-
-    static func write(value: GroundStationClientTypes.DemodulationConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["unvalidatedJSON"].write(value.unvalidatedJSON)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.DemodulationConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GroundStationClientTypes.DemodulationConfig()
-        value.unvalidatedJSON = try reader["unvalidatedJSON"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension GroundStationClientTypes.SpectrumConfig {
-
-    static func write(value: GroundStationClientTypes.SpectrumConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["bandwidth"].write(value.bandwidth, with: GroundStationClientTypes.FrequencyBandwidth.write(value:to:))
-        try writer["centerFrequency"].write(value.centerFrequency, with: GroundStationClientTypes.Frequency.write(value:to:))
-        try writer["polarization"].write(value.polarization)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.SpectrumConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GroundStationClientTypes.SpectrumConfig()
-        value.centerFrequency = try reader["centerFrequency"].readIfPresent(with: GroundStationClientTypes.Frequency.read(from:))
-        value.bandwidth = try reader["bandwidth"].readIfPresent(with: GroundStationClientTypes.FrequencyBandwidth.read(from:))
-        value.polarization = try reader["polarization"].readIfPresent() ?? GroundStationClientTypes.Polarization.`none`
-        return value
-    }
-}
-
-extension GroundStationClientTypes.FrequencyBandwidth {
-
-    static func write(value: GroundStationClientTypes.FrequencyBandwidth?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["units"].write(value.units)
-        try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.FrequencyBandwidth {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GroundStationClientTypes.FrequencyBandwidth()
-        value.value = try reader["value"].readIfPresent() ?? 0.0
-        value.units = try reader["units"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension GroundStationClientTypes.DataflowEndpointConfig {
-
-    static func write(value: GroundStationClientTypes.DataflowEndpointConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["dataflowEndpointName"].write(value.dataflowEndpointName)
-        try writer["dataflowEndpointRegion"].write(value.dataflowEndpointRegion)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.DataflowEndpointConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GroundStationClientTypes.DataflowEndpointConfig()
-        value.dataflowEndpointName = try reader["dataflowEndpointName"].readIfPresent() ?? ""
-        value.dataflowEndpointRegion = try reader["dataflowEndpointRegion"].readIfPresent()
-        return value
-    }
-}
-
-extension GroundStationClientTypes.TrackingConfig {
-
-    static func write(value: GroundStationClientTypes.TrackingConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["autotrack"].write(value.autotrack)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.TrackingConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GroundStationClientTypes.TrackingConfig()
-        value.autotrack = try reader["autotrack"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension GroundStationClientTypes.AntennaDownlinkConfig {
-
-    static func write(value: GroundStationClientTypes.AntennaDownlinkConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["spectrumConfig"].write(value.spectrumConfig, with: GroundStationClientTypes.SpectrumConfig.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.AntennaDownlinkConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GroundStationClientTypes.AntennaDownlinkConfig()
-        value.spectrumConfig = try reader["spectrumConfig"].readIfPresent(with: GroundStationClientTypes.SpectrumConfig.read(from:))
-        return value
-    }
-}
-
-extension GroundStationClientTypes.KmsKey {
-
-    static func write(value: GroundStationClientTypes.KmsKey?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .kmsaliasarn(kmsaliasarn):
-                try writer["kmsAliasArn"].write(kmsaliasarn)
-            case let .kmsaliasname(kmsaliasname):
-                try writer["kmsAliasName"].write(kmsaliasname)
-            case let .kmskeyarn(kmskeyarn):
-                try writer["kmsKeyArn"].write(kmskeyarn)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.KmsKey {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "kmsKeyArn":
-                return .kmskeyarn(try reader["kmsKeyArn"].read())
-            case "kmsAliasArn":
-                return .kmsaliasarn(try reader["kmsAliasArn"].read())
-            case "kmsAliasName":
-                return .kmsaliasname(try reader["kmsAliasName"].read())
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension GroundStationClientTypes.EphemerisMetaData {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.EphemerisMetaData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GroundStationClientTypes.EphemerisMetaData()
-        value.source = try reader["source"].readIfPresent() ?? .sdkUnknown("")
-        value.ephemerisId = try reader["ephemerisId"].readIfPresent()
-        value.epoch = try reader["epoch"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.name = try reader["name"].readIfPresent()
-        return value
-    }
-}
-
-extension GroundStationClientTypes.ConfigListItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.ConfigListItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GroundStationClientTypes.ConfigListItem()
-        value.configId = try reader["configId"].readIfPresent()
-        value.configType = try reader["configType"].readIfPresent()
-        value.configArn = try reader["configArn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        return value
-    }
-}
-
-extension GroundStationClientTypes.ContactData {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.ContactData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GroundStationClientTypes.ContactData()
-        value.contactId = try reader["contactId"].readIfPresent()
-        value.missionProfileArn = try reader["missionProfileArn"].readIfPresent()
-        value.satelliteArn = try reader["satelliteArn"].readIfPresent()
-        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.prePassStartTime = try reader["prePassStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.postPassEndTime = try reader["postPassEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.groundStation = try reader["groundStation"].readIfPresent()
-        value.contactStatus = try reader["contactStatus"].readIfPresent()
-        value.errorMessage = try reader["errorMessage"].readIfPresent()
-        value.maximumElevation = try reader["maximumElevation"].readIfPresent(with: GroundStationClientTypes.Elevation.read(from:))
-        value.region = try reader["region"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.visibilityStartTime = try reader["visibilityStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.visibilityEndTime = try reader["visibilityEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.ephemeris = try reader["ephemeris"].readIfPresent(with: GroundStationClientTypes.EphemerisResponseData.read(from:))
-        return value
-    }
-}
-
-extension GroundStationClientTypes.DataflowEndpointListItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.DataflowEndpointListItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GroundStationClientTypes.DataflowEndpointListItem()
-        value.dataflowEndpointGroupId = try reader["dataflowEndpointGroupId"].readIfPresent()
-        value.dataflowEndpointGroupArn = try reader["dataflowEndpointGroupArn"].readIfPresent()
-        return value
-    }
-}
-
-extension GroundStationClientTypes.EphemerisItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.EphemerisItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GroundStationClientTypes.EphemerisItem()
-        value.ephemerisId = try reader["ephemerisId"].readIfPresent()
-        value.ephemerisType = try reader["ephemerisType"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.priority = try reader["priority"].readIfPresent()
-        value.enabled = try reader["enabled"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.name = try reader["name"].readIfPresent()
-        value.sourceS3Object = try reader["sourceS3Object"].readIfPresent(with: GroundStationClientTypes.S3Object.read(from:))
-        return value
-    }
-}
-
-extension GroundStationClientTypes.GroundStationData {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.GroundStationData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GroundStationClientTypes.GroundStationData()
-        value.groundStationId = try reader["groundStationId"].readIfPresent()
-        value.groundStationName = try reader["groundStationName"].readIfPresent()
-        value.region = try reader["region"].readIfPresent()
-        return value
-    }
-}
-
-extension GroundStationClientTypes.MissionProfileListItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.MissionProfileListItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GroundStationClientTypes.MissionProfileListItem()
-        value.missionProfileId = try reader["missionProfileId"].readIfPresent()
-        value.missionProfileArn = try reader["missionProfileArn"].readIfPresent()
-        value.region = try reader["region"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        return value
-    }
-}
-
-extension GroundStationClientTypes.SatelliteListItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.SatelliteListItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GroundStationClientTypes.SatelliteListItem()
-        value.satelliteId = try reader["satelliteId"].readIfPresent()
-        value.satelliteArn = try reader["satelliteArn"].readIfPresent()
-        value.noradSatelliteID = try reader["noradSatelliteID"].readIfPresent() ?? 0
-        value.groundStations = try reader["groundStations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.currentEphemeris = try reader["currentEphemeris"].readIfPresent(with: GroundStationClientTypes.EphemerisMetaData.read(from:))
-        return value
-    }
-}
-
-extension GroundStationClientTypes.CreateEndpointDetails {
-
-    static func write(value: GroundStationClientTypes.CreateEndpointDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .downlinkawsgroundstationagentendpoint(downlinkawsgroundstationagentendpoint):
-                try writer["downlinkAwsGroundStationAgentEndpoint"].write(downlinkawsgroundstationagentendpoint, with: GroundStationClientTypes.DownlinkAwsGroundStationAgentEndpoint.write(value:to:))
-            case let .uplinkawsgroundstationagentendpoint(uplinkawsgroundstationagentendpoint):
-                try writer["uplinkAwsGroundStationAgentEndpoint"].write(uplinkawsgroundstationagentendpoint, with: GroundStationClientTypes.UplinkAwsGroundStationAgentEndpoint.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension GroundStationClientTypes.DownlinkAwsGroundStationAgentEndpoint {
-
-    static func write(value: GroundStationClientTypes.DownlinkAwsGroundStationAgentEndpoint?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["dataflowDetails"].write(value.dataflowDetails, with: GroundStationClientTypes.DownlinkDataflowDetails.write(value:to:))
-        try writer["name"].write(value.name)
-    }
-}
-
-extension GroundStationClientTypes.UplinkAwsGroundStationAgentEndpoint {
-
-    static func write(value: GroundStationClientTypes.UplinkAwsGroundStationAgentEndpoint?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["dataflowDetails"].write(value.dataflowDetails, with: GroundStationClientTypes.UplinkDataflowDetails.write(value:to:))
-        try writer["name"].write(value.name)
-    }
-}
-
-extension GroundStationClientTypes.EphemerisData {
-
-    static func write(value: GroundStationClientTypes.EphemerisData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .azel(azel):
-                try writer["azEl"].write(azel, with: GroundStationClientTypes.AzElEphemeris.write(value:to:))
-            case let .oem(oem):
-                try writer["oem"].write(oem, with: GroundStationClientTypes.OEMEphemeris.write(value:to:))
-            case let .tle(tle):
-                try writer["tle"].write(tle, with: GroundStationClientTypes.TLEEphemeris.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension GroundStationClientTypes.AzElEphemeris {
-
-    static func write(value: GroundStationClientTypes.AzElEphemeris?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["data"].write(value.data, with: GroundStationClientTypes.AzElSegmentsData.write(value:to:))
-        try writer["groundStation"].write(value.groundStation)
-    }
-}
-
-extension GroundStationClientTypes.AzElSegmentsData {
-
-    static func write(value: GroundStationClientTypes.AzElSegmentsData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .azeldata(azeldata):
-                try writer["azElData"].write(azeldata, with: GroundStationClientTypes.AzElSegments.write(value:to:))
-            case let .s3object(s3object):
-                try writer["s3Object"].write(s3object, with: GroundStationClientTypes.S3Object.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension GroundStationClientTypes.AzElSegments {
-
-    static func write(value: GroundStationClientTypes.AzElSegments?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["angleUnit"].write(value.angleUnit)
-        try writer["azElSegmentList"].writeList(value.azElSegmentList, memberWritingClosure: GroundStationClientTypes.AzElSegment.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension GroundStationClientTypes.AzElSegment {
-
-    static func write(value: GroundStationClientTypes.AzElSegment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["azElList"].writeList(value.azElList, memberWritingClosure: GroundStationClientTypes.TimeAzEl.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["referenceEpoch"].writeTimestamp(value.referenceEpoch, format: SmithyTimestamps.TimestampFormat.dateTime)
-        try writer["validTimeRange"].write(value.validTimeRange, with: GroundStationClientTypes.ISO8601TimeRange.write(value:to:))
-    }
-}
-
-extension GroundStationClientTypes.TimeAzEl {
-
-    static func write(value: GroundStationClientTypes.TimeAzEl?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["az"].write(value.az)
-        try writer["dt"].write(value.dt)
-        try writer["el"].write(value.el)
-    }
-}
-
-extension GroundStationClientTypes.ISO8601TimeRange {
-
-    static func write(value: GroundStationClientTypes.ISO8601TimeRange?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["endTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.dateTime)
-        try writer["startTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.dateTime)
-    }
-}
-
-extension GroundStationClientTypes.OEMEphemeris {
-
-    static func write(value: GroundStationClientTypes.OEMEphemeris?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["oemData"].write(value.oemData)
-        try writer["s3Object"].write(value.s3Object, with: GroundStationClientTypes.S3Object.write(value:to:))
-    }
-}
-
-extension GroundStationClientTypes.TLEEphemeris {
-
-    static func write(value: GroundStationClientTypes.TLEEphemeris?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["s3Object"].write(value.s3Object, with: GroundStationClientTypes.S3Object.write(value:to:))
-        try writer["tleData"].writeList(value.tleData, memberWritingClosure: GroundStationClientTypes.TLEData.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension GroundStationClientTypes.TLEData {
-
-    static func write(value: GroundStationClientTypes.TLEData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["tleLine1"].write(value.tleLine1)
-        try writer["tleLine2"].write(value.tleLine2)
-        try writer["validTimeRange"].write(value.validTimeRange, with: GroundStationClientTypes.TimeRange.write(value:to:))
-    }
-}
-
-extension GroundStationClientTypes.TimeRange {
-
-    static func write(value: GroundStationClientTypes.TimeRange?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["endTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["startTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-    }
-}
-
-extension GroundStationClientTypes.EphemerisFilter {
-
-    static func write(value: GroundStationClientTypes.EphemerisFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .azel(azel):
-                try writer["azEl"].write(azel, with: GroundStationClientTypes.AzElEphemerisFilter.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension GroundStationClientTypes.AzElEphemerisFilter {
-
-    static func write(value: GroundStationClientTypes.AzElEphemerisFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["id"].write(value.id)
-    }
-}
-
-extension GroundStationClientTypes.DiscoveryData {
-
-    static func write(value: GroundStationClientTypes.DiscoveryData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["capabilityArns"].writeList(value.capabilityArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["privateIpAddresses"].writeList(value.privateIpAddresses, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["publicIpAddresses"].writeList(value.publicIpAddresses, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension GroundStationClientTypes.AgentDetails {
-
-    static func write(value: GroundStationClientTypes.AgentDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["agentCpuCores"].writeList(value.agentCpuCores, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["agentVersion"].write(value.agentVersion)
-        try writer["componentVersions"].writeList(value.componentVersions, memberWritingClosure: GroundStationClientTypes.ComponentVersion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["instanceId"].write(value.instanceId)
-        try writer["instanceType"].write(value.instanceType)
-        try writer["reservedCpuCores"].writeList(value.reservedCpuCores, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension GroundStationClientTypes.ComponentVersion {
-
-    static func write(value: GroundStationClientTypes.ComponentVersion?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["componentType"].write(value.componentType)
-        try writer["versions"].writeList(value.versions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension GroundStationClientTypes.AggregateStatus {
-
-    static func write(value: GroundStationClientTypes.AggregateStatus?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["signatureMap"].writeMap(value.signatureMap, valueWritingClosure: SmithyReadWrite.WritingClosures.writeBool(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["status"].write(value.status)
-    }
-}
-
-extension GroundStationClientTypes.ComponentStatusData {
-
-    static func write(value: GroundStationClientTypes.ComponentStatusData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["bytesReceived"].write(value.bytesReceived)
-        try writer["bytesSent"].write(value.bytesSent)
-        try writer["capabilityArn"].write(value.capabilityArn)
-        try writer["componentType"].write(value.componentType)
-        try writer["dataflowId"].write(value.dataflowId)
-        try writer["packetsDropped"].write(value.packetsDropped)
-        try writer["status"].write(value.status)
     }
 }
 

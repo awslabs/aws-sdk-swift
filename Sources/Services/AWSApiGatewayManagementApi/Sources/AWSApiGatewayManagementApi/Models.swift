@@ -20,8 +20,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 
 
 public struct DeleteConnectionOutput: Swift.Sendable {
@@ -40,9 +40,9 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init() { }
 }
@@ -53,9 +53,9 @@ public struct GoneException: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init() { }
 }
@@ -66,9 +66,9 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init() { }
 }
@@ -145,9 +145,9 @@ public struct PayloadTooLargeException: ClientRuntime.ModeledError, AWSClientRun
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -244,7 +244,7 @@ enum DeleteConnectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
@@ -260,7 +260,7 @@ enum GetConnectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
@@ -276,7 +276,7 @@ enum PostToConnectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
@@ -290,7 +290,7 @@ enum PostToConnectionOutputError {
 
 extension ForbiddenException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ForbiddenException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ForbiddenException {
         var value = ForbiddenException()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -301,7 +301,7 @@ extension ForbiddenException {
 
 extension GoneException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> GoneException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> GoneException {
         var value = GoneException()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -312,7 +312,7 @@ extension GoneException {
 
 extension LimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> LimitExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> LimitExceededException {
         var value = LimitExceededException()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -323,7 +323,7 @@ extension LimitExceededException {
 
 extension PayloadTooLargeException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> PayloadTooLargeException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> PayloadTooLargeException {
         let reader = baseError.errorBodyReader
         var value = PayloadTooLargeException()
         value.properties.message = try reader["message"].readIfPresent()

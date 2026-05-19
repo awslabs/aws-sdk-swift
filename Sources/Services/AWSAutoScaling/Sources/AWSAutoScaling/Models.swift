@@ -23,8 +23,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSQueryError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSQueryError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
@@ -326,9 +326,9 @@ public struct ActiveInstanceRefreshNotFoundFault: ClientRuntime.ModeledError, AW
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -534,9 +534,9 @@ public struct AlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.A
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -558,9 +558,9 @@ public struct ResourceContentionFault: ClientRuntime.ModeledError, AWSClientRunt
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -581,9 +581,9 @@ public struct ServiceLinkedRoleFailure: ClientRuntime.ModeledError, AWSClientRun
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -620,9 +620,9 @@ public struct InstanceRefreshInProgressFault: ClientRuntime.ModeledError, AWSCli
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -804,9 +804,9 @@ public struct LimitExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.A
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -1128,6 +1128,38 @@ extension AutoScalingClientTypes {
 
 extension AutoScalingClientTypes {
 
+    public enum DeletionProtection: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `none`
+        case preventalldeletion
+        case preventforcedeletion
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DeletionProtection] {
+            return [
+                .none,
+                .preventalldeletion,
+                .preventforcedeletion
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .none: return "none"
+            case .preventalldeletion: return "prevent-all-deletion"
+            case .preventforcedeletion: return "prevent-force-deletion"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AutoScalingClientTypes {
+
     public enum RetentionAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case retain
         case terminate
@@ -1159,7 +1191,7 @@ extension AutoScalingClientTypes {
 
     /// Defines the specific triggers that cause instances to be retained in a Retained state rather than terminated. Each trigger corresponds to a different failure scenario during the instance lifecycle. This allows fine-grained control over when to preserve instances for manual intervention.
     public struct RetentionTriggers: Swift.Sendable {
-        /// Specifies the action when a termination lifecycle hook is abandoned due to failure, timeout, or explicit abandonment (calling CompleteLifecycleAction). Set to Retain to move instances to a Retained state. Set to Terminate for default termination behavior. Retained instances don't count toward desired capacity and remain until you call TerminateInstanceInAutoScalingGroup.
+        /// Specifies the action when a termination lifecycle hook is abandoned due to failure, timeout, or explicit abandonment (calling CompleteLifecycleAction). Set to retain to move instances to a retained state. Set to terminate for default termination behavior. Retained instances don't count toward desired capacity and remain until you call TerminateInstanceInAutoScalingGroup.
         public var terminateHookAbandon: AutoScalingClientTypes.RetentionAction?
 
         public init(
@@ -1172,9 +1204,9 @@ extension AutoScalingClientTypes {
 
 extension AutoScalingClientTypes {
 
-    /// Defines the lifecycle policy for instances in an Auto Scaling group. This policy controls instance behavior when lifecycles transition and operations fail. Use lifecycle policies to ensure graceful shutdown for stateful workloads or applications requiring extended draining periods.
+    /// The instance lifecycle policy for the Auto Scaling group. This policy controls instance behavior when an instance transitions through its lifecycle states. Configure retention triggers to specify when instances should move to a Retained state instead of automatic termination. For more information, see [ Control instance retention with instance lifecycle policies](https://docs.aws.amazon.com/autoscaling/ec2/userguide/instance-lifecycle-policy.html) in the Amazon EC2 Auto Scaling User Guide.
     public struct InstanceLifecyclePolicy: Swift.Sendable {
-        /// Specifies the conditions that trigger instance retention behavior. These triggers determine when instances should move to a Retained state instead of being terminated. This allows you to maintain control over instance management when lifecycle operations fail.
+        /// Specifies the conditions that trigger instance retention behavior. These triggers determine when instances should move to a Retained state instead of automatic termination. This allows you to maintain control over instance management when lifecycles transition and operations fail.
         public var retentionTriggers: AutoScalingClientTypes.RetentionTriggers?
 
         public init(
@@ -1997,6 +2029,8 @@ public struct CreateAutoScalingGroupInput: Swift.Sendable {
     public var autoScalingGroupName: Swift.String?
     /// The instance capacity distribution across Availability Zones.
     public var availabilityZoneDistribution: AutoScalingClientTypes.AvailabilityZoneDistribution?
+    /// A list of Availability Zone IDs where the Auto Scaling group can launch instances. You cannot specify both AvailabilityZones and AvailabilityZoneIds in the same request.
+    public var availabilityZoneIds: [Swift.String]?
     /// The policy for Availability Zone impairment.
     public var availabilityZoneImpairmentPolicy: AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy?
     /// A list of Availability Zones where instances in the Auto Scaling group can be created. Used for launching into the default VPC subnet in each Availability Zone when not using the VPCZoneIdentifier property, or for attaching a network interface when an existing network interface ID is specified in a launch template.
@@ -2011,6 +2045,8 @@ public struct CreateAutoScalingGroupInput: Swift.Sendable {
     public var defaultCooldown: Swift.Int?
     /// The amount of time, in seconds, until a new instance is considered to have finished initializing and resource consumption to become stable after it enters the InService state. During an instance refresh, Amazon EC2 Auto Scaling waits for the warm-up period after it replaces an instance before it moves on to replacing the next instance. Amazon EC2 Auto Scaling also waits for the warm-up period before aggregating the metrics for new instances with existing instances in the Amazon CloudWatch metrics that are used for scaling, resulting in more reliable usage data. For more information, see [Set the default instance warmup for an Auto Scaling group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-default-instance-warmup.html) in the Amazon EC2 Auto Scaling User Guide. To manage various warm-up settings at the group level, we recommend that you set the default instance warmup, even if it is set to 0 seconds. To remove a value that you previously set, include the property but specify -1 for the value. However, we strongly recommend keeping the default instance warmup enabled by specifying a value of 0 or other nominal value. Default: None
     public var defaultInstanceWarmup: Swift.Int?
+    /// The deletion protection setting for the Auto Scaling group. This setting helps safeguard your Auto Scaling group and its instances by controlling whether the DeleteAutoScalingGroup operation is allowed. When deletion protection is enabled, users cannot delete the Auto Scaling group according to the specified protection level until the setting is changed back to a less restrictive level. The valid values are none, prevent-force-deletion, and prevent-all-deletion. Default: none For more information, see [ Configure deletion protection for your Amazon EC2 Auto Scaling resources](https://docs.aws.amazon.com/autoscaling/ec2/userguide/resource-deletion-protection.html) in the Amazon EC2 Auto Scaling User Guide.
+    public var deletionProtection: AutoScalingClientTypes.DeletionProtection?
     /// The desired capacity is the initial capacity of the Auto Scaling group at the time of its creation and the capacity it attempts to maintain. It can scale beyond this capacity if you configure auto scaling. This number must be greater than or equal to the minimum size of the group and less than or equal to the maximum size of the group. If you do not specify a desired capacity, the default is the minimum size of the group.
     public var desiredCapacity: Swift.Int?
     /// The unit of measurement for the value specified for desired capacity. Amazon EC2 Auto Scaling supports DesiredCapacityType for attribute-based instance type selection only. For more information, see [Create a mixed instances group using attribute-based instance type selection](https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-mixed-instances-group-attribute-based-instance-type-selection.html) in the Amazon EC2 Auto Scaling User Guide. By default, Amazon EC2 Auto Scaling specifies units, which translates into number of instances. Valid values: units | vcpu | memory-mib
@@ -2021,7 +2057,7 @@ public struct CreateAutoScalingGroupInput: Swift.Sendable {
     public var healthCheckType: Swift.String?
     /// The ID of the instance used to base the launch configuration on. If specified, Amazon EC2 Auto Scaling uses the configuration values from the specified instance to create a new launch configuration. To get the instance ID, use the Amazon EC2 [DescribeInstances](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstances.html) API operation. For more information, see [Create an Auto Scaling group using parameters from an existing instance](https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-asg-from-instance.html) in the Amazon EC2 Auto Scaling User Guide.
     public var instanceId: Swift.String?
-    /// The instance lifecycle policy for the Auto Scaling group. This policy controls instance behavior when an instance transitions through its lifecycle states. Configure retention triggers to specify when instances should move to a Retained state for manual intervention instead of automatic termination. Instances in a Retained state will continue to incur standard EC2 charges until terminated.
+    /// The instance lifecycle policy for the Auto Scaling group. This policy controls instance behavior when an instance transitions through its lifecycle states. Configure retention triggers to specify when instances should move to a Retained state instead of automatic termination. For more information, see [ Control instance retention with instance lifecycle policies](https://docs.aws.amazon.com/autoscaling/ec2/userguide/instance-lifecycle-policy.html) in the Amazon EC2 Auto Scaling User Guide. Instances in a Retained state will continue to incur standard EC2 charges until terminated.
     public var instanceLifecyclePolicy: AutoScalingClientTypes.InstanceLifecyclePolicy?
     /// An instance maintenance policy. For more information, see [Set instance maintenance policy](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-instance-maintenance-policy.html) in the Amazon EC2 Auto Scaling User Guide.
     public var instanceMaintenancePolicy: AutoScalingClientTypes.InstanceMaintenancePolicy?
@@ -2065,6 +2101,7 @@ public struct CreateAutoScalingGroupInput: Swift.Sendable {
     public init(
         autoScalingGroupName: Swift.String? = nil,
         availabilityZoneDistribution: AutoScalingClientTypes.AvailabilityZoneDistribution? = nil,
+        availabilityZoneIds: [Swift.String]? = nil,
         availabilityZoneImpairmentPolicy: AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy? = nil,
         availabilityZones: [Swift.String]? = nil,
         capacityRebalance: Swift.Bool? = nil,
@@ -2072,6 +2109,7 @@ public struct CreateAutoScalingGroupInput: Swift.Sendable {
         context: Swift.String? = nil,
         defaultCooldown: Swift.Int? = nil,
         defaultInstanceWarmup: Swift.Int? = nil,
+        deletionProtection: AutoScalingClientTypes.DeletionProtection? = nil,
         desiredCapacity: Swift.Int? = nil,
         desiredCapacityType: Swift.String? = nil,
         healthCheckGracePeriod: Swift.Int? = nil,
@@ -2099,6 +2137,7 @@ public struct CreateAutoScalingGroupInput: Swift.Sendable {
     ) {
         self.autoScalingGroupName = autoScalingGroupName
         self.availabilityZoneDistribution = availabilityZoneDistribution
+        self.availabilityZoneIds = availabilityZoneIds
         self.availabilityZoneImpairmentPolicy = availabilityZoneImpairmentPolicy
         self.availabilityZones = availabilityZones
         self.capacityRebalance = capacityRebalance
@@ -2106,6 +2145,7 @@ public struct CreateAutoScalingGroupInput: Swift.Sendable {
         self.context = context
         self.defaultCooldown = defaultCooldown
         self.defaultInstanceWarmup = defaultInstanceWarmup
+        self.deletionProtection = deletionProtection
         self.desiredCapacity = desiredCapacity
         self.desiredCapacityType = desiredCapacityType
         self.healthCheckGracePeriod = healthCheckGracePeriod
@@ -2411,9 +2451,9 @@ public struct ResourceInUseFault: ClientRuntime.ModeledError, AWSClientRuntime.A
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -2447,9 +2487,9 @@ public struct ScalingActivityInProgressFault: ClientRuntime.ModeledError, AWSCli
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -2638,9 +2678,9 @@ public struct InvalidNextToken: ClientRuntime.ModeledError, AWSClientRuntime.AWS
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -2653,7 +2693,7 @@ extension AutoScalingClientTypes {
 
     /// Describes a filter that is used to return a more specific list of results from a describe operation. If you specify multiple filters, the filters are automatically logically joined with an AND, and the request returns only the results that match all of the specified filters. For more information, see [Tag Auto Scaling groups and instances](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-tagging.html) in the Amazon EC2 Auto Scaling User Guide.
     public struct Filter: Swift.Sendable {
-        /// The name of the filter. The valid values for Name depend on which API operation you're using with the filter ([DescribeAutoScalingGroups](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeAutoScalingGroups.html) or [DescribeTags](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeTags.html)). DescribeAutoScalingGroups Valid values for Name include the following:
+        /// The name of the filter. The valid values for Name depend on which API operation you're using with the filter. [DescribeAutoScalingGroups](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeAutoScalingGroups.html) Valid values for Name include the following:
         ///
         /// * tag-key - Accepts tag keys. The results only include information about the Auto Scaling groups associated with these tag keys.
         ///
@@ -2662,7 +2702,7 @@ extension AutoScalingClientTypes {
         /// * tag: - Accepts the key/value combination of the tag. Use the tag key in the filter name and the tag value as the filter value. The results only include information about the Auto Scaling groups associated with the specified key/value combination.
         ///
         ///
-        /// DescribeTags Valid values for Name include the following:
+        /// [DescribeTags](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeTags.html) Valid values for Name include the following:
         ///
         /// * auto-scaling-group - Accepts the names of Auto Scaling groups. The results only include information about the tags associated with these Auto Scaling groups.
         ///
@@ -2671,8 +2711,24 @@ extension AutoScalingClientTypes {
         /// * value - Accepts tag values. The results only include information about the tags associated with these tag values.
         ///
         /// * propagate-at-launch - Accepts a Boolean value, which specifies whether tags propagate to instances at launch. The results only include information about the tags associated with the specified Boolean value.
+        ///
+        ///
+        /// [DescribeScalingActivities](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeScalingActivities.html) Valid values for Name include the following:
+        ///
+        /// * StartTimeLowerBound - The earliest scaling activities to return based on the activity start time. Scaling activities with a start time earlier than this value are not included in the results. Only activities started within the last six weeks can be returned regardless of the value specified.
+        ///
+        /// * StartTimeUpperBound - The latest scaling activities to return based on the activity start time. Scaling activities with a start time later than this value are not included in the results. Only activities started within the last six weeks can be returned regardless of the value specified.
+        ///
+        /// * Status - The StatusCode value of the scaling activity. This filter can only be used in combination with the AutoScalingGroupName parameter. For valid StatusCode values, see [Activity](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_Activity.html) in the Amazon EC2 Auto Scaling API Reference.
+        ///
+        ///
+        /// StartTimeLowerBound and StartTimeUpperBound accept ISO 8601 formatted timestamps. Timestamps without a timezone offset are assumed to be UTC.
+        ///
+        /// * 2000-01-18T08:15:00Z
+        ///
+        /// * 2000-01-18T16:15:00+08:00
         public var name: Swift.String?
-        /// One or more filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are automatically logically joined with an OR, and the request returns all results that match any of the specified values. For example, specify "tag:environment" for the filter name and "production,development" for the filter values to find Auto Scaling groups with the tag "environment=production" or "environment=development".
+        /// One or more filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are automatically logically joined with an OR, and the request returns all results that match any of the specified values. DescribeAutoScalingGroups example: Specify "tag:environment" for the filter name and "production,development" for the filter values to find Auto Scaling groups with the tag "environment=production" or "environment=development". DescribeScalingActivities example: Specify "Status" for the filter name and "Successful,Failed" for the filter values to find scaling activities with a status of either "Successful" or "Failed".
         public var values: [Swift.String]?
 
         public init(
@@ -2785,20 +2841,27 @@ extension AutoScalingClientTypes {
         case pendingProceed
         case pendingWait
         case quarantined
+        case replacingRootVolume
+        case replacingRootVolumeProceed
+        case replacingRootVolumeWait
+        case rootVolumeReplaced
         case standby
         case terminated
         case terminating
         case terminatingProceed
+        case terminatingRetained
         case terminatingWait
         case warmedHibernated
         case warmedPending
         case warmedPendingProceed
+        case warmedPendingRetained
         case warmedPendingWait
         case warmedRunning
         case warmedStopped
         case warmedTerminated
         case warmedTerminating
         case warmedTerminatingProceed
+        case warmedTerminatingRetained
         case warmedTerminatingWait
         case sdkUnknown(Swift.String)
 
@@ -2812,20 +2875,27 @@ extension AutoScalingClientTypes {
                 .pendingProceed,
                 .pendingWait,
                 .quarantined,
+                .replacingRootVolume,
+                .replacingRootVolumeProceed,
+                .replacingRootVolumeWait,
+                .rootVolumeReplaced,
                 .standby,
                 .terminated,
                 .terminating,
                 .terminatingProceed,
+                .terminatingRetained,
                 .terminatingWait,
                 .warmedHibernated,
                 .warmedPending,
                 .warmedPendingProceed,
+                .warmedPendingRetained,
                 .warmedPendingWait,
                 .warmedRunning,
                 .warmedStopped,
                 .warmedTerminated,
                 .warmedTerminating,
                 .warmedTerminatingProceed,
+                .warmedTerminatingRetained,
                 .warmedTerminatingWait
             ]
         }
@@ -2845,20 +2915,27 @@ extension AutoScalingClientTypes {
             case .pendingProceed: return "Pending:Proceed"
             case .pendingWait: return "Pending:Wait"
             case .quarantined: return "Quarantined"
+            case .replacingRootVolume: return "ReplacingRootVolume"
+            case .replacingRootVolumeProceed: return "ReplacingRootVolume:Proceed"
+            case .replacingRootVolumeWait: return "ReplacingRootVolume:Wait"
+            case .rootVolumeReplaced: return "RootVolumeReplaced"
             case .standby: return "Standby"
             case .terminated: return "Terminated"
             case .terminating: return "Terminating"
             case .terminatingProceed: return "Terminating:Proceed"
+            case .terminatingRetained: return "Terminating:Retained"
             case .terminatingWait: return "Terminating:Wait"
             case .warmedHibernated: return "Warmed:Hibernated"
             case .warmedPending: return "Warmed:Pending"
             case .warmedPendingProceed: return "Warmed:Pending:Proceed"
+            case .warmedPendingRetained: return "Warmed:Pending:Retained"
             case .warmedPendingWait: return "Warmed:Pending:Wait"
             case .warmedRunning: return "Warmed:Running"
             case .warmedStopped: return "Warmed:Stopped"
             case .warmedTerminated: return "Warmed:Terminated"
             case .warmedTerminating: return "Warmed:Terminating"
             case .warmedTerminatingProceed: return "Warmed:Terminating:Proceed"
+            case .warmedTerminatingRetained: return "Warmed:Terminating:Retained"
             case .warmedTerminatingWait: return "Warmed:Terminating:Wait"
             case let .sdkUnknown(s): return s
             }
@@ -2873,6 +2950,8 @@ extension AutoScalingClientTypes {
         /// The Availability Zone in which the instance is running.
         /// This member is required.
         public var availabilityZone: Swift.String?
+        /// The Availability Zone ID where the instance was launched.
+        public var availabilityZoneId: Swift.String?
         /// The last reported health status of the instance. Healthy means that the instance is healthy and should remain in service. Unhealthy means that the instance is unhealthy and that Amazon EC2 Auto Scaling should terminate and replace it.
         /// This member is required.
         public var healthStatus: Swift.String?
@@ -2909,6 +2988,7 @@ extension AutoScalingClientTypes {
 
         public init(
             availabilityZone: Swift.String? = nil,
+            availabilityZoneId: Swift.String? = nil,
             healthStatus: Swift.String? = nil,
             imageId: Swift.String? = nil,
             instanceId: Swift.String? = nil,
@@ -2920,6 +3000,7 @@ extension AutoScalingClientTypes {
             weightedCapacity: Swift.String? = nil
         ) {
             self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
             self.healthStatus = healthStatus
             self.imageId = imageId
             self.instanceId = instanceId
@@ -3096,82 +3177,86 @@ extension AutoScalingClientTypes {
         /// The name of the Auto Scaling group.
         /// This member is required.
         public var autoScalingGroupName: Swift.String?
-        /// The instance capacity distribution across Availability Zones.
+        /// The EC2 instance capacity distribution across Availability Zones for the Auto Scaling group.
         public var availabilityZoneDistribution: AutoScalingClientTypes.AvailabilityZoneDistribution?
-        /// The Availability Zone impairment policy.
+        /// The Availability Zone IDs where the Auto Scaling group can launch instances.
+        public var availabilityZoneIds: [Swift.String]?
+        /// The Availability Zone impairment policy for the Auto Scaling group.
         public var availabilityZoneImpairmentPolicy: AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy?
-        /// One or more Availability Zones for the group.
+        /// One or more Availability Zones for the Auto Scaling group.
         /// This member is required.
         public var availabilityZones: [Swift.String]?
         /// Indicates whether Capacity Rebalancing is enabled.
         public var capacityRebalance: Swift.Bool?
-        /// The capacity reservation specification.
+        /// The capacity reservation specification for the Auto Scaling group.
         public var capacityReservationSpecification: AutoScalingClientTypes.CapacityReservationSpecification?
         /// Reserved.
         public var context: Swift.String?
-        /// The date and time the group was created.
+        /// The date and time the Auto Scaling group was created.
         /// This member is required.
         public var createdTime: Foundation.Date?
-        /// The duration of the default cooldown period, in seconds.
+        /// The duration of the default cooldown period, in seconds, for the Auto Scaling group.
         /// This member is required.
         public var defaultCooldown: Swift.Int?
-        /// The duration of the default instance warmup, in seconds.
+        /// The duration of the default EC2 instance warmup time, in seconds, for the Auto Scaling group.
         public var defaultInstanceWarmup: Swift.Int?
-        /// The desired size of the group.
+        /// The deletion protection setting for the Auto Scaling group.
+        public var deletionProtection: AutoScalingClientTypes.DeletionProtection?
+        /// The desired size of the Auto Scaling group.
         /// This member is required.
         public var desiredCapacity: Swift.Int?
         /// The unit of measurement for the value specified for desired capacity. Amazon EC2 Auto Scaling supports DesiredCapacityType for attribute-based instance type selection only.
         public var desiredCapacityType: Swift.String?
-        /// The metrics enabled for the group.
+        /// The metrics enabled for the Auto Scaling group.
         public var enabledMetrics: [AutoScalingClientTypes.EnabledMetric]?
-        /// The duration of the health check grace period, in seconds.
+        /// The duration of the health check grace period, in seconds, for the Auto Scaling group.
         public var healthCheckGracePeriod: Swift.Int?
-        /// A comma-separated value string of one or more health check types.
+        /// One or more comma-separated health check types for the Auto Scaling group.
         /// This member is required.
         public var healthCheckType: Swift.String?
-        /// The instance lifecycle policy applied to this Auto Scaling group. This policy determines instance behavior when an instance transitions through its lifecycle states. It provides additional control over graceful instance management processes.
+        /// The instance lifecycle policy for the Auto Scaling group.
         public var instanceLifecyclePolicy: AutoScalingClientTypes.InstanceLifecyclePolicy?
         /// An instance maintenance policy.
         public var instanceMaintenancePolicy: AutoScalingClientTypes.InstanceMaintenancePolicy?
-        /// The EC2 instances associated with the group.
+        /// The EC2 instances associated with the Auto Scaling group.
         public var instances: [AutoScalingClientTypes.Instance]?
-        /// The name of the associated launch configuration.
+        /// The name of the associated launch configuration for the Auto Scaling group.
         public var launchConfigurationName: Swift.String?
-        /// The launch template for the group.
+        /// The launch template for the Auto Scaling group.
         public var launchTemplate: AutoScalingClientTypes.LaunchTemplateSpecification?
         /// One or more load balancers associated with the group.
         public var loadBalancerNames: [Swift.String]?
-        /// The maximum amount of time, in seconds, that an instance can be in service. Valid Range: Minimum value of 0.
+        /// The maximum amount of time, in seconds, that an EC2 instance can be in service for the Auto Scaling group.
         public var maxInstanceLifetime: Swift.Int?
-        /// The maximum size of the group.
+        /// The maximum size of the Auto Scaling group.
         /// This member is required.
         public var maxSize: Swift.Int?
-        /// The minimum size of the group.
+        /// The minimum size of the Auto Scaling group.
         /// This member is required.
         public var minSize: Swift.Int?
         /// The mixed instances policy for the group.
         public var mixedInstancesPolicy: AutoScalingClientTypes.MixedInstancesPolicy?
-        /// Indicates whether newly launched instances are protected from termination by Amazon EC2 Auto Scaling when scaling in. For more information about preventing instances from terminating on scale in, see [Use instance scale-in protection](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-instance-protection.html) in the Amazon EC2 Auto Scaling User Guide.
+        /// Indicates whether newly launched EC2 instances are protected from termination when scaling in for the Auto Scaling group. For more information about preventing instances from terminating on scale in, see [Use instance scale-in protection](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-instance-protection.html) in the Amazon EC2 Auto Scaling User Guide.
         public var newInstancesProtectedFromScaleIn: Swift.Bool?
-        /// The name of the placement group into which to launch your instances, if any.
+        /// The name of the placement group into which to launch EC2 instances for the Auto Scaling group.
         public var placementGroup: Swift.String?
         /// The predicted capacity of the group when it has a predictive scaling policy.
         public var predictedCapacity: Swift.Int?
         /// The Amazon Resource Name (ARN) of the service-linked role that the Auto Scaling group uses to call other Amazon Web Services on your behalf.
         public var serviceLinkedRoleARN: Swift.String?
-        /// The current state of the group when the [DeleteAutoScalingGroup](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DeleteAutoScalingGroup.html) operation is in progress.
+        /// The current state of the Auto Scaling group when the [DeleteAutoScalingGroup](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DeleteAutoScalingGroup.html) operation is in progress.
         public var status: Swift.String?
-        /// The suspended processes associated with the group.
+        /// The suspended processes associated with the Auto Scaling group.
         public var suspendedProcesses: [AutoScalingClientTypes.SuspendedProcess]?
-        /// The tags for the group.
+        /// The tags for the Auto Scaling group.
         public var tags: [AutoScalingClientTypes.TagDescription]?
         /// The Amazon Resource Names (ARN) of the target groups for your load balancer.
         public var targetGroupARNs: [Swift.String]?
-        /// The termination policies for the group.
+        /// The termination policies for the Auto Scaling group.
         public var terminationPolicies: [Swift.String]?
         /// The traffic sources associated with this Auto Scaling group.
         public var trafficSources: [AutoScalingClientTypes.TrafficSourceIdentifier]?
-        /// One or more subnet IDs, if applicable, separated by commas.
+        /// One or more comma-separated subnet IDs for the Auto Scaling group.
         public var vpcZoneIdentifier: Swift.String?
         /// The warm pool for the group.
         public var warmPoolConfiguration: AutoScalingClientTypes.WarmPoolConfiguration?
@@ -3182,6 +3267,7 @@ extension AutoScalingClientTypes {
             autoScalingGroupARN: Swift.String? = nil,
             autoScalingGroupName: Swift.String? = nil,
             availabilityZoneDistribution: AutoScalingClientTypes.AvailabilityZoneDistribution? = nil,
+            availabilityZoneIds: [Swift.String]? = nil,
             availabilityZoneImpairmentPolicy: AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy? = nil,
             availabilityZones: [Swift.String]? = nil,
             capacityRebalance: Swift.Bool? = nil,
@@ -3190,6 +3276,7 @@ extension AutoScalingClientTypes {
             createdTime: Foundation.Date? = nil,
             defaultCooldown: Swift.Int? = nil,
             defaultInstanceWarmup: Swift.Int? = nil,
+            deletionProtection: AutoScalingClientTypes.DeletionProtection? = nil,
             desiredCapacity: Swift.Int? = nil,
             desiredCapacityType: Swift.String? = nil,
             enabledMetrics: [AutoScalingClientTypes.EnabledMetric]? = nil,
@@ -3222,6 +3309,7 @@ extension AutoScalingClientTypes {
             self.autoScalingGroupARN = autoScalingGroupARN
             self.autoScalingGroupName = autoScalingGroupName
             self.availabilityZoneDistribution = availabilityZoneDistribution
+            self.availabilityZoneIds = availabilityZoneIds
             self.availabilityZoneImpairmentPolicy = availabilityZoneImpairmentPolicy
             self.availabilityZones = availabilityZones
             self.capacityRebalance = capacityRebalance
@@ -3230,6 +3318,7 @@ extension AutoScalingClientTypes {
             self.createdTime = createdTime
             self.defaultCooldown = defaultCooldown
             self.defaultInstanceWarmup = defaultInstanceWarmup
+            self.deletionProtection = deletionProtection
             self.desiredCapacity = desiredCapacity
             self.desiredCapacityType = desiredCapacityType
             self.enabledMetrics = enabledMetrics
@@ -3307,6 +3396,8 @@ extension AutoScalingClientTypes {
         /// The Availability Zone for the instance.
         /// This member is required.
         public var availabilityZone: Swift.String?
+        /// The Availability Zone ID where the instance is located.
+        public var availabilityZoneId: Swift.String?
         /// The last reported health status of this instance. Healthy means that the instance is healthy and should remain in service. Unhealthy means that the instance is unhealthy and Amazon EC2 Auto Scaling should terminate and replace it.
         /// This member is required.
         public var healthStatus: Swift.String?
@@ -3332,7 +3423,7 @@ extension AutoScalingClientTypes {
         public var launchConfigurationName: Swift.String?
         /// The launch template for the instance.
         public var launchTemplate: AutoScalingClientTypes.LaunchTemplateSpecification?
-        /// The lifecycle state for the instance. The Quarantined state is not used. For more information, see [Amazon EC2 Auto Scaling instance lifecycle](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-lifecycle.html) in the Amazon EC2 Auto Scaling User Guide. Valid values: Pending | Pending:Wait | Pending:Proceed | Quarantined | InService | Terminating | Terminating:Wait | Terminating:Proceed | Terminated | Detaching | Detached | EnteringStandby | Standby | Warmed:Pending | Warmed:Pending:Wait | Warmed:Pending:Proceed | Warmed:Terminating | Warmed:Terminating:Wait | Warmed:Terminating:Proceed | Warmed:Terminated | Warmed:Stopped | Warmed:Running
+        /// The lifecycle state for the instance. The Quarantined state is not used. For more information, see [Amazon EC2 Auto Scaling instance lifecycle](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-lifecycle.html) in the Amazon EC2 Auto Scaling User Guide. Valid values: Pending | Pending:Wait | Pending:Proceed | Quarantined | InService | Terminating | Terminating:Wait | Terminating:Proceed | Terminating:Retained | Terminated | Detaching | Detached | EnteringStandby | Standby | ReplacingRootVolume | ReplacingRootVolume:Wait | ReplacingRootVolume:Proceed | RootVolumeReplaced | Warmed:Pending | Warmed:Pending:Wait | Warmed:Pending:Proceed | Warmed:Pending:Retained | Warmed:Terminating | Warmed:Terminating:Wait | Warmed:Terminating:Proceed | Warmed:Terminating:Retained | Warmed:Terminated | Warmed:Stopped | Warmed:Running | Warmed:Hibernated
         /// This member is required.
         public var lifecycleState: Swift.String?
         /// Indicates whether the instance is protected from termination by Amazon EC2 Auto Scaling when scaling in.
@@ -3344,6 +3435,7 @@ extension AutoScalingClientTypes {
         public init(
             autoScalingGroupName: Swift.String? = nil,
             availabilityZone: Swift.String? = nil,
+            availabilityZoneId: Swift.String? = nil,
             healthStatus: Swift.String? = nil,
             imageId: Swift.String? = nil,
             instanceId: Swift.String? = nil,
@@ -3356,6 +3448,7 @@ extension AutoScalingClientTypes {
         ) {
             self.autoScalingGroupName = autoScalingGroupName
             self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
             self.healthStatus = healthStatus
             self.imageId = imageId
             self.instanceId = instanceId
@@ -5240,10 +5333,25 @@ public struct DescribePoliciesOutput: Swift.Sendable {
 }
 
 public struct DescribeScalingActivitiesInput: Swift.Sendable {
-    /// The activity IDs of the desired scaling activities. If you omit this property, all activities for the past six weeks are described. If unknown activities are requested, they are ignored with no error. If you specify an Auto Scaling group, the results are limited to that group. Array Members: Maximum number of 50 IDs.
+    /// The activity IDs of the desired scaling activities. If unknown activity IDs are requested, they are ignored with no error. Only activities started within the last six weeks can be returned regardless of the activity IDs specified. If other filters are specified with the request, only results matching all filter criteria can be returned. Array Members: Maximum number of 50 IDs.
     public var activityIds: [Swift.String]?
-    /// The name of the Auto Scaling group.
+    /// The name of the Auto Scaling group. Omitting this property performs an account-wide operation, which can result in slower or timed-out requests.
     public var autoScalingGroupName: Swift.String?
+    /// One or more filters to limit the results based on specific criteria. The following filters are supported:
+    ///
+    /// * StartTimeLowerBound - The earliest scaling activities to return based on the activity start time. Scaling activities with a start time earlier than this value are not included in the results. Only activities started within the last six weeks can be returned regardless of the value specified.
+    ///
+    /// * StartTimeUpperBound - The latest scaling activities to return based on the activity start time. Scaling activities with a start time later than this value are not included in the results. Only activities started within the last six weeks can be returned regardless of the value specified.
+    ///
+    /// * Status - The StatusCode value of the scaling activity. This filter can only be used in combination with the AutoScalingGroupName parameter. For valid StatusCode values, see [Activity](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_Activity.html) in the Amazon EC2 Auto Scaling API Reference.
+    ///
+    ///
+    /// StartTimeLowerBound and StartTimeUpperBound accept ISO 8601 formatted timestamps. Timestamps without a timezone offset are assumed to be UTC.
+    ///
+    /// * 2000-01-18T08:15:00Z
+    ///
+    /// * 2000-01-18T16:15:00+08:00
+    public var filters: [AutoScalingClientTypes.Filter]?
     /// Indicates whether to include scaling activity from deleted Auto Scaling groups.
     public var includeDeletedGroups: Swift.Bool?
     /// The maximum number of items to return with this call. The default value is 100 and the maximum value is 100.
@@ -5254,12 +5362,14 @@ public struct DescribeScalingActivitiesInput: Swift.Sendable {
     public init(
         activityIds: [Swift.String]? = nil,
         autoScalingGroupName: Swift.String? = nil,
+        filters: [AutoScalingClientTypes.Filter]? = nil,
         includeDeletedGroups: Swift.Bool? = nil,
         maxRecords: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     ) {
         self.activityIds = activityIds
         self.autoScalingGroupName = autoScalingGroupName
+        self.filters = filters
         self.includeDeletedGroups = includeDeletedGroups
         self.maxRecords = maxRecords
         self.nextToken = nextToken
@@ -6020,9 +6130,9 @@ public struct IdempotentParameterMismatchError: ClientRuntime.ModeledError, AWSC
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -6532,9 +6642,9 @@ public struct IrreversibleInstanceRefreshFault: ClientRuntime.ModeledError, AWSC
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -6653,7 +6763,7 @@ public struct StartInstanceRefreshInput: Swift.Sendable {
     ///
     /// * Bake time
     public var preferences: AutoScalingClientTypes.RefreshPreferences?
-    /// The strategy to use for the instance refresh. The only valid value is Rolling.
+    /// The strategy to use for the instance refresh. The default value is Rolling.
     public var strategy: AutoScalingClientTypes.RefreshStrategy?
 
     public init(
@@ -6751,6 +6861,8 @@ public struct UpdateAutoScalingGroupInput: Swift.Sendable {
     public var autoScalingGroupName: Swift.String?
     /// The instance capacity distribution across Availability Zones.
     public var availabilityZoneDistribution: AutoScalingClientTypes.AvailabilityZoneDistribution?
+    /// A list of Availability Zone IDs for the Auto Scaling group. You cannot specify both AvailabilityZones and AvailabilityZoneIds in the same request.
+    public var availabilityZoneIds: [Swift.String]?
     /// The policy for Availability Zone impairment.
     public var availabilityZoneImpairmentPolicy: AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy?
     /// One or more Availability Zones for the group.
@@ -6765,6 +6877,8 @@ public struct UpdateAutoScalingGroupInput: Swift.Sendable {
     public var defaultCooldown: Swift.Int?
     /// The amount of time, in seconds, until a new instance is considered to have finished initializing and resource consumption to become stable after it enters the InService state. During an instance refresh, Amazon EC2 Auto Scaling waits for the warm-up period after it replaces an instance before it moves on to replacing the next instance. Amazon EC2 Auto Scaling also waits for the warm-up period before aggregating the metrics for new instances with existing instances in the Amazon CloudWatch metrics that are used for scaling, resulting in more reliable usage data. For more information, see [Set the default instance warmup for an Auto Scaling group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-default-instance-warmup.html) in the Amazon EC2 Auto Scaling User Guide. To manage various warm-up settings at the group level, we recommend that you set the default instance warmup, even if it is set to 0 seconds. To remove a value that you previously set, include the property but specify -1 for the value. However, we strongly recommend keeping the default instance warmup enabled by specifying a value of 0 or other nominal value.
     public var defaultInstanceWarmup: Swift.Int?
+    /// The deletion protection setting for the Auto Scaling group. This setting helps safeguard your Auto Scaling group and its instances by controlling whether the DeleteAutoScalingGroup operation is allowed. When deletion protection is enabled, users cannot delete the Auto Scaling group according to the specified protection level until the setting is changed back to a less restrictive level. The valid values are none, prevent-force-deletion, and prevent-all-deletion. Default: none For more information, see [ Configure deletion protection for your Amazon EC2 Auto Scaling resources](https://docs.aws.amazon.com/autoscaling/ec2/userguide/resource-deletion-protection.html) in the Amazon EC2 Auto Scaling User Guide.
+    public var deletionProtection: AutoScalingClientTypes.DeletionProtection?
     /// The desired capacity is the initial capacity of the Auto Scaling group after this operation completes and the capacity it attempts to maintain. This number must be greater than or equal to the minimum size of the group and less than or equal to the maximum size of the group.
     public var desiredCapacity: Swift.Int?
     /// The unit of measurement for the value specified for desired capacity. Amazon EC2 Auto Scaling supports DesiredCapacityType for attribute-based instance type selection only. For more information, see [Create a mixed instances group using attribute-based instance type selection](https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-mixed-instances-group-attribute-based-instance-type-selection.html) in the Amazon EC2 Auto Scaling User Guide. By default, Amazon EC2 Auto Scaling specifies units, which translates into number of instances. Valid values: units | vcpu | memory-mib
@@ -6773,7 +6887,7 @@ public struct UpdateAutoScalingGroupInput: Swift.Sendable {
     public var healthCheckGracePeriod: Swift.Int?
     /// A comma-separated value string of one or more health check types. The valid values are EC2, EBS, ELB, and VPC_LATTICE. EC2 is the default health check and cannot be disabled. For more information, see [Health checks for instances in an Auto Scaling group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-health-checks.html) in the Amazon EC2 Auto Scaling User Guide. Only specify EC2 if you must clear a value that was previously set.
     public var healthCheckType: Swift.String?
-    /// The instance lifecycle policy for the Auto Scaling group. Use this to add, modify, or remove lifecycle policies that control instance behavior when an instance transitions through its lifecycle states. Configure retention triggers to specify when to preserve instances for manual intervention.
+    /// The instance lifecycle policy for the Auto Scaling group. This policy controls instance behavior when an instance transitions through its lifecycle states. Configure retention triggers to specify when instances should move to a Retained state instead of automatic termination. For more information, see [ Control instance retention with instance lifecycle policies](https://docs.aws.amazon.com/autoscaling/ec2/userguide/instance-lifecycle-policy.html) in the Amazon EC2 Auto Scaling User Guide.
     public var instanceLifecyclePolicy: AutoScalingClientTypes.InstanceLifecyclePolicy?
     /// An instance maintenance policy. For more information, see [Set instance maintenance policy](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-instance-maintenance-policy.html) in the Amazon EC2 Auto Scaling User Guide.
     public var instanceMaintenancePolicy: AutoScalingClientTypes.InstanceMaintenancePolicy?
@@ -6805,6 +6919,7 @@ public struct UpdateAutoScalingGroupInput: Swift.Sendable {
     public init(
         autoScalingGroupName: Swift.String? = nil,
         availabilityZoneDistribution: AutoScalingClientTypes.AvailabilityZoneDistribution? = nil,
+        availabilityZoneIds: [Swift.String]? = nil,
         availabilityZoneImpairmentPolicy: AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy? = nil,
         availabilityZones: [Swift.String]? = nil,
         capacityRebalance: Swift.Bool? = nil,
@@ -6812,6 +6927,7 @@ public struct UpdateAutoScalingGroupInput: Swift.Sendable {
         context: Swift.String? = nil,
         defaultCooldown: Swift.Int? = nil,
         defaultInstanceWarmup: Swift.Int? = nil,
+        deletionProtection: AutoScalingClientTypes.DeletionProtection? = nil,
         desiredCapacity: Swift.Int? = nil,
         desiredCapacityType: Swift.String? = nil,
         healthCheckGracePeriod: Swift.Int? = nil,
@@ -6833,6 +6949,7 @@ public struct UpdateAutoScalingGroupInput: Swift.Sendable {
     ) {
         self.autoScalingGroupName = autoScalingGroupName
         self.availabilityZoneDistribution = availabilityZoneDistribution
+        self.availabilityZoneIds = availabilityZoneIds
         self.availabilityZoneImpairmentPolicy = availabilityZoneImpairmentPolicy
         self.availabilityZones = availabilityZones
         self.capacityRebalance = capacityRebalance
@@ -6840,6 +6957,7 @@ public struct UpdateAutoScalingGroupInput: Swift.Sendable {
         self.context = context
         self.defaultCooldown = defaultCooldown
         self.defaultInstanceWarmup = defaultInstanceWarmup
+        self.deletionProtection = deletionProtection
         self.desiredCapacity = desiredCapacity
         self.desiredCapacityType = desiredCapacityType
         self.healthCheckGracePeriod = healthCheckGracePeriod
@@ -7421,6 +7539,7 @@ extension CreateAutoScalingGroupInput {
         guard let value else { return }
         try writer["AutoScalingGroupName"].write(value.autoScalingGroupName)
         try writer["AvailabilityZoneDistribution"].write(value.availabilityZoneDistribution, with: AutoScalingClientTypes.AvailabilityZoneDistribution.write(value:to:))
+        try writer["AvailabilityZoneIds"].writeList(value.availabilityZoneIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["AvailabilityZoneImpairmentPolicy"].write(value.availabilityZoneImpairmentPolicy, with: AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy.write(value:to:))
         try writer["AvailabilityZones"].writeList(value.availabilityZones, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["CapacityRebalance"].write(value.capacityRebalance)
@@ -7428,6 +7547,7 @@ extension CreateAutoScalingGroupInput {
         try writer["Context"].write(value.context)
         try writer["DefaultCooldown"].write(value.defaultCooldown)
         try writer["DefaultInstanceWarmup"].write(value.defaultInstanceWarmup)
+        try writer["DeletionProtection"].write(value.deletionProtection)
         try writer["DesiredCapacity"].write(value.desiredCapacity)
         try writer["DesiredCapacityType"].write(value.desiredCapacityType)
         try writer["HealthCheckGracePeriod"].write(value.healthCheckGracePeriod)
@@ -7749,6 +7869,7 @@ extension DescribeScalingActivitiesInput {
         guard let value else { return }
         try writer["ActivityIds"].writeList(value.activityIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["AutoScalingGroupName"].write(value.autoScalingGroupName)
+        try writer["Filters"].writeList(value.filters, memberWritingClosure: AutoScalingClientTypes.Filter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["IncludeDeletedGroups"].write(value.includeDeletedGroups)
         try writer["MaxRecords"].write(value.maxRecords)
         try writer["NextToken"].write(value.nextToken)
@@ -8159,6 +8280,7 @@ extension UpdateAutoScalingGroupInput {
         guard let value else { return }
         try writer["AutoScalingGroupName"].write(value.autoScalingGroupName)
         try writer["AvailabilityZoneDistribution"].write(value.availabilityZoneDistribution, with: AutoScalingClientTypes.AvailabilityZoneDistribution.write(value:to:))
+        try writer["AvailabilityZoneIds"].writeList(value.availabilityZoneIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["AvailabilityZoneImpairmentPolicy"].write(value.availabilityZoneImpairmentPolicy, with: AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy.write(value:to:))
         try writer["AvailabilityZones"].writeList(value.availabilityZones, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["CapacityRebalance"].write(value.capacityRebalance)
@@ -8166,6 +8288,7 @@ extension UpdateAutoScalingGroupInput {
         try writer["Context"].write(value.context)
         try writer["DefaultCooldown"].write(value.defaultCooldown)
         try writer["DefaultInstanceWarmup"].write(value.defaultInstanceWarmup)
+        try writer["DeletionProtection"].write(value.deletionProtection)
         try writer["DesiredCapacity"].write(value.desiredCapacity)
         try writer["DesiredCapacityType"].write(value.desiredCapacityType)
         try writer["HealthCheckGracePeriod"].write(value.healthCheckGracePeriod)
@@ -8845,7 +8968,7 @@ enum AttachInstancesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceContention": return try ResourceContentionFault.makeError(baseError: baseError)
@@ -8860,7 +8983,7 @@ enum AttachLoadBalancersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InstanceRefreshInProgress": return try InstanceRefreshInProgressFault.makeError(baseError: baseError)
@@ -8876,7 +8999,7 @@ enum AttachLoadBalancerTargetGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InstanceRefreshInProgress": return try InstanceRefreshInProgressFault.makeError(baseError: baseError)
@@ -8892,7 +9015,7 @@ enum AttachTrafficSourcesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InstanceRefreshInProgress": return try InstanceRefreshInProgressFault.makeError(baseError: baseError)
@@ -8908,7 +9031,7 @@ enum BatchDeleteScheduledActionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceContention": return try ResourceContentionFault.makeError(baseError: baseError)
@@ -8922,7 +9045,7 @@ enum BatchPutScheduledUpdateGroupActionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AlreadyExists": return try AlreadyExistsFault.makeError(baseError: baseError)
@@ -8938,7 +9061,7 @@ enum CancelInstanceRefreshOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ActiveInstanceRefreshNotFound": return try ActiveInstanceRefreshNotFoundFault.makeError(baseError: baseError)
@@ -8954,7 +9077,7 @@ enum CompleteLifecycleActionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceContention": return try ResourceContentionFault.makeError(baseError: baseError)
@@ -8968,7 +9091,7 @@ enum CreateAutoScalingGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AlreadyExists": return try AlreadyExistsFault.makeError(baseError: baseError)
@@ -8985,7 +9108,7 @@ enum CreateLaunchConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AlreadyExists": return try AlreadyExistsFault.makeError(baseError: baseError)
@@ -9001,7 +9124,7 @@ enum CreateOrUpdateTagsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AlreadyExists": return try AlreadyExistsFault.makeError(baseError: baseError)
@@ -9018,7 +9141,7 @@ enum DeleteAutoScalingGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceContention": return try ResourceContentionFault.makeError(baseError: baseError)
@@ -9034,7 +9157,7 @@ enum DeleteLaunchConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceContention": return try ResourceContentionFault.makeError(baseError: baseError)
@@ -9049,7 +9172,7 @@ enum DeleteLifecycleHookOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceContention": return try ResourceContentionFault.makeError(baseError: baseError)
@@ -9063,7 +9186,7 @@ enum DeleteNotificationConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceContention": return try ResourceContentionFault.makeError(baseError: baseError)
@@ -9077,7 +9200,7 @@ enum DeletePolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceContention": return try ResourceContentionFault.makeError(baseError: baseError)
@@ -9092,7 +9215,7 @@ enum DeleteScheduledActionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceContention": return try ResourceContentionFault.makeError(baseError: baseError)
@@ -9106,7 +9229,7 @@ enum DeleteTagsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceContention": return try ResourceContentionFault.makeError(baseError: baseError)
@@ -9121,7 +9244,7 @@ enum DeleteWarmPoolOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LimitExceeded": return try LimitExceededFault.makeError(baseError: baseError)
@@ -9138,7 +9261,7 @@ enum DescribeAccountLimitsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceContention": return try ResourceContentionFault.makeError(baseError: baseError)
@@ -9152,7 +9275,7 @@ enum DescribeAdjustmentTypesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceContention": return try ResourceContentionFault.makeError(baseError: baseError)
@@ -9166,7 +9289,7 @@ enum DescribeAutoScalingGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextToken": return try InvalidNextToken.makeError(baseError: baseError)
@@ -9181,7 +9304,7 @@ enum DescribeAutoScalingInstancesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextToken": return try InvalidNextToken.makeError(baseError: baseError)
@@ -9196,7 +9319,7 @@ enum DescribeAutoScalingNotificationTypesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceContention": return try ResourceContentionFault.makeError(baseError: baseError)
@@ -9210,7 +9333,7 @@ enum DescribeInstanceRefreshesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextToken": return try InvalidNextToken.makeError(baseError: baseError)
@@ -9225,7 +9348,7 @@ enum DescribeLaunchConfigurationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextToken": return try InvalidNextToken.makeError(baseError: baseError)
@@ -9240,7 +9363,7 @@ enum DescribeLifecycleHooksOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceContention": return try ResourceContentionFault.makeError(baseError: baseError)
@@ -9254,7 +9377,7 @@ enum DescribeLifecycleHookTypesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceContention": return try ResourceContentionFault.makeError(baseError: baseError)
@@ -9268,7 +9391,7 @@ enum DescribeLoadBalancersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextToken": return try InvalidNextToken.makeError(baseError: baseError)
@@ -9283,7 +9406,7 @@ enum DescribeLoadBalancerTargetGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextToken": return try InvalidNextToken.makeError(baseError: baseError)
@@ -9298,7 +9421,7 @@ enum DescribeMetricCollectionTypesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceContention": return try ResourceContentionFault.makeError(baseError: baseError)
@@ -9312,7 +9435,7 @@ enum DescribeNotificationConfigurationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextToken": return try InvalidNextToken.makeError(baseError: baseError)
@@ -9327,7 +9450,7 @@ enum DescribePoliciesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextToken": return try InvalidNextToken.makeError(baseError: baseError)
@@ -9343,7 +9466,7 @@ enum DescribeScalingActivitiesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextToken": return try InvalidNextToken.makeError(baseError: baseError)
@@ -9358,7 +9481,7 @@ enum DescribeScalingProcessTypesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceContention": return try ResourceContentionFault.makeError(baseError: baseError)
@@ -9372,7 +9495,7 @@ enum DescribeScheduledActionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextToken": return try InvalidNextToken.makeError(baseError: baseError)
@@ -9387,7 +9510,7 @@ enum DescribeTagsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextToken": return try InvalidNextToken.makeError(baseError: baseError)
@@ -9402,7 +9525,7 @@ enum DescribeTerminationPolicyTypesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceContention": return try ResourceContentionFault.makeError(baseError: baseError)
@@ -9416,7 +9539,7 @@ enum DescribeTrafficSourcesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextToken": return try InvalidNextToken.makeError(baseError: baseError)
@@ -9431,7 +9554,7 @@ enum DescribeWarmPoolOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextToken": return try InvalidNextToken.makeError(baseError: baseError)
@@ -9447,7 +9570,7 @@ enum DetachInstancesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceContention": return try ResourceContentionFault.makeError(baseError: baseError)
@@ -9461,7 +9584,7 @@ enum DetachLoadBalancersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceContention": return try ResourceContentionFault.makeError(baseError: baseError)
@@ -9475,7 +9598,7 @@ enum DetachLoadBalancerTargetGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceContention": return try ResourceContentionFault.makeError(baseError: baseError)
@@ -9489,7 +9612,7 @@ enum DetachTrafficSourcesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceContention": return try ResourceContentionFault.makeError(baseError: baseError)
@@ -9503,7 +9626,7 @@ enum DisableMetricsCollectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceContention": return try ResourceContentionFault.makeError(baseError: baseError)
@@ -9517,7 +9640,7 @@ enum EnableMetricsCollectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceContention": return try ResourceContentionFault.makeError(baseError: baseError)
@@ -9531,7 +9654,7 @@ enum EnterStandbyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceContention": return try ResourceContentionFault.makeError(baseError: baseError)
@@ -9545,7 +9668,7 @@ enum ExecutePolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceContention": return try ResourceContentionFault.makeError(baseError: baseError)
@@ -9560,7 +9683,7 @@ enum ExitStandbyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceContention": return try ResourceContentionFault.makeError(baseError: baseError)
@@ -9574,7 +9697,7 @@ enum GetPredictiveScalingForecastOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceContention": return try ResourceContentionFault.makeError(baseError: baseError)
@@ -9588,7 +9711,7 @@ enum LaunchInstancesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "IdempotentParameterMismatch": return try IdempotentParameterMismatchError.makeError(baseError: baseError)
@@ -9603,7 +9726,7 @@ enum PutLifecycleHookOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LimitExceeded": return try LimitExceededFault.makeError(baseError: baseError)
@@ -9618,7 +9741,7 @@ enum PutNotificationConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LimitExceeded": return try LimitExceededFault.makeError(baseError: baseError)
@@ -9634,7 +9757,7 @@ enum PutScalingPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LimitExceeded": return try LimitExceededFault.makeError(baseError: baseError)
@@ -9650,7 +9773,7 @@ enum PutScheduledUpdateGroupActionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AlreadyExists": return try AlreadyExistsFault.makeError(baseError: baseError)
@@ -9666,7 +9789,7 @@ enum PutWarmPoolOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InstanceRefreshInProgress": return try InstanceRefreshInProgressFault.makeError(baseError: baseError)
@@ -9682,7 +9805,7 @@ enum RecordLifecycleActionHeartbeatOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceContention": return try ResourceContentionFault.makeError(baseError: baseError)
@@ -9696,7 +9819,7 @@ enum ResumeProcessesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceContention": return try ResourceContentionFault.makeError(baseError: baseError)
@@ -9711,7 +9834,7 @@ enum RollbackInstanceRefreshOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ActiveInstanceRefreshNotFound": return try ActiveInstanceRefreshNotFoundFault.makeError(baseError: baseError)
@@ -9728,7 +9851,7 @@ enum SetDesiredCapacityOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceContention": return try ResourceContentionFault.makeError(baseError: baseError)
@@ -9743,7 +9866,7 @@ enum SetInstanceHealthOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceContention": return try ResourceContentionFault.makeError(baseError: baseError)
@@ -9757,7 +9880,7 @@ enum SetInstanceProtectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LimitExceeded": return try LimitExceededFault.makeError(baseError: baseError)
@@ -9772,7 +9895,7 @@ enum StartInstanceRefreshOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InstanceRefreshInProgress": return try InstanceRefreshInProgressFault.makeError(baseError: baseError)
@@ -9788,7 +9911,7 @@ enum SuspendProcessesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceContention": return try ResourceContentionFault.makeError(baseError: baseError)
@@ -9803,7 +9926,7 @@ enum TerminateInstanceInAutoScalingGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceContention": return try ResourceContentionFault.makeError(baseError: baseError)
@@ -9818,7 +9941,7 @@ enum UpdateAutoScalingGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceContention": return try ResourceContentionFault.makeError(baseError: baseError)
@@ -9831,7 +9954,7 @@ enum UpdateAutoScalingGroupOutputError {
 
 extension ResourceContentionFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ResourceContentionFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ResourceContentionFault {
         let reader = baseError.errorBodyReader
         var value = ResourceContentionFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -9844,7 +9967,7 @@ extension ResourceContentionFault {
 
 extension ServiceLinkedRoleFailure {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ServiceLinkedRoleFailure {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ServiceLinkedRoleFailure {
         let reader = baseError.errorBodyReader
         var value = ServiceLinkedRoleFailure()
         value.properties.message = try reader["message"].readIfPresent()
@@ -9857,7 +9980,7 @@ extension ServiceLinkedRoleFailure {
 
 extension InstanceRefreshInProgressFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InstanceRefreshInProgressFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InstanceRefreshInProgressFault {
         let reader = baseError.errorBodyReader
         var value = InstanceRefreshInProgressFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -9870,7 +9993,7 @@ extension InstanceRefreshInProgressFault {
 
 extension AlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> AlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> AlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = AlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -9883,7 +10006,7 @@ extension AlreadyExistsFault {
 
 extension LimitExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> LimitExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> LimitExceededFault {
         let reader = baseError.errorBodyReader
         var value = LimitExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -9896,7 +10019,7 @@ extension LimitExceededFault {
 
 extension ActiveInstanceRefreshNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ActiveInstanceRefreshNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ActiveInstanceRefreshNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = ActiveInstanceRefreshNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -9909,7 +10032,7 @@ extension ActiveInstanceRefreshNotFoundFault {
 
 extension ResourceInUseFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ResourceInUseFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ResourceInUseFault {
         let reader = baseError.errorBodyReader
         var value = ResourceInUseFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -9922,7 +10045,7 @@ extension ResourceInUseFault {
 
 extension ScalingActivityInProgressFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ScalingActivityInProgressFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ScalingActivityInProgressFault {
         let reader = baseError.errorBodyReader
         var value = ScalingActivityInProgressFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -9935,7 +10058,7 @@ extension ScalingActivityInProgressFault {
 
 extension InvalidNextToken {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidNextToken {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidNextToken {
         let reader = baseError.errorBodyReader
         var value = InvalidNextToken()
         value.properties.message = try reader["message"].readIfPresent()
@@ -9948,7 +10071,7 @@ extension InvalidNextToken {
 
 extension IdempotentParameterMismatchError {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> IdempotentParameterMismatchError {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> IdempotentParameterMismatchError {
         let reader = baseError.errorBodyReader
         var value = IdempotentParameterMismatchError()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -9961,7 +10084,7 @@ extension IdempotentParameterMismatchError {
 
 extension IrreversibleInstanceRefreshFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> IrreversibleInstanceRefreshFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> IrreversibleInstanceRefreshFault {
         let reader = baseError.errorBodyReader
         var value = IrreversibleInstanceRefreshFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -9972,14 +10095,57 @@ extension IrreversibleInstanceRefreshFault {
     }
 }
 
-extension AutoScalingClientTypes.FailedScheduledUpdateGroupActionRequest {
+extension AutoScalingClientTypes.AcceleratorCountRequest {
 
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.FailedScheduledUpdateGroupActionRequest {
+    static func write(value: AutoScalingClientTypes.AcceleratorCountRequest?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Max"].write(value.max)
+        try writer["Min"].write(value.min)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.AcceleratorCountRequest {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.FailedScheduledUpdateGroupActionRequest()
-        value.scheduledActionName = try reader["ScheduledActionName"].readIfPresent() ?? ""
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        var value = AutoScalingClientTypes.AcceleratorCountRequest()
+        value.min = try reader["Min"].readIfPresent()
+        value.max = try reader["Max"].readIfPresent()
+        return value
+    }
+}
+
+extension AutoScalingClientTypes.AcceleratorTotalMemoryMiBRequest {
+
+    static func write(value: AutoScalingClientTypes.AcceleratorTotalMemoryMiBRequest?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Max"].write(value.max)
+        try writer["Min"].write(value.min)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.AcceleratorTotalMemoryMiBRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AutoScalingClientTypes.AcceleratorTotalMemoryMiBRequest()
+        value.min = try reader["Min"].readIfPresent()
+        value.max = try reader["Max"].readIfPresent()
+        return value
+    }
+}
+
+extension AutoScalingClientTypes.Activity {
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.Activity {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AutoScalingClientTypes.Activity()
+        value.activityId = try reader["ActivityId"].readIfPresent() ?? ""
+        value.autoScalingGroupName = try reader["AutoScalingGroupName"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent()
+        value.cause = try reader["Cause"].readIfPresent() ?? ""
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.statusCode = try reader["StatusCode"].readIfPresent() ?? .sdkUnknown("")
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        value.progress = try reader["Progress"].readIfPresent()
+        value.details = try reader["Details"].readIfPresent()
+        value.autoScalingGroupState = try reader["AutoScalingGroupState"].readIfPresent()
+        value.autoScalingGroupARN = try reader["AutoScalingGroupARN"].readIfPresent()
         return value
     }
 }
@@ -9990,6 +10156,32 @@ extension AutoScalingClientTypes.AdjustmentType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AutoScalingClientTypes.AdjustmentType()
         value.adjustmentType = try reader["AdjustmentType"].readIfPresent()
+        return value
+    }
+}
+
+extension AutoScalingClientTypes.Alarm {
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.Alarm {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AutoScalingClientTypes.Alarm()
+        value.alarmName = try reader["AlarmName"].readIfPresent()
+        value.alarmARN = try reader["AlarmARN"].readIfPresent()
+        return value
+    }
+}
+
+extension AutoScalingClientTypes.AlarmSpecification {
+
+    static func write(value: AutoScalingClientTypes.AlarmSpecification?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Alarms"].writeList(value.alarms, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.AlarmSpecification {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AutoScalingClientTypes.AlarmSpecification()
+        value.alarms = try reader["Alarms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -10010,6 +10202,7 @@ extension AutoScalingClientTypes.AutoScalingGroup {
         value.predictedCapacity = try reader["PredictedCapacity"].readIfPresent()
         value.defaultCooldown = try reader["DefaultCooldown"].readIfPresent() ?? 0
         value.availabilityZones = try reader["AvailabilityZones"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.availabilityZoneIds = try reader["AvailabilityZoneIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.loadBalancerNames = try reader["LoadBalancerNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.targetGroupARNs = try reader["TargetGroupARNs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.healthCheckType = try reader["HealthCheckType"].readIfPresent() ?? ""
@@ -10034,6 +10227,7 @@ extension AutoScalingClientTypes.AutoScalingGroup {
         value.defaultInstanceWarmup = try reader["DefaultInstanceWarmup"].readIfPresent()
         value.trafficSources = try reader["TrafficSources"].readListIfPresent(memberReadingClosure: AutoScalingClientTypes.TrafficSourceIdentifier.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.instanceMaintenancePolicy = try reader["InstanceMaintenancePolicy"].readIfPresent(with: AutoScalingClientTypes.InstanceMaintenancePolicy.read(from:))
+        value.deletionProtection = try reader["DeletionProtection"].readIfPresent()
         value.availabilityZoneDistribution = try reader["AvailabilityZoneDistribution"].readIfPresent(with: AutoScalingClientTypes.AvailabilityZoneDistribution.read(from:))
         value.availabilityZoneImpairmentPolicy = try reader["AvailabilityZoneImpairmentPolicy"].readIfPresent(with: AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy.read(from:))
         value.capacityReservationSpecification = try reader["CapacityReservationSpecification"].readIfPresent(with: AutoScalingClientTypes.CapacityReservationSpecification.read(from:))
@@ -10042,32 +10236,119 @@ extension AutoScalingClientTypes.AutoScalingGroup {
     }
 }
 
-extension AutoScalingClientTypes.InstanceLifecyclePolicy {
+extension AutoScalingClientTypes.AutoScalingInstanceDetails {
 
-    static func write(value: AutoScalingClientTypes.InstanceLifecyclePolicy?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["RetentionTriggers"].write(value.retentionTriggers, with: AutoScalingClientTypes.RetentionTriggers.write(value:to:))
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.InstanceLifecyclePolicy {
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.AutoScalingInstanceDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.InstanceLifecyclePolicy()
-        value.retentionTriggers = try reader["RetentionTriggers"].readIfPresent(with: AutoScalingClientTypes.RetentionTriggers.read(from:))
+        var value = AutoScalingClientTypes.AutoScalingInstanceDetails()
+        value.instanceId = try reader["InstanceId"].readIfPresent() ?? ""
+        value.instanceType = try reader["InstanceType"].readIfPresent()
+        value.autoScalingGroupName = try reader["AutoScalingGroupName"].readIfPresent() ?? ""
+        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent() ?? ""
+        value.availabilityZoneId = try reader["AvailabilityZoneId"].readIfPresent()
+        value.lifecycleState = try reader["LifecycleState"].readIfPresent() ?? ""
+        value.healthStatus = try reader["HealthStatus"].readIfPresent() ?? ""
+        value.launchConfigurationName = try reader["LaunchConfigurationName"].readIfPresent()
+        value.launchTemplate = try reader["LaunchTemplate"].readIfPresent(with: AutoScalingClientTypes.LaunchTemplateSpecification.read(from:))
+        value.imageId = try reader["ImageId"].readIfPresent()
+        value.protectedFromScaleIn = try reader["ProtectedFromScaleIn"].readIfPresent() ?? false
+        value.weightedCapacity = try reader["WeightedCapacity"].readIfPresent()
         return value
     }
 }
 
-extension AutoScalingClientTypes.RetentionTriggers {
+extension AutoScalingClientTypes.AvailabilityZoneDistribution {
 
-    static func write(value: AutoScalingClientTypes.RetentionTriggers?, to writer: SmithyFormURL.Writer) throws {
+    static func write(value: AutoScalingClientTypes.AvailabilityZoneDistribution?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
-        try writer["TerminateHookAbandon"].write(value.terminateHookAbandon)
+        try writer["CapacityDistributionStrategy"].write(value.capacityDistributionStrategy)
     }
 
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.RetentionTriggers {
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.AvailabilityZoneDistribution {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.RetentionTriggers()
-        value.terminateHookAbandon = try reader["TerminateHookAbandon"].readIfPresent()
+        var value = AutoScalingClientTypes.AvailabilityZoneDistribution()
+        value.capacityDistributionStrategy = try reader["CapacityDistributionStrategy"].readIfPresent()
+        return value
+    }
+}
+
+extension AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy {
+
+    static func write(value: AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ImpairedZoneHealthCheckBehavior"].write(value.impairedZoneHealthCheckBehavior)
+        try writer["ZonalShiftEnabled"].write(value.zonalShiftEnabled)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy()
+        value.zonalShiftEnabled = try reader["ZonalShiftEnabled"].readIfPresent()
+        value.impairedZoneHealthCheckBehavior = try reader["ImpairedZoneHealthCheckBehavior"].readIfPresent()
+        return value
+    }
+}
+
+extension AutoScalingClientTypes.BaselineEbsBandwidthMbpsRequest {
+
+    static func write(value: AutoScalingClientTypes.BaselineEbsBandwidthMbpsRequest?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Max"].write(value.max)
+        try writer["Min"].write(value.min)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.BaselineEbsBandwidthMbpsRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AutoScalingClientTypes.BaselineEbsBandwidthMbpsRequest()
+        value.min = try reader["Min"].readIfPresent()
+        value.max = try reader["Max"].readIfPresent()
+        return value
+    }
+}
+
+extension AutoScalingClientTypes.BaselinePerformanceFactorsRequest {
+
+    static func write(value: AutoScalingClientTypes.BaselinePerformanceFactorsRequest?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Cpu"].write(value.cpu, with: AutoScalingClientTypes.CpuPerformanceFactorRequest.write(value:to:))
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.BaselinePerformanceFactorsRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AutoScalingClientTypes.BaselinePerformanceFactorsRequest()
+        value.cpu = try reader["Cpu"].readIfPresent(with: AutoScalingClientTypes.CpuPerformanceFactorRequest.read(from:))
+        return value
+    }
+}
+
+extension AutoScalingClientTypes.BlockDeviceMapping {
+
+    static func write(value: AutoScalingClientTypes.BlockDeviceMapping?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DeviceName"].write(value.deviceName)
+        try writer["Ebs"].write(value.ebs, with: AutoScalingClientTypes.Ebs.write(value:to:))
+        try writer["NoDevice"].write(value.noDevice)
+        try writer["VirtualName"].write(value.virtualName)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.BlockDeviceMapping {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AutoScalingClientTypes.BlockDeviceMapping()
+        value.virtualName = try reader["VirtualName"].readIfPresent()
+        value.deviceName = try reader["DeviceName"].readIfPresent() ?? ""
+        value.ebs = try reader["Ebs"].readIfPresent(with: AutoScalingClientTypes.Ebs.read(from:))
+        value.noDevice = try reader["NoDevice"].readIfPresent()
+        return value
+    }
+}
+
+extension AutoScalingClientTypes.CapacityForecast {
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.CapacityForecast {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AutoScalingClientTypes.CapacityForecast()
+        value.timestamps = try reader["Timestamps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.timestampReadingClosure(format: SmithyTimestamps.TimestampFormat.dateTime), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -10106,34 +10387,170 @@ extension AutoScalingClientTypes.CapacityReservationTarget {
     }
 }
 
-extension AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy {
+extension AutoScalingClientTypes.CpuPerformanceFactorRequest {
 
-    static func write(value: AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy?, to writer: SmithyFormURL.Writer) throws {
+    static func write(value: AutoScalingClientTypes.CpuPerformanceFactorRequest?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
-        try writer["ImpairedZoneHealthCheckBehavior"].write(value.impairedZoneHealthCheckBehavior)
-        try writer["ZonalShiftEnabled"].write(value.zonalShiftEnabled)
+        try writer["Reference"].writeList(value.references, memberWritingClosure: AutoScalingClientTypes.PerformanceFactorReferenceRequest.write(value:to:), memberNodeInfo: "item", isFlattened: false)
     }
 
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy {
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.CpuPerformanceFactorRequest {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy()
-        value.zonalShiftEnabled = try reader["ZonalShiftEnabled"].readIfPresent()
-        value.impairedZoneHealthCheckBehavior = try reader["ImpairedZoneHealthCheckBehavior"].readIfPresent()
+        var value = AutoScalingClientTypes.CpuPerformanceFactorRequest()
+        value.references = try reader["Reference"].readListIfPresent(memberReadingClosure: AutoScalingClientTypes.PerformanceFactorReferenceRequest.read(from:), memberNodeInfo: "item", isFlattened: false)
         return value
     }
 }
 
-extension AutoScalingClientTypes.AvailabilityZoneDistribution {
+extension AutoScalingClientTypes.CustomizedMetricSpecification {
 
-    static func write(value: AutoScalingClientTypes.AvailabilityZoneDistribution?, to writer: SmithyFormURL.Writer) throws {
+    static func write(value: AutoScalingClientTypes.CustomizedMetricSpecification?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
-        try writer["CapacityDistributionStrategy"].write(value.capacityDistributionStrategy)
+        try writer["Dimensions"].writeList(value.dimensions, memberWritingClosure: AutoScalingClientTypes.MetricDimension.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MetricName"].write(value.metricName)
+        try writer["Metrics"].writeList(value.metrics, memberWritingClosure: AutoScalingClientTypes.TargetTrackingMetricDataQuery.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Namespace"].write(value.namespace)
+        try writer["Period"].write(value.period)
+        try writer["Statistic"].write(value.statistic)
+        try writer["Unit"].write(value.unit)
     }
 
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.AvailabilityZoneDistribution {
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.CustomizedMetricSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.AvailabilityZoneDistribution()
-        value.capacityDistributionStrategy = try reader["CapacityDistributionStrategy"].readIfPresent()
+        var value = AutoScalingClientTypes.CustomizedMetricSpecification()
+        value.metricName = try reader["MetricName"].readIfPresent()
+        value.namespace = try reader["Namespace"].readIfPresent()
+        value.dimensions = try reader["Dimensions"].readListIfPresent(memberReadingClosure: AutoScalingClientTypes.MetricDimension.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.statistic = try reader["Statistic"].readIfPresent()
+        value.unit = try reader["Unit"].readIfPresent()
+        value.period = try reader["Period"].readIfPresent()
+        value.metrics = try reader["Metrics"].readListIfPresent(memberReadingClosure: AutoScalingClientTypes.TargetTrackingMetricDataQuery.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension AutoScalingClientTypes.DesiredConfiguration {
+
+    static func write(value: AutoScalingClientTypes.DesiredConfiguration?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["LaunchTemplate"].write(value.launchTemplate, with: AutoScalingClientTypes.LaunchTemplateSpecification.write(value:to:))
+        try writer["MixedInstancesPolicy"].write(value.mixedInstancesPolicy, with: AutoScalingClientTypes.MixedInstancesPolicy.write(value:to:))
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.DesiredConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AutoScalingClientTypes.DesiredConfiguration()
+        value.launchTemplate = try reader["LaunchTemplate"].readIfPresent(with: AutoScalingClientTypes.LaunchTemplateSpecification.read(from:))
+        value.mixedInstancesPolicy = try reader["MixedInstancesPolicy"].readIfPresent(with: AutoScalingClientTypes.MixedInstancesPolicy.read(from:))
+        return value
+    }
+}
+
+extension AutoScalingClientTypes.Ebs {
+
+    static func write(value: AutoScalingClientTypes.Ebs?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DeleteOnTermination"].write(value.deleteOnTermination)
+        try writer["Encrypted"].write(value.encrypted)
+        try writer["Iops"].write(value.iops)
+        try writer["SnapshotId"].write(value.snapshotId)
+        try writer["Throughput"].write(value.throughput)
+        try writer["VolumeSize"].write(value.volumeSize)
+        try writer["VolumeType"].write(value.volumeType)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.Ebs {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AutoScalingClientTypes.Ebs()
+        value.snapshotId = try reader["SnapshotId"].readIfPresent()
+        value.volumeSize = try reader["VolumeSize"].readIfPresent()
+        value.volumeType = try reader["VolumeType"].readIfPresent()
+        value.deleteOnTermination = try reader["DeleteOnTermination"].readIfPresent()
+        value.iops = try reader["Iops"].readIfPresent()
+        value.encrypted = try reader["Encrypted"].readIfPresent()
+        value.throughput = try reader["Throughput"].readIfPresent()
+        return value
+    }
+}
+
+extension AutoScalingClientTypes.EnabledMetric {
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.EnabledMetric {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AutoScalingClientTypes.EnabledMetric()
+        value.metric = try reader["Metric"].readIfPresent()
+        value.granularity = try reader["Granularity"].readIfPresent()
+        return value
+    }
+}
+
+extension AutoScalingClientTypes.FailedScheduledUpdateGroupActionRequest {
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.FailedScheduledUpdateGroupActionRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AutoScalingClientTypes.FailedScheduledUpdateGroupActionRequest()
+        value.scheduledActionName = try reader["ScheduledActionName"].readIfPresent() ?? ""
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension AutoScalingClientTypes.Filter {
+
+    static func write(value: AutoScalingClientTypes.Filter?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension AutoScalingClientTypes.Instance {
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.Instance {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AutoScalingClientTypes.Instance()
+        value.instanceId = try reader["InstanceId"].readIfPresent() ?? ""
+        value.instanceType = try reader["InstanceType"].readIfPresent()
+        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent() ?? ""
+        value.availabilityZoneId = try reader["AvailabilityZoneId"].readIfPresent()
+        value.lifecycleState = try reader["LifecycleState"].readIfPresent() ?? .sdkUnknown("")
+        value.healthStatus = try reader["HealthStatus"].readIfPresent() ?? ""
+        value.launchConfigurationName = try reader["LaunchConfigurationName"].readIfPresent()
+        value.launchTemplate = try reader["LaunchTemplate"].readIfPresent(with: AutoScalingClientTypes.LaunchTemplateSpecification.read(from:))
+        value.imageId = try reader["ImageId"].readIfPresent()
+        value.protectedFromScaleIn = try reader["ProtectedFromScaleIn"].readIfPresent() ?? false
+        value.weightedCapacity = try reader["WeightedCapacity"].readIfPresent()
+        return value
+    }
+}
+
+extension AutoScalingClientTypes.InstanceCollection {
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.InstanceCollection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AutoScalingClientTypes.InstanceCollection()
+        value.instanceType = try reader["InstanceType"].readIfPresent()
+        value.marketType = try reader["MarketType"].readIfPresent()
+        value.subnetId = try reader["SubnetId"].readIfPresent()
+        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
+        value.availabilityZoneId = try reader["AvailabilityZoneId"].readIfPresent()
+        value.instanceIds = try reader["InstanceIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension AutoScalingClientTypes.InstanceLifecyclePolicy {
+
+    static func write(value: AutoScalingClientTypes.InstanceLifecyclePolicy?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["RetentionTriggers"].write(value.retentionTriggers, with: AutoScalingClientTypes.RetentionTriggers.write(value:to:))
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.InstanceLifecyclePolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AutoScalingClientTypes.InstanceLifecyclePolicy()
+        value.retentionTriggers = try reader["RetentionTriggers"].readIfPresent(with: AutoScalingClientTypes.RetentionTriggers.read(from:))
         return value
     }
 }
@@ -10155,204 +10572,91 @@ extension AutoScalingClientTypes.InstanceMaintenancePolicy {
     }
 }
 
-extension AutoScalingClientTypes.TrafficSourceIdentifier {
+extension AutoScalingClientTypes.InstanceMetadataOptions {
 
-    static func write(value: AutoScalingClientTypes.TrafficSourceIdentifier?, to writer: SmithyFormURL.Writer) throws {
+    static func write(value: AutoScalingClientTypes.InstanceMetadataOptions?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
-        try writer["Identifier"].write(value.identifier)
-        try writer["Type"].write(value.type)
+        try writer["HttpEndpoint"].write(value.httpEndpoint)
+        try writer["HttpPutResponseHopLimit"].write(value.httpPutResponseHopLimit)
+        try writer["HttpTokens"].write(value.httpTokens)
     }
 
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.TrafficSourceIdentifier {
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.InstanceMetadataOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.TrafficSourceIdentifier()
-        value.identifier = try reader["Identifier"].readIfPresent() ?? ""
-        value.type = try reader["Type"].readIfPresent()
+        var value = AutoScalingClientTypes.InstanceMetadataOptions()
+        value.httpTokens = try reader["HttpTokens"].readIfPresent()
+        value.httpPutResponseHopLimit = try reader["HttpPutResponseHopLimit"].readIfPresent()
+        value.httpEndpoint = try reader["HttpEndpoint"].readIfPresent()
         return value
     }
 }
 
-extension AutoScalingClientTypes.WarmPoolConfiguration {
+extension AutoScalingClientTypes.InstanceMonitoring {
 
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.WarmPoolConfiguration {
+    static func write(value: AutoScalingClientTypes.InstanceMonitoring?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Enabled"].write(value.enabled)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.InstanceMonitoring {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.WarmPoolConfiguration()
-        value.maxGroupPreparedCapacity = try reader["MaxGroupPreparedCapacity"].readIfPresent()
-        value.minSize = try reader["MinSize"].readIfPresent()
-        value.poolState = try reader["PoolState"].readIfPresent()
+        var value = AutoScalingClientTypes.InstanceMonitoring()
+        value.enabled = try reader["Enabled"].readIfPresent()
+        return value
+    }
+}
+
+extension AutoScalingClientTypes.InstanceRefresh {
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.InstanceRefresh {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AutoScalingClientTypes.InstanceRefresh()
+        value.instanceRefreshId = try reader["InstanceRefreshId"].readIfPresent()
+        value.autoScalingGroupName = try reader["AutoScalingGroupName"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
-        value.instanceReusePolicy = try reader["InstanceReusePolicy"].readIfPresent(with: AutoScalingClientTypes.InstanceReusePolicy.read(from:))
+        value.statusReason = try reader["StatusReason"].readIfPresent()
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.percentageComplete = try reader["PercentageComplete"].readIfPresent()
+        value.instancesToUpdate = try reader["InstancesToUpdate"].readIfPresent()
+        value.progressDetails = try reader["ProgressDetails"].readIfPresent(with: AutoScalingClientTypes.InstanceRefreshProgressDetails.read(from:))
+        value.preferences = try reader["Preferences"].readIfPresent(with: AutoScalingClientTypes.RefreshPreferences.read(from:))
+        value.desiredConfiguration = try reader["DesiredConfiguration"].readIfPresent(with: AutoScalingClientTypes.DesiredConfiguration.read(from:))
+        value.rollbackDetails = try reader["RollbackDetails"].readIfPresent(with: AutoScalingClientTypes.RollbackDetails.read(from:))
+        value.strategy = try reader["Strategy"].readIfPresent()
         return value
     }
 }
 
-extension AutoScalingClientTypes.InstanceReusePolicy {
+extension AutoScalingClientTypes.InstanceRefreshLivePoolProgress {
 
-    static func write(value: AutoScalingClientTypes.InstanceReusePolicy?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ReuseOnScaleIn"].write(value.reuseOnScaleIn)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.InstanceReusePolicy {
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.InstanceRefreshLivePoolProgress {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.InstanceReusePolicy()
-        value.reuseOnScaleIn = try reader["ReuseOnScaleIn"].readIfPresent()
+        var value = AutoScalingClientTypes.InstanceRefreshLivePoolProgress()
+        value.percentageComplete = try reader["PercentageComplete"].readIfPresent()
+        value.instancesToUpdate = try reader["InstancesToUpdate"].readIfPresent()
         return value
     }
 }
 
-extension AutoScalingClientTypes.TagDescription {
+extension AutoScalingClientTypes.InstanceRefreshProgressDetails {
 
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.TagDescription {
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.InstanceRefreshProgressDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.TagDescription()
-        value.resourceId = try reader["ResourceId"].readIfPresent()
-        value.resourceType = try reader["ResourceType"].readIfPresent()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        value.propagateAtLaunch = try reader["PropagateAtLaunch"].readIfPresent()
+        var value = AutoScalingClientTypes.InstanceRefreshProgressDetails()
+        value.livePoolProgress = try reader["LivePoolProgress"].readIfPresent(with: AutoScalingClientTypes.InstanceRefreshLivePoolProgress.read(from:))
+        value.warmPoolProgress = try reader["WarmPoolProgress"].readIfPresent(with: AutoScalingClientTypes.InstanceRefreshWarmPoolProgress.read(from:))
         return value
     }
 }
 
-extension AutoScalingClientTypes.EnabledMetric {
+extension AutoScalingClientTypes.InstanceRefreshWarmPoolProgress {
 
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.EnabledMetric {
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.InstanceRefreshWarmPoolProgress {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.EnabledMetric()
-        value.metric = try reader["Metric"].readIfPresent()
-        value.granularity = try reader["Granularity"].readIfPresent()
-        return value
-    }
-}
-
-extension AutoScalingClientTypes.SuspendedProcess {
-
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.SuspendedProcess {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.SuspendedProcess()
-        value.processName = try reader["ProcessName"].readIfPresent()
-        value.suspensionReason = try reader["SuspensionReason"].readIfPresent()
-        return value
-    }
-}
-
-extension AutoScalingClientTypes.Instance {
-
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.Instance {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.Instance()
-        value.instanceId = try reader["InstanceId"].readIfPresent() ?? ""
-        value.instanceType = try reader["InstanceType"].readIfPresent()
-        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent() ?? ""
-        value.lifecycleState = try reader["LifecycleState"].readIfPresent() ?? .sdkUnknown("")
-        value.healthStatus = try reader["HealthStatus"].readIfPresent() ?? ""
-        value.launchConfigurationName = try reader["LaunchConfigurationName"].readIfPresent()
-        value.launchTemplate = try reader["LaunchTemplate"].readIfPresent(with: AutoScalingClientTypes.LaunchTemplateSpecification.read(from:))
-        value.imageId = try reader["ImageId"].readIfPresent()
-        value.protectedFromScaleIn = try reader["ProtectedFromScaleIn"].readIfPresent() ?? false
-        value.weightedCapacity = try reader["WeightedCapacity"].readIfPresent()
-        return value
-    }
-}
-
-extension AutoScalingClientTypes.LaunchTemplateSpecification {
-
-    static func write(value: AutoScalingClientTypes.LaunchTemplateSpecification?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["LaunchTemplateId"].write(value.launchTemplateId)
-        try writer["LaunchTemplateName"].write(value.launchTemplateName)
-        try writer["Version"].write(value.version)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.LaunchTemplateSpecification {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.LaunchTemplateSpecification()
-        value.launchTemplateId = try reader["LaunchTemplateId"].readIfPresent()
-        value.launchTemplateName = try reader["LaunchTemplateName"].readIfPresent()
-        value.version = try reader["Version"].readIfPresent()
-        return value
-    }
-}
-
-extension AutoScalingClientTypes.MixedInstancesPolicy {
-
-    static func write(value: AutoScalingClientTypes.MixedInstancesPolicy?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["InstancesDistribution"].write(value.instancesDistribution, with: AutoScalingClientTypes.InstancesDistribution.write(value:to:))
-        try writer["LaunchTemplate"].write(value.launchTemplate, with: AutoScalingClientTypes.LaunchTemplate.write(value:to:))
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.MixedInstancesPolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.MixedInstancesPolicy()
-        value.launchTemplate = try reader["LaunchTemplate"].readIfPresent(with: AutoScalingClientTypes.LaunchTemplate.read(from:))
-        value.instancesDistribution = try reader["InstancesDistribution"].readIfPresent(with: AutoScalingClientTypes.InstancesDistribution.read(from:))
-        return value
-    }
-}
-
-extension AutoScalingClientTypes.InstancesDistribution {
-
-    static func write(value: AutoScalingClientTypes.InstancesDistribution?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["OnDemandAllocationStrategy"].write(value.onDemandAllocationStrategy)
-        try writer["OnDemandBaseCapacity"].write(value.onDemandBaseCapacity)
-        try writer["OnDemandPercentageAboveBaseCapacity"].write(value.onDemandPercentageAboveBaseCapacity)
-        try writer["SpotAllocationStrategy"].write(value.spotAllocationStrategy)
-        try writer["SpotInstancePools"].write(value.spotInstancePools)
-        try writer["SpotMaxPrice"].write(value.spotMaxPrice)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.InstancesDistribution {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.InstancesDistribution()
-        value.onDemandAllocationStrategy = try reader["OnDemandAllocationStrategy"].readIfPresent()
-        value.onDemandBaseCapacity = try reader["OnDemandBaseCapacity"].readIfPresent()
-        value.onDemandPercentageAboveBaseCapacity = try reader["OnDemandPercentageAboveBaseCapacity"].readIfPresent()
-        value.spotAllocationStrategy = try reader["SpotAllocationStrategy"].readIfPresent()
-        value.spotInstancePools = try reader["SpotInstancePools"].readIfPresent()
-        value.spotMaxPrice = try reader["SpotMaxPrice"].readIfPresent()
-        return value
-    }
-}
-
-extension AutoScalingClientTypes.LaunchTemplate {
-
-    static func write(value: AutoScalingClientTypes.LaunchTemplate?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["LaunchTemplateSpecification"].write(value.launchTemplateSpecification, with: AutoScalingClientTypes.LaunchTemplateSpecification.write(value:to:))
-        try writer["Overrides"].writeList(value.overrides, memberWritingClosure: AutoScalingClientTypes.LaunchTemplateOverrides.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.LaunchTemplate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.LaunchTemplate()
-        value.launchTemplateSpecification = try reader["LaunchTemplateSpecification"].readIfPresent(with: AutoScalingClientTypes.LaunchTemplateSpecification.read(from:))
-        value.overrides = try reader["Overrides"].readListIfPresent(memberReadingClosure: AutoScalingClientTypes.LaunchTemplateOverrides.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension AutoScalingClientTypes.LaunchTemplateOverrides {
-
-    static func write(value: AutoScalingClientTypes.LaunchTemplateOverrides?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ImageId"].write(value.imageId)
-        try writer["InstanceRequirements"].write(value.instanceRequirements, with: AutoScalingClientTypes.InstanceRequirements.write(value:to:))
-        try writer["InstanceType"].write(value.instanceType)
-        try writer["LaunchTemplateSpecification"].write(value.launchTemplateSpecification, with: AutoScalingClientTypes.LaunchTemplateSpecification.write(value:to:))
-        try writer["WeightedCapacity"].write(value.weightedCapacity)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.LaunchTemplateOverrides {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.LaunchTemplateOverrides()
-        value.instanceType = try reader["InstanceType"].readIfPresent()
-        value.weightedCapacity = try reader["WeightedCapacity"].readIfPresent()
-        value.launchTemplateSpecification = try reader["LaunchTemplateSpecification"].readIfPresent(with: AutoScalingClientTypes.LaunchTemplateSpecification.read(from:))
-        value.instanceRequirements = try reader["InstanceRequirements"].readIfPresent(with: AutoScalingClientTypes.InstanceRequirements.read(from:))
-        value.imageId = try reader["ImageId"].readIfPresent()
+        var value = AutoScalingClientTypes.InstanceRefreshWarmPoolProgress()
+        value.percentageComplete = try reader["PercentageComplete"].readIfPresent()
+        value.instancesToUpdate = try reader["InstancesToUpdate"].readIfPresent()
         return value
     }
 }
@@ -10420,149 +10724,212 @@ extension AutoScalingClientTypes.InstanceRequirements {
     }
 }
 
-extension AutoScalingClientTypes.BaselinePerformanceFactorsRequest {
+extension AutoScalingClientTypes.InstanceReusePolicy {
 
-    static func write(value: AutoScalingClientTypes.BaselinePerformanceFactorsRequest?, to writer: SmithyFormURL.Writer) throws {
+    static func write(value: AutoScalingClientTypes.InstanceReusePolicy?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
-        try writer["Cpu"].write(value.cpu, with: AutoScalingClientTypes.CpuPerformanceFactorRequest.write(value:to:))
+        try writer["ReuseOnScaleIn"].write(value.reuseOnScaleIn)
     }
 
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.BaselinePerformanceFactorsRequest {
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.InstanceReusePolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.BaselinePerformanceFactorsRequest()
-        value.cpu = try reader["Cpu"].readIfPresent(with: AutoScalingClientTypes.CpuPerformanceFactorRequest.read(from:))
+        var value = AutoScalingClientTypes.InstanceReusePolicy()
+        value.reuseOnScaleIn = try reader["ReuseOnScaleIn"].readIfPresent()
         return value
     }
 }
 
-extension AutoScalingClientTypes.CpuPerformanceFactorRequest {
+extension AutoScalingClientTypes.InstancesDistribution {
 
-    static func write(value: AutoScalingClientTypes.CpuPerformanceFactorRequest?, to writer: SmithyFormURL.Writer) throws {
+    static func write(value: AutoScalingClientTypes.InstancesDistribution?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
-        try writer["Reference"].writeList(value.references, memberWritingClosure: AutoScalingClientTypes.PerformanceFactorReferenceRequest.write(value:to:), memberNodeInfo: "item", isFlattened: false)
+        try writer["OnDemandAllocationStrategy"].write(value.onDemandAllocationStrategy)
+        try writer["OnDemandBaseCapacity"].write(value.onDemandBaseCapacity)
+        try writer["OnDemandPercentageAboveBaseCapacity"].write(value.onDemandPercentageAboveBaseCapacity)
+        try writer["SpotAllocationStrategy"].write(value.spotAllocationStrategy)
+        try writer["SpotInstancePools"].write(value.spotInstancePools)
+        try writer["SpotMaxPrice"].write(value.spotMaxPrice)
     }
 
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.CpuPerformanceFactorRequest {
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.InstancesDistribution {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.CpuPerformanceFactorRequest()
-        value.references = try reader["Reference"].readListIfPresent(memberReadingClosure: AutoScalingClientTypes.PerformanceFactorReferenceRequest.read(from:), memberNodeInfo: "item", isFlattened: false)
+        var value = AutoScalingClientTypes.InstancesDistribution()
+        value.onDemandAllocationStrategy = try reader["OnDemandAllocationStrategy"].readIfPresent()
+        value.onDemandBaseCapacity = try reader["OnDemandBaseCapacity"].readIfPresent()
+        value.onDemandPercentageAboveBaseCapacity = try reader["OnDemandPercentageAboveBaseCapacity"].readIfPresent()
+        value.spotAllocationStrategy = try reader["SpotAllocationStrategy"].readIfPresent()
+        value.spotInstancePools = try reader["SpotInstancePools"].readIfPresent()
+        value.spotMaxPrice = try reader["SpotMaxPrice"].readIfPresent()
         return value
     }
 }
 
-extension AutoScalingClientTypes.PerformanceFactorReferenceRequest {
+extension AutoScalingClientTypes.LaunchConfiguration {
 
-    static func write(value: AutoScalingClientTypes.PerformanceFactorReferenceRequest?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["InstanceFamily"].write(value.instanceFamily)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.PerformanceFactorReferenceRequest {
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.LaunchConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.PerformanceFactorReferenceRequest()
-        value.instanceFamily = try reader["InstanceFamily"].readIfPresent()
+        var value = AutoScalingClientTypes.LaunchConfiguration()
+        value.launchConfigurationName = try reader["LaunchConfigurationName"].readIfPresent() ?? ""
+        value.launchConfigurationARN = try reader["LaunchConfigurationARN"].readIfPresent()
+        value.imageId = try reader["ImageId"].readIfPresent() ?? ""
+        value.keyName = try reader["KeyName"].readIfPresent()
+        value.securityGroups = try reader["SecurityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.classicLinkVPCId = try reader["ClassicLinkVPCId"].readIfPresent()
+        value.classicLinkVPCSecurityGroups = try reader["ClassicLinkVPCSecurityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.userData = try reader["UserData"].readIfPresent()
+        value.instanceType = try reader["InstanceType"].readIfPresent() ?? ""
+        value.kernelId = try reader["KernelId"].readIfPresent()
+        value.ramdiskId = try reader["RamdiskId"].readIfPresent()
+        value.blockDeviceMappings = try reader["BlockDeviceMappings"].readListIfPresent(memberReadingClosure: AutoScalingClientTypes.BlockDeviceMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.instanceMonitoring = try reader["InstanceMonitoring"].readIfPresent(with: AutoScalingClientTypes.InstanceMonitoring.read(from:))
+        value.spotPrice = try reader["SpotPrice"].readIfPresent()
+        value.iamInstanceProfile = try reader["IamInstanceProfile"].readIfPresent()
+        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.ebsOptimized = try reader["EbsOptimized"].readIfPresent()
+        value.associatePublicIpAddress = try reader["AssociatePublicIpAddress"].readIfPresent()
+        value.placementTenancy = try reader["PlacementTenancy"].readIfPresent()
+        value.metadataOptions = try reader["MetadataOptions"].readIfPresent(with: AutoScalingClientTypes.InstanceMetadataOptions.read(from:))
         return value
     }
 }
 
-extension AutoScalingClientTypes.NetworkBandwidthGbpsRequest {
+extension AutoScalingClientTypes.LaunchInstancesError {
 
-    static func write(value: AutoScalingClientTypes.NetworkBandwidthGbpsRequest?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Max"].write(value.max)
-        try writer["Min"].write(value.min)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.NetworkBandwidthGbpsRequest {
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.LaunchInstancesError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.NetworkBandwidthGbpsRequest()
-        value.min = try reader["Min"].readIfPresent()
-        value.max = try reader["Max"].readIfPresent()
+        var value = AutoScalingClientTypes.LaunchInstancesError()
+        value.instanceType = try reader["InstanceType"].readIfPresent()
+        value.marketType = try reader["MarketType"].readIfPresent()
+        value.subnetId = try reader["SubnetId"].readIfPresent()
+        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
+        value.availabilityZoneId = try reader["AvailabilityZoneId"].readIfPresent()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
         return value
     }
 }
 
-extension AutoScalingClientTypes.AcceleratorTotalMemoryMiBRequest {
+extension AutoScalingClientTypes.LaunchTemplate {
 
-    static func write(value: AutoScalingClientTypes.AcceleratorTotalMemoryMiBRequest?, to writer: SmithyFormURL.Writer) throws {
+    static func write(value: AutoScalingClientTypes.LaunchTemplate?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
-        try writer["Max"].write(value.max)
-        try writer["Min"].write(value.min)
+        try writer["LaunchTemplateSpecification"].write(value.launchTemplateSpecification, with: AutoScalingClientTypes.LaunchTemplateSpecification.write(value:to:))
+        try writer["Overrides"].writeList(value.overrides, memberWritingClosure: AutoScalingClientTypes.LaunchTemplateOverrides.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.AcceleratorTotalMemoryMiBRequest {
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.LaunchTemplate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.AcceleratorTotalMemoryMiBRequest()
-        value.min = try reader["Min"].readIfPresent()
-        value.max = try reader["Max"].readIfPresent()
+        var value = AutoScalingClientTypes.LaunchTemplate()
+        value.launchTemplateSpecification = try reader["LaunchTemplateSpecification"].readIfPresent(with: AutoScalingClientTypes.LaunchTemplateSpecification.read(from:))
+        value.overrides = try reader["Overrides"].readListIfPresent(memberReadingClosure: AutoScalingClientTypes.LaunchTemplateOverrides.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension AutoScalingClientTypes.AcceleratorCountRequest {
+extension AutoScalingClientTypes.LaunchTemplateOverrides {
 
-    static func write(value: AutoScalingClientTypes.AcceleratorCountRequest?, to writer: SmithyFormURL.Writer) throws {
+    static func write(value: AutoScalingClientTypes.LaunchTemplateOverrides?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
-        try writer["Max"].write(value.max)
-        try writer["Min"].write(value.min)
+        try writer["ImageId"].write(value.imageId)
+        try writer["InstanceRequirements"].write(value.instanceRequirements, with: AutoScalingClientTypes.InstanceRequirements.write(value:to:))
+        try writer["InstanceType"].write(value.instanceType)
+        try writer["LaunchTemplateSpecification"].write(value.launchTemplateSpecification, with: AutoScalingClientTypes.LaunchTemplateSpecification.write(value:to:))
+        try writer["WeightedCapacity"].write(value.weightedCapacity)
     }
 
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.AcceleratorCountRequest {
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.LaunchTemplateOverrides {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.AcceleratorCountRequest()
-        value.min = try reader["Min"].readIfPresent()
-        value.max = try reader["Max"].readIfPresent()
+        var value = AutoScalingClientTypes.LaunchTemplateOverrides()
+        value.instanceType = try reader["InstanceType"].readIfPresent()
+        value.weightedCapacity = try reader["WeightedCapacity"].readIfPresent()
+        value.launchTemplateSpecification = try reader["LaunchTemplateSpecification"].readIfPresent(with: AutoScalingClientTypes.LaunchTemplateSpecification.read(from:))
+        value.instanceRequirements = try reader["InstanceRequirements"].readIfPresent(with: AutoScalingClientTypes.InstanceRequirements.read(from:))
+        value.imageId = try reader["ImageId"].readIfPresent()
         return value
     }
 }
 
-extension AutoScalingClientTypes.BaselineEbsBandwidthMbpsRequest {
+extension AutoScalingClientTypes.LaunchTemplateSpecification {
 
-    static func write(value: AutoScalingClientTypes.BaselineEbsBandwidthMbpsRequest?, to writer: SmithyFormURL.Writer) throws {
+    static func write(value: AutoScalingClientTypes.LaunchTemplateSpecification?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
-        try writer["Max"].write(value.max)
-        try writer["Min"].write(value.min)
+        try writer["LaunchTemplateId"].write(value.launchTemplateId)
+        try writer["LaunchTemplateName"].write(value.launchTemplateName)
+        try writer["Version"].write(value.version)
     }
 
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.BaselineEbsBandwidthMbpsRequest {
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.LaunchTemplateSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.BaselineEbsBandwidthMbpsRequest()
-        value.min = try reader["Min"].readIfPresent()
-        value.max = try reader["Max"].readIfPresent()
+        var value = AutoScalingClientTypes.LaunchTemplateSpecification()
+        value.launchTemplateId = try reader["LaunchTemplateId"].readIfPresent()
+        value.launchTemplateName = try reader["LaunchTemplateName"].readIfPresent()
+        value.version = try reader["Version"].readIfPresent()
         return value
     }
 }
 
-extension AutoScalingClientTypes.TotalLocalStorageGBRequest {
+extension AutoScalingClientTypes.LifecycleHook {
 
-    static func write(value: AutoScalingClientTypes.TotalLocalStorageGBRequest?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Max"].write(value.max)
-        try writer["Min"].write(value.min)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.TotalLocalStorageGBRequest {
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.LifecycleHook {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.TotalLocalStorageGBRequest()
-        value.min = try reader["Min"].readIfPresent()
-        value.max = try reader["Max"].readIfPresent()
+        var value = AutoScalingClientTypes.LifecycleHook()
+        value.lifecycleHookName = try reader["LifecycleHookName"].readIfPresent()
+        value.autoScalingGroupName = try reader["AutoScalingGroupName"].readIfPresent()
+        value.lifecycleTransition = try reader["LifecycleTransition"].readIfPresent()
+        value.notificationTargetARN = try reader["NotificationTargetARN"].readIfPresent()
+        value.roleARN = try reader["RoleARN"].readIfPresent()
+        value.notificationMetadata = try reader["NotificationMetadata"].readIfPresent()
+        value.heartbeatTimeout = try reader["HeartbeatTimeout"].readIfPresent()
+        value.globalTimeout = try reader["GlobalTimeout"].readIfPresent()
+        value.defaultResult = try reader["DefaultResult"].readIfPresent()
         return value
     }
 }
 
-extension AutoScalingClientTypes.NetworkInterfaceCountRequest {
+extension AutoScalingClientTypes.LifecycleHookSpecification {
 
-    static func write(value: AutoScalingClientTypes.NetworkInterfaceCountRequest?, to writer: SmithyFormURL.Writer) throws {
+    static func write(value: AutoScalingClientTypes.LifecycleHookSpecification?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
-        try writer["Max"].write(value.max)
-        try writer["Min"].write(value.min)
+        try writer["DefaultResult"].write(value.defaultResult)
+        try writer["HeartbeatTimeout"].write(value.heartbeatTimeout)
+        try writer["LifecycleHookName"].write(value.lifecycleHookName)
+        try writer["LifecycleTransition"].write(value.lifecycleTransition)
+        try writer["NotificationMetadata"].write(value.notificationMetadata)
+        try writer["NotificationTargetARN"].write(value.notificationTargetARN)
+        try writer["RoleARN"].write(value.roleARN)
     }
+}
 
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.NetworkInterfaceCountRequest {
+extension AutoScalingClientTypes.LoadBalancerState {
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.LoadBalancerState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.NetworkInterfaceCountRequest()
-        value.min = try reader["Min"].readIfPresent()
-        value.max = try reader["Max"].readIfPresent()
+        var value = AutoScalingClientTypes.LoadBalancerState()
+        value.loadBalancerName = try reader["LoadBalancerName"].readIfPresent()
+        value.state = try reader["State"].readIfPresent()
+        return value
+    }
+}
+
+extension AutoScalingClientTypes.LoadBalancerTargetGroupState {
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.LoadBalancerTargetGroupState {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AutoScalingClientTypes.LoadBalancerTargetGroupState()
+        value.loadBalancerTargetGroupARN = try reader["LoadBalancerTargetGroupARN"].readIfPresent()
+        value.state = try reader["State"].readIfPresent()
+        return value
+    }
+}
+
+extension AutoScalingClientTypes.LoadForecast {
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.LoadForecast {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AutoScalingClientTypes.LoadForecast()
+        value.timestamps = try reader["Timestamps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.timestampReadingClosure(format: SmithyTimestamps.TimestampFormat.dateTime), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.metricSpecification = try reader["MetricSpecification"].readIfPresent(with: AutoScalingClientTypes.PredictiveScalingMetricSpecification.read(from:))
         return value
     }
 }
@@ -10601,125 +10968,351 @@ extension AutoScalingClientTypes.MemoryMiBRequest {
     }
 }
 
-extension AutoScalingClientTypes.VCpuCountRequest {
+extension AutoScalingClientTypes.Metric {
 
-    static func write(value: AutoScalingClientTypes.VCpuCountRequest?, to writer: SmithyFormURL.Writer) throws {
+    static func write(value: AutoScalingClientTypes.Metric?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Dimensions"].writeList(value.dimensions, memberWritingClosure: AutoScalingClientTypes.MetricDimension.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MetricName"].write(value.metricName)
+        try writer["Namespace"].write(value.namespace)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.Metric {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AutoScalingClientTypes.Metric()
+        value.namespace = try reader["Namespace"].readIfPresent() ?? ""
+        value.metricName = try reader["MetricName"].readIfPresent() ?? ""
+        value.dimensions = try reader["Dimensions"].readListIfPresent(memberReadingClosure: AutoScalingClientTypes.MetricDimension.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension AutoScalingClientTypes.MetricCollectionType {
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.MetricCollectionType {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AutoScalingClientTypes.MetricCollectionType()
+        value.metric = try reader["Metric"].readIfPresent()
+        return value
+    }
+}
+
+extension AutoScalingClientTypes.MetricDataQuery {
+
+    static func write(value: AutoScalingClientTypes.MetricDataQuery?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Expression"].write(value.expression)
+        try writer["Id"].write(value.id)
+        try writer["Label"].write(value.label)
+        try writer["MetricStat"].write(value.metricStat, with: AutoScalingClientTypes.MetricStat.write(value:to:))
+        try writer["ReturnData"].write(value.returnData)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.MetricDataQuery {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AutoScalingClientTypes.MetricDataQuery()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.expression = try reader["Expression"].readIfPresent()
+        value.metricStat = try reader["MetricStat"].readIfPresent(with: AutoScalingClientTypes.MetricStat.read(from:))
+        value.label = try reader["Label"].readIfPresent()
+        value.returnData = try reader["ReturnData"].readIfPresent()
+        return value
+    }
+}
+
+extension AutoScalingClientTypes.MetricDimension {
+
+    static func write(value: AutoScalingClientTypes.MetricDimension?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.MetricDimension {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AutoScalingClientTypes.MetricDimension()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension AutoScalingClientTypes.MetricGranularityType {
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.MetricGranularityType {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AutoScalingClientTypes.MetricGranularityType()
+        value.granularity = try reader["Granularity"].readIfPresent()
+        return value
+    }
+}
+
+extension AutoScalingClientTypes.MetricStat {
+
+    static func write(value: AutoScalingClientTypes.MetricStat?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Metric"].write(value.metric, with: AutoScalingClientTypes.Metric.write(value:to:))
+        try writer["Stat"].write(value.stat)
+        try writer["Unit"].write(value.unit)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.MetricStat {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AutoScalingClientTypes.MetricStat()
+        value.metric = try reader["Metric"].readIfPresent(with: AutoScalingClientTypes.Metric.read(from:))
+        value.stat = try reader["Stat"].readIfPresent() ?? ""
+        value.unit = try reader["Unit"].readIfPresent()
+        return value
+    }
+}
+
+extension AutoScalingClientTypes.MixedInstancesPolicy {
+
+    static func write(value: AutoScalingClientTypes.MixedInstancesPolicy?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["InstancesDistribution"].write(value.instancesDistribution, with: AutoScalingClientTypes.InstancesDistribution.write(value:to:))
+        try writer["LaunchTemplate"].write(value.launchTemplate, with: AutoScalingClientTypes.LaunchTemplate.write(value:to:))
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.MixedInstancesPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AutoScalingClientTypes.MixedInstancesPolicy()
+        value.launchTemplate = try reader["LaunchTemplate"].readIfPresent(with: AutoScalingClientTypes.LaunchTemplate.read(from:))
+        value.instancesDistribution = try reader["InstancesDistribution"].readIfPresent(with: AutoScalingClientTypes.InstancesDistribution.read(from:))
+        return value
+    }
+}
+
+extension AutoScalingClientTypes.NetworkBandwidthGbpsRequest {
+
+    static func write(value: AutoScalingClientTypes.NetworkBandwidthGbpsRequest?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
         try writer["Max"].write(value.max)
         try writer["Min"].write(value.min)
     }
 
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.VCpuCountRequest {
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.NetworkBandwidthGbpsRequest {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.VCpuCountRequest()
-        value.min = try reader["Min"].readIfPresent() ?? 0
+        var value = AutoScalingClientTypes.NetworkBandwidthGbpsRequest()
+        value.min = try reader["Min"].readIfPresent()
         value.max = try reader["Max"].readIfPresent()
         return value
     }
 }
 
-extension AutoScalingClientTypes.AutoScalingInstanceDetails {
+extension AutoScalingClientTypes.NetworkInterfaceCountRequest {
 
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.AutoScalingInstanceDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.AutoScalingInstanceDetails()
-        value.instanceId = try reader["InstanceId"].readIfPresent() ?? ""
-        value.instanceType = try reader["InstanceType"].readIfPresent()
-        value.autoScalingGroupName = try reader["AutoScalingGroupName"].readIfPresent() ?? ""
-        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent() ?? ""
-        value.lifecycleState = try reader["LifecycleState"].readIfPresent() ?? ""
-        value.healthStatus = try reader["HealthStatus"].readIfPresent() ?? ""
-        value.launchConfigurationName = try reader["LaunchConfigurationName"].readIfPresent()
-        value.launchTemplate = try reader["LaunchTemplate"].readIfPresent(with: AutoScalingClientTypes.LaunchTemplateSpecification.read(from:))
-        value.imageId = try reader["ImageId"].readIfPresent()
-        value.protectedFromScaleIn = try reader["ProtectedFromScaleIn"].readIfPresent() ?? false
-        value.weightedCapacity = try reader["WeightedCapacity"].readIfPresent()
-        return value
-    }
-}
-
-extension AutoScalingClientTypes.InstanceRefresh {
-
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.InstanceRefresh {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.InstanceRefresh()
-        value.instanceRefreshId = try reader["InstanceRefreshId"].readIfPresent()
-        value.autoScalingGroupName = try reader["AutoScalingGroupName"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.statusReason = try reader["StatusReason"].readIfPresent()
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.percentageComplete = try reader["PercentageComplete"].readIfPresent()
-        value.instancesToUpdate = try reader["InstancesToUpdate"].readIfPresent()
-        value.progressDetails = try reader["ProgressDetails"].readIfPresent(with: AutoScalingClientTypes.InstanceRefreshProgressDetails.read(from:))
-        value.preferences = try reader["Preferences"].readIfPresent(with: AutoScalingClientTypes.RefreshPreferences.read(from:))
-        value.desiredConfiguration = try reader["DesiredConfiguration"].readIfPresent(with: AutoScalingClientTypes.DesiredConfiguration.read(from:))
-        value.rollbackDetails = try reader["RollbackDetails"].readIfPresent(with: AutoScalingClientTypes.RollbackDetails.read(from:))
-        value.strategy = try reader["Strategy"].readIfPresent()
-        return value
-    }
-}
-
-extension AutoScalingClientTypes.RollbackDetails {
-
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.RollbackDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.RollbackDetails()
-        value.rollbackReason = try reader["RollbackReason"].readIfPresent()
-        value.rollbackStartTime = try reader["RollbackStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.percentageCompleteOnRollback = try reader["PercentageCompleteOnRollback"].readIfPresent()
-        value.instancesToUpdateOnRollback = try reader["InstancesToUpdateOnRollback"].readIfPresent()
-        value.progressDetailsOnRollback = try reader["ProgressDetailsOnRollback"].readIfPresent(with: AutoScalingClientTypes.InstanceRefreshProgressDetails.read(from:))
-        return value
-    }
-}
-
-extension AutoScalingClientTypes.InstanceRefreshProgressDetails {
-
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.InstanceRefreshProgressDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.InstanceRefreshProgressDetails()
-        value.livePoolProgress = try reader["LivePoolProgress"].readIfPresent(with: AutoScalingClientTypes.InstanceRefreshLivePoolProgress.read(from:))
-        value.warmPoolProgress = try reader["WarmPoolProgress"].readIfPresent(with: AutoScalingClientTypes.InstanceRefreshWarmPoolProgress.read(from:))
-        return value
-    }
-}
-
-extension AutoScalingClientTypes.InstanceRefreshWarmPoolProgress {
-
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.InstanceRefreshWarmPoolProgress {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.InstanceRefreshWarmPoolProgress()
-        value.percentageComplete = try reader["PercentageComplete"].readIfPresent()
-        value.instancesToUpdate = try reader["InstancesToUpdate"].readIfPresent()
-        return value
-    }
-}
-
-extension AutoScalingClientTypes.InstanceRefreshLivePoolProgress {
-
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.InstanceRefreshLivePoolProgress {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.InstanceRefreshLivePoolProgress()
-        value.percentageComplete = try reader["PercentageComplete"].readIfPresent()
-        value.instancesToUpdate = try reader["InstancesToUpdate"].readIfPresent()
-        return value
-    }
-}
-
-extension AutoScalingClientTypes.DesiredConfiguration {
-
-    static func write(value: AutoScalingClientTypes.DesiredConfiguration?, to writer: SmithyFormURL.Writer) throws {
+    static func write(value: AutoScalingClientTypes.NetworkInterfaceCountRequest?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
-        try writer["LaunchTemplate"].write(value.launchTemplate, with: AutoScalingClientTypes.LaunchTemplateSpecification.write(value:to:))
-        try writer["MixedInstancesPolicy"].write(value.mixedInstancesPolicy, with: AutoScalingClientTypes.MixedInstancesPolicy.write(value:to:))
+        try writer["Max"].write(value.max)
+        try writer["Min"].write(value.min)
     }
 
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.DesiredConfiguration {
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.NetworkInterfaceCountRequest {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.DesiredConfiguration()
-        value.launchTemplate = try reader["LaunchTemplate"].readIfPresent(with: AutoScalingClientTypes.LaunchTemplateSpecification.read(from:))
-        value.mixedInstancesPolicy = try reader["MixedInstancesPolicy"].readIfPresent(with: AutoScalingClientTypes.MixedInstancesPolicy.read(from:))
+        var value = AutoScalingClientTypes.NetworkInterfaceCountRequest()
+        value.min = try reader["Min"].readIfPresent()
+        value.max = try reader["Max"].readIfPresent()
+        return value
+    }
+}
+
+extension AutoScalingClientTypes.NotificationConfiguration {
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.NotificationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AutoScalingClientTypes.NotificationConfiguration()
+        value.autoScalingGroupName = try reader["AutoScalingGroupName"].readIfPresent()
+        value.topicARN = try reader["TopicARN"].readIfPresent()
+        value.notificationType = try reader["NotificationType"].readIfPresent()
+        return value
+    }
+}
+
+extension AutoScalingClientTypes.PerformanceFactorReferenceRequest {
+
+    static func write(value: AutoScalingClientTypes.PerformanceFactorReferenceRequest?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["InstanceFamily"].write(value.instanceFamily)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.PerformanceFactorReferenceRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AutoScalingClientTypes.PerformanceFactorReferenceRequest()
+        value.instanceFamily = try reader["InstanceFamily"].readIfPresent()
+        return value
+    }
+}
+
+extension AutoScalingClientTypes.PredefinedMetricSpecification {
+
+    static func write(value: AutoScalingClientTypes.PredefinedMetricSpecification?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["PredefinedMetricType"].write(value.predefinedMetricType)
+        try writer["ResourceLabel"].write(value.resourceLabel)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.PredefinedMetricSpecification {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AutoScalingClientTypes.PredefinedMetricSpecification()
+        value.predefinedMetricType = try reader["PredefinedMetricType"].readIfPresent() ?? .sdkUnknown("")
+        value.resourceLabel = try reader["ResourceLabel"].readIfPresent()
+        return value
+    }
+}
+
+extension AutoScalingClientTypes.PredictiveScalingConfiguration {
+
+    static func write(value: AutoScalingClientTypes.PredictiveScalingConfiguration?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["MaxCapacityBreachBehavior"].write(value.maxCapacityBreachBehavior)
+        try writer["MaxCapacityBuffer"].write(value.maxCapacityBuffer)
+        try writer["MetricSpecifications"].writeList(value.metricSpecifications, memberWritingClosure: AutoScalingClientTypes.PredictiveScalingMetricSpecification.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Mode"].write(value.mode)
+        try writer["SchedulingBufferTime"].write(value.schedulingBufferTime)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.PredictiveScalingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AutoScalingClientTypes.PredictiveScalingConfiguration()
+        value.metricSpecifications = try reader["MetricSpecifications"].readListIfPresent(memberReadingClosure: AutoScalingClientTypes.PredictiveScalingMetricSpecification.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.mode = try reader["Mode"].readIfPresent()
+        value.schedulingBufferTime = try reader["SchedulingBufferTime"].readIfPresent()
+        value.maxCapacityBreachBehavior = try reader["MaxCapacityBreachBehavior"].readIfPresent()
+        value.maxCapacityBuffer = try reader["MaxCapacityBuffer"].readIfPresent()
+        return value
+    }
+}
+
+extension AutoScalingClientTypes.PredictiveScalingCustomizedCapacityMetric {
+
+    static func write(value: AutoScalingClientTypes.PredictiveScalingCustomizedCapacityMetric?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["MetricDataQueries"].writeList(value.metricDataQueries, memberWritingClosure: AutoScalingClientTypes.MetricDataQuery.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.PredictiveScalingCustomizedCapacityMetric {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AutoScalingClientTypes.PredictiveScalingCustomizedCapacityMetric()
+        value.metricDataQueries = try reader["MetricDataQueries"].readListIfPresent(memberReadingClosure: AutoScalingClientTypes.MetricDataQuery.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension AutoScalingClientTypes.PredictiveScalingCustomizedLoadMetric {
+
+    static func write(value: AutoScalingClientTypes.PredictiveScalingCustomizedLoadMetric?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["MetricDataQueries"].writeList(value.metricDataQueries, memberWritingClosure: AutoScalingClientTypes.MetricDataQuery.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.PredictiveScalingCustomizedLoadMetric {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AutoScalingClientTypes.PredictiveScalingCustomizedLoadMetric()
+        value.metricDataQueries = try reader["MetricDataQueries"].readListIfPresent(memberReadingClosure: AutoScalingClientTypes.MetricDataQuery.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension AutoScalingClientTypes.PredictiveScalingCustomizedScalingMetric {
+
+    static func write(value: AutoScalingClientTypes.PredictiveScalingCustomizedScalingMetric?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["MetricDataQueries"].writeList(value.metricDataQueries, memberWritingClosure: AutoScalingClientTypes.MetricDataQuery.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.PredictiveScalingCustomizedScalingMetric {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AutoScalingClientTypes.PredictiveScalingCustomizedScalingMetric()
+        value.metricDataQueries = try reader["MetricDataQueries"].readListIfPresent(memberReadingClosure: AutoScalingClientTypes.MetricDataQuery.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension AutoScalingClientTypes.PredictiveScalingMetricSpecification {
+
+    static func write(value: AutoScalingClientTypes.PredictiveScalingMetricSpecification?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["CustomizedCapacityMetricSpecification"].write(value.customizedCapacityMetricSpecification, with: AutoScalingClientTypes.PredictiveScalingCustomizedCapacityMetric.write(value:to:))
+        try writer["CustomizedLoadMetricSpecification"].write(value.customizedLoadMetricSpecification, with: AutoScalingClientTypes.PredictiveScalingCustomizedLoadMetric.write(value:to:))
+        try writer["CustomizedScalingMetricSpecification"].write(value.customizedScalingMetricSpecification, with: AutoScalingClientTypes.PredictiveScalingCustomizedScalingMetric.write(value:to:))
+        try writer["PredefinedLoadMetricSpecification"].write(value.predefinedLoadMetricSpecification, with: AutoScalingClientTypes.PredictiveScalingPredefinedLoadMetric.write(value:to:))
+        try writer["PredefinedMetricPairSpecification"].write(value.predefinedMetricPairSpecification, with: AutoScalingClientTypes.PredictiveScalingPredefinedMetricPair.write(value:to:))
+        try writer["PredefinedScalingMetricSpecification"].write(value.predefinedScalingMetricSpecification, with: AutoScalingClientTypes.PredictiveScalingPredefinedScalingMetric.write(value:to:))
+        try writer["TargetValue"].write(value.targetValue)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.PredictiveScalingMetricSpecification {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AutoScalingClientTypes.PredictiveScalingMetricSpecification()
+        value.targetValue = try reader["TargetValue"].readIfPresent() ?? 0.0
+        value.predefinedMetricPairSpecification = try reader["PredefinedMetricPairSpecification"].readIfPresent(with: AutoScalingClientTypes.PredictiveScalingPredefinedMetricPair.read(from:))
+        value.predefinedScalingMetricSpecification = try reader["PredefinedScalingMetricSpecification"].readIfPresent(with: AutoScalingClientTypes.PredictiveScalingPredefinedScalingMetric.read(from:))
+        value.predefinedLoadMetricSpecification = try reader["PredefinedLoadMetricSpecification"].readIfPresent(with: AutoScalingClientTypes.PredictiveScalingPredefinedLoadMetric.read(from:))
+        value.customizedScalingMetricSpecification = try reader["CustomizedScalingMetricSpecification"].readIfPresent(with: AutoScalingClientTypes.PredictiveScalingCustomizedScalingMetric.read(from:))
+        value.customizedLoadMetricSpecification = try reader["CustomizedLoadMetricSpecification"].readIfPresent(with: AutoScalingClientTypes.PredictiveScalingCustomizedLoadMetric.read(from:))
+        value.customizedCapacityMetricSpecification = try reader["CustomizedCapacityMetricSpecification"].readIfPresent(with: AutoScalingClientTypes.PredictiveScalingCustomizedCapacityMetric.read(from:))
+        return value
+    }
+}
+
+extension AutoScalingClientTypes.PredictiveScalingPredefinedLoadMetric {
+
+    static func write(value: AutoScalingClientTypes.PredictiveScalingPredefinedLoadMetric?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["PredefinedMetricType"].write(value.predefinedMetricType)
+        try writer["ResourceLabel"].write(value.resourceLabel)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.PredictiveScalingPredefinedLoadMetric {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AutoScalingClientTypes.PredictiveScalingPredefinedLoadMetric()
+        value.predefinedMetricType = try reader["PredefinedMetricType"].readIfPresent() ?? .sdkUnknown("")
+        value.resourceLabel = try reader["ResourceLabel"].readIfPresent()
+        return value
+    }
+}
+
+extension AutoScalingClientTypes.PredictiveScalingPredefinedMetricPair {
+
+    static func write(value: AutoScalingClientTypes.PredictiveScalingPredefinedMetricPair?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["PredefinedMetricType"].write(value.predefinedMetricType)
+        try writer["ResourceLabel"].write(value.resourceLabel)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.PredictiveScalingPredefinedMetricPair {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AutoScalingClientTypes.PredictiveScalingPredefinedMetricPair()
+        value.predefinedMetricType = try reader["PredefinedMetricType"].readIfPresent() ?? .sdkUnknown("")
+        value.resourceLabel = try reader["ResourceLabel"].readIfPresent()
+        return value
+    }
+}
+
+extension AutoScalingClientTypes.PredictiveScalingPredefinedScalingMetric {
+
+    static func write(value: AutoScalingClientTypes.PredictiveScalingPredefinedScalingMetric?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["PredefinedMetricType"].write(value.predefinedMetricType)
+        try writer["ResourceLabel"].write(value.resourceLabel)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.PredictiveScalingPredefinedScalingMetric {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AutoScalingClientTypes.PredictiveScalingPredefinedScalingMetric()
+        value.predefinedMetricType = try reader["PredefinedMetricType"].readIfPresent() ?? .sdkUnknown("")
+        value.resourceLabel = try reader["ResourceLabel"].readIfPresent()
+        return value
+    }
+}
+
+extension AutoScalingClientTypes.ProcessType {
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.ProcessType {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AutoScalingClientTypes.ProcessType()
+        value.processName = try reader["ProcessName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10759,200 +11352,31 @@ extension AutoScalingClientTypes.RefreshPreferences {
     }
 }
 
-extension AutoScalingClientTypes.AlarmSpecification {
+extension AutoScalingClientTypes.RetentionTriggers {
 
-    static func write(value: AutoScalingClientTypes.AlarmSpecification?, to writer: SmithyFormURL.Writer) throws {
+    static func write(value: AutoScalingClientTypes.RetentionTriggers?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
-        try writer["Alarms"].writeList(value.alarms, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TerminateHookAbandon"].write(value.terminateHookAbandon)
     }
 
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.AlarmSpecification {
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.RetentionTriggers {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.AlarmSpecification()
-        value.alarms = try reader["Alarms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = AutoScalingClientTypes.RetentionTriggers()
+        value.terminateHookAbandon = try reader["TerminateHookAbandon"].readIfPresent()
         return value
     }
 }
 
-extension AutoScalingClientTypes.LaunchConfiguration {
+extension AutoScalingClientTypes.RollbackDetails {
 
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.LaunchConfiguration {
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.RollbackDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.LaunchConfiguration()
-        value.launchConfigurationName = try reader["LaunchConfigurationName"].readIfPresent() ?? ""
-        value.launchConfigurationARN = try reader["LaunchConfigurationARN"].readIfPresent()
-        value.imageId = try reader["ImageId"].readIfPresent() ?? ""
-        value.keyName = try reader["KeyName"].readIfPresent()
-        value.securityGroups = try reader["SecurityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.classicLinkVPCId = try reader["ClassicLinkVPCId"].readIfPresent()
-        value.classicLinkVPCSecurityGroups = try reader["ClassicLinkVPCSecurityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.userData = try reader["UserData"].readIfPresent()
-        value.instanceType = try reader["InstanceType"].readIfPresent() ?? ""
-        value.kernelId = try reader["KernelId"].readIfPresent()
-        value.ramdiskId = try reader["RamdiskId"].readIfPresent()
-        value.blockDeviceMappings = try reader["BlockDeviceMappings"].readListIfPresent(memberReadingClosure: AutoScalingClientTypes.BlockDeviceMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.instanceMonitoring = try reader["InstanceMonitoring"].readIfPresent(with: AutoScalingClientTypes.InstanceMonitoring.read(from:))
-        value.spotPrice = try reader["SpotPrice"].readIfPresent()
-        value.iamInstanceProfile = try reader["IamInstanceProfile"].readIfPresent()
-        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.ebsOptimized = try reader["EbsOptimized"].readIfPresent()
-        value.associatePublicIpAddress = try reader["AssociatePublicIpAddress"].readIfPresent()
-        value.placementTenancy = try reader["PlacementTenancy"].readIfPresent()
-        value.metadataOptions = try reader["MetadataOptions"].readIfPresent(with: AutoScalingClientTypes.InstanceMetadataOptions.read(from:))
-        return value
-    }
-}
-
-extension AutoScalingClientTypes.InstanceMetadataOptions {
-
-    static func write(value: AutoScalingClientTypes.InstanceMetadataOptions?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["HttpEndpoint"].write(value.httpEndpoint)
-        try writer["HttpPutResponseHopLimit"].write(value.httpPutResponseHopLimit)
-        try writer["HttpTokens"].write(value.httpTokens)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.InstanceMetadataOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.InstanceMetadataOptions()
-        value.httpTokens = try reader["HttpTokens"].readIfPresent()
-        value.httpPutResponseHopLimit = try reader["HttpPutResponseHopLimit"].readIfPresent()
-        value.httpEndpoint = try reader["HttpEndpoint"].readIfPresent()
-        return value
-    }
-}
-
-extension AutoScalingClientTypes.InstanceMonitoring {
-
-    static func write(value: AutoScalingClientTypes.InstanceMonitoring?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Enabled"].write(value.enabled)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.InstanceMonitoring {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.InstanceMonitoring()
-        value.enabled = try reader["Enabled"].readIfPresent()
-        return value
-    }
-}
-
-extension AutoScalingClientTypes.BlockDeviceMapping {
-
-    static func write(value: AutoScalingClientTypes.BlockDeviceMapping?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DeviceName"].write(value.deviceName)
-        try writer["Ebs"].write(value.ebs, with: AutoScalingClientTypes.Ebs.write(value:to:))
-        try writer["NoDevice"].write(value.noDevice)
-        try writer["VirtualName"].write(value.virtualName)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.BlockDeviceMapping {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.BlockDeviceMapping()
-        value.virtualName = try reader["VirtualName"].readIfPresent()
-        value.deviceName = try reader["DeviceName"].readIfPresent() ?? ""
-        value.ebs = try reader["Ebs"].readIfPresent(with: AutoScalingClientTypes.Ebs.read(from:))
-        value.noDevice = try reader["NoDevice"].readIfPresent()
-        return value
-    }
-}
-
-extension AutoScalingClientTypes.Ebs {
-
-    static func write(value: AutoScalingClientTypes.Ebs?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DeleteOnTermination"].write(value.deleteOnTermination)
-        try writer["Encrypted"].write(value.encrypted)
-        try writer["Iops"].write(value.iops)
-        try writer["SnapshotId"].write(value.snapshotId)
-        try writer["Throughput"].write(value.throughput)
-        try writer["VolumeSize"].write(value.volumeSize)
-        try writer["VolumeType"].write(value.volumeType)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.Ebs {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.Ebs()
-        value.snapshotId = try reader["SnapshotId"].readIfPresent()
-        value.volumeSize = try reader["VolumeSize"].readIfPresent()
-        value.volumeType = try reader["VolumeType"].readIfPresent()
-        value.deleteOnTermination = try reader["DeleteOnTermination"].readIfPresent()
-        value.iops = try reader["Iops"].readIfPresent()
-        value.encrypted = try reader["Encrypted"].readIfPresent()
-        value.throughput = try reader["Throughput"].readIfPresent()
-        return value
-    }
-}
-
-extension AutoScalingClientTypes.LifecycleHook {
-
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.LifecycleHook {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.LifecycleHook()
-        value.lifecycleHookName = try reader["LifecycleHookName"].readIfPresent()
-        value.autoScalingGroupName = try reader["AutoScalingGroupName"].readIfPresent()
-        value.lifecycleTransition = try reader["LifecycleTransition"].readIfPresent()
-        value.notificationTargetARN = try reader["NotificationTargetARN"].readIfPresent()
-        value.roleARN = try reader["RoleARN"].readIfPresent()
-        value.notificationMetadata = try reader["NotificationMetadata"].readIfPresent()
-        value.heartbeatTimeout = try reader["HeartbeatTimeout"].readIfPresent()
-        value.globalTimeout = try reader["GlobalTimeout"].readIfPresent()
-        value.defaultResult = try reader["DefaultResult"].readIfPresent()
-        return value
-    }
-}
-
-extension AutoScalingClientTypes.LoadBalancerState {
-
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.LoadBalancerState {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.LoadBalancerState()
-        value.loadBalancerName = try reader["LoadBalancerName"].readIfPresent()
-        value.state = try reader["State"].readIfPresent()
-        return value
-    }
-}
-
-extension AutoScalingClientTypes.LoadBalancerTargetGroupState {
-
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.LoadBalancerTargetGroupState {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.LoadBalancerTargetGroupState()
-        value.loadBalancerTargetGroupARN = try reader["LoadBalancerTargetGroupARN"].readIfPresent()
-        value.state = try reader["State"].readIfPresent()
-        return value
-    }
-}
-
-extension AutoScalingClientTypes.MetricCollectionType {
-
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.MetricCollectionType {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.MetricCollectionType()
-        value.metric = try reader["Metric"].readIfPresent()
-        return value
-    }
-}
-
-extension AutoScalingClientTypes.MetricGranularityType {
-
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.MetricGranularityType {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.MetricGranularityType()
-        value.granularity = try reader["Granularity"].readIfPresent()
-        return value
-    }
-}
-
-extension AutoScalingClientTypes.NotificationConfiguration {
-
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.NotificationConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.NotificationConfiguration()
-        value.autoScalingGroupName = try reader["AutoScalingGroupName"].readIfPresent()
-        value.topicARN = try reader["TopicARN"].readIfPresent()
-        value.notificationType = try reader["NotificationType"].readIfPresent()
+        var value = AutoScalingClientTypes.RollbackDetails()
+        value.rollbackReason = try reader["RollbackReason"].readIfPresent()
+        value.rollbackStartTime = try reader["RollbackStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.percentageCompleteOnRollback = try reader["PercentageCompleteOnRollback"].readIfPresent()
+        value.instancesToUpdateOnRollback = try reader["InstancesToUpdateOnRollback"].readIfPresent()
+        value.progressDetailsOnRollback = try reader["ProgressDetailsOnRollback"].readIfPresent(with: AutoScalingClientTypes.InstanceRefreshProgressDetails.read(from:))
         return value
     }
 }
@@ -10982,226 +11406,93 @@ extension AutoScalingClientTypes.ScalingPolicy {
     }
 }
 
-extension AutoScalingClientTypes.PredictiveScalingConfiguration {
+extension AutoScalingClientTypes.ScheduledUpdateGroupAction {
 
-    static func write(value: AutoScalingClientTypes.PredictiveScalingConfiguration?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["MaxCapacityBreachBehavior"].write(value.maxCapacityBreachBehavior)
-        try writer["MaxCapacityBuffer"].write(value.maxCapacityBuffer)
-        try writer["MetricSpecifications"].writeList(value.metricSpecifications, memberWritingClosure: AutoScalingClientTypes.PredictiveScalingMetricSpecification.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Mode"].write(value.mode)
-        try writer["SchedulingBufferTime"].write(value.schedulingBufferTime)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.PredictiveScalingConfiguration {
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.ScheduledUpdateGroupAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.PredictiveScalingConfiguration()
-        value.metricSpecifications = try reader["MetricSpecifications"].readListIfPresent(memberReadingClosure: AutoScalingClientTypes.PredictiveScalingMetricSpecification.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.mode = try reader["Mode"].readIfPresent()
-        value.schedulingBufferTime = try reader["SchedulingBufferTime"].readIfPresent()
-        value.maxCapacityBreachBehavior = try reader["MaxCapacityBreachBehavior"].readIfPresent()
-        value.maxCapacityBuffer = try reader["MaxCapacityBuffer"].readIfPresent()
+        var value = AutoScalingClientTypes.ScheduledUpdateGroupAction()
+        value.autoScalingGroupName = try reader["AutoScalingGroupName"].readIfPresent()
+        value.scheduledActionName = try reader["ScheduledActionName"].readIfPresent()
+        value.scheduledActionARN = try reader["ScheduledActionARN"].readIfPresent()
+        value.time = try reader["Time"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.recurrence = try reader["Recurrence"].readIfPresent()
+        value.minSize = try reader["MinSize"].readIfPresent()
+        value.maxSize = try reader["MaxSize"].readIfPresent()
+        value.desiredCapacity = try reader["DesiredCapacity"].readIfPresent()
+        value.timeZone = try reader["TimeZone"].readIfPresent()
         return value
     }
 }
 
-extension AutoScalingClientTypes.PredictiveScalingMetricSpecification {
+extension AutoScalingClientTypes.ScheduledUpdateGroupActionRequest {
 
-    static func write(value: AutoScalingClientTypes.PredictiveScalingMetricSpecification?, to writer: SmithyFormURL.Writer) throws {
+    static func write(value: AutoScalingClientTypes.ScheduledUpdateGroupActionRequest?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
-        try writer["CustomizedCapacityMetricSpecification"].write(value.customizedCapacityMetricSpecification, with: AutoScalingClientTypes.PredictiveScalingCustomizedCapacityMetric.write(value:to:))
-        try writer["CustomizedLoadMetricSpecification"].write(value.customizedLoadMetricSpecification, with: AutoScalingClientTypes.PredictiveScalingCustomizedLoadMetric.write(value:to:))
-        try writer["CustomizedScalingMetricSpecification"].write(value.customizedScalingMetricSpecification, with: AutoScalingClientTypes.PredictiveScalingCustomizedScalingMetric.write(value:to:))
-        try writer["PredefinedLoadMetricSpecification"].write(value.predefinedLoadMetricSpecification, with: AutoScalingClientTypes.PredictiveScalingPredefinedLoadMetric.write(value:to:))
-        try writer["PredefinedMetricPairSpecification"].write(value.predefinedMetricPairSpecification, with: AutoScalingClientTypes.PredictiveScalingPredefinedMetricPair.write(value:to:))
-        try writer["PredefinedScalingMetricSpecification"].write(value.predefinedScalingMetricSpecification, with: AutoScalingClientTypes.PredictiveScalingPredefinedScalingMetric.write(value:to:))
-        try writer["TargetValue"].write(value.targetValue)
+        try writer["DesiredCapacity"].write(value.desiredCapacity)
+        try writer["EndTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.dateTime)
+        try writer["MaxSize"].write(value.maxSize)
+        try writer["MinSize"].write(value.minSize)
+        try writer["Recurrence"].write(value.recurrence)
+        try writer["ScheduledActionName"].write(value.scheduledActionName)
+        try writer["StartTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.dateTime)
+        try writer["TimeZone"].write(value.timeZone)
+    }
+}
+
+extension AutoScalingClientTypes.StepAdjustment {
+
+    static func write(value: AutoScalingClientTypes.StepAdjustment?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["MetricIntervalLowerBound"].write(value.metricIntervalLowerBound)
+        try writer["MetricIntervalUpperBound"].write(value.metricIntervalUpperBound)
+        try writer["ScalingAdjustment"].write(value.scalingAdjustment)
     }
 
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.PredictiveScalingMetricSpecification {
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.StepAdjustment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.PredictiveScalingMetricSpecification()
-        value.targetValue = try reader["TargetValue"].readIfPresent() ?? 0.0
-        value.predefinedMetricPairSpecification = try reader["PredefinedMetricPairSpecification"].readIfPresent(with: AutoScalingClientTypes.PredictiveScalingPredefinedMetricPair.read(from:))
-        value.predefinedScalingMetricSpecification = try reader["PredefinedScalingMetricSpecification"].readIfPresent(with: AutoScalingClientTypes.PredictiveScalingPredefinedScalingMetric.read(from:))
-        value.predefinedLoadMetricSpecification = try reader["PredefinedLoadMetricSpecification"].readIfPresent(with: AutoScalingClientTypes.PredictiveScalingPredefinedLoadMetric.read(from:))
-        value.customizedScalingMetricSpecification = try reader["CustomizedScalingMetricSpecification"].readIfPresent(with: AutoScalingClientTypes.PredictiveScalingCustomizedScalingMetric.read(from:))
-        value.customizedLoadMetricSpecification = try reader["CustomizedLoadMetricSpecification"].readIfPresent(with: AutoScalingClientTypes.PredictiveScalingCustomizedLoadMetric.read(from:))
-        value.customizedCapacityMetricSpecification = try reader["CustomizedCapacityMetricSpecification"].readIfPresent(with: AutoScalingClientTypes.PredictiveScalingCustomizedCapacityMetric.read(from:))
+        var value = AutoScalingClientTypes.StepAdjustment()
+        value.metricIntervalLowerBound = try reader["MetricIntervalLowerBound"].readIfPresent()
+        value.metricIntervalUpperBound = try reader["MetricIntervalUpperBound"].readIfPresent()
+        value.scalingAdjustment = try reader["ScalingAdjustment"].readIfPresent() ?? 0
         return value
     }
 }
 
-extension AutoScalingClientTypes.PredictiveScalingCustomizedCapacityMetric {
+extension AutoScalingClientTypes.SuspendedProcess {
 
-    static func write(value: AutoScalingClientTypes.PredictiveScalingCustomizedCapacityMetric?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["MetricDataQueries"].writeList(value.metricDataQueries, memberWritingClosure: AutoScalingClientTypes.MetricDataQuery.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.PredictiveScalingCustomizedCapacityMetric {
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.SuspendedProcess {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.PredictiveScalingCustomizedCapacityMetric()
-        value.metricDataQueries = try reader["MetricDataQueries"].readListIfPresent(memberReadingClosure: AutoScalingClientTypes.MetricDataQuery.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        var value = AutoScalingClientTypes.SuspendedProcess()
+        value.processName = try reader["ProcessName"].readIfPresent()
+        value.suspensionReason = try reader["SuspensionReason"].readIfPresent()
         return value
     }
 }
 
-extension AutoScalingClientTypes.MetricDataQuery {
+extension AutoScalingClientTypes.Tag {
 
-    static func write(value: AutoScalingClientTypes.MetricDataQuery?, to writer: SmithyFormURL.Writer) throws {
+    static func write(value: AutoScalingClientTypes.Tag?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
-        try writer["Expression"].write(value.expression)
-        try writer["Id"].write(value.id)
-        try writer["Label"].write(value.label)
-        try writer["MetricStat"].write(value.metricStat, with: AutoScalingClientTypes.MetricStat.write(value:to:))
-        try writer["ReturnData"].write(value.returnData)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.MetricDataQuery {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.MetricDataQuery()
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        value.expression = try reader["Expression"].readIfPresent()
-        value.metricStat = try reader["MetricStat"].readIfPresent(with: AutoScalingClientTypes.MetricStat.read(from:))
-        value.label = try reader["Label"].readIfPresent()
-        value.returnData = try reader["ReturnData"].readIfPresent()
-        return value
-    }
-}
-
-extension AutoScalingClientTypes.MetricStat {
-
-    static func write(value: AutoScalingClientTypes.MetricStat?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Metric"].write(value.metric, with: AutoScalingClientTypes.Metric.write(value:to:))
-        try writer["Stat"].write(value.stat)
-        try writer["Unit"].write(value.unit)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.MetricStat {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.MetricStat()
-        value.metric = try reader["Metric"].readIfPresent(with: AutoScalingClientTypes.Metric.read(from:))
-        value.stat = try reader["Stat"].readIfPresent() ?? ""
-        value.unit = try reader["Unit"].readIfPresent()
-        return value
-    }
-}
-
-extension AutoScalingClientTypes.Metric {
-
-    static func write(value: AutoScalingClientTypes.Metric?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Dimensions"].writeList(value.dimensions, memberWritingClosure: AutoScalingClientTypes.MetricDimension.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["MetricName"].write(value.metricName)
-        try writer["Namespace"].write(value.namespace)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.Metric {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.Metric()
-        value.namespace = try reader["Namespace"].readIfPresent() ?? ""
-        value.metricName = try reader["MetricName"].readIfPresent() ?? ""
-        value.dimensions = try reader["Dimensions"].readListIfPresent(memberReadingClosure: AutoScalingClientTypes.MetricDimension.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension AutoScalingClientTypes.MetricDimension {
-
-    static func write(value: AutoScalingClientTypes.MetricDimension?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
+        try writer["Key"].write(value.key)
+        try writer["PropagateAtLaunch"].write(value.propagateAtLaunch)
+        try writer["ResourceId"].write(value.resourceId)
+        try writer["ResourceType"].write(value.resourceType)
         try writer["Value"].write(value.value)
     }
-
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.MetricDimension {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.MetricDimension()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent() ?? ""
-        return value
-    }
 }
 
-extension AutoScalingClientTypes.PredictiveScalingCustomizedLoadMetric {
+extension AutoScalingClientTypes.TagDescription {
 
-    static func write(value: AutoScalingClientTypes.PredictiveScalingCustomizedLoadMetric?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["MetricDataQueries"].writeList(value.metricDataQueries, memberWritingClosure: AutoScalingClientTypes.MetricDataQuery.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.PredictiveScalingCustomizedLoadMetric {
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.TagDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.PredictiveScalingCustomizedLoadMetric()
-        value.metricDataQueries = try reader["MetricDataQueries"].readListIfPresent(memberReadingClosure: AutoScalingClientTypes.MetricDataQuery.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension AutoScalingClientTypes.PredictiveScalingCustomizedScalingMetric {
-
-    static func write(value: AutoScalingClientTypes.PredictiveScalingCustomizedScalingMetric?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["MetricDataQueries"].writeList(value.metricDataQueries, memberWritingClosure: AutoScalingClientTypes.MetricDataQuery.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.PredictiveScalingCustomizedScalingMetric {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.PredictiveScalingCustomizedScalingMetric()
-        value.metricDataQueries = try reader["MetricDataQueries"].readListIfPresent(memberReadingClosure: AutoScalingClientTypes.MetricDataQuery.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension AutoScalingClientTypes.PredictiveScalingPredefinedLoadMetric {
-
-    static func write(value: AutoScalingClientTypes.PredictiveScalingPredefinedLoadMetric?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["PredefinedMetricType"].write(value.predefinedMetricType)
-        try writer["ResourceLabel"].write(value.resourceLabel)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.PredictiveScalingPredefinedLoadMetric {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.PredictiveScalingPredefinedLoadMetric()
-        value.predefinedMetricType = try reader["PredefinedMetricType"].readIfPresent() ?? .sdkUnknown("")
-        value.resourceLabel = try reader["ResourceLabel"].readIfPresent()
-        return value
-    }
-}
-
-extension AutoScalingClientTypes.PredictiveScalingPredefinedScalingMetric {
-
-    static func write(value: AutoScalingClientTypes.PredictiveScalingPredefinedScalingMetric?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["PredefinedMetricType"].write(value.predefinedMetricType)
-        try writer["ResourceLabel"].write(value.resourceLabel)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.PredictiveScalingPredefinedScalingMetric {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.PredictiveScalingPredefinedScalingMetric()
-        value.predefinedMetricType = try reader["PredefinedMetricType"].readIfPresent() ?? .sdkUnknown("")
-        value.resourceLabel = try reader["ResourceLabel"].readIfPresent()
-        return value
-    }
-}
-
-extension AutoScalingClientTypes.PredictiveScalingPredefinedMetricPair {
-
-    static func write(value: AutoScalingClientTypes.PredictiveScalingPredefinedMetricPair?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["PredefinedMetricType"].write(value.predefinedMetricType)
-        try writer["ResourceLabel"].write(value.resourceLabel)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.PredictiveScalingPredefinedMetricPair {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.PredictiveScalingPredefinedMetricPair()
-        value.predefinedMetricType = try reader["PredefinedMetricType"].readIfPresent() ?? .sdkUnknown("")
-        value.resourceLabel = try reader["ResourceLabel"].readIfPresent()
+        var value = AutoScalingClientTypes.TagDescription()
+        value.resourceId = try reader["ResourceId"].readIfPresent()
+        value.resourceType = try reader["ResourceType"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        value.propagateAtLaunch = try reader["PropagateAtLaunch"].readIfPresent()
         return value
     }
 }
@@ -11223,33 +11514,6 @@ extension AutoScalingClientTypes.TargetTrackingConfiguration {
         value.customizedMetricSpecification = try reader["CustomizedMetricSpecification"].readIfPresent(with: AutoScalingClientTypes.CustomizedMetricSpecification.read(from:))
         value.targetValue = try reader["TargetValue"].readIfPresent() ?? 0.0
         value.disableScaleIn = try reader["DisableScaleIn"].readIfPresent()
-        return value
-    }
-}
-
-extension AutoScalingClientTypes.CustomizedMetricSpecification {
-
-    static func write(value: AutoScalingClientTypes.CustomizedMetricSpecification?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Dimensions"].writeList(value.dimensions, memberWritingClosure: AutoScalingClientTypes.MetricDimension.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["MetricName"].write(value.metricName)
-        try writer["Metrics"].writeList(value.metrics, memberWritingClosure: AutoScalingClientTypes.TargetTrackingMetricDataQuery.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Namespace"].write(value.namespace)
-        try writer["Period"].write(value.period)
-        try writer["Statistic"].write(value.statistic)
-        try writer["Unit"].write(value.unit)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.CustomizedMetricSpecification {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.CustomizedMetricSpecification()
-        value.metricName = try reader["MetricName"].readIfPresent()
-        value.namespace = try reader["Namespace"].readIfPresent()
-        value.dimensions = try reader["Dimensions"].readListIfPresent(memberReadingClosure: AutoScalingClientTypes.MetricDimension.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.statistic = try reader["Statistic"].readIfPresent()
-        value.unit = try reader["Unit"].readIfPresent()
-        value.period = try reader["Period"].readIfPresent()
-        value.metrics = try reader["Metrics"].readListIfPresent(memberReadingClosure: AutoScalingClientTypes.TargetTrackingMetricDataQuery.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -11300,100 +11564,36 @@ extension AutoScalingClientTypes.TargetTrackingMetricStat {
     }
 }
 
-extension AutoScalingClientTypes.PredefinedMetricSpecification {
+extension AutoScalingClientTypes.TotalLocalStorageGBRequest {
 
-    static func write(value: AutoScalingClientTypes.PredefinedMetricSpecification?, to writer: SmithyFormURL.Writer) throws {
+    static func write(value: AutoScalingClientTypes.TotalLocalStorageGBRequest?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
-        try writer["PredefinedMetricType"].write(value.predefinedMetricType)
-        try writer["ResourceLabel"].write(value.resourceLabel)
+        try writer["Max"].write(value.max)
+        try writer["Min"].write(value.min)
     }
 
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.PredefinedMetricSpecification {
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.TotalLocalStorageGBRequest {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.PredefinedMetricSpecification()
-        value.predefinedMetricType = try reader["PredefinedMetricType"].readIfPresent() ?? .sdkUnknown("")
-        value.resourceLabel = try reader["ResourceLabel"].readIfPresent()
+        var value = AutoScalingClientTypes.TotalLocalStorageGBRequest()
+        value.min = try reader["Min"].readIfPresent()
+        value.max = try reader["Max"].readIfPresent()
         return value
     }
 }
 
-extension AutoScalingClientTypes.Alarm {
+extension AutoScalingClientTypes.TrafficSourceIdentifier {
 
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.Alarm {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.Alarm()
-        value.alarmName = try reader["AlarmName"].readIfPresent()
-        value.alarmARN = try reader["AlarmARN"].readIfPresent()
-        return value
-    }
-}
-
-extension AutoScalingClientTypes.StepAdjustment {
-
-    static func write(value: AutoScalingClientTypes.StepAdjustment?, to writer: SmithyFormURL.Writer) throws {
+    static func write(value: AutoScalingClientTypes.TrafficSourceIdentifier?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
-        try writer["MetricIntervalLowerBound"].write(value.metricIntervalLowerBound)
-        try writer["MetricIntervalUpperBound"].write(value.metricIntervalUpperBound)
-        try writer["ScalingAdjustment"].write(value.scalingAdjustment)
+        try writer["Identifier"].write(value.identifier)
+        try writer["Type"].write(value.type)
     }
 
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.StepAdjustment {
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.TrafficSourceIdentifier {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.StepAdjustment()
-        value.metricIntervalLowerBound = try reader["MetricIntervalLowerBound"].readIfPresent()
-        value.metricIntervalUpperBound = try reader["MetricIntervalUpperBound"].readIfPresent()
-        value.scalingAdjustment = try reader["ScalingAdjustment"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension AutoScalingClientTypes.Activity {
-
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.Activity {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.Activity()
-        value.activityId = try reader["ActivityId"].readIfPresent() ?? ""
-        value.autoScalingGroupName = try reader["AutoScalingGroupName"].readIfPresent() ?? ""
-        value.description = try reader["Description"].readIfPresent()
-        value.cause = try reader["Cause"].readIfPresent() ?? ""
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.statusCode = try reader["StatusCode"].readIfPresent() ?? .sdkUnknown("")
-        value.statusMessage = try reader["StatusMessage"].readIfPresent()
-        value.progress = try reader["Progress"].readIfPresent()
-        value.details = try reader["Details"].readIfPresent()
-        value.autoScalingGroupState = try reader["AutoScalingGroupState"].readIfPresent()
-        value.autoScalingGroupARN = try reader["AutoScalingGroupARN"].readIfPresent()
-        return value
-    }
-}
-
-extension AutoScalingClientTypes.ProcessType {
-
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.ProcessType {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.ProcessType()
-        value.processName = try reader["ProcessName"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension AutoScalingClientTypes.ScheduledUpdateGroupAction {
-
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.ScheduledUpdateGroupAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.ScheduledUpdateGroupAction()
-        value.autoScalingGroupName = try reader["AutoScalingGroupName"].readIfPresent()
-        value.scheduledActionName = try reader["ScheduledActionName"].readIfPresent()
-        value.scheduledActionARN = try reader["ScheduledActionARN"].readIfPresent()
-        value.time = try reader["Time"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.recurrence = try reader["Recurrence"].readIfPresent()
-        value.minSize = try reader["MinSize"].readIfPresent()
-        value.maxSize = try reader["MaxSize"].readIfPresent()
-        value.desiredCapacity = try reader["DesiredCapacity"].readIfPresent()
-        value.timeZone = try reader["TimeZone"].readIfPresent()
+        var value = AutoScalingClientTypes.TrafficSourceIdentifier()
+        value.identifier = try reader["Identifier"].readIfPresent() ?? ""
+        value.type = try reader["Type"].readIfPresent()
         return value
     }
 }
@@ -11411,107 +11611,34 @@ extension AutoScalingClientTypes.TrafficSourceState {
     }
 }
 
-extension AutoScalingClientTypes.LoadForecast {
+extension AutoScalingClientTypes.VCpuCountRequest {
 
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.LoadForecast {
+    static func write(value: AutoScalingClientTypes.VCpuCountRequest?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Max"].write(value.max)
+        try writer["Min"].write(value.min)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.VCpuCountRequest {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.LoadForecast()
-        value.timestamps = try reader["Timestamps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.timestampReadingClosure(format: SmithyTimestamps.TimestampFormat.dateTime), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.metricSpecification = try reader["MetricSpecification"].readIfPresent(with: AutoScalingClientTypes.PredictiveScalingMetricSpecification.read(from:))
+        var value = AutoScalingClientTypes.VCpuCountRequest()
+        value.min = try reader["Min"].readIfPresent() ?? 0
+        value.max = try reader["Max"].readIfPresent()
         return value
     }
 }
 
-extension AutoScalingClientTypes.CapacityForecast {
+extension AutoScalingClientTypes.WarmPoolConfiguration {
 
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.CapacityForecast {
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.WarmPoolConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.CapacityForecast()
-        value.timestamps = try reader["Timestamps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.timestampReadingClosure(format: SmithyTimestamps.TimestampFormat.dateTime), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        var value = AutoScalingClientTypes.WarmPoolConfiguration()
+        value.maxGroupPreparedCapacity = try reader["MaxGroupPreparedCapacity"].readIfPresent()
+        value.minSize = try reader["MinSize"].readIfPresent()
+        value.poolState = try reader["PoolState"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.instanceReusePolicy = try reader["InstanceReusePolicy"].readIfPresent(with: AutoScalingClientTypes.InstanceReusePolicy.read(from:))
         return value
-    }
-}
-
-extension AutoScalingClientTypes.InstanceCollection {
-
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.InstanceCollection {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.InstanceCollection()
-        value.instanceType = try reader["InstanceType"].readIfPresent()
-        value.marketType = try reader["MarketType"].readIfPresent()
-        value.subnetId = try reader["SubnetId"].readIfPresent()
-        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
-        value.availabilityZoneId = try reader["AvailabilityZoneId"].readIfPresent()
-        value.instanceIds = try reader["InstanceIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension AutoScalingClientTypes.LaunchInstancesError {
-
-    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.LaunchInstancesError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AutoScalingClientTypes.LaunchInstancesError()
-        value.instanceType = try reader["InstanceType"].readIfPresent()
-        value.marketType = try reader["MarketType"].readIfPresent()
-        value.subnetId = try reader["SubnetId"].readIfPresent()
-        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
-        value.availabilityZoneId = try reader["AvailabilityZoneId"].readIfPresent()
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
-        return value
-    }
-}
-
-extension AutoScalingClientTypes.ScheduledUpdateGroupActionRequest {
-
-    static func write(value: AutoScalingClientTypes.ScheduledUpdateGroupActionRequest?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DesiredCapacity"].write(value.desiredCapacity)
-        try writer["EndTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.dateTime)
-        try writer["MaxSize"].write(value.maxSize)
-        try writer["MinSize"].write(value.minSize)
-        try writer["Recurrence"].write(value.recurrence)
-        try writer["ScheduledActionName"].write(value.scheduledActionName)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.dateTime)
-        try writer["TimeZone"].write(value.timeZone)
-    }
-}
-
-extension AutoScalingClientTypes.LifecycleHookSpecification {
-
-    static func write(value: AutoScalingClientTypes.LifecycleHookSpecification?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DefaultResult"].write(value.defaultResult)
-        try writer["HeartbeatTimeout"].write(value.heartbeatTimeout)
-        try writer["LifecycleHookName"].write(value.lifecycleHookName)
-        try writer["LifecycleTransition"].write(value.lifecycleTransition)
-        try writer["NotificationMetadata"].write(value.notificationMetadata)
-        try writer["NotificationTargetARN"].write(value.notificationTargetARN)
-        try writer["RoleARN"].write(value.roleARN)
-    }
-}
-
-extension AutoScalingClientTypes.Tag {
-
-    static func write(value: AutoScalingClientTypes.Tag?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["PropagateAtLaunch"].write(value.propagateAtLaunch)
-        try writer["ResourceId"].write(value.resourceId)
-        try writer["ResourceType"].write(value.resourceType)
-        try writer["Value"].write(value.value)
-    }
-}
-
-extension AutoScalingClientTypes.Filter {
-
-    static func write(value: AutoScalingClientTypes.Filter?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 

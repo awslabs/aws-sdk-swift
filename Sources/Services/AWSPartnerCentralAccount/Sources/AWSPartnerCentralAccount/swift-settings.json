@@ -1,0 +1,8 @@
+{
+    "service": "com.amazonaws.partnercentralaccount#PartnerCentralAccount",
+    "module": "AWSPartnerCentralAccount",
+    "sdkId": "PartnerCentral Account",
+    "internalClient": false,
+    "operations": [],
+    "modelPath": "codegen/sdk-codegen/aws-models/partnercentral-account.json"
+}

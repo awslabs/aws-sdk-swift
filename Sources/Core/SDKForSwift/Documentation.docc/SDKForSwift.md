@@ -17,6 +17,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [Smithy](/sdk-for-swift/latest/api/smithy/documentation/smithy)
 
+[SmithyAWSJSON](/sdk-for-swift/latest/api/smithyawsjson/documentation/smithyawsjson)
+
 [SmithyCBOR](/sdk-for-swift/latest/api/smithycbor/documentation/smithycbor)
 
 [SmithyChecksums](/sdk-for-swift/latest/api/smithychecksums/documentation/smithychecksums)
@@ -46,6 +48,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [SmithyIdentityAPI](/sdk-for-swift/latest/api/smithyidentityapi/documentation/smithyidentityapi)
 
 [SmithyJSON](/sdk-for-swift/latest/api/smithyjson/documentation/smithyjson)
+
+[SmithyRPCv2CBOR](/sdk-for-swift/latest/api/smithyrpcv2cbor/documentation/smithyrpcv2cbor)
 
 [SmithyReadWrite](/sdk-for-swift/latest/api/smithyreadwrite/documentation/smithyreadwrite)
 
@@ -295,6 +299,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSConnectContactLens](/sdk-for-swift/latest/api/awsconnectcontactlens/documentation/awsconnectcontactlens)
 
+[AWSConnectHealth](/sdk-for-swift/latest/api/awsconnecthealth/documentation/awsconnecthealth)
+
 [AWSConnectParticipant](/sdk-for-swift/latest/api/awsconnectparticipant/documentation/awsconnectparticipant)
 
 [AWSControlCatalog](/sdk-for-swift/latest/api/awscontrolcatalog/documentation/awscontrolcatalog)
@@ -330,6 +336,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSDeadline](/sdk-for-swift/latest/api/awsdeadline/documentation/awsdeadline)
 
 [AWSDetective](/sdk-for-swift/latest/api/awsdetective/documentation/awsdetective)
+
+[AWSDevOpsAgent](/sdk-for-swift/latest/api/awsdevopsagent/documentation/awsdevopsagent)
 
 [AWSDevOpsGuru](/sdk-for-swift/latest/api/awsdevopsguru/documentation/awsdevopsguru)
 
@@ -385,11 +393,11 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSElasticsearchService](/sdk-for-swift/latest/api/awselasticsearchservice/documentation/awselasticsearchservice)
 
+[AWSElementalInference](/sdk-for-swift/latest/api/awselementalinference/documentation/awselementalinference)
+
 [AWSEntityResolution](/sdk-for-swift/latest/api/awsentityresolution/documentation/awsentityresolution)
 
 [AWSEventBridge](/sdk-for-swift/latest/api/awseventbridge/documentation/awseventbridge)
-
-[AWSEvidently](/sdk-for-swift/latest/api/awsevidently/documentation/awsevidently)
 
 [AWSEvs](/sdk-for-swift/latest/api/awsevs/documentation/awsevs)
 
@@ -457,13 +465,13 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSInspectorScan](/sdk-for-swift/latest/api/awsinspectorscan/documentation/awsinspectorscan)
 
+[AWSInterconnect](/sdk-for-swift/latest/api/awsinterconnect/documentation/awsinterconnect)
+
 [AWSInternetMonitor](/sdk-for-swift/latest/api/awsinternetmonitor/documentation/awsinternetmonitor)
 
 [AWSInvoicing](/sdk-for-swift/latest/api/awsinvoicing/documentation/awsinvoicing)
 
 [AWSIoT](/sdk-for-swift/latest/api/awsiot/documentation/awsiot)
-
-[AWSIoTAnalytics](/sdk-for-swift/latest/api/awsiotanalytics/documentation/awsiotanalytics)
 
 [AWSIoTDataPlane](/sdk-for-swift/latest/api/awsiotdataplane/documentation/awsiotdataplane)
 
@@ -576,6 +584,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSMarketplaceCommerceAnalytics](/sdk-for-swift/latest/api/awsmarketplacecommerceanalytics/documentation/awsmarketplacecommerceanalytics)
 
 [AWSMarketplaceDeployment](/sdk-for-swift/latest/api/awsmarketplacedeployment/documentation/awsmarketplacedeployment)
+
+[AWSMarketplaceDiscovery](/sdk-for-swift/latest/api/awsmarketplacediscovery/documentation/awsmarketplacediscovery)
 
 [AWSMarketplaceEntitlementService](/sdk-for-swift/latest/api/awsmarketplaceentitlementservice/documentation/awsmarketplaceentitlementservice)
 
@@ -761,6 +771,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSS3Control](/sdk-for-swift/latest/api/awss3control/documentation/awss3control)
 
+[AWSS3Files](/sdk-for-swift/latest/api/awss3files/documentation/awss3files)
+
 [AWSS3Outposts](/sdk-for-swift/latest/api/awss3outposts/documentation/awss3outposts)
 
 [AWSS3Tables](/sdk-for-swift/latest/api/awss3tables/documentation/awss3tables)
@@ -821,6 +833,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSSecretsManager](/sdk-for-swift/latest/api/awssecretsmanager/documentation/awssecretsmanager)
 
+[AWSSecurityAgent](/sdk-for-swift/latest/api/awssecurityagent/documentation/awssecurityagent)
+
 [AWSSecurityHub](/sdk-for-swift/latest/api/awssecurityhub/documentation/awssecurityhub)
 
 [AWSSecurityIR](/sdk-for-swift/latest/api/awssecurityir/documentation/awssecurityir)
@@ -841,9 +855,13 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSSigner](/sdk-for-swift/latest/api/awssigner/documentation/awssigner)
 
+[AWSSignerData](/sdk-for-swift/latest/api/awssignerdata/documentation/awssignerdata)
+
 [AWSSignin](/sdk-for-swift/latest/api/awssignin/documentation/awssignin)
 
 [AWSSimSpaceWeaver](/sdk-for-swift/latest/api/awssimspaceweaver/documentation/awssimspaceweaver)
+
+[AWSSimpleDBv2](/sdk-for-swift/latest/api/awssimpledbv2/documentation/awssimpledbv2)
 
 [AWSSnowDeviceManagement](/sdk-for-swift/latest/api/awssnowdevicemanagement/documentation/awssnowdevicemanagement)
 
@@ -860,6 +878,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSSupport](/sdk-for-swift/latest/api/awssupport/documentation/awssupport)
 
 [AWSSupportApp](/sdk-for-swift/latest/api/awssupportapp/documentation/awssupportapp)
+
+[AWSSustainability](/sdk-for-swift/latest/api/awssustainability/documentation/awssustainability)
 
 [AWSSynthetics](/sdk-for-swift/latest/api/awssynthetics/documentation/awssynthetics)
 
@@ -884,6 +904,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSTranslate](/sdk-for-swift/latest/api/awstranslate/documentation/awstranslate)
 
 [AWSTrustedAdvisor](/sdk-for-swift/latest/api/awstrustedadvisor/documentation/awstrustedadvisor)
+
+[AWSUxc](/sdk-for-swift/latest/api/awsuxc/documentation/awsuxc)
 
 [AWSVPCLattice](/sdk-for-swift/latest/api/awsvpclattice/documentation/awsvpclattice)
 

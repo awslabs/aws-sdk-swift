@@ -11,6 +11,37 @@ import protocol ClientRuntime.PaginateToken
 import struct ClientRuntime.PaginatorSequence
 
 extension MgnClient {
+    /// Paginate over `[ListImportFileEnrichmentsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListImportFileEnrichmentsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListImportFileEnrichmentsOutput`
+    public func listImportFileEnrichmentsPaginated(input: ListImportFileEnrichmentsInput) -> ClientRuntime.PaginatorSequence<ListImportFileEnrichmentsInput, ListImportFileEnrichmentsOutput> {
+        return ClientRuntime.PaginatorSequence<ListImportFileEnrichmentsInput, ListImportFileEnrichmentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listImportFileEnrichments(input:))
+    }
+}
+
+extension ListImportFileEnrichmentsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListImportFileEnrichmentsInput {
+        return ListImportFileEnrichmentsInput(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListImportFileEnrichmentsInput, OperationStackOutput == ListImportFileEnrichmentsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listImportFileEnrichmentsPaginated`
+    /// to access the nested member `[MgnClientTypes.ImportFileEnrichment]`
+    /// - Returns: `[MgnClientTypes.ImportFileEnrichment]`
+    public func items() async throws -> [MgnClientTypes.ImportFileEnrichment] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
+}
+extension MgnClient {
     /// Paginate over `[ListManagedAccountsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

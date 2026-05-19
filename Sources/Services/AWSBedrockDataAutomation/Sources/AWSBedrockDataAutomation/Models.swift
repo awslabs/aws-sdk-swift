@@ -22,8 +22,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
@@ -42,9 +42,9 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -66,9 +66,9 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -90,9 +90,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -114,9 +114,9 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -161,9 +161,9 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         fieldList: [BedrockDataAutomationClientTypes.ValidationExceptionField]? = nil,
@@ -299,9 +299,9 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -484,9 +484,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -1026,57 +1026,34 @@ public struct CreateBlueprintVersionOutput: Swift.Sendable {
     }
 }
 
-extension BedrockDataAutomationClientTypes {
+/// Get DataAutomationLibraryIngestionJob Request
+public struct GetDataAutomationLibraryIngestionJobInput: Swift.Sendable {
+    /// ARN of the DataAutomationLibraryIngestionJob
+    /// This member is required.
+    public var jobArn: Swift.String?
+    /// ARN generated at the server side when a DataAutomationLibrary is created
+    /// This member is required.
+    public var libraryArn: Swift.String?
 
-    /// Blueprint Item
-    public struct BlueprintItem: Swift.Sendable {
-        /// ARN of a Blueprint
-        /// This member is required.
-        public var blueprintArn: Swift.String?
-        /// Stage of the Blueprint
-        public var blueprintStage: BedrockDataAutomationClientTypes.BlueprintStage?
-        /// Blueprint Version
-        public var blueprintVersion: Swift.String?
-
-        public init(
-            blueprintArn: Swift.String? = nil,
-            blueprintStage: BedrockDataAutomationClientTypes.BlueprintStage? = nil,
-            blueprintVersion: Swift.String? = nil
-        ) {
-            self.blueprintArn = blueprintArn
-            self.blueprintStage = blueprintStage
-            self.blueprintVersion = blueprintVersion
-        }
+    public init(
+        jobArn: Swift.String? = nil,
+        libraryArn: Swift.String? = nil
+    ) {
+        self.jobArn = jobArn
+        self.libraryArn = libraryArn
     }
 }
 
 extension BedrockDataAutomationClientTypes {
 
-    /// Custom output configuration
-    public struct CustomOutputConfiguration: Swift.Sendable {
-        /// List of Blueprint Item
-        public var blueprints: [BedrockDataAutomationClientTypes.BlueprintItem]?
-
-        public init(
-            blueprints: [BedrockDataAutomationClientTypes.BlueprintItem]? = nil
-        ) {
-            self.blueprints = blueprints
-        }
-    }
-}
-
-extension BedrockDataAutomationClientTypes {
-
-    /// Configuration for Audio output language
-    public enum AudioGenerativeOutputLanguage: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case `default`
-        case en
+    /// Entity types supported in DataAutomationLibraries
+    public enum EntityType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case vocabulary
         case sdkUnknown(Swift.String)
 
-        public static var allCases: [AudioGenerativeOutputLanguage] {
+        public static var allCases: [EntityType] {
             return [
-                .default,
-                .en
+                .vocabulary
             ]
         }
 
@@ -1087,10 +1064,172 @@ extension BedrockDataAutomationClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
-            case .default: return "DEFAULT"
-            case .en: return "EN"
+            case .vocabulary: return "VOCABULARY"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension BedrockDataAutomationClientTypes {
+
+    /// Status of DataAutomationLibraryIngestionJob
+    public enum LibraryIngestionJobStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case completed
+        case completedWithErrors
+        case failed
+        case inProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LibraryIngestionJobStatus] {
+            return [
+                .completed,
+                .completedWithErrors,
+                .failed,
+                .inProgress
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .completedWithErrors: return "COMPLETED_WITH_ERRORS"
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockDataAutomationClientTypes {
+
+    /// DataAutomationLibraryIngestionJob operation type
+    public enum LibraryIngestionJobOperationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case delete
+        case upsert
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LibraryIngestionJobOperationType] {
+            return [
+                .delete,
+                .upsert
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .delete: return "DELETE"
+            case .upsert: return "UPSERT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockDataAutomationClientTypes {
+
+    /// Output configuration for DataAutomationLibraryIngestionJob
+    public struct OutputConfiguration: Swift.Sendable {
+        /// S3 Uri
+        /// This member is required.
+        public var s3Uri: Swift.String?
+
+        public init(
+            s3Uri: Swift.String? = nil
+        ) {
+            self.s3Uri = s3Uri
+        }
+    }
+}
+
+extension BedrockDataAutomationClientTypes {
+
+    /// Contains the information of a DataAutomationLibraryIngestionJob
+    public struct DataAutomationLibraryIngestionJob: Swift.Sendable {
+        /// Timestamp when the DataAutomationLibraryIngestionJob was completed
+        public var completionTime: Foundation.Date?
+        /// Timestamp when the DataAutomationLibraryIngestionJob was created
+        /// This member is required.
+        public var creationTime: Foundation.Date?
+        /// The entity type associated with DataAutomationLibraryIngestionJob
+        /// This member is required.
+        public var entityType: BedrockDataAutomationClientTypes.EntityType?
+        /// Error message
+        public var errorMessage: Swift.String?
+        /// Error type
+        public var errorType: Swift.String?
+        /// ARN of the DataAutomationLibraryIngestionJob
+        /// This member is required.
+        public var jobArn: Swift.String?
+        /// The status of the DataAutomationLibraryIngestionJob
+        /// This member is required.
+        public var jobStatus: BedrockDataAutomationClientTypes.LibraryIngestionJobStatus?
+        /// The operation associated with DataAutomationLibraryIngestionJob
+        /// This member is required.
+        public var operationType: BedrockDataAutomationClientTypes.LibraryIngestionJobOperationType?
+        /// Output configuration of DataAutomationLibraryIngestionJob
+        /// This member is required.
+        public var outputConfiguration: BedrockDataAutomationClientTypes.OutputConfiguration?
+
+        public init(
+            completionTime: Foundation.Date? = nil,
+            creationTime: Foundation.Date? = nil,
+            entityType: BedrockDataAutomationClientTypes.EntityType? = nil,
+            errorMessage: Swift.String? = nil,
+            errorType: Swift.String? = nil,
+            jobArn: Swift.String? = nil,
+            jobStatus: BedrockDataAutomationClientTypes.LibraryIngestionJobStatus? = nil,
+            operationType: BedrockDataAutomationClientTypes.LibraryIngestionJobOperationType? = nil,
+            outputConfiguration: BedrockDataAutomationClientTypes.OutputConfiguration? = nil
+        ) {
+            self.completionTime = completionTime
+            self.creationTime = creationTime
+            self.entityType = entityType
+            self.errorMessage = errorMessage
+            self.errorType = errorType
+            self.jobArn = jobArn
+            self.jobStatus = jobStatus
+            self.operationType = operationType
+            self.outputConfiguration = outputConfiguration
+        }
+    }
+}
+
+/// Get DataAutomationLibraryIngestionJob Response
+public struct GetDataAutomationLibraryIngestionJobOutput: Swift.Sendable {
+    /// Contains the information of a library ingestion job
+    public var job: BedrockDataAutomationClientTypes.DataAutomationLibraryIngestionJob?
+
+    public init(
+        job: BedrockDataAutomationClientTypes.DataAutomationLibraryIngestionJob? = nil
+    ) {
+        self.job = job
+    }
+}
+
+extension BedrockDataAutomationClientTypes {
+
+    /// Input for entities needed to be deleted
+    public struct DeleteEntitiesInfo: Swift.Sendable {
+        /// List of EntityId
+        /// This member is required.
+        public var entityIds: [Swift.String]?
+
+        public init(
+            entityIds: [Swift.String]? = nil
+        ) {
+            self.entityIds = entityIds
         }
     }
 }
@@ -1146,6 +1285,686 @@ extension BedrockDataAutomationClientTypes {
             case .ko: return "KO"
             case .pt: return "PT"
             case .tw: return "TW"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockDataAutomationClientTypes {
+
+    /// Phrase structure for vocabulary
+    public struct Phrase: Swift.Sendable {
+        /// Text to configure how phrase is displayed in Transcript
+        public var displayAsText: Swift.String?
+        /// Text content of the phrase
+        /// This member is required.
+        public var text: Swift.String?
+
+        public init(
+            displayAsText: Swift.String? = nil,
+            text: Swift.String? = nil
+        ) {
+            self.displayAsText = displayAsText
+            self.text = text
+        }
+    }
+}
+
+extension BedrockDataAutomationClientTypes.Phrase: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "Phrase(displayAsText: \"CONTENT_REDACTED\", text: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockDataAutomationClientTypes {
+
+    /// Vocabulary entity info with detailed information
+    public struct VocabularyEntityInfo: Swift.Sendable {
+        /// Description of the entity
+        public var description: Swift.String?
+        /// Unique identifier for the entity
+        public var entityId: Swift.String?
+        /// Supported input languages
+        /// This member is required.
+        public var language: BedrockDataAutomationClientTypes.Language?
+        /// List of phrases
+        /// This member is required.
+        public var phrases: [BedrockDataAutomationClientTypes.Phrase]?
+
+        public init(
+            description: Swift.String? = nil,
+            entityId: Swift.String? = nil,
+            language: BedrockDataAutomationClientTypes.Language? = nil,
+            phrases: [BedrockDataAutomationClientTypes.Phrase]? = nil
+        ) {
+            self.description = description
+            self.entityId = entityId
+            self.language = language
+            self.phrases = phrases
+        }
+    }
+}
+
+extension BedrockDataAutomationClientTypes.VocabularyEntityInfo: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "VocabularyEntityInfo(entityId: \(Swift.String(describing: entityId)), language: \(Swift.String(describing: language)), phrases: \(Swift.String(describing: phrases)), description: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockDataAutomationClientTypes {
+
+    /// Input configuration for upserting data in a DataAutomationLibraryIngestionJob
+    public enum UpsertEntityInfo: Swift.Sendable {
+        /// Vocabulary entity info with detailed information
+        case vocabulary(BedrockDataAutomationClientTypes.VocabularyEntityInfo)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockDataAutomationClientTypes {
+
+    /// Input payload structure definition
+    public enum InlinePayload: Swift.Sendable {
+        /// List of UpsertEntityInfo for upserting data in a DataAutomationLibraryIngestionJob
+        case upsertentitiesinfo([BedrockDataAutomationClientTypes.UpsertEntityInfo])
+        /// Input for entities needed to be deleted
+        case deleteentitiesinfo(BedrockDataAutomationClientTypes.DeleteEntitiesInfo)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockDataAutomationClientTypes {
+
+    /// Input configuration for DataAutomationLibraryIngestionJob
+    public struct InputConfiguration: Swift.Sendable {
+        /// Input Payload
+        public var inlinePayload: BedrockDataAutomationClientTypes.InlinePayload?
+        /// S3 object
+        public var s3Object: BedrockDataAutomationClientTypes.S3Object?
+
+        public init(
+            inlinePayload: BedrockDataAutomationClientTypes.InlinePayload? = nil,
+            s3Object: BedrockDataAutomationClientTypes.S3Object? = nil
+        ) {
+            self.inlinePayload = inlinePayload
+            self.s3Object = s3Object
+        }
+    }
+}
+
+extension BedrockDataAutomationClientTypes {
+
+    /// Event bridge configuration.
+    public struct EventBridgeConfiguration: Swift.Sendable {
+        /// Event bridge flag.
+        /// This member is required.
+        public var eventBridgeEnabled: Swift.Bool?
+
+        public init(
+            eventBridgeEnabled: Swift.Bool? = nil
+        ) {
+            self.eventBridgeEnabled = eventBridgeEnabled
+        }
+    }
+}
+
+extension BedrockDataAutomationClientTypes {
+
+    /// Notification configuration.
+    public struct NotificationConfiguration: Swift.Sendable {
+        /// Event bridge configuration.
+        /// This member is required.
+        public var eventBridgeConfiguration: BedrockDataAutomationClientTypes.EventBridgeConfiguration?
+
+        public init(
+            eventBridgeConfiguration: BedrockDataAutomationClientTypes.EventBridgeConfiguration? = nil
+        ) {
+            self.eventBridgeConfiguration = eventBridgeConfiguration
+        }
+    }
+}
+
+/// Invoke DataAutomationLibraryIngestionJob Request
+public struct InvokeDataAutomationLibraryIngestionJobInput: Swift.Sendable {
+    /// Idempotency token
+    public var clientToken: Swift.String?
+    /// The entity type for which DataAutomationLibraryIngestionJob is being run
+    /// This member is required.
+    public var entityType: BedrockDataAutomationClientTypes.EntityType?
+    /// Input configuration of DataAutomationLibraryIngestionJob request
+    /// This member is required.
+    public var inputConfiguration: BedrockDataAutomationClientTypes.InputConfiguration?
+    /// ARN generated at the server side when a DataAutomationLibrary is created
+    /// This member is required.
+    public var libraryArn: Swift.String?
+    /// Notification configuration.
+    public var notificationConfiguration: BedrockDataAutomationClientTypes.NotificationConfiguration?
+    /// The operation to be performed by DataAutomationLibraryIngestionJob
+    /// This member is required.
+    public var operationType: BedrockDataAutomationClientTypes.LibraryIngestionJobOperationType?
+    /// Output configuration of DataAutomationLibraryIngestionJob
+    /// This member is required.
+    public var outputConfiguration: BedrockDataAutomationClientTypes.OutputConfiguration?
+    /// List of tags
+    public var tags: [BedrockDataAutomationClientTypes.Tag]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        entityType: BedrockDataAutomationClientTypes.EntityType? = nil,
+        inputConfiguration: BedrockDataAutomationClientTypes.InputConfiguration? = nil,
+        libraryArn: Swift.String? = nil,
+        notificationConfiguration: BedrockDataAutomationClientTypes.NotificationConfiguration? = nil,
+        operationType: BedrockDataAutomationClientTypes.LibraryIngestionJobOperationType? = nil,
+        outputConfiguration: BedrockDataAutomationClientTypes.OutputConfiguration? = nil,
+        tags: [BedrockDataAutomationClientTypes.Tag]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.entityType = entityType
+        self.inputConfiguration = inputConfiguration
+        self.libraryArn = libraryArn
+        self.notificationConfiguration = notificationConfiguration
+        self.operationType = operationType
+        self.outputConfiguration = outputConfiguration
+        self.tags = tags
+    }
+}
+
+/// Invoke DataAutomationLibraryIngestionJob Response
+public struct InvokeDataAutomationLibraryIngestionJobOutput: Swift.Sendable {
+    /// ARN of the DataAutomationLibraryIngestionJob
+    public var jobArn: Swift.String?
+
+    public init(
+        jobArn: Swift.String? = nil
+    ) {
+        self.jobArn = jobArn
+    }
+}
+
+/// List DataAutomationLibraryIngestionJobs Request
+public struct ListDataAutomationLibraryIngestionJobsInput: Swift.Sendable {
+    /// ARN generated at the server side when a DataAutomationLibrary is created
+    /// This member is required.
+    public var libraryArn: Swift.String?
+    /// Max Results
+    public var maxResults: Swift.Int?
+    /// Pagination token for retrieving the next set of results
+    public var nextToken: Swift.String?
+
+    public init(
+        libraryArn: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.libraryArn = libraryArn
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension BedrockDataAutomationClientTypes {
+
+    /// Summary of a DataAutomationLibraryIngestionJob
+    public struct DataAutomationLibraryIngestionJobSummary: Swift.Sendable {
+        /// Time Stamp
+        public var completionTime: Foundation.Date?
+        /// Time Stamp
+        /// This member is required.
+        public var creationTime: Foundation.Date?
+        /// Entity types supported in DataAutomationLibraries
+        /// This member is required.
+        public var entityType: BedrockDataAutomationClientTypes.EntityType?
+        /// ARN of the DataAutomationLibraryIngestionJob
+        /// This member is required.
+        public var jobArn: Swift.String?
+        /// Status of DataAutomationLibraryIngestionJob
+        /// This member is required.
+        public var jobStatus: BedrockDataAutomationClientTypes.LibraryIngestionJobStatus?
+        /// DataAutomationLibraryIngestionJob operation type
+        /// This member is required.
+        public var operationType: BedrockDataAutomationClientTypes.LibraryIngestionJobOperationType?
+
+        public init(
+            completionTime: Foundation.Date? = nil,
+            creationTime: Foundation.Date? = nil,
+            entityType: BedrockDataAutomationClientTypes.EntityType? = nil,
+            jobArn: Swift.String? = nil,
+            jobStatus: BedrockDataAutomationClientTypes.LibraryIngestionJobStatus? = nil,
+            operationType: BedrockDataAutomationClientTypes.LibraryIngestionJobOperationType? = nil
+        ) {
+            self.completionTime = completionTime
+            self.creationTime = creationTime
+            self.entityType = entityType
+            self.jobArn = jobArn
+            self.jobStatus = jobStatus
+            self.operationType = operationType
+        }
+    }
+}
+
+/// List DataAutomationLibraryIngestionJobs Response
+public struct ListDataAutomationLibraryIngestionJobsOutput: Swift.Sendable {
+    /// List of data automation library ingestion jobs
+    public var jobs: [BedrockDataAutomationClientTypes.DataAutomationLibraryIngestionJobSummary]?
+    /// Pagination token for retrieving the next set of results
+    public var nextToken: Swift.String?
+
+    public init(
+        jobs: [BedrockDataAutomationClientTypes.DataAutomationLibraryIngestionJobSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.jobs = jobs
+        self.nextToken = nextToken
+    }
+}
+
+/// Create DataAutomationLibrary Request
+public struct CreateDataAutomationLibraryInput: Swift.Sendable {
+    /// Client specified token used for idempotency checks
+    public var clientToken: Swift.String?
+    /// KMS Encryption Configuration
+    public var encryptionConfiguration: BedrockDataAutomationClientTypes.EncryptionConfiguration?
+    /// Description of the DataAutomationLibrary
+    public var libraryDescription: Swift.String?
+    /// Name of the DataAutomationLibrary
+    /// This member is required.
+    public var libraryName: Swift.String?
+    /// List of tags
+    public var tags: [BedrockDataAutomationClientTypes.Tag]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        encryptionConfiguration: BedrockDataAutomationClientTypes.EncryptionConfiguration? = nil,
+        libraryDescription: Swift.String? = nil,
+        libraryName: Swift.String? = nil,
+        tags: [BedrockDataAutomationClientTypes.Tag]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.encryptionConfiguration = encryptionConfiguration
+        self.libraryDescription = libraryDescription
+        self.libraryName = libraryName
+        self.tags = tags
+    }
+}
+
+extension CreateDataAutomationLibraryInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateDataAutomationLibraryInput(clientToken: \(Swift.String(describing: clientToken)), encryptionConfiguration: \(Swift.String(describing: encryptionConfiguration)), tags: \(Swift.String(describing: tags)), libraryDescription: \"CONTENT_REDACTED\", libraryName: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockDataAutomationClientTypes {
+
+    /// Status of DataAutomationLibrary
+    public enum DataAutomationLibraryStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case deleting
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataAutomationLibraryStatus] {
+            return [
+                .active,
+                .deleting
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .deleting: return "DELETING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// Create DataAutomationLibrary Response
+public struct CreateDataAutomationLibraryOutput: Swift.Sendable {
+    /// ARN generated at the server side when a DataAutomationLibrary is created
+    public var libraryArn: Swift.String?
+    /// Status of DataAutomationLibrary
+    public var status: BedrockDataAutomationClientTypes.DataAutomationLibraryStatus?
+
+    public init(
+        libraryArn: Swift.String? = nil,
+        status: BedrockDataAutomationClientTypes.DataAutomationLibraryStatus? = nil
+    ) {
+        self.libraryArn = libraryArn
+        self.status = status
+    }
+}
+
+/// Delete DataAutomationLibrary Request
+public struct DeleteDataAutomationLibraryInput: Swift.Sendable {
+    /// ARN generated at the server side when a DataAutomationLibrary is created
+    /// This member is required.
+    public var libraryArn: Swift.String?
+
+    public init(
+        libraryArn: Swift.String? = nil
+    ) {
+        self.libraryArn = libraryArn
+    }
+}
+
+/// Delete DataAutomationLibrary Response
+public struct DeleteDataAutomationLibraryOutput: Swift.Sendable {
+    /// ARN generated at the server side when a DataAutomationLibrary is created
+    public var libraryArn: Swift.String?
+    /// Status of DataAutomationLibrary
+    public var status: BedrockDataAutomationClientTypes.DataAutomationLibraryStatus?
+
+    public init(
+        libraryArn: Swift.String? = nil,
+        status: BedrockDataAutomationClientTypes.DataAutomationLibraryStatus? = nil
+    ) {
+        self.libraryArn = libraryArn
+        self.status = status
+    }
+}
+
+/// Get DataAutomationLibrary Request
+public struct GetDataAutomationLibraryInput: Swift.Sendable {
+    /// ARN generated at the server side when a DataAutomationLibrary is created
+    /// This member is required.
+    public var libraryArn: Swift.String?
+
+    public init(
+        libraryArn: Swift.String? = nil
+    ) {
+        self.libraryArn = libraryArn
+    }
+}
+
+extension BedrockDataAutomationClientTypes {
+
+    /// Information about an entity type in the DataAutomationLibrary
+    public struct EntityTypeInfo: Swift.Sendable {
+        /// JSON string representing relevant metadata for the entity type
+        public var entityMetadata: Swift.String?
+        /// Entity types supported in DataAutomationLibraries
+        /// This member is required.
+        public var entityType: BedrockDataAutomationClientTypes.EntityType?
+
+        public init(
+            entityMetadata: Swift.String? = nil,
+            entityType: BedrockDataAutomationClientTypes.EntityType? = nil
+        ) {
+            self.entityMetadata = entityMetadata
+            self.entityType = entityType
+        }
+    }
+}
+
+extension BedrockDataAutomationClientTypes {
+
+    /// Contains the information of a DataAutomationLibrary.
+    public struct DataAutomationLibrary: Swift.Sendable {
+        /// Time Stamp
+        /// This member is required.
+        public var creationTime: Foundation.Date?
+        /// List of info for each entity type in the DataAutomationLibrary
+        public var entityTypes: [BedrockDataAutomationClientTypes.EntityTypeInfo]?
+        /// KMS Encryption Context
+        public var kmsEncryptionContext: [Swift.String: Swift.String]?
+        /// KMS Key Identifier
+        public var kmsKeyId: Swift.String?
+        /// ARN generated at the server side when a DataAutomationLibrary is created
+        /// This member is required.
+        public var libraryArn: Swift.String?
+        /// Description of the DataAutomationLibrary
+        public var libraryDescription: Swift.String?
+        /// Name of the DataAutomationLibrary
+        /// This member is required.
+        public var libraryName: Swift.String?
+        /// Status of DataAutomationLibrary
+        /// This member is required.
+        public var status: BedrockDataAutomationClientTypes.DataAutomationLibraryStatus?
+
+        public init(
+            creationTime: Foundation.Date? = nil,
+            entityTypes: [BedrockDataAutomationClientTypes.EntityTypeInfo]? = nil,
+            kmsEncryptionContext: [Swift.String: Swift.String]? = nil,
+            kmsKeyId: Swift.String? = nil,
+            libraryArn: Swift.String? = nil,
+            libraryDescription: Swift.String? = nil,
+            libraryName: Swift.String? = nil,
+            status: BedrockDataAutomationClientTypes.DataAutomationLibraryStatus? = nil
+        ) {
+            self.creationTime = creationTime
+            self.entityTypes = entityTypes
+            self.kmsEncryptionContext = kmsEncryptionContext
+            self.kmsKeyId = kmsKeyId
+            self.libraryArn = libraryArn
+            self.libraryDescription = libraryDescription
+            self.libraryName = libraryName
+            self.status = status
+        }
+    }
+}
+
+extension BedrockDataAutomationClientTypes.DataAutomationLibrary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DataAutomationLibrary(creationTime: \(Swift.String(describing: creationTime)), entityTypes: \(Swift.String(describing: entityTypes)), kmsEncryptionContext: \(Swift.String(describing: kmsEncryptionContext)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), libraryArn: \(Swift.String(describing: libraryArn)), status: \(Swift.String(describing: status)), libraryDescription: \"CONTENT_REDACTED\", libraryName: \"CONTENT_REDACTED\")"}
+}
+
+/// Get DataAutomationLibrary Response
+public struct GetDataAutomationLibraryOutput: Swift.Sendable {
+    /// Contains the information of a DataAutomationLibrary.
+    public var library: BedrockDataAutomationClientTypes.DataAutomationLibrary?
+
+    public init(
+        library: BedrockDataAutomationClientTypes.DataAutomationLibrary? = nil
+    ) {
+        self.library = library
+    }
+}
+
+/// List DataAutomationLibraries Request
+public struct ListDataAutomationLibrariesInput: Swift.Sendable {
+    /// Max Results
+    public var maxResults: Swift.Int?
+    /// Pagination token
+    public var nextToken: Swift.String?
+    /// Data Automation Project Filter
+    public var projectFilter: BedrockDataAutomationClientTypes.DataAutomationProjectFilter?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        projectFilter: BedrockDataAutomationClientTypes.DataAutomationProjectFilter? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.projectFilter = projectFilter
+    }
+}
+
+extension BedrockDataAutomationClientTypes {
+
+    /// Summary of a DataAutomationLibrary
+    public struct DataAutomationLibrarySummary: Swift.Sendable {
+        /// Time Stamp
+        /// This member is required.
+        public var creationTime: Foundation.Date?
+        /// ARN generated at the server side when a DataAutomationLibrary is created
+        /// This member is required.
+        public var libraryArn: Swift.String?
+        /// Name of the DataAutomationLibrary
+        public var libraryName: Swift.String?
+
+        public init(
+            creationTime: Foundation.Date? = nil,
+            libraryArn: Swift.String? = nil,
+            libraryName: Swift.String? = nil
+        ) {
+            self.creationTime = creationTime
+            self.libraryArn = libraryArn
+            self.libraryName = libraryName
+        }
+    }
+}
+
+extension BedrockDataAutomationClientTypes.DataAutomationLibrarySummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DataAutomationLibrarySummary(creationTime: \(Swift.String(describing: creationTime)), libraryArn: \(Swift.String(describing: libraryArn)), libraryName: \"CONTENT_REDACTED\")"}
+}
+
+/// List DataAutomationLibraries Response
+public struct ListDataAutomationLibrariesOutput: Swift.Sendable {
+    /// List of DataAutomationLibrarySummary objects
+    public var libraries: [BedrockDataAutomationClientTypes.DataAutomationLibrarySummary]?
+    /// Pagination token
+    public var nextToken: Swift.String?
+
+    public init(
+        libraries: [BedrockDataAutomationClientTypes.DataAutomationLibrarySummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.libraries = libraries
+        self.nextToken = nextToken
+    }
+}
+
+/// Update DataAutomationLibrary Request
+public struct UpdateDataAutomationLibraryInput: Swift.Sendable {
+    /// Client specified token used for idempotency checks
+    public var clientToken: Swift.String?
+    /// ARN generated at the server side when a DataAutomationLibrary is created
+    /// This member is required.
+    public var libraryArn: Swift.String?
+    /// Description of the DataAutomationLibrary
+    public var libraryDescription: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        libraryArn: Swift.String? = nil,
+        libraryDescription: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.libraryArn = libraryArn
+        self.libraryDescription = libraryDescription
+    }
+}
+
+extension UpdateDataAutomationLibraryInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateDataAutomationLibraryInput(clientToken: \(Swift.String(describing: clientToken)), libraryArn: \(Swift.String(describing: libraryArn)), libraryDescription: \"CONTENT_REDACTED\")"}
+}
+
+/// Update DataAutomationLibrary Response
+public struct UpdateDataAutomationLibraryOutput: Swift.Sendable {
+    /// ARN generated at the server side when a DataAutomationLibrary is created
+    public var libraryArn: Swift.String?
+    /// Status of DataAutomationLibrary
+    public var status: BedrockDataAutomationClientTypes.DataAutomationLibraryStatus?
+
+    public init(
+        libraryArn: Swift.String? = nil,
+        status: BedrockDataAutomationClientTypes.DataAutomationLibraryStatus? = nil
+    ) {
+        self.libraryArn = libraryArn
+        self.status = status
+    }
+}
+
+extension BedrockDataAutomationClientTypes {
+
+    /// Blueprint Item
+    public struct BlueprintItem: Swift.Sendable {
+        /// ARN of a Blueprint
+        /// This member is required.
+        public var blueprintArn: Swift.String?
+        /// Stage of the Blueprint
+        public var blueprintStage: BedrockDataAutomationClientTypes.BlueprintStage?
+        /// Blueprint Version
+        public var blueprintVersion: Swift.String?
+
+        public init(
+            blueprintArn: Swift.String? = nil,
+            blueprintStage: BedrockDataAutomationClientTypes.BlueprintStage? = nil,
+            blueprintVersion: Swift.String? = nil
+        ) {
+            self.blueprintArn = blueprintArn
+            self.blueprintStage = blueprintStage
+            self.blueprintVersion = blueprintVersion
+        }
+    }
+}
+
+extension BedrockDataAutomationClientTypes {
+
+    /// Custom output configuration
+    public struct CustomOutputConfiguration: Swift.Sendable {
+        /// List of Blueprint Item
+        public var blueprints: [BedrockDataAutomationClientTypes.BlueprintItem]?
+
+        public init(
+            blueprints: [BedrockDataAutomationClientTypes.BlueprintItem]? = nil
+        ) {
+            self.blueprints = blueprints
+        }
+    }
+}
+
+extension BedrockDataAutomationClientTypes {
+
+    /// DataAutomationLibrary Item
+    public struct DataAutomationLibraryItem: Swift.Sendable {
+        /// ARN generated at the server side when a DataAutomationLibrary is created
+        /// This member is required.
+        public var libraryArn: Swift.String?
+
+        public init(
+            libraryArn: Swift.String? = nil
+        ) {
+            self.libraryArn = libraryArn
+        }
+    }
+}
+
+extension BedrockDataAutomationClientTypes {
+
+    /// DataAutomation Library configuration
+    public struct DataAutomationLibraryConfiguration: Swift.Sendable {
+        /// List of DataAutomationLibrary Items
+        public var libraries: [BedrockDataAutomationClientTypes.DataAutomationLibraryItem]?
+
+        public init(
+            libraries: [BedrockDataAutomationClientTypes.DataAutomationLibraryItem]? = nil
+        ) {
+            self.libraries = libraries
+        }
+    }
+}
+
+extension BedrockDataAutomationClientTypes {
+
+    /// Configuration for Audio output language
+    public enum AudioGenerativeOutputLanguage: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `default`
+        case en
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AudioGenerativeOutputLanguage] {
+            return [
+                .default,
+                .en
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .default: return "DEFAULT"
+            case .en: return "EN"
             case let .sdkUnknown(s): return s
             }
         }
@@ -2512,6 +3331,8 @@ public struct CreateDataAutomationProjectInput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// Custom output configuration
     public var customOutputConfiguration: BedrockDataAutomationClientTypes.CustomOutputConfiguration?
+    /// DataAutomation Library configuration
+    public var dataAutomationLibraryConfiguration: BedrockDataAutomationClientTypes.DataAutomationLibraryConfiguration?
     /// KMS Encryption Configuration
     public var encryptionConfiguration: BedrockDataAutomationClientTypes.EncryptionConfiguration?
     /// Override configuration
@@ -2534,6 +3355,7 @@ public struct CreateDataAutomationProjectInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         customOutputConfiguration: BedrockDataAutomationClientTypes.CustomOutputConfiguration? = nil,
+        dataAutomationLibraryConfiguration: BedrockDataAutomationClientTypes.DataAutomationLibraryConfiguration? = nil,
         encryptionConfiguration: BedrockDataAutomationClientTypes.EncryptionConfiguration? = nil,
         overrideConfiguration: BedrockDataAutomationClientTypes.OverrideConfiguration? = nil,
         projectDescription: Swift.String? = nil,
@@ -2545,6 +3367,7 @@ public struct CreateDataAutomationProjectInput: Swift.Sendable {
     ) {
         self.clientToken = clientToken
         self.customOutputConfiguration = customOutputConfiguration
+        self.dataAutomationLibraryConfiguration = dataAutomationLibraryConfiguration
         self.encryptionConfiguration = encryptionConfiguration
         self.overrideConfiguration = overrideConfiguration
         self.projectDescription = projectDescription
@@ -2558,7 +3381,7 @@ public struct CreateDataAutomationProjectInput: Swift.Sendable {
 
 extension CreateDataAutomationProjectInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateDataAutomationProjectInput(clientToken: \(Swift.String(describing: clientToken)), customOutputConfiguration: \(Swift.String(describing: customOutputConfiguration)), encryptionConfiguration: \(Swift.String(describing: encryptionConfiguration)), overrideConfiguration: \(Swift.String(describing: overrideConfiguration)), projectStage: \(Swift.String(describing: projectStage)), projectType: \(Swift.String(describing: projectType)), standardOutputConfiguration: \(Swift.String(describing: standardOutputConfiguration)), tags: \(Swift.String(describing: tags)), projectDescription: \"CONTENT_REDACTED\", projectName: \"CONTENT_REDACTED\")"}
+        "CreateDataAutomationProjectInput(clientToken: \(Swift.String(describing: clientToken)), customOutputConfiguration: \(Swift.String(describing: customOutputConfiguration)), dataAutomationLibraryConfiguration: \(Swift.String(describing: dataAutomationLibraryConfiguration)), encryptionConfiguration: \(Swift.String(describing: encryptionConfiguration)), overrideConfiguration: \(Swift.String(describing: overrideConfiguration)), projectStage: \(Swift.String(describing: projectStage)), projectType: \(Swift.String(describing: projectType)), standardOutputConfiguration: \(Swift.String(describing: standardOutputConfiguration)), tags: \(Swift.String(describing: tags)), projectDescription: \"CONTENT_REDACTED\", projectName: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockDataAutomationClientTypes {
@@ -2671,6 +3494,8 @@ extension BedrockDataAutomationClientTypes {
         public var creationTime: Foundation.Date?
         /// Custom output configuration
         public var customOutputConfiguration: BedrockDataAutomationClientTypes.CustomOutputConfiguration?
+        /// DataAutomation Library configuration
+        public var dataAutomationLibraryConfiguration: BedrockDataAutomationClientTypes.DataAutomationLibraryConfiguration?
         /// KMS Encryption Context
         public var kmsEncryptionContext: [Swift.String: Swift.String]?
         /// KMS Key Identifier
@@ -2701,6 +3526,7 @@ extension BedrockDataAutomationClientTypes {
         public init(
             creationTime: Foundation.Date? = nil,
             customOutputConfiguration: BedrockDataAutomationClientTypes.CustomOutputConfiguration? = nil,
+            dataAutomationLibraryConfiguration: BedrockDataAutomationClientTypes.DataAutomationLibraryConfiguration? = nil,
             kmsEncryptionContext: [Swift.String: Swift.String]? = nil,
             kmsKeyId: Swift.String? = nil,
             lastModifiedTime: Foundation.Date? = nil,
@@ -2715,6 +3541,7 @@ extension BedrockDataAutomationClientTypes {
         ) {
             self.creationTime = creationTime
             self.customOutputConfiguration = customOutputConfiguration
+            self.dataAutomationLibraryConfiguration = dataAutomationLibraryConfiguration
             self.kmsEncryptionContext = kmsEncryptionContext
             self.kmsKeyId = kmsKeyId
             self.lastModifiedTime = lastModifiedTime
@@ -2732,7 +3559,7 @@ extension BedrockDataAutomationClientTypes {
 
 extension BedrockDataAutomationClientTypes.DataAutomationProject: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DataAutomationProject(creationTime: \(Swift.String(describing: creationTime)), customOutputConfiguration: \(Swift.String(describing: customOutputConfiguration)), kmsEncryptionContext: \(Swift.String(describing: kmsEncryptionContext)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), overrideConfiguration: \(Swift.String(describing: overrideConfiguration)), projectArn: \(Swift.String(describing: projectArn)), projectStage: \(Swift.String(describing: projectStage)), projectType: \(Swift.String(describing: projectType)), standardOutputConfiguration: \(Swift.String(describing: standardOutputConfiguration)), status: \(Swift.String(describing: status)), projectDescription: \"CONTENT_REDACTED\", projectName: \"CONTENT_REDACTED\")"}
+        "DataAutomationProject(creationTime: \(Swift.String(describing: creationTime)), customOutputConfiguration: \(Swift.String(describing: customOutputConfiguration)), dataAutomationLibraryConfiguration: \(Swift.String(describing: dataAutomationLibraryConfiguration)), kmsEncryptionContext: \(Swift.String(describing: kmsEncryptionContext)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), overrideConfiguration: \(Swift.String(describing: overrideConfiguration)), projectArn: \(Swift.String(describing: projectArn)), projectStage: \(Swift.String(describing: projectStage)), projectType: \(Swift.String(describing: projectType)), standardOutputConfiguration: \(Swift.String(describing: standardOutputConfiguration)), status: \(Swift.String(describing: status)), projectDescription: \"CONTENT_REDACTED\", projectName: \"CONTENT_REDACTED\")"}
 }
 
 /// Get DataAutomationProject Response
@@ -2774,6 +3601,22 @@ extension BedrockDataAutomationClientTypes {
 
 extension BedrockDataAutomationClientTypes {
 
+    /// Data Automation Library Filter
+    public struct DataAutomationLibraryFilter: Swift.Sendable {
+        /// ARN generated at the server side when a DataAutomationLibrary is created
+        /// This member is required.
+        public var libraryArn: Swift.String?
+
+        public init(
+            libraryArn: Swift.String? = nil
+        ) {
+            self.libraryArn = libraryArn
+        }
+    }
+}
+
+extension BedrockDataAutomationClientTypes {
+
     /// Project Stage filter
     public enum DataAutomationProjectStageFilter: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case all
@@ -2809,6 +3652,8 @@ extension BedrockDataAutomationClientTypes {
 public struct ListDataAutomationProjectsInput: Swift.Sendable {
     /// Blueprint Filter
     public var blueprintFilter: BedrockDataAutomationClientTypes.BlueprintFilter?
+    /// Data Automation Library Filter
+    public var libraryFilter: BedrockDataAutomationClientTypes.DataAutomationLibraryFilter?
     /// Max Results
     public var maxResults: Swift.Int?
     /// Pagination token
@@ -2820,12 +3665,14 @@ public struct ListDataAutomationProjectsInput: Swift.Sendable {
 
     public init(
         blueprintFilter: BedrockDataAutomationClientTypes.BlueprintFilter? = nil,
+        libraryFilter: BedrockDataAutomationClientTypes.DataAutomationLibraryFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         projectStageFilter: BedrockDataAutomationClientTypes.DataAutomationProjectStageFilter? = nil,
         resourceOwner: BedrockDataAutomationClientTypes.ResourceOwner? = nil
     ) {
         self.blueprintFilter = blueprintFilter
+        self.libraryFilter = libraryFilter
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.projectStageFilter = projectStageFilter
@@ -2892,6 +3739,8 @@ public struct ListDataAutomationProjectsOutput: Swift.Sendable {
 public struct UpdateDataAutomationProjectInput: Swift.Sendable {
     /// Custom output configuration
     public var customOutputConfiguration: BedrockDataAutomationClientTypes.CustomOutputConfiguration?
+    /// DataAutomation Library configuration
+    public var dataAutomationLibraryConfiguration: BedrockDataAutomationClientTypes.DataAutomationLibraryConfiguration?
     /// KMS Encryption Configuration
     public var encryptionConfiguration: BedrockDataAutomationClientTypes.EncryptionConfiguration?
     /// Override configuration
@@ -2909,6 +3758,7 @@ public struct UpdateDataAutomationProjectInput: Swift.Sendable {
 
     public init(
         customOutputConfiguration: BedrockDataAutomationClientTypes.CustomOutputConfiguration? = nil,
+        dataAutomationLibraryConfiguration: BedrockDataAutomationClientTypes.DataAutomationLibraryConfiguration? = nil,
         encryptionConfiguration: BedrockDataAutomationClientTypes.EncryptionConfiguration? = nil,
         overrideConfiguration: BedrockDataAutomationClientTypes.OverrideConfiguration? = nil,
         projectArn: Swift.String? = nil,
@@ -2917,6 +3767,7 @@ public struct UpdateDataAutomationProjectInput: Swift.Sendable {
         standardOutputConfiguration: BedrockDataAutomationClientTypes.StandardOutputConfiguration? = nil
     ) {
         self.customOutputConfiguration = customOutputConfiguration
+        self.dataAutomationLibraryConfiguration = dataAutomationLibraryConfiguration
         self.encryptionConfiguration = encryptionConfiguration
         self.overrideConfiguration = overrideConfiguration
         self.projectArn = projectArn
@@ -2928,7 +3779,7 @@ public struct UpdateDataAutomationProjectInput: Swift.Sendable {
 
 extension UpdateDataAutomationProjectInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateDataAutomationProjectInput(customOutputConfiguration: \(Swift.String(describing: customOutputConfiguration)), encryptionConfiguration: \(Swift.String(describing: encryptionConfiguration)), overrideConfiguration: \(Swift.String(describing: overrideConfiguration)), projectArn: \(Swift.String(describing: projectArn)), projectStage: \(Swift.String(describing: projectStage)), standardOutputConfiguration: \(Swift.String(describing: standardOutputConfiguration)), projectDescription: \"CONTENT_REDACTED\")"}
+        "UpdateDataAutomationProjectInput(customOutputConfiguration: \(Swift.String(describing: customOutputConfiguration)), dataAutomationLibraryConfiguration: \(Swift.String(describing: dataAutomationLibraryConfiguration)), encryptionConfiguration: \(Swift.String(describing: encryptionConfiguration)), overrideConfiguration: \(Swift.String(describing: overrideConfiguration)), projectArn: \(Swift.String(describing: projectArn)), projectStage: \(Swift.String(describing: projectStage)), standardOutputConfiguration: \(Swift.String(describing: standardOutputConfiguration)), projectDescription: \"CONTENT_REDACTED\")"}
 }
 
 /// Update DataAutomationProject Response
@@ -2949,6 +3800,175 @@ public struct UpdateDataAutomationProjectOutput: Swift.Sendable {
         self.projectArn = projectArn
         self.projectStage = projectStage
         self.status = status
+    }
+}
+
+/// Get DataAutomationLibraryEntity Request
+public struct GetDataAutomationLibraryEntityInput: Swift.Sendable {
+    /// Unique identifier for the entity
+    /// This member is required.
+    public var entityId: Swift.String?
+    /// The entity type for which the entity is requested
+    /// This member is required.
+    public var entityType: BedrockDataAutomationClientTypes.EntityType?
+    /// ARN generated at the server side when a DataAutomationLibrary is created
+    /// This member is required.
+    public var libraryArn: Swift.String?
+
+    public init(
+        entityId: Swift.String? = nil,
+        entityType: BedrockDataAutomationClientTypes.EntityType? = nil,
+        libraryArn: Swift.String? = nil
+    ) {
+        self.entityId = entityId
+        self.entityType = entityType
+        self.libraryArn = libraryArn
+    }
+}
+
+extension BedrockDataAutomationClientTypes {
+
+    /// Vocabulary entity with detailed information
+    public struct VocabularyEntity: Swift.Sendable {
+        /// Description of the entity
+        public var description: Swift.String?
+        /// Unique identifier for the entity
+        public var entityId: Swift.String?
+        /// Supported input languages
+        public var language: BedrockDataAutomationClientTypes.Language?
+        /// Time Stamp
+        public var lastModifiedTime: Foundation.Date?
+        /// List of phrases
+        public var phrases: [BedrockDataAutomationClientTypes.Phrase]?
+
+        public init(
+            description: Swift.String? = nil,
+            entityId: Swift.String? = nil,
+            language: BedrockDataAutomationClientTypes.Language? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            phrases: [BedrockDataAutomationClientTypes.Phrase]? = nil
+        ) {
+            self.description = description
+            self.entityId = entityId
+            self.language = language
+            self.lastModifiedTime = lastModifiedTime
+            self.phrases = phrases
+        }
+    }
+}
+
+extension BedrockDataAutomationClientTypes.VocabularyEntity: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "VocabularyEntity(entityId: \(Swift.String(describing: entityId)), language: \(Swift.String(describing: language)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), phrases: \(Swift.String(describing: phrases)), description: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockDataAutomationClientTypes {
+
+    /// Detailed information about an entity
+    public enum EntityDetails: Swift.Sendable {
+        /// Vocabulary entity with detailed information
+        case vocabulary(BedrockDataAutomationClientTypes.VocabularyEntity)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+/// Get DataAutomationLibraryEntity Response
+public struct GetDataAutomationLibraryEntityOutput: Swift.Sendable {
+    /// Detailed information about the entity
+    public var entity: BedrockDataAutomationClientTypes.EntityDetails?
+
+    public init(
+        entity: BedrockDataAutomationClientTypes.EntityDetails? = nil
+    ) {
+        self.entity = entity
+    }
+}
+
+/// List DataAutomationLibraryEntities Request
+public struct ListDataAutomationLibraryEntitiesInput: Swift.Sendable {
+    /// The entity type for which the entity list is requested
+    /// This member is required.
+    public var entityType: BedrockDataAutomationClientTypes.EntityType?
+    /// ARN generated at the server side when a DataAutomationLibrary is created
+    /// This member is required.
+    public var libraryArn: Swift.String?
+    /// Max Results
+    public var maxResults: Swift.Int?
+    /// Pagination token for retrieving the next set of results
+    public var nextToken: Swift.String?
+
+    public init(
+        entityType: BedrockDataAutomationClientTypes.EntityType? = nil,
+        libraryArn: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.entityType = entityType
+        self.libraryArn = libraryArn
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension BedrockDataAutomationClientTypes {
+
+    /// Summary of a Vocabulary entity
+    public struct VocabularyEntitySummary: Swift.Sendable {
+        /// Description of the entity
+        public var description: Swift.String?
+        /// Unique identifier for the entity
+        public var entityId: Swift.String?
+        /// Supported input languages
+        public var language: BedrockDataAutomationClientTypes.Language?
+        /// Time Stamp
+        public var lastModifiedTime: Foundation.Date?
+        /// num of phrases in the entity
+        public var numOfPhrases: Swift.Int?
+
+        public init(
+            description: Swift.String? = nil,
+            entityId: Swift.String? = nil,
+            language: BedrockDataAutomationClientTypes.Language? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            numOfPhrases: Swift.Int? = nil
+        ) {
+            self.description = description
+            self.entityId = entityId
+            self.language = language
+            self.lastModifiedTime = lastModifiedTime
+            self.numOfPhrases = numOfPhrases
+        }
+    }
+}
+
+extension BedrockDataAutomationClientTypes.VocabularyEntitySummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "VocabularyEntitySummary(entityId: \(Swift.String(describing: entityId)), language: \(Swift.String(describing: language)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), numOfPhrases: \(Swift.String(describing: numOfPhrases)), description: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockDataAutomationClientTypes {
+
+    /// Summarized information about an entity
+    public enum DataAutomationLibraryEntitySummary: Swift.Sendable {
+        /// Summary of a Vocabulary entity
+        case vocabulary(BedrockDataAutomationClientTypes.VocabularyEntitySummary)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+/// List DataAutomationLibraryEntities Response
+public struct ListDataAutomationLibraryEntitiesOutput: Swift.Sendable {
+    /// List of entities
+    public var entities: [BedrockDataAutomationClientTypes.DataAutomationLibraryEntitySummary]?
+    /// Pagination token for retrieving the next set of results
+    public var nextToken: Swift.String?
+
+    public init(
+        entities: [BedrockDataAutomationClientTypes.DataAutomationLibraryEntitySummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.entities = entities
+        self.nextToken = nextToken
     }
 }
 
@@ -3046,6 +4066,13 @@ extension CreateBlueprintVersionInput {
     }
 }
 
+extension CreateDataAutomationLibraryInput {
+
+    static func urlPathProvider(_ value: CreateDataAutomationLibraryInput) -> Swift.String? {
+        return "/data-automation-libraries"
+    }
+}
+
 extension CreateDataAutomationProjectInput {
 
     static func urlPathProvider(_ value: CreateDataAutomationProjectInput) -> Swift.String? {
@@ -3072,6 +4099,16 @@ extension DeleteBlueprintInput {
             items.append(blueprintVersionQueryItem)
         }
         return items
+    }
+}
+
+extension DeleteDataAutomationLibraryInput {
+
+    static func urlPathProvider(_ value: DeleteDataAutomationLibraryInput) -> Swift.String? {
+        guard let libraryArn = value.libraryArn else {
+            return nil
+        }
+        return "/data-automation-libraries/\(libraryArn.urlPercentEncoding())"
     }
 }
 
@@ -3105,6 +4142,45 @@ extension GetBlueprintOptimizationStatusInput {
     }
 }
 
+extension GetDataAutomationLibraryInput {
+
+    static func urlPathProvider(_ value: GetDataAutomationLibraryInput) -> Swift.String? {
+        guard let libraryArn = value.libraryArn else {
+            return nil
+        }
+        return "/data-automation-libraries/\(libraryArn.urlPercentEncoding())"
+    }
+}
+
+extension GetDataAutomationLibraryEntityInput {
+
+    static func urlPathProvider(_ value: GetDataAutomationLibraryEntityInput) -> Swift.String? {
+        guard let libraryArn = value.libraryArn else {
+            return nil
+        }
+        guard let entityType = value.entityType else {
+            return nil
+        }
+        guard let entityId = value.entityId else {
+            return nil
+        }
+        return "/data-automation-libraries/\(libraryArn.urlPercentEncoding())/entityType/\(entityType.rawValue.urlPercentEncoding())/entities/\(entityId.urlPercentEncoding())"
+    }
+}
+
+extension GetDataAutomationLibraryIngestionJobInput {
+
+    static func urlPathProvider(_ value: GetDataAutomationLibraryIngestionJobInput) -> Swift.String? {
+        guard let libraryArn = value.libraryArn else {
+            return nil
+        }
+        guard let jobArn = value.jobArn else {
+            return nil
+        }
+        return "/data-automation-libraries/\(libraryArn.urlPercentEncoding())/library-ingestion-jobs/\(jobArn.urlPercentEncoding())"
+    }
+}
+
 extension GetDataAutomationProjectInput {
 
     static func urlPathProvider(_ value: GetDataAutomationProjectInput) -> Swift.String? {
@@ -3122,10 +4198,50 @@ extension InvokeBlueprintOptimizationAsyncInput {
     }
 }
 
+extension InvokeDataAutomationLibraryIngestionJobInput {
+
+    static func urlPathProvider(_ value: InvokeDataAutomationLibraryIngestionJobInput) -> Swift.String? {
+        guard let libraryArn = value.libraryArn else {
+            return nil
+        }
+        return "/data-automation-libraries/\(libraryArn.urlPercentEncoding())/library-ingestion-jobs"
+    }
+}
+
 extension ListBlueprintsInput {
 
     static func urlPathProvider(_ value: ListBlueprintsInput) -> Swift.String? {
         return "/blueprints"
+    }
+}
+
+extension ListDataAutomationLibrariesInput {
+
+    static func urlPathProvider(_ value: ListDataAutomationLibrariesInput) -> Swift.String? {
+        return "/data-automation-libraries"
+    }
+}
+
+extension ListDataAutomationLibraryEntitiesInput {
+
+    static func urlPathProvider(_ value: ListDataAutomationLibraryEntitiesInput) -> Swift.String? {
+        guard let libraryArn = value.libraryArn else {
+            return nil
+        }
+        guard let entityType = value.entityType else {
+            return nil
+        }
+        return "/data-automation-libraries/\(libraryArn.urlPercentEncoding())/entityType/\(entityType.rawValue.urlPercentEncoding())/entities"
+    }
+}
+
+extension ListDataAutomationLibraryIngestionJobsInput {
+
+    static func urlPathProvider(_ value: ListDataAutomationLibraryIngestionJobsInput) -> Swift.String? {
+        guard let libraryArn = value.libraryArn else {
+            return nil
+        }
+        return "/data-automation-libraries/\(libraryArn.urlPercentEncoding())/library-ingestion-jobs"
     }
 }
 
@@ -3164,6 +4280,16 @@ extension UpdateBlueprintInput {
             return nil
         }
         return "/blueprints/\(blueprintArn.urlPercentEncoding())"
+    }
+}
+
+extension UpdateDataAutomationLibraryInput {
+
+    static func urlPathProvider(_ value: UpdateDataAutomationLibraryInput) -> Swift.String? {
+        guard let libraryArn = value.libraryArn else {
+            return nil
+        }
+        return "/data-automation-libraries/\(libraryArn.urlPercentEncoding())"
     }
 }
 
@@ -3209,12 +4335,25 @@ extension CreateBlueprintVersionInput {
     }
 }
 
+extension CreateDataAutomationLibraryInput {
+
+    static func write(value: CreateDataAutomationLibraryInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["encryptionConfiguration"].write(value.encryptionConfiguration, with: BedrockDataAutomationClientTypes.EncryptionConfiguration.write(value:to:))
+        try writer["libraryDescription"].write(value.libraryDescription)
+        try writer["libraryName"].write(value.libraryName)
+        try writer["tags"].writeList(value.tags, memberWritingClosure: BedrockDataAutomationClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension CreateDataAutomationProjectInput {
 
     static func write(value: CreateDataAutomationProjectInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
         try writer["customOutputConfiguration"].write(value.customOutputConfiguration, with: BedrockDataAutomationClientTypes.CustomOutputConfiguration.write(value:to:))
+        try writer["dataAutomationLibraryConfiguration"].write(value.dataAutomationLibraryConfiguration, with: BedrockDataAutomationClientTypes.DataAutomationLibraryConfiguration.write(value:to:))
         try writer["encryptionConfiguration"].write(value.encryptionConfiguration, with: BedrockDataAutomationClientTypes.EncryptionConfiguration.write(value:to:))
         try writer["overrideConfiguration"].write(value.overrideConfiguration, with: BedrockDataAutomationClientTypes.OverrideConfiguration.write(value:to:))
         try writer["projectDescription"].write(value.projectDescription)
@@ -3256,6 +4395,20 @@ extension InvokeBlueprintOptimizationAsyncInput {
     }
 }
 
+extension InvokeDataAutomationLibraryIngestionJobInput {
+
+    static func write(value: InvokeDataAutomationLibraryIngestionJobInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["entityType"].write(value.entityType)
+        try writer["inputConfiguration"].write(value.inputConfiguration, with: BedrockDataAutomationClientTypes.InputConfiguration.write(value:to:))
+        try writer["notificationConfiguration"].write(value.notificationConfiguration, with: BedrockDataAutomationClientTypes.NotificationConfiguration.write(value:to:))
+        try writer["operationType"].write(value.operationType)
+        try writer["outputConfiguration"].write(value.outputConfiguration, with: BedrockDataAutomationClientTypes.OutputConfiguration.write(value:to:))
+        try writer["tags"].writeList(value.tags, memberWritingClosure: BedrockDataAutomationClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension ListBlueprintsInput {
 
     static func write(value: ListBlueprintsInput?, to writer: SmithyJSON.Writer) throws {
@@ -3269,11 +4422,40 @@ extension ListBlueprintsInput {
     }
 }
 
+extension ListDataAutomationLibrariesInput {
+
+    static func write(value: ListDataAutomationLibrariesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+        try writer["projectFilter"].write(value.projectFilter, with: BedrockDataAutomationClientTypes.DataAutomationProjectFilter.write(value:to:))
+    }
+}
+
+extension ListDataAutomationLibraryEntitiesInput {
+
+    static func write(value: ListDataAutomationLibraryEntitiesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+    }
+}
+
+extension ListDataAutomationLibraryIngestionJobsInput {
+
+    static func write(value: ListDataAutomationLibraryIngestionJobsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+    }
+}
+
 extension ListDataAutomationProjectsInput {
 
     static func write(value: ListDataAutomationProjectsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["blueprintFilter"].write(value.blueprintFilter, with: BedrockDataAutomationClientTypes.BlueprintFilter.write(value:to:))
+        try writer["libraryFilter"].write(value.libraryFilter, with: BedrockDataAutomationClientTypes.DataAutomationLibraryFilter.write(value:to:))
         try writer["maxResults"].write(value.maxResults)
         try writer["nextToken"].write(value.nextToken)
         try writer["projectStageFilter"].write(value.projectStageFilter)
@@ -3317,11 +4499,21 @@ extension UpdateBlueprintInput {
     }
 }
 
+extension UpdateDataAutomationLibraryInput {
+
+    static func write(value: UpdateDataAutomationLibraryInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["libraryDescription"].write(value.libraryDescription)
+    }
+}
+
 extension UpdateDataAutomationProjectInput {
 
     static func write(value: UpdateDataAutomationProjectInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["customOutputConfiguration"].write(value.customOutputConfiguration, with: BedrockDataAutomationClientTypes.CustomOutputConfiguration.write(value:to:))
+        try writer["dataAutomationLibraryConfiguration"].write(value.dataAutomationLibraryConfiguration, with: BedrockDataAutomationClientTypes.DataAutomationLibraryConfiguration.write(value:to:))
         try writer["encryptionConfiguration"].write(value.encryptionConfiguration, with: BedrockDataAutomationClientTypes.EncryptionConfiguration.write(value:to:))
         try writer["overrideConfiguration"].write(value.overrideConfiguration, with: BedrockDataAutomationClientTypes.OverrideConfiguration.write(value:to:))
         try writer["projectDescription"].write(value.projectDescription)
@@ -3361,6 +4553,19 @@ extension CreateBlueprintVersionOutput {
     }
 }
 
+extension CreateDataAutomationLibraryOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateDataAutomationLibraryOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateDataAutomationLibraryOutput()
+        value.libraryArn = try reader["libraryArn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
 extension CreateDataAutomationProjectOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateDataAutomationProjectOutput {
@@ -3379,6 +4584,19 @@ extension DeleteBlueprintOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteBlueprintOutput {
         return DeleteBlueprintOutput()
+    }
+}
+
+extension DeleteDataAutomationLibraryOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteDataAutomationLibraryOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteDataAutomationLibraryOutput()
+        value.libraryArn = try reader["libraryArn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        return value
     }
 }
 
@@ -3422,6 +4640,42 @@ extension GetBlueprintOptimizationStatusOutput {
     }
 }
 
+extension GetDataAutomationLibraryOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetDataAutomationLibraryOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetDataAutomationLibraryOutput()
+        value.library = try reader["library"].readIfPresent(with: BedrockDataAutomationClientTypes.DataAutomationLibrary.read(from:))
+        return value
+    }
+}
+
+extension GetDataAutomationLibraryEntityOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetDataAutomationLibraryEntityOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetDataAutomationLibraryEntityOutput()
+        value.entity = try reader["entity"].readIfPresent(with: BedrockDataAutomationClientTypes.EntityDetails.read(from:))
+        return value
+    }
+}
+
+extension GetDataAutomationLibraryIngestionJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetDataAutomationLibraryIngestionJobOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetDataAutomationLibraryIngestionJobOutput()
+        value.job = try reader["job"].readIfPresent(with: BedrockDataAutomationClientTypes.DataAutomationLibraryIngestionJob.read(from:))
+        return value
+    }
+}
+
 extension GetDataAutomationProjectOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetDataAutomationProjectOutput {
@@ -3446,6 +4700,18 @@ extension InvokeBlueprintOptimizationAsyncOutput {
     }
 }
 
+extension InvokeDataAutomationLibraryIngestionJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> InvokeDataAutomationLibraryIngestionJobOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = InvokeDataAutomationLibraryIngestionJobOutput()
+        value.jobArn = try reader["jobArn"].readIfPresent()
+        return value
+    }
+}
+
 extension ListBlueprintsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListBlueprintsOutput {
@@ -3454,6 +4720,45 @@ extension ListBlueprintsOutput {
         let reader = responseReader
         var value = ListBlueprintsOutput()
         value.blueprints = try reader["blueprints"].readListIfPresent(memberReadingClosure: BedrockDataAutomationClientTypes.BlueprintSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListDataAutomationLibrariesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDataAutomationLibrariesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListDataAutomationLibrariesOutput()
+        value.libraries = try reader["libraries"].readListIfPresent(memberReadingClosure: BedrockDataAutomationClientTypes.DataAutomationLibrarySummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListDataAutomationLibraryEntitiesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDataAutomationLibraryEntitiesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListDataAutomationLibraryEntitiesOutput()
+        value.entities = try reader["entities"].readListIfPresent(memberReadingClosure: BedrockDataAutomationClientTypes.DataAutomationLibraryEntitySummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListDataAutomationLibraryIngestionJobsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDataAutomationLibraryIngestionJobsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListDataAutomationLibraryIngestionJobsOutput()
+        value.jobs = try reader["jobs"].readListIfPresent(memberReadingClosure: BedrockDataAutomationClientTypes.DataAutomationLibraryIngestionJobSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -3510,6 +4815,19 @@ extension UpdateBlueprintOutput {
     }
 }
 
+extension UpdateDataAutomationLibraryOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateDataAutomationLibraryOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateDataAutomationLibraryOutput()
+        value.libraryArn = try reader["libraryArn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
 extension UpdateDataAutomationProjectOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateDataAutomationProjectOutput {
@@ -3529,7 +4847,7 @@ enum CopyBlueprintStageOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3547,7 +4865,7 @@ enum CreateBlueprintOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3566,7 +4884,7 @@ enum CreateBlueprintVersionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3580,12 +4898,31 @@ enum CreateBlueprintVersionOutputError {
     }
 }
 
+enum CreateDataAutomationLibraryOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateDataAutomationProjectOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3604,10 +4941,29 @@ enum DeleteBlueprintOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteDataAutomationLibraryOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -3622,7 +4978,7 @@ enum DeleteDataAutomationProjectOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3640,7 +4996,7 @@ enum GetBlueprintOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3658,7 +5014,61 @@ enum GetBlueprintOptimizationStatusOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetDataAutomationLibraryOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetDataAutomationLibraryEntityOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetDataAutomationLibraryIngestionJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3676,7 +5086,7 @@ enum GetDataAutomationProjectOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3694,10 +5104,30 @@ enum InvokeBlueprintOptimizationAsyncOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum InvokeDataAutomationLibraryIngestionJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
@@ -3713,7 +5143,60 @@ enum ListBlueprintsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListDataAutomationLibrariesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListDataAutomationLibraryEntitiesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListDataAutomationLibraryIngestionJobsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3731,7 +5214,7 @@ enum ListDataAutomationProjectsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3749,7 +5232,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3767,7 +5250,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3786,7 +5269,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3804,7 +5287,26 @@ enum UpdateBlueprintOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateDataAutomationLibraryOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3823,7 +5325,7 @@ enum UpdateDataAutomationProjectOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -3840,7 +5342,7 @@ enum UpdateDataAutomationProjectOutputError {
 
 extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3853,7 +5355,7 @@ extension AccessDeniedException {
 
 extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3866,7 +5368,7 @@ extension InternalServerException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3879,7 +5381,7 @@ extension ResourceNotFoundException {
 
 extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3892,7 +5394,7 @@ extension ThrottlingException {
 
 extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: BedrockDataAutomationClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -3906,7 +5408,7 @@ extension ValidationException {
 
 extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3919,410 +5421,13 @@ extension ConflictException {
 
 extension ServiceQuotaExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension BedrockDataAutomationClientTypes.Blueprint {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.Blueprint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockDataAutomationClientTypes.Blueprint()
-        value.blueprintArn = try reader["blueprintArn"].readIfPresent() ?? ""
-        value.schema = try reader["schema"].readIfPresent() ?? ""
-        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.blueprintName = try reader["blueprintName"].readIfPresent() ?? ""
-        value.blueprintVersion = try reader["blueprintVersion"].readIfPresent()
-        value.blueprintStage = try reader["blueprintStage"].readIfPresent()
-        value.kmsKeyId = try reader["kmsKeyId"].readIfPresent()
-        value.kmsEncryptionContext = try reader["kmsEncryptionContext"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.optimizationSamples = try reader["optimizationSamples"].readListIfPresent(memberReadingClosure: BedrockDataAutomationClientTypes.BlueprintOptimizationSample.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.optimizationTime = try reader["optimizationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension BedrockDataAutomationClientTypes.BlueprintOptimizationSample {
-
-    static func write(value: BedrockDataAutomationClientTypes.BlueprintOptimizationSample?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["assetS3Object"].write(value.assetS3Object, with: BedrockDataAutomationClientTypes.S3Object.write(value:to:))
-        try writer["groundTruthS3Object"].write(value.groundTruthS3Object, with: BedrockDataAutomationClientTypes.S3Object.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.BlueprintOptimizationSample {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockDataAutomationClientTypes.BlueprintOptimizationSample()
-        value.assetS3Object = try reader["assetS3Object"].readIfPresent(with: BedrockDataAutomationClientTypes.S3Object.read(from:))
-        value.groundTruthS3Object = try reader["groundTruthS3Object"].readIfPresent(with: BedrockDataAutomationClientTypes.S3Object.read(from:))
-        return value
-    }
-}
-
-extension BedrockDataAutomationClientTypes.S3Object {
-
-    static func write(value: BedrockDataAutomationClientTypes.S3Object?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["s3Uri"].write(value.s3Uri)
-        try writer["version"].write(value.version)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.S3Object {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockDataAutomationClientTypes.S3Object()
-        value.s3Uri = try reader["s3Uri"].readIfPresent() ?? ""
-        value.version = try reader["version"].readIfPresent()
-        return value
-    }
-}
-
-extension BedrockDataAutomationClientTypes.BlueprintOptimizationOutputConfiguration {
-
-    static func write(value: BedrockDataAutomationClientTypes.BlueprintOptimizationOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["s3Object"].write(value.s3Object, with: BedrockDataAutomationClientTypes.S3Object.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.BlueprintOptimizationOutputConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockDataAutomationClientTypes.BlueprintOptimizationOutputConfiguration()
-        value.s3Object = try reader["s3Object"].readIfPresent(with: BedrockDataAutomationClientTypes.S3Object.read(from:))
-        return value
-    }
-}
-
-extension BedrockDataAutomationClientTypes.DataAutomationProject {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.DataAutomationProject {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockDataAutomationClientTypes.DataAutomationProject()
-        value.projectArn = try reader["projectArn"].readIfPresent() ?? ""
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.projectName = try reader["projectName"].readIfPresent() ?? ""
-        value.projectStage = try reader["projectStage"].readIfPresent()
-        value.projectType = try reader["projectType"].readIfPresent()
-        value.projectDescription = try reader["projectDescription"].readIfPresent()
-        value.standardOutputConfiguration = try reader["standardOutputConfiguration"].readIfPresent(with: BedrockDataAutomationClientTypes.StandardOutputConfiguration.read(from:))
-        value.customOutputConfiguration = try reader["customOutputConfiguration"].readIfPresent(with: BedrockDataAutomationClientTypes.CustomOutputConfiguration.read(from:))
-        value.overrideConfiguration = try reader["overrideConfiguration"].readIfPresent(with: BedrockDataAutomationClientTypes.OverrideConfiguration.read(from:))
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.kmsKeyId = try reader["kmsKeyId"].readIfPresent()
-        value.kmsEncryptionContext = try reader["kmsEncryptionContext"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension BedrockDataAutomationClientTypes.OverrideConfiguration {
-
-    static func write(value: BedrockDataAutomationClientTypes.OverrideConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["audio"].write(value.audio, with: BedrockDataAutomationClientTypes.AudioOverrideConfiguration.write(value:to:))
-        try writer["document"].write(value.document, with: BedrockDataAutomationClientTypes.DocumentOverrideConfiguration.write(value:to:))
-        try writer["image"].write(value.image, with: BedrockDataAutomationClientTypes.ImageOverrideConfiguration.write(value:to:))
-        try writer["modalityRouting"].write(value.modalityRouting, with: BedrockDataAutomationClientTypes.ModalityRoutingConfiguration.write(value:to:))
-        try writer["video"].write(value.video, with: BedrockDataAutomationClientTypes.VideoOverrideConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.OverrideConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockDataAutomationClientTypes.OverrideConfiguration()
-        value.document = try reader["document"].readIfPresent(with: BedrockDataAutomationClientTypes.DocumentOverrideConfiguration.read(from:))
-        value.image = try reader["image"].readIfPresent(with: BedrockDataAutomationClientTypes.ImageOverrideConfiguration.read(from:))
-        value.video = try reader["video"].readIfPresent(with: BedrockDataAutomationClientTypes.VideoOverrideConfiguration.read(from:))
-        value.audio = try reader["audio"].readIfPresent(with: BedrockDataAutomationClientTypes.AudioOverrideConfiguration.read(from:))
-        value.modalityRouting = try reader["modalityRouting"].readIfPresent(with: BedrockDataAutomationClientTypes.ModalityRoutingConfiguration.read(from:))
-        return value
-    }
-}
-
-extension BedrockDataAutomationClientTypes.ModalityRoutingConfiguration {
-
-    static func write(value: BedrockDataAutomationClientTypes.ModalityRoutingConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["jpeg"].write(value.jpeg)
-        try writer["mov"].write(value.mov)
-        try writer["mp4"].write(value.mp4)
-        try writer["png"].write(value.png)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.ModalityRoutingConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockDataAutomationClientTypes.ModalityRoutingConfiguration()
-        value.jpeg = try reader["jpeg"].readIfPresent()
-        value.png = try reader["png"].readIfPresent()
-        value.mp4 = try reader["mp4"].readIfPresent()
-        value.mov = try reader["mov"].readIfPresent()
-        return value
-    }
-}
-
-extension BedrockDataAutomationClientTypes.AudioOverrideConfiguration {
-
-    static func write(value: BedrockDataAutomationClientTypes.AudioOverrideConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["languageConfiguration"].write(value.languageConfiguration, with: BedrockDataAutomationClientTypes.AudioLanguageConfiguration.write(value:to:))
-        try writer["modalityProcessing"].write(value.modalityProcessing, with: BedrockDataAutomationClientTypes.ModalityProcessingConfiguration.write(value:to:))
-        try writer["sensitiveDataConfiguration"].write(value.sensitiveDataConfiguration, with: BedrockDataAutomationClientTypes.SensitiveDataConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.AudioOverrideConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockDataAutomationClientTypes.AudioOverrideConfiguration()
-        value.modalityProcessing = try reader["modalityProcessing"].readIfPresent(with: BedrockDataAutomationClientTypes.ModalityProcessingConfiguration.read(from:))
-        value.languageConfiguration = try reader["languageConfiguration"].readIfPresent(with: BedrockDataAutomationClientTypes.AudioLanguageConfiguration.read(from:))
-        value.sensitiveDataConfiguration = try reader["sensitiveDataConfiguration"].readIfPresent(with: BedrockDataAutomationClientTypes.SensitiveDataConfiguration.read(from:))
-        return value
-    }
-}
-
-extension BedrockDataAutomationClientTypes.SensitiveDataConfiguration {
-
-    static func write(value: BedrockDataAutomationClientTypes.SensitiveDataConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["detectionMode"].write(value.detectionMode)
-        try writer["detectionScope"].writeList(value.detectionScope, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BedrockDataAutomationClientTypes.SensitiveDataDetectionScopeType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["piiEntitiesConfiguration"].write(value.piiEntitiesConfiguration, with: BedrockDataAutomationClientTypes.PIIEntitiesConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.SensitiveDataConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockDataAutomationClientTypes.SensitiveDataConfiguration()
-        value.detectionMode = try reader["detectionMode"].readIfPresent() ?? .sdkUnknown("")
-        value.detectionScope = try reader["detectionScope"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BedrockDataAutomationClientTypes.SensitiveDataDetectionScopeType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.piiEntitiesConfiguration = try reader["piiEntitiesConfiguration"].readIfPresent(with: BedrockDataAutomationClientTypes.PIIEntitiesConfiguration.read(from:))
-        return value
-    }
-}
-
-extension BedrockDataAutomationClientTypes.PIIEntitiesConfiguration {
-
-    static func write(value: BedrockDataAutomationClientTypes.PIIEntitiesConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["piiEntityTypes"].writeList(value.piiEntityTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BedrockDataAutomationClientTypes.PIIEntityType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["redactionMaskMode"].write(value.redactionMaskMode)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.PIIEntitiesConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockDataAutomationClientTypes.PIIEntitiesConfiguration()
-        value.piiEntityTypes = try reader["piiEntityTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BedrockDataAutomationClientTypes.PIIEntityType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.redactionMaskMode = try reader["redactionMaskMode"].readIfPresent()
-        return value
-    }
-}
-
-extension BedrockDataAutomationClientTypes.AudioLanguageConfiguration {
-
-    static func write(value: BedrockDataAutomationClientTypes.AudioLanguageConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["generativeOutputLanguage"].write(value.generativeOutputLanguage)
-        try writer["identifyMultipleLanguages"].write(value.identifyMultipleLanguages)
-        try writer["inputLanguages"].writeList(value.inputLanguages, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BedrockDataAutomationClientTypes.Language>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.AudioLanguageConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockDataAutomationClientTypes.AudioLanguageConfiguration()
-        value.inputLanguages = try reader["inputLanguages"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BedrockDataAutomationClientTypes.Language>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.generativeOutputLanguage = try reader["generativeOutputLanguage"].readIfPresent()
-        value.identifyMultipleLanguages = try reader["identifyMultipleLanguages"].readIfPresent()
-        return value
-    }
-}
-
-extension BedrockDataAutomationClientTypes.ModalityProcessingConfiguration {
-
-    static func write(value: BedrockDataAutomationClientTypes.ModalityProcessingConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["state"].write(value.state)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.ModalityProcessingConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockDataAutomationClientTypes.ModalityProcessingConfiguration()
-        value.state = try reader["state"].readIfPresent()
-        return value
-    }
-}
-
-extension BedrockDataAutomationClientTypes.VideoOverrideConfiguration {
-
-    static func write(value: BedrockDataAutomationClientTypes.VideoOverrideConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["modalityProcessing"].write(value.modalityProcessing, with: BedrockDataAutomationClientTypes.ModalityProcessingConfiguration.write(value:to:))
-        try writer["sensitiveDataConfiguration"].write(value.sensitiveDataConfiguration, with: BedrockDataAutomationClientTypes.SensitiveDataConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.VideoOverrideConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockDataAutomationClientTypes.VideoOverrideConfiguration()
-        value.modalityProcessing = try reader["modalityProcessing"].readIfPresent(with: BedrockDataAutomationClientTypes.ModalityProcessingConfiguration.read(from:))
-        value.sensitiveDataConfiguration = try reader["sensitiveDataConfiguration"].readIfPresent(with: BedrockDataAutomationClientTypes.SensitiveDataConfiguration.read(from:))
-        return value
-    }
-}
-
-extension BedrockDataAutomationClientTypes.ImageOverrideConfiguration {
-
-    static func write(value: BedrockDataAutomationClientTypes.ImageOverrideConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["modalityProcessing"].write(value.modalityProcessing, with: BedrockDataAutomationClientTypes.ModalityProcessingConfiguration.write(value:to:))
-        try writer["sensitiveDataConfiguration"].write(value.sensitiveDataConfiguration, with: BedrockDataAutomationClientTypes.SensitiveDataConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.ImageOverrideConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockDataAutomationClientTypes.ImageOverrideConfiguration()
-        value.modalityProcessing = try reader["modalityProcessing"].readIfPresent(with: BedrockDataAutomationClientTypes.ModalityProcessingConfiguration.read(from:))
-        value.sensitiveDataConfiguration = try reader["sensitiveDataConfiguration"].readIfPresent(with: BedrockDataAutomationClientTypes.SensitiveDataConfiguration.read(from:))
-        return value
-    }
-}
-
-extension BedrockDataAutomationClientTypes.DocumentOverrideConfiguration {
-
-    static func write(value: BedrockDataAutomationClientTypes.DocumentOverrideConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["modalityProcessing"].write(value.modalityProcessing, with: BedrockDataAutomationClientTypes.ModalityProcessingConfiguration.write(value:to:))
-        try writer["sensitiveDataConfiguration"].write(value.sensitiveDataConfiguration, with: BedrockDataAutomationClientTypes.SensitiveDataConfiguration.write(value:to:))
-        try writer["splitter"].write(value.splitter, with: BedrockDataAutomationClientTypes.SplitterConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.DocumentOverrideConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockDataAutomationClientTypes.DocumentOverrideConfiguration()
-        value.splitter = try reader["splitter"].readIfPresent(with: BedrockDataAutomationClientTypes.SplitterConfiguration.read(from:))
-        value.modalityProcessing = try reader["modalityProcessing"].readIfPresent(with: BedrockDataAutomationClientTypes.ModalityProcessingConfiguration.read(from:))
-        value.sensitiveDataConfiguration = try reader["sensitiveDataConfiguration"].readIfPresent(with: BedrockDataAutomationClientTypes.SensitiveDataConfiguration.read(from:))
-        return value
-    }
-}
-
-extension BedrockDataAutomationClientTypes.SplitterConfiguration {
-
-    static func write(value: BedrockDataAutomationClientTypes.SplitterConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["state"].write(value.state)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.SplitterConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockDataAutomationClientTypes.SplitterConfiguration()
-        value.state = try reader["state"].readIfPresent()
-        return value
-    }
-}
-
-extension BedrockDataAutomationClientTypes.CustomOutputConfiguration {
-
-    static func write(value: BedrockDataAutomationClientTypes.CustomOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["blueprints"].writeList(value.blueprints, memberWritingClosure: BedrockDataAutomationClientTypes.BlueprintItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.CustomOutputConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockDataAutomationClientTypes.CustomOutputConfiguration()
-        value.blueprints = try reader["blueprints"].readListIfPresent(memberReadingClosure: BedrockDataAutomationClientTypes.BlueprintItem.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension BedrockDataAutomationClientTypes.BlueprintItem {
-
-    static func write(value: BedrockDataAutomationClientTypes.BlueprintItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["blueprintArn"].write(value.blueprintArn)
-        try writer["blueprintStage"].write(value.blueprintStage)
-        try writer["blueprintVersion"].write(value.blueprintVersion)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.BlueprintItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockDataAutomationClientTypes.BlueprintItem()
-        value.blueprintArn = try reader["blueprintArn"].readIfPresent() ?? ""
-        value.blueprintVersion = try reader["blueprintVersion"].readIfPresent()
-        value.blueprintStage = try reader["blueprintStage"].readIfPresent()
-        return value
-    }
-}
-
-extension BedrockDataAutomationClientTypes.StandardOutputConfiguration {
-
-    static func write(value: BedrockDataAutomationClientTypes.StandardOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["audio"].write(value.audio, with: BedrockDataAutomationClientTypes.AudioStandardOutputConfiguration.write(value:to:))
-        try writer["document"].write(value.document, with: BedrockDataAutomationClientTypes.DocumentStandardOutputConfiguration.write(value:to:))
-        try writer["image"].write(value.image, with: BedrockDataAutomationClientTypes.ImageStandardOutputConfiguration.write(value:to:))
-        try writer["video"].write(value.video, with: BedrockDataAutomationClientTypes.VideoStandardOutputConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.StandardOutputConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockDataAutomationClientTypes.StandardOutputConfiguration()
-        value.document = try reader["document"].readIfPresent(with: BedrockDataAutomationClientTypes.DocumentStandardOutputConfiguration.read(from:))
-        value.image = try reader["image"].readIfPresent(with: BedrockDataAutomationClientTypes.ImageStandardOutputConfiguration.read(from:))
-        value.video = try reader["video"].readIfPresent(with: BedrockDataAutomationClientTypes.VideoStandardOutputConfiguration.read(from:))
-        value.audio = try reader["audio"].readIfPresent(with: BedrockDataAutomationClientTypes.AudioStandardOutputConfiguration.read(from:))
-        return value
-    }
-}
-
-extension BedrockDataAutomationClientTypes.AudioStandardOutputConfiguration {
-
-    static func write(value: BedrockDataAutomationClientTypes.AudioStandardOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["extraction"].write(value.extraction, with: BedrockDataAutomationClientTypes.AudioStandardExtraction.write(value:to:))
-        try writer["generativeField"].write(value.generativeField, with: BedrockDataAutomationClientTypes.AudioStandardGenerativeField.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.AudioStandardOutputConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockDataAutomationClientTypes.AudioStandardOutputConfiguration()
-        value.extraction = try reader["extraction"].readIfPresent(with: BedrockDataAutomationClientTypes.AudioStandardExtraction.read(from:))
-        value.generativeField = try reader["generativeField"].readIfPresent(with: BedrockDataAutomationClientTypes.AudioStandardGenerativeField.read(from:))
-        return value
-    }
-}
-
-extension BedrockDataAutomationClientTypes.AudioStandardGenerativeField {
-
-    static func write(value: BedrockDataAutomationClientTypes.AudioStandardGenerativeField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["state"].write(value.state)
-        try writer["types"].writeList(value.types, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BedrockDataAutomationClientTypes.AudioStandardGenerativeFieldType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.AudioStandardGenerativeField {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockDataAutomationClientTypes.AudioStandardGenerativeField()
-        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
-        value.types = try reader["types"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BedrockDataAutomationClientTypes.AudioStandardGenerativeFieldType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension BedrockDataAutomationClientTypes.AudioStandardExtraction {
-
-    static func write(value: BedrockDataAutomationClientTypes.AudioStandardExtraction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["category"].write(value.category, with: BedrockDataAutomationClientTypes.AudioExtractionCategory.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.AudioStandardExtraction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockDataAutomationClientTypes.AudioStandardExtraction()
-        value.category = try reader["category"].readIfPresent(with: BedrockDataAutomationClientTypes.AudioExtractionCategory.read(from:))
         return value
     }
 }
@@ -4361,19 +5466,195 @@ extension BedrockDataAutomationClientTypes.AudioExtractionCategoryTypeConfigurat
     }
 }
 
-extension BedrockDataAutomationClientTypes.TranscriptConfiguration {
+extension BedrockDataAutomationClientTypes.AudioLanguageConfiguration {
 
-    static func write(value: BedrockDataAutomationClientTypes.TranscriptConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: BedrockDataAutomationClientTypes.AudioLanguageConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["channelLabeling"].write(value.channelLabeling, with: BedrockDataAutomationClientTypes.ChannelLabelingConfiguration.write(value:to:))
-        try writer["speakerLabeling"].write(value.speakerLabeling, with: BedrockDataAutomationClientTypes.SpeakerLabelingConfiguration.write(value:to:))
+        try writer["generativeOutputLanguage"].write(value.generativeOutputLanguage)
+        try writer["identifyMultipleLanguages"].write(value.identifyMultipleLanguages)
+        try writer["inputLanguages"].writeList(value.inputLanguages, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BedrockDataAutomationClientTypes.Language>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.TranscriptConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.AudioLanguageConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockDataAutomationClientTypes.TranscriptConfiguration()
-        value.speakerLabeling = try reader["speakerLabeling"].readIfPresent(with: BedrockDataAutomationClientTypes.SpeakerLabelingConfiguration.read(from:))
-        value.channelLabeling = try reader["channelLabeling"].readIfPresent(with: BedrockDataAutomationClientTypes.ChannelLabelingConfiguration.read(from:))
+        var value = BedrockDataAutomationClientTypes.AudioLanguageConfiguration()
+        value.inputLanguages = try reader["inputLanguages"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BedrockDataAutomationClientTypes.Language>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.generativeOutputLanguage = try reader["generativeOutputLanguage"].readIfPresent()
+        value.identifyMultipleLanguages = try reader["identifyMultipleLanguages"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockDataAutomationClientTypes.AudioOverrideConfiguration {
+
+    static func write(value: BedrockDataAutomationClientTypes.AudioOverrideConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["languageConfiguration"].write(value.languageConfiguration, with: BedrockDataAutomationClientTypes.AudioLanguageConfiguration.write(value:to:))
+        try writer["modalityProcessing"].write(value.modalityProcessing, with: BedrockDataAutomationClientTypes.ModalityProcessingConfiguration.write(value:to:))
+        try writer["sensitiveDataConfiguration"].write(value.sensitiveDataConfiguration, with: BedrockDataAutomationClientTypes.SensitiveDataConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.AudioOverrideConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockDataAutomationClientTypes.AudioOverrideConfiguration()
+        value.modalityProcessing = try reader["modalityProcessing"].readIfPresent(with: BedrockDataAutomationClientTypes.ModalityProcessingConfiguration.read(from:))
+        value.languageConfiguration = try reader["languageConfiguration"].readIfPresent(with: BedrockDataAutomationClientTypes.AudioLanguageConfiguration.read(from:))
+        value.sensitiveDataConfiguration = try reader["sensitiveDataConfiguration"].readIfPresent(with: BedrockDataAutomationClientTypes.SensitiveDataConfiguration.read(from:))
+        return value
+    }
+}
+
+extension BedrockDataAutomationClientTypes.AudioStandardExtraction {
+
+    static func write(value: BedrockDataAutomationClientTypes.AudioStandardExtraction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["category"].write(value.category, with: BedrockDataAutomationClientTypes.AudioExtractionCategory.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.AudioStandardExtraction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockDataAutomationClientTypes.AudioStandardExtraction()
+        value.category = try reader["category"].readIfPresent(with: BedrockDataAutomationClientTypes.AudioExtractionCategory.read(from:))
+        return value
+    }
+}
+
+extension BedrockDataAutomationClientTypes.AudioStandardGenerativeField {
+
+    static func write(value: BedrockDataAutomationClientTypes.AudioStandardGenerativeField?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["state"].write(value.state)
+        try writer["types"].writeList(value.types, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BedrockDataAutomationClientTypes.AudioStandardGenerativeFieldType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.AudioStandardGenerativeField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockDataAutomationClientTypes.AudioStandardGenerativeField()
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        value.types = try reader["types"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BedrockDataAutomationClientTypes.AudioStandardGenerativeFieldType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BedrockDataAutomationClientTypes.AudioStandardOutputConfiguration {
+
+    static func write(value: BedrockDataAutomationClientTypes.AudioStandardOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["extraction"].write(value.extraction, with: BedrockDataAutomationClientTypes.AudioStandardExtraction.write(value:to:))
+        try writer["generativeField"].write(value.generativeField, with: BedrockDataAutomationClientTypes.AudioStandardGenerativeField.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.AudioStandardOutputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockDataAutomationClientTypes.AudioStandardOutputConfiguration()
+        value.extraction = try reader["extraction"].readIfPresent(with: BedrockDataAutomationClientTypes.AudioStandardExtraction.read(from:))
+        value.generativeField = try reader["generativeField"].readIfPresent(with: BedrockDataAutomationClientTypes.AudioStandardGenerativeField.read(from:))
+        return value
+    }
+}
+
+extension BedrockDataAutomationClientTypes.Blueprint {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.Blueprint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockDataAutomationClientTypes.Blueprint()
+        value.blueprintArn = try reader["blueprintArn"].readIfPresent() ?? ""
+        value.schema = try reader["schema"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.blueprintName = try reader["blueprintName"].readIfPresent() ?? ""
+        value.blueprintVersion = try reader["blueprintVersion"].readIfPresent()
+        value.blueprintStage = try reader["blueprintStage"].readIfPresent()
+        value.kmsKeyId = try reader["kmsKeyId"].readIfPresent()
+        value.kmsEncryptionContext = try reader["kmsEncryptionContext"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.optimizationSamples = try reader["optimizationSamples"].readListIfPresent(memberReadingClosure: BedrockDataAutomationClientTypes.BlueprintOptimizationSample.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.optimizationTime = try reader["optimizationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension BedrockDataAutomationClientTypes.BlueprintFilter {
+
+    static func write(value: BedrockDataAutomationClientTypes.BlueprintFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["blueprintArn"].write(value.blueprintArn)
+        try writer["blueprintStage"].write(value.blueprintStage)
+        try writer["blueprintVersion"].write(value.blueprintVersion)
+    }
+}
+
+extension BedrockDataAutomationClientTypes.BlueprintItem {
+
+    static func write(value: BedrockDataAutomationClientTypes.BlueprintItem?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["blueprintArn"].write(value.blueprintArn)
+        try writer["blueprintStage"].write(value.blueprintStage)
+        try writer["blueprintVersion"].write(value.blueprintVersion)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.BlueprintItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockDataAutomationClientTypes.BlueprintItem()
+        value.blueprintArn = try reader["blueprintArn"].readIfPresent() ?? ""
+        value.blueprintVersion = try reader["blueprintVersion"].readIfPresent()
+        value.blueprintStage = try reader["blueprintStage"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockDataAutomationClientTypes.BlueprintOptimizationObject {
+
+    static func write(value: BedrockDataAutomationClientTypes.BlueprintOptimizationObject?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["blueprintArn"].write(value.blueprintArn)
+        try writer["stage"].write(value.stage)
+    }
+}
+
+extension BedrockDataAutomationClientTypes.BlueprintOptimizationOutputConfiguration {
+
+    static func write(value: BedrockDataAutomationClientTypes.BlueprintOptimizationOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["s3Object"].write(value.s3Object, with: BedrockDataAutomationClientTypes.S3Object.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.BlueprintOptimizationOutputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockDataAutomationClientTypes.BlueprintOptimizationOutputConfiguration()
+        value.s3Object = try reader["s3Object"].readIfPresent(with: BedrockDataAutomationClientTypes.S3Object.read(from:))
+        return value
+    }
+}
+
+extension BedrockDataAutomationClientTypes.BlueprintOptimizationSample {
+
+    static func write(value: BedrockDataAutomationClientTypes.BlueprintOptimizationSample?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["assetS3Object"].write(value.assetS3Object, with: BedrockDataAutomationClientTypes.S3Object.write(value:to:))
+        try writer["groundTruthS3Object"].write(value.groundTruthS3Object, with: BedrockDataAutomationClientTypes.S3Object.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.BlueprintOptimizationSample {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockDataAutomationClientTypes.BlueprintOptimizationSample()
+        value.assetS3Object = try reader["assetS3Object"].readIfPresent(with: BedrockDataAutomationClientTypes.S3Object.read(from:))
+        value.groundTruthS3Object = try reader["groundTruthS3Object"].readIfPresent(with: BedrockDataAutomationClientTypes.S3Object.read(from:))
+        return value
+    }
+}
+
+extension BedrockDataAutomationClientTypes.BlueprintSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.BlueprintSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockDataAutomationClientTypes.BlueprintSummary()
+        value.blueprintArn = try reader["blueprintArn"].readIfPresent() ?? ""
+        value.blueprintVersion = try reader["blueprintVersion"].readIfPresent()
+        value.blueprintStage = try reader["blueprintStage"].readIfPresent()
+        value.blueprintName = try reader["blueprintName"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
@@ -4393,6 +5674,654 @@ extension BedrockDataAutomationClientTypes.ChannelLabelingConfiguration {
     }
 }
 
+extension BedrockDataAutomationClientTypes.CustomOutputConfiguration {
+
+    static func write(value: BedrockDataAutomationClientTypes.CustomOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["blueprints"].writeList(value.blueprints, memberWritingClosure: BedrockDataAutomationClientTypes.BlueprintItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.CustomOutputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockDataAutomationClientTypes.CustomOutputConfiguration()
+        value.blueprints = try reader["blueprints"].readListIfPresent(memberReadingClosure: BedrockDataAutomationClientTypes.BlueprintItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BedrockDataAutomationClientTypes.DataAutomationLibrary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.DataAutomationLibrary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockDataAutomationClientTypes.DataAutomationLibrary()
+        value.libraryArn = try reader["libraryArn"].readIfPresent() ?? ""
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.libraryName = try reader["libraryName"].readIfPresent() ?? ""
+        value.libraryDescription = try reader["libraryDescription"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.entityTypes = try reader["entityTypes"].readListIfPresent(memberReadingClosure: BedrockDataAutomationClientTypes.EntityTypeInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.kmsKeyId = try reader["kmsKeyId"].readIfPresent()
+        value.kmsEncryptionContext = try reader["kmsEncryptionContext"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension BedrockDataAutomationClientTypes.DataAutomationLibraryConfiguration {
+
+    static func write(value: BedrockDataAutomationClientTypes.DataAutomationLibraryConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["libraries"].writeList(value.libraries, memberWritingClosure: BedrockDataAutomationClientTypes.DataAutomationLibraryItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.DataAutomationLibraryConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockDataAutomationClientTypes.DataAutomationLibraryConfiguration()
+        value.libraries = try reader["libraries"].readListIfPresent(memberReadingClosure: BedrockDataAutomationClientTypes.DataAutomationLibraryItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BedrockDataAutomationClientTypes.DataAutomationLibraryEntitySummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.DataAutomationLibraryEntitySummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "vocabulary":
+                return .vocabulary(try reader["vocabulary"].read(with: BedrockDataAutomationClientTypes.VocabularyEntitySummary.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockDataAutomationClientTypes.DataAutomationLibraryFilter {
+
+    static func write(value: BedrockDataAutomationClientTypes.DataAutomationLibraryFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["libraryArn"].write(value.libraryArn)
+    }
+}
+
+extension BedrockDataAutomationClientTypes.DataAutomationLibraryIngestionJob {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.DataAutomationLibraryIngestionJob {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockDataAutomationClientTypes.DataAutomationLibraryIngestionJob()
+        value.jobArn = try reader["jobArn"].readIfPresent() ?? ""
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.entityType = try reader["entityType"].readIfPresent() ?? .sdkUnknown("")
+        value.operationType = try reader["operationType"].readIfPresent() ?? .sdkUnknown("")
+        value.jobStatus = try reader["jobStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.outputConfiguration = try reader["outputConfiguration"].readIfPresent(with: BedrockDataAutomationClientTypes.OutputConfiguration.read(from:))
+        value.completionTime = try reader["completionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.errorMessage = try reader["errorMessage"].readIfPresent()
+        value.errorType = try reader["errorType"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockDataAutomationClientTypes.DataAutomationLibraryIngestionJobSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.DataAutomationLibraryIngestionJobSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockDataAutomationClientTypes.DataAutomationLibraryIngestionJobSummary()
+        value.jobArn = try reader["jobArn"].readIfPresent() ?? ""
+        value.jobStatus = try reader["jobStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.entityType = try reader["entityType"].readIfPresent() ?? .sdkUnknown("")
+        value.operationType = try reader["operationType"].readIfPresent() ?? .sdkUnknown("")
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.completionTime = try reader["completionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension BedrockDataAutomationClientTypes.DataAutomationLibraryItem {
+
+    static func write(value: BedrockDataAutomationClientTypes.DataAutomationLibraryItem?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["libraryArn"].write(value.libraryArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.DataAutomationLibraryItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockDataAutomationClientTypes.DataAutomationLibraryItem()
+        value.libraryArn = try reader["libraryArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockDataAutomationClientTypes.DataAutomationLibrarySummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.DataAutomationLibrarySummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockDataAutomationClientTypes.DataAutomationLibrarySummary()
+        value.libraryArn = try reader["libraryArn"].readIfPresent() ?? ""
+        value.libraryName = try reader["libraryName"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension BedrockDataAutomationClientTypes.DataAutomationProject {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.DataAutomationProject {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockDataAutomationClientTypes.DataAutomationProject()
+        value.projectArn = try reader["projectArn"].readIfPresent() ?? ""
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.projectName = try reader["projectName"].readIfPresent() ?? ""
+        value.projectStage = try reader["projectStage"].readIfPresent()
+        value.projectType = try reader["projectType"].readIfPresent()
+        value.projectDescription = try reader["projectDescription"].readIfPresent()
+        value.standardOutputConfiguration = try reader["standardOutputConfiguration"].readIfPresent(with: BedrockDataAutomationClientTypes.StandardOutputConfiguration.read(from:))
+        value.customOutputConfiguration = try reader["customOutputConfiguration"].readIfPresent(with: BedrockDataAutomationClientTypes.CustomOutputConfiguration.read(from:))
+        value.overrideConfiguration = try reader["overrideConfiguration"].readIfPresent(with: BedrockDataAutomationClientTypes.OverrideConfiguration.read(from:))
+        value.dataAutomationLibraryConfiguration = try reader["dataAutomationLibraryConfiguration"].readIfPresent(with: BedrockDataAutomationClientTypes.DataAutomationLibraryConfiguration.read(from:))
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.kmsKeyId = try reader["kmsKeyId"].readIfPresent()
+        value.kmsEncryptionContext = try reader["kmsEncryptionContext"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension BedrockDataAutomationClientTypes.DataAutomationProjectFilter {
+
+    static func write(value: BedrockDataAutomationClientTypes.DataAutomationProjectFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["projectArn"].write(value.projectArn)
+        try writer["projectStage"].write(value.projectStage)
+    }
+}
+
+extension BedrockDataAutomationClientTypes.DataAutomationProjectSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.DataAutomationProjectSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockDataAutomationClientTypes.DataAutomationProjectSummary()
+        value.projectArn = try reader["projectArn"].readIfPresent() ?? ""
+        value.projectStage = try reader["projectStage"].readIfPresent()
+        value.projectType = try reader["projectType"].readIfPresent()
+        value.projectName = try reader["projectName"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension BedrockDataAutomationClientTypes.DeleteEntitiesInfo {
+
+    static func write(value: BedrockDataAutomationClientTypes.DeleteEntitiesInfo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["entityIds"].writeList(value.entityIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BedrockDataAutomationClientTypes.DocumentBoundingBox {
+
+    static func write(value: BedrockDataAutomationClientTypes.DocumentBoundingBox?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["state"].write(value.state)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.DocumentBoundingBox {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockDataAutomationClientTypes.DocumentBoundingBox()
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension BedrockDataAutomationClientTypes.DocumentExtractionGranularity {
+
+    static func write(value: BedrockDataAutomationClientTypes.DocumentExtractionGranularity?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["types"].writeList(value.types, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BedrockDataAutomationClientTypes.DocumentExtractionGranularityType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.DocumentExtractionGranularity {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockDataAutomationClientTypes.DocumentExtractionGranularity()
+        value.types = try reader["types"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BedrockDataAutomationClientTypes.DocumentExtractionGranularityType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BedrockDataAutomationClientTypes.DocumentOutputAdditionalFileFormat {
+
+    static func write(value: BedrockDataAutomationClientTypes.DocumentOutputAdditionalFileFormat?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["state"].write(value.state)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.DocumentOutputAdditionalFileFormat {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockDataAutomationClientTypes.DocumentOutputAdditionalFileFormat()
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension BedrockDataAutomationClientTypes.DocumentOutputFormat {
+
+    static func write(value: BedrockDataAutomationClientTypes.DocumentOutputFormat?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["additionalFileFormat"].write(value.additionalFileFormat, with: BedrockDataAutomationClientTypes.DocumentOutputAdditionalFileFormat.write(value:to:))
+        try writer["textFormat"].write(value.textFormat, with: BedrockDataAutomationClientTypes.DocumentOutputTextFormat.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.DocumentOutputFormat {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockDataAutomationClientTypes.DocumentOutputFormat()
+        value.textFormat = try reader["textFormat"].readIfPresent(with: BedrockDataAutomationClientTypes.DocumentOutputTextFormat.read(from:))
+        value.additionalFileFormat = try reader["additionalFileFormat"].readIfPresent(with: BedrockDataAutomationClientTypes.DocumentOutputAdditionalFileFormat.read(from:))
+        return value
+    }
+}
+
+extension BedrockDataAutomationClientTypes.DocumentOutputTextFormat {
+
+    static func write(value: BedrockDataAutomationClientTypes.DocumentOutputTextFormat?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["types"].writeList(value.types, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BedrockDataAutomationClientTypes.DocumentOutputTextFormatType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.DocumentOutputTextFormat {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockDataAutomationClientTypes.DocumentOutputTextFormat()
+        value.types = try reader["types"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BedrockDataAutomationClientTypes.DocumentOutputTextFormatType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BedrockDataAutomationClientTypes.DocumentOverrideConfiguration {
+
+    static func write(value: BedrockDataAutomationClientTypes.DocumentOverrideConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["modalityProcessing"].write(value.modalityProcessing, with: BedrockDataAutomationClientTypes.ModalityProcessingConfiguration.write(value:to:))
+        try writer["sensitiveDataConfiguration"].write(value.sensitiveDataConfiguration, with: BedrockDataAutomationClientTypes.SensitiveDataConfiguration.write(value:to:))
+        try writer["splitter"].write(value.splitter, with: BedrockDataAutomationClientTypes.SplitterConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.DocumentOverrideConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockDataAutomationClientTypes.DocumentOverrideConfiguration()
+        value.splitter = try reader["splitter"].readIfPresent(with: BedrockDataAutomationClientTypes.SplitterConfiguration.read(from:))
+        value.modalityProcessing = try reader["modalityProcessing"].readIfPresent(with: BedrockDataAutomationClientTypes.ModalityProcessingConfiguration.read(from:))
+        value.sensitiveDataConfiguration = try reader["sensitiveDataConfiguration"].readIfPresent(with: BedrockDataAutomationClientTypes.SensitiveDataConfiguration.read(from:))
+        return value
+    }
+}
+
+extension BedrockDataAutomationClientTypes.DocumentStandardExtraction {
+
+    static func write(value: BedrockDataAutomationClientTypes.DocumentStandardExtraction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["boundingBox"].write(value.boundingBox, with: BedrockDataAutomationClientTypes.DocumentBoundingBox.write(value:to:))
+        try writer["granularity"].write(value.granularity, with: BedrockDataAutomationClientTypes.DocumentExtractionGranularity.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.DocumentStandardExtraction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockDataAutomationClientTypes.DocumentStandardExtraction()
+        value.granularity = try reader["granularity"].readIfPresent(with: BedrockDataAutomationClientTypes.DocumentExtractionGranularity.read(from:))
+        value.boundingBox = try reader["boundingBox"].readIfPresent(with: BedrockDataAutomationClientTypes.DocumentBoundingBox.read(from:))
+        return value
+    }
+}
+
+extension BedrockDataAutomationClientTypes.DocumentStandardGenerativeField {
+
+    static func write(value: BedrockDataAutomationClientTypes.DocumentStandardGenerativeField?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["state"].write(value.state)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.DocumentStandardGenerativeField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockDataAutomationClientTypes.DocumentStandardGenerativeField()
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension BedrockDataAutomationClientTypes.DocumentStandardOutputConfiguration {
+
+    static func write(value: BedrockDataAutomationClientTypes.DocumentStandardOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["extraction"].write(value.extraction, with: BedrockDataAutomationClientTypes.DocumentStandardExtraction.write(value:to:))
+        try writer["generativeField"].write(value.generativeField, with: BedrockDataAutomationClientTypes.DocumentStandardGenerativeField.write(value:to:))
+        try writer["outputFormat"].write(value.outputFormat, with: BedrockDataAutomationClientTypes.DocumentOutputFormat.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.DocumentStandardOutputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockDataAutomationClientTypes.DocumentStandardOutputConfiguration()
+        value.extraction = try reader["extraction"].readIfPresent(with: BedrockDataAutomationClientTypes.DocumentStandardExtraction.read(from:))
+        value.generativeField = try reader["generativeField"].readIfPresent(with: BedrockDataAutomationClientTypes.DocumentStandardGenerativeField.read(from:))
+        value.outputFormat = try reader["outputFormat"].readIfPresent(with: BedrockDataAutomationClientTypes.DocumentOutputFormat.read(from:))
+        return value
+    }
+}
+
+extension BedrockDataAutomationClientTypes.EncryptionConfiguration {
+
+    static func write(value: BedrockDataAutomationClientTypes.EncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["kmsEncryptionContext"].writeMap(value.kmsEncryptionContext, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["kmsKeyId"].write(value.kmsKeyId)
+    }
+}
+
+extension BedrockDataAutomationClientTypes.EntityDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.EntityDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "vocabulary":
+                return .vocabulary(try reader["vocabulary"].read(with: BedrockDataAutomationClientTypes.VocabularyEntity.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockDataAutomationClientTypes.EntityTypeInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.EntityTypeInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockDataAutomationClientTypes.EntityTypeInfo()
+        value.entityType = try reader["entityType"].readIfPresent() ?? .sdkUnknown("")
+        value.entityMetadata = try reader["entityMetadata"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockDataAutomationClientTypes.EventBridgeConfiguration {
+
+    static func write(value: BedrockDataAutomationClientTypes.EventBridgeConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["eventBridgeEnabled"].write(value.eventBridgeEnabled)
+    }
+}
+
+extension BedrockDataAutomationClientTypes.ImageBoundingBox {
+
+    static func write(value: BedrockDataAutomationClientTypes.ImageBoundingBox?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["state"].write(value.state)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.ImageBoundingBox {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockDataAutomationClientTypes.ImageBoundingBox()
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension BedrockDataAutomationClientTypes.ImageExtractionCategory {
+
+    static func write(value: BedrockDataAutomationClientTypes.ImageExtractionCategory?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["state"].write(value.state)
+        try writer["types"].writeList(value.types, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BedrockDataAutomationClientTypes.ImageExtractionCategoryType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.ImageExtractionCategory {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockDataAutomationClientTypes.ImageExtractionCategory()
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        value.types = try reader["types"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BedrockDataAutomationClientTypes.ImageExtractionCategoryType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BedrockDataAutomationClientTypes.ImageOverrideConfiguration {
+
+    static func write(value: BedrockDataAutomationClientTypes.ImageOverrideConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["modalityProcessing"].write(value.modalityProcessing, with: BedrockDataAutomationClientTypes.ModalityProcessingConfiguration.write(value:to:))
+        try writer["sensitiveDataConfiguration"].write(value.sensitiveDataConfiguration, with: BedrockDataAutomationClientTypes.SensitiveDataConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.ImageOverrideConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockDataAutomationClientTypes.ImageOverrideConfiguration()
+        value.modalityProcessing = try reader["modalityProcessing"].readIfPresent(with: BedrockDataAutomationClientTypes.ModalityProcessingConfiguration.read(from:))
+        value.sensitiveDataConfiguration = try reader["sensitiveDataConfiguration"].readIfPresent(with: BedrockDataAutomationClientTypes.SensitiveDataConfiguration.read(from:))
+        return value
+    }
+}
+
+extension BedrockDataAutomationClientTypes.ImageStandardExtraction {
+
+    static func write(value: BedrockDataAutomationClientTypes.ImageStandardExtraction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["boundingBox"].write(value.boundingBox, with: BedrockDataAutomationClientTypes.ImageBoundingBox.write(value:to:))
+        try writer["category"].write(value.category, with: BedrockDataAutomationClientTypes.ImageExtractionCategory.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.ImageStandardExtraction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockDataAutomationClientTypes.ImageStandardExtraction()
+        value.category = try reader["category"].readIfPresent(with: BedrockDataAutomationClientTypes.ImageExtractionCategory.read(from:))
+        value.boundingBox = try reader["boundingBox"].readIfPresent(with: BedrockDataAutomationClientTypes.ImageBoundingBox.read(from:))
+        return value
+    }
+}
+
+extension BedrockDataAutomationClientTypes.ImageStandardGenerativeField {
+
+    static func write(value: BedrockDataAutomationClientTypes.ImageStandardGenerativeField?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["state"].write(value.state)
+        try writer["types"].writeList(value.types, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BedrockDataAutomationClientTypes.ImageStandardGenerativeFieldType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.ImageStandardGenerativeField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockDataAutomationClientTypes.ImageStandardGenerativeField()
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        value.types = try reader["types"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BedrockDataAutomationClientTypes.ImageStandardGenerativeFieldType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BedrockDataAutomationClientTypes.ImageStandardOutputConfiguration {
+
+    static func write(value: BedrockDataAutomationClientTypes.ImageStandardOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["extraction"].write(value.extraction, with: BedrockDataAutomationClientTypes.ImageStandardExtraction.write(value:to:))
+        try writer["generativeField"].write(value.generativeField, with: BedrockDataAutomationClientTypes.ImageStandardGenerativeField.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.ImageStandardOutputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockDataAutomationClientTypes.ImageStandardOutputConfiguration()
+        value.extraction = try reader["extraction"].readIfPresent(with: BedrockDataAutomationClientTypes.ImageStandardExtraction.read(from:))
+        value.generativeField = try reader["generativeField"].readIfPresent(with: BedrockDataAutomationClientTypes.ImageStandardGenerativeField.read(from:))
+        return value
+    }
+}
+
+extension BedrockDataAutomationClientTypes.InlinePayload {
+
+    static func write(value: BedrockDataAutomationClientTypes.InlinePayload?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .deleteentitiesinfo(deleteentitiesinfo):
+                try writer["deleteEntitiesInfo"].write(deleteentitiesinfo, with: BedrockDataAutomationClientTypes.DeleteEntitiesInfo.write(value:to:))
+            case let .upsertentitiesinfo(upsertentitiesinfo):
+                try writer["upsertEntitiesInfo"].writeList(upsertentitiesinfo, memberWritingClosure: BedrockDataAutomationClientTypes.UpsertEntityInfo.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension BedrockDataAutomationClientTypes.InputConfiguration {
+
+    static func write(value: BedrockDataAutomationClientTypes.InputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["inlinePayload"].write(value.inlinePayload, with: BedrockDataAutomationClientTypes.InlinePayload.write(value:to:))
+        try writer["s3Object"].write(value.s3Object, with: BedrockDataAutomationClientTypes.S3Object.write(value:to:))
+    }
+}
+
+extension BedrockDataAutomationClientTypes.ModalityProcessingConfiguration {
+
+    static func write(value: BedrockDataAutomationClientTypes.ModalityProcessingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["state"].write(value.state)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.ModalityProcessingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockDataAutomationClientTypes.ModalityProcessingConfiguration()
+        value.state = try reader["state"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockDataAutomationClientTypes.ModalityRoutingConfiguration {
+
+    static func write(value: BedrockDataAutomationClientTypes.ModalityRoutingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["jpeg"].write(value.jpeg)
+        try writer["mov"].write(value.mov)
+        try writer["mp4"].write(value.mp4)
+        try writer["png"].write(value.png)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.ModalityRoutingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockDataAutomationClientTypes.ModalityRoutingConfiguration()
+        value.jpeg = try reader["jpeg"].readIfPresent()
+        value.png = try reader["png"].readIfPresent()
+        value.mp4 = try reader["mp4"].readIfPresent()
+        value.mov = try reader["mov"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockDataAutomationClientTypes.NotificationConfiguration {
+
+    static func write(value: BedrockDataAutomationClientTypes.NotificationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["eventBridgeConfiguration"].write(value.eventBridgeConfiguration, with: BedrockDataAutomationClientTypes.EventBridgeConfiguration.write(value:to:))
+    }
+}
+
+extension BedrockDataAutomationClientTypes.OutputConfiguration {
+
+    static func write(value: BedrockDataAutomationClientTypes.OutputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["s3Uri"].write(value.s3Uri)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.OutputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockDataAutomationClientTypes.OutputConfiguration()
+        value.s3Uri = try reader["s3Uri"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockDataAutomationClientTypes.OverrideConfiguration {
+
+    static func write(value: BedrockDataAutomationClientTypes.OverrideConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["audio"].write(value.audio, with: BedrockDataAutomationClientTypes.AudioOverrideConfiguration.write(value:to:))
+        try writer["document"].write(value.document, with: BedrockDataAutomationClientTypes.DocumentOverrideConfiguration.write(value:to:))
+        try writer["image"].write(value.image, with: BedrockDataAutomationClientTypes.ImageOverrideConfiguration.write(value:to:))
+        try writer["modalityRouting"].write(value.modalityRouting, with: BedrockDataAutomationClientTypes.ModalityRoutingConfiguration.write(value:to:))
+        try writer["video"].write(value.video, with: BedrockDataAutomationClientTypes.VideoOverrideConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.OverrideConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockDataAutomationClientTypes.OverrideConfiguration()
+        value.document = try reader["document"].readIfPresent(with: BedrockDataAutomationClientTypes.DocumentOverrideConfiguration.read(from:))
+        value.image = try reader["image"].readIfPresent(with: BedrockDataAutomationClientTypes.ImageOverrideConfiguration.read(from:))
+        value.video = try reader["video"].readIfPresent(with: BedrockDataAutomationClientTypes.VideoOverrideConfiguration.read(from:))
+        value.audio = try reader["audio"].readIfPresent(with: BedrockDataAutomationClientTypes.AudioOverrideConfiguration.read(from:))
+        value.modalityRouting = try reader["modalityRouting"].readIfPresent(with: BedrockDataAutomationClientTypes.ModalityRoutingConfiguration.read(from:))
+        return value
+    }
+}
+
+extension BedrockDataAutomationClientTypes.Phrase {
+
+    static func write(value: BedrockDataAutomationClientTypes.Phrase?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["displayAsText"].write(value.displayAsText)
+        try writer["text"].write(value.text)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.Phrase {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockDataAutomationClientTypes.Phrase()
+        value.text = try reader["text"].readIfPresent() ?? ""
+        value.displayAsText = try reader["displayAsText"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockDataAutomationClientTypes.PIIEntitiesConfiguration {
+
+    static func write(value: BedrockDataAutomationClientTypes.PIIEntitiesConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["piiEntityTypes"].writeList(value.piiEntityTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BedrockDataAutomationClientTypes.PIIEntityType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["redactionMaskMode"].write(value.redactionMaskMode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.PIIEntitiesConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockDataAutomationClientTypes.PIIEntitiesConfiguration()
+        value.piiEntityTypes = try reader["piiEntityTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BedrockDataAutomationClientTypes.PIIEntityType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.redactionMaskMode = try reader["redactionMaskMode"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockDataAutomationClientTypes.S3Object {
+
+    static func write(value: BedrockDataAutomationClientTypes.S3Object?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["s3Uri"].write(value.s3Uri)
+        try writer["version"].write(value.version)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.S3Object {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockDataAutomationClientTypes.S3Object()
+        value.s3Uri = try reader["s3Uri"].readIfPresent() ?? ""
+        value.version = try reader["version"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockDataAutomationClientTypes.SensitiveDataConfiguration {
+
+    static func write(value: BedrockDataAutomationClientTypes.SensitiveDataConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["detectionMode"].write(value.detectionMode)
+        try writer["detectionScope"].writeList(value.detectionScope, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BedrockDataAutomationClientTypes.SensitiveDataDetectionScopeType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["piiEntitiesConfiguration"].write(value.piiEntitiesConfiguration, with: BedrockDataAutomationClientTypes.PIIEntitiesConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.SensitiveDataConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockDataAutomationClientTypes.SensitiveDataConfiguration()
+        value.detectionMode = try reader["detectionMode"].readIfPresent() ?? .sdkUnknown("")
+        value.detectionScope = try reader["detectionScope"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BedrockDataAutomationClientTypes.SensitiveDataDetectionScopeType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.piiEntitiesConfiguration = try reader["piiEntitiesConfiguration"].readIfPresent(with: BedrockDataAutomationClientTypes.PIIEntitiesConfiguration.read(from:))
+        return value
+    }
+}
+
 extension BedrockDataAutomationClientTypes.SpeakerLabelingConfiguration {
 
     static func write(value: BedrockDataAutomationClientTypes.SpeakerLabelingConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -4408,53 +6337,96 @@ extension BedrockDataAutomationClientTypes.SpeakerLabelingConfiguration {
     }
 }
 
-extension BedrockDataAutomationClientTypes.VideoStandardOutputConfiguration {
+extension BedrockDataAutomationClientTypes.SplitterConfiguration {
 
-    static func write(value: BedrockDataAutomationClientTypes.VideoStandardOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["extraction"].write(value.extraction, with: BedrockDataAutomationClientTypes.VideoStandardExtraction.write(value:to:))
-        try writer["generativeField"].write(value.generativeField, with: BedrockDataAutomationClientTypes.VideoStandardGenerativeField.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.VideoStandardOutputConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockDataAutomationClientTypes.VideoStandardOutputConfiguration()
-        value.extraction = try reader["extraction"].readIfPresent(with: BedrockDataAutomationClientTypes.VideoStandardExtraction.read(from:))
-        value.generativeField = try reader["generativeField"].readIfPresent(with: BedrockDataAutomationClientTypes.VideoStandardGenerativeField.read(from:))
-        return value
-    }
-}
-
-extension BedrockDataAutomationClientTypes.VideoStandardGenerativeField {
-
-    static func write(value: BedrockDataAutomationClientTypes.VideoStandardGenerativeField?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: BedrockDataAutomationClientTypes.SplitterConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["state"].write(value.state)
-        try writer["types"].writeList(value.types, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BedrockDataAutomationClientTypes.VideoStandardGenerativeFieldType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.VideoStandardGenerativeField {
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.SplitterConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockDataAutomationClientTypes.VideoStandardGenerativeField()
-        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
-        value.types = try reader["types"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BedrockDataAutomationClientTypes.VideoStandardGenerativeFieldType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = BedrockDataAutomationClientTypes.SplitterConfiguration()
+        value.state = try reader["state"].readIfPresent()
         return value
     }
 }
 
-extension BedrockDataAutomationClientTypes.VideoStandardExtraction {
+extension BedrockDataAutomationClientTypes.StandardOutputConfiguration {
 
-    static func write(value: BedrockDataAutomationClientTypes.VideoStandardExtraction?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: BedrockDataAutomationClientTypes.StandardOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["boundingBox"].write(value.boundingBox, with: BedrockDataAutomationClientTypes.VideoBoundingBox.write(value:to:))
-        try writer["category"].write(value.category, with: BedrockDataAutomationClientTypes.VideoExtractionCategory.write(value:to:))
+        try writer["audio"].write(value.audio, with: BedrockDataAutomationClientTypes.AudioStandardOutputConfiguration.write(value:to:))
+        try writer["document"].write(value.document, with: BedrockDataAutomationClientTypes.DocumentStandardOutputConfiguration.write(value:to:))
+        try writer["image"].write(value.image, with: BedrockDataAutomationClientTypes.ImageStandardOutputConfiguration.write(value:to:))
+        try writer["video"].write(value.video, with: BedrockDataAutomationClientTypes.VideoStandardOutputConfiguration.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.VideoStandardExtraction {
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.StandardOutputConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockDataAutomationClientTypes.VideoStandardExtraction()
-        value.category = try reader["category"].readIfPresent(with: BedrockDataAutomationClientTypes.VideoExtractionCategory.read(from:))
-        value.boundingBox = try reader["boundingBox"].readIfPresent(with: BedrockDataAutomationClientTypes.VideoBoundingBox.read(from:))
+        var value = BedrockDataAutomationClientTypes.StandardOutputConfiguration()
+        value.document = try reader["document"].readIfPresent(with: BedrockDataAutomationClientTypes.DocumentStandardOutputConfiguration.read(from:))
+        value.image = try reader["image"].readIfPresent(with: BedrockDataAutomationClientTypes.ImageStandardOutputConfiguration.read(from:))
+        value.video = try reader["video"].readIfPresent(with: BedrockDataAutomationClientTypes.VideoStandardOutputConfiguration.read(from:))
+        value.audio = try reader["audio"].readIfPresent(with: BedrockDataAutomationClientTypes.AudioStandardOutputConfiguration.read(from:))
+        return value
+    }
+}
+
+extension BedrockDataAutomationClientTypes.Tag {
+
+    static func write(value: BedrockDataAutomationClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["key"].write(value.key)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockDataAutomationClientTypes.Tag()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockDataAutomationClientTypes.TranscriptConfiguration {
+
+    static func write(value: BedrockDataAutomationClientTypes.TranscriptConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["channelLabeling"].write(value.channelLabeling, with: BedrockDataAutomationClientTypes.ChannelLabelingConfiguration.write(value:to:))
+        try writer["speakerLabeling"].write(value.speakerLabeling, with: BedrockDataAutomationClientTypes.SpeakerLabelingConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.TranscriptConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockDataAutomationClientTypes.TranscriptConfiguration()
+        value.speakerLabeling = try reader["speakerLabeling"].readIfPresent(with: BedrockDataAutomationClientTypes.SpeakerLabelingConfiguration.read(from:))
+        value.channelLabeling = try reader["channelLabeling"].readIfPresent(with: BedrockDataAutomationClientTypes.ChannelLabelingConfiguration.read(from:))
+        return value
+    }
+}
+
+extension BedrockDataAutomationClientTypes.UpsertEntityInfo {
+
+    static func write(value: BedrockDataAutomationClientTypes.UpsertEntityInfo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .vocabulary(vocabulary):
+                try writer["vocabulary"].write(vocabulary, with: BedrockDataAutomationClientTypes.VocabularyEntityInfo.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension BedrockDataAutomationClientTypes.ValidationExceptionField {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.ValidationExceptionField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockDataAutomationClientTypes.ValidationExceptionField()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4491,308 +6463,110 @@ extension BedrockDataAutomationClientTypes.VideoExtractionCategory {
     }
 }
 
-extension BedrockDataAutomationClientTypes.ImageStandardOutputConfiguration {
+extension BedrockDataAutomationClientTypes.VideoOverrideConfiguration {
 
-    static func write(value: BedrockDataAutomationClientTypes.ImageStandardOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: BedrockDataAutomationClientTypes.VideoOverrideConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["extraction"].write(value.extraction, with: BedrockDataAutomationClientTypes.ImageStandardExtraction.write(value:to:))
-        try writer["generativeField"].write(value.generativeField, with: BedrockDataAutomationClientTypes.ImageStandardGenerativeField.write(value:to:))
+        try writer["modalityProcessing"].write(value.modalityProcessing, with: BedrockDataAutomationClientTypes.ModalityProcessingConfiguration.write(value:to:))
+        try writer["sensitiveDataConfiguration"].write(value.sensitiveDataConfiguration, with: BedrockDataAutomationClientTypes.SensitiveDataConfiguration.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.ImageStandardOutputConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.VideoOverrideConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockDataAutomationClientTypes.ImageStandardOutputConfiguration()
-        value.extraction = try reader["extraction"].readIfPresent(with: BedrockDataAutomationClientTypes.ImageStandardExtraction.read(from:))
-        value.generativeField = try reader["generativeField"].readIfPresent(with: BedrockDataAutomationClientTypes.ImageStandardGenerativeField.read(from:))
+        var value = BedrockDataAutomationClientTypes.VideoOverrideConfiguration()
+        value.modalityProcessing = try reader["modalityProcessing"].readIfPresent(with: BedrockDataAutomationClientTypes.ModalityProcessingConfiguration.read(from:))
+        value.sensitiveDataConfiguration = try reader["sensitiveDataConfiguration"].readIfPresent(with: BedrockDataAutomationClientTypes.SensitiveDataConfiguration.read(from:))
         return value
     }
 }
 
-extension BedrockDataAutomationClientTypes.ImageStandardGenerativeField {
+extension BedrockDataAutomationClientTypes.VideoStandardExtraction {
 
-    static func write(value: BedrockDataAutomationClientTypes.ImageStandardGenerativeField?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: BedrockDataAutomationClientTypes.VideoStandardExtraction?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["state"].write(value.state)
-        try writer["types"].writeList(value.types, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BedrockDataAutomationClientTypes.ImageStandardGenerativeFieldType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["boundingBox"].write(value.boundingBox, with: BedrockDataAutomationClientTypes.VideoBoundingBox.write(value:to:))
+        try writer["category"].write(value.category, with: BedrockDataAutomationClientTypes.VideoExtractionCategory.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.ImageStandardGenerativeField {
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.VideoStandardExtraction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockDataAutomationClientTypes.ImageStandardGenerativeField()
-        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
-        value.types = try reader["types"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BedrockDataAutomationClientTypes.ImageStandardGenerativeFieldType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = BedrockDataAutomationClientTypes.VideoStandardExtraction()
+        value.category = try reader["category"].readIfPresent(with: BedrockDataAutomationClientTypes.VideoExtractionCategory.read(from:))
+        value.boundingBox = try reader["boundingBox"].readIfPresent(with: BedrockDataAutomationClientTypes.VideoBoundingBox.read(from:))
         return value
     }
 }
 
-extension BedrockDataAutomationClientTypes.ImageStandardExtraction {
+extension BedrockDataAutomationClientTypes.VideoStandardGenerativeField {
 
-    static func write(value: BedrockDataAutomationClientTypes.ImageStandardExtraction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["boundingBox"].write(value.boundingBox, with: BedrockDataAutomationClientTypes.ImageBoundingBox.write(value:to:))
-        try writer["category"].write(value.category, with: BedrockDataAutomationClientTypes.ImageExtractionCategory.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.ImageStandardExtraction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockDataAutomationClientTypes.ImageStandardExtraction()
-        value.category = try reader["category"].readIfPresent(with: BedrockDataAutomationClientTypes.ImageExtractionCategory.read(from:))
-        value.boundingBox = try reader["boundingBox"].readIfPresent(with: BedrockDataAutomationClientTypes.ImageBoundingBox.read(from:))
-        return value
-    }
-}
-
-extension BedrockDataAutomationClientTypes.ImageBoundingBox {
-
-    static func write(value: BedrockDataAutomationClientTypes.ImageBoundingBox?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: BedrockDataAutomationClientTypes.VideoStandardGenerativeField?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["state"].write(value.state)
+        try writer["types"].writeList(value.types, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BedrockDataAutomationClientTypes.VideoStandardGenerativeFieldType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.ImageBoundingBox {
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.VideoStandardGenerativeField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockDataAutomationClientTypes.ImageBoundingBox()
+        var value = BedrockDataAutomationClientTypes.VideoStandardGenerativeField()
         value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        value.types = try reader["types"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BedrockDataAutomationClientTypes.VideoStandardGenerativeFieldType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension BedrockDataAutomationClientTypes.ImageExtractionCategory {
+extension BedrockDataAutomationClientTypes.VideoStandardOutputConfiguration {
 
-    static func write(value: BedrockDataAutomationClientTypes.ImageExtractionCategory?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: BedrockDataAutomationClientTypes.VideoStandardOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["state"].write(value.state)
-        try writer["types"].writeList(value.types, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BedrockDataAutomationClientTypes.ImageExtractionCategoryType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["extraction"].write(value.extraction, with: BedrockDataAutomationClientTypes.VideoStandardExtraction.write(value:to:))
+        try writer["generativeField"].write(value.generativeField, with: BedrockDataAutomationClientTypes.VideoStandardGenerativeField.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.ImageExtractionCategory {
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.VideoStandardOutputConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockDataAutomationClientTypes.ImageExtractionCategory()
-        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
-        value.types = try reader["types"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BedrockDataAutomationClientTypes.ImageExtractionCategoryType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = BedrockDataAutomationClientTypes.VideoStandardOutputConfiguration()
+        value.extraction = try reader["extraction"].readIfPresent(with: BedrockDataAutomationClientTypes.VideoStandardExtraction.read(from:))
+        value.generativeField = try reader["generativeField"].readIfPresent(with: BedrockDataAutomationClientTypes.VideoStandardGenerativeField.read(from:))
         return value
     }
 }
 
-extension BedrockDataAutomationClientTypes.DocumentStandardOutputConfiguration {
+extension BedrockDataAutomationClientTypes.VocabularyEntity {
 
-    static func write(value: BedrockDataAutomationClientTypes.DocumentStandardOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["extraction"].write(value.extraction, with: BedrockDataAutomationClientTypes.DocumentStandardExtraction.write(value:to:))
-        try writer["generativeField"].write(value.generativeField, with: BedrockDataAutomationClientTypes.DocumentStandardGenerativeField.write(value:to:))
-        try writer["outputFormat"].write(value.outputFormat, with: BedrockDataAutomationClientTypes.DocumentOutputFormat.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.DocumentStandardOutputConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.VocabularyEntity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockDataAutomationClientTypes.DocumentStandardOutputConfiguration()
-        value.extraction = try reader["extraction"].readIfPresent(with: BedrockDataAutomationClientTypes.DocumentStandardExtraction.read(from:))
-        value.generativeField = try reader["generativeField"].readIfPresent(with: BedrockDataAutomationClientTypes.DocumentStandardGenerativeField.read(from:))
-        value.outputFormat = try reader["outputFormat"].readIfPresent(with: BedrockDataAutomationClientTypes.DocumentOutputFormat.read(from:))
-        return value
-    }
-}
-
-extension BedrockDataAutomationClientTypes.DocumentOutputFormat {
-
-    static func write(value: BedrockDataAutomationClientTypes.DocumentOutputFormat?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["additionalFileFormat"].write(value.additionalFileFormat, with: BedrockDataAutomationClientTypes.DocumentOutputAdditionalFileFormat.write(value:to:))
-        try writer["textFormat"].write(value.textFormat, with: BedrockDataAutomationClientTypes.DocumentOutputTextFormat.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.DocumentOutputFormat {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockDataAutomationClientTypes.DocumentOutputFormat()
-        value.textFormat = try reader["textFormat"].readIfPresent(with: BedrockDataAutomationClientTypes.DocumentOutputTextFormat.read(from:))
-        value.additionalFileFormat = try reader["additionalFileFormat"].readIfPresent(with: BedrockDataAutomationClientTypes.DocumentOutputAdditionalFileFormat.read(from:))
-        return value
-    }
-}
-
-extension BedrockDataAutomationClientTypes.DocumentOutputAdditionalFileFormat {
-
-    static func write(value: BedrockDataAutomationClientTypes.DocumentOutputAdditionalFileFormat?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["state"].write(value.state)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.DocumentOutputAdditionalFileFormat {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockDataAutomationClientTypes.DocumentOutputAdditionalFileFormat()
-        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension BedrockDataAutomationClientTypes.DocumentOutputTextFormat {
-
-    static func write(value: BedrockDataAutomationClientTypes.DocumentOutputTextFormat?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["types"].writeList(value.types, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BedrockDataAutomationClientTypes.DocumentOutputTextFormatType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.DocumentOutputTextFormat {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockDataAutomationClientTypes.DocumentOutputTextFormat()
-        value.types = try reader["types"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BedrockDataAutomationClientTypes.DocumentOutputTextFormatType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension BedrockDataAutomationClientTypes.DocumentStandardGenerativeField {
-
-    static func write(value: BedrockDataAutomationClientTypes.DocumentStandardGenerativeField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["state"].write(value.state)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.DocumentStandardGenerativeField {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockDataAutomationClientTypes.DocumentStandardGenerativeField()
-        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension BedrockDataAutomationClientTypes.DocumentStandardExtraction {
-
-    static func write(value: BedrockDataAutomationClientTypes.DocumentStandardExtraction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["boundingBox"].write(value.boundingBox, with: BedrockDataAutomationClientTypes.DocumentBoundingBox.write(value:to:))
-        try writer["granularity"].write(value.granularity, with: BedrockDataAutomationClientTypes.DocumentExtractionGranularity.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.DocumentStandardExtraction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockDataAutomationClientTypes.DocumentStandardExtraction()
-        value.granularity = try reader["granularity"].readIfPresent(with: BedrockDataAutomationClientTypes.DocumentExtractionGranularity.read(from:))
-        value.boundingBox = try reader["boundingBox"].readIfPresent(with: BedrockDataAutomationClientTypes.DocumentBoundingBox.read(from:))
-        return value
-    }
-}
-
-extension BedrockDataAutomationClientTypes.DocumentBoundingBox {
-
-    static func write(value: BedrockDataAutomationClientTypes.DocumentBoundingBox?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["state"].write(value.state)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.DocumentBoundingBox {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockDataAutomationClientTypes.DocumentBoundingBox()
-        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension BedrockDataAutomationClientTypes.DocumentExtractionGranularity {
-
-    static func write(value: BedrockDataAutomationClientTypes.DocumentExtractionGranularity?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["types"].writeList(value.types, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BedrockDataAutomationClientTypes.DocumentExtractionGranularityType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.DocumentExtractionGranularity {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockDataAutomationClientTypes.DocumentExtractionGranularity()
-        value.types = try reader["types"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BedrockDataAutomationClientTypes.DocumentExtractionGranularityType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension BedrockDataAutomationClientTypes.BlueprintSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.BlueprintSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockDataAutomationClientTypes.BlueprintSummary()
-        value.blueprintArn = try reader["blueprintArn"].readIfPresent() ?? ""
-        value.blueprintVersion = try reader["blueprintVersion"].readIfPresent()
-        value.blueprintStage = try reader["blueprintStage"].readIfPresent()
-        value.blueprintName = try reader["blueprintName"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        var value = BedrockDataAutomationClientTypes.VocabularyEntity()
+        value.entityId = try reader["entityId"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.language = try reader["language"].readIfPresent()
+        value.phrases = try reader["phrases"].readListIfPresent(memberReadingClosure: BedrockDataAutomationClientTypes.Phrase.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
 
-extension BedrockDataAutomationClientTypes.DataAutomationProjectSummary {
+extension BedrockDataAutomationClientTypes.VocabularyEntityInfo {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.DataAutomationProjectSummary {
+    static func write(value: BedrockDataAutomationClientTypes.VocabularyEntityInfo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description)
+        try writer["entityId"].write(value.entityId)
+        try writer["language"].write(value.language)
+        try writer["phrases"].writeList(value.phrases, memberWritingClosure: BedrockDataAutomationClientTypes.Phrase.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BedrockDataAutomationClientTypes.VocabularyEntitySummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.VocabularyEntitySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockDataAutomationClientTypes.DataAutomationProjectSummary()
-        value.projectArn = try reader["projectArn"].readIfPresent() ?? ""
-        value.projectStage = try reader["projectStage"].readIfPresent()
-        value.projectType = try reader["projectType"].readIfPresent()
-        value.projectName = try reader["projectName"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        var value = BedrockDataAutomationClientTypes.VocabularyEntitySummary()
+        value.entityId = try reader["entityId"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.language = try reader["language"].readIfPresent()
+        value.numOfPhrases = try reader["numOfPhrases"].readIfPresent()
+        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
-    }
-}
-
-extension BedrockDataAutomationClientTypes.Tag {
-
-    static func write(value: BedrockDataAutomationClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["key"].write(value.key)
-        try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.Tag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockDataAutomationClientTypes.Tag()
-        value.key = try reader["key"].readIfPresent() ?? ""
-        value.value = try reader["value"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension BedrockDataAutomationClientTypes.ValidationExceptionField {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.ValidationExceptionField {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockDataAutomationClientTypes.ValidationExceptionField()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.message = try reader["message"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension BedrockDataAutomationClientTypes.EncryptionConfiguration {
-
-    static func write(value: BedrockDataAutomationClientTypes.EncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["kmsEncryptionContext"].writeMap(value.kmsEncryptionContext, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["kmsKeyId"].write(value.kmsKeyId)
-    }
-}
-
-extension BedrockDataAutomationClientTypes.BlueprintOptimizationObject {
-
-    static func write(value: BedrockDataAutomationClientTypes.BlueprintOptimizationObject?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["blueprintArn"].write(value.blueprintArn)
-        try writer["stage"].write(value.stage)
-    }
-}
-
-extension BedrockDataAutomationClientTypes.DataAutomationProjectFilter {
-
-    static func write(value: BedrockDataAutomationClientTypes.DataAutomationProjectFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["projectArn"].write(value.projectArn)
-        try writer["projectStage"].write(value.projectStage)
-    }
-}
-
-extension BedrockDataAutomationClientTypes.BlueprintFilter {
-
-    static func write(value: BedrockDataAutomationClientTypes.BlueprintFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["blueprintArn"].write(value.blueprintArn)
-        try writer["blueprintStage"].write(value.blueprintStage)
-        try writer["blueprintVersion"].write(value.blueprintVersion)
     }
 }
 

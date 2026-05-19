@@ -23,8 +23,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
 import struct SmithyHTTPAPI.Header
 import struct SmithyHTTPAPI.Headers
@@ -55,9 +55,9 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -173,9 +173,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         conflictExceptionType: MediaPackageV2ClientTypes.ConflictExceptionType? = nil,
@@ -198,9 +198,9 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -258,9 +258,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -283,9 +283,9 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -305,6 +305,7 @@ extension MediaPackageV2ClientTypes {
         case cmafContainerTypeWithMssManifest
         case cmafExcludeSegmentDrmMetadataIncompatibleContainerType
         case containerTypeImmutable
+        case customAdTypesInvalidConfiguration
         case dashDvbAttributesWithoutDvbDashProfile
         case decryptSecretFailed
         case describeCertificateFailed
@@ -374,6 +375,7 @@ extension MediaPackageV2ClientTypes {
         case roleArnInvalidFormat
         case roleArnLengthOutOfRange
         case roleArnNotAssumable
+        case scteInManifestsInvalidConfiguration
         case secretArnResourceNotFound
         case secretFromDifferentAccount
         case secretFromDifferentRegion
@@ -407,6 +409,7 @@ extension MediaPackageV2ClientTypes {
                 .cmafContainerTypeWithMssManifest,
                 .cmafExcludeSegmentDrmMetadataIncompatibleContainerType,
                 .containerTypeImmutable,
+                .customAdTypesInvalidConfiguration,
                 .dashDvbAttributesWithoutDvbDashProfile,
                 .decryptSecretFailed,
                 .describeCertificateFailed,
@@ -476,6 +479,7 @@ extension MediaPackageV2ClientTypes {
                 .roleArnInvalidFormat,
                 .roleArnLengthOutOfRange,
                 .roleArnNotAssumable,
+                .scteInManifestsInvalidConfiguration,
                 .secretArnResourceNotFound,
                 .secretFromDifferentAccount,
                 .secretFromDifferentRegion,
@@ -515,6 +519,7 @@ extension MediaPackageV2ClientTypes {
             case .cmafContainerTypeWithMssManifest: return "CMAF_CONTAINER_TYPE_WITH_MSS_MANIFEST"
             case .cmafExcludeSegmentDrmMetadataIncompatibleContainerType: return "CMAF_EXCLUDE_SEGMENT_DRM_METADATA_INCOMPATIBLE_CONTAINER_TYPE"
             case .containerTypeImmutable: return "CONTAINER_TYPE_IMMUTABLE"
+            case .customAdTypesInvalidConfiguration: return "CUSTOM_AD_TYPES_INVALID_CONFIGURATION"
             case .dashDvbAttributesWithoutDvbDashProfile: return "DASH_DVB_ATTRIBUTES_WITHOUT_DVB_DASH_PROFILE"
             case .decryptSecretFailed: return "DECRYPT_SECRET_FAILED"
             case .describeCertificateFailed: return "DESCRIBE_CERTIFICATE_FAILED"
@@ -584,6 +589,7 @@ extension MediaPackageV2ClientTypes {
             case .roleArnInvalidFormat: return "ROLE_ARN_INVALID_FORMAT"
             case .roleArnLengthOutOfRange: return "ROLE_ARN_LENGTH_OUT_OF_RANGE"
             case .roleArnNotAssumable: return "ROLE_ARN_NOT_ASSUMABLE"
+            case .scteInManifestsInvalidConfiguration: return "SCTE_IN_MANIFESTS_INVALID_CONFIGURATION"
             case .secretArnResourceNotFound: return "SECRET_ARN_RESOURCE_NOT_FOUND"
             case .secretFromDifferentAccount: return "SECRET_FROM_DIFFERENT_ACCOUNT"
             case .secretFromDifferentRegion: return "SECRET_FROM_DIFFERENT_REGION"
@@ -625,9 +631,9 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -830,9 +836,9 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -1257,6 +1263,16 @@ extension MediaPackageV2ClientTypes {
 
 extension MediaPackageV2ClientTypes {
 
+    /// The configuration for the DASH availabilityStartTime attribute of the Media Presentation Description (MPD). Use this configuration to set a custom availability start time for your DASH manifest.
+    public enum DashAvailabilityStartTimeConfiguration: Swift.Sendable {
+        /// The fixed availability start time for the DASH manifest, in ISO 8601 date-time format. The value must have hourly granularity, meaning that the minutes, seconds, and fractional seconds must be zero. The value must be on or after 2024-01-01T00:00:00Z and must be at least 14 days before the current time.
+        case fixedavailabilitystarttime(Foundation.Date)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension MediaPackageV2ClientTypes {
+
     /// The base URLs to use for retrieving segments. You can specify multiple locations and indicate the priority and weight for when each should be used, for use in mutli-CDN workflows.
     public struct DashBaseUrl: Swift.Sendable {
         /// For use with DVB-DASH profiles only. The priority of this location for servings segments. The lower the number, the higher the priority.
@@ -1535,6 +1551,35 @@ extension MediaPackageV2ClientTypes {
 
 extension MediaPackageV2ClientTypes {
 
+    public enum ScteInManifests: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case all
+        case matchesFilter
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ScteInManifests] {
+            return [
+                .all,
+                .matchesFilter
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "ALL"
+            case .matchesFilter: return "MATCHES_FILTER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaPackageV2ClientTypes {
+
     /// The SCTE configuration.
     public struct ScteDash: Swift.Sendable {
         /// Choose how ad markers are included in the packaged content. If you include ad markers in the content stream in your upstream encoders, then you need to inform MediaPackage what to do with the ad markers in the output. Value description:
@@ -1543,11 +1588,15 @@ extension MediaPackageV2ClientTypes {
         ///
         /// * XML - The SCTE marker is expressed fully in XML.
         public var adMarkerDash: MediaPackageV2ClientTypes.AdMarkerDash?
+        /// Controls which SCTE-35 events appear in DASH manifests. ALL includes all non-implicit SCTE-35 events. MATCHES_FILTER includes only events whose type matches the configured ScteFilter. If you don't specify a value, the default is ALL.
+        public var scteInManifests: MediaPackageV2ClientTypes.ScteInManifests?
 
         public init(
-            adMarkerDash: MediaPackageV2ClientTypes.AdMarkerDash? = nil
+            adMarkerDash: MediaPackageV2ClientTypes.AdMarkerDash? = nil,
+            scteInManifests: MediaPackageV2ClientTypes.ScteInManifests? = nil
         ) {
             self.adMarkerDash = adMarkerDash
+            self.scteInManifests = scteInManifests
         }
     }
 }
@@ -1640,6 +1689,35 @@ extension MediaPackageV2ClientTypes {
 
 extension MediaPackageV2ClientTypes {
 
+    public enum UriPathType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case leaf
+        case root
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UriPathType] {
+            return [
+                .leaf,
+                .root
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .leaf: return "LEAF"
+            case .root: return "ROOT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaPackageV2ClientTypes {
+
     public enum DashUtcTimingMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case httpHead
         case httpIso
@@ -1696,6 +1774,8 @@ extension MediaPackageV2ClientTypes {
 
     /// Create a DASH manifest configuration.
     public struct CreateDashManifestConfiguration: Swift.Sendable {
+        /// The configuration for the DASH availabilityStartTime attribute of the Media Presentation Description (MPD). If you don't specify a value, MediaPackage uses the default availability start time of 2024-01-01T00:00:00Z.
+        public var availabilityStartTimeConfiguration: MediaPackageV2ClientTypes.DashAvailabilityStartTimeConfiguration?
         /// The base URLs to use for retrieving segments.
         public var baseUrls: [MediaPackageV2ClientTypes.DashBaseUrl]?
         /// The layout of the DASH manifest that MediaPackage produces. STANDARD indicates a default manifest, which is compacted. NONE indicates a full manifest. For information about compactness, see [DASH manifest compactness](https://docs.aws.amazon.com/mediapackage/latest/userguide/compacted.html) in the Elemental MediaPackage v2 User Guide.
@@ -1731,10 +1811,13 @@ extension MediaPackageV2ClientTypes {
         public var subtitleConfiguration: MediaPackageV2ClientTypes.DashSubtitleConfiguration?
         /// The amount of time (in seconds) that the player should be from the end of the manifest.
         public var suggestedPresentationDelaySeconds: Swift.Int?
+        /// The type of path to use in manifest URIs. LEAF uses leaf-relative paths (for example, index_1.mpd). ROOT uses root-relative paths that include the full path from root (for example, /out/v1/channel-group/channel/endpoint/index_1.mpd). If you don't specify a value, the default is LEAF.
+        public var uriPathType: MediaPackageV2ClientTypes.UriPathType?
         /// Determines the type of UTC timing included in the DASH Media Presentation Description (MPD).
         public var utcTiming: MediaPackageV2ClientTypes.DashUtcTiming?
 
         public init(
+            availabilityStartTimeConfiguration: MediaPackageV2ClientTypes.DashAvailabilityStartTimeConfiguration? = nil,
             baseUrls: [MediaPackageV2ClientTypes.DashBaseUrl]? = nil,
             compactness: MediaPackageV2ClientTypes.DashCompactness? = nil,
             drmSignaling: MediaPackageV2ClientTypes.DashDrmSignaling? = nil,
@@ -1751,8 +1834,10 @@ extension MediaPackageV2ClientTypes {
             segmentTemplateFormat: MediaPackageV2ClientTypes.DashSegmentTemplateFormat? = nil,
             subtitleConfiguration: MediaPackageV2ClientTypes.DashSubtitleConfiguration? = nil,
             suggestedPresentationDelaySeconds: Swift.Int? = nil,
+            uriPathType: MediaPackageV2ClientTypes.UriPathType? = nil,
             utcTiming: MediaPackageV2ClientTypes.DashUtcTiming? = nil
         ) {
+            self.availabilityStartTimeConfiguration = availabilityStartTimeConfiguration
             self.baseUrls = baseUrls
             self.compactness = compactness
             self.drmSignaling = drmSignaling
@@ -1769,6 +1854,7 @@ extension MediaPackageV2ClientTypes {
             self.segmentTemplateFormat = segmentTemplateFormat
             self.subtitleConfiguration = subtitleConfiguration
             self.suggestedPresentationDelaySeconds = suggestedPresentationDelaySeconds
+            self.uriPathType = uriPathType
             self.utcTiming = utcTiming
         }
     }
@@ -1842,11 +1928,15 @@ extension MediaPackageV2ClientTypes {
         ///
         /// * DATERANGE - Insert EXT-X-DATERANGE tags to signal ad and program transition events in TS and CMAF manifests. If you use DATERANGE, you must set a programDateTimeIntervalSeconds value of 1 or higher. To learn more about DATERANGE, see [SCTE-35 Ad Marker EXT-X-DATERANGE](http://docs.aws.amazon.com/mediapackage/latest/ug/scte-35-ad-marker-ext-x-daterange.html).
         public var adMarkerHls: MediaPackageV2ClientTypes.AdMarkerHls?
+        /// Controls which SCTE-35 events appear in HLS manifests. ALL includes all non-implicit SCTE-35 events. MATCHES_FILTER includes only events whose type matches the configured ScteFilter. If you don't specify a value, the default is ALL.
+        public var scteInManifests: MediaPackageV2ClientTypes.ScteInManifests?
 
         public init(
-            adMarkerHls: MediaPackageV2ClientTypes.AdMarkerHls? = nil
+            adMarkerHls: MediaPackageV2ClientTypes.AdMarkerHls? = nil,
+            scteInManifests: MediaPackageV2ClientTypes.ScteInManifests? = nil
         ) {
             self.adMarkerHls = adMarkerHls
+            self.scteInManifests = scteInManifests
         }
     }
 }
@@ -1890,6 +1980,8 @@ extension MediaPackageV2ClientTypes {
         public var scteHls: MediaPackageV2ClientTypes.ScteHls?
         /// To insert an EXT-X-START tag in your HLS playlist, specify a StartTag configuration object with a valid TimeOffset. When you do, you can also optionally specify whether to include a PRECISE value in the EXT-X-START tag.
         public var startTag: MediaPackageV2ClientTypes.StartTag?
+        /// The type of path to use in manifest URIs. LEAF uses leaf-relative paths (for example, index_1.m3u8). ROOT uses root-relative paths that include the full path from root (for example, /out/v1/channel-group/channel/endpoint/index_1.m3u8). If you don't specify a value, the default is LEAF.
+        public var uriPathType: MediaPackageV2ClientTypes.UriPathType?
         /// When enabled, MediaPackage URL-encodes the query string for API requests for HLS child manifests to comply with Amazon Web Services Signature Version 4 (SigV4) signature signing protocol. For more information, see [Amazon Web Services Signature Version 4 for API requests](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_sigv.html) in Identity and Access Management User Guide.
         public var urlEncodeChildManifest: Swift.Bool?
 
@@ -1901,6 +1993,7 @@ extension MediaPackageV2ClientTypes {
             programDateTimeIntervalSeconds: Swift.Int? = nil,
             scteHls: MediaPackageV2ClientTypes.ScteHls? = nil,
             startTag: MediaPackageV2ClientTypes.StartTag? = nil,
+            uriPathType: MediaPackageV2ClientTypes.UriPathType? = nil,
             urlEncodeChildManifest: Swift.Bool? = nil
         ) {
             self.childManifestName = childManifestName
@@ -1910,6 +2003,7 @@ extension MediaPackageV2ClientTypes {
             self.programDateTimeIntervalSeconds = programDateTimeIntervalSeconds
             self.scteHls = scteHls
             self.startTag = startTag
+            self.uriPathType = uriPathType
             self.urlEncodeChildManifest = urlEncodeChildManifest
         }
     }
@@ -1934,6 +2028,8 @@ extension MediaPackageV2ClientTypes {
         public var scteHls: MediaPackageV2ClientTypes.ScteHls?
         /// To insert an EXT-X-START tag in your HLS playlist, specify a StartTag configuration object with a valid TimeOffset. When you do, you can also optionally specify whether to include a PRECISE value in the EXT-X-START tag.
         public var startTag: MediaPackageV2ClientTypes.StartTag?
+        /// The type of path to use in manifest URIs. LEAF uses leaf-relative paths (for example, index_1.m3u8). ROOT uses root-relative paths that include the full path from root (for example, /out/v1/channel-group/channel/endpoint/index_1.m3u8). If you don't specify a value, the default is LEAF.
+        public var uriPathType: MediaPackageV2ClientTypes.UriPathType?
         /// When enabled, MediaPackage URL-encodes the query string for API requests for LL-HLS child manifests to comply with Amazon Web Services Signature Version 4 (SigV4) signature signing protocol. For more information, see [Amazon Web Services Signature Version 4 for API requests](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_sigv.html) in Identity and Access Management User Guide.
         public var urlEncodeChildManifest: Swift.Bool?
 
@@ -1945,6 +2041,7 @@ extension MediaPackageV2ClientTypes {
             programDateTimeIntervalSeconds: Swift.Int? = nil,
             scteHls: MediaPackageV2ClientTypes.ScteHls? = nil,
             startTag: MediaPackageV2ClientTypes.StartTag? = nil,
+            uriPathType: MediaPackageV2ClientTypes.UriPathType? = nil,
             urlEncodeChildManifest: Swift.Bool? = nil
         ) {
             self.childManifestName = childManifestName
@@ -1954,6 +2051,7 @@ extension MediaPackageV2ClientTypes {
             self.programDateTimeIntervalSeconds = programDateTimeIntervalSeconds
             self.scteHls = scteHls
             self.startTag = startTag
+            self.uriPathType = uriPathType
             self.urlEncodeChildManifest = urlEncodeChildManifest
         }
     }
@@ -2307,7 +2405,7 @@ extension MediaPackageV2ClientTypes {
 
     /// The parameters for the SPEKE key provider.
     public struct SpekeKeyProvider: Swift.Sendable {
-        /// The ARN for the certificate that you imported to AWS Certificate Manager to add content key encryption to this endpoint. For this feature to work, your DRM key provider must support content key encryption.
+        /// The ARN for the certificate that you imported to Amazon Web Services Certificate Manager to add content key encryption to this endpoint. For this feature to work, your DRM key provider must support content key encryption.
         public var certificateArn: Swift.String?
         /// The DRM solution provider you're using to protect your content during distribution.
         /// This member is required.
@@ -2389,29 +2487,21 @@ extension MediaPackageV2ClientTypes {
 
 extension MediaPackageV2ClientTypes {
 
-    public enum ScteFilter: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case `break`
-        case distributorAdvertisement
-        case distributorOverlayPlacementOpportunity
-        case distributorPlacementOpportunity
+    public enum CustomAdType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case alternateContentOpportunity
+        case chapter
+        case network
         case program
-        case providerAdvertisement
-        case providerOverlayPlacementOpportunity
-        case providerPlacementOpportunity
-        case spliceInsert
+        case unscheduledEvent
         case sdkUnknown(Swift.String)
 
-        public static var allCases: [ScteFilter] {
+        public static var allCases: [CustomAdType] {
             return [
-                .break,
-                .distributorAdvertisement,
-                .distributorOverlayPlacementOpportunity,
-                .distributorPlacementOpportunity,
+                .alternateContentOpportunity,
+                .chapter,
+                .network,
                 .program,
-                .providerAdvertisement,
-                .providerOverlayPlacementOpportunity,
-                .providerPlacementOpportunity,
-                .spliceInsert
+                .unscheduledEvent
             ]
         }
 
@@ -2422,15 +2512,85 @@ extension MediaPackageV2ClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .alternateContentOpportunity: return "ALTERNATE_CONTENT_OPPORTUNITY"
+            case .chapter: return "CHAPTER"
+            case .network: return "NETWORK"
+            case .program: return "PROGRAM"
+            case .unscheduledEvent: return "UNSCHEDULED_EVENT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaPackageV2ClientTypes {
+
+    public enum ScteFilter: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case alternateContentOpportunity
+        case `break`
+        case chapter
+        case distributorAdvertisement
+        case distributorAdBlock
+        case distributorOverlayPlacementOpportunity
+        case distributorPlacementOpportunity
+        case distributorPromo
+        case network
+        case program
+        case providerAdvertisement
+        case providerAdBlock
+        case providerOverlayPlacementOpportunity
+        case providerPlacementOpportunity
+        case providerPromo
+        case spliceInsert
+        case unscheduledEvent
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ScteFilter] {
+            return [
+                .alternateContentOpportunity,
+                .break,
+                .chapter,
+                .distributorAdvertisement,
+                .distributorAdBlock,
+                .distributorOverlayPlacementOpportunity,
+                .distributorPlacementOpportunity,
+                .distributorPromo,
+                .network,
+                .program,
+                .providerAdvertisement,
+                .providerAdBlock,
+                .providerOverlayPlacementOpportunity,
+                .providerPlacementOpportunity,
+                .providerPromo,
+                .spliceInsert,
+                .unscheduledEvent
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .alternateContentOpportunity: return "ALTERNATE_CONTENT_OPPORTUNITY"
             case .break: return "BREAK"
+            case .chapter: return "CHAPTER"
             case .distributorAdvertisement: return "DISTRIBUTOR_ADVERTISEMENT"
+            case .distributorAdBlock: return "DISTRIBUTOR_AD_BLOCK"
             case .distributorOverlayPlacementOpportunity: return "DISTRIBUTOR_OVERLAY_PLACEMENT_OPPORTUNITY"
             case .distributorPlacementOpportunity: return "DISTRIBUTOR_PLACEMENT_OPPORTUNITY"
+            case .distributorPromo: return "DISTRIBUTOR_PROMO"
+            case .network: return "NETWORK"
             case .program: return "PROGRAM"
             case .providerAdvertisement: return "PROVIDER_ADVERTISEMENT"
+            case .providerAdBlock: return "PROVIDER_AD_BLOCK"
             case .providerOverlayPlacementOpportunity: return "PROVIDER_OVERLAY_PLACEMENT_OPPORTUNITY"
             case .providerPlacementOpportunity: return "PROVIDER_PLACEMENT_OPPORTUNITY"
+            case .providerPromo: return "PROVIDER_PROMO"
             case .spliceInsert: return "SPLICE_INSERT"
+            case .unscheduledEvent: return "UNSCHEDULED_EVENT"
             case let .sdkUnknown(s): return s
             }
         }
@@ -2441,12 +2601,14 @@ extension MediaPackageV2ClientTypes {
 
     public enum ScteInSegments: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case all
+        case matchesFilter
         case `none`
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ScteInSegments] {
             return [
                 .all,
+                .matchesFilter,
                 .none
             ]
         }
@@ -2459,6 +2621,7 @@ extension MediaPackageV2ClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .all: return "ALL"
+            case .matchesFilter: return "MATCHES_FILTER"
             case .none: return "NONE"
             case let .sdkUnknown(s): return s
             }
@@ -2470,6 +2633,8 @@ extension MediaPackageV2ClientTypes {
 
     /// The SCTE configuration.
     public struct Scte: Swift.Sendable {
+        /// A list of additional non-Ad SCTE-35 event types to treat as advertisements. When configured, events matching these types produce ad markers (such as SCTE35-OUT and SCTE35-IN in HLS DATERANGE tags) in manifests. Valid values: PROGRAM | CHAPTER | UNSCHEDULED_EVENT | ALTERNATE_CONTENT_OPPORTUNITY | NETWORK If you don't specify any values, the default is empty (only default ad types are used).
+        public var customAdTypes: [MediaPackageV2ClientTypes.CustomAdType]?
         /// The SCTE-35 message types that you want to be treated as ad markers in the output.
         public var scteFilter: [MediaPackageV2ClientTypes.ScteFilter]?
         /// Controls whether SCTE-35 messages are included in segment files.
@@ -2478,14 +2643,18 @@ extension MediaPackageV2ClientTypes {
         ///
         /// * All – SCTE-35 messages are embedded in segment data
         ///
+        /// * MatchesFilter – SCTE-35 messages which match the ScteFilter are embedded in segment data
         ///
-        /// For DASH manifests, when set to All, an InbandEventStream tag signals that SCTE messages are present in segments. This setting works independently of manifest ad markers.
+        ///
+        /// For DASH manifests, when set to All or MatchesFilter, an InbandEventStream tag signals that SCTE messages are present in segments. This setting works independently of manifest ad markers.
         public var scteInSegments: MediaPackageV2ClientTypes.ScteInSegments?
 
         public init(
+            customAdTypes: [MediaPackageV2ClientTypes.CustomAdType]? = nil,
             scteFilter: [MediaPackageV2ClientTypes.ScteFilter]? = nil,
             scteInSegments: MediaPackageV2ClientTypes.ScteInSegments? = nil
         ) {
+            self.customAdTypes = customAdTypes
             self.scteFilter = scteFilter
             self.scteInSegments = scteInSegments
         }
@@ -2531,6 +2700,35 @@ extension MediaPackageV2ClientTypes {
     }
 }
 
+extension MediaPackageV2ClientTypes {
+
+    public enum UriSeparator: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case hyphen
+        case underscore
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UriSeparator] {
+            return [
+                .hyphen,
+                .underscore
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .hyphen: return "HYPHEN"
+            case .underscore: return "UNDERSCORE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct CreateOriginEndpointInput: Swift.Sendable {
     /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
     /// This member is required.
@@ -2565,6 +2763,8 @@ public struct CreateOriginEndpointInput: Swift.Sendable {
     /// A comma-separated list of tag key:value pairs that you define. For example: "Key1": "Value1",
     ///     "Key2": "Value2"
     public var tags: [Swift.String: Swift.String]?
+    /// The separator character to use in generated URIs for this origin endpoint. This setting applies to all manifest types on the endpoint. If you don't specify a value, the default is UNDERSCORE.
+    public var uriSeparator: MediaPackageV2ClientTypes.UriSeparator?
 
     public init(
         channelGroupName: Swift.String? = nil,
@@ -2580,7 +2780,8 @@ public struct CreateOriginEndpointInput: Swift.Sendable {
         originEndpointName: Swift.String? = nil,
         segment: MediaPackageV2ClientTypes.Segment? = nil,
         startoverWindowSeconds: Swift.Int? = nil,
-        tags: [Swift.String: Swift.String]? = nil
+        tags: [Swift.String: Swift.String]? = nil,
+        uriSeparator: MediaPackageV2ClientTypes.UriSeparator? = nil
     ) {
         self.channelGroupName = channelGroupName
         self.channelName = channelName
@@ -2596,6 +2797,7 @@ public struct CreateOriginEndpointInput: Swift.Sendable {
         self.segment = segment
         self.startoverWindowSeconds = startoverWindowSeconds
         self.tags = tags
+        self.uriSeparator = uriSeparator
     }
 }
 
@@ -2603,6 +2805,8 @@ extension MediaPackageV2ClientTypes {
 
     /// Retrieve the DASH manifest configuration.
     public struct GetDashManifestConfiguration: Swift.Sendable {
+        /// The configuration for the DASH availabilityStartTime attribute of the Media Presentation Description (MPD).
+        public var availabilityStartTimeConfiguration: MediaPackageV2ClientTypes.DashAvailabilityStartTimeConfiguration?
         /// The base URL to use for retrieving segments.
         public var baseUrls: [MediaPackageV2ClientTypes.DashBaseUrl]?
         /// The layout of the DASH manifest that MediaPackage produces. STANDARD indicates a default manifest, which is compacted. NONE indicates a full manifest.
@@ -2638,6 +2842,8 @@ extension MediaPackageV2ClientTypes {
         public var subtitleConfiguration: MediaPackageV2ClientTypes.DashSubtitleConfiguration?
         /// The amount of time (in seconds) that the player should be from the end of the manifest.
         public var suggestedPresentationDelaySeconds: Swift.Int?
+        /// The type of path used in manifest URIs. LEAF indicates leaf-relative paths. ROOT indicates root-relative paths that include the full path from root.
+        public var uriPathType: MediaPackageV2ClientTypes.UriPathType?
         /// The egress domain URL for stream delivery from MediaPackage.
         /// This member is required.
         public var url: Swift.String?
@@ -2645,6 +2851,7 @@ extension MediaPackageV2ClientTypes {
         public var utcTiming: MediaPackageV2ClientTypes.DashUtcTiming?
 
         public init(
+            availabilityStartTimeConfiguration: MediaPackageV2ClientTypes.DashAvailabilityStartTimeConfiguration? = nil,
             baseUrls: [MediaPackageV2ClientTypes.DashBaseUrl]? = nil,
             compactness: MediaPackageV2ClientTypes.DashCompactness? = nil,
             drmSignaling: MediaPackageV2ClientTypes.DashDrmSignaling? = nil,
@@ -2661,9 +2868,11 @@ extension MediaPackageV2ClientTypes {
             segmentTemplateFormat: MediaPackageV2ClientTypes.DashSegmentTemplateFormat? = nil,
             subtitleConfiguration: MediaPackageV2ClientTypes.DashSubtitleConfiguration? = nil,
             suggestedPresentationDelaySeconds: Swift.Int? = nil,
+            uriPathType: MediaPackageV2ClientTypes.UriPathType? = nil,
             url: Swift.String? = nil,
             utcTiming: MediaPackageV2ClientTypes.DashUtcTiming? = nil
         ) {
+            self.availabilityStartTimeConfiguration = availabilityStartTimeConfiguration
             self.baseUrls = baseUrls
             self.compactness = compactness
             self.drmSignaling = drmSignaling
@@ -2680,6 +2889,7 @@ extension MediaPackageV2ClientTypes {
             self.segmentTemplateFormat = segmentTemplateFormat
             self.subtitleConfiguration = subtitleConfiguration
             self.suggestedPresentationDelaySeconds = suggestedPresentationDelaySeconds
+            self.uriPathType = uriPathType
             self.url = url
             self.utcTiming = utcTiming
         }
@@ -2705,6 +2915,8 @@ extension MediaPackageV2ClientTypes {
         public var scteHls: MediaPackageV2ClientTypes.ScteHls?
         /// To insert an EXT-X-START tag in your HLS playlist, specify a StartTag configuration object with a valid TimeOffset. When you do, you can also optionally specify whether to include a PRECISE value in the EXT-X-START tag.
         public var startTag: MediaPackageV2ClientTypes.StartTag?
+        /// The type of path used in manifest URIs. LEAF indicates leaf-relative paths. ROOT indicates root-relative paths that include the full path from root.
+        public var uriPathType: MediaPackageV2ClientTypes.UriPathType?
         /// The egress domain URL for stream delivery from MediaPackage.
         /// This member is required.
         public var url: Swift.String?
@@ -2719,6 +2931,7 @@ extension MediaPackageV2ClientTypes {
             programDateTimeIntervalSeconds: Swift.Int? = nil,
             scteHls: MediaPackageV2ClientTypes.ScteHls? = nil,
             startTag: MediaPackageV2ClientTypes.StartTag? = nil,
+            uriPathType: MediaPackageV2ClientTypes.UriPathType? = nil,
             url: Swift.String? = nil,
             urlEncodeChildManifest: Swift.Bool? = nil
         ) {
@@ -2729,6 +2942,7 @@ extension MediaPackageV2ClientTypes {
             self.programDateTimeIntervalSeconds = programDateTimeIntervalSeconds
             self.scteHls = scteHls
             self.startTag = startTag
+            self.uriPathType = uriPathType
             self.url = url
             self.urlEncodeChildManifest = urlEncodeChildManifest
         }
@@ -2754,6 +2968,8 @@ extension MediaPackageV2ClientTypes {
         public var scteHls: MediaPackageV2ClientTypes.ScteHls?
         /// To insert an EXT-X-START tag in your HLS playlist, specify a StartTag configuration object with a valid TimeOffset. When you do, you can also optionally specify whether to include a PRECISE value in the EXT-X-START tag.
         public var startTag: MediaPackageV2ClientTypes.StartTag?
+        /// The type of path used in manifest URIs. LEAF indicates leaf-relative paths. ROOT indicates root-relative paths that include the full path from root.
+        public var uriPathType: MediaPackageV2ClientTypes.UriPathType?
         /// The egress domain URL for stream delivery from MediaPackage.
         /// This member is required.
         public var url: Swift.String?
@@ -2768,6 +2984,7 @@ extension MediaPackageV2ClientTypes {
             programDateTimeIntervalSeconds: Swift.Int? = nil,
             scteHls: MediaPackageV2ClientTypes.ScteHls? = nil,
             startTag: MediaPackageV2ClientTypes.StartTag? = nil,
+            uriPathType: MediaPackageV2ClientTypes.UriPathType? = nil,
             url: Swift.String? = nil,
             urlEncodeChildManifest: Swift.Bool? = nil
         ) {
@@ -2778,6 +2995,7 @@ extension MediaPackageV2ClientTypes {
             self.programDateTimeIntervalSeconds = programDateTimeIntervalSeconds
             self.scteHls = scteHls
             self.startTag = startTag
+            self.uriPathType = uriPathType
             self.url = url
             self.urlEncodeChildManifest = urlEncodeChildManifest
         }
@@ -2860,6 +3078,8 @@ public struct CreateOriginEndpointOutput: Swift.Sendable {
     public var startoverWindowSeconds: Swift.Int?
     /// The comma-separated list of tag key:value pairs assigned to the origin endpoint.
     public var tags: [Swift.String: Swift.String]?
+    /// The separator character used in generated URIs for this origin endpoint.
+    public var uriSeparator: MediaPackageV2ClientTypes.UriSeparator?
 
     public init(
         arn: Swift.String? = nil,
@@ -2878,7 +3098,8 @@ public struct CreateOriginEndpointOutput: Swift.Sendable {
         originEndpointName: Swift.String? = nil,
         segment: MediaPackageV2ClientTypes.Segment? = nil,
         startoverWindowSeconds: Swift.Int? = nil,
-        tags: [Swift.String: Swift.String]? = nil
+        tags: [Swift.String: Swift.String]? = nil,
+        uriSeparator: MediaPackageV2ClientTypes.UriSeparator? = nil
     ) {
         self.arn = arn
         self.channelGroupName = channelGroupName
@@ -2897,6 +3118,7 @@ public struct CreateOriginEndpointOutput: Swift.Sendable {
         self.segment = segment
         self.startoverWindowSeconds = startoverWindowSeconds
         self.tags = tags
+        self.uriSeparator = uriSeparator
     }
 }
 
@@ -2994,6 +3216,8 @@ public struct GetOriginEndpointOutput: Swift.Sendable {
     public var startoverWindowSeconds: Swift.Int?
     /// The comma-separated list of tag key:value pairs assigned to the origin endpoint.
     public var tags: [Swift.String: Swift.String]?
+    /// The separator character used in generated URIs for this origin endpoint.
+    public var uriSeparator: MediaPackageV2ClientTypes.UriSeparator?
 
     public init(
         arn: Swift.String? = nil,
@@ -3013,7 +3237,8 @@ public struct GetOriginEndpointOutput: Swift.Sendable {
         resetAt: Foundation.Date? = nil,
         segment: MediaPackageV2ClientTypes.Segment? = nil,
         startoverWindowSeconds: Swift.Int? = nil,
-        tags: [Swift.String: Swift.String]? = nil
+        tags: [Swift.String: Swift.String]? = nil,
+        uriSeparator: MediaPackageV2ClientTypes.UriSeparator? = nil
     ) {
         self.arn = arn
         self.channelGroupName = channelGroupName
@@ -3033,6 +3258,7 @@ public struct GetOriginEndpointOutput: Swift.Sendable {
         self.segment = segment
         self.startoverWindowSeconds = startoverWindowSeconds
         self.tags = tags
+        self.uriSeparator = uriSeparator
     }
 }
 
@@ -3184,6 +3410,8 @@ extension MediaPackageV2ClientTypes {
         /// The name that describes the origin endpoint. The name is the primary identifier for the origin endpoint, and and must be unique for your account in the AWS Region and channel.
         /// This member is required.
         public var originEndpointName: Swift.String?
+        /// The separator character used in generated URIs for this origin endpoint.
+        public var uriSeparator: MediaPackageV2ClientTypes.UriSeparator?
 
         public init(
             arn: Swift.String? = nil,
@@ -3198,7 +3426,8 @@ extension MediaPackageV2ClientTypes {
             lowLatencyHlsManifests: [MediaPackageV2ClientTypes.ListLowLatencyHlsManifestConfiguration]? = nil,
             modifiedAt: Foundation.Date? = nil,
             mssManifests: [MediaPackageV2ClientTypes.ListMssManifestConfiguration]? = nil,
-            originEndpointName: Swift.String? = nil
+            originEndpointName: Swift.String? = nil,
+            uriSeparator: MediaPackageV2ClientTypes.UriSeparator? = nil
         ) {
             self.arn = arn
             self.channelGroupName = channelGroupName
@@ -3213,6 +3442,7 @@ extension MediaPackageV2ClientTypes {
             self.modifiedAt = modifiedAt
             self.mssManifests = mssManifests
             self.originEndpointName = originEndpointName
+            self.uriSeparator = uriSeparator
         }
     }
 }
@@ -3433,6 +3663,8 @@ public struct UpdateOriginEndpointInput: Swift.Sendable {
     public var segment: MediaPackageV2ClientTypes.Segment?
     /// The size of the window (in seconds) to create a window of the live stream that's available for on-demand viewing. Viewers can start-over or catch-up on content that falls within the window. The maximum startover window is 1,209,600 seconds (14 days).
     public var startoverWindowSeconds: Swift.Int?
+    /// The separator character to use in generated URIs for this origin endpoint. This setting applies to all manifest types on the endpoint. If you don't specify a value in the update request, the current value is preserved.
+    public var uriSeparator: MediaPackageV2ClientTypes.UriSeparator?
 
     public init(
         channelGroupName: Swift.String? = nil,
@@ -3447,7 +3679,8 @@ public struct UpdateOriginEndpointInput: Swift.Sendable {
         mssManifests: [MediaPackageV2ClientTypes.CreateMssManifestConfiguration]? = nil,
         originEndpointName: Swift.String? = nil,
         segment: MediaPackageV2ClientTypes.Segment? = nil,
-        startoverWindowSeconds: Swift.Int? = nil
+        startoverWindowSeconds: Swift.Int? = nil,
+        uriSeparator: MediaPackageV2ClientTypes.UriSeparator? = nil
     ) {
         self.channelGroupName = channelGroupName
         self.channelName = channelName
@@ -3462,6 +3695,7 @@ public struct UpdateOriginEndpointInput: Swift.Sendable {
         self.originEndpointName = originEndpointName
         self.segment = segment
         self.startoverWindowSeconds = startoverWindowSeconds
+        self.uriSeparator = uriSeparator
     }
 }
 
@@ -3508,6 +3742,8 @@ public struct UpdateOriginEndpointOutput: Swift.Sendable {
     public var startoverWindowSeconds: Swift.Int?
     /// The comma-separated list of tag key:value pairs assigned to the origin endpoint.
     public var tags: [Swift.String: Swift.String]?
+    /// The separator character used in generated URIs for this origin endpoint.
+    public var uriSeparator: MediaPackageV2ClientTypes.UriSeparator?
 
     public init(
         arn: Swift.String? = nil,
@@ -3526,7 +3762,8 @@ public struct UpdateOriginEndpointOutput: Swift.Sendable {
         originEndpointName: Swift.String? = nil,
         segment: MediaPackageV2ClientTypes.Segment? = nil,
         startoverWindowSeconds: Swift.Int? = nil,
-        tags: [Swift.String: Swift.String]? = nil
+        tags: [Swift.String: Swift.String]? = nil,
+        uriSeparator: MediaPackageV2ClientTypes.UriSeparator? = nil
     ) {
         self.arn = arn
         self.channelGroupName = channelGroupName
@@ -3545,6 +3782,7 @@ public struct UpdateOriginEndpointOutput: Swift.Sendable {
         self.segment = segment
         self.startoverWindowSeconds = startoverWindowSeconds
         self.tags = tags
+        self.uriSeparator = uriSeparator
     }
 }
 
@@ -5134,6 +5372,7 @@ extension CreateOriginEndpointInput {
         try writer["Segment"].write(value.segment, with: MediaPackageV2ClientTypes.Segment.write(value:to:))
         try writer["StartoverWindowSeconds"].write(value.startoverWindowSeconds)
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["UriSeparator"].write(value.uriSeparator)
     }
 }
 
@@ -5193,6 +5432,7 @@ extension UpdateOriginEndpointInput {
         try writer["MssManifests"].writeList(value.mssManifests, memberWritingClosure: MediaPackageV2ClientTypes.CreateMssManifestConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Segment"].write(value.segment, with: MediaPackageV2ClientTypes.Segment.write(value:to:))
         try writer["StartoverWindowSeconds"].write(value.startoverWindowSeconds)
+        try writer["UriSeparator"].write(value.uriSeparator)
     }
 }
 
@@ -5295,6 +5535,7 @@ extension CreateOriginEndpointOutput {
         value.segment = try reader["Segment"].readIfPresent(with: MediaPackageV2ClientTypes.Segment.read(from:))
         value.startoverWindowSeconds = try reader["StartoverWindowSeconds"].readIfPresent()
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.uriSeparator = try reader["UriSeparator"].readIfPresent()
         return value
     }
 }
@@ -5442,6 +5683,7 @@ extension GetOriginEndpointOutput {
         value.segment = try reader["Segment"].readIfPresent(with: MediaPackageV2ClientTypes.Segment.read(from:))
         value.startoverWindowSeconds = try reader["StartoverWindowSeconds"].readIfPresent()
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.uriSeparator = try reader["UriSeparator"].readIfPresent()
         return value
     }
 }
@@ -5651,6 +5893,7 @@ extension UpdateOriginEndpointOutput {
         value.segment = try reader["Segment"].readIfPresent(with: MediaPackageV2ClientTypes.Segment.read(from:))
         value.startoverWindowSeconds = try reader["StartoverWindowSeconds"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.uriSeparator = try reader["UriSeparator"].readIfPresent()
         return value
     }
 }
@@ -5660,7 +5903,7 @@ enum CancelHarvestJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5679,7 +5922,7 @@ enum CreateChannelOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5699,7 +5942,7 @@ enum CreateChannelGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5719,7 +5962,7 @@ enum CreateHarvestJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5739,7 +5982,7 @@ enum CreateOriginEndpointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5759,7 +6002,7 @@ enum DeleteChannelOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5777,7 +6020,7 @@ enum DeleteChannelGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5795,7 +6038,7 @@ enum DeleteChannelPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5813,7 +6056,7 @@ enum DeleteOriginEndpointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5830,7 +6073,7 @@ enum DeleteOriginEndpointPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5848,7 +6091,7 @@ enum GetChannelOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5866,7 +6109,7 @@ enum GetChannelGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5884,7 +6127,7 @@ enum GetChannelPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5902,7 +6145,7 @@ enum GetHarvestJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5920,7 +6163,7 @@ enum GetOriginEndpointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5938,7 +6181,7 @@ enum GetOriginEndpointPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5956,7 +6199,7 @@ enum ListChannelGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5973,7 +6216,7 @@ enum ListChannelsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -5991,7 +6234,7 @@ enum ListHarvestJobsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6009,7 +6252,7 @@ enum ListOriginEndpointsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6027,7 +6270,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -6041,7 +6284,7 @@ enum PutChannelPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6060,7 +6303,7 @@ enum PutOriginEndpointPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6079,7 +6322,7 @@ enum ResetChannelStateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6098,7 +6341,7 @@ enum ResetOriginEndpointStateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6117,7 +6360,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -6131,7 +6374,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -6145,7 +6388,7 @@ enum UpdateChannelOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6164,7 +6407,7 @@ enum UpdateChannelGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6183,7 +6426,7 @@ enum UpdateOriginEndpointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -6200,7 +6443,7 @@ enum UpdateOriginEndpointOutputError {
 
 extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -6213,7 +6456,7 @@ extension AccessDeniedException {
 
 extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.conflictExceptionType = try reader["ConflictExceptionType"].readIfPresent()
@@ -6227,7 +6470,7 @@ extension ConflictException {
 
 extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -6240,7 +6483,7 @@ extension InternalServerException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -6254,7 +6497,7 @@ extension ResourceNotFoundException {
 
 extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -6267,7 +6510,7 @@ extension ThrottlingException {
 
 extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -6281,605 +6524,13 @@ extension ValidationException {
 
 extension ServiceQuotaExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
-        return value
-    }
-}
-
-extension MediaPackageV2ClientTypes.IngestEndpoint {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.IngestEndpoint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageV2ClientTypes.IngestEndpoint()
-        value.id = try reader["Id"].readIfPresent()
-        value.url = try reader["Url"].readIfPresent()
-        return value
-    }
-}
-
-extension MediaPackageV2ClientTypes.InputSwitchConfiguration {
-
-    static func write(value: MediaPackageV2ClientTypes.InputSwitchConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MQCSInputSwitching"].write(value.mqcsInputSwitching)
-        try writer["PreferredInput"].write(value.preferredInput)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.InputSwitchConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageV2ClientTypes.InputSwitchConfiguration()
-        value.mqcsInputSwitching = try reader["MQCSInputSwitching"].readIfPresent()
-        value.preferredInput = try reader["PreferredInput"].readIfPresent()
-        return value
-    }
-}
-
-extension MediaPackageV2ClientTypes.OutputHeaderConfiguration {
-
-    static func write(value: MediaPackageV2ClientTypes.OutputHeaderConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PublishMQCS"].write(value.publishMQCS)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.OutputHeaderConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageV2ClientTypes.OutputHeaderConfiguration()
-        value.publishMQCS = try reader["PublishMQCS"].readIfPresent()
-        return value
-    }
-}
-
-extension MediaPackageV2ClientTypes.Destination {
-
-    static func write(value: MediaPackageV2ClientTypes.Destination?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["S3Destination"].write(value.s3Destination, with: MediaPackageV2ClientTypes.S3DestinationConfig.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.Destination {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageV2ClientTypes.Destination()
-        value.s3Destination = try reader["S3Destination"].readIfPresent(with: MediaPackageV2ClientTypes.S3DestinationConfig.read(from:))
-        return value
-    }
-}
-
-extension MediaPackageV2ClientTypes.S3DestinationConfig {
-
-    static func write(value: MediaPackageV2ClientTypes.S3DestinationConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BucketName"].write(value.bucketName)
-        try writer["DestinationPath"].write(value.destinationPath)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.S3DestinationConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageV2ClientTypes.S3DestinationConfig()
-        value.bucketName = try reader["BucketName"].readIfPresent() ?? ""
-        value.destinationPath = try reader["DestinationPath"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension MediaPackageV2ClientTypes.HarvestedManifests {
-
-    static func write(value: MediaPackageV2ClientTypes.HarvestedManifests?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DashManifests"].writeList(value.dashManifests, memberWritingClosure: MediaPackageV2ClientTypes.HarvestedDashManifest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["HlsManifests"].writeList(value.hlsManifests, memberWritingClosure: MediaPackageV2ClientTypes.HarvestedHlsManifest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["LowLatencyHlsManifests"].writeList(value.lowLatencyHlsManifests, memberWritingClosure: MediaPackageV2ClientTypes.HarvestedLowLatencyHlsManifest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.HarvestedManifests {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageV2ClientTypes.HarvestedManifests()
-        value.hlsManifests = try reader["HlsManifests"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.HarvestedHlsManifest.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.dashManifests = try reader["DashManifests"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.HarvestedDashManifest.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.lowLatencyHlsManifests = try reader["LowLatencyHlsManifests"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.HarvestedLowLatencyHlsManifest.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension MediaPackageV2ClientTypes.HarvestedLowLatencyHlsManifest {
-
-    static func write(value: MediaPackageV2ClientTypes.HarvestedLowLatencyHlsManifest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ManifestName"].write(value.manifestName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.HarvestedLowLatencyHlsManifest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageV2ClientTypes.HarvestedLowLatencyHlsManifest()
-        value.manifestName = try reader["ManifestName"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension MediaPackageV2ClientTypes.HarvestedDashManifest {
-
-    static func write(value: MediaPackageV2ClientTypes.HarvestedDashManifest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ManifestName"].write(value.manifestName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.HarvestedDashManifest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageV2ClientTypes.HarvestedDashManifest()
-        value.manifestName = try reader["ManifestName"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension MediaPackageV2ClientTypes.HarvestedHlsManifest {
-
-    static func write(value: MediaPackageV2ClientTypes.HarvestedHlsManifest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ManifestName"].write(value.manifestName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.HarvestedHlsManifest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageV2ClientTypes.HarvestedHlsManifest()
-        value.manifestName = try reader["ManifestName"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension MediaPackageV2ClientTypes.HarvesterScheduleConfiguration {
-
-    static func write(value: MediaPackageV2ClientTypes.HarvesterScheduleConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EndTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.HarvesterScheduleConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageV2ClientTypes.HarvesterScheduleConfiguration()
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension MediaPackageV2ClientTypes.Segment {
-
-    static func write(value: MediaPackageV2ClientTypes.Segment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Encryption"].write(value.encryption, with: MediaPackageV2ClientTypes.Encryption.write(value:to:))
-        try writer["IncludeIframeOnlyStreams"].write(value.includeIframeOnlyStreams)
-        try writer["Scte"].write(value.scte, with: MediaPackageV2ClientTypes.Scte.write(value:to:))
-        try writer["SegmentDurationSeconds"].write(value.segmentDurationSeconds)
-        try writer["SegmentName"].write(value.segmentName)
-        try writer["TsIncludeDvbSubtitles"].write(value.tsIncludeDvbSubtitles)
-        try writer["TsUseAudioRenditionGroup"].write(value.tsUseAudioRenditionGroup)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.Segment {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageV2ClientTypes.Segment()
-        value.segmentDurationSeconds = try reader["SegmentDurationSeconds"].readIfPresent()
-        value.segmentName = try reader["SegmentName"].readIfPresent()
-        value.tsUseAudioRenditionGroup = try reader["TsUseAudioRenditionGroup"].readIfPresent()
-        value.includeIframeOnlyStreams = try reader["IncludeIframeOnlyStreams"].readIfPresent()
-        value.tsIncludeDvbSubtitles = try reader["TsIncludeDvbSubtitles"].readIfPresent()
-        value.scte = try reader["Scte"].readIfPresent(with: MediaPackageV2ClientTypes.Scte.read(from:))
-        value.encryption = try reader["Encryption"].readIfPresent(with: MediaPackageV2ClientTypes.Encryption.read(from:))
-        return value
-    }
-}
-
-extension MediaPackageV2ClientTypes.Encryption {
-
-    static func write(value: MediaPackageV2ClientTypes.Encryption?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CmafExcludeSegmentDrmMetadata"].write(value.cmafExcludeSegmentDrmMetadata)
-        try writer["ConstantInitializationVector"].write(value.constantInitializationVector)
-        try writer["EncryptionMethod"].write(value.encryptionMethod, with: MediaPackageV2ClientTypes.EncryptionMethod.write(value:to:))
-        try writer["KeyRotationIntervalSeconds"].write(value.keyRotationIntervalSeconds)
-        try writer["SpekeKeyProvider"].write(value.spekeKeyProvider, with: MediaPackageV2ClientTypes.SpekeKeyProvider.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.Encryption {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageV2ClientTypes.Encryption()
-        value.constantInitializationVector = try reader["ConstantInitializationVector"].readIfPresent()
-        value.encryptionMethod = try reader["EncryptionMethod"].readIfPresent(with: MediaPackageV2ClientTypes.EncryptionMethod.read(from:))
-        value.keyRotationIntervalSeconds = try reader["KeyRotationIntervalSeconds"].readIfPresent()
-        value.cmafExcludeSegmentDrmMetadata = try reader["CmafExcludeSegmentDrmMetadata"].readIfPresent()
-        value.spekeKeyProvider = try reader["SpekeKeyProvider"].readIfPresent(with: MediaPackageV2ClientTypes.SpekeKeyProvider.read(from:))
-        return value
-    }
-}
-
-extension MediaPackageV2ClientTypes.SpekeKeyProvider {
-
-    static func write(value: MediaPackageV2ClientTypes.SpekeKeyProvider?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CertificateArn"].write(value.certificateArn)
-        try writer["DrmSystems"].writeList(value.drmSystems, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaPackageV2ClientTypes.DrmSystem>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["EncryptionContractConfiguration"].write(value.encryptionContractConfiguration, with: MediaPackageV2ClientTypes.EncryptionContractConfiguration.write(value:to:))
-        try writer["ResourceId"].write(value.resourceId)
-        try writer["RoleArn"].write(value.roleArn)
-        try writer["Url"].write(value.url)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.SpekeKeyProvider {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageV2ClientTypes.SpekeKeyProvider()
-        value.encryptionContractConfiguration = try reader["EncryptionContractConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.EncryptionContractConfiguration.read(from:))
-        value.resourceId = try reader["ResourceId"].readIfPresent() ?? ""
-        value.drmSystems = try reader["DrmSystems"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaPackageV2ClientTypes.DrmSystem>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
-        value.url = try reader["Url"].readIfPresent() ?? ""
-        value.certificateArn = try reader["CertificateArn"].readIfPresent()
-        return value
-    }
-}
-
-extension MediaPackageV2ClientTypes.EncryptionContractConfiguration {
-
-    static func write(value: MediaPackageV2ClientTypes.EncryptionContractConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PresetSpeke20Audio"].write(value.presetSpeke20Audio)
-        try writer["PresetSpeke20Video"].write(value.presetSpeke20Video)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.EncryptionContractConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageV2ClientTypes.EncryptionContractConfiguration()
-        value.presetSpeke20Audio = try reader["PresetSpeke20Audio"].readIfPresent() ?? .sdkUnknown("")
-        value.presetSpeke20Video = try reader["PresetSpeke20Video"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension MediaPackageV2ClientTypes.EncryptionMethod {
-
-    static func write(value: MediaPackageV2ClientTypes.EncryptionMethod?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CmafEncryptionMethod"].write(value.cmafEncryptionMethod)
-        try writer["IsmEncryptionMethod"].write(value.ismEncryptionMethod)
-        try writer["TsEncryptionMethod"].write(value.tsEncryptionMethod)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.EncryptionMethod {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageV2ClientTypes.EncryptionMethod()
-        value.tsEncryptionMethod = try reader["TsEncryptionMethod"].readIfPresent()
-        value.cmafEncryptionMethod = try reader["CmafEncryptionMethod"].readIfPresent()
-        value.ismEncryptionMethod = try reader["IsmEncryptionMethod"].readIfPresent()
-        return value
-    }
-}
-
-extension MediaPackageV2ClientTypes.Scte {
-
-    static func write(value: MediaPackageV2ClientTypes.Scte?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ScteFilter"].writeList(value.scteFilter, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaPackageV2ClientTypes.ScteFilter>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ScteInSegments"].write(value.scteInSegments)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.Scte {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageV2ClientTypes.Scte()
-        value.scteFilter = try reader["ScteFilter"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaPackageV2ClientTypes.ScteFilter>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.scteInSegments = try reader["ScteInSegments"].readIfPresent()
-        return value
-    }
-}
-
-extension MediaPackageV2ClientTypes.GetHlsManifestConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.GetHlsManifestConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageV2ClientTypes.GetHlsManifestConfiguration()
-        value.manifestName = try reader["ManifestName"].readIfPresent() ?? ""
-        value.url = try reader["Url"].readIfPresent() ?? ""
-        value.childManifestName = try reader["ChildManifestName"].readIfPresent()
-        value.manifestWindowSeconds = try reader["ManifestWindowSeconds"].readIfPresent()
-        value.programDateTimeIntervalSeconds = try reader["ProgramDateTimeIntervalSeconds"].readIfPresent()
-        value.scteHls = try reader["ScteHls"].readIfPresent(with: MediaPackageV2ClientTypes.ScteHls.read(from:))
-        value.filterConfiguration = try reader["FilterConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.FilterConfiguration.read(from:))
-        value.startTag = try reader["StartTag"].readIfPresent(with: MediaPackageV2ClientTypes.StartTag.read(from:))
-        value.urlEncodeChildManifest = try reader["UrlEncodeChildManifest"].readIfPresent()
-        return value
-    }
-}
-
-extension MediaPackageV2ClientTypes.StartTag {
-
-    static func write(value: MediaPackageV2ClientTypes.StartTag?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Precise"].write(value.precise)
-        try writer["TimeOffset"].write(value.timeOffset)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.StartTag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageV2ClientTypes.StartTag()
-        value.timeOffset = try reader["TimeOffset"].readIfPresent() ?? 0.0
-        value.precise = try reader["Precise"].readIfPresent()
-        return value
-    }
-}
-
-extension MediaPackageV2ClientTypes.FilterConfiguration {
-
-    static func write(value: MediaPackageV2ClientTypes.FilterConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ClipStartTime"].writeTimestamp(value.clipStartTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["DrmSettings"].write(value.drmSettings)
-        try writer["End"].writeTimestamp(value.end, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["ManifestFilter"].write(value.manifestFilter)
-        try writer["Start"].writeTimestamp(value.start, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["TimeDelaySeconds"].write(value.timeDelaySeconds)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.FilterConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageV2ClientTypes.FilterConfiguration()
-        value.manifestFilter = try reader["ManifestFilter"].readIfPresent()
-        value.drmSettings = try reader["DrmSettings"].readIfPresent()
-        value.start = try reader["Start"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.end = try reader["End"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.timeDelaySeconds = try reader["TimeDelaySeconds"].readIfPresent()
-        value.clipStartTime = try reader["ClipStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension MediaPackageV2ClientTypes.ScteHls {
-
-    static func write(value: MediaPackageV2ClientTypes.ScteHls?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AdMarkerHls"].write(value.adMarkerHls)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.ScteHls {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageV2ClientTypes.ScteHls()
-        value.adMarkerHls = try reader["AdMarkerHls"].readIfPresent()
-        return value
-    }
-}
-
-extension MediaPackageV2ClientTypes.GetLowLatencyHlsManifestConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.GetLowLatencyHlsManifestConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageV2ClientTypes.GetLowLatencyHlsManifestConfiguration()
-        value.manifestName = try reader["ManifestName"].readIfPresent() ?? ""
-        value.url = try reader["Url"].readIfPresent() ?? ""
-        value.childManifestName = try reader["ChildManifestName"].readIfPresent()
-        value.manifestWindowSeconds = try reader["ManifestWindowSeconds"].readIfPresent()
-        value.programDateTimeIntervalSeconds = try reader["ProgramDateTimeIntervalSeconds"].readIfPresent()
-        value.scteHls = try reader["ScteHls"].readIfPresent(with: MediaPackageV2ClientTypes.ScteHls.read(from:))
-        value.filterConfiguration = try reader["FilterConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.FilterConfiguration.read(from:))
-        value.startTag = try reader["StartTag"].readIfPresent(with: MediaPackageV2ClientTypes.StartTag.read(from:))
-        value.urlEncodeChildManifest = try reader["UrlEncodeChildManifest"].readIfPresent()
-        return value
-    }
-}
-
-extension MediaPackageV2ClientTypes.GetDashManifestConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.GetDashManifestConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageV2ClientTypes.GetDashManifestConfiguration()
-        value.manifestName = try reader["ManifestName"].readIfPresent() ?? ""
-        value.url = try reader["Url"].readIfPresent() ?? ""
-        value.manifestWindowSeconds = try reader["ManifestWindowSeconds"].readIfPresent()
-        value.filterConfiguration = try reader["FilterConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.FilterConfiguration.read(from:))
-        value.minUpdatePeriodSeconds = try reader["MinUpdatePeriodSeconds"].readIfPresent()
-        value.minBufferTimeSeconds = try reader["MinBufferTimeSeconds"].readIfPresent()
-        value.suggestedPresentationDelaySeconds = try reader["SuggestedPresentationDelaySeconds"].readIfPresent()
-        value.segmentTemplateFormat = try reader["SegmentTemplateFormat"].readIfPresent()
-        value.periodTriggers = try reader["PeriodTriggers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaPackageV2ClientTypes.DashPeriodTrigger>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.scteDash = try reader["ScteDash"].readIfPresent(with: MediaPackageV2ClientTypes.ScteDash.read(from:))
-        value.drmSignaling = try reader["DrmSignaling"].readIfPresent()
-        value.utcTiming = try reader["UtcTiming"].readIfPresent(with: MediaPackageV2ClientTypes.DashUtcTiming.read(from:))
-        value.profiles = try reader["Profiles"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaPackageV2ClientTypes.DashProfile>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.baseUrls = try reader["BaseUrls"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.DashBaseUrl.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.programInformation = try reader["ProgramInformation"].readIfPresent(with: MediaPackageV2ClientTypes.DashProgramInformation.read(from:))
-        value.dvbSettings = try reader["DvbSettings"].readIfPresent(with: MediaPackageV2ClientTypes.DashDvbSettings.read(from:))
-        value.compactness = try reader["Compactness"].readIfPresent()
-        value.subtitleConfiguration = try reader["SubtitleConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.DashSubtitleConfiguration.read(from:))
-        return value
-    }
-}
-
-extension MediaPackageV2ClientTypes.DashSubtitleConfiguration {
-
-    static func write(value: MediaPackageV2ClientTypes.DashSubtitleConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["TtmlConfiguration"].write(value.ttmlConfiguration, with: MediaPackageV2ClientTypes.DashTtmlConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.DashSubtitleConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageV2ClientTypes.DashSubtitleConfiguration()
-        value.ttmlConfiguration = try reader["TtmlConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.DashTtmlConfiguration.read(from:))
-        return value
-    }
-}
-
-extension MediaPackageV2ClientTypes.DashTtmlConfiguration {
-
-    static func write(value: MediaPackageV2ClientTypes.DashTtmlConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["TtmlProfile"].write(value.ttmlProfile)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.DashTtmlConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageV2ClientTypes.DashTtmlConfiguration()
-        value.ttmlProfile = try reader["TtmlProfile"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension MediaPackageV2ClientTypes.DashDvbSettings {
-
-    static func write(value: MediaPackageV2ClientTypes.DashDvbSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorMetrics"].writeList(value.errorMetrics, memberWritingClosure: MediaPackageV2ClientTypes.DashDvbMetricsReporting.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["FontDownload"].write(value.fontDownload, with: MediaPackageV2ClientTypes.DashDvbFontDownload.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.DashDvbSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageV2ClientTypes.DashDvbSettings()
-        value.fontDownload = try reader["FontDownload"].readIfPresent(with: MediaPackageV2ClientTypes.DashDvbFontDownload.read(from:))
-        value.errorMetrics = try reader["ErrorMetrics"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.DashDvbMetricsReporting.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension MediaPackageV2ClientTypes.DashDvbMetricsReporting {
-
-    static func write(value: MediaPackageV2ClientTypes.DashDvbMetricsReporting?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Probability"].write(value.probability)
-        try writer["ReportingUrl"].write(value.reportingUrl)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.DashDvbMetricsReporting {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageV2ClientTypes.DashDvbMetricsReporting()
-        value.reportingUrl = try reader["ReportingUrl"].readIfPresent() ?? ""
-        value.probability = try reader["Probability"].readIfPresent()
-        return value
-    }
-}
-
-extension MediaPackageV2ClientTypes.DashDvbFontDownload {
-
-    static func write(value: MediaPackageV2ClientTypes.DashDvbFontDownload?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FontFamily"].write(value.fontFamily)
-        try writer["MimeType"].write(value.mimeType)
-        try writer["Url"].write(value.url)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.DashDvbFontDownload {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageV2ClientTypes.DashDvbFontDownload()
-        value.url = try reader["Url"].readIfPresent()
-        value.mimeType = try reader["MimeType"].readIfPresent()
-        value.fontFamily = try reader["FontFamily"].readIfPresent()
-        return value
-    }
-}
-
-extension MediaPackageV2ClientTypes.DashProgramInformation {
-
-    static func write(value: MediaPackageV2ClientTypes.DashProgramInformation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Copyright"].write(value.copyright)
-        try writer["LanguageCode"].write(value.languageCode)
-        try writer["MoreInformationUrl"].write(value.moreInformationUrl)
-        try writer["Source"].write(value.source)
-        try writer["Title"].write(value.title)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.DashProgramInformation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageV2ClientTypes.DashProgramInformation()
-        value.title = try reader["Title"].readIfPresent()
-        value.source = try reader["Source"].readIfPresent()
-        value.copyright = try reader["Copyright"].readIfPresent()
-        value.languageCode = try reader["LanguageCode"].readIfPresent()
-        value.moreInformationUrl = try reader["MoreInformationUrl"].readIfPresent()
-        return value
-    }
-}
-
-extension MediaPackageV2ClientTypes.DashBaseUrl {
-
-    static func write(value: MediaPackageV2ClientTypes.DashBaseUrl?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DvbPriority"].write(value.dvbPriority)
-        try writer["DvbWeight"].write(value.dvbWeight)
-        try writer["ServiceLocation"].write(value.serviceLocation)
-        try writer["Url"].write(value.url)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.DashBaseUrl {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageV2ClientTypes.DashBaseUrl()
-        value.url = try reader["Url"].readIfPresent() ?? ""
-        value.serviceLocation = try reader["ServiceLocation"].readIfPresent()
-        value.dvbPriority = try reader["DvbPriority"].readIfPresent()
-        value.dvbWeight = try reader["DvbWeight"].readIfPresent()
-        return value
-    }
-}
-
-extension MediaPackageV2ClientTypes.DashUtcTiming {
-
-    static func write(value: MediaPackageV2ClientTypes.DashUtcTiming?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["TimingMode"].write(value.timingMode)
-        try writer["TimingSource"].write(value.timingSource)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.DashUtcTiming {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageV2ClientTypes.DashUtcTiming()
-        value.timingMode = try reader["TimingMode"].readIfPresent()
-        value.timingSource = try reader["TimingSource"].readIfPresent()
-        return value
-    }
-}
-
-extension MediaPackageV2ClientTypes.ScteDash {
-
-    static func write(value: MediaPackageV2ClientTypes.ScteDash?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AdMarkerDash"].write(value.adMarkerDash)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.ScteDash {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageV2ClientTypes.ScteDash()
-        value.adMarkerDash = try reader["AdMarkerDash"].readIfPresent()
-        return value
-    }
-}
-
-extension MediaPackageV2ClientTypes.GetMssManifestConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.GetMssManifestConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageV2ClientTypes.GetMssManifestConfiguration()
-        value.manifestName = try reader["ManifestName"].readIfPresent() ?? ""
-        value.url = try reader["Url"].readIfPresent() ?? ""
-        value.filterConfiguration = try reader["FilterConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.FilterConfiguration.read(from:))
-        value.manifestWindowSeconds = try reader["ManifestWindowSeconds"].readIfPresent()
-        value.manifestLayout = try reader["ManifestLayout"].readIfPresent()
-        return value
-    }
-}
-
-extension MediaPackageV2ClientTypes.ForceEndpointErrorConfiguration {
-
-    static func write(value: MediaPackageV2ClientTypes.ForceEndpointErrorConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EndpointErrorConditions"].writeList(value.endpointErrorConditions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaPackageV2ClientTypes.EndpointErrorCondition>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.ForceEndpointErrorConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageV2ClientTypes.ForceEndpointErrorConfiguration()
-        value.endpointErrorConditions = try reader["EndpointErrorConditions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaPackageV2ClientTypes.EndpointErrorCondition>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -6931,6 +6582,519 @@ extension MediaPackageV2ClientTypes.ChannelListConfiguration {
     }
 }
 
+extension MediaPackageV2ClientTypes.CreateDashManifestConfiguration {
+
+    static func write(value: MediaPackageV2ClientTypes.CreateDashManifestConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AvailabilityStartTimeConfiguration"].write(value.availabilityStartTimeConfiguration, with: MediaPackageV2ClientTypes.DashAvailabilityStartTimeConfiguration.write(value:to:))
+        try writer["BaseUrls"].writeList(value.baseUrls, memberWritingClosure: MediaPackageV2ClientTypes.DashBaseUrl.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Compactness"].write(value.compactness)
+        try writer["DrmSignaling"].write(value.drmSignaling)
+        try writer["DvbSettings"].write(value.dvbSettings, with: MediaPackageV2ClientTypes.DashDvbSettings.write(value:to:))
+        try writer["FilterConfiguration"].write(value.filterConfiguration, with: MediaPackageV2ClientTypes.FilterConfiguration.write(value:to:))
+        try writer["ManifestName"].write(value.manifestName)
+        try writer["ManifestWindowSeconds"].write(value.manifestWindowSeconds)
+        try writer["MinBufferTimeSeconds"].write(value.minBufferTimeSeconds)
+        try writer["MinUpdatePeriodSeconds"].write(value.minUpdatePeriodSeconds)
+        try writer["PeriodTriggers"].writeList(value.periodTriggers, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaPackageV2ClientTypes.DashPeriodTrigger>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Profiles"].writeList(value.profiles, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaPackageV2ClientTypes.DashProfile>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ProgramInformation"].write(value.programInformation, with: MediaPackageV2ClientTypes.DashProgramInformation.write(value:to:))
+        try writer["ScteDash"].write(value.scteDash, with: MediaPackageV2ClientTypes.ScteDash.write(value:to:))
+        try writer["SegmentTemplateFormat"].write(value.segmentTemplateFormat)
+        try writer["SubtitleConfiguration"].write(value.subtitleConfiguration, with: MediaPackageV2ClientTypes.DashSubtitleConfiguration.write(value:to:))
+        try writer["SuggestedPresentationDelaySeconds"].write(value.suggestedPresentationDelaySeconds)
+        try writer["UriPathType"].write(value.uriPathType)
+        try writer["UtcTiming"].write(value.utcTiming, with: MediaPackageV2ClientTypes.DashUtcTiming.write(value:to:))
+    }
+}
+
+extension MediaPackageV2ClientTypes.CreateHlsManifestConfiguration {
+
+    static func write(value: MediaPackageV2ClientTypes.CreateHlsManifestConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ChildManifestName"].write(value.childManifestName)
+        try writer["FilterConfiguration"].write(value.filterConfiguration, with: MediaPackageV2ClientTypes.FilterConfiguration.write(value:to:))
+        try writer["ManifestName"].write(value.manifestName)
+        try writer["ManifestWindowSeconds"].write(value.manifestWindowSeconds)
+        try writer["ProgramDateTimeIntervalSeconds"].write(value.programDateTimeIntervalSeconds)
+        try writer["ScteHls"].write(value.scteHls, with: MediaPackageV2ClientTypes.ScteHls.write(value:to:))
+        try writer["StartTag"].write(value.startTag, with: MediaPackageV2ClientTypes.StartTag.write(value:to:))
+        try writer["UriPathType"].write(value.uriPathType)
+        try writer["UrlEncodeChildManifest"].write(value.urlEncodeChildManifest)
+    }
+}
+
+extension MediaPackageV2ClientTypes.CreateLowLatencyHlsManifestConfiguration {
+
+    static func write(value: MediaPackageV2ClientTypes.CreateLowLatencyHlsManifestConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ChildManifestName"].write(value.childManifestName)
+        try writer["FilterConfiguration"].write(value.filterConfiguration, with: MediaPackageV2ClientTypes.FilterConfiguration.write(value:to:))
+        try writer["ManifestName"].write(value.manifestName)
+        try writer["ManifestWindowSeconds"].write(value.manifestWindowSeconds)
+        try writer["ProgramDateTimeIntervalSeconds"].write(value.programDateTimeIntervalSeconds)
+        try writer["ScteHls"].write(value.scteHls, with: MediaPackageV2ClientTypes.ScteHls.write(value:to:))
+        try writer["StartTag"].write(value.startTag, with: MediaPackageV2ClientTypes.StartTag.write(value:to:))
+        try writer["UriPathType"].write(value.uriPathType)
+        try writer["UrlEncodeChildManifest"].write(value.urlEncodeChildManifest)
+    }
+}
+
+extension MediaPackageV2ClientTypes.CreateMssManifestConfiguration {
+
+    static func write(value: MediaPackageV2ClientTypes.CreateMssManifestConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FilterConfiguration"].write(value.filterConfiguration, with: MediaPackageV2ClientTypes.FilterConfiguration.write(value:to:))
+        try writer["ManifestLayout"].write(value.manifestLayout)
+        try writer["ManifestName"].write(value.manifestName)
+        try writer["ManifestWindowSeconds"].write(value.manifestWindowSeconds)
+    }
+}
+
+extension MediaPackageV2ClientTypes.DashAvailabilityStartTimeConfiguration {
+
+    static func write(value: MediaPackageV2ClientTypes.DashAvailabilityStartTimeConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .fixedavailabilitystarttime(fixedavailabilitystarttime):
+                try writer["FixedAvailabilityStartTime"].writeTimestamp(fixedavailabilitystarttime, format: SmithyTimestamps.TimestampFormat.dateTime)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.DashAvailabilityStartTimeConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "FixedAvailabilityStartTime":
+                return .fixedavailabilitystarttime(try reader["FixedAvailabilityStartTime"].readTimestamp(format: SmithyTimestamps.TimestampFormat.dateTime))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension MediaPackageV2ClientTypes.DashBaseUrl {
+
+    static func write(value: MediaPackageV2ClientTypes.DashBaseUrl?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DvbPriority"].write(value.dvbPriority)
+        try writer["DvbWeight"].write(value.dvbWeight)
+        try writer["ServiceLocation"].write(value.serviceLocation)
+        try writer["Url"].write(value.url)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.DashBaseUrl {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.DashBaseUrl()
+        value.url = try reader["Url"].readIfPresent() ?? ""
+        value.serviceLocation = try reader["ServiceLocation"].readIfPresent()
+        value.dvbPriority = try reader["DvbPriority"].readIfPresent()
+        value.dvbWeight = try reader["DvbWeight"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaPackageV2ClientTypes.DashDvbFontDownload {
+
+    static func write(value: MediaPackageV2ClientTypes.DashDvbFontDownload?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FontFamily"].write(value.fontFamily)
+        try writer["MimeType"].write(value.mimeType)
+        try writer["Url"].write(value.url)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.DashDvbFontDownload {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.DashDvbFontDownload()
+        value.url = try reader["Url"].readIfPresent()
+        value.mimeType = try reader["MimeType"].readIfPresent()
+        value.fontFamily = try reader["FontFamily"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaPackageV2ClientTypes.DashDvbMetricsReporting {
+
+    static func write(value: MediaPackageV2ClientTypes.DashDvbMetricsReporting?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Probability"].write(value.probability)
+        try writer["ReportingUrl"].write(value.reportingUrl)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.DashDvbMetricsReporting {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.DashDvbMetricsReporting()
+        value.reportingUrl = try reader["ReportingUrl"].readIfPresent() ?? ""
+        value.probability = try reader["Probability"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaPackageV2ClientTypes.DashDvbSettings {
+
+    static func write(value: MediaPackageV2ClientTypes.DashDvbSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ErrorMetrics"].writeList(value.errorMetrics, memberWritingClosure: MediaPackageV2ClientTypes.DashDvbMetricsReporting.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["FontDownload"].write(value.fontDownload, with: MediaPackageV2ClientTypes.DashDvbFontDownload.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.DashDvbSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.DashDvbSettings()
+        value.fontDownload = try reader["FontDownload"].readIfPresent(with: MediaPackageV2ClientTypes.DashDvbFontDownload.read(from:))
+        value.errorMetrics = try reader["ErrorMetrics"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.DashDvbMetricsReporting.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MediaPackageV2ClientTypes.DashProgramInformation {
+
+    static func write(value: MediaPackageV2ClientTypes.DashProgramInformation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Copyright"].write(value.copyright)
+        try writer["LanguageCode"].write(value.languageCode)
+        try writer["MoreInformationUrl"].write(value.moreInformationUrl)
+        try writer["Source"].write(value.source)
+        try writer["Title"].write(value.title)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.DashProgramInformation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.DashProgramInformation()
+        value.title = try reader["Title"].readIfPresent()
+        value.source = try reader["Source"].readIfPresent()
+        value.copyright = try reader["Copyright"].readIfPresent()
+        value.languageCode = try reader["LanguageCode"].readIfPresent()
+        value.moreInformationUrl = try reader["MoreInformationUrl"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaPackageV2ClientTypes.DashSubtitleConfiguration {
+
+    static func write(value: MediaPackageV2ClientTypes.DashSubtitleConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TtmlConfiguration"].write(value.ttmlConfiguration, with: MediaPackageV2ClientTypes.DashTtmlConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.DashSubtitleConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.DashSubtitleConfiguration()
+        value.ttmlConfiguration = try reader["TtmlConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.DashTtmlConfiguration.read(from:))
+        return value
+    }
+}
+
+extension MediaPackageV2ClientTypes.DashTtmlConfiguration {
+
+    static func write(value: MediaPackageV2ClientTypes.DashTtmlConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TtmlProfile"].write(value.ttmlProfile)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.DashTtmlConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.DashTtmlConfiguration()
+        value.ttmlProfile = try reader["TtmlProfile"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension MediaPackageV2ClientTypes.DashUtcTiming {
+
+    static func write(value: MediaPackageV2ClientTypes.DashUtcTiming?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TimingMode"].write(value.timingMode)
+        try writer["TimingSource"].write(value.timingSource)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.DashUtcTiming {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.DashUtcTiming()
+        value.timingMode = try reader["TimingMode"].readIfPresent()
+        value.timingSource = try reader["TimingSource"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaPackageV2ClientTypes.Destination {
+
+    static func write(value: MediaPackageV2ClientTypes.Destination?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["S3Destination"].write(value.s3Destination, with: MediaPackageV2ClientTypes.S3DestinationConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.Destination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.Destination()
+        value.s3Destination = try reader["S3Destination"].readIfPresent(with: MediaPackageV2ClientTypes.S3DestinationConfig.read(from:))
+        return value
+    }
+}
+
+extension MediaPackageV2ClientTypes.Encryption {
+
+    static func write(value: MediaPackageV2ClientTypes.Encryption?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CmafExcludeSegmentDrmMetadata"].write(value.cmafExcludeSegmentDrmMetadata)
+        try writer["ConstantInitializationVector"].write(value.constantInitializationVector)
+        try writer["EncryptionMethod"].write(value.encryptionMethod, with: MediaPackageV2ClientTypes.EncryptionMethod.write(value:to:))
+        try writer["KeyRotationIntervalSeconds"].write(value.keyRotationIntervalSeconds)
+        try writer["SpekeKeyProvider"].write(value.spekeKeyProvider, with: MediaPackageV2ClientTypes.SpekeKeyProvider.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.Encryption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.Encryption()
+        value.constantInitializationVector = try reader["ConstantInitializationVector"].readIfPresent()
+        value.encryptionMethod = try reader["EncryptionMethod"].readIfPresent(with: MediaPackageV2ClientTypes.EncryptionMethod.read(from:))
+        value.keyRotationIntervalSeconds = try reader["KeyRotationIntervalSeconds"].readIfPresent()
+        value.cmafExcludeSegmentDrmMetadata = try reader["CmafExcludeSegmentDrmMetadata"].readIfPresent()
+        value.spekeKeyProvider = try reader["SpekeKeyProvider"].readIfPresent(with: MediaPackageV2ClientTypes.SpekeKeyProvider.read(from:))
+        return value
+    }
+}
+
+extension MediaPackageV2ClientTypes.EncryptionContractConfiguration {
+
+    static func write(value: MediaPackageV2ClientTypes.EncryptionContractConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PresetSpeke20Audio"].write(value.presetSpeke20Audio)
+        try writer["PresetSpeke20Video"].write(value.presetSpeke20Video)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.EncryptionContractConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.EncryptionContractConfiguration()
+        value.presetSpeke20Audio = try reader["PresetSpeke20Audio"].readIfPresent() ?? .sdkUnknown("")
+        value.presetSpeke20Video = try reader["PresetSpeke20Video"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension MediaPackageV2ClientTypes.EncryptionMethod {
+
+    static func write(value: MediaPackageV2ClientTypes.EncryptionMethod?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CmafEncryptionMethod"].write(value.cmafEncryptionMethod)
+        try writer["IsmEncryptionMethod"].write(value.ismEncryptionMethod)
+        try writer["TsEncryptionMethod"].write(value.tsEncryptionMethod)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.EncryptionMethod {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.EncryptionMethod()
+        value.tsEncryptionMethod = try reader["TsEncryptionMethod"].readIfPresent()
+        value.cmafEncryptionMethod = try reader["CmafEncryptionMethod"].readIfPresent()
+        value.ismEncryptionMethod = try reader["IsmEncryptionMethod"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaPackageV2ClientTypes.FilterConfiguration {
+
+    static func write(value: MediaPackageV2ClientTypes.FilterConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClipStartTime"].writeTimestamp(value.clipStartTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["DrmSettings"].write(value.drmSettings)
+        try writer["End"].writeTimestamp(value.end, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["ManifestFilter"].write(value.manifestFilter)
+        try writer["Start"].writeTimestamp(value.start, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["TimeDelaySeconds"].write(value.timeDelaySeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.FilterConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.FilterConfiguration()
+        value.manifestFilter = try reader["ManifestFilter"].readIfPresent()
+        value.drmSettings = try reader["DrmSettings"].readIfPresent()
+        value.start = try reader["Start"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.end = try reader["End"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.timeDelaySeconds = try reader["TimeDelaySeconds"].readIfPresent()
+        value.clipStartTime = try reader["ClipStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension MediaPackageV2ClientTypes.ForceEndpointErrorConfiguration {
+
+    static func write(value: MediaPackageV2ClientTypes.ForceEndpointErrorConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EndpointErrorConditions"].writeList(value.endpointErrorConditions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaPackageV2ClientTypes.EndpointErrorCondition>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.ForceEndpointErrorConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.ForceEndpointErrorConfiguration()
+        value.endpointErrorConditions = try reader["EndpointErrorConditions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaPackageV2ClientTypes.EndpointErrorCondition>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MediaPackageV2ClientTypes.GetDashManifestConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.GetDashManifestConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.GetDashManifestConfiguration()
+        value.manifestName = try reader["ManifestName"].readIfPresent() ?? ""
+        value.url = try reader["Url"].readIfPresent() ?? ""
+        value.manifestWindowSeconds = try reader["ManifestWindowSeconds"].readIfPresent()
+        value.filterConfiguration = try reader["FilterConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.FilterConfiguration.read(from:))
+        value.minUpdatePeriodSeconds = try reader["MinUpdatePeriodSeconds"].readIfPresent()
+        value.minBufferTimeSeconds = try reader["MinBufferTimeSeconds"].readIfPresent()
+        value.suggestedPresentationDelaySeconds = try reader["SuggestedPresentationDelaySeconds"].readIfPresent()
+        value.segmentTemplateFormat = try reader["SegmentTemplateFormat"].readIfPresent()
+        value.periodTriggers = try reader["PeriodTriggers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaPackageV2ClientTypes.DashPeriodTrigger>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.scteDash = try reader["ScteDash"].readIfPresent(with: MediaPackageV2ClientTypes.ScteDash.read(from:))
+        value.drmSignaling = try reader["DrmSignaling"].readIfPresent()
+        value.utcTiming = try reader["UtcTiming"].readIfPresent(with: MediaPackageV2ClientTypes.DashUtcTiming.read(from:))
+        value.profiles = try reader["Profiles"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaPackageV2ClientTypes.DashProfile>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.baseUrls = try reader["BaseUrls"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.DashBaseUrl.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.programInformation = try reader["ProgramInformation"].readIfPresent(with: MediaPackageV2ClientTypes.DashProgramInformation.read(from:))
+        value.dvbSettings = try reader["DvbSettings"].readIfPresent(with: MediaPackageV2ClientTypes.DashDvbSettings.read(from:))
+        value.compactness = try reader["Compactness"].readIfPresent()
+        value.subtitleConfiguration = try reader["SubtitleConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.DashSubtitleConfiguration.read(from:))
+        value.uriPathType = try reader["UriPathType"].readIfPresent()
+        value.availabilityStartTimeConfiguration = try reader["AvailabilityStartTimeConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.DashAvailabilityStartTimeConfiguration.read(from:))
+        return value
+    }
+}
+
+extension MediaPackageV2ClientTypes.GetHlsManifestConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.GetHlsManifestConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.GetHlsManifestConfiguration()
+        value.manifestName = try reader["ManifestName"].readIfPresent() ?? ""
+        value.url = try reader["Url"].readIfPresent() ?? ""
+        value.childManifestName = try reader["ChildManifestName"].readIfPresent()
+        value.manifestWindowSeconds = try reader["ManifestWindowSeconds"].readIfPresent()
+        value.programDateTimeIntervalSeconds = try reader["ProgramDateTimeIntervalSeconds"].readIfPresent()
+        value.scteHls = try reader["ScteHls"].readIfPresent(with: MediaPackageV2ClientTypes.ScteHls.read(from:))
+        value.filterConfiguration = try reader["FilterConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.FilterConfiguration.read(from:))
+        value.startTag = try reader["StartTag"].readIfPresent(with: MediaPackageV2ClientTypes.StartTag.read(from:))
+        value.urlEncodeChildManifest = try reader["UrlEncodeChildManifest"].readIfPresent()
+        value.uriPathType = try reader["UriPathType"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaPackageV2ClientTypes.GetLowLatencyHlsManifestConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.GetLowLatencyHlsManifestConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.GetLowLatencyHlsManifestConfiguration()
+        value.manifestName = try reader["ManifestName"].readIfPresent() ?? ""
+        value.url = try reader["Url"].readIfPresent() ?? ""
+        value.childManifestName = try reader["ChildManifestName"].readIfPresent()
+        value.manifestWindowSeconds = try reader["ManifestWindowSeconds"].readIfPresent()
+        value.programDateTimeIntervalSeconds = try reader["ProgramDateTimeIntervalSeconds"].readIfPresent()
+        value.scteHls = try reader["ScteHls"].readIfPresent(with: MediaPackageV2ClientTypes.ScteHls.read(from:))
+        value.filterConfiguration = try reader["FilterConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.FilterConfiguration.read(from:))
+        value.startTag = try reader["StartTag"].readIfPresent(with: MediaPackageV2ClientTypes.StartTag.read(from:))
+        value.urlEncodeChildManifest = try reader["UrlEncodeChildManifest"].readIfPresent()
+        value.uriPathType = try reader["UriPathType"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaPackageV2ClientTypes.GetMssManifestConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.GetMssManifestConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.GetMssManifestConfiguration()
+        value.manifestName = try reader["ManifestName"].readIfPresent() ?? ""
+        value.url = try reader["Url"].readIfPresent() ?? ""
+        value.filterConfiguration = try reader["FilterConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.FilterConfiguration.read(from:))
+        value.manifestWindowSeconds = try reader["ManifestWindowSeconds"].readIfPresent()
+        value.manifestLayout = try reader["ManifestLayout"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaPackageV2ClientTypes.HarvestedDashManifest {
+
+    static func write(value: MediaPackageV2ClientTypes.HarvestedDashManifest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ManifestName"].write(value.manifestName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.HarvestedDashManifest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.HarvestedDashManifest()
+        value.manifestName = try reader["ManifestName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MediaPackageV2ClientTypes.HarvestedHlsManifest {
+
+    static func write(value: MediaPackageV2ClientTypes.HarvestedHlsManifest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ManifestName"].write(value.manifestName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.HarvestedHlsManifest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.HarvestedHlsManifest()
+        value.manifestName = try reader["ManifestName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MediaPackageV2ClientTypes.HarvestedLowLatencyHlsManifest {
+
+    static func write(value: MediaPackageV2ClientTypes.HarvestedLowLatencyHlsManifest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ManifestName"].write(value.manifestName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.HarvestedLowLatencyHlsManifest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.HarvestedLowLatencyHlsManifest()
+        value.manifestName = try reader["ManifestName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MediaPackageV2ClientTypes.HarvestedManifests {
+
+    static func write(value: MediaPackageV2ClientTypes.HarvestedManifests?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DashManifests"].writeList(value.dashManifests, memberWritingClosure: MediaPackageV2ClientTypes.HarvestedDashManifest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["HlsManifests"].writeList(value.hlsManifests, memberWritingClosure: MediaPackageV2ClientTypes.HarvestedHlsManifest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["LowLatencyHlsManifests"].writeList(value.lowLatencyHlsManifests, memberWritingClosure: MediaPackageV2ClientTypes.HarvestedLowLatencyHlsManifest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.HarvestedManifests {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.HarvestedManifests()
+        value.hlsManifests = try reader["HlsManifests"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.HarvestedHlsManifest.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dashManifests = try reader["DashManifests"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.HarvestedDashManifest.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.lowLatencyHlsManifests = try reader["LowLatencyHlsManifests"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.HarvestedLowLatencyHlsManifest.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MediaPackageV2ClientTypes.HarvesterScheduleConfiguration {
+
+    static func write(value: MediaPackageV2ClientTypes.HarvesterScheduleConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EndTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["StartTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.HarvesterScheduleConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.HarvesterScheduleConfiguration()
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
 extension MediaPackageV2ClientTypes.HarvestJob {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.HarvestJob {
@@ -6954,6 +7118,80 @@ extension MediaPackageV2ClientTypes.HarvestJob {
     }
 }
 
+extension MediaPackageV2ClientTypes.IngestEndpoint {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.IngestEndpoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.IngestEndpoint()
+        value.id = try reader["Id"].readIfPresent()
+        value.url = try reader["Url"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaPackageV2ClientTypes.InputSwitchConfiguration {
+
+    static func write(value: MediaPackageV2ClientTypes.InputSwitchConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MQCSInputSwitching"].write(value.mqcsInputSwitching)
+        try writer["PreferredInput"].write(value.preferredInput)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.InputSwitchConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.InputSwitchConfiguration()
+        value.mqcsInputSwitching = try reader["MQCSInputSwitching"].readIfPresent()
+        value.preferredInput = try reader["PreferredInput"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaPackageV2ClientTypes.ListDashManifestConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.ListDashManifestConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.ListDashManifestConfiguration()
+        value.manifestName = try reader["ManifestName"].readIfPresent() ?? ""
+        value.url = try reader["Url"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaPackageV2ClientTypes.ListHlsManifestConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.ListHlsManifestConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.ListHlsManifestConfiguration()
+        value.manifestName = try reader["ManifestName"].readIfPresent() ?? ""
+        value.childManifestName = try reader["ChildManifestName"].readIfPresent()
+        value.url = try reader["Url"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaPackageV2ClientTypes.ListLowLatencyHlsManifestConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.ListLowLatencyHlsManifestConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.ListLowLatencyHlsManifestConfiguration()
+        value.manifestName = try reader["ManifestName"].readIfPresent() ?? ""
+        value.childManifestName = try reader["ChildManifestName"].readIfPresent()
+        value.url = try reader["Url"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaPackageV2ClientTypes.ListMssManifestConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.ListMssManifestConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.ListMssManifestConfiguration()
+        value.manifestName = try reader["ManifestName"].readIfPresent() ?? ""
+        value.url = try reader["Url"].readIfPresent()
+        return value
+    }
+}
+
 extension MediaPackageV2ClientTypes.OriginEndpointListConfiguration {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.OriginEndpointListConfiguration {
@@ -6972,118 +7210,162 @@ extension MediaPackageV2ClientTypes.OriginEndpointListConfiguration {
         value.dashManifests = try reader["DashManifests"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.ListDashManifestConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.mssManifests = try reader["MssManifests"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.ListMssManifestConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.forceEndpointErrorConfiguration = try reader["ForceEndpointErrorConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.ForceEndpointErrorConfiguration.read(from:))
+        value.uriSeparator = try reader["UriSeparator"].readIfPresent()
         return value
     }
 }
 
-extension MediaPackageV2ClientTypes.ListMssManifestConfiguration {
+extension MediaPackageV2ClientTypes.OutputHeaderConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.ListMssManifestConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageV2ClientTypes.ListMssManifestConfiguration()
-        value.manifestName = try reader["ManifestName"].readIfPresent() ?? ""
-        value.url = try reader["Url"].readIfPresent()
-        return value
-    }
-}
-
-extension MediaPackageV2ClientTypes.ListDashManifestConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.ListDashManifestConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageV2ClientTypes.ListDashManifestConfiguration()
-        value.manifestName = try reader["ManifestName"].readIfPresent() ?? ""
-        value.url = try reader["Url"].readIfPresent()
-        return value
-    }
-}
-
-extension MediaPackageV2ClientTypes.ListLowLatencyHlsManifestConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.ListLowLatencyHlsManifestConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageV2ClientTypes.ListLowLatencyHlsManifestConfiguration()
-        value.manifestName = try reader["ManifestName"].readIfPresent() ?? ""
-        value.childManifestName = try reader["ChildManifestName"].readIfPresent()
-        value.url = try reader["Url"].readIfPresent()
-        return value
-    }
-}
-
-extension MediaPackageV2ClientTypes.ListHlsManifestConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.ListHlsManifestConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageV2ClientTypes.ListHlsManifestConfiguration()
-        value.manifestName = try reader["ManifestName"].readIfPresent() ?? ""
-        value.childManifestName = try reader["ChildManifestName"].readIfPresent()
-        value.url = try reader["Url"].readIfPresent()
-        return value
-    }
-}
-
-extension MediaPackageV2ClientTypes.CreateHlsManifestConfiguration {
-
-    static func write(value: MediaPackageV2ClientTypes.CreateHlsManifestConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MediaPackageV2ClientTypes.OutputHeaderConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["ChildManifestName"].write(value.childManifestName)
-        try writer["FilterConfiguration"].write(value.filterConfiguration, with: MediaPackageV2ClientTypes.FilterConfiguration.write(value:to:))
-        try writer["ManifestName"].write(value.manifestName)
-        try writer["ManifestWindowSeconds"].write(value.manifestWindowSeconds)
-        try writer["ProgramDateTimeIntervalSeconds"].write(value.programDateTimeIntervalSeconds)
-        try writer["ScteHls"].write(value.scteHls, with: MediaPackageV2ClientTypes.ScteHls.write(value:to:))
-        try writer["StartTag"].write(value.startTag, with: MediaPackageV2ClientTypes.StartTag.write(value:to:))
-        try writer["UrlEncodeChildManifest"].write(value.urlEncodeChildManifest)
+        try writer["PublishMQCS"].write(value.publishMQCS)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.OutputHeaderConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.OutputHeaderConfiguration()
+        value.publishMQCS = try reader["PublishMQCS"].readIfPresent()
+        return value
     }
 }
 
-extension MediaPackageV2ClientTypes.CreateLowLatencyHlsManifestConfiguration {
+extension MediaPackageV2ClientTypes.S3DestinationConfig {
 
-    static func write(value: MediaPackageV2ClientTypes.CreateLowLatencyHlsManifestConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MediaPackageV2ClientTypes.S3DestinationConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["ChildManifestName"].write(value.childManifestName)
-        try writer["FilterConfiguration"].write(value.filterConfiguration, with: MediaPackageV2ClientTypes.FilterConfiguration.write(value:to:))
-        try writer["ManifestName"].write(value.manifestName)
-        try writer["ManifestWindowSeconds"].write(value.manifestWindowSeconds)
-        try writer["ProgramDateTimeIntervalSeconds"].write(value.programDateTimeIntervalSeconds)
-        try writer["ScteHls"].write(value.scteHls, with: MediaPackageV2ClientTypes.ScteHls.write(value:to:))
-        try writer["StartTag"].write(value.startTag, with: MediaPackageV2ClientTypes.StartTag.write(value:to:))
-        try writer["UrlEncodeChildManifest"].write(value.urlEncodeChildManifest)
+        try writer["BucketName"].write(value.bucketName)
+        try writer["DestinationPath"].write(value.destinationPath)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.S3DestinationConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.S3DestinationConfig()
+        value.bucketName = try reader["BucketName"].readIfPresent() ?? ""
+        value.destinationPath = try reader["DestinationPath"].readIfPresent() ?? ""
+        return value
     }
 }
 
-extension MediaPackageV2ClientTypes.CreateDashManifestConfiguration {
+extension MediaPackageV2ClientTypes.Scte {
 
-    static func write(value: MediaPackageV2ClientTypes.CreateDashManifestConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MediaPackageV2ClientTypes.Scte?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["BaseUrls"].writeList(value.baseUrls, memberWritingClosure: MediaPackageV2ClientTypes.DashBaseUrl.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Compactness"].write(value.compactness)
-        try writer["DrmSignaling"].write(value.drmSignaling)
-        try writer["DvbSettings"].write(value.dvbSettings, with: MediaPackageV2ClientTypes.DashDvbSettings.write(value:to:))
-        try writer["FilterConfiguration"].write(value.filterConfiguration, with: MediaPackageV2ClientTypes.FilterConfiguration.write(value:to:))
-        try writer["ManifestName"].write(value.manifestName)
-        try writer["ManifestWindowSeconds"].write(value.manifestWindowSeconds)
-        try writer["MinBufferTimeSeconds"].write(value.minBufferTimeSeconds)
-        try writer["MinUpdatePeriodSeconds"].write(value.minUpdatePeriodSeconds)
-        try writer["PeriodTriggers"].writeList(value.periodTriggers, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaPackageV2ClientTypes.DashPeriodTrigger>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Profiles"].writeList(value.profiles, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaPackageV2ClientTypes.DashProfile>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ProgramInformation"].write(value.programInformation, with: MediaPackageV2ClientTypes.DashProgramInformation.write(value:to:))
-        try writer["ScteDash"].write(value.scteDash, with: MediaPackageV2ClientTypes.ScteDash.write(value:to:))
-        try writer["SegmentTemplateFormat"].write(value.segmentTemplateFormat)
-        try writer["SubtitleConfiguration"].write(value.subtitleConfiguration, with: MediaPackageV2ClientTypes.DashSubtitleConfiguration.write(value:to:))
-        try writer["SuggestedPresentationDelaySeconds"].write(value.suggestedPresentationDelaySeconds)
-        try writer["UtcTiming"].write(value.utcTiming, with: MediaPackageV2ClientTypes.DashUtcTiming.write(value:to:))
+        try writer["CustomAdTypes"].writeList(value.customAdTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaPackageV2ClientTypes.CustomAdType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ScteFilter"].writeList(value.scteFilter, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaPackageV2ClientTypes.ScteFilter>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ScteInSegments"].write(value.scteInSegments)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.Scte {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.Scte()
+        value.scteFilter = try reader["ScteFilter"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaPackageV2ClientTypes.ScteFilter>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.scteInSegments = try reader["ScteInSegments"].readIfPresent()
+        value.customAdTypes = try reader["CustomAdTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaPackageV2ClientTypes.CustomAdType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 
-extension MediaPackageV2ClientTypes.CreateMssManifestConfiguration {
+extension MediaPackageV2ClientTypes.ScteDash {
 
-    static func write(value: MediaPackageV2ClientTypes.CreateMssManifestConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MediaPackageV2ClientTypes.ScteDash?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["FilterConfiguration"].write(value.filterConfiguration, with: MediaPackageV2ClientTypes.FilterConfiguration.write(value:to:))
-        try writer["ManifestLayout"].write(value.manifestLayout)
-        try writer["ManifestName"].write(value.manifestName)
-        try writer["ManifestWindowSeconds"].write(value.manifestWindowSeconds)
+        try writer["AdMarkerDash"].write(value.adMarkerDash)
+        try writer["ScteInManifests"].write(value.scteInManifests)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.ScteDash {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.ScteDash()
+        value.adMarkerDash = try reader["AdMarkerDash"].readIfPresent()
+        value.scteInManifests = try reader["ScteInManifests"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaPackageV2ClientTypes.ScteHls {
+
+    static func write(value: MediaPackageV2ClientTypes.ScteHls?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AdMarkerHls"].write(value.adMarkerHls)
+        try writer["ScteInManifests"].write(value.scteInManifests)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.ScteHls {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.ScteHls()
+        value.adMarkerHls = try reader["AdMarkerHls"].readIfPresent()
+        value.scteInManifests = try reader["ScteInManifests"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaPackageV2ClientTypes.Segment {
+
+    static func write(value: MediaPackageV2ClientTypes.Segment?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Encryption"].write(value.encryption, with: MediaPackageV2ClientTypes.Encryption.write(value:to:))
+        try writer["IncludeIframeOnlyStreams"].write(value.includeIframeOnlyStreams)
+        try writer["Scte"].write(value.scte, with: MediaPackageV2ClientTypes.Scte.write(value:to:))
+        try writer["SegmentDurationSeconds"].write(value.segmentDurationSeconds)
+        try writer["SegmentName"].write(value.segmentName)
+        try writer["TsIncludeDvbSubtitles"].write(value.tsIncludeDvbSubtitles)
+        try writer["TsUseAudioRenditionGroup"].write(value.tsUseAudioRenditionGroup)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.Segment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.Segment()
+        value.segmentDurationSeconds = try reader["SegmentDurationSeconds"].readIfPresent()
+        value.segmentName = try reader["SegmentName"].readIfPresent()
+        value.tsUseAudioRenditionGroup = try reader["TsUseAudioRenditionGroup"].readIfPresent()
+        value.includeIframeOnlyStreams = try reader["IncludeIframeOnlyStreams"].readIfPresent()
+        value.tsIncludeDvbSubtitles = try reader["TsIncludeDvbSubtitles"].readIfPresent()
+        value.scte = try reader["Scte"].readIfPresent(with: MediaPackageV2ClientTypes.Scte.read(from:))
+        value.encryption = try reader["Encryption"].readIfPresent(with: MediaPackageV2ClientTypes.Encryption.read(from:))
+        return value
+    }
+}
+
+extension MediaPackageV2ClientTypes.SpekeKeyProvider {
+
+    static func write(value: MediaPackageV2ClientTypes.SpekeKeyProvider?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CertificateArn"].write(value.certificateArn)
+        try writer["DrmSystems"].writeList(value.drmSystems, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaPackageV2ClientTypes.DrmSystem>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["EncryptionContractConfiguration"].write(value.encryptionContractConfiguration, with: MediaPackageV2ClientTypes.EncryptionContractConfiguration.write(value:to:))
+        try writer["ResourceId"].write(value.resourceId)
+        try writer["RoleArn"].write(value.roleArn)
+        try writer["Url"].write(value.url)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.SpekeKeyProvider {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.SpekeKeyProvider()
+        value.encryptionContractConfiguration = try reader["EncryptionContractConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.EncryptionContractConfiguration.read(from:))
+        value.resourceId = try reader["ResourceId"].readIfPresent() ?? ""
+        value.drmSystems = try reader["DrmSystems"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaPackageV2ClientTypes.DrmSystem>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
+        value.url = try reader["Url"].readIfPresent() ?? ""
+        value.certificateArn = try reader["CertificateArn"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaPackageV2ClientTypes.StartTag {
+
+    static func write(value: MediaPackageV2ClientTypes.StartTag?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Precise"].write(value.precise)
+        try writer["TimeOffset"].write(value.timeOffset)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.StartTag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.StartTag()
+        value.timeOffset = try reader["TimeOffset"].readIfPresent() ?? 0.0
+        value.precise = try reader["Precise"].readIfPresent()
+        return value
     }
 }
 

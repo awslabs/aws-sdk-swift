@@ -16,6 +16,7 @@ import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 import software.amazon.smithy.swift.codegen.integration.httpResponse.HTTPResponseBindingErrorInitGenerator
 import software.amazon.smithy.swift.codegen.model.expectShape
 import software.amazon.smithy.swift.codegen.model.getTrait
+import software.amazon.smithy.swift.codegen.swiftmodules.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyHTTPAPITypes
 import software.amazon.smithy.swift.codegen.swiftmodules.SwiftTypes
 import software.amazon.smithy.swift.codegen.utils.errorShapeName
@@ -72,7 +73,7 @@ class S3ErrorIntegration : SwiftIntegration {
             if (errorShapes.isNotEmpty() || ctx.service.errors.isNotEmpty()) {
                 writer.write(
                     "let errorBodyReader = \$N.errorBodyReader(responseReader: responseReader, noErrorWrapping: \$L)",
-                    AWSClientRuntimeTypes.RestXML.RestXMLError,
+                    ClientRuntimeTypes.RestXML.RestXMLError,
                     noErrorWrapping,
                 )
             }
@@ -87,7 +88,7 @@ class S3ErrorIntegration : SwiftIntegration {
             }
             writer.write(
                 "let restXMLError = try await \$N.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: \$L)",
-                AWSClientRuntimeTypes.RestXML.RestXMLError,
+                ClientRuntimeTypes.RestXML.RestXMLError,
                 noErrorWrapping,
             )
             writer.openBlock("switch restXMLError.code {", "}") {

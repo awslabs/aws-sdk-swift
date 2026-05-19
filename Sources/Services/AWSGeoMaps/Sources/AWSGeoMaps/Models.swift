@@ -18,8 +18,8 @@ import protocol AWSClientRuntime.AWSServiceError
 import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
 
 /// The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
@@ -35,14 +35,40 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
     ) {
         self.properties.message = message
+    }
+}
+
+extension GeoMapsClientTypes {
+
+    public enum Buildings: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case buildings3d
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Buildings] {
+            return [
+                .buildings3d
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .buildings3d: return "Buildings3D"
+            case let .sdkUnknown(s): return s
+            }
+        }
     }
 }
 
@@ -78,11 +104,15 @@ extension GeoMapsClientTypes {
 extension GeoMapsClientTypes {
 
     public enum ContourDensity: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case high
+        case low
         case medium
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ContourDensity] {
             return [
+                .high,
+                .low,
                 .medium
             ]
         }
@@ -94,6 +124,8 @@ extension GeoMapsClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .high: return "High"
+            case .low: return "Low"
             case .medium: return "Medium"
             case let .sdkUnknown(s): return s
             }
@@ -361,7 +393,7 @@ extension GeoMapsClientTypes {
 }
 
 public struct GetSpritesInput: Swift.Sendable {
-    /// Sets color tone for map such as dark and light for specific map styles. It applies to only vector map styles such as Standard and Monochrome. Example: Light Default value: Light Valid values for ColorScheme are case sensitive.
+    /// Sets the color tone for the map sprites, such as dark and light. Example: Light Default value: Light Valid values for ColorScheme are case sensitive.
     /// This member is required.
     public var colorScheme: GeoMapsClientTypes.ColorScheme?
     /// Sprites API: The name of the sprite ﬁle to retrieve, following pattern sprites(@2x)?\.(png|json). Example: sprites.png
@@ -423,9 +455,9 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { true }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -447,9 +479,9 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { true }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -545,9 +577,9 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         fieldList: [GeoMapsClientTypes.ValidationExceptionField]? = nil,
@@ -689,7 +721,7 @@ public struct GetStaticMapInput: Swift.Sendable {
     public var boundingBox: Swift.String?
     /// Takes in a pair of coordinates in World Geodetic System (WGS 84) format: [longitude, latitude], which becomes the center point of the image. This parameter requires that either zoom or radius is set. Cannot be used with Zoom and or Radius Example: 49.295,-123.108
     public var center: Swift.String?
-    /// Sets color tone for map, such as dark and light for specific map styles. It only applies to vector map styles, such as Standard. Example: Light Default value: Light Valid values for ColorScheme are case sensitive.
+    /// Sets the color tone for the map, such as dark and light. Example: Light Default value: Light Valid values for ColorScheme are case sensitive.
     public var colorScheme: GeoMapsClientTypes.ColorScheme?
     /// Takes in a string to draw geometries on the image. The input is a comma separated format as follows format: [Lon, Lat] Example: line:-122.407653,37.798557,-122.413291,37.802443;color=%23DD0000;width=7;outline-color=#00DD00;outline-width=5yd|point:-122.40572,37.80004;label=Fog Hill Market;size=large;text-color=%23DD0000;color=#EE4B2B Currently it supports the following geometry types: point, line and polygon. It does not support multiPoint , multiLine and multiPolgyon.
     public var compactOverlay: Swift.String?
@@ -973,11 +1005,13 @@ extension GeoMapsClientTypes {
 
     public enum Terrain: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case hillshade
+        case terrain3d
         case sdkUnknown(Swift.String)
 
         public static var allCases: [Terrain] {
             return [
-                .hillshade
+                .hillshade,
+                .terrain3d
             ]
         }
 
@@ -989,6 +1023,7 @@ extension GeoMapsClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .hillshade: return "Hillshade"
+            case .terrain3d: return "Terrain3D"
             case let .sdkUnknown(s): return s
             }
         }
@@ -999,11 +1034,13 @@ extension GeoMapsClientTypes {
 
     public enum Traffic: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case all
+        case congestion
         case sdkUnknown(Swift.String)
 
         public static var allCases: [Traffic] {
             return [
-                .all
+                .all,
+                .congestion
             ]
         }
 
@@ -1015,6 +1052,7 @@ extension GeoMapsClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .all: return "All"
+            case .congestion: return "Congestion"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1051,13 +1089,20 @@ extension GeoMapsClientTypes {
 }
 
 public struct GetStyleDescriptorInput: Swift.Sendable {
-    /// Sets color tone for map such as dark and light for specific map styles. It applies to only vector map styles such as Standard and Monochrome. Example: Light Default value: Light Valid values for ColorScheme are case sensitive.
+    /// Adjusts how building details are rendered on the map. The following building styles are currently supported:
+    ///
+    /// * Buildings3D: Displays buildings as three-dimensional extrusions on the map.
+    ///
+    ///
+    /// Buildings3D is valid only for the Standard and Monochrome map styles.
+    public var buildings: GeoMapsClientTypes.Buildings?
+    /// Sets the color tone for the map, such as dark and light. Example: Light Default value: Light Valid values for ColorScheme are case sensitive.
     public var colorScheme: GeoMapsClientTypes.ColorScheme?
-    /// Displays the shape and steepness of terrain features using elevation lines. The density value controls how densely the available contour line information is rendered on the map. This parameter is valid only for the Standard map style.
+    /// Displays the shape and steepness of terrain features using elevation lines. The density value controls how densely the available contour line information is rendered on the map. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers. This parameter is valid for all map styles except Satellite.
     public var contourDensity: GeoMapsClientTypes.ContourDensity?
     /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
     public var key: Swift.String?
-    /// Specifies the political view using ISO 3166-2 or ISO 3166-3 country code format. The following political views are currently supported:
+    /// Specifies the political view using ISO 3166-2 or ISO 3166-3 country code format. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers. The following political views are currently supported:
     ///
     /// * ARG: Argentina's view on the Southern Patagonian Ice Field and Tierra Del Fuego, including the Falkland Islands, South Georgia, and South Sandwich Islands
     ///
@@ -1087,22 +1132,25 @@ public struct GetStyleDescriptorInput: Swift.Sendable {
     ///
     /// * VNM: Vietnam's view on the Paracel Islands and Spratly Islands
     public var politicalView: Swift.String?
-    /// Style specifies the desired map style.
+    /// Style specifies the desired map style. For [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers, ap-southeast-1 and ap-southeast-5 regions support only the Standard and Monochrome values.
     /// This member is required.
     public var style: GeoMapsClientTypes.MapStyle?
-    /// Adjusts how physical terrain details are rendered on the map. The following terrain styles are currently supported:
+    /// Adjusts how physical terrain details are rendered on the map. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers. The following terrain styles are currently supported:
     ///
     /// * Hillshade: Displays the physical terrain details through shading and highlighting of elevation change and geographic features.
     ///
+    /// * Terrain3D: Displays physical terrain details and elevations as a three-dimensional model.
     ///
-    /// This parameter is valid only for the Standard map style.
+    ///
+    /// Hillshade is valid only for the Standard and Monochrome map styles.
     public var terrain: GeoMapsClientTypes.Terrain?
-    /// Displays real-time traffic information overlay on map, such as incident events and flow events. This parameter is valid only for the Standard map style.
+    /// Displays real-time traffic information overlay on map, such as incident events and flow events. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers. This parameter is valid for all map styles except Satellite.
     public var traffic: GeoMapsClientTypes.Traffic?
-    /// Renders additional map information relevant to selected travel modes. Information for multiple travel modes can be displayed simultaneously, although this increases the overall information density rendered on the map. This parameter is valid only for the Standard map style.
+    /// Renders additional map information relevant to selected travel modes. Information for multiple travel modes can be displayed simultaneously, although this increases the overall information density rendered on the map. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers. This parameter is valid for all map styles except Satellite.
     public var travelModes: [GeoMapsClientTypes.TravelMode]?
 
     public init(
+        buildings: GeoMapsClientTypes.Buildings? = nil,
         colorScheme: GeoMapsClientTypes.ColorScheme? = nil,
         contourDensity: GeoMapsClientTypes.ContourDensity? = nil,
         key: Swift.String? = nil,
@@ -1112,6 +1160,7 @@ public struct GetStyleDescriptorInput: Swift.Sendable {
         traffic: GeoMapsClientTypes.Traffic? = nil,
         travelModes: [GeoMapsClientTypes.TravelMode]? = nil
     ) {
+        self.buildings = buildings
         self.colorScheme = colorScheme
         self.contourDensity = contourDensity
         self.key = key
@@ -1125,7 +1174,7 @@ public struct GetStyleDescriptorInput: Swift.Sendable {
 
 extension GetStyleDescriptorInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetStyleDescriptorInput(colorScheme: \(Swift.String(describing: colorScheme)), contourDensity: \(Swift.String(describing: contourDensity)), style: \(Swift.String(describing: style)), terrain: \(Swift.String(describing: terrain)), traffic: \(Swift.String(describing: traffic)), travelModes: \(Swift.String(describing: travelModes)), key: \"CONTENT_REDACTED\", politicalView: \"CONTENT_REDACTED\")"}
+        "GetStyleDescriptorInput(buildings: \(Swift.String(describing: buildings)), colorScheme: \(Swift.String(describing: colorScheme)), contourDensity: \(Swift.String(describing: contourDensity)), style: \(Swift.String(describing: style)), terrain: \(Swift.String(describing: terrain)), traffic: \(Swift.String(describing: traffic)), travelModes: \(Swift.String(describing: travelModes)), key: \"CONTENT_REDACTED\", politicalView: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetStyleDescriptorOutput: Swift.Sendable {
@@ -1164,9 +1213,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -1215,14 +1264,14 @@ extension GeoMapsClientTypes {
 }
 
 public struct GetTileInput: Swift.Sendable {
-    /// A list of optional additional parameters such as map styles that can be requested for each result.
+    /// A list of optional additional parameters such as map styles that can be requested for each result. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
     public var additionalFeatures: [GeoMapsClientTypes.TileAdditionalFeature]?
     /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
     public var key: Swift.String?
-    /// Specifies the desired tile set. Valid Values: raster.satellite | vector.basemap
+    /// Specifies the desired tile set. For [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers, ap-southeast-1 and ap-southeast-5 regions support only the vector.basemap value. Valid Values: raster.satellite | vector.basemap | vector.traffic | raster.dem
     /// This member is required.
     public var tileset: Swift.String?
-    /// The X axis value for the map tile. Must be between 0 and 19.
+    /// The X axis value for the map tile.
     /// This member is required.
     public var x: Swift.String?
     /// The Y axis value for the map tile.
@@ -1434,6 +1483,10 @@ extension GetStyleDescriptorInput {
             let contourDensityQueryItem = Smithy.URIQueryItem(name: "contour-density".urlPercentEncoding(), value: Swift.String(contourDensity.rawValue).urlPercentEncoding())
             items.append(contourDensityQueryItem)
         }
+        if let buildings = value.buildings {
+            let buildingsQueryItem = Smithy.URIQueryItem(name: "buildings".urlPercentEncoding(), value: Swift.String(buildings.rawValue).urlPercentEncoding())
+            items.append(buildingsQueryItem)
+        }
         if let traffic = value.traffic {
             let trafficQueryItem = Smithy.URIQueryItem(name: "traffic".urlPercentEncoding(), value: Swift.String(traffic.rawValue).urlPercentEncoding())
             items.append(trafficQueryItem)
@@ -1633,7 +1686,7 @@ enum GetGlyphsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -1646,7 +1699,7 @@ enum GetSpritesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -1659,7 +1712,7 @@ enum GetStaticMapOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -1676,7 +1729,7 @@ enum GetStyleDescriptorOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -1689,7 +1742,7 @@ enum GetTileOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
@@ -1704,7 +1757,7 @@ enum GetTileOutputError {
 
 extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -1717,7 +1770,7 @@ extension AccessDeniedException {
 
 extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -1730,7 +1783,7 @@ extension InternalServerException {
 
 extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
@@ -1743,7 +1796,7 @@ extension ThrottlingException {
 
 extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: GeoMapsClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
@@ -1758,7 +1811,7 @@ extension ValidationException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""

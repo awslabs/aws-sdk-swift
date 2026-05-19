@@ -31,7 +31,8 @@ extension ListStreamConsumersInput: ClientRuntime.PaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             streamARN: self.streamARN,
-            streamCreationTimestamp: self.streamCreationTimestamp
+            streamCreationTimestamp: self.streamCreationTimestamp,
+            streamId: self.streamId
         )}
 }
 extension KinesisClient {

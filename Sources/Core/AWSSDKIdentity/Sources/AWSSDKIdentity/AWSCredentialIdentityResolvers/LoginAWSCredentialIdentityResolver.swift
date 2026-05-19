@@ -143,17 +143,11 @@ public struct LoginAWSCredentialIdentityResolver: AWSCredentialIdentityResolver 
             decoder.dateDecodingStrategy = .custom { decoder in
                 let container = try decoder.singleValueContainer()
                 let dateString = try container.decode(String.self)
-                let formatter = ISO8601DateFormatter()
-                // Powershell saves expiration date with milliseconds.
-                formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
-                if let date = formatter.date(from: dateString) {
-                    return date
-                }
-                // AWS CLI saves expiration date without milliseconds.
-                // Because setting .withFractionalSeconds is a strict requirement, must remove it for AWS CLI expiration date.
-                formatter.formatOptions = [.withInternetDateTime]
-                guard let date = formatter.date(from: dateString) else {
-                    throw DecodingError.dataCorruptedError(in: container, debugDescription: "Invalid date format")
+                guard let date = RFC3339DateParser.parse(dateString) else {
+                    throw DecodingError.dataCorruptedError(
+                        in: container,
+                        debugDescription: "Invalid RFC3339 date format"
+                    )
                 }
                 return date
             }
@@ -177,10 +171,11 @@ public struct LoginAWSCredentialIdentityResolver: AWSCredentialIdentityResolver 
         }
 
         // Call CreateOAuth2Token with SignIn client to refresh token.
-        let clientConfig = try await SigninClient.SigninClientConfiguration()
-        clientConfig.addInterceptorProvider(DPoPInterceptorProvider(dpopKey: loginToken.dpopKey))
-        clientConfig.addInterceptorProvider(
-            CredentialFeatureIDInterceptorProvider(featureIDsToAdd: credentialFeatureIDs)
+        let clientConfig = try await SigninClient.SigninClientConfig(
+            httpInterceptorProviders: [
+                DPoPInterceptorProvider(dpopKey: loginToken.dpopKey),
+                CredentialFeatureIDInterceptorProvider(featureIDsToAdd: credentialFeatureIDs)
+            ]
         )
         let client = SigninClient(config: clientConfig)
         let output = try await client.createOAuth2Token(input: CreateOAuth2TokenInput(
@@ -346,15 +341,11 @@ private extension Data {
     }
 }
 
-class DPoPInterceptor<InputType, OutputType>: Interceptor {
+struct DPoPInterceptor<InputType, OutputType>: Interceptor {
     typealias RequestType = SmithyHTTPAPI.HTTPRequest
     typealias ResponseType = HTTPResponse
 
     let dpopKey: String
-
-    init(dpopKey: String) {
-        self.dpopKey = dpopKey
-    }
 
     // Convert PEM to DER
     func pemToDer(_ pemString: String) -> Data? {
@@ -412,12 +403,8 @@ class DPoPInterceptor<InputType, OutputType>: Interceptor {
 
 }
 
-class DPoPInterceptorProvider: HttpInterceptorProvider {
+struct DPoPInterceptorProvider: HttpInterceptorProvider {
     let dpopKey: String
-
-    init(dpopKey: String) {
-        self.dpopKey = dpopKey
-    }
 
     func create<InputType, OutputType>() -> any Interceptor<
         InputType, OutputType, SmithyHTTPAPI.HTTPRequest, HTTPResponse

@@ -314,6 +314,7 @@ extension GetFindingsV2Input: ClientRuntime.PaginateToken {
             filters: self.filters,
             maxResults: self.maxResults,
             nextToken: token,
+            scopes: self.scopes,
             sortCriteria: self.sortCriteria
         )}
 }
@@ -355,6 +356,37 @@ extension PaginatorSequence where OperationStackInput == GetInsightsInput, Opera
     /// - Returns: `[SecurityHubClientTypes.Insight]`
     public func insights() async throws -> [SecurityHubClientTypes.Insight] {
         return try await self.asyncCompactMap { item in item.insights }
+    }
+}
+extension SecurityHubClient {
+    /// Paginate over `[GetRecommendedPolicyV2Output]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetRecommendedPolicyV2Input]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetRecommendedPolicyV2Output`
+    public func getRecommendedPolicyV2Paginated(input: GetRecommendedPolicyV2Input) -> ClientRuntime.PaginatorSequence<GetRecommendedPolicyV2Input, GetRecommendedPolicyV2Output> {
+        return ClientRuntime.PaginatorSequence<GetRecommendedPolicyV2Input, GetRecommendedPolicyV2Output>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getRecommendedPolicyV2(input:))
+    }
+}
+
+extension GetRecommendedPolicyV2Input: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> GetRecommendedPolicyV2Input {
+        return GetRecommendedPolicyV2Input(
+            maxResults: self.maxResults,
+            metadataUid: self.metadataUid,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == GetRecommendedPolicyV2Input, OperationStackOutput == GetRecommendedPolicyV2Output {
+    /// This paginator transforms the `AsyncSequence` returned by `getRecommendedPolicyV2Paginated`
+    /// to access the nested member `[SecurityHubClientTypes.RecommendationStep]`
+    /// - Returns: `[SecurityHubClientTypes.RecommendationStep]`
+    public func recommendationSteps() async throws -> [SecurityHubClientTypes.RecommendationStep] {
+        return try await self.asyncCompactMap { item in item.recommendationSteps }
     }
 }
 extension SecurityHubClient {
@@ -410,6 +442,7 @@ extension GetResourcesV2Input: ClientRuntime.PaginateToken {
             filters: self.filters,
             maxResults: self.maxResults,
             nextToken: token,
+            scopes: self.scopes,
             sortCriteria: self.sortCriteria
         )}
 }

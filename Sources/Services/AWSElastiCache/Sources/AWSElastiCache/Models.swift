@@ -22,8 +22,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSQueryError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSQueryError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
@@ -55,9 +55,9 @@ public struct CacheClusterNotFoundFault: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -78,9 +78,9 @@ public struct CacheParameterGroupNotFoundFault: ClientRuntime.ModeledError, AWSC
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -101,9 +101,9 @@ public struct CacheSecurityGroupNotFoundFault: ClientRuntime.ModeledError, AWSCl
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -124,9 +124,9 @@ public struct CacheSubnetGroupNotFoundFault: ClientRuntime.ModeledError, AWSClie
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -147,9 +147,9 @@ public struct InvalidARNFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -170,9 +170,9 @@ public struct InvalidReplicationGroupStateFault: ClientRuntime.ModeledError, AWS
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -193,9 +193,9 @@ public struct InvalidServerlessCacheSnapshotStateFault: ClientRuntime.ModeledErr
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -216,9 +216,9 @@ public struct InvalidServerlessCacheStateFault: ClientRuntime.ModeledError, AWSC
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -239,9 +239,9 @@ public struct ReplicationGroupNotFoundFault: ClientRuntime.ModeledError, AWSClie
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -262,9 +262,9 @@ public struct ReservedCacheNodeNotFoundFault: ClientRuntime.ModeledError, AWSCli
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -285,9 +285,9 @@ public struct ServerlessCacheNotFoundFault: ClientRuntime.ModeledError, AWSClien
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -308,9 +308,9 @@ public struct ServerlessCacheSnapshotNotFoundFault: ClientRuntime.ModeledError, 
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -331,9 +331,9 @@ public struct SnapshotNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntim
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -354,9 +354,9 @@ public struct TagQuotaPerResourceExceeded: ClientRuntime.ModeledError, AWSClient
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -377,9 +377,9 @@ public struct UserGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRunti
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -400,9 +400,9 @@ public struct UserNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -472,9 +472,9 @@ public struct AuthorizationAlreadyExistsFault: ClientRuntime.ModeledError, AWSCl
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -495,9 +495,9 @@ public struct InvalidCacheSecurityGroupStateFault: ClientRuntime.ModeledError, A
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -519,9 +519,9 @@ public struct InvalidParameterCombinationException: ClientRuntime.ModeledError, 
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -543,9 +543,9 @@ public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSCli
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -666,9 +666,9 @@ public struct ServiceUpdateNotFoundFault: ClientRuntime.ModeledError, AWSClientR
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -867,9 +867,9 @@ public struct ReplicationGroupNotUnderMigrationFault: ClientRuntime.ModeledError
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -1635,7 +1635,7 @@ extension ElastiCacheClientTypes {
         public var dataTiering: ElastiCacheClientTypes.DataTieringStatus?
         /// The user supplied description of the replication group.
         public var description: Swift.String?
-        /// The engine used in a replication group. The options are redis, memcached or valkey.
+        /// The engine used in a replication group. The options are valkey, memcached or redis.
         public var engine: Swift.String?
         /// The name of the Global datastore and role of this replication group in the Global datastore.
         public var globalReplicationGroupInfo: ElastiCacheClientTypes.GlobalReplicationGroupInfo?
@@ -1769,9 +1769,9 @@ public struct ServerlessCacheSnapshotAlreadyExistsFault: ClientRuntime.ModeledEr
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -1792,9 +1792,9 @@ public struct ServerlessCacheSnapshotQuotaExceededFault: ClientRuntime.ModeledEr
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -1815,9 +1815,9 @@ public struct ServiceLinkedRoleNotFoundFault: ClientRuntime.ModeledError, AWSCli
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -1834,7 +1834,7 @@ public struct CopyServerlessCacheSnapshotInput: Swift.Sendable {
     public var sourceServerlessCacheSnapshotName: Swift.String?
     /// A list of tags to be added to the target snapshot resource. A tag is a key-value pair. Available for Valkey, Redis OSS and Serverless Memcached only. Default: NULL
     public var tags: [ElastiCacheClientTypes.Tag]?
-    /// The identifier for the snapshot to be created. Available for Valkey, Redis OSS and Serverless Memcached only.
+    /// The identifier for the snapshot to be created. Available for Valkey, Redis OSS and Serverless Memcached only. This value is stored as a lowercase string.
     /// This member is required.
     public var targetServerlessCacheSnapshotName: Swift.String?
 
@@ -1944,9 +1944,9 @@ public struct InvalidSnapshotStateFault: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -1967,9 +1967,9 @@ public struct SnapshotAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientR
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -1990,9 +1990,9 @@ public struct SnapshotQuotaExceededFault: ClientRuntime.ModeledError, AWSClientR
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -2012,7 +2012,7 @@ public struct CopySnapshotInput: Swift.Sendable {
     public var tags: [ElastiCacheClientTypes.Tag]?
     /// The Amazon S3 bucket to which the snapshot is exported. This parameter is used only when exporting a snapshot for external access. When using this parameter to export a snapshot, be sure Amazon ElastiCache has the needed permissions to this S3 bucket. For more information, see [Step 2: Grant ElastiCache Access to Your Amazon S3 Bucket](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/backups-exporting.html#backups-exporting-grant-access) in the Amazon ElastiCache User Guide. For more information, see [Exporting a Snapshot](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/backups-exporting.html) in the Amazon ElastiCache User Guide.
     public var targetBucket: Swift.String?
-    /// A name for the snapshot copy. ElastiCache does not permit overwriting a snapshot, therefore this name must be unique within its context - ElastiCache or an Amazon S3 bucket if exporting.
+    /// A name for the snapshot copy. ElastiCache does not permit overwriting a snapshot, therefore this name must be unique within its context - ElastiCache or an Amazon S3 bucket if exporting. This value is stored as a lowercase string.
     /// This member is required.
     public var targetSnapshotName: Swift.String?
 
@@ -2311,9 +2311,9 @@ public struct CacheClusterAlreadyExistsFault: ClientRuntime.ModeledError, AWSCli
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -2334,9 +2334,9 @@ public struct ClusterQuotaForCustomerExceededFault: ClientRuntime.ModeledError, 
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -2357,9 +2357,9 @@ public struct InsufficientCacheClusterCapacityFault: ClientRuntime.ModeledError,
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -2380,9 +2380,9 @@ public struct InvalidVPCNetworkStateFault: ClientRuntime.ModeledError, AWSClient
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -2403,9 +2403,9 @@ public struct NodeQuotaForClusterExceededFault: ClientRuntime.ModeledError, AWSC
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -2426,9 +2426,9 @@ public struct NodeQuotaForCustomerExceededFault: ClientRuntime.ModeledError, AWS
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -3159,9 +3159,9 @@ public struct CacheParameterGroupAlreadyExistsFault: ClientRuntime.ModeledError,
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -3182,9 +3182,9 @@ public struct CacheParameterGroupQuotaExceededFault: ClientRuntime.ModeledError,
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -3205,9 +3205,9 @@ public struct InvalidCacheParameterGroupStateFault: ClientRuntime.ModeledError, 
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -3221,7 +3221,7 @@ public struct CreateCacheParameterGroupInput: Swift.Sendable {
     /// The name of the cache parameter group family that the cache parameter group can be used with. Valid values are: valkey8 | valkey7 | memcached1.4 | memcached1.5 | memcached1.6 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.x | redis7
     /// This member is required.
     public var cacheParameterGroupFamily: Swift.String?
-    /// A user-specified name for the cache parameter group.
+    /// A user-specified name for the cache parameter group. This value is stored as a lowercase string.
     /// This member is required.
     public var cacheParameterGroupName: Swift.String?
     /// A user-specified description for the cache parameter group.
@@ -3297,9 +3297,9 @@ public struct CacheSecurityGroupAlreadyExistsFault: ClientRuntime.ModeledError, 
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -3320,9 +3320,9 @@ public struct CacheSecurityGroupQuotaExceededFault: ClientRuntime.ModeledError, 
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -3382,9 +3382,9 @@ public struct CacheSubnetGroupAlreadyExistsFault: ClientRuntime.ModeledError, AW
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -3405,9 +3405,9 @@ public struct CacheSubnetGroupQuotaExceededFault: ClientRuntime.ModeledError, AW
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -3428,9 +3428,9 @@ public struct CacheSubnetQuotaExceededFault: ClientRuntime.ModeledError, AWSClie
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -3451,9 +3451,9 @@ public struct InvalidSubnet: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -3474,9 +3474,9 @@ public struct SubnetNotAllowedFault: ClientRuntime.ModeledError, AWSClientRuntim
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -3635,9 +3635,9 @@ public struct GlobalReplicationGroupAlreadyExistsFault: ClientRuntime.ModeledErr
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -3652,7 +3652,7 @@ public struct CreateGlobalReplicationGroupInput: Swift.Sendable {
     /// The suffix name of a Global datastore. Amazon ElastiCache automatically applies a prefix to the Global datastore ID when it is created. Each Amazon Region has its own prefix. For instance, a Global datastore ID created in the US-West-1 region will begin with "dsdfu" along with the suffix name you provide. The suffix, combined with the auto-generated prefix, guarantees uniqueness of the Global datastore name across multiple regions. For a full list of Amazon Regions and their respective Global datastore iD prefixes, see [Using the Amazon CLI with Global datastores ](http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Redis-Global-Datastores-CLI.html).
     /// This member is required.
     public var globalReplicationGroupIdSuffix: Swift.String?
-    /// The name of the primary cluster that accepts writes and will replicate updates to the secondary cluster.
+    /// The name of the primary cluster that accepts writes and will replicate updates to the secondary cluster. This value is stored as a lowercase string.
     /// This member is required.
     public var primaryReplicationGroupId: Swift.String?
 
@@ -3807,9 +3807,9 @@ public struct GlobalReplicationGroupNotFoundFault: ClientRuntime.ModeledError, A
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -3830,9 +3830,9 @@ public struct InvalidCacheClusterStateFault: ClientRuntime.ModeledError, AWSClie
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -3853,9 +3853,9 @@ public struct InvalidGlobalReplicationGroupStateFault: ClientRuntime.ModeledErro
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -3876,9 +3876,9 @@ public struct InvalidUserGroupStateFault: ClientRuntime.ModeledError, AWSClientR
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -3899,9 +3899,9 @@ public struct NodeGroupsPerReplicationGroupQuotaExceededFault: ClientRuntime.Mod
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -3922,9 +3922,9 @@ public struct ReplicationGroupAlreadyExistsFault: ClientRuntime.ModeledError, AW
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -4197,9 +4197,9 @@ public struct InvalidCredentialsException: ClientRuntime.ModeledError, AWSClient
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -4220,9 +4220,9 @@ public struct ServerlessCacheAlreadyExistsFault: ClientRuntime.ModeledError, AWS
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -4243,9 +4243,9 @@ public struct ServerlessCacheQuotaForCustomerExceededFault: ClientRuntime.Modele
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -4356,6 +4356,8 @@ public struct CreateServerlessCacheInput: Swift.Sendable {
     public var kmsKeyId: Swift.String?
     /// The version of the cache engine that will be used to create the serverless cache.
     public var majorEngineVersion: Swift.String?
+    /// The IP protocol version used by the serverless cache. Must be either ipv4 | ipv6 | dual_stack. ipv6 is only supported with ipv6-only subnets. If not specified, defaults to ipv4, unless all provided subnets are IPv6-only, in which case it defaults to ipv6.
+    public var networkType: ElastiCacheClientTypes.NetworkType?
     /// A list of the one or more VPC security groups to be associated with the serverless cache. The security group will authorize traffic access for the VPC end-point (private-link). If no other information is given this will be the VPC’s Default Security Group that is associated with the cluster VPC end-point.
     public var securityGroupIds: [Swift.String]?
     /// User-provided identifier for the serverless cache. This parameter is stored as a lowercase string.
@@ -4363,7 +4365,7 @@ public struct CreateServerlessCacheInput: Swift.Sendable {
     public var serverlessCacheName: Swift.String?
     /// The ARN(s) of the snapshot that the new serverless cache will be created from. Available for Valkey, Redis OSS and Serverless Memcached only.
     public var snapshotArnsToRestore: [Swift.String]?
-    /// The number of snapshots that will be retained for the serverless cache that is being created. As new snapshots beyond this limit are added, the oldest snapshots will be deleted on a rolling basis. Available for Valkey, Redis OSS and Serverless Memcached only.
+    /// The number of days for which ElastiCache retains automatic snapshots before deleting them. Available for Valkey, Redis OSS and Serverless Memcached only. The maximum value allowed is 35 days.
     public var snapshotRetentionLimit: Swift.Int?
     /// A list of the identifiers of the subnets where the VPC endpoint for the serverless cache will be deployed. All the subnetIds must belong to the same VPC.
     public var subnetIds: [Swift.String]?
@@ -4379,6 +4381,7 @@ public struct CreateServerlessCacheInput: Swift.Sendable {
         engine: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
         majorEngineVersion: Swift.String? = nil,
+        networkType: ElastiCacheClientTypes.NetworkType? = nil,
         securityGroupIds: [Swift.String]? = nil,
         serverlessCacheName: Swift.String? = nil,
         snapshotArnsToRestore: [Swift.String]? = nil,
@@ -4393,6 +4396,7 @@ public struct CreateServerlessCacheInput: Swift.Sendable {
         self.engine = engine
         self.kmsKeyId = kmsKeyId
         self.majorEngineVersion = majorEngineVersion
+        self.networkType = networkType
         self.securityGroupIds = securityGroupIds
         self.serverlessCacheName = serverlessCacheName
         self.snapshotArnsToRestore = snapshotArnsToRestore
@@ -4427,13 +4431,15 @@ extension ElastiCacheClientTypes {
         public var kmsKeyId: Swift.String?
         /// The version number of the engine the serverless cache is compatible with.
         public var majorEngineVersion: Swift.String?
+        /// The type of IP address protocol used by the serverless cache. Must be either ipv4 | ipv6 | dual_stack. ipv6 is only supported with IPv6-only subnets. If not specified, defaults to ipv4, unless all provided subnets are IPv6-only, in which case it defaults to ipv6.
+        public var networkType: ElastiCacheClientTypes.NetworkType?
         /// Represents the information required for client programs to connect to a cache node. This value is read-only.
         public var readerEndpoint: ElastiCacheClientTypes.Endpoint?
         /// The IDs of the EC2 security groups associated with the serverless cache.
         public var securityGroupIds: [Swift.String]?
         /// The unique identifier of the serverless cache.
         public var serverlessCacheName: Swift.String?
-        /// The current setting for the number of serverless cache snapshots the system will retain. Available for Valkey, Redis OSS and Serverless Memcached only.
+        /// The number of days for which ElastiCache retains automatic snapshots before deleting them. Available for Valkey, Redis OSS and Serverless Memcached only. The maximum value allowed is 35 days.
         public var snapshotRetentionLimit: Swift.Int?
         /// The current status of the serverless cache. The allowed values are CREATING, AVAILABLE, DELETING, CREATE-FAILED and MODIFYING.
         public var status: Swift.String?
@@ -4453,6 +4459,7 @@ extension ElastiCacheClientTypes {
             fullEngineVersion: Swift.String? = nil,
             kmsKeyId: Swift.String? = nil,
             majorEngineVersion: Swift.String? = nil,
+            networkType: ElastiCacheClientTypes.NetworkType? = nil,
             readerEndpoint: ElastiCacheClientTypes.Endpoint? = nil,
             securityGroupIds: [Swift.String]? = nil,
             serverlessCacheName: Swift.String? = nil,
@@ -4471,6 +4478,7 @@ extension ElastiCacheClientTypes {
             self.fullEngineVersion = fullEngineVersion
             self.kmsKeyId = kmsKeyId
             self.majorEngineVersion = majorEngineVersion
+            self.networkType = networkType
             self.readerEndpoint = readerEndpoint
             self.securityGroupIds = securityGroupIds
             self.serverlessCacheName = serverlessCacheName
@@ -4499,7 +4507,7 @@ public struct CreateServerlessCacheSnapshotInput: Swift.Sendable {
     /// The name of an existing serverless cache. The snapshot is created from this cache. Available for Valkey, Redis OSS and Serverless Memcached only.
     /// This member is required.
     public var serverlessCacheName: Swift.String?
-    /// The name for the snapshot being created. Must be unique for the customer account. Available for Valkey, Redis OSS and Serverless Memcached only. Must be between 1 and 255 characters.
+    /// The name for the snapshot being created. Must be unique for the customer account. Available for Valkey, Redis OSS and Serverless Memcached only. Must be between 1 and 255 characters. This value is stored as a lowercase string.
     /// This member is required.
     public var serverlessCacheSnapshotName: Swift.String?
     /// A list of tags to be added to the snapshot resource. A tag is a key-value pair. Available for Valkey, Redis OSS and Serverless Memcached only.
@@ -4548,9 +4556,9 @@ public struct SnapshotFeatureNotSupportedFault: ClientRuntime.ModeledError, AWSC
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -4567,7 +4575,7 @@ public struct CreateSnapshotInput: Swift.Sendable {
     public var kmsKeyId: Swift.String?
     /// The identifier of an existing replication group. The snapshot is created from this replication group.
     public var replicationGroupId: Swift.String?
-    /// A name for the snapshot being created.
+    /// A name for the snapshot being created. This value is stored as a lowercase string.
     /// This member is required.
     public var snapshotName: Swift.String?
     /// A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted.
@@ -4611,9 +4619,9 @@ public struct DuplicateUserNameFault: ClientRuntime.ModeledError, AWSClientRunti
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -4634,9 +4642,9 @@ public struct UserAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRunti
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -4657,9 +4665,9 @@ public struct UserQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRunti
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -4734,7 +4742,7 @@ public struct CreateUserInput: Swift.Sendable {
     public var passwords: [Swift.String]?
     /// A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted.
     public var tags: [ElastiCacheClientTypes.Tag]?
-    /// The ID of the user.
+    /// The ID of the user. This value is stored as a lowercase string.
     /// This member is required.
     public var userId: Swift.String?
     /// The username of the user.
@@ -4868,9 +4876,9 @@ public struct DefaultUserRequired: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -4891,9 +4899,9 @@ public struct UserGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWSClient
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -4914,9 +4922,9 @@ public struct UserGroupQuotaExceededFault: ClientRuntime.ModeledError, AWSClient
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -4931,7 +4939,7 @@ public struct CreateUserGroupInput: Swift.Sendable {
     public var engine: Swift.String?
     /// A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted. Available for Valkey and Redis OSS only.
     public var tags: [ElastiCacheClientTypes.Tag]?
-    /// The ID of the user group.
+    /// The ID of the user group. This value is stored as a lowercase string.
     /// This member is required.
     public var userGroupId: Swift.String?
     /// The list of user IDs that belong to the user group.
@@ -5067,9 +5075,9 @@ public struct NoOperationFault: ClientRuntime.ModeledError, AWSClientRuntime.AWS
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -5235,9 +5243,9 @@ public struct CacheSubnetGroupInUse: ClientRuntime.ModeledError, AWSClientRuntim
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -5407,9 +5415,9 @@ public struct DefaultUserAssociatedToUserGroupFault: ClientRuntime.ModeledError,
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -5430,9 +5438,9 @@ public struct InvalidUserStateFault: ClientRuntime.ModeledError, AWSClientRuntim
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -6465,9 +6473,9 @@ public struct ReservedCacheNodesOfferingNotFoundFault: ClientRuntime.ModeledErro
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -7721,9 +7729,9 @@ public struct InvalidKMSKeyFault: ClientRuntime.ModeledError, AWSClientRuntime.A
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -8119,9 +8127,9 @@ public struct SubnetInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServi
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -8176,7 +8184,7 @@ public struct ModifyGlobalReplicationGroupInput: Swift.Sendable {
     public var cacheNodeType: Swift.String?
     /// The name of the cache parameter group to use with the Global datastore. It must be compatible with the major engine version used by the Global datastore.
     public var cacheParameterGroupName: Swift.String?
-    /// Modifies the engine listed in a global replication group message. The options are redis, memcached or valkey.
+    /// Modifies the engine listed in a global replication group message. The options are valkey, memcached or redis.
     public var engine: Swift.String?
     /// The upgraded version of the cache engine to be run on the clusters in the Global datastore.
     public var engineVersion: Swift.String?
@@ -8258,7 +8266,7 @@ public struct ModifyReplicationGroupInput: Swift.Sendable {
     public var cacheSecurityGroupNames: [Swift.String]?
     /// Enabled or Disabled. To modify cluster mode from Disabled to Enabled, you must first set the cluster mode to Compatible. Compatible mode allows your Valkey or Redis OSS clients to connect using both cluster mode enabled and cluster mode disabled. After you migrate all Valkey or Redis OSS clients to use cluster mode enabled, you can then complete cluster mode configuration and set the cluster mode to Enabled.
     public var clusterMode: ElastiCacheClientTypes.ClusterMode?
-    /// Modifies the engine listed in a replication group message. The options are redis, memcached or valkey.
+    /// Modifies the engine listed in a replication group message. The options are valkey, memcached or redis.
     public var engine: Swift.String?
     /// The upgraded version of the cache engine to be run on the clusters in the replication group. Important: You can upgrade to a newer engine version (see [Selecting a Cache Engine and Version](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/SelectEngine.html#VersionManagement)), but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing replication group and create it anew with the earlier engine version.
     public var engineVersion: Swift.String?
@@ -8449,7 +8457,7 @@ public struct ModifyServerlessCacheInput: Swift.Sendable {
     public var dailySnapshotTime: Swift.String?
     /// User provided description for the serverless cache. Default = NULL, i.e. the existing description is not removed/modified. The description has a maximum length of 255 characters.
     public var description: Swift.String?
-    /// Modifies the engine listed in a serverless cache request. The options are redis, memcached or valkey.
+    /// Modifies the engine listed in a serverless cache request. The options are valkey, memcached or redis.
     public var engine: Swift.String?
     /// Modifies the engine vesion listed in a serverless cache request.
     public var majorEngineVersion: Swift.String?
@@ -8659,9 +8667,9 @@ public struct ReservedCacheNodeAlreadyExistsFault: ClientRuntime.ModeledError, A
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -8682,9 +8690,9 @@ public struct ReservedCacheNodeQuotaExceededFault: ClientRuntime.ModeledError, A
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -8800,9 +8808,9 @@ public struct TagNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWS
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -8890,9 +8898,9 @@ public struct AuthorizationNotFoundFault: ClientRuntime.ModeledError, AWSClientR
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -8953,9 +8961,9 @@ public struct ReplicationGroupAlreadyUnderMigrationFault: ClientRuntime.ModeledE
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -9023,9 +9031,9 @@ public struct APICallRateForCustomerExceededFault: ClientRuntime.ModeledError, A
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -9046,9 +9054,9 @@ public struct NodeGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRunti
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -9069,9 +9077,9 @@ public struct TestFailoverNotAvailableFault: ClientRuntime.ModeledError, AWSClie
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -9893,6 +9901,7 @@ extension CreateServerlessCacheInput {
         try writer["Engine"].write(value.engine)
         try writer["KmsKeyId"].write(value.kmsKeyId)
         try writer["MajorEngineVersion"].write(value.majorEngineVersion)
+        try writer["NetworkType"].write(value.networkType)
         try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "SecurityGroupId", isFlattened: false)
         try writer["ServerlessCacheName"].write(value.serverlessCacheName)
         try writer["SnapshotArnsToRestore"].writeList(value.snapshotArnsToRestore, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "SnapshotArn", isFlattened: false)
@@ -11688,7 +11697,7 @@ enum AddTagsToResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CacheClusterNotFound": return try CacheClusterNotFoundFault.makeError(baseError: baseError)
@@ -11717,7 +11726,7 @@ enum AuthorizeCacheSecurityGroupIngressOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationAlreadyExists": return try AuthorizationAlreadyExistsFault.makeError(baseError: baseError)
@@ -11735,7 +11744,7 @@ enum BatchApplyUpdateActionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -11750,7 +11759,7 @@ enum BatchStopUpdateActionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -11765,7 +11774,7 @@ enum CompleteMigrationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidReplicationGroupState": return try InvalidReplicationGroupStateFault.makeError(baseError: baseError)
@@ -11781,7 +11790,7 @@ enum CopyServerlessCacheSnapshotOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
@@ -11802,7 +11811,7 @@ enum CopySnapshotOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
@@ -11822,7 +11831,7 @@ enum CreateCacheClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CacheClusterAlreadyExists": return try CacheClusterAlreadyExistsFault.makeError(baseError: baseError)
@@ -11849,7 +11858,7 @@ enum CreateCacheParameterGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CacheParameterGroupAlreadyExists": return try CacheParameterGroupAlreadyExistsFault.makeError(baseError: baseError)
@@ -11868,7 +11877,7 @@ enum CreateCacheSecurityGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CacheSecurityGroupAlreadyExists": return try CacheSecurityGroupAlreadyExistsFault.makeError(baseError: baseError)
@@ -11886,7 +11895,7 @@ enum CreateCacheSubnetGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CacheSubnetGroupAlreadyExists": return try CacheSubnetGroupAlreadyExistsFault.makeError(baseError: baseError)
@@ -11905,7 +11914,7 @@ enum CreateGlobalReplicationGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "GlobalReplicationGroupAlreadyExistsFault": return try GlobalReplicationGroupAlreadyExistsFault.makeError(baseError: baseError)
@@ -11923,7 +11932,7 @@ enum CreateReplicationGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CacheClusterNotFound": return try CacheClusterNotFoundFault.makeError(baseError: baseError)
@@ -11955,7 +11964,7 @@ enum CreateServerlessCacheOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidCredentialsException": return try InvalidCredentialsException.makeError(baseError: baseError)
@@ -11979,7 +11988,7 @@ enum CreateServerlessCacheSnapshotOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
@@ -12000,7 +12009,7 @@ enum CreateSnapshotOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CacheClusterNotFound": return try CacheClusterNotFoundFault.makeError(baseError: baseError)
@@ -12023,7 +12032,7 @@ enum CreateUserOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DuplicateUserName": return try DuplicateUserNameFault.makeError(baseError: baseError)
@@ -12043,7 +12052,7 @@ enum CreateUserGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DefaultUserRequired": return try DefaultUserRequired.makeError(baseError: baseError)
@@ -12064,7 +12073,7 @@ enum DecreaseNodeGroupsInGlobalReplicationGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "GlobalReplicationGroupNotFoundFault": return try GlobalReplicationGroupNotFoundFault.makeError(baseError: baseError)
@@ -12081,7 +12090,7 @@ enum DecreaseReplicaCountOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClusterQuotaForCustomerExceeded": return try ClusterQuotaForCustomerExceededFault.makeError(baseError: baseError)
@@ -12106,7 +12115,7 @@ enum DeleteCacheClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CacheClusterNotFound": return try CacheClusterNotFoundFault.makeError(baseError: baseError)
@@ -12126,7 +12135,7 @@ enum DeleteCacheParameterGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CacheParameterGroupNotFound": return try CacheParameterGroupNotFoundFault.makeError(baseError: baseError)
@@ -12143,7 +12152,7 @@ enum DeleteCacheSecurityGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CacheSecurityGroupNotFound": return try CacheSecurityGroupNotFoundFault.makeError(baseError: baseError)
@@ -12160,7 +12169,7 @@ enum DeleteCacheSubnetGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CacheSubnetGroupInUse": return try CacheSubnetGroupInUse.makeError(baseError: baseError)
@@ -12175,7 +12184,7 @@ enum DeleteGlobalReplicationGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "GlobalReplicationGroupNotFoundFault": return try GlobalReplicationGroupNotFoundFault.makeError(baseError: baseError)
@@ -12191,7 +12200,7 @@ enum DeleteReplicationGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
@@ -12211,7 +12220,7 @@ enum DeleteServerlessCacheOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidCredentialsException": return try InvalidCredentialsException.makeError(baseError: baseError)
@@ -12231,7 +12240,7 @@ enum DeleteServerlessCacheSnapshotOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -12248,7 +12257,7 @@ enum DeleteSnapshotOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
@@ -12265,7 +12274,7 @@ enum DeleteUserOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DefaultUserAssociatedToUserGroup": return try DefaultUserAssociatedToUserGroupFault.makeError(baseError: baseError)
@@ -12283,7 +12292,7 @@ enum DeleteUserGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -12300,7 +12309,7 @@ enum DescribeCacheClustersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CacheClusterNotFound": return try CacheClusterNotFoundFault.makeError(baseError: baseError)
@@ -12316,7 +12325,7 @@ enum DescribeCacheEngineVersionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -12329,7 +12338,7 @@ enum DescribeCacheParameterGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CacheParameterGroupNotFound": return try CacheParameterGroupNotFoundFault.makeError(baseError: baseError)
@@ -12345,7 +12354,7 @@ enum DescribeCacheParametersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CacheParameterGroupNotFound": return try CacheParameterGroupNotFoundFault.makeError(baseError: baseError)
@@ -12361,7 +12370,7 @@ enum DescribeCacheSecurityGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CacheSecurityGroupNotFound": return try CacheSecurityGroupNotFoundFault.makeError(baseError: baseError)
@@ -12377,7 +12386,7 @@ enum DescribeCacheSubnetGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CacheSubnetGroupNotFoundFault": return try CacheSubnetGroupNotFoundFault.makeError(baseError: baseError)
@@ -12391,7 +12400,7 @@ enum DescribeEngineDefaultParametersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
@@ -12406,7 +12415,7 @@ enum DescribeEventsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
@@ -12421,7 +12430,7 @@ enum DescribeGlobalReplicationGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "GlobalReplicationGroupNotFoundFault": return try GlobalReplicationGroupNotFoundFault.makeError(baseError: baseError)
@@ -12437,7 +12446,7 @@ enum DescribeReplicationGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
@@ -12453,7 +12462,7 @@ enum DescribeReservedCacheNodesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
@@ -12469,7 +12478,7 @@ enum DescribeReservedCacheNodesOfferingsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
@@ -12485,7 +12494,7 @@ enum DescribeServerlessCachesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
@@ -12501,7 +12510,7 @@ enum DescribeServerlessCacheSnapshotsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
@@ -12518,7 +12527,7 @@ enum DescribeServiceUpdatesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
@@ -12534,7 +12543,7 @@ enum DescribeSnapshotsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CacheClusterNotFound": return try CacheClusterNotFoundFault.makeError(baseError: baseError)
@@ -12551,7 +12560,7 @@ enum DescribeUpdateActionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
@@ -12566,7 +12575,7 @@ enum DescribeUserGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
@@ -12582,7 +12591,7 @@ enum DescribeUsersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
@@ -12598,7 +12607,7 @@ enum DisassociateGlobalReplicationGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "GlobalReplicationGroupNotFoundFault": return try GlobalReplicationGroupNotFoundFault.makeError(baseError: baseError)
@@ -12615,7 +12624,7 @@ enum ExportServerlessCacheSnapshotOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -12632,7 +12641,7 @@ enum FailoverGlobalReplicationGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "GlobalReplicationGroupNotFoundFault": return try GlobalReplicationGroupNotFoundFault.makeError(baseError: baseError)
@@ -12649,7 +12658,7 @@ enum IncreaseNodeGroupsInGlobalReplicationGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "GlobalReplicationGroupNotFoundFault": return try GlobalReplicationGroupNotFoundFault.makeError(baseError: baseError)
@@ -12665,7 +12674,7 @@ enum IncreaseReplicaCountOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClusterQuotaForCustomerExceeded": return try ClusterQuotaForCustomerExceededFault.makeError(baseError: baseError)
@@ -12690,7 +12699,7 @@ enum ListAllowedNodeTypeModificationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CacheClusterNotFound": return try CacheClusterNotFoundFault.makeError(baseError: baseError)
@@ -12707,7 +12716,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CacheClusterNotFound": return try CacheClusterNotFoundFault.makeError(baseError: baseError)
@@ -12735,7 +12744,7 @@ enum ModifyCacheClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CacheClusterNotFound": return try CacheClusterNotFoundFault.makeError(baseError: baseError)
@@ -12759,7 +12768,7 @@ enum ModifyCacheParameterGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CacheParameterGroupNotFound": return try CacheParameterGroupNotFoundFault.makeError(baseError: baseError)
@@ -12777,7 +12786,7 @@ enum ModifyCacheSubnetGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CacheSubnetGroupNotFoundFault": return try CacheSubnetGroupNotFoundFault.makeError(baseError: baseError)
@@ -12795,7 +12804,7 @@ enum ModifyGlobalReplicationGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "GlobalReplicationGroupNotFoundFault": return try GlobalReplicationGroupNotFoundFault.makeError(baseError: baseError)
@@ -12811,7 +12820,7 @@ enum ModifyReplicationGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CacheClusterNotFound": return try CacheClusterNotFoundFault.makeError(baseError: baseError)
@@ -12840,7 +12849,7 @@ enum ModifyReplicationGroupShardConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InsufficientCacheClusterCapacity": return try InsufficientCacheClusterCapacityFault.makeError(baseError: baseError)
@@ -12863,7 +12872,7 @@ enum ModifyServerlessCacheOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidCredentialsException": return try InvalidCredentialsException.makeError(baseError: baseError)
@@ -12884,7 +12893,7 @@ enum ModifyUserOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
@@ -12902,7 +12911,7 @@ enum ModifyUserGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DefaultUserRequired": return try DefaultUserRequired.makeError(baseError: baseError)
@@ -12923,7 +12932,7 @@ enum PurchaseReservedCacheNodesOfferingOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
@@ -12942,7 +12951,7 @@ enum RebalanceSlotsInGlobalReplicationGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "GlobalReplicationGroupNotFoundFault": return try GlobalReplicationGroupNotFoundFault.makeError(baseError: baseError)
@@ -12958,7 +12967,7 @@ enum RebootCacheClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CacheClusterNotFound": return try CacheClusterNotFoundFault.makeError(baseError: baseError)
@@ -12973,7 +12982,7 @@ enum RemoveTagsFromResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CacheClusterNotFound": return try CacheClusterNotFoundFault.makeError(baseError: baseError)
@@ -13002,7 +13011,7 @@ enum ResetCacheParameterGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CacheParameterGroupNotFound": return try CacheParameterGroupNotFoundFault.makeError(baseError: baseError)
@@ -13020,7 +13029,7 @@ enum RevokeCacheSecurityGroupIngressOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationNotFound": return try AuthorizationNotFoundFault.makeError(baseError: baseError)
@@ -13038,7 +13047,7 @@ enum StartMigrationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -13055,7 +13064,7 @@ enum TestFailoverOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "APICallRateForCustomerExceeded": return try APICallRateForCustomerExceededFault.makeError(baseError: baseError)
@@ -13077,7 +13086,7 @@ enum TestMigrationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -13091,7 +13100,7 @@ enum TestMigrationOutputError {
 
 extension CacheClusterNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CacheClusterNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> CacheClusterNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = CacheClusterNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13104,7 +13113,7 @@ extension CacheClusterNotFoundFault {
 
 extension CacheParameterGroupNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CacheParameterGroupNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> CacheParameterGroupNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = CacheParameterGroupNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13117,7 +13126,7 @@ extension CacheParameterGroupNotFoundFault {
 
 extension CacheSecurityGroupNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CacheSecurityGroupNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> CacheSecurityGroupNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = CacheSecurityGroupNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13130,7 +13139,7 @@ extension CacheSecurityGroupNotFoundFault {
 
 extension CacheSubnetGroupNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CacheSubnetGroupNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> CacheSubnetGroupNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = CacheSubnetGroupNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13143,7 +13152,7 @@ extension CacheSubnetGroupNotFoundFault {
 
 extension InvalidARNFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidARNFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidARNFault {
         let reader = baseError.errorBodyReader
         var value = InvalidARNFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13156,7 +13165,7 @@ extension InvalidARNFault {
 
 extension InvalidReplicationGroupStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidReplicationGroupStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidReplicationGroupStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidReplicationGroupStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13169,7 +13178,7 @@ extension InvalidReplicationGroupStateFault {
 
 extension InvalidServerlessCacheSnapshotStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidServerlessCacheSnapshotStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidServerlessCacheSnapshotStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidServerlessCacheSnapshotStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13182,7 +13191,7 @@ extension InvalidServerlessCacheSnapshotStateFault {
 
 extension InvalidServerlessCacheStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidServerlessCacheStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidServerlessCacheStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidServerlessCacheStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13195,7 +13204,7 @@ extension InvalidServerlessCacheStateFault {
 
 extension ReplicationGroupNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ReplicationGroupNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ReplicationGroupNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = ReplicationGroupNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13208,7 +13217,7 @@ extension ReplicationGroupNotFoundFault {
 
 extension ReservedCacheNodeNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ReservedCacheNodeNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ReservedCacheNodeNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = ReservedCacheNodeNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13221,7 +13230,7 @@ extension ReservedCacheNodeNotFoundFault {
 
 extension ServerlessCacheNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ServerlessCacheNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ServerlessCacheNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = ServerlessCacheNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13234,7 +13243,7 @@ extension ServerlessCacheNotFoundFault {
 
 extension ServerlessCacheSnapshotNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ServerlessCacheSnapshotNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ServerlessCacheSnapshotNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = ServerlessCacheSnapshotNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13247,7 +13256,7 @@ extension ServerlessCacheSnapshotNotFoundFault {
 
 extension SnapshotNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SnapshotNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> SnapshotNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = SnapshotNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13260,7 +13269,7 @@ extension SnapshotNotFoundFault {
 
 extension TagQuotaPerResourceExceeded {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TagQuotaPerResourceExceeded {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> TagQuotaPerResourceExceeded {
         let reader = baseError.errorBodyReader
         var value = TagQuotaPerResourceExceeded()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13273,7 +13282,7 @@ extension TagQuotaPerResourceExceeded {
 
 extension UserGroupNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> UserGroupNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> UserGroupNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = UserGroupNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13286,7 +13295,7 @@ extension UserGroupNotFoundFault {
 
 extension UserNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> UserNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> UserNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = UserNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13299,7 +13308,7 @@ extension UserNotFoundFault {
 
 extension AuthorizationAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> AuthorizationAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> AuthorizationAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = AuthorizationAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13312,7 +13321,7 @@ extension AuthorizationAlreadyExistsFault {
 
 extension InvalidCacheSecurityGroupStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidCacheSecurityGroupStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidCacheSecurityGroupStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidCacheSecurityGroupStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13325,7 +13334,7 @@ extension InvalidCacheSecurityGroupStateFault {
 
 extension InvalidParameterCombinationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidParameterCombinationException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidParameterCombinationException {
         let reader = baseError.errorBodyReader
         var value = InvalidParameterCombinationException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13338,7 +13347,7 @@ extension InvalidParameterCombinationException {
 
 extension InvalidParameterValueException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidParameterValueException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidParameterValueException {
         let reader = baseError.errorBodyReader
         var value = InvalidParameterValueException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13351,7 +13360,7 @@ extension InvalidParameterValueException {
 
 extension ServiceUpdateNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ServiceUpdateNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ServiceUpdateNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = ServiceUpdateNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13364,7 +13373,7 @@ extension ServiceUpdateNotFoundFault {
 
 extension ReplicationGroupNotUnderMigrationFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ReplicationGroupNotUnderMigrationFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ReplicationGroupNotUnderMigrationFault {
         let reader = baseError.errorBodyReader
         var value = ReplicationGroupNotUnderMigrationFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13377,7 +13386,7 @@ extension ReplicationGroupNotUnderMigrationFault {
 
 extension ServerlessCacheSnapshotAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ServerlessCacheSnapshotAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ServerlessCacheSnapshotAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = ServerlessCacheSnapshotAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13390,7 +13399,7 @@ extension ServerlessCacheSnapshotAlreadyExistsFault {
 
 extension ServerlessCacheSnapshotQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ServerlessCacheSnapshotQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ServerlessCacheSnapshotQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = ServerlessCacheSnapshotQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13403,7 +13412,7 @@ extension ServerlessCacheSnapshotQuotaExceededFault {
 
 extension ServiceLinkedRoleNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ServiceLinkedRoleNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ServiceLinkedRoleNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = ServiceLinkedRoleNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13416,7 +13425,7 @@ extension ServiceLinkedRoleNotFoundFault {
 
 extension InvalidSnapshotStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidSnapshotStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidSnapshotStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidSnapshotStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13429,7 +13438,7 @@ extension InvalidSnapshotStateFault {
 
 extension SnapshotAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SnapshotAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> SnapshotAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = SnapshotAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13442,7 +13451,7 @@ extension SnapshotAlreadyExistsFault {
 
 extension SnapshotQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SnapshotQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> SnapshotQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = SnapshotQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13455,7 +13464,7 @@ extension SnapshotQuotaExceededFault {
 
 extension CacheClusterAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CacheClusterAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> CacheClusterAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = CacheClusterAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13468,7 +13477,7 @@ extension CacheClusterAlreadyExistsFault {
 
 extension ClusterQuotaForCustomerExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ClusterQuotaForCustomerExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ClusterQuotaForCustomerExceededFault {
         let reader = baseError.errorBodyReader
         var value = ClusterQuotaForCustomerExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13481,7 +13490,7 @@ extension ClusterQuotaForCustomerExceededFault {
 
 extension InsufficientCacheClusterCapacityFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InsufficientCacheClusterCapacityFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InsufficientCacheClusterCapacityFault {
         let reader = baseError.errorBodyReader
         var value = InsufficientCacheClusterCapacityFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13494,7 +13503,7 @@ extension InsufficientCacheClusterCapacityFault {
 
 extension InvalidVPCNetworkStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidVPCNetworkStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidVPCNetworkStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidVPCNetworkStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13507,7 +13516,7 @@ extension InvalidVPCNetworkStateFault {
 
 extension NodeQuotaForClusterExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> NodeQuotaForClusterExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> NodeQuotaForClusterExceededFault {
         let reader = baseError.errorBodyReader
         var value = NodeQuotaForClusterExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13520,7 +13529,7 @@ extension NodeQuotaForClusterExceededFault {
 
 extension NodeQuotaForCustomerExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> NodeQuotaForCustomerExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> NodeQuotaForCustomerExceededFault {
         let reader = baseError.errorBodyReader
         var value = NodeQuotaForCustomerExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13533,7 +13542,7 @@ extension NodeQuotaForCustomerExceededFault {
 
 extension CacheParameterGroupAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CacheParameterGroupAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> CacheParameterGroupAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = CacheParameterGroupAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13546,7 +13555,7 @@ extension CacheParameterGroupAlreadyExistsFault {
 
 extension CacheParameterGroupQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CacheParameterGroupQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> CacheParameterGroupQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = CacheParameterGroupQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13559,7 +13568,7 @@ extension CacheParameterGroupQuotaExceededFault {
 
 extension InvalidCacheParameterGroupStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidCacheParameterGroupStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidCacheParameterGroupStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidCacheParameterGroupStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13572,7 +13581,7 @@ extension InvalidCacheParameterGroupStateFault {
 
 extension CacheSecurityGroupAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CacheSecurityGroupAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> CacheSecurityGroupAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = CacheSecurityGroupAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13585,7 +13594,7 @@ extension CacheSecurityGroupAlreadyExistsFault {
 
 extension CacheSecurityGroupQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CacheSecurityGroupQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> CacheSecurityGroupQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = CacheSecurityGroupQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13598,7 +13607,7 @@ extension CacheSecurityGroupQuotaExceededFault {
 
 extension CacheSubnetGroupAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CacheSubnetGroupAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> CacheSubnetGroupAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = CacheSubnetGroupAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13611,7 +13620,7 @@ extension CacheSubnetGroupAlreadyExistsFault {
 
 extension CacheSubnetGroupQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CacheSubnetGroupQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> CacheSubnetGroupQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = CacheSubnetGroupQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13624,7 +13633,7 @@ extension CacheSubnetGroupQuotaExceededFault {
 
 extension CacheSubnetQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CacheSubnetQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> CacheSubnetQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = CacheSubnetQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13637,7 +13646,7 @@ extension CacheSubnetQuotaExceededFault {
 
 extension InvalidSubnet {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidSubnet {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidSubnet {
         let reader = baseError.errorBodyReader
         var value = InvalidSubnet()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13650,7 +13659,7 @@ extension InvalidSubnet {
 
 extension SubnetNotAllowedFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SubnetNotAllowedFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> SubnetNotAllowedFault {
         let reader = baseError.errorBodyReader
         var value = SubnetNotAllowedFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13663,7 +13672,7 @@ extension SubnetNotAllowedFault {
 
 extension GlobalReplicationGroupAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> GlobalReplicationGroupAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> GlobalReplicationGroupAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = GlobalReplicationGroupAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13676,7 +13685,7 @@ extension GlobalReplicationGroupAlreadyExistsFault {
 
 extension GlobalReplicationGroupNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> GlobalReplicationGroupNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> GlobalReplicationGroupNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = GlobalReplicationGroupNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13689,7 +13698,7 @@ extension GlobalReplicationGroupNotFoundFault {
 
 extension InvalidCacheClusterStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidCacheClusterStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidCacheClusterStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidCacheClusterStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13702,7 +13711,7 @@ extension InvalidCacheClusterStateFault {
 
 extension InvalidGlobalReplicationGroupStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidGlobalReplicationGroupStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidGlobalReplicationGroupStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidGlobalReplicationGroupStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13715,7 +13724,7 @@ extension InvalidGlobalReplicationGroupStateFault {
 
 extension InvalidUserGroupStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidUserGroupStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidUserGroupStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidUserGroupStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13728,7 +13737,7 @@ extension InvalidUserGroupStateFault {
 
 extension NodeGroupsPerReplicationGroupQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> NodeGroupsPerReplicationGroupQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> NodeGroupsPerReplicationGroupQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = NodeGroupsPerReplicationGroupQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13741,7 +13750,7 @@ extension NodeGroupsPerReplicationGroupQuotaExceededFault {
 
 extension ReplicationGroupAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ReplicationGroupAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ReplicationGroupAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = ReplicationGroupAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13754,7 +13763,7 @@ extension ReplicationGroupAlreadyExistsFault {
 
 extension InvalidCredentialsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidCredentialsException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidCredentialsException {
         let reader = baseError.errorBodyReader
         var value = InvalidCredentialsException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13767,7 +13776,7 @@ extension InvalidCredentialsException {
 
 extension ServerlessCacheAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ServerlessCacheAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ServerlessCacheAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = ServerlessCacheAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13780,7 +13789,7 @@ extension ServerlessCacheAlreadyExistsFault {
 
 extension ServerlessCacheQuotaForCustomerExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ServerlessCacheQuotaForCustomerExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ServerlessCacheQuotaForCustomerExceededFault {
         let reader = baseError.errorBodyReader
         var value = ServerlessCacheQuotaForCustomerExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13793,7 +13802,7 @@ extension ServerlessCacheQuotaForCustomerExceededFault {
 
 extension SnapshotFeatureNotSupportedFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SnapshotFeatureNotSupportedFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> SnapshotFeatureNotSupportedFault {
         let reader = baseError.errorBodyReader
         var value = SnapshotFeatureNotSupportedFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13806,7 +13815,7 @@ extension SnapshotFeatureNotSupportedFault {
 
 extension DuplicateUserNameFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DuplicateUserNameFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DuplicateUserNameFault {
         let reader = baseError.errorBodyReader
         var value = DuplicateUserNameFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13819,7 +13828,7 @@ extension DuplicateUserNameFault {
 
 extension UserAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> UserAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> UserAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = UserAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13832,7 +13841,7 @@ extension UserAlreadyExistsFault {
 
 extension UserQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> UserQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> UserQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = UserQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13845,7 +13854,7 @@ extension UserQuotaExceededFault {
 
 extension DefaultUserRequired {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DefaultUserRequired {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DefaultUserRequired {
         let reader = baseError.errorBodyReader
         var value = DefaultUserRequired()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13858,7 +13867,7 @@ extension DefaultUserRequired {
 
 extension UserGroupAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> UserGroupAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> UserGroupAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = UserGroupAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13871,7 +13880,7 @@ extension UserGroupAlreadyExistsFault {
 
 extension UserGroupQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> UserGroupQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> UserGroupQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = UserGroupQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13884,7 +13893,7 @@ extension UserGroupQuotaExceededFault {
 
 extension NoOperationFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> NoOperationFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> NoOperationFault {
         let reader = baseError.errorBodyReader
         var value = NoOperationFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13897,7 +13906,7 @@ extension NoOperationFault {
 
 extension CacheSubnetGroupInUse {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CacheSubnetGroupInUse {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> CacheSubnetGroupInUse {
         let reader = baseError.errorBodyReader
         var value = CacheSubnetGroupInUse()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13910,7 +13919,7 @@ extension CacheSubnetGroupInUse {
 
 extension DefaultUserAssociatedToUserGroupFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DefaultUserAssociatedToUserGroupFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DefaultUserAssociatedToUserGroupFault {
         let reader = baseError.errorBodyReader
         var value = DefaultUserAssociatedToUserGroupFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13923,7 +13932,7 @@ extension DefaultUserAssociatedToUserGroupFault {
 
 extension InvalidUserStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidUserStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidUserStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidUserStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13936,7 +13945,7 @@ extension InvalidUserStateFault {
 
 extension ReservedCacheNodesOfferingNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ReservedCacheNodesOfferingNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ReservedCacheNodesOfferingNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = ReservedCacheNodesOfferingNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13949,7 +13958,7 @@ extension ReservedCacheNodesOfferingNotFoundFault {
 
 extension InvalidKMSKeyFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidKMSKeyFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidKMSKeyFault {
         let reader = baseError.errorBodyReader
         var value = InvalidKMSKeyFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13962,7 +13971,7 @@ extension InvalidKMSKeyFault {
 
 extension SubnetInUse {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SubnetInUse {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> SubnetInUse {
         let reader = baseError.errorBodyReader
         var value = SubnetInUse()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13975,7 +13984,7 @@ extension SubnetInUse {
 
 extension ReservedCacheNodeAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ReservedCacheNodeAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ReservedCacheNodeAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = ReservedCacheNodeAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -13988,7 +13997,7 @@ extension ReservedCacheNodeAlreadyExistsFault {
 
 extension ReservedCacheNodeQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ReservedCacheNodeQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ReservedCacheNodeQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = ReservedCacheNodeQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -14001,7 +14010,7 @@ extension ReservedCacheNodeQuotaExceededFault {
 
 extension TagNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TagNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> TagNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = TagNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -14014,7 +14023,7 @@ extension TagNotFoundFault {
 
 extension AuthorizationNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> AuthorizationNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> AuthorizationNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = AuthorizationNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -14027,7 +14036,7 @@ extension AuthorizationNotFoundFault {
 
 extension ReplicationGroupAlreadyUnderMigrationFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ReplicationGroupAlreadyUnderMigrationFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ReplicationGroupAlreadyUnderMigrationFault {
         let reader = baseError.errorBodyReader
         var value = ReplicationGroupAlreadyUnderMigrationFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -14040,7 +14049,7 @@ extension ReplicationGroupAlreadyUnderMigrationFault {
 
 extension APICallRateForCustomerExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> APICallRateForCustomerExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> APICallRateForCustomerExceededFault {
         let reader = baseError.errorBodyReader
         var value = APICallRateForCustomerExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -14053,7 +14062,7 @@ extension APICallRateForCustomerExceededFault {
 
 extension NodeGroupNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> NodeGroupNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> NodeGroupNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = NodeGroupNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -14066,7 +14075,7 @@ extension NodeGroupNotFoundFault {
 
 extension TestFailoverNotAvailableFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TestFailoverNotAvailableFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> TestFailoverNotAvailableFault {
         let reader = baseError.errorBodyReader
         var value = TestFailoverNotAvailableFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -14077,399 +14086,32 @@ extension TestFailoverNotAvailableFault {
     }
 }
 
-extension ElastiCacheClientTypes.Tag {
+extension ElastiCacheClientTypes.Authentication {
 
-    static func write(value: ElastiCacheClientTypes.Tag?, to writer: SmithyFormURL.Writer) throws {
+    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.Authentication {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElastiCacheClientTypes.Authentication()
+        value.type = try reader["Type"].readIfPresent()
+        value.passwordCount = try reader["PasswordCount"].readIfPresent()
+        return value
+    }
+}
+
+extension ElastiCacheClientTypes.AuthenticationMode {
+
+    static func write(value: ElastiCacheClientTypes.AuthenticationMode?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.Tag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElastiCacheClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        return value
+        try writer["Passwords"].writeList(value.passwords, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Type"].write(value.type)
     }
 }
 
-extension ElastiCacheClientTypes.CacheSecurityGroup {
+extension ElastiCacheClientTypes.AvailabilityZone {
 
-    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.CacheSecurityGroup {
+    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.AvailabilityZone {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElastiCacheClientTypes.CacheSecurityGroup()
-        value.ownerId = try reader["OwnerId"].readIfPresent()
-        value.cacheSecurityGroupName = try reader["CacheSecurityGroupName"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.ec2SecurityGroups = try reader["EC2SecurityGroups"].readListIfPresent(memberReadingClosure: ElastiCacheClientTypes.EC2SecurityGroup.read(from:), memberNodeInfo: "EC2SecurityGroup", isFlattened: false)
-        value.arn = try reader["ARN"].readIfPresent()
-        return value
-    }
-}
-
-extension ElastiCacheClientTypes.EC2SecurityGroup {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.EC2SecurityGroup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElastiCacheClientTypes.EC2SecurityGroup()
-        value.status = try reader["Status"].readIfPresent()
-        value.ec2SecurityGroupName = try reader["EC2SecurityGroupName"].readIfPresent()
-        value.ec2SecurityGroupOwnerId = try reader["EC2SecurityGroupOwnerId"].readIfPresent()
-        return value
-    }
-}
-
-extension ElastiCacheClientTypes.ProcessedUpdateAction {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.ProcessedUpdateAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElastiCacheClientTypes.ProcessedUpdateAction()
-        value.replicationGroupId = try reader["ReplicationGroupId"].readIfPresent()
-        value.cacheClusterId = try reader["CacheClusterId"].readIfPresent()
-        value.serviceUpdateName = try reader["ServiceUpdateName"].readIfPresent()
-        value.updateActionStatus = try reader["UpdateActionStatus"].readIfPresent()
-        return value
-    }
-}
-
-extension ElastiCacheClientTypes.UnprocessedUpdateAction {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.UnprocessedUpdateAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElastiCacheClientTypes.UnprocessedUpdateAction()
-        value.replicationGroupId = try reader["ReplicationGroupId"].readIfPresent()
-        value.cacheClusterId = try reader["CacheClusterId"].readIfPresent()
-        value.serviceUpdateName = try reader["ServiceUpdateName"].readIfPresent()
-        value.errorType = try reader["ErrorType"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
-        return value
-    }
-}
-
-extension ElastiCacheClientTypes.ReplicationGroup {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.ReplicationGroup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElastiCacheClientTypes.ReplicationGroup()
-        value.replicationGroupId = try reader["ReplicationGroupId"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.globalReplicationGroupInfo = try reader["GlobalReplicationGroupInfo"].readIfPresent(with: ElastiCacheClientTypes.GlobalReplicationGroupInfo.read(from:))
-        value.status = try reader["Status"].readIfPresent()
-        value.pendingModifiedValues = try reader["PendingModifiedValues"].readIfPresent(with: ElastiCacheClientTypes.ReplicationGroupPendingModifiedValues.read(from:))
-        value.memberClusters = try reader["MemberClusters"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "ClusterId", isFlattened: false)
-        value.nodeGroups = try reader["NodeGroups"].readListIfPresent(memberReadingClosure: ElastiCacheClientTypes.NodeGroup.read(from:), memberNodeInfo: "NodeGroup", isFlattened: false)
-        value.snapshottingClusterId = try reader["SnapshottingClusterId"].readIfPresent()
-        value.automaticFailover = try reader["AutomaticFailover"].readIfPresent()
-        value.multiAZ = try reader["MultiAZ"].readIfPresent()
-        value.configurationEndpoint = try reader["ConfigurationEndpoint"].readIfPresent(with: ElastiCacheClientTypes.Endpoint.read(from:))
-        value.snapshotRetentionLimit = try reader["SnapshotRetentionLimit"].readIfPresent()
-        value.snapshotWindow = try reader["SnapshotWindow"].readIfPresent()
-        value.clusterEnabled = try reader["ClusterEnabled"].readIfPresent()
-        value.cacheNodeType = try reader["CacheNodeType"].readIfPresent()
-        value.authTokenEnabled = try reader["AuthTokenEnabled"].readIfPresent()
-        value.authTokenLastModifiedDate = try reader["AuthTokenLastModifiedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.transitEncryptionEnabled = try reader["TransitEncryptionEnabled"].readIfPresent()
-        value.atRestEncryptionEnabled = try reader["AtRestEncryptionEnabled"].readIfPresent()
-        value.memberClustersOutpostArns = try reader["MemberClustersOutpostArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "ReplicationGroupOutpostArn", isFlattened: false)
-        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
-        value.arn = try reader["ARN"].readIfPresent()
-        value.userGroupIds = try reader["UserGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.logDeliveryConfigurations = try reader["LogDeliveryConfigurations"].readListIfPresent(memberReadingClosure: ElastiCacheClientTypes.LogDeliveryConfiguration.read(from:), memberNodeInfo: "LogDeliveryConfiguration", isFlattened: false)
-        value.replicationGroupCreateTime = try reader["ReplicationGroupCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.dataTiering = try reader["DataTiering"].readIfPresent()
-        value.autoMinorVersionUpgrade = try reader["AutoMinorVersionUpgrade"].readIfPresent()
-        value.networkType = try reader["NetworkType"].readIfPresent()
-        value.ipDiscovery = try reader["IpDiscovery"].readIfPresent()
-        value.transitEncryptionMode = try reader["TransitEncryptionMode"].readIfPresent()
-        value.clusterMode = try reader["ClusterMode"].readIfPresent()
-        value.engine = try reader["Engine"].readIfPresent()
-        return value
-    }
-}
-
-extension ElastiCacheClientTypes.LogDeliveryConfiguration {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.LogDeliveryConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElastiCacheClientTypes.LogDeliveryConfiguration()
-        value.logType = try reader["LogType"].readIfPresent()
-        value.destinationType = try reader["DestinationType"].readIfPresent()
-        value.destinationDetails = try reader["DestinationDetails"].readIfPresent(with: ElastiCacheClientTypes.DestinationDetails.read(from:))
-        value.logFormat = try reader["LogFormat"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
-extension ElastiCacheClientTypes.DestinationDetails {
-
-    static func write(value: ElastiCacheClientTypes.DestinationDetails?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["CloudWatchLogsDetails"].write(value.cloudWatchLogsDetails, with: ElastiCacheClientTypes.CloudWatchLogsDestinationDetails.write(value:to:))
-        try writer["KinesisFirehoseDetails"].write(value.kinesisFirehoseDetails, with: ElastiCacheClientTypes.KinesisFirehoseDestinationDetails.write(value:to:))
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.DestinationDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElastiCacheClientTypes.DestinationDetails()
-        value.cloudWatchLogsDetails = try reader["CloudWatchLogsDetails"].readIfPresent(with: ElastiCacheClientTypes.CloudWatchLogsDestinationDetails.read(from:))
-        value.kinesisFirehoseDetails = try reader["KinesisFirehoseDetails"].readIfPresent(with: ElastiCacheClientTypes.KinesisFirehoseDestinationDetails.read(from:))
-        return value
-    }
-}
-
-extension ElastiCacheClientTypes.KinesisFirehoseDestinationDetails {
-
-    static func write(value: ElastiCacheClientTypes.KinesisFirehoseDestinationDetails?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DeliveryStream"].write(value.deliveryStream)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.KinesisFirehoseDestinationDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElastiCacheClientTypes.KinesisFirehoseDestinationDetails()
-        value.deliveryStream = try reader["DeliveryStream"].readIfPresent()
-        return value
-    }
-}
-
-extension ElastiCacheClientTypes.CloudWatchLogsDestinationDetails {
-
-    static func write(value: ElastiCacheClientTypes.CloudWatchLogsDestinationDetails?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["LogGroup"].write(value.logGroup)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.CloudWatchLogsDestinationDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElastiCacheClientTypes.CloudWatchLogsDestinationDetails()
-        value.logGroup = try reader["LogGroup"].readIfPresent()
-        return value
-    }
-}
-
-extension ElastiCacheClientTypes.Endpoint {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.Endpoint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElastiCacheClientTypes.Endpoint()
-        value.address = try reader["Address"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent()
-        return value
-    }
-}
-
-extension ElastiCacheClientTypes.NodeGroup {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.NodeGroup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElastiCacheClientTypes.NodeGroup()
-        value.nodeGroupId = try reader["NodeGroupId"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.primaryEndpoint = try reader["PrimaryEndpoint"].readIfPresent(with: ElastiCacheClientTypes.Endpoint.read(from:))
-        value.readerEndpoint = try reader["ReaderEndpoint"].readIfPresent(with: ElastiCacheClientTypes.Endpoint.read(from:))
-        value.slots = try reader["Slots"].readIfPresent()
-        value.nodeGroupMembers = try reader["NodeGroupMembers"].readListIfPresent(memberReadingClosure: ElastiCacheClientTypes.NodeGroupMember.read(from:), memberNodeInfo: "NodeGroupMember", isFlattened: false)
-        return value
-    }
-}
-
-extension ElastiCacheClientTypes.NodeGroupMember {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.NodeGroupMember {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElastiCacheClientTypes.NodeGroupMember()
-        value.cacheClusterId = try reader["CacheClusterId"].readIfPresent()
-        value.cacheNodeId = try reader["CacheNodeId"].readIfPresent()
-        value.readEndpoint = try reader["ReadEndpoint"].readIfPresent(with: ElastiCacheClientTypes.Endpoint.read(from:))
-        value.preferredAvailabilityZone = try reader["PreferredAvailabilityZone"].readIfPresent()
-        value.preferredOutpostArn = try reader["PreferredOutpostArn"].readIfPresent()
-        value.currentRole = try reader["CurrentRole"].readIfPresent()
-        return value
-    }
-}
-
-extension ElastiCacheClientTypes.ReplicationGroupPendingModifiedValues {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.ReplicationGroupPendingModifiedValues {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElastiCacheClientTypes.ReplicationGroupPendingModifiedValues()
-        value.primaryClusterId = try reader["PrimaryClusterId"].readIfPresent()
-        value.automaticFailoverStatus = try reader["AutomaticFailoverStatus"].readIfPresent()
-        value.resharding = try reader["Resharding"].readIfPresent(with: ElastiCacheClientTypes.ReshardingStatus.read(from:))
-        value.authTokenStatus = try reader["AuthTokenStatus"].readIfPresent()
-        value.userGroups = try reader["UserGroups"].readIfPresent(with: ElastiCacheClientTypes.UserGroupsUpdateStatus.read(from:))
-        value.logDeliveryConfigurations = try reader["LogDeliveryConfigurations"].readListIfPresent(memberReadingClosure: ElastiCacheClientTypes.PendingLogDeliveryConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.transitEncryptionEnabled = try reader["TransitEncryptionEnabled"].readIfPresent()
-        value.transitEncryptionMode = try reader["TransitEncryptionMode"].readIfPresent()
-        value.clusterMode = try reader["ClusterMode"].readIfPresent()
-        return value
-    }
-}
-
-extension ElastiCacheClientTypes.PendingLogDeliveryConfiguration {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.PendingLogDeliveryConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElastiCacheClientTypes.PendingLogDeliveryConfiguration()
-        value.logType = try reader["LogType"].readIfPresent()
-        value.destinationType = try reader["DestinationType"].readIfPresent()
-        value.destinationDetails = try reader["DestinationDetails"].readIfPresent(with: ElastiCacheClientTypes.DestinationDetails.read(from:))
-        value.logFormat = try reader["LogFormat"].readIfPresent()
-        return value
-    }
-}
-
-extension ElastiCacheClientTypes.UserGroupsUpdateStatus {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.UserGroupsUpdateStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElastiCacheClientTypes.UserGroupsUpdateStatus()
-        value.userGroupIdsToAdd = try reader["UserGroupIdsToAdd"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.userGroupIdsToRemove = try reader["UserGroupIdsToRemove"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ElastiCacheClientTypes.ReshardingStatus {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.ReshardingStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElastiCacheClientTypes.ReshardingStatus()
-        value.slotMigration = try reader["SlotMigration"].readIfPresent(with: ElastiCacheClientTypes.SlotMigration.read(from:))
-        return value
-    }
-}
-
-extension ElastiCacheClientTypes.SlotMigration {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.SlotMigration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElastiCacheClientTypes.SlotMigration()
-        value.progressPercentage = try reader["ProgressPercentage"].readIfPresent()
-        return value
-    }
-}
-
-extension ElastiCacheClientTypes.GlobalReplicationGroupInfo {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.GlobalReplicationGroupInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElastiCacheClientTypes.GlobalReplicationGroupInfo()
-        value.globalReplicationGroupId = try reader["GlobalReplicationGroupId"].readIfPresent()
-        value.globalReplicationGroupMemberRole = try reader["GlobalReplicationGroupMemberRole"].readIfPresent()
-        return value
-    }
-}
-
-extension ElastiCacheClientTypes.ServerlessCacheSnapshot {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.ServerlessCacheSnapshot {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElastiCacheClientTypes.ServerlessCacheSnapshot()
-        value.serverlessCacheSnapshotName = try reader["ServerlessCacheSnapshotName"].readIfPresent()
-        value.arn = try reader["ARN"].readIfPresent()
-        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
-        value.snapshotType = try reader["SnapshotType"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.expiryTime = try reader["ExpiryTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.bytesUsedForCache = try reader["BytesUsedForCache"].readIfPresent()
-        value.serverlessCacheConfiguration = try reader["ServerlessCacheConfiguration"].readIfPresent(with: ElastiCacheClientTypes.ServerlessCacheConfiguration.read(from:))
-        return value
-    }
-}
-
-extension ElastiCacheClientTypes.ServerlessCacheConfiguration {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.ServerlessCacheConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElastiCacheClientTypes.ServerlessCacheConfiguration()
-        value.serverlessCacheName = try reader["ServerlessCacheName"].readIfPresent()
-        value.engine = try reader["Engine"].readIfPresent()
-        value.majorEngineVersion = try reader["MajorEngineVersion"].readIfPresent()
-        return value
-    }
-}
-
-extension ElastiCacheClientTypes.Snapshot {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.Snapshot {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElastiCacheClientTypes.Snapshot()
-        value.snapshotName = try reader["SnapshotName"].readIfPresent()
-        value.replicationGroupId = try reader["ReplicationGroupId"].readIfPresent()
-        value.replicationGroupDescription = try reader["ReplicationGroupDescription"].readIfPresent()
-        value.cacheClusterId = try reader["CacheClusterId"].readIfPresent()
-        value.snapshotStatus = try reader["SnapshotStatus"].readIfPresent()
-        value.snapshotSource = try reader["SnapshotSource"].readIfPresent()
-        value.cacheNodeType = try reader["CacheNodeType"].readIfPresent()
-        value.engine = try reader["Engine"].readIfPresent()
-        value.engineVersion = try reader["EngineVersion"].readIfPresent()
-        value.numCacheNodes = try reader["NumCacheNodes"].readIfPresent()
-        value.preferredAvailabilityZone = try reader["PreferredAvailabilityZone"].readIfPresent()
-        value.preferredOutpostArn = try reader["PreferredOutpostArn"].readIfPresent()
-        value.cacheClusterCreateTime = try reader["CacheClusterCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.preferredMaintenanceWindow = try reader["PreferredMaintenanceWindow"].readIfPresent()
-        value.topicArn = try reader["TopicArn"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent()
-        value.cacheParameterGroupName = try reader["CacheParameterGroupName"].readIfPresent()
-        value.cacheSubnetGroupName = try reader["CacheSubnetGroupName"].readIfPresent()
-        value.vpcId = try reader["VpcId"].readIfPresent()
-        value.autoMinorVersionUpgrade = try reader["AutoMinorVersionUpgrade"].readIfPresent()
-        value.snapshotRetentionLimit = try reader["SnapshotRetentionLimit"].readIfPresent()
-        value.snapshotWindow = try reader["SnapshotWindow"].readIfPresent()
-        value.numNodeGroups = try reader["NumNodeGroups"].readIfPresent()
-        value.automaticFailover = try reader["AutomaticFailover"].readIfPresent()
-        value.nodeSnapshots = try reader["NodeSnapshots"].readListIfPresent(memberReadingClosure: ElastiCacheClientTypes.NodeSnapshot.read(from:), memberNodeInfo: "NodeSnapshot", isFlattened: false)
-        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
-        value.arn = try reader["ARN"].readIfPresent()
-        value.dataTiering = try reader["DataTiering"].readIfPresent()
-        return value
-    }
-}
-
-extension ElastiCacheClientTypes.NodeSnapshot {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.NodeSnapshot {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElastiCacheClientTypes.NodeSnapshot()
-        value.cacheClusterId = try reader["CacheClusterId"].readIfPresent()
-        value.nodeGroupId = try reader["NodeGroupId"].readIfPresent()
-        value.cacheNodeId = try reader["CacheNodeId"].readIfPresent()
-        value.nodeGroupConfiguration = try reader["NodeGroupConfiguration"].readIfPresent(with: ElastiCacheClientTypes.NodeGroupConfiguration.read(from:))
-        value.cacheSize = try reader["CacheSize"].readIfPresent()
-        value.cacheNodeCreateTime = try reader["CacheNodeCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.snapshotCreateTime = try reader["SnapshotCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension ElastiCacheClientTypes.NodeGroupConfiguration {
-
-    static func write(value: ElastiCacheClientTypes.NodeGroupConfiguration?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["NodeGroupId"].write(value.nodeGroupId)
-        try writer["PrimaryAvailabilityZone"].write(value.primaryAvailabilityZone)
-        try writer["PrimaryOutpostArn"].write(value.primaryOutpostArn)
-        try writer["ReplicaAvailabilityZones"].writeList(value.replicaAvailabilityZones, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "AvailabilityZone", isFlattened: false)
-        try writer["ReplicaCount"].write(value.replicaCount)
-        try writer["ReplicaOutpostArns"].writeList(value.replicaOutpostArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "OutpostArn", isFlattened: false)
-        try writer["Slots"].write(value.slots)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.NodeGroupConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElastiCacheClientTypes.NodeGroupConfiguration()
-        value.nodeGroupId = try reader["NodeGroupId"].readIfPresent()
-        value.slots = try reader["Slots"].readIfPresent()
-        value.replicaCount = try reader["ReplicaCount"].readIfPresent()
-        value.primaryAvailabilityZone = try reader["PrimaryAvailabilityZone"].readIfPresent()
-        value.replicaAvailabilityZones = try reader["ReplicaAvailabilityZones"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "AvailabilityZone", isFlattened: false)
-        value.primaryOutpostArn = try reader["PrimaryOutpostArn"].readIfPresent()
-        value.replicaOutpostArns = try reader["ReplicaOutpostArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "OutpostArn", isFlattened: false)
+        var value = ElastiCacheClientTypes.AvailabilityZone()
+        value.name = try reader["Name"].readIfPresent()
         return value
     }
 }
@@ -14516,13 +14158,16 @@ extension ElastiCacheClientTypes.CacheCluster {
     }
 }
 
-extension ElastiCacheClientTypes.SecurityGroupMembership {
+extension ElastiCacheClientTypes.CacheEngineVersion {
 
-    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.SecurityGroupMembership {
+    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.CacheEngineVersion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElastiCacheClientTypes.SecurityGroupMembership()
-        value.securityGroupId = try reader["SecurityGroupId"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
+        var value = ElastiCacheClientTypes.CacheEngineVersion()
+        value.engine = try reader["Engine"].readIfPresent()
+        value.engineVersion = try reader["EngineVersion"].readIfPresent()
+        value.cacheParameterGroupFamily = try reader["CacheParameterGroupFamily"].readIfPresent()
+        value.cacheEngineDescription = try reader["CacheEngineDescription"].readIfPresent()
+        value.cacheEngineVersionDescription = try reader["CacheEngineVersionDescription"].readIfPresent()
         return value
     }
 }
@@ -14540,317 +14185,6 @@ extension ElastiCacheClientTypes.CacheNode {
         value.sourceCacheNodeId = try reader["SourceCacheNodeId"].readIfPresent()
         value.customerAvailabilityZone = try reader["CustomerAvailabilityZone"].readIfPresent()
         value.customerOutpostArn = try reader["CustomerOutpostArn"].readIfPresent()
-        return value
-    }
-}
-
-extension ElastiCacheClientTypes.CacheParameterGroupStatus {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.CacheParameterGroupStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElastiCacheClientTypes.CacheParameterGroupStatus()
-        value.cacheParameterGroupName = try reader["CacheParameterGroupName"].readIfPresent()
-        value.parameterApplyStatus = try reader["ParameterApplyStatus"].readIfPresent()
-        value.cacheNodeIdsToReboot = try reader["CacheNodeIdsToReboot"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "CacheNodeId", isFlattened: false)
-        return value
-    }
-}
-
-extension ElastiCacheClientTypes.CacheSecurityGroupMembership {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.CacheSecurityGroupMembership {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElastiCacheClientTypes.CacheSecurityGroupMembership()
-        value.cacheSecurityGroupName = try reader["CacheSecurityGroupName"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        return value
-    }
-}
-
-extension ElastiCacheClientTypes.NotificationConfiguration {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.NotificationConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElastiCacheClientTypes.NotificationConfiguration()
-        value.topicArn = try reader["TopicArn"].readIfPresent()
-        value.topicStatus = try reader["TopicStatus"].readIfPresent()
-        return value
-    }
-}
-
-extension ElastiCacheClientTypes.PendingModifiedValues {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.PendingModifiedValues {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElastiCacheClientTypes.PendingModifiedValues()
-        value.numCacheNodes = try reader["NumCacheNodes"].readIfPresent()
-        value.cacheNodeIdsToRemove = try reader["CacheNodeIdsToRemove"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "CacheNodeId", isFlattened: false)
-        value.engineVersion = try reader["EngineVersion"].readIfPresent()
-        value.cacheNodeType = try reader["CacheNodeType"].readIfPresent()
-        value.authTokenStatus = try reader["AuthTokenStatus"].readIfPresent()
-        value.logDeliveryConfigurations = try reader["LogDeliveryConfigurations"].readListIfPresent(memberReadingClosure: ElastiCacheClientTypes.PendingLogDeliveryConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.transitEncryptionEnabled = try reader["TransitEncryptionEnabled"].readIfPresent()
-        value.transitEncryptionMode = try reader["TransitEncryptionMode"].readIfPresent()
-        value.scaleConfig = try reader["ScaleConfig"].readIfPresent(with: ElastiCacheClientTypes.ScaleConfig.read(from:))
-        return value
-    }
-}
-
-extension ElastiCacheClientTypes.ScaleConfig {
-
-    static func write(value: ElastiCacheClientTypes.ScaleConfig?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ScaleIntervalMinutes"].write(value.scaleIntervalMinutes)
-        try writer["ScalePercentage"].write(value.scalePercentage)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.ScaleConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElastiCacheClientTypes.ScaleConfig()
-        value.scalePercentage = try reader["ScalePercentage"].readIfPresent()
-        value.scaleIntervalMinutes = try reader["ScaleIntervalMinutes"].readIfPresent()
-        return value
-    }
-}
-
-extension ElastiCacheClientTypes.CacheParameterGroup {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.CacheParameterGroup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElastiCacheClientTypes.CacheParameterGroup()
-        value.cacheParameterGroupName = try reader["CacheParameterGroupName"].readIfPresent()
-        value.cacheParameterGroupFamily = try reader["CacheParameterGroupFamily"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.isGlobal = try reader["IsGlobal"].readIfPresent()
-        value.arn = try reader["ARN"].readIfPresent()
-        return value
-    }
-}
-
-extension ElastiCacheClientTypes.CacheSubnetGroup {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.CacheSubnetGroup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElastiCacheClientTypes.CacheSubnetGroup()
-        value.cacheSubnetGroupName = try reader["CacheSubnetGroupName"].readIfPresent()
-        value.cacheSubnetGroupDescription = try reader["CacheSubnetGroupDescription"].readIfPresent()
-        value.vpcId = try reader["VpcId"].readIfPresent()
-        value.subnets = try reader["Subnets"].readListIfPresent(memberReadingClosure: ElastiCacheClientTypes.Subnet.read(from:), memberNodeInfo: "Subnet", isFlattened: false)
-        value.arn = try reader["ARN"].readIfPresent()
-        value.supportedNetworkTypes = try reader["SupportedNetworkTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ElastiCacheClientTypes.NetworkType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ElastiCacheClientTypes.Subnet {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.Subnet {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElastiCacheClientTypes.Subnet()
-        value.subnetIdentifier = try reader["SubnetIdentifier"].readIfPresent()
-        value.subnetAvailabilityZone = try reader["SubnetAvailabilityZone"].readIfPresent(with: ElastiCacheClientTypes.AvailabilityZone.read(from:))
-        value.subnetOutpost = try reader["SubnetOutpost"].readIfPresent(with: ElastiCacheClientTypes.SubnetOutpost.read(from:))
-        value.supportedNetworkTypes = try reader["SupportedNetworkTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ElastiCacheClientTypes.NetworkType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ElastiCacheClientTypes.SubnetOutpost {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.SubnetOutpost {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElastiCacheClientTypes.SubnetOutpost()
-        value.subnetOutpostArn = try reader["SubnetOutpostArn"].readIfPresent()
-        return value
-    }
-}
-
-extension ElastiCacheClientTypes.AvailabilityZone {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.AvailabilityZone {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElastiCacheClientTypes.AvailabilityZone()
-        value.name = try reader["Name"].readIfPresent()
-        return value
-    }
-}
-
-extension ElastiCacheClientTypes.GlobalReplicationGroup {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.GlobalReplicationGroup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElastiCacheClientTypes.GlobalReplicationGroup()
-        value.globalReplicationGroupId = try reader["GlobalReplicationGroupId"].readIfPresent()
-        value.globalReplicationGroupDescription = try reader["GlobalReplicationGroupDescription"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.cacheNodeType = try reader["CacheNodeType"].readIfPresent()
-        value.engine = try reader["Engine"].readIfPresent()
-        value.engineVersion = try reader["EngineVersion"].readIfPresent()
-        value.members = try reader["Members"].readListIfPresent(memberReadingClosure: ElastiCacheClientTypes.GlobalReplicationGroupMember.read(from:), memberNodeInfo: "GlobalReplicationGroupMember", isFlattened: false)
-        value.clusterEnabled = try reader["ClusterEnabled"].readIfPresent()
-        value.globalNodeGroups = try reader["GlobalNodeGroups"].readListIfPresent(memberReadingClosure: ElastiCacheClientTypes.GlobalNodeGroup.read(from:), memberNodeInfo: "GlobalNodeGroup", isFlattened: false)
-        value.authTokenEnabled = try reader["AuthTokenEnabled"].readIfPresent()
-        value.transitEncryptionEnabled = try reader["TransitEncryptionEnabled"].readIfPresent()
-        value.atRestEncryptionEnabled = try reader["AtRestEncryptionEnabled"].readIfPresent()
-        value.arn = try reader["ARN"].readIfPresent()
-        return value
-    }
-}
-
-extension ElastiCacheClientTypes.GlobalNodeGroup {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.GlobalNodeGroup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElastiCacheClientTypes.GlobalNodeGroup()
-        value.globalNodeGroupId = try reader["GlobalNodeGroupId"].readIfPresent()
-        value.slots = try reader["Slots"].readIfPresent()
-        return value
-    }
-}
-
-extension ElastiCacheClientTypes.GlobalReplicationGroupMember {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.GlobalReplicationGroupMember {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElastiCacheClientTypes.GlobalReplicationGroupMember()
-        value.replicationGroupId = try reader["ReplicationGroupId"].readIfPresent()
-        value.replicationGroupRegion = try reader["ReplicationGroupRegion"].readIfPresent()
-        value.role = try reader["Role"].readIfPresent()
-        value.automaticFailover = try reader["AutomaticFailover"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        return value
-    }
-}
-
-extension ElastiCacheClientTypes.ServerlessCache {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.ServerlessCache {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElastiCacheClientTypes.ServerlessCache()
-        value.serverlessCacheName = try reader["ServerlessCacheName"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.status = try reader["Status"].readIfPresent()
-        value.engine = try reader["Engine"].readIfPresent()
-        value.majorEngineVersion = try reader["MajorEngineVersion"].readIfPresent()
-        value.fullEngineVersion = try reader["FullEngineVersion"].readIfPresent()
-        value.cacheUsageLimits = try reader["CacheUsageLimits"].readIfPresent(with: ElastiCacheClientTypes.CacheUsageLimits.read(from:))
-        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
-        value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "SecurityGroupId", isFlattened: false)
-        value.endpoint = try reader["Endpoint"].readIfPresent(with: ElastiCacheClientTypes.Endpoint.read(from:))
-        value.readerEndpoint = try reader["ReaderEndpoint"].readIfPresent(with: ElastiCacheClientTypes.Endpoint.read(from:))
-        value.arn = try reader["ARN"].readIfPresent()
-        value.userGroupId = try reader["UserGroupId"].readIfPresent()
-        value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "SubnetId", isFlattened: false)
-        value.snapshotRetentionLimit = try reader["SnapshotRetentionLimit"].readIfPresent()
-        value.dailySnapshotTime = try reader["DailySnapshotTime"].readIfPresent()
-        return value
-    }
-}
-
-extension ElastiCacheClientTypes.CacheUsageLimits {
-
-    static func write(value: ElastiCacheClientTypes.CacheUsageLimits?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DataStorage"].write(value.dataStorage, with: ElastiCacheClientTypes.DataStorage.write(value:to:))
-        try writer["ECPUPerSecond"].write(value.ecpuPerSecond, with: ElastiCacheClientTypes.ECPUPerSecond.write(value:to:))
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.CacheUsageLimits {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElastiCacheClientTypes.CacheUsageLimits()
-        value.dataStorage = try reader["DataStorage"].readIfPresent(with: ElastiCacheClientTypes.DataStorage.read(from:))
-        value.ecpuPerSecond = try reader["ECPUPerSecond"].readIfPresent(with: ElastiCacheClientTypes.ECPUPerSecond.read(from:))
-        return value
-    }
-}
-
-extension ElastiCacheClientTypes.ECPUPerSecond {
-
-    static func write(value: ElastiCacheClientTypes.ECPUPerSecond?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Maximum"].write(value.maximum)
-        try writer["Minimum"].write(value.minimum)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.ECPUPerSecond {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElastiCacheClientTypes.ECPUPerSecond()
-        value.maximum = try reader["Maximum"].readIfPresent()
-        value.minimum = try reader["Minimum"].readIfPresent()
-        return value
-    }
-}
-
-extension ElastiCacheClientTypes.DataStorage {
-
-    static func write(value: ElastiCacheClientTypes.DataStorage?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Maximum"].write(value.maximum)
-        try writer["Minimum"].write(value.minimum)
-        try writer["Unit"].write(value.unit)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.DataStorage {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElastiCacheClientTypes.DataStorage()
-        value.maximum = try reader["Maximum"].readIfPresent()
-        value.minimum = try reader["Minimum"].readIfPresent()
-        value.unit = try reader["Unit"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension ElastiCacheClientTypes.Authentication {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.Authentication {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElastiCacheClientTypes.Authentication()
-        value.type = try reader["Type"].readIfPresent()
-        value.passwordCount = try reader["PasswordCount"].readIfPresent()
-        return value
-    }
-}
-
-extension ElastiCacheClientTypes.UserGroupPendingChanges {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.UserGroupPendingChanges {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElastiCacheClientTypes.UserGroupPendingChanges()
-        value.userIdsToRemove = try reader["UserIdsToRemove"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.userIdsToAdd = try reader["UserIdsToAdd"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ElastiCacheClientTypes.CacheEngineVersion {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.CacheEngineVersion {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElastiCacheClientTypes.CacheEngineVersion()
-        value.engine = try reader["Engine"].readIfPresent()
-        value.engineVersion = try reader["EngineVersion"].readIfPresent()
-        value.cacheParameterGroupFamily = try reader["CacheParameterGroupFamily"].readIfPresent()
-        value.cacheEngineDescription = try reader["CacheEngineDescription"].readIfPresent()
-        value.cacheEngineVersionDescription = try reader["CacheEngineVersionDescription"].readIfPresent()
-        return value
-    }
-}
-
-extension ElastiCacheClientTypes.Parameter {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.Parameter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElastiCacheClientTypes.Parameter()
-        value.parameterName = try reader["ParameterName"].readIfPresent()
-        value.parameterValue = try reader["ParameterValue"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.source = try reader["Source"].readIfPresent()
-        value.dataType = try reader["DataType"].readIfPresent()
-        value.allowedValues = try reader["AllowedValues"].readIfPresent()
-        value.isModifiable = try reader["IsModifiable"].readIfPresent()
-        value.minimumEngineVersion = try reader["MinimumEngineVersion"].readIfPresent()
-        value.changeType = try reader["ChangeType"].readIfPresent()
         return value
     }
 }
@@ -14884,6 +14218,217 @@ extension ElastiCacheClientTypes.CacheNodeTypeSpecificValue {
     }
 }
 
+extension ElastiCacheClientTypes.CacheNodeUpdateStatus {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.CacheNodeUpdateStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElastiCacheClientTypes.CacheNodeUpdateStatus()
+        value.cacheNodeId = try reader["CacheNodeId"].readIfPresent()
+        value.nodeUpdateStatus = try reader["NodeUpdateStatus"].readIfPresent()
+        value.nodeDeletionDate = try reader["NodeDeletionDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.nodeUpdateStartDate = try reader["NodeUpdateStartDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.nodeUpdateEndDate = try reader["NodeUpdateEndDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.nodeUpdateInitiatedBy = try reader["NodeUpdateInitiatedBy"].readIfPresent()
+        value.nodeUpdateInitiatedDate = try reader["NodeUpdateInitiatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.nodeUpdateStatusModifiedDate = try reader["NodeUpdateStatusModifiedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension ElastiCacheClientTypes.CacheParameterGroup {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.CacheParameterGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElastiCacheClientTypes.CacheParameterGroup()
+        value.cacheParameterGroupName = try reader["CacheParameterGroupName"].readIfPresent()
+        value.cacheParameterGroupFamily = try reader["CacheParameterGroupFamily"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.isGlobal = try reader["IsGlobal"].readIfPresent()
+        value.arn = try reader["ARN"].readIfPresent()
+        return value
+    }
+}
+
+extension ElastiCacheClientTypes.CacheParameterGroupStatus {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.CacheParameterGroupStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElastiCacheClientTypes.CacheParameterGroupStatus()
+        value.cacheParameterGroupName = try reader["CacheParameterGroupName"].readIfPresent()
+        value.parameterApplyStatus = try reader["ParameterApplyStatus"].readIfPresent()
+        value.cacheNodeIdsToReboot = try reader["CacheNodeIdsToReboot"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "CacheNodeId", isFlattened: false)
+        return value
+    }
+}
+
+extension ElastiCacheClientTypes.CacheSecurityGroup {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.CacheSecurityGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElastiCacheClientTypes.CacheSecurityGroup()
+        value.ownerId = try reader["OwnerId"].readIfPresent()
+        value.cacheSecurityGroupName = try reader["CacheSecurityGroupName"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.ec2SecurityGroups = try reader["EC2SecurityGroups"].readListIfPresent(memberReadingClosure: ElastiCacheClientTypes.EC2SecurityGroup.read(from:), memberNodeInfo: "EC2SecurityGroup", isFlattened: false)
+        value.arn = try reader["ARN"].readIfPresent()
+        return value
+    }
+}
+
+extension ElastiCacheClientTypes.CacheSecurityGroupMembership {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.CacheSecurityGroupMembership {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElastiCacheClientTypes.CacheSecurityGroupMembership()
+        value.cacheSecurityGroupName = try reader["CacheSecurityGroupName"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
+extension ElastiCacheClientTypes.CacheSubnetGroup {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.CacheSubnetGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElastiCacheClientTypes.CacheSubnetGroup()
+        value.cacheSubnetGroupName = try reader["CacheSubnetGroupName"].readIfPresent()
+        value.cacheSubnetGroupDescription = try reader["CacheSubnetGroupDescription"].readIfPresent()
+        value.vpcId = try reader["VpcId"].readIfPresent()
+        value.subnets = try reader["Subnets"].readListIfPresent(memberReadingClosure: ElastiCacheClientTypes.Subnet.read(from:), memberNodeInfo: "Subnet", isFlattened: false)
+        value.arn = try reader["ARN"].readIfPresent()
+        value.supportedNetworkTypes = try reader["SupportedNetworkTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ElastiCacheClientTypes.NetworkType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ElastiCacheClientTypes.CacheUsageLimits {
+
+    static func write(value: ElastiCacheClientTypes.CacheUsageLimits?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DataStorage"].write(value.dataStorage, with: ElastiCacheClientTypes.DataStorage.write(value:to:))
+        try writer["ECPUPerSecond"].write(value.ecpuPerSecond, with: ElastiCacheClientTypes.ECPUPerSecond.write(value:to:))
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.CacheUsageLimits {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElastiCacheClientTypes.CacheUsageLimits()
+        value.dataStorage = try reader["DataStorage"].readIfPresent(with: ElastiCacheClientTypes.DataStorage.read(from:))
+        value.ecpuPerSecond = try reader["ECPUPerSecond"].readIfPresent(with: ElastiCacheClientTypes.ECPUPerSecond.read(from:))
+        return value
+    }
+}
+
+extension ElastiCacheClientTypes.CloudWatchLogsDestinationDetails {
+
+    static func write(value: ElastiCacheClientTypes.CloudWatchLogsDestinationDetails?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["LogGroup"].write(value.logGroup)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.CloudWatchLogsDestinationDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElastiCacheClientTypes.CloudWatchLogsDestinationDetails()
+        value.logGroup = try reader["LogGroup"].readIfPresent()
+        return value
+    }
+}
+
+extension ElastiCacheClientTypes.ConfigureShard {
+
+    static func write(value: ElastiCacheClientTypes.ConfigureShard?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["NewReplicaCount"].write(value.newReplicaCount)
+        try writer["NodeGroupId"].write(value.nodeGroupId)
+        try writer["PreferredAvailabilityZones"].writeList(value.preferredAvailabilityZones, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "PreferredAvailabilityZone", isFlattened: false)
+        try writer["PreferredOutpostArns"].writeList(value.preferredOutpostArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "PreferredOutpostArn", isFlattened: false)
+    }
+}
+
+extension ElastiCacheClientTypes.CustomerNodeEndpoint {
+
+    static func write(value: ElastiCacheClientTypes.CustomerNodeEndpoint?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Address"].write(value.address)
+        try writer["Port"].write(value.port)
+    }
+}
+
+extension ElastiCacheClientTypes.DataStorage {
+
+    static func write(value: ElastiCacheClientTypes.DataStorage?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Maximum"].write(value.maximum)
+        try writer["Minimum"].write(value.minimum)
+        try writer["Unit"].write(value.unit)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.DataStorage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElastiCacheClientTypes.DataStorage()
+        value.maximum = try reader["Maximum"].readIfPresent()
+        value.minimum = try reader["Minimum"].readIfPresent()
+        value.unit = try reader["Unit"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension ElastiCacheClientTypes.DestinationDetails {
+
+    static func write(value: ElastiCacheClientTypes.DestinationDetails?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["CloudWatchLogsDetails"].write(value.cloudWatchLogsDetails, with: ElastiCacheClientTypes.CloudWatchLogsDestinationDetails.write(value:to:))
+        try writer["KinesisFirehoseDetails"].write(value.kinesisFirehoseDetails, with: ElastiCacheClientTypes.KinesisFirehoseDestinationDetails.write(value:to:))
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.DestinationDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElastiCacheClientTypes.DestinationDetails()
+        value.cloudWatchLogsDetails = try reader["CloudWatchLogsDetails"].readIfPresent(with: ElastiCacheClientTypes.CloudWatchLogsDestinationDetails.read(from:))
+        value.kinesisFirehoseDetails = try reader["KinesisFirehoseDetails"].readIfPresent(with: ElastiCacheClientTypes.KinesisFirehoseDestinationDetails.read(from:))
+        return value
+    }
+}
+
+extension ElastiCacheClientTypes.EC2SecurityGroup {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.EC2SecurityGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElastiCacheClientTypes.EC2SecurityGroup()
+        value.status = try reader["Status"].readIfPresent()
+        value.ec2SecurityGroupName = try reader["EC2SecurityGroupName"].readIfPresent()
+        value.ec2SecurityGroupOwnerId = try reader["EC2SecurityGroupOwnerId"].readIfPresent()
+        return value
+    }
+}
+
+extension ElastiCacheClientTypes.ECPUPerSecond {
+
+    static func write(value: ElastiCacheClientTypes.ECPUPerSecond?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Maximum"].write(value.maximum)
+        try writer["Minimum"].write(value.minimum)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.ECPUPerSecond {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElastiCacheClientTypes.ECPUPerSecond()
+        value.maximum = try reader["Maximum"].readIfPresent()
+        value.minimum = try reader["Minimum"].readIfPresent()
+        return value
+    }
+}
+
+extension ElastiCacheClientTypes.Endpoint {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.Endpoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElastiCacheClientTypes.Endpoint()
+        value.address = try reader["Address"].readIfPresent()
+        value.port = try reader["Port"].readIfPresent()
+        return value
+    }
+}
+
 extension ElastiCacheClientTypes.EngineDefaults {
 
     static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.EngineDefaults {
@@ -14910,6 +14455,379 @@ extension ElastiCacheClientTypes.Event {
     }
 }
 
+extension ElastiCacheClientTypes.Filter {
+
+    static func write(value: ElastiCacheClientTypes.Filter?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ElastiCacheClientTypes.GlobalNodeGroup {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.GlobalNodeGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElastiCacheClientTypes.GlobalNodeGroup()
+        value.globalNodeGroupId = try reader["GlobalNodeGroupId"].readIfPresent()
+        value.slots = try reader["Slots"].readIfPresent()
+        return value
+    }
+}
+
+extension ElastiCacheClientTypes.GlobalReplicationGroup {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.GlobalReplicationGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElastiCacheClientTypes.GlobalReplicationGroup()
+        value.globalReplicationGroupId = try reader["GlobalReplicationGroupId"].readIfPresent()
+        value.globalReplicationGroupDescription = try reader["GlobalReplicationGroupDescription"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.cacheNodeType = try reader["CacheNodeType"].readIfPresent()
+        value.engine = try reader["Engine"].readIfPresent()
+        value.engineVersion = try reader["EngineVersion"].readIfPresent()
+        value.members = try reader["Members"].readListIfPresent(memberReadingClosure: ElastiCacheClientTypes.GlobalReplicationGroupMember.read(from:), memberNodeInfo: "GlobalReplicationGroupMember", isFlattened: false)
+        value.clusterEnabled = try reader["ClusterEnabled"].readIfPresent()
+        value.globalNodeGroups = try reader["GlobalNodeGroups"].readListIfPresent(memberReadingClosure: ElastiCacheClientTypes.GlobalNodeGroup.read(from:), memberNodeInfo: "GlobalNodeGroup", isFlattened: false)
+        value.authTokenEnabled = try reader["AuthTokenEnabled"].readIfPresent()
+        value.transitEncryptionEnabled = try reader["TransitEncryptionEnabled"].readIfPresent()
+        value.atRestEncryptionEnabled = try reader["AtRestEncryptionEnabled"].readIfPresent()
+        value.arn = try reader["ARN"].readIfPresent()
+        return value
+    }
+}
+
+extension ElastiCacheClientTypes.GlobalReplicationGroupInfo {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.GlobalReplicationGroupInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElastiCacheClientTypes.GlobalReplicationGroupInfo()
+        value.globalReplicationGroupId = try reader["GlobalReplicationGroupId"].readIfPresent()
+        value.globalReplicationGroupMemberRole = try reader["GlobalReplicationGroupMemberRole"].readIfPresent()
+        return value
+    }
+}
+
+extension ElastiCacheClientTypes.GlobalReplicationGroupMember {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.GlobalReplicationGroupMember {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElastiCacheClientTypes.GlobalReplicationGroupMember()
+        value.replicationGroupId = try reader["ReplicationGroupId"].readIfPresent()
+        value.replicationGroupRegion = try reader["ReplicationGroupRegion"].readIfPresent()
+        value.role = try reader["Role"].readIfPresent()
+        value.automaticFailover = try reader["AutomaticFailover"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
+extension ElastiCacheClientTypes.KinesisFirehoseDestinationDetails {
+
+    static func write(value: ElastiCacheClientTypes.KinesisFirehoseDestinationDetails?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DeliveryStream"].write(value.deliveryStream)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.KinesisFirehoseDestinationDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElastiCacheClientTypes.KinesisFirehoseDestinationDetails()
+        value.deliveryStream = try reader["DeliveryStream"].readIfPresent()
+        return value
+    }
+}
+
+extension ElastiCacheClientTypes.LogDeliveryConfiguration {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.LogDeliveryConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElastiCacheClientTypes.LogDeliveryConfiguration()
+        value.logType = try reader["LogType"].readIfPresent()
+        value.destinationType = try reader["DestinationType"].readIfPresent()
+        value.destinationDetails = try reader["DestinationDetails"].readIfPresent(with: ElastiCacheClientTypes.DestinationDetails.read(from:))
+        value.logFormat = try reader["LogFormat"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
+        return value
+    }
+}
+
+extension ElastiCacheClientTypes.LogDeliveryConfigurationRequest {
+
+    static func write(value: ElastiCacheClientTypes.LogDeliveryConfigurationRequest?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DestinationDetails"].write(value.destinationDetails, with: ElastiCacheClientTypes.DestinationDetails.write(value:to:))
+        try writer["DestinationType"].write(value.destinationType)
+        try writer["Enabled"].write(value.enabled)
+        try writer["LogFormat"].write(value.logFormat)
+        try writer["LogType"].write(value.logType)
+    }
+}
+
+extension ElastiCacheClientTypes.NodeGroup {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.NodeGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElastiCacheClientTypes.NodeGroup()
+        value.nodeGroupId = try reader["NodeGroupId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.primaryEndpoint = try reader["PrimaryEndpoint"].readIfPresent(with: ElastiCacheClientTypes.Endpoint.read(from:))
+        value.readerEndpoint = try reader["ReaderEndpoint"].readIfPresent(with: ElastiCacheClientTypes.Endpoint.read(from:))
+        value.slots = try reader["Slots"].readIfPresent()
+        value.nodeGroupMembers = try reader["NodeGroupMembers"].readListIfPresent(memberReadingClosure: ElastiCacheClientTypes.NodeGroupMember.read(from:), memberNodeInfo: "NodeGroupMember", isFlattened: false)
+        return value
+    }
+}
+
+extension ElastiCacheClientTypes.NodeGroupConfiguration {
+
+    static func write(value: ElastiCacheClientTypes.NodeGroupConfiguration?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["NodeGroupId"].write(value.nodeGroupId)
+        try writer["PrimaryAvailabilityZone"].write(value.primaryAvailabilityZone)
+        try writer["PrimaryOutpostArn"].write(value.primaryOutpostArn)
+        try writer["ReplicaAvailabilityZones"].writeList(value.replicaAvailabilityZones, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "AvailabilityZone", isFlattened: false)
+        try writer["ReplicaCount"].write(value.replicaCount)
+        try writer["ReplicaOutpostArns"].writeList(value.replicaOutpostArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "OutpostArn", isFlattened: false)
+        try writer["Slots"].write(value.slots)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.NodeGroupConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElastiCacheClientTypes.NodeGroupConfiguration()
+        value.nodeGroupId = try reader["NodeGroupId"].readIfPresent()
+        value.slots = try reader["Slots"].readIfPresent()
+        value.replicaCount = try reader["ReplicaCount"].readIfPresent()
+        value.primaryAvailabilityZone = try reader["PrimaryAvailabilityZone"].readIfPresent()
+        value.replicaAvailabilityZones = try reader["ReplicaAvailabilityZones"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "AvailabilityZone", isFlattened: false)
+        value.primaryOutpostArn = try reader["PrimaryOutpostArn"].readIfPresent()
+        value.replicaOutpostArns = try reader["ReplicaOutpostArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "OutpostArn", isFlattened: false)
+        return value
+    }
+}
+
+extension ElastiCacheClientTypes.NodeGroupMember {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.NodeGroupMember {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElastiCacheClientTypes.NodeGroupMember()
+        value.cacheClusterId = try reader["CacheClusterId"].readIfPresent()
+        value.cacheNodeId = try reader["CacheNodeId"].readIfPresent()
+        value.readEndpoint = try reader["ReadEndpoint"].readIfPresent(with: ElastiCacheClientTypes.Endpoint.read(from:))
+        value.preferredAvailabilityZone = try reader["PreferredAvailabilityZone"].readIfPresent()
+        value.preferredOutpostArn = try reader["PreferredOutpostArn"].readIfPresent()
+        value.currentRole = try reader["CurrentRole"].readIfPresent()
+        return value
+    }
+}
+
+extension ElastiCacheClientTypes.NodeGroupMemberUpdateStatus {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.NodeGroupMemberUpdateStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElastiCacheClientTypes.NodeGroupMemberUpdateStatus()
+        value.cacheClusterId = try reader["CacheClusterId"].readIfPresent()
+        value.cacheNodeId = try reader["CacheNodeId"].readIfPresent()
+        value.nodeUpdateStatus = try reader["NodeUpdateStatus"].readIfPresent()
+        value.nodeDeletionDate = try reader["NodeDeletionDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.nodeUpdateStartDate = try reader["NodeUpdateStartDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.nodeUpdateEndDate = try reader["NodeUpdateEndDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.nodeUpdateInitiatedBy = try reader["NodeUpdateInitiatedBy"].readIfPresent()
+        value.nodeUpdateInitiatedDate = try reader["NodeUpdateInitiatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.nodeUpdateStatusModifiedDate = try reader["NodeUpdateStatusModifiedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension ElastiCacheClientTypes.NodeGroupUpdateStatus {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.NodeGroupUpdateStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElastiCacheClientTypes.NodeGroupUpdateStatus()
+        value.nodeGroupId = try reader["NodeGroupId"].readIfPresent()
+        value.nodeGroupMemberUpdateStatus = try reader["NodeGroupMemberUpdateStatus"].readListIfPresent(memberReadingClosure: ElastiCacheClientTypes.NodeGroupMemberUpdateStatus.read(from:), memberNodeInfo: "NodeGroupMemberUpdateStatus", isFlattened: false)
+        return value
+    }
+}
+
+extension ElastiCacheClientTypes.NodeSnapshot {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.NodeSnapshot {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElastiCacheClientTypes.NodeSnapshot()
+        value.cacheClusterId = try reader["CacheClusterId"].readIfPresent()
+        value.nodeGroupId = try reader["NodeGroupId"].readIfPresent()
+        value.cacheNodeId = try reader["CacheNodeId"].readIfPresent()
+        value.nodeGroupConfiguration = try reader["NodeGroupConfiguration"].readIfPresent(with: ElastiCacheClientTypes.NodeGroupConfiguration.read(from:))
+        value.cacheSize = try reader["CacheSize"].readIfPresent()
+        value.cacheNodeCreateTime = try reader["CacheNodeCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.snapshotCreateTime = try reader["SnapshotCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension ElastiCacheClientTypes.NotificationConfiguration {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.NotificationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElastiCacheClientTypes.NotificationConfiguration()
+        value.topicArn = try reader["TopicArn"].readIfPresent()
+        value.topicStatus = try reader["TopicStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension ElastiCacheClientTypes.Parameter {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.Parameter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElastiCacheClientTypes.Parameter()
+        value.parameterName = try reader["ParameterName"].readIfPresent()
+        value.parameterValue = try reader["ParameterValue"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.source = try reader["Source"].readIfPresent()
+        value.dataType = try reader["DataType"].readIfPresent()
+        value.allowedValues = try reader["AllowedValues"].readIfPresent()
+        value.isModifiable = try reader["IsModifiable"].readIfPresent()
+        value.minimumEngineVersion = try reader["MinimumEngineVersion"].readIfPresent()
+        value.changeType = try reader["ChangeType"].readIfPresent()
+        return value
+    }
+}
+
+extension ElastiCacheClientTypes.ParameterNameValue {
+
+    static func write(value: ElastiCacheClientTypes.ParameterNameValue?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ParameterName"].write(value.parameterName)
+        try writer["ParameterValue"].write(value.parameterValue)
+    }
+}
+
+extension ElastiCacheClientTypes.PendingLogDeliveryConfiguration {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.PendingLogDeliveryConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElastiCacheClientTypes.PendingLogDeliveryConfiguration()
+        value.logType = try reader["LogType"].readIfPresent()
+        value.destinationType = try reader["DestinationType"].readIfPresent()
+        value.destinationDetails = try reader["DestinationDetails"].readIfPresent(with: ElastiCacheClientTypes.DestinationDetails.read(from:))
+        value.logFormat = try reader["LogFormat"].readIfPresent()
+        return value
+    }
+}
+
+extension ElastiCacheClientTypes.PendingModifiedValues {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.PendingModifiedValues {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElastiCacheClientTypes.PendingModifiedValues()
+        value.numCacheNodes = try reader["NumCacheNodes"].readIfPresent()
+        value.cacheNodeIdsToRemove = try reader["CacheNodeIdsToRemove"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "CacheNodeId", isFlattened: false)
+        value.engineVersion = try reader["EngineVersion"].readIfPresent()
+        value.cacheNodeType = try reader["CacheNodeType"].readIfPresent()
+        value.authTokenStatus = try reader["AuthTokenStatus"].readIfPresent()
+        value.logDeliveryConfigurations = try reader["LogDeliveryConfigurations"].readListIfPresent(memberReadingClosure: ElastiCacheClientTypes.PendingLogDeliveryConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.transitEncryptionEnabled = try reader["TransitEncryptionEnabled"].readIfPresent()
+        value.transitEncryptionMode = try reader["TransitEncryptionMode"].readIfPresent()
+        value.scaleConfig = try reader["ScaleConfig"].readIfPresent(with: ElastiCacheClientTypes.ScaleConfig.read(from:))
+        return value
+    }
+}
+
+extension ElastiCacheClientTypes.ProcessedUpdateAction {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.ProcessedUpdateAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElastiCacheClientTypes.ProcessedUpdateAction()
+        value.replicationGroupId = try reader["ReplicationGroupId"].readIfPresent()
+        value.cacheClusterId = try reader["CacheClusterId"].readIfPresent()
+        value.serviceUpdateName = try reader["ServiceUpdateName"].readIfPresent()
+        value.updateActionStatus = try reader["UpdateActionStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension ElastiCacheClientTypes.RecurringCharge {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.RecurringCharge {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElastiCacheClientTypes.RecurringCharge()
+        value.recurringChargeAmount = try reader["RecurringChargeAmount"].readIfPresent()
+        value.recurringChargeFrequency = try reader["RecurringChargeFrequency"].readIfPresent()
+        return value
+    }
+}
+
+extension ElastiCacheClientTypes.RegionalConfiguration {
+
+    static func write(value: ElastiCacheClientTypes.RegionalConfiguration?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ReplicationGroupId"].write(value.replicationGroupId)
+        try writer["ReplicationGroupRegion"].write(value.replicationGroupRegion)
+        try writer["ReshardingConfiguration"].writeList(value.reshardingConfiguration, memberWritingClosure: ElastiCacheClientTypes.ReshardingConfiguration.write(value:to:), memberNodeInfo: "ReshardingConfiguration", isFlattened: false)
+    }
+}
+
+extension ElastiCacheClientTypes.ReplicationGroup {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.ReplicationGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElastiCacheClientTypes.ReplicationGroup()
+        value.replicationGroupId = try reader["ReplicationGroupId"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.globalReplicationGroupInfo = try reader["GlobalReplicationGroupInfo"].readIfPresent(with: ElastiCacheClientTypes.GlobalReplicationGroupInfo.read(from:))
+        value.status = try reader["Status"].readIfPresent()
+        value.pendingModifiedValues = try reader["PendingModifiedValues"].readIfPresent(with: ElastiCacheClientTypes.ReplicationGroupPendingModifiedValues.read(from:))
+        value.memberClusters = try reader["MemberClusters"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "ClusterId", isFlattened: false)
+        value.nodeGroups = try reader["NodeGroups"].readListIfPresent(memberReadingClosure: ElastiCacheClientTypes.NodeGroup.read(from:), memberNodeInfo: "NodeGroup", isFlattened: false)
+        value.snapshottingClusterId = try reader["SnapshottingClusterId"].readIfPresent()
+        value.automaticFailover = try reader["AutomaticFailover"].readIfPresent()
+        value.multiAZ = try reader["MultiAZ"].readIfPresent()
+        value.configurationEndpoint = try reader["ConfigurationEndpoint"].readIfPresent(with: ElastiCacheClientTypes.Endpoint.read(from:))
+        value.snapshotRetentionLimit = try reader["SnapshotRetentionLimit"].readIfPresent()
+        value.snapshotWindow = try reader["SnapshotWindow"].readIfPresent()
+        value.clusterEnabled = try reader["ClusterEnabled"].readIfPresent()
+        value.cacheNodeType = try reader["CacheNodeType"].readIfPresent()
+        value.authTokenEnabled = try reader["AuthTokenEnabled"].readIfPresent()
+        value.authTokenLastModifiedDate = try reader["AuthTokenLastModifiedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.transitEncryptionEnabled = try reader["TransitEncryptionEnabled"].readIfPresent()
+        value.atRestEncryptionEnabled = try reader["AtRestEncryptionEnabled"].readIfPresent()
+        value.memberClustersOutpostArns = try reader["MemberClustersOutpostArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "ReplicationGroupOutpostArn", isFlattened: false)
+        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
+        value.arn = try reader["ARN"].readIfPresent()
+        value.userGroupIds = try reader["UserGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.logDeliveryConfigurations = try reader["LogDeliveryConfigurations"].readListIfPresent(memberReadingClosure: ElastiCacheClientTypes.LogDeliveryConfiguration.read(from:), memberNodeInfo: "LogDeliveryConfiguration", isFlattened: false)
+        value.replicationGroupCreateTime = try reader["ReplicationGroupCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.dataTiering = try reader["DataTiering"].readIfPresent()
+        value.autoMinorVersionUpgrade = try reader["AutoMinorVersionUpgrade"].readIfPresent()
+        value.networkType = try reader["NetworkType"].readIfPresent()
+        value.ipDiscovery = try reader["IpDiscovery"].readIfPresent()
+        value.transitEncryptionMode = try reader["TransitEncryptionMode"].readIfPresent()
+        value.clusterMode = try reader["ClusterMode"].readIfPresent()
+        value.engine = try reader["Engine"].readIfPresent()
+        return value
+    }
+}
+
+extension ElastiCacheClientTypes.ReplicationGroupPendingModifiedValues {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.ReplicationGroupPendingModifiedValues {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElastiCacheClientTypes.ReplicationGroupPendingModifiedValues()
+        value.primaryClusterId = try reader["PrimaryClusterId"].readIfPresent()
+        value.automaticFailoverStatus = try reader["AutomaticFailoverStatus"].readIfPresent()
+        value.resharding = try reader["Resharding"].readIfPresent(with: ElastiCacheClientTypes.ReshardingStatus.read(from:))
+        value.authTokenStatus = try reader["AuthTokenStatus"].readIfPresent()
+        value.userGroups = try reader["UserGroups"].readIfPresent(with: ElastiCacheClientTypes.UserGroupsUpdateStatus.read(from:))
+        value.logDeliveryConfigurations = try reader["LogDeliveryConfigurations"].readListIfPresent(memberReadingClosure: ElastiCacheClientTypes.PendingLogDeliveryConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.transitEncryptionEnabled = try reader["TransitEncryptionEnabled"].readIfPresent()
+        value.transitEncryptionMode = try reader["TransitEncryptionMode"].readIfPresent()
+        value.clusterMode = try reader["ClusterMode"].readIfPresent()
+        return value
+    }
+}
+
 extension ElastiCacheClientTypes.ReservedCacheNode {
 
     static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.ReservedCacheNode {
@@ -14932,17 +14850,6 @@ extension ElastiCacheClientTypes.ReservedCacheNode {
     }
 }
 
-extension ElastiCacheClientTypes.RecurringCharge {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.RecurringCharge {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElastiCacheClientTypes.RecurringCharge()
-        value.recurringChargeAmount = try reader["RecurringChargeAmount"].readIfPresent()
-        value.recurringChargeFrequency = try reader["RecurringChargeFrequency"].readIfPresent()
-        return value
-    }
-}
-
 extension ElastiCacheClientTypes.ReservedCacheNodesOffering {
 
     static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.ReservedCacheNodesOffering {
@@ -14956,6 +14863,110 @@ extension ElastiCacheClientTypes.ReservedCacheNodesOffering {
         value.productDescription = try reader["ProductDescription"].readIfPresent()
         value.offeringType = try reader["OfferingType"].readIfPresent()
         value.recurringCharges = try reader["RecurringCharges"].readListIfPresent(memberReadingClosure: ElastiCacheClientTypes.RecurringCharge.read(from:), memberNodeInfo: "RecurringCharge", isFlattened: false)
+        return value
+    }
+}
+
+extension ElastiCacheClientTypes.ReshardingConfiguration {
+
+    static func write(value: ElastiCacheClientTypes.ReshardingConfiguration?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["NodeGroupId"].write(value.nodeGroupId)
+        try writer["PreferredAvailabilityZones"].writeList(value.preferredAvailabilityZones, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "AvailabilityZone", isFlattened: false)
+    }
+}
+
+extension ElastiCacheClientTypes.ReshardingStatus {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.ReshardingStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElastiCacheClientTypes.ReshardingStatus()
+        value.slotMigration = try reader["SlotMigration"].readIfPresent(with: ElastiCacheClientTypes.SlotMigration.read(from:))
+        return value
+    }
+}
+
+extension ElastiCacheClientTypes.ScaleConfig {
+
+    static func write(value: ElastiCacheClientTypes.ScaleConfig?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ScaleIntervalMinutes"].write(value.scaleIntervalMinutes)
+        try writer["ScalePercentage"].write(value.scalePercentage)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.ScaleConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElastiCacheClientTypes.ScaleConfig()
+        value.scalePercentage = try reader["ScalePercentage"].readIfPresent()
+        value.scaleIntervalMinutes = try reader["ScaleIntervalMinutes"].readIfPresent()
+        return value
+    }
+}
+
+extension ElastiCacheClientTypes.SecurityGroupMembership {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.SecurityGroupMembership {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElastiCacheClientTypes.SecurityGroupMembership()
+        value.securityGroupId = try reader["SecurityGroupId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
+extension ElastiCacheClientTypes.ServerlessCache {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.ServerlessCache {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElastiCacheClientTypes.ServerlessCache()
+        value.serverlessCacheName = try reader["ServerlessCacheName"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.status = try reader["Status"].readIfPresent()
+        value.engine = try reader["Engine"].readIfPresent()
+        value.majorEngineVersion = try reader["MajorEngineVersion"].readIfPresent()
+        value.fullEngineVersion = try reader["FullEngineVersion"].readIfPresent()
+        value.cacheUsageLimits = try reader["CacheUsageLimits"].readIfPresent(with: ElastiCacheClientTypes.CacheUsageLimits.read(from:))
+        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
+        value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "SecurityGroupId", isFlattened: false)
+        value.endpoint = try reader["Endpoint"].readIfPresent(with: ElastiCacheClientTypes.Endpoint.read(from:))
+        value.readerEndpoint = try reader["ReaderEndpoint"].readIfPresent(with: ElastiCacheClientTypes.Endpoint.read(from:))
+        value.arn = try reader["ARN"].readIfPresent()
+        value.userGroupId = try reader["UserGroupId"].readIfPresent()
+        value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "SubnetId", isFlattened: false)
+        value.snapshotRetentionLimit = try reader["SnapshotRetentionLimit"].readIfPresent()
+        value.dailySnapshotTime = try reader["DailySnapshotTime"].readIfPresent()
+        value.networkType = try reader["NetworkType"].readIfPresent()
+        return value
+    }
+}
+
+extension ElastiCacheClientTypes.ServerlessCacheConfiguration {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.ServerlessCacheConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElastiCacheClientTypes.ServerlessCacheConfiguration()
+        value.serverlessCacheName = try reader["ServerlessCacheName"].readIfPresent()
+        value.engine = try reader["Engine"].readIfPresent()
+        value.majorEngineVersion = try reader["MajorEngineVersion"].readIfPresent()
+        return value
+    }
+}
+
+extension ElastiCacheClientTypes.ServerlessCacheSnapshot {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.ServerlessCacheSnapshot {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElastiCacheClientTypes.ServerlessCacheSnapshot()
+        value.serverlessCacheSnapshotName = try reader["ServerlessCacheSnapshotName"].readIfPresent()
+        value.arn = try reader["ARN"].readIfPresent()
+        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
+        value.snapshotType = try reader["SnapshotType"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.expiryTime = try reader["ExpiryTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.bytesUsedForCache = try reader["BytesUsedForCache"].readIfPresent()
+        value.serverlessCacheConfiguration = try reader["ServerlessCacheConfiguration"].readIfPresent(with: ElastiCacheClientTypes.ServerlessCacheConfiguration.read(from:))
         return value
     }
 }
@@ -14977,6 +14988,116 @@ extension ElastiCacheClientTypes.ServiceUpdate {
         value.engineVersion = try reader["EngineVersion"].readIfPresent()
         value.autoUpdateAfterRecommendedApplyByDate = try reader["AutoUpdateAfterRecommendedApplyByDate"].readIfPresent()
         value.estimatedUpdateTime = try reader["EstimatedUpdateTime"].readIfPresent()
+        return value
+    }
+}
+
+extension ElastiCacheClientTypes.SlotMigration {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.SlotMigration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElastiCacheClientTypes.SlotMigration()
+        value.progressPercentage = try reader["ProgressPercentage"].readIfPresent()
+        return value
+    }
+}
+
+extension ElastiCacheClientTypes.Snapshot {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.Snapshot {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElastiCacheClientTypes.Snapshot()
+        value.snapshotName = try reader["SnapshotName"].readIfPresent()
+        value.replicationGroupId = try reader["ReplicationGroupId"].readIfPresent()
+        value.replicationGroupDescription = try reader["ReplicationGroupDescription"].readIfPresent()
+        value.cacheClusterId = try reader["CacheClusterId"].readIfPresent()
+        value.snapshotStatus = try reader["SnapshotStatus"].readIfPresent()
+        value.snapshotSource = try reader["SnapshotSource"].readIfPresent()
+        value.cacheNodeType = try reader["CacheNodeType"].readIfPresent()
+        value.engine = try reader["Engine"].readIfPresent()
+        value.engineVersion = try reader["EngineVersion"].readIfPresent()
+        value.numCacheNodes = try reader["NumCacheNodes"].readIfPresent()
+        value.preferredAvailabilityZone = try reader["PreferredAvailabilityZone"].readIfPresent()
+        value.preferredOutpostArn = try reader["PreferredOutpostArn"].readIfPresent()
+        value.cacheClusterCreateTime = try reader["CacheClusterCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.preferredMaintenanceWindow = try reader["PreferredMaintenanceWindow"].readIfPresent()
+        value.topicArn = try reader["TopicArn"].readIfPresent()
+        value.port = try reader["Port"].readIfPresent()
+        value.cacheParameterGroupName = try reader["CacheParameterGroupName"].readIfPresent()
+        value.cacheSubnetGroupName = try reader["CacheSubnetGroupName"].readIfPresent()
+        value.vpcId = try reader["VpcId"].readIfPresent()
+        value.autoMinorVersionUpgrade = try reader["AutoMinorVersionUpgrade"].readIfPresent()
+        value.snapshotRetentionLimit = try reader["SnapshotRetentionLimit"].readIfPresent()
+        value.snapshotWindow = try reader["SnapshotWindow"].readIfPresent()
+        value.numNodeGroups = try reader["NumNodeGroups"].readIfPresent()
+        value.automaticFailover = try reader["AutomaticFailover"].readIfPresent()
+        value.nodeSnapshots = try reader["NodeSnapshots"].readListIfPresent(memberReadingClosure: ElastiCacheClientTypes.NodeSnapshot.read(from:), memberNodeInfo: "NodeSnapshot", isFlattened: false)
+        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
+        value.arn = try reader["ARN"].readIfPresent()
+        value.dataTiering = try reader["DataTiering"].readIfPresent()
+        return value
+    }
+}
+
+extension ElastiCacheClientTypes.Subnet {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.Subnet {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElastiCacheClientTypes.Subnet()
+        value.subnetIdentifier = try reader["SubnetIdentifier"].readIfPresent()
+        value.subnetAvailabilityZone = try reader["SubnetAvailabilityZone"].readIfPresent(with: ElastiCacheClientTypes.AvailabilityZone.read(from:))
+        value.subnetOutpost = try reader["SubnetOutpost"].readIfPresent(with: ElastiCacheClientTypes.SubnetOutpost.read(from:))
+        value.supportedNetworkTypes = try reader["SupportedNetworkTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ElastiCacheClientTypes.NetworkType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ElastiCacheClientTypes.SubnetOutpost {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.SubnetOutpost {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElastiCacheClientTypes.SubnetOutpost()
+        value.subnetOutpostArn = try reader["SubnetOutpostArn"].readIfPresent()
+        return value
+    }
+}
+
+extension ElastiCacheClientTypes.Tag {
+
+    static func write(value: ElastiCacheClientTypes.Tag?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElastiCacheClientTypes.Tag()
+        value.key = try reader["Key"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
+extension ElastiCacheClientTypes.TimeRangeFilter {
+
+    static func write(value: ElastiCacheClientTypes.TimeRangeFilter?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["EndTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.dateTime)
+        try writer["StartTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.dateTime)
+    }
+}
+
+extension ElastiCacheClientTypes.UnprocessedUpdateAction {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.UnprocessedUpdateAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElastiCacheClientTypes.UnprocessedUpdateAction()
+        value.replicationGroupId = try reader["ReplicationGroupId"].readIfPresent()
+        value.cacheClusterId = try reader["CacheClusterId"].readIfPresent()
+        value.serviceUpdateName = try reader["ServiceUpdateName"].readIfPresent()
+        value.errorType = try reader["ErrorType"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
         return value
     }
 }
@@ -15007,48 +15128,20 @@ extension ElastiCacheClientTypes.UpdateAction {
     }
 }
 
-extension ElastiCacheClientTypes.CacheNodeUpdateStatus {
+extension ElastiCacheClientTypes.User {
 
-    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.CacheNodeUpdateStatus {
+    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.User {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElastiCacheClientTypes.CacheNodeUpdateStatus()
-        value.cacheNodeId = try reader["CacheNodeId"].readIfPresent()
-        value.nodeUpdateStatus = try reader["NodeUpdateStatus"].readIfPresent()
-        value.nodeDeletionDate = try reader["NodeDeletionDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.nodeUpdateStartDate = try reader["NodeUpdateStartDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.nodeUpdateEndDate = try reader["NodeUpdateEndDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.nodeUpdateInitiatedBy = try reader["NodeUpdateInitiatedBy"].readIfPresent()
-        value.nodeUpdateInitiatedDate = try reader["NodeUpdateInitiatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.nodeUpdateStatusModifiedDate = try reader["NodeUpdateStatusModifiedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension ElastiCacheClientTypes.NodeGroupUpdateStatus {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.NodeGroupUpdateStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElastiCacheClientTypes.NodeGroupUpdateStatus()
-        value.nodeGroupId = try reader["NodeGroupId"].readIfPresent()
-        value.nodeGroupMemberUpdateStatus = try reader["NodeGroupMemberUpdateStatus"].readListIfPresent(memberReadingClosure: ElastiCacheClientTypes.NodeGroupMemberUpdateStatus.read(from:), memberNodeInfo: "NodeGroupMemberUpdateStatus", isFlattened: false)
-        return value
-    }
-}
-
-extension ElastiCacheClientTypes.NodeGroupMemberUpdateStatus {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.NodeGroupMemberUpdateStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElastiCacheClientTypes.NodeGroupMemberUpdateStatus()
-        value.cacheClusterId = try reader["CacheClusterId"].readIfPresent()
-        value.cacheNodeId = try reader["CacheNodeId"].readIfPresent()
-        value.nodeUpdateStatus = try reader["NodeUpdateStatus"].readIfPresent()
-        value.nodeDeletionDate = try reader["NodeDeletionDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.nodeUpdateStartDate = try reader["NodeUpdateStartDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.nodeUpdateEndDate = try reader["NodeUpdateEndDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.nodeUpdateInitiatedBy = try reader["NodeUpdateInitiatedBy"].readIfPresent()
-        value.nodeUpdateInitiatedDate = try reader["NodeUpdateInitiatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.nodeUpdateStatusModifiedDate = try reader["NodeUpdateStatusModifiedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        var value = ElastiCacheClientTypes.User()
+        value.userId = try reader["UserId"].readIfPresent()
+        value.userName = try reader["UserName"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.engine = try reader["Engine"].readIfPresent()
+        value.minimumEngineVersion = try reader["MinimumEngineVersion"].readIfPresent()
+        value.accessString = try reader["AccessString"].readIfPresent()
+        value.userGroupIds = try reader["UserGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.authentication = try reader["Authentication"].readIfPresent(with: ElastiCacheClientTypes.Authentication.read(from:))
+        value.arn = try reader["ARN"].readIfPresent()
         return value
     }
 }
@@ -15071,108 +15164,25 @@ extension ElastiCacheClientTypes.UserGroup {
     }
 }
 
-extension ElastiCacheClientTypes.User {
+extension ElastiCacheClientTypes.UserGroupPendingChanges {
 
-    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.User {
+    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.UserGroupPendingChanges {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElastiCacheClientTypes.User()
-        value.userId = try reader["UserId"].readIfPresent()
-        value.userName = try reader["UserName"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.engine = try reader["Engine"].readIfPresent()
-        value.minimumEngineVersion = try reader["MinimumEngineVersion"].readIfPresent()
-        value.accessString = try reader["AccessString"].readIfPresent()
-        value.userGroupIds = try reader["UserGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.authentication = try reader["Authentication"].readIfPresent(with: ElastiCacheClientTypes.Authentication.read(from:))
-        value.arn = try reader["ARN"].readIfPresent()
+        var value = ElastiCacheClientTypes.UserGroupPendingChanges()
+        value.userIdsToRemove = try reader["UserIdsToRemove"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.userIdsToAdd = try reader["UserIdsToAdd"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension ElastiCacheClientTypes.LogDeliveryConfigurationRequest {
+extension ElastiCacheClientTypes.UserGroupsUpdateStatus {
 
-    static func write(value: ElastiCacheClientTypes.LogDeliveryConfigurationRequest?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DestinationDetails"].write(value.destinationDetails, with: ElastiCacheClientTypes.DestinationDetails.write(value:to:))
-        try writer["DestinationType"].write(value.destinationType)
-        try writer["Enabled"].write(value.enabled)
-        try writer["LogFormat"].write(value.logFormat)
-        try writer["LogType"].write(value.logType)
-    }
-}
-
-extension ElastiCacheClientTypes.AuthenticationMode {
-
-    static func write(value: ElastiCacheClientTypes.AuthenticationMode?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Passwords"].writeList(value.passwords, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Type"].write(value.type)
-    }
-}
-
-extension ElastiCacheClientTypes.ConfigureShard {
-
-    static func write(value: ElastiCacheClientTypes.ConfigureShard?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["NewReplicaCount"].write(value.newReplicaCount)
-        try writer["NodeGroupId"].write(value.nodeGroupId)
-        try writer["PreferredAvailabilityZones"].writeList(value.preferredAvailabilityZones, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "PreferredAvailabilityZone", isFlattened: false)
-        try writer["PreferredOutpostArns"].writeList(value.preferredOutpostArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "PreferredOutpostArn", isFlattened: false)
-    }
-}
-
-extension ElastiCacheClientTypes.TimeRangeFilter {
-
-    static func write(value: ElastiCacheClientTypes.TimeRangeFilter?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["EndTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.dateTime)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.dateTime)
-    }
-}
-
-extension ElastiCacheClientTypes.Filter {
-
-    static func write(value: ElastiCacheClientTypes.Filter?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension ElastiCacheClientTypes.RegionalConfiguration {
-
-    static func write(value: ElastiCacheClientTypes.RegionalConfiguration?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ReplicationGroupId"].write(value.replicationGroupId)
-        try writer["ReplicationGroupRegion"].write(value.replicationGroupRegion)
-        try writer["ReshardingConfiguration"].writeList(value.reshardingConfiguration, memberWritingClosure: ElastiCacheClientTypes.ReshardingConfiguration.write(value:to:), memberNodeInfo: "ReshardingConfiguration", isFlattened: false)
-    }
-}
-
-extension ElastiCacheClientTypes.ReshardingConfiguration {
-
-    static func write(value: ElastiCacheClientTypes.ReshardingConfiguration?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["NodeGroupId"].write(value.nodeGroupId)
-        try writer["PreferredAvailabilityZones"].writeList(value.preferredAvailabilityZones, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "AvailabilityZone", isFlattened: false)
-    }
-}
-
-extension ElastiCacheClientTypes.ParameterNameValue {
-
-    static func write(value: ElastiCacheClientTypes.ParameterNameValue?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ParameterName"].write(value.parameterName)
-        try writer["ParameterValue"].write(value.parameterValue)
-    }
-}
-
-extension ElastiCacheClientTypes.CustomerNodeEndpoint {
-
-    static func write(value: ElastiCacheClientTypes.CustomerNodeEndpoint?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Address"].write(value.address)
-        try writer["Port"].write(value.port)
+    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.UserGroupsUpdateStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElastiCacheClientTypes.UserGroupsUpdateStatus()
+        value.userGroupIdsToAdd = try reader["UserGroupIdsToAdd"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.userGroupIdsToRemove = try reader["UserGroupIdsToRemove"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 

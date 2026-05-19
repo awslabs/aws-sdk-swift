@@ -81,21 +81,8 @@ struct PrepareRelease {
     func run() throws {
         try FileManager.default.changeWorkingDirectory(repoPath)
 
-        let previousVersion = try getPreviousVersion()
-        guard try repoHasChanges(previousVersion) else {
-            // If repo has no changes, create an empty release-manifest.json file.
-            // Empty manifest file makes GitHubReleasePublisher be no-op.
-            // The manifest file is required regardless of whether there should
-            // be a release or not.
-            log("Repo has no changes to publish.")
-            log("Writing empty manifest and exiting.")
-            try createEmptyReleaseManifest()
-            // Return without creating new commit or tag in local repos.
-            // This makes GitPublisher be no-op.
-            return
-        }
-
         // Rename feature-service-id-smithy.json to feature-service-id.json if it exists
+        // This is needed when a build is triggered manually & merge step doesn't run
         if FileManager.default.fileExists(atPath: "../feature-service-id-smithy.json") {
             log("Renaming feature-service-id-smithy.json to feature-service-id.json.")
             try FileManager.default.moveItem(atPath: "../feature-service-id-smithy.json", toPath: "../feature-service-id.json")
@@ -106,6 +93,20 @@ struct PrepareRelease {
             // If the build request or mapping input files
             // don't exist, create an empty release-manifest.json file.
             log("build-request.json and/or feature-service-id.json don't exist.")
+            log("Writing empty manifest and exiting.")
+            try createEmptyReleaseManifest()
+            // Return without creating new commit or tag in local repos.
+            // This makes GitPublisher be no-op.
+            return
+        }
+
+        let previousVersion = try getPreviousVersion()
+        guard try repoHasChanges(previousVersion) else {
+            // If repo has no changes, create an empty release-manifest.json file.
+            // Empty manifest file makes GitHubReleasePublisher be no-op.
+            // The manifest file is required regardless of whether there should
+            // be a release or not.
+            log("Repo has no changes to publish.")
             log("Writing empty manifest and exiting.")
             try createEmptyReleaseManifest()
             // Return without creating new commit or tag in local repos.
@@ -161,16 +162,16 @@ struct PrepareRelease {
         return newVersion
     }
 
-    /// Returns true if the `main` branch has changes since the previous release, otherwise returns false.
+    /// Returns true if `HEAD` has changes since the previous release, otherwise returns false.
     ///
     /// - Parameter previousVersion: The version of the previous release
-    /// - Returns: True if the `main` branch has changes since the previous release, otherwise returns false.
+    /// - Returns: True if `HEAD` has changes since the previous release, otherwise returns false.
     func repoHasChanges(_ previousVersion: Version) throws -> Bool {
-        let hasChanges = try diffChecker("main", previousVersion)
+        let hasChanges = try diffChecker("HEAD", previousVersion)
         if hasChanges {
-            log("Changes detected between 'main' and the previous release \(previousVersion)")
+            log("Changes detected between 'HEAD' and the previous release \(previousVersion)")
         } else {
-            log("No changes detected between 'main' and the previous release \(previousVersion)")
+            log("No changes detected between 'HEAD' and the previous release \(previousVersion)")
         }
         return hasChanges
     }
@@ -222,7 +223,6 @@ struct PrepareRelease {
                 "Package.version.next",
                 "packageDependencies.plist",
                 "Sources/Services",
-                "Sources/Core/AWSSDKForSwift/Documentation.docc/AWSSDKForSwift.md",
                 "Sources/Core/SDKForSwift/Documentation.docc/SDKForSwift.md",
                 "Sources/Core/AWSSDKIdentity/",
                 "Sources/Core/AWSSDKDynamic/Sources/AWSSDKDynamic/PackageVersion.swift",

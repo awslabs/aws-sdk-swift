@@ -167,5 +167,5 @@ private struct ClockSkewTestError: Error, ServiceError {
     static var notDueToClockSkew: Self { .init(typeName: "NotAClockSkewError") }
 
     var typeName: String?
-    var message: String? { "" }
+    var message: String? = ""
 }

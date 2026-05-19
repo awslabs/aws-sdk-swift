@@ -6,6 +6,9 @@ on:
   pull_request:
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 env:
   AWS_SWIFT_SDK_USE_LOCAL_DEPS: 1
 
@@ -15,22 +18,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout sources
-        uses: actions/checkout@v2
+        uses: actions/checkout@v6
       - name: Lint smithy-aws-swift-codegen
         run: ./gradlew ktlint
 
   swiftlint:
     if: github.repository == 'awslabs/aws-sdk-swift' || github.event_name == 'pull_request'
-    runs-on: macos-15
+    runs-on: macos-26
     steps:
       - name: Checkout sources
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           path: aws-sdk-swift
       - name: Checkout smithy-swift with composite action
         uses: ./aws-sdk-swift/.github/actions/checkout-smithy-swift-composite-action
         with:
-          AUTOMATION_USER_SSH_PRIVATE_KEY: ${{ secrets.AUTOMATION_USER_SSH_PRIVATE_KEY }}
+          STAGING_PARTNER_REPO_PRIVATE_DEPLOY_KEY: ${{ secrets.STAGING_PARTNER_REPO_PRIVATE_DEPLOY_KEY }}
           STAGING_PARTNER_REPO: ${{ secrets.STAGING_PARTNER_REPO }}
       - name: Install Swiftlint
         run: |

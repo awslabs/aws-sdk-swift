@@ -16,13 +16,14 @@ import enum Smithy.ClientError
 import enum SmithyReadWrite.ReaderError
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.ReadingClosures
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
+@_spi(SmithyReadWrite) import func SmithyReadWrite.listReadingClosure
 import protocol AWSClientRuntime.AWSServiceError
 import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
@@ -81,15 +82,19 @@ extension BatchClientTypes {
         public var size: Swift.Int?
         /// A summary of the number of array job children in each available job status. This parameter is returned for parent array jobs.
         public var statusSummary: [Swift.String: Swift.Int]?
+        /// The Unix timestamp (in milliseconds) for when the statusSummary was last updated.
+        public var statusSummaryLastUpdatedAt: Swift.Int?
 
         public init(
             index: Swift.Int? = nil,
             size: Swift.Int? = nil,
-            statusSummary: [Swift.String: Swift.Int]? = nil
+            statusSummary: [Swift.String: Swift.Int]? = nil,
+            statusSummaryLastUpdatedAt: Swift.Int? = nil
         ) {
             self.index = index
             self.size = size
             self.statusSummary = statusSummary
+            self.statusSummaryLastUpdatedAt = statusSummaryLastUpdatedAt
         }
     }
 }
@@ -102,13 +107,21 @@ extension BatchClientTypes {
         public var index: Swift.Int?
         /// The size of the array job. This parameter is returned for parent array jobs.
         public var size: Swift.Int?
+        /// A summary of the number of array job children in each available job status. This parameter is returned for parent array jobs.
+        public var statusSummary: [Swift.String: Swift.Int]?
+        /// The Unix timestamp (in milliseconds) for when the statusSummary was last updated.
+        public var statusSummaryLastUpdatedAt: Swift.Int?
 
         public init(
             index: Swift.Int? = nil,
-            size: Swift.Int? = nil
+            size: Swift.Int? = nil,
+            statusSummary: [Swift.String: Swift.Int]? = nil,
+            statusSummaryLastUpdatedAt: Swift.Int? = nil
         ) {
             self.index = index
             self.size = size
+            self.statusSummary = statusSummary
+            self.statusSummaryLastUpdatedAt = statusSummaryLastUpdatedAt
         }
     }
 }
@@ -297,9 +310,9 @@ public struct ClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -320,9 +333,9 @@ public struct ServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -391,21 +404,35 @@ extension BatchClientTypes {
 
 extension BatchClientTypes {
 
-    /// Provides information used to select Amazon Machine Images (AMIs) for instances in the compute environment. If Ec2Configuration isn't specified, the default is ECS_AL2 ([Amazon Linux 2](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#al2ami)). This object isn't applicable to jobs that are running on Fargate resources.
+    /// Provides information used to select Amazon Machine Images (AMIs) for instances in the compute environment. If Ec2Configuration isn't specified, the default is ECS_AL2023 ([Amazon ECS-optimized Amazon Linux 2023](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html)) for EC2 (ECS) compute environments and EKS_AL2023 ([Amazon EKS-optimized Amazon Linux 2023 AMI](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html)) for EKS compute environments. This object isn't applicable to jobs that are running on Fargate resources.
     public struct Ec2Configuration: Swift.Sendable {
-        /// The AMI ID used for instances launched in the compute environment that match the image type. This setting overrides the imageId set in the computeResource object. The AMI that you choose for a compute environment must match the architecture of the instance types that you intend to use for that compute environment. For example, if your compute environment uses A1 instance types, the compute resource AMI that you choose must support ARM instances. Amazon ECS vends both x86 and ARM versions of the Amazon ECS-optimized Amazon Linux 2 AMI. For more information, see [Amazon ECS-optimized Amazon Linux 2 AMI](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#ecs-optimized-ami-linux-variants.html) in the Amazon Elastic Container Service Developer Guide.
+        /// The status of the Batch-provided default AMIs associated with the imageType. The field only appears after the compute environment has begun scaling instances using the imageType. The field is not present when an image is specified in ComputeResources.imageId (deprecated), the default launch template, or Ec2Configuration.imageIdOverride. The field is also not present when the compute environment has a launch template override. For more information on image selection, see [AMI selection order](https://docs.aws.amazon.com/batch/latest/userguide/ami-selection-order.html). This field is read-only and only appears in the [DescribeComputeEnvironments](https://docs.aws.amazon.com/batch/latest/APIReference/API_DescribeComputeEnvironments.html) response.
+        ///
+        /// * LATEST − Using the most recent AMI supported
+        ///
+        /// * UPDATE_AVAILABLE − An updated AMI is available
+        ///
+        /// * If a compute environment has multiple AMIs for the imageType and any one AMI has UPDATE_AVAILABLE, the status shows UPDATE_AVAILABLE.
+        ///
+        /// * For compute environments that use BEST_FIT as their allocation strategy, you can perform a [blue/green update](https://docs.aws.amazon.com/batch/latest/userguide/blue-green-updates.html) to update the AMI.
+        ///
+        /// * For all other compute environments, you can perform an [AMI version update](https://docs.aws.amazon.com/batch/latest/userguide/managing-ami-versions.html#updating-ami-versions) to update the AMI to the latest version.
+        public var batchImageStatus: Swift.String?
+        /// The AMI ID used for instances launched in the compute environment that match the image type. This setting overrides the imageId set in the computeResource object. The AMI that you choose for a compute environment must match the architecture of the instance types that you intend to use for that compute environment. For example, if your compute environment uses A1 instance types, the compute resource AMI that you choose must support ARM instances. Amazon ECS vends both x86 and ARM versions of the Amazon ECS-optimized Amazon Linux 2023 AMI. For more information, see [Amazon ECS-optimized Amazon Linux 2023 AMI](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#ecs-optimized-ami-linux-variants.html) in the Amazon Elastic Container Service Developer Guide.
         public var imageIdOverride: Swift.String?
         /// The Kubernetes version for the compute environment. If you don't specify a value, the latest version that Batch supports is used.
         public var imageKubernetesVersion: Swift.String?
-        /// The image type to match with the instance type to select an AMI. The supported values are different for ECS and EKS resources. ECS If the imageIdOverride parameter isn't specified, then a recent [Amazon ECS-optimized Amazon Linux 2 AMI](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#al2ami) (ECS_AL2) is used. If a new image type is specified in an update, but neither an imageId nor a imageIdOverride parameter is specified, then the latest Amazon ECS optimized AMI for that image type that's supported by Batch is used. Amazon Web Services will end support for Amazon ECS optimized AL2-optimized and AL2-accelerated AMIs. Starting in January 2026, Batch will change the default AMI for new Amazon ECS compute environments from Amazon Linux 2 to Amazon Linux 2023. We recommend migrating Batch Amazon ECS compute environments to Amazon Linux 2023 to maintain optimal performance and security. For more information on upgrading from AL2 to AL2023, see [How to migrate from ECS AL2 to ECS AL2023](https://docs.aws.amazon.com/batch/latest/userguide/ecs-migration-2023.html) in the Batch User Guide. ECS_AL2 [Amazon Linux 2](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#al2ami): Default for all non-GPU instance families. ECS_AL2_NVIDIA [Amazon Linux 2 (GPU)](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#gpuami): Default for all GPU instance families (for example P4 and G4) and can be used for all non Amazon Web Services Graviton-based instance types. ECS_AL2023 [Amazon Linux 2023](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html): Batch supports Amazon Linux 2023. Amazon Linux 2023 does not support A1 instances. ECS_AL2023_NVIDIA [Amazon Linux 2023 (GPU)](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#gpuami): For all GPU instance families and can be used for all non Amazon Web Services Graviton-based instance types. ECS_AL2023_NVIDIA doesn't support p3 and g3 instance types. EKS If the imageIdOverride parameter isn't specified, then a recent [Amazon EKS-optimized Amazon Linux 2023 AMI](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html) (EKS_AL2023) is used. If a new image type is specified in an update, but neither an imageId nor a imageIdOverride parameter is specified, then the latest Amazon EKS optimized AMI for that image type that Batch supports is used. Amazon Linux 2023 AMIs are the default on Batch for Amazon EKS. Amazon Web Services will end support for Amazon EKS AL2-optimized and AL2-accelerated AMIs, starting 11/26/25. You can continue using Batch-provided Amazon EKS optimized Amazon Linux 2 AMIs on your Amazon EKS compute environments beyond the 11/26/25 end-of-support date, these compute environments will no longer receive any new software updates, security patches, or bug fixes from Amazon Web Services. For more information on upgrading from AL2 to AL2023, see [How to upgrade from EKS AL2 to EKS AL2023](https://docs.aws.amazon.com/batch/latest/userguide/eks-migration-2023.html) in the Batch User Guide. EKS_AL2 [Amazon Linux 2](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html): Used for non-GPU instance families. EKS_AL2_NVIDIA [Amazon Linux 2 (accelerated)](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html): Used for GPU instance families (for example, P4 and G4) and can be used for all non Amazon Web Services Graviton-based instance types. EKS_AL2023 [Amazon Linux 2023](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html): Default for non-GPU instance families. Amazon Linux 2023 does not support A1 instances. EKS_AL2023_NVIDIA [Amazon Linux 2023 (accelerated)](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html): Default for GPU instance families and can be used for all non Amazon Web Services Graviton-based instance types.
+        /// The image type to match with the instance type to select an AMI. The supported values are different for ECS and EKS resources. ECS If the imageIdOverride parameter isn't specified, then a recent [Amazon ECS-optimized Amazon Linux 2023 AMI](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html) (ECS_AL2023) is used. If a new image type is specified in an update, but neither an imageId nor a imageIdOverride parameter is specified, then the latest Amazon ECS optimized AMI for that image type that's supported by Batch is used. Amazon Web Services is ending support for Amazon ECS Amazon Linux 2-optimized and accelerated AMIs on June 30, 2026. On January 12, 2026, Batch changed the default AMI for new Amazon ECS compute environments from Amazon Linux 2 to Amazon Linux 2023. Effective June 30, 2026, Batch will block creation of new Amazon ECS compute environments using Batch-provided Amazon Linux 2 AMIs. We strongly recommend migrating your existing Batch Amazon ECS compute environments to Amazon Linux 2023 prior to June 30, 2026. For more information on upgrading from AL2 to AL2023, see [How to migrate from ECS AL2 to ECS AL2023](https://docs.aws.amazon.com/batch/latest/userguide/ecs-migration-2023.html) in the Batch User Guide. ECS_AL2 [Amazon Linux 2](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html): Used for non-GPU instance families. ECS_AL2_NVIDIA [Amazon Linux 2 (GPU)](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#gpuami): Used for GPU instance families (for example P4 and G4) and non Amazon Web Services Graviton-based instance types. ECS_AL2023 [Amazon Linux 2023](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html): Default for all non-GPU instance families. Amazon Linux 2023 does not support A1 instances. ECS_AL2023_NVIDIA [Amazon Linux 2023 (GPU)](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#gpuami): Default for all GPU instance families and can be used for all non Amazon Web Services Graviton-based instance types. ECS_AL2023_NVIDIA doesn't support p3 and g3 instance types. EKS If the imageIdOverride parameter isn't specified, then a recent [Amazon EKS-optimized Amazon Linux 2023 AMI](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html) (EKS_AL2023) is used. If a new image type is specified in an update, but neither an imageId nor a imageIdOverride parameter is specified, then the latest Amazon EKS optimized AMI for that image type that Batch supports is used. Amazon Linux 2023 AMIs are the default on Batch for Amazon EKS. Amazon Web Services ended support for Amazon EKS AL2-optimized and AL2-accelerated AMIs on November 26, 2025. Batch Amazon EKS compute environments using Amazon Linux 2 will no longer receive software updates, security patches, or bug fixes from Amazon Web Services. We recommend migrating to Amazon Linux 2023. For more information on upgrading from AL2 to AL2023, see [How to upgrade from EKS AL2 to EKS AL2023](https://docs.aws.amazon.com/batch/latest/userguide/eks-migration-2023.html) in the Batch User Guide. EKS_AL2 [Amazon Linux 2](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html): Used for non-GPU instance families. EKS_AL2_NVIDIA [Amazon Linux 2 (accelerated)](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html): Used for GPU instance families (for example, P4 and G4) and can be used for all non Amazon Web Services Graviton-based instance types. EKS_AL2023 [Amazon Linux 2023](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html): Default for non-GPU instance families. Amazon Linux 2023 does not support A1 instances. EKS_AL2023_NVIDIA [Amazon Linux 2023 (accelerated)](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html): Default for GPU instance families and can be used for all non Amazon Web Services Graviton-based instance types.
         /// This member is required.
         public var imageType: Swift.String?
 
         public init(
+            batchImageStatus: Swift.String? = nil,
             imageIdOverride: Swift.String? = nil,
             imageKubernetesVersion: Swift.String? = nil,
             imageType: Swift.String? = nil
         ) {
+            self.batchImageStatus = batchImageStatus
             self.imageIdOverride = imageIdOverride
             self.imageKubernetesVersion = imageKubernetesVersion
             self.imageType = imageType
@@ -514,6 +541,27 @@ extension BatchClientTypes {
 
 extension BatchClientTypes {
 
+    /// An object that represents a scaling policy for a compute environment.
+    public struct ComputeScalingPolicy: Swift.Sendable {
+        /// The minimum time (in minutes) that Batch keeps instances running in the compute environment after their jobs complete. For each instance, the delay period begins when the last job finishes. If no new jobs are placed on the instance during this delay, Batch terminates the instance once the delay expires. Valid Range: Minimum value of 20. Maximum value of 10080. Use 0 to unset and disable the scale down delay. Idle instances retained during the scale-down delay period are billable at standard EC2 pricing. The scale down delay does not apply to:
+        ///
+        /// * Instances being replaced during infrastructure updates
+        ///
+        /// * Newly launched instances that have not yet run any jobs
+        ///
+        /// * Spot instances reclaimed due to interruption
+        public var minScaleDownDelayMinutes: Swift.Int?
+
+        public init(
+            minScaleDownDelayMinutes: Swift.Int? = nil
+        ) {
+            self.minScaleDownDelayMinutes = minScaleDownDelayMinutes
+        }
+    }
+}
+
+extension BatchClientTypes {
+
     public enum CRType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case ec2
         case fargate
@@ -557,11 +605,11 @@ extension BatchClientTypes {
         public var bidPercentage: Swift.Int?
         /// The desired number of vCPUS in the compute environment. Batch modifies this value between the minimum and maximum values based on job queue demand. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public var desiredvCpus: Swift.Int?
-        /// Provides information that's used to select Amazon Machine Images (AMIs) for Amazon EC2 instances in the compute environment. If Ec2Configuration isn't specified, the default is ECS_AL2. One or two values can be provided. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
+        /// Provides information that's used to select Amazon Machine Images (AMIs) for Amazon EC2 instances in the compute environment. If Ec2Configuration isn't specified, the default is ECS_AL2023 for EC2 (ECS) compute environments and EKS_AL2023 for EKS compute environments. One or two values can be provided. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public var ec2Configuration: [BatchClientTypes.Ec2Configuration]?
         /// The Amazon EC2 key pair that's used for instances launched in the compute environment. You can use this key pair to log in to your instances with SSH. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public var ec2KeyPair: Swift.String?
-        /// The Amazon Machine Image (AMI) ID used for instances launched in the compute environment. This parameter is overridden by the imageIdOverride member of the Ec2Configuration structure. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it. The AMI that you choose for a compute environment must match the architecture of the instance types that you intend to use for that compute environment. For example, if your compute environment uses A1 instance types, the compute resource AMI that you choose must support ARM instances. Amazon ECS vends both x86 and ARM versions of the Amazon ECS-optimized Amazon Linux 2 AMI. For more information, see [Amazon ECS-optimized Amazon Linux 2 AMI](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#ecs-optimized-ami-linux-variants.html) in the Amazon Elastic Container Service Developer Guide.
+        /// The Amazon Machine Image (AMI) ID used for instances launched in the compute environment. This parameter is overridden by the imageIdOverride member of the Ec2Configuration structure. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it. The AMI that you choose for a compute environment must match the architecture of the instance types that you intend to use for that compute environment. For example, if your compute environment uses A1 instance types, the compute resource AMI that you choose must support ARM instances. Amazon ECS vends both x86 and ARM versions of the Amazon ECS-optimized Amazon Linux 2023 AMI. For more information, see [Amazon ECS-optimized Amazon Linux 2023 AMI](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#ecs-optimized-ami-linux-variants.html) in the Amazon Elastic Container Service Developer Guide.
         @available(*, deprecated, message: "This field is deprecated, use ec2Configuration[].imageIdOverride instead.")
         public var imageId: Swift.String?
         /// The Amazon ECS instance profile applied to Amazon EC2 instances in a compute environment. This parameter is required for Amazon EC2 instances types. You can specify the short name or full Amazon Resource Name (ARN) of an instance profile. For example,  ecsInstanceRole  or arn:aws:iam:::instance-profile/ecsInstanceRole . For more information, see [Amazon ECS instance role](https://docs.aws.amazon.com/batch/latest/userguide/instance_IAM_role.html) in the Batch User Guide. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
@@ -586,6 +634,8 @@ extension BatchClientTypes {
         public var minvCpus: Swift.Int?
         /// The Amazon EC2 placement group to associate with your compute resources. If you intend to submit multi-node parallel jobs to your compute environment, you should consider creating a cluster placement group and associate it with your compute resources. This keeps your multi-node parallel job on a logical grouping of instances within a single Availability Zone with high network flow potential. For more information, see [Placement groups](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html) in the Amazon EC2 User Guide for Linux Instances. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public var placementGroup: Swift.String?
+        /// The scaling policy configuration for the compute environment. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
+        public var scalingPolicy: BatchClientTypes.ComputeScalingPolicy?
         /// The Amazon EC2 security groups that are associated with instances launched in the compute environment. One or more security groups must be specified, either in securityGroupIds or using a launch template referenced in launchTemplate. This parameter is required for jobs that are running on Fargate resources and must contain at least one security group. Fargate doesn't support launch templates. If security groups are specified using both securityGroupIds and launchTemplate, the values in securityGroupIds are used.
         public var securityGroupIds: [Swift.String]?
         /// The Amazon Resource Name (ARN) of the Amazon EC2 Spot Fleet IAM role applied to a SPOT compute environment. This role is required if the allocation strategy set to BEST_FIT or if the allocation strategy isn't specified. For more information, see [Amazon EC2 spot fleet role](https://docs.aws.amazon.com/batch/latest/userguide/spot_fleet_IAM_role.html) in the Batch User Guide. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it. To tag your Spot Instances on creation, the Spot Fleet IAM role specified here must use the newer AmazonEC2SpotFleetTaggingRole managed policy. The previously recommended AmazonEC2SpotFleetRole managed policy doesn't have the required permissions to tag Spot Instances. For more information, see [Spot instances not tagged on creation](https://docs.aws.amazon.com/batch/latest/userguide/troubleshooting.html#spot-instance-no-tag) in the Batch User Guide.
@@ -612,6 +662,7 @@ extension BatchClientTypes {
             maxvCpus: Swift.Int? = nil,
             minvCpus: Swift.Int? = nil,
             placementGroup: Swift.String? = nil,
+            scalingPolicy: BatchClientTypes.ComputeScalingPolicy? = nil,
             securityGroupIds: [Swift.String]? = nil,
             spotIamFleetRole: Swift.String? = nil,
             subnets: [Swift.String]? = nil,
@@ -630,6 +681,7 @@ extension BatchClientTypes {
             self.maxvCpus = maxvCpus
             self.minvCpus = minvCpus
             self.placementGroup = placementGroup
+            self.scalingPolicy = scalingPolicy
             self.securityGroupIds = securityGroupIds
             self.spotIamFleetRole = spotIamFleetRole
             self.subnets = subnets
@@ -731,7 +783,7 @@ public struct CreateComputeEnvironmentInput: Swift.Sendable {
     public var eksConfiguration: BatchClientTypes.EksConfiguration?
     /// The full Amazon Resource Name (ARN) of the IAM role that allows Batch to make calls to other Amazon Web Services services on your behalf. For more information, see [Batch service IAM role](https://docs.aws.amazon.com/batch/latest/userguide/service_IAM_role.html) in the Batch User Guide. If your account already created the Batch service-linked role, that role is used by default for your compute environment unless you specify a different role here. If the Batch service-linked role doesn't exist in your account, and no role is specified here, the service attempts to create the Batch service-linked role in your account. If your specified role has a path other than /, then you must specify either the full role ARN (recommended) or prefix the role name with the path. For example, if a role with the name bar has a path of /foo/, specify /foo/bar as the role name. For more information, see [Friendly names and paths](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-friendly-names) in the IAM User Guide. Depending on how you created your Batch service role, its ARN might contain the service-role path prefix. When you only specify the name of the service role, Batch assumes that your ARN doesn't use the service-role path prefix. Because of this, we recommend that you specify the full ARN of your service role when you create compute environments.
     public var serviceRole: Swift.String?
-    /// The state of the compute environment. If the state is ENABLED, then the compute environment accepts jobs from a queue and can scale out automatically based on queues. If the state is ENABLED, then the Batch scheduler can attempt to place jobs from an associated job queue on the compute resources within the environment. If the compute environment is managed, then it can scale its instances out or in automatically, based on the job queue demand. If the state is DISABLED, then the Batch scheduler doesn't attempt to place jobs within the environment. Jobs in a STARTING or RUNNING state continue to progress normally. Managed compute environments in the DISABLED state don't scale out. Compute environments in a DISABLED state may continue to incur billing charges. To prevent additional charges, turn off and then delete the compute environment. For more information, see [State](https://docs.aws.amazon.com/batch/latest/userguide/compute_environment_parameters.html#compute_environment_state) in the Batch User Guide. When an instance is idle, the instance scales down to the minvCpus value. However, the instance size doesn't change. For example, consider a c5.8xlarge instance with a minvCpus value of 4 and a desiredvCpus value of 36. This instance doesn't scale down to a c5.large instance.
+    /// The state of the compute environment. If the state is ENABLED, then the compute environment accepts jobs from a queue and can scale out automatically based on queues. If the state is ENABLED, then the Batch scheduler can attempt to place jobs from an associated job queue on the compute resources within the environment. If the compute environment is managed, then it can scale its instances out or in automatically, based on the job queue demand. If the state is DISABLED, then the Batch scheduler doesn't attempt to place jobs within the environment. Jobs in a STARTING or RUNNING state continue to progress normally. Managed compute environments in the DISABLED state don't scale out. Compute environments in a DISABLED state may continue to incur billing charges, for example, if they have running instances due to jobs that are still executing or a non-zero minvCpus setting. To prevent additional charges, disable and delete the compute environment. When an instance is idle, the instance scales down to the minvCpus value. However, the instance size doesn't change. For example, consider a c5.8xlarge instance with a minvCpus value of 4 and a desiredvCpus value of 36. This instance doesn't scale down to a c5.large instance.
     public var state: BatchClientTypes.CEState?
     /// The tags that you apply to the compute environment to help you categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in Amazon Web Services General Reference. These tags can be updated or removed using the [TagResource](https://docs.aws.amazon.com/batch/latest/APIReference/API_TagResource.html) and [UntagResource](https://docs.aws.amazon.com/batch/latest/APIReference/API_UntagResource.html) API operations. These tags don't propagate to the underlying compute resources.
     public var tags: [Swift.String: Swift.String]?
@@ -939,7 +991,7 @@ extension BatchClientTypes {
 
     /// Specifies an action that Batch will take after the job has remained at the head of the queue in the specified state for longer than the specified time.
     public struct JobStateTimeLimitAction: Swift.Sendable {
-        /// The action to take when a job is at the head of the job queue in the specified state for the specified period of time. The only supported value is CANCEL, which will cancel the job.
+        /// The action to take when a job is at the head of the job queue in the specified state for the specified period of time. For job queues connected to a ECS, FARGATE or EKS compute environment, the only supported value is CANCEL, which will cancel the job. For job queues connected to a SAGEMAKER_TRAINING service environment, the only supported value is TERMINATE, which will terminate the job.
         /// This member is required.
         public var action: BatchClientTypes.JobStateTimeLimitActionsAction?
         /// The approximate amount of time, in seconds, that must pass with the job in the specified state before the action is taken. The minimum value is 600 (10 minutes) and the maximum value is 86,400 (24 hours).
@@ -1081,6 +1133,208 @@ public struct CreateJobQueueOutput: Swift.Sendable {
 
 extension BatchClientTypes {
 
+    /// Defines the capacity limit for a quota share, or the type and maximum quantity of a particular resource that can be allocated to jobs in the quota share without borrowing.
+    public struct QuotaShareCapacityLimit: Swift.Sendable {
+        /// The unit of compute capacity for the capacityLimit. For example, ml.m5.large.
+        /// This member is required.
+        public var capacityUnit: Swift.String?
+        /// The maximum capacity available for the quota share. This value represents the maximum quantity of a resource that can be allocated to jobs in the quota share without borrowing.
+        /// This member is required.
+        public var maxCapacity: Swift.Int?
+
+        public init(
+            capacityUnit: Swift.String? = nil,
+            maxCapacity: Swift.Int? = nil
+        ) {
+            self.capacityUnit = capacityUnit
+            self.maxCapacity = maxCapacity
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    public enum QuotaShareInSharePreemptionState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [QuotaShareInSharePreemptionState] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    /// Specifies the preemption behavior for jobs in a quota share.
+    public struct QuotaSharePreemptionConfiguration: Swift.Sendable {
+        /// Specifies whether jobs within a quota share can be preempted by another, higher priority job in the same quota share.
+        /// This member is required.
+        public var inSharePreemption: BatchClientTypes.QuotaShareInSharePreemptionState?
+
+        public init(
+            inSharePreemption: BatchClientTypes.QuotaShareInSharePreemptionState? = nil
+        ) {
+            self.inSharePreemption = inSharePreemption
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    public enum QuotaShareResourceSharingStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case lend
+        case lendAndBorrow
+        case reserve
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [QuotaShareResourceSharingStrategy] {
+            return [
+                .lend,
+                .lendAndBorrow,
+                .reserve
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .lend: return "LEND"
+            case .lendAndBorrow: return "LEND_AND_BORROW"
+            case .reserve: return "RESERVE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    /// Specifies whether a quota share reserves, lends, or both lends and borrows idle compute capacity.
+    public struct QuotaShareResourceSharingConfiguration: Swift.Sendable {
+        /// The maximum percentage of additional capacity that the quota share can borrow from other shares. borrowLimit can only be applied to quota shares with a strategy of LEND_AND_BORROW. This value is expressed as a percentage of the quota share's configured [CapacityLimits](https://docs.aws.amazon.com/batch/latest/APIReference/API_QuotaShareCapacityLimit.html). The borrowLimit is applied uniformly across all capacity units. For example, if the borrowLimit is 200, the quota share can borrow up to 200% of its configured maxCapacity for each capacity unit. The default borrowLimit is -1, which indicates unlimited borrowing.
+        public var borrowLimit: Swift.Int?
+        /// The resource sharing strategy for the quota share. The RESERVE strategy allows a quota share to reserve idle capacity for itself. LEND configures the share to lend its idle capacity to another share in need of capacity. The LEND_AND_BORROW strategy configures the share to borrow idle capacity from an underutilized share, as well as lend to another share.
+        /// This member is required.
+        public var strategy: BatchClientTypes.QuotaShareResourceSharingStrategy?
+
+        public init(
+            borrowLimit: Swift.Int? = nil,
+            strategy: BatchClientTypes.QuotaShareResourceSharingStrategy? = nil
+        ) {
+            self.borrowLimit = borrowLimit
+            self.strategy = strategy
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    public enum QuotaShareState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [QuotaShareState] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateQuotaShareInput: Swift.Sendable {
+    /// A list that specifies the quantity and type of compute capacity allocated to the quota share.
+    /// This member is required.
+    public var capacityLimits: [BatchClientTypes.QuotaShareCapacityLimit]?
+    /// The Batch job queue associated with the quota share. This can be the job queue name or ARN. A job queue must be in the VALID state before you can associate it with a quota share.
+    /// This member is required.
+    public var jobQueue: Swift.String?
+    /// Specifies the preemption behavior for jobs in a quota share.
+    /// This member is required.
+    public var preemptionConfiguration: BatchClientTypes.QuotaSharePreemptionConfiguration?
+    /// The name of the quota share. It can be up to 128 characters long. It can contain uppercase and lowercase letters, numbers, hyphens (-), and underscores (_).
+    /// This member is required.
+    public var quotaShareName: Swift.String?
+    /// Specifies whether a quota share reserves, lends, or both lends and borrows idle compute capacity.
+    /// This member is required.
+    public var resourceSharingConfiguration: BatchClientTypes.QuotaShareResourceSharingConfiguration?
+    /// The state of the quota share. If the quota share is ENABLED, it is able to accept jobs. If the quota share is DISABLED, new jobs won't be accepted but jobs already submitted can finish. The default state is ENABLED.
+    public var state: BatchClientTypes.QuotaShareState?
+    /// The tags that you apply to the quota share to help you categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see [Tagging your Batch resources](https://docs.aws.amazon.com/batch/latest/userguide/using-tags.html) in Batch User Guide.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        capacityLimits: [BatchClientTypes.QuotaShareCapacityLimit]? = nil,
+        jobQueue: Swift.String? = nil,
+        preemptionConfiguration: BatchClientTypes.QuotaSharePreemptionConfiguration? = nil,
+        quotaShareName: Swift.String? = nil,
+        resourceSharingConfiguration: BatchClientTypes.QuotaShareResourceSharingConfiguration? = nil,
+        state: BatchClientTypes.QuotaShareState? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.capacityLimits = capacityLimits
+        self.jobQueue = jobQueue
+        self.preemptionConfiguration = preemptionConfiguration
+        self.quotaShareName = quotaShareName
+        self.resourceSharingConfiguration = resourceSharingConfiguration
+        self.state = state
+        self.tags = tags
+    }
+}
+
+public struct CreateQuotaShareOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the quota share.
+    public var quotaShareArn: Swift.String?
+    /// The name of the quota share.
+    public var quotaShareName: Swift.String?
+
+    public init(
+        quotaShareArn: Swift.String? = nil,
+        quotaShareName: Swift.String? = nil
+    ) {
+        self.quotaShareArn = quotaShareArn
+        self.quotaShareName = quotaShareName
+    }
+}
+
+extension BatchClientTypes {
+
     /// Specifies the weights for the share identifiers for the fair-share policy. Share identifiers that aren't included have a default weight of 1.0.
     public struct ShareAttributes: Swift.Sendable {
         /// A share identifier or share identifier prefix. If the string ends with an asterisk (*), this entry specifies the weight factor to use for share identifiers that start with that prefix. The list of share identifiers in a fair-share policy can't overlap. For example, you can't have one that specifies a shareIdentifier of UserA* and another that specifies a shareIdentifier of UserA1. There can be no more than 500 share identifiers active in a job queue. The string is limited to 255 alphanumeric characters, and can be followed by an asterisk (*).
@@ -1122,23 +1376,69 @@ extension BatchClientTypes {
     }
 }
 
+extension BatchClientTypes {
+
+    public enum QuotaShareIdleResourceAssignmentStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case fifo
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [QuotaShareIdleResourceAssignmentStrategy] {
+            return [
+                .fifo
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .fifo: return "FIFO"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    /// The quota share scheduling policy details for a job queue.
+    public struct QuotaSharePolicy: Swift.Sendable {
+        /// The strategy that determines how idle resources are assigned to quota shares that are borrowing capacity. Currently, only FIFO is supported.
+        /// This member is required.
+        public var idleResourceAssignmentStrategy: BatchClientTypes.QuotaShareIdleResourceAssignmentStrategy?
+
+        public init(
+            idleResourceAssignmentStrategy: BatchClientTypes.QuotaShareIdleResourceAssignmentStrategy? = nil
+        ) {
+            self.idleResourceAssignmentStrategy = idleResourceAssignmentStrategy
+        }
+    }
+}
+
 /// Contains the parameters for CreateSchedulingPolicy.
 public struct CreateSchedulingPolicyInput: Swift.Sendable {
-    /// The fair-share scheduling policy details.
+    /// The fair-share scheduling policy details. Only one of fairsharePolicy or quotaSharePolicy can be set. Once set, this policy type cannot be removed or changed to a quotaSharePolicy.
     public var fairsharePolicy: BatchClientTypes.FairsharePolicy?
     /// The name of the fair-share scheduling policy. It can be up to 128 letters long. It can contain uppercase and lowercase letters, numbers, hyphens (-), and underscores (_).
     /// This member is required.
     public var name: Swift.String?
+    /// The quota share scheduling policy details. Only one of fairsharePolicy or quotaSharePolicy can be set. Once set, this policy type cannot be removed or changed to a fairSharePolicy.
+    public var quotaSharePolicy: BatchClientTypes.QuotaSharePolicy?
     /// The tags that you apply to the scheduling policy to help you categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in Amazon Web Services General Reference. These tags can be updated or removed using the [TagResource](https://docs.aws.amazon.com/batch/latest/APIReference/API_TagResource.html) and [UntagResource](https://docs.aws.amazon.com/batch/latest/APIReference/API_UntagResource.html) API operations.
     public var tags: [Swift.String: Swift.String]?
 
     public init(
         fairsharePolicy: BatchClientTypes.FairsharePolicy? = nil,
         name: Swift.String? = nil,
+        quotaSharePolicy: BatchClientTypes.QuotaSharePolicy? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.fairsharePolicy = fairsharePolicy
         self.name = name
+        self.quotaSharePolicy = quotaSharePolicy
         self.tags = tags
     }
 }
@@ -1162,11 +1462,11 @@ public struct CreateSchedulingPolicyOutput: Swift.Sendable {
 
 extension BatchClientTypes {
 
-    /// Defines the capacity limit for a service environment. This structure specifies the maximum amount of resources that can be used by service jobs in the environment.
+    /// Defines the type and maximum quantity of resources that can be allocated to service jobs in a service environment.
     public struct CapacityLimit: Swift.Sendable {
-        /// The unit of measure for the capacity limit. This defines how the maxCapacity value should be interpreted. For SAGEMAKER_TRAINING jobs, use NUM_INSTANCES.
+        /// The unit of measure for the capacity limit, which defines how maxCapacity is interpreted. For SAGEMAKER_TRAINING jobs in a quota management enabled service environment, specify the [instance type](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_ResourceConfig.html#sagemaker-Type-ResourceConfig-InstanceType) (for example, ml.m5.large). Otherwise, use NUM_INSTANCES.
         public var capacityUnit: Swift.String?
-        /// The maximum capacity available for the service environment. This value represents the maximum amount of resources that can be allocated to service jobs. For example, maxCapacity=50, capacityUnit=NUM_INSTANCES. This indicates that the maximum number of instances that can be run on this service environment is 50. You could then run 5 SageMaker Training jobs that each use 10 instances. However, if you submit another job that requires 10 instances, it will wait in the queue.
+        /// The maximum capacity available for the service environment. For a quota management enabled service environment, this value represents the maximum quantity of a particular resource type (specified by capacityUnit) that can be allocated to service jobs. For other service environments, this value represents the maximum quantity of all resources that can be allocated to service jobs. For example, if maxCapacity=50 and capacityUnit=NUM_INSTANCES, you can run up to 50 instances concurrently. If you run 5 SageMaker Training jobs that each use 10 instances, a subsequent job requiring 10 instances waits in the queue until capacity is available. In a quota management enabled service environment with capacityUnit=ml.m5.large, only ml.m5.large instances count against this limit, and jobs requiring other instance types wait until a matching capacity limit is configured.
         public var maxCapacity: Swift.Int?
 
         public init(
@@ -1330,6 +1630,23 @@ public struct DeleteJobQueueInput: Swift.Sendable {
 }
 
 public struct DeleteJobQueueOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteQuotaShareInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the quota share.
+    /// This member is required.
+    public var quotaShareArn: Swift.String?
+
+    public init(
+        quotaShareArn: Swift.String? = nil
+    ) {
+        self.quotaShareArn = quotaShareArn
+    }
+}
+
+public struct DeleteQuotaShareOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -1517,7 +1834,7 @@ extension BatchClientTypes {
         public var eksConfiguration: BatchClientTypes.EksConfiguration?
         /// The service role that's associated with the compute environment that allows Batch to make calls to Amazon Web Services API operations on your behalf. For more information, see [Batch service IAM role](https://docs.aws.amazon.com/batch/latest/userguide/service_IAM_role.html) in the Batch User Guide.
         public var serviceRole: Swift.String?
-        /// The state of the compute environment. The valid values are ENABLED or DISABLED. If the state is ENABLED, then the Batch scheduler can attempt to place jobs from an associated job queue on the compute resources within the environment. If the compute environment is managed, then it can scale its instances out or in automatically based on the job queue demand. If the state is DISABLED, then the Batch scheduler doesn't attempt to place jobs within the environment. Jobs in a STARTING or RUNNING state continue to progress normally. Managed compute environments in the DISABLED state don't scale out. Compute environments in a DISABLED state may continue to incur billing charges. To prevent additional charges, turn off and then delete the compute environment. For more information, see [State](https://docs.aws.amazon.com/batch/latest/userguide/compute_environment_parameters.html#compute_environment_state) in the Batch User Guide. When an instance is idle, the instance scales down to the minvCpus value. However, the instance size doesn't change. For example, consider a c5.8xlarge instance with a minvCpus value of 4 and a desiredvCpus value of 36. This instance doesn't scale down to a c5.large instance.
+        /// The state of the compute environment. The valid values are ENABLED or DISABLED. If the state is ENABLED, then the Batch scheduler can attempt to place jobs from an associated job queue on the compute resources within the environment. If the compute environment is managed, then it can scale its instances out or in automatically based on the job queue demand. If the state is DISABLED, then the Batch scheduler doesn't attempt to place jobs within the environment. Jobs in a STARTING or RUNNING state continue to progress normally. Managed compute environments in the DISABLED state don't scale out. Compute environments in a DISABLED state may continue to incur billing charges, for example, if they have running instances due to jobs that are still executing or a non-zero minvCpus setting. To prevent additional charges, disable and delete the compute environment. When an instance is idle, the instance scales down to the minvCpus value. However, the instance size doesn't change. For example, consider a c5.8xlarge instance with a minvCpus value of 4 and a desiredvCpus value of 36. This instance doesn't scale down to a c5.large instance.
         public var state: BatchClientTypes.CEState?
         /// The current status of the compute environment (for example, CREATING or VALID).
         public var status: BatchClientTypes.CEStatus?
@@ -2258,6 +2575,34 @@ extension BatchClientTypes {
 
 extension BatchClientTypes {
 
+    /// This is used when you're using an S3Files file system for job storage.
+    public struct S3FilesVolumeConfiguration: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the S3Files access point to use.
+        public var accessPointArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the S3Files file system to use.
+        /// This member is required.
+        public var fileSystemArn: Swift.String?
+        /// The directory within the S3Files file system to mount as the root directory.
+        public var rootDirectory: Swift.String?
+        /// The port to use when sending encrypted data between the Amazon ECS host and the S3Files file system server.
+        public var transitEncryptionPort: Swift.Int?
+
+        public init(
+            accessPointArn: Swift.String? = nil,
+            fileSystemArn: Swift.String? = nil,
+            rootDirectory: Swift.String? = nil,
+            transitEncryptionPort: Swift.Int? = nil
+        ) {
+            self.accessPointArn = accessPointArn
+            self.fileSystemArn = fileSystemArn
+            self.rootDirectory = rootDirectory
+            self.transitEncryptionPort = transitEncryptionPort
+        }
+    }
+}
+
+extension BatchClientTypes {
+
     /// A data volume that's used in a job's container properties.
     public struct Volume: Swift.Sendable {
         /// This parameter is specified when you're using an Amazon Elastic File System file system for job storage. Jobs that are running on Fargate resources must specify a platformVersion of at least 1.4.0.
@@ -2266,15 +2611,19 @@ extension BatchClientTypes {
         public var host: BatchClientTypes.Host?
         /// The name of the volume. It can be up to 255 characters long. It can contain uppercase and lowercase letters, numbers, hyphens (-), and underscores (_). This name is referenced in the sourceVolume parameter of container definition mountPoints.
         public var name: Swift.String?
+        /// This parameter is specified when you're using an S3Files file system for job storage.
+        public var s3filesVolumeConfiguration: BatchClientTypes.S3FilesVolumeConfiguration?
 
         public init(
             efsVolumeConfiguration: BatchClientTypes.EFSVolumeConfiguration? = nil,
             host: BatchClientTypes.Host? = nil,
-            name: Swift.String? = nil
+            name: Swift.String? = nil,
+            s3filesVolumeConfiguration: BatchClientTypes.S3FilesVolumeConfiguration? = nil
         ) {
             self.efsVolumeConfiguration = efsVolumeConfiguration
             self.host = host
             self.name = name
+            self.s3filesVolumeConfiguration = s3filesVolumeConfiguration
         }
     }
 }
@@ -2507,6 +2856,10 @@ extension BatchClientTypes {
         public var resourceRequirements: [BatchClientTypes.ResourceRequirement]?
         /// The secrets to pass to the container. For more information, see [Specifying Sensitive Data](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/specifying-sensitive-data.html) in the Amazon Elastic Container Service Developer Guide.
         public var secrets: [BatchClientTypes.Secret]?
+        /// Time duration (in seconds) to wait before giving up on resolving dependencies for a container. The minimum value is 2 seconds and the maximum value for Fargate is 120 seconds.
+        public var startTimeout: Swift.Int?
+        /// Time duration (in seconds) to wait before the container is forcefully killed if it doesn't exit normally on its own. The minimum value is 2 seconds and the maximum value for Fargate is 120 seconds. If the parameter is not specified, the default value of 30 seconds is used. For tasks that use the EC2 launch type, if the stopTimeout parameter isn't specified, the value set for the Amazon ECS container agent configuration variable ECS_CONTAINER_STOP_TIMEOUT is used. If neither the stopTimeout parameter nor the ECS_CONTAINER_STOP_TIMEOUT agent configuration variable are set, then the default value of 30 seconds is used.
+        public var stopTimeout: Swift.Int?
         /// A list of ulimits to set in the container. If a ulimit value is specified in a task definition, it overrides the default values set by Docker. This parameter maps to Ulimits in the [Create a container](https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.35/) and the --ulimit option to [docker run](https://docs.docker.com/engine/reference/run/#security-configuration). Amazon ECS tasks hosted on Fargate use the default resource limit values set by the operating system with the exception of the nofile resource limit parameter which Fargate overrides. The nofile resource limit sets a restriction on the number of open files that a container can use. The default nofile soft limit is 1024 and the default hard limit is 65535. This parameter requires version 1.18 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version --format '{{.Server.APIVersion}}' This parameter is not supported for Windows containers.
         public var ulimits: [BatchClientTypes.Ulimit]?
         /// The user to use inside the container. This parameter maps to User in the Create a container section of the Docker Remote API and the --user option to docker run. When running tasks using the host network mode, don't run containers using the root user (UID 0). We recommend using a non-root user for better security. You can specify the user using the following formats. If specifying a UID or GID, you must specify it as a positive integer.
@@ -2543,6 +2896,8 @@ extension BatchClientTypes {
             repositoryCredentials: BatchClientTypes.RepositoryCredentials? = nil,
             resourceRequirements: [BatchClientTypes.ResourceRequirement]? = nil,
             secrets: [BatchClientTypes.Secret]? = nil,
+            startTimeout: Swift.Int? = nil,
+            stopTimeout: Swift.Int? = nil,
             ulimits: [BatchClientTypes.Ulimit]? = nil,
             user: Swift.String? = nil
         ) {
@@ -2561,6 +2916,8 @@ extension BatchClientTypes {
             self.repositoryCredentials = repositoryCredentials
             self.resourceRequirements = resourceRequirements
             self.secrets = secrets
+            self.startTimeout = startTimeout
+            self.stopTimeout = stopTimeout
             self.ulimits = ulimits
             self.user = user
         }
@@ -3642,6 +3999,10 @@ extension BatchClientTypes {
         public var resourceRequirements: [BatchClientTypes.ResourceRequirement]?
         /// The secrets to pass to the container. For more information, see [Specifying Sensitive Data](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/specifying-sensitive-data.html) in the Amazon Elastic Container Service Developer Guide.
         public var secrets: [BatchClientTypes.Secret]?
+        /// Time duration (in seconds) to wait before giving up on resolving dependencies for a container. The minimum value is 2 seconds and the maximum value for Fargate is 120 seconds.
+        public var startTimeout: Swift.Int?
+        /// Time duration (in seconds) to wait before the container is forcefully killed if it doesn't exit normally on its own. The minimum value is 2 seconds and the maximum value for Fargate is 120 seconds. If the parameter is not specified, the default value of 30 seconds is used. For tasks that use the EC2 launch type, if the stopTimeout parameter isn't specified, the value set for the Amazon ECS container agent configuration variable ECS_CONTAINER_STOP_TIMEOUT is used. If neither the stopTimeout parameter nor the ECS_CONTAINER_STOP_TIMEOUT agent configuration variable are set, then the default value of 30 seconds is used.
+        public var stopTimeout: Swift.Int?
         /// A list of ulimits to set in the container. If a ulimit value is specified in a task definition, it overrides the default values set by Docker. This parameter maps to Ulimits in the [Create a container](https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.35/) and the --ulimit option to [docker run](https://docs.docker.com/engine/reference/run/#security-configuration). Amazon ECS tasks hosted on Fargate use the default resource limit values set by the operating system with the exception of the nofile resource limit parameter which Fargate overrides. The nofile resource limit sets a restriction on the number of open files that a container can use. The default nofile soft limit is 1024 and the default hard limit is 65535. This parameter requires version 1.18 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version --format '{{.Server.APIVersion}}' This parameter is not supported for Windows containers.
         public var ulimits: [BatchClientTypes.Ulimit]?
         /// The user to use inside the container. This parameter maps to User in the Create a container section of the Docker Remote API and the --user option to docker run. When running tasks using the host network mode, don't run containers using the root user (UID 0). We recommend using a non-root user for better security. You can specify the user using the following formats. If specifying a UID or GID, you must specify it as a positive integer.
@@ -3683,6 +4044,8 @@ extension BatchClientTypes {
             repositoryCredentials: BatchClientTypes.RepositoryCredentials? = nil,
             resourceRequirements: [BatchClientTypes.ResourceRequirement]? = nil,
             secrets: [BatchClientTypes.Secret]? = nil,
+            startTimeout: Swift.Int? = nil,
+            stopTimeout: Swift.Int? = nil,
             ulimits: [BatchClientTypes.Ulimit]? = nil,
             user: Swift.String? = nil
         ) {
@@ -3705,6 +4068,8 @@ extension BatchClientTypes {
             self.repositoryCredentials = repositoryCredentials
             self.resourceRequirements = resourceRequirements
             self.secrets = secrets
+            self.startTimeout = startTimeout
+            self.stopTimeout = stopTimeout
             self.ulimits = ulimits
             self.user = user
         }
@@ -4207,6 +4572,99 @@ public struct DescribeJobsOutput: Swift.Sendable {
     }
 }
 
+public struct DescribeQuotaShareInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the quota share.
+    /// This member is required.
+    public var quotaShareArn: Swift.String?
+
+    public init(
+        quotaShareArn: Swift.String? = nil
+    ) {
+        self.quotaShareArn = quotaShareArn
+    }
+}
+
+extension BatchClientTypes {
+
+    public enum QuotaShareStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case creating
+        case deleting
+        case invalid
+        case updating
+        case valid
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [QuotaShareStatus] {
+            return [
+                .creating,
+                .deleting,
+                .invalid,
+                .updating,
+                .valid
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case .invalid: return "INVALID"
+            case .updating: return "UPDATING"
+            case .valid: return "VALID"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct DescribeQuotaShareOutput: Swift.Sendable {
+    /// A list that specifies the quantity and type of compute capacity allocated to the quota share.
+    public var capacityLimits: [BatchClientTypes.QuotaShareCapacityLimit]?
+    /// The ARN of the job queue associated with the quota share.
+    public var jobQueueArn: Swift.String?
+    /// Specifies the preemption behavior for jobs in a quota share.
+    public var preemptionConfiguration: BatchClientTypes.QuotaSharePreemptionConfiguration?
+    /// The Amazon Resource Name (ARN) of the quota share.
+    public var quotaShareArn: Swift.String?
+    /// The name of the quota share.
+    public var quotaShareName: Swift.String?
+    /// Specifies whether a quota share reserves, lends, or both lends and borrows idle compute capacity.
+    public var resourceSharingConfiguration: BatchClientTypes.QuotaShareResourceSharingConfiguration?
+    /// The state of the quota share.
+    public var state: BatchClientTypes.QuotaShareState?
+    /// The current status of the quota share.
+    public var status: BatchClientTypes.QuotaShareStatus?
+    /// The tags applied to the quota share.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        capacityLimits: [BatchClientTypes.QuotaShareCapacityLimit]? = nil,
+        jobQueueArn: Swift.String? = nil,
+        preemptionConfiguration: BatchClientTypes.QuotaSharePreemptionConfiguration? = nil,
+        quotaShareArn: Swift.String? = nil,
+        quotaShareName: Swift.String? = nil,
+        resourceSharingConfiguration: BatchClientTypes.QuotaShareResourceSharingConfiguration? = nil,
+        state: BatchClientTypes.QuotaShareState? = nil,
+        status: BatchClientTypes.QuotaShareStatus? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.capacityLimits = capacityLimits
+        self.jobQueueArn = jobQueueArn
+        self.preemptionConfiguration = preemptionConfiguration
+        self.quotaShareArn = quotaShareArn
+        self.quotaShareName = quotaShareName
+        self.resourceSharingConfiguration = resourceSharingConfiguration
+        self.state = state
+        self.status = status
+        self.tags = tags
+    }
+}
+
 /// Contains the parameters for DescribeSchedulingPolicies.
 public struct DescribeSchedulingPoliciesInput: Swift.Sendable {
     /// A list of up to 100 scheduling policy Amazon Resource Name (ARN) entries.
@@ -4232,6 +4690,8 @@ extension BatchClientTypes {
         /// The name of the fair-share scheduling policy.
         /// This member is required.
         public var name: Swift.String?
+        /// The quota share scheduling policy details.
+        public var quotaSharePolicy: BatchClientTypes.QuotaSharePolicy?
         /// The tags that you apply to the fair-share scheduling policy to categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in Amazon Web Services General Reference.
         public var tags: [Swift.String: Swift.String]?
 
@@ -4239,11 +4699,13 @@ extension BatchClientTypes {
             arn: Swift.String? = nil,
             fairsharePolicy: BatchClientTypes.FairsharePolicy? = nil,
             name: Swift.String? = nil,
+            quotaSharePolicy: BatchClientTypes.QuotaSharePolicy? = nil,
             tags: [Swift.String: Swift.String]? = nil
         ) {
             self.arn = arn
             self.fairsharePolicy = fairsharePolicy
             self.name = name
+            self.quotaSharePolicy = quotaSharePolicy
             self.tags = tags
         }
     }
@@ -4466,6 +4928,25 @@ extension BatchClientTypes {
 
 extension BatchClientTypes {
 
+    /// The capacity usage for a service job, including the unit of measure and quantity of resources being consumed.
+    public struct ServiceJobCapacityUsageDetail: Swift.Sendable {
+        /// The unit of measure for the service job capacity usage. For service jobs, this is the instance type.
+        public var capacityUnit: Swift.String?
+        /// The quantity of capacity being used by the service job, measured in the units specified by capacityUnit.
+        public var quantity: Swift.Double?
+
+        public init(
+            capacityUnit: Swift.String? = nil,
+            quantity: Swift.Double? = nil
+        ) {
+            self.capacityUnit = capacityUnit
+            self.quantity = quantity
+        }
+    }
+}
+
+extension BatchClientTypes {
+
     /// Information about the latest attempt of a service job. A Service job can transition from SCHEDULED back to RUNNABLE state when they encounter capacity constraints.
     public struct LatestServiceJobAttempt: Swift.Sendable {
         /// The service resource identifier associated with the service job attempt.
@@ -4475,6 +4956,67 @@ extension BatchClientTypes {
             serviceResourceId: BatchClientTypes.ServiceResourceId? = nil
         ) {
             self.serviceResourceId = serviceResourceId
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    /// Specifies the service job behavior when preempted.
+    public struct ServiceJobPreemptionConfiguration: Swift.Sendable {
+        /// The number of times a service job can be retried after it is preempted. A job will be terminated when preemption retries have been exhausted. If this field is unset, preempted jobs will be requeued an unlimited number of times.
+        public var preemptionRetriesBeforeTermination: Swift.Int?
+
+        public init(
+            preemptionRetriesBeforeTermination: Swift.Int? = nil
+        ) {
+            self.preemptionRetriesBeforeTermination = preemptionRetriesBeforeTermination
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    /// Detailed information about a preempted attempt of a service job.
+    public struct ServiceJobPreemptedAttempt: Swift.Sendable {
+        /// The service resource identifier associated with the service job attempt.
+        public var serviceResourceId: BatchClientTypes.ServiceResourceId?
+        /// The Unix timestamp (in milliseconds) for when the service job attempt was started.
+        public var startedAt: Swift.Int?
+        /// A string that provides additional details for the current status of the service job attempt.
+        public var statusReason: Swift.String?
+        /// The Unix timestamp (in milliseconds) for when the service job attempt stopped running.
+        public var stoppedAt: Swift.Int?
+
+        public init(
+            serviceResourceId: BatchClientTypes.ServiceResourceId? = nil,
+            startedAt: Swift.Int? = nil,
+            statusReason: Swift.String? = nil,
+            stoppedAt: Swift.Int? = nil
+        ) {
+            self.serviceResourceId = serviceResourceId
+            self.startedAt = startedAt
+            self.statusReason = statusReason
+            self.stoppedAt = stoppedAt
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    /// Summarizes the preemptions of the service job. This field appears on a service job when it has been preempted.
+    public struct ServiceJobPreemptionSummary: Swift.Sendable {
+        /// The total number of times the service job has been preempted.
+        public var preemptedAttemptCount: Swift.Int?
+        /// A list of the most recent preemption attempts for the service job.
+        public var recentPreemptedAttempts: [BatchClientTypes.ServiceJobPreemptedAttempt]?
+
+        public init(
+            preemptedAttemptCount: Swift.Int? = nil,
+            recentPreemptedAttempts: [BatchClientTypes.ServiceJobPreemptedAttempt]? = nil
+        ) {
+            self.preemptedAttemptCount = preemptedAttemptCount
+            self.recentPreemptedAttempts = recentPreemptedAttempts
         }
     }
 }
@@ -4638,6 +5180,8 @@ extension BatchClientTypes {
 public struct DescribeServiceJobOutput: Swift.Sendable {
     /// A list of job attempts associated with the service job.
     public var attempts: [BatchClientTypes.ServiceJobAttemptDetail]?
+    /// The configured capacity for the service job, such as the number of instances. The number of instances should be the same value as the serviceRequestPayload.InstanceCount field.
+    public var capacityUsage: [BatchClientTypes.ServiceJobCapacityUsageDetail]?
     /// The Unix timestamp (in milliseconds) for when the service job was created.
     public var createdAt: Swift.Int?
     /// Indicates whether the service job has been terminated.
@@ -4655,8 +5199,16 @@ public struct DescribeServiceJobOutput: Swift.Sendable {
     public var jobQueue: Swift.String?
     /// The latest attempt associated with the service job.
     public var latestAttempt: BatchClientTypes.LatestServiceJobAttempt?
+    /// Specifies the service job behavior when preempted.
+    public var preemptionConfiguration: BatchClientTypes.ServiceJobPreemptionConfiguration?
+    /// Summarizes the preemptions of the service job. This field appears on a service job when it has been preempted.
+    public var preemptionSummary: BatchClientTypes.ServiceJobPreemptionSummary?
+    /// The name of the quota share that the service job is associated with.
+    public var quotaShareName: Swift.String?
     /// The retry strategy to use for failed service jobs that are submitted with this service job.
     public var retryStrategy: BatchClientTypes.ServiceJobRetryStrategy?
+    /// The Unix timestamp (in milliseconds) for when the service job was scheduled. This represents when the service job was dispatched to SageMaker and the service job transitioned to the SCHEDULED state.
+    public var scheduledAt: Swift.Int?
     /// The scheduling priority of the service job.
     public var schedulingPriority: Swift.Int?
     /// The type of service job. For SageMaker Training jobs, this value is SAGEMAKER_TRAINING.
@@ -4683,6 +5235,7 @@ public struct DescribeServiceJobOutput: Swift.Sendable {
 
     public init(
         attempts: [BatchClientTypes.ServiceJobAttemptDetail]? = nil,
+        capacityUsage: [BatchClientTypes.ServiceJobCapacityUsageDetail]? = nil,
         createdAt: Swift.Int? = nil,
         isTerminated: Swift.Bool? = nil,
         jobArn: Swift.String? = nil,
@@ -4690,7 +5243,11 @@ public struct DescribeServiceJobOutput: Swift.Sendable {
         jobName: Swift.String? = nil,
         jobQueue: Swift.String? = nil,
         latestAttempt: BatchClientTypes.LatestServiceJobAttempt? = nil,
+        preemptionConfiguration: BatchClientTypes.ServiceJobPreemptionConfiguration? = nil,
+        preemptionSummary: BatchClientTypes.ServiceJobPreemptionSummary? = nil,
+        quotaShareName: Swift.String? = nil,
         retryStrategy: BatchClientTypes.ServiceJobRetryStrategy? = nil,
+        scheduledAt: Swift.Int? = nil,
         schedulingPriority: Swift.Int? = nil,
         serviceJobType: BatchClientTypes.ServiceJobType? = nil,
         serviceRequestPayload: Swift.String? = nil,
@@ -4703,6 +5260,7 @@ public struct DescribeServiceJobOutput: Swift.Sendable {
         timeoutConfig: BatchClientTypes.ServiceJobTimeout? = nil
     ) {
         self.attempts = attempts
+        self.capacityUsage = capacityUsage
         self.createdAt = createdAt
         self.isTerminated = isTerminated
         self.jobArn = jobArn
@@ -4710,7 +5268,11 @@ public struct DescribeServiceJobOutput: Swift.Sendable {
         self.jobName = jobName
         self.jobQueue = jobQueue
         self.latestAttempt = latestAttempt
+        self.preemptionConfiguration = preemptionConfiguration
+        self.preemptionSummary = preemptionSummary
+        self.quotaShareName = quotaShareName
         self.retryStrategy = retryStrategy
+        self.scheduledAt = scheduledAt
         self.schedulingPriority = schedulingPriority
         self.serviceJobType = serviceJobType
         self.serviceRequestPayload = serviceRequestPayload
@@ -4774,14 +5336,216 @@ extension BatchClientTypes {
     }
 }
 
+extension BatchClientTypes {
+
+    /// An object that represents summary details for the first RUNNABLE job in a quota share.
+    public struct FrontOfQuotaShareJobSummary: Swift.Sendable {
+        /// The Unix timestamp (in milliseconds) for when the job transitioned to its current position in the quota share.
+        public var earliestTimeAtPosition: Swift.Int?
+        /// The ARN for a job in a named quota share.
+        public var jobArn: Swift.String?
+
+        public init(
+            earliestTimeAtPosition: Swift.Int? = nil,
+            jobArn: Swift.String? = nil
+        ) {
+            self.earliestTimeAtPosition = earliestTimeAtPosition
+            self.jobArn = jobArn
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    /// An object that represents the details of the first RUNNABLE job in each named quota share associated with a single job queue.
+    public struct FrontOfQuotaSharesDetail: Swift.Sendable {
+        /// The Unix timestamp (in milliseconds) for when the first RUNNABLE job per quota share were all last updated.
+        public var lastUpdatedAt: Swift.Int?
+        /// Contains a list of the first RUNNABLE job in each named quota share.
+        public var quotaShares: [Swift.String: [BatchClientTypes.FrontOfQuotaShareJobSummary]]?
+
+        public init(
+            lastUpdatedAt: Swift.Int? = nil,
+            quotaShares: [Swift.String: [BatchClientTypes.FrontOfQuotaShareJobSummary]]? = nil
+        ) {
+            self.lastUpdatedAt = lastUpdatedAt
+            self.quotaShares = quotaShares
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    /// The capacity usage for a fairshare scheduling job queue.
+    public struct FairshareCapacityUsage: Swift.Sendable {
+        /// The unit of measure for the capacity usage. For compute jobs, this is VCPU for Amazon EC2 and cpu for Amazon EKS. For service jobs, this is the instance type.
+        public var capacityUnit: Swift.String?
+        /// The quantity of capacity being used, measured in the units specified by capacityUnit.
+        public var quantity: Swift.Double?
+
+        public init(
+            capacityUnit: Swift.String? = nil,
+            quantity: Swift.Double? = nil
+        ) {
+            self.capacityUnit = capacityUnit
+            self.quantity = quantity
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    /// The capacity utilization for a specific share in a fairshare scheduling job queue, including the share identifier and its current usage.
+    public struct FairshareCapacityUtilization: Swift.Sendable {
+        /// The capacity usage information for this share, including the unit of measure and quantity being used. This is VCPU for Amazon EC2 and cpu for Amazon EKS.
+        public var capacityUsage: [BatchClientTypes.FairshareCapacityUsage]?
+        /// The share identifier for the fairshare scheduling job queue.
+        public var shareIdentifier: Swift.String?
+
+        public init(
+            capacityUsage: [BatchClientTypes.FairshareCapacityUsage]? = nil,
+            shareIdentifier: Swift.String? = nil
+        ) {
+            self.capacityUsage = capacityUsage
+            self.shareIdentifier = shareIdentifier
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    /// The fairshare utilization for a job queue, including the number of active shares and top capacity utilization.
+    public struct FairshareUtilizationDetail: Swift.Sendable {
+        /// The total number of active shares in the fairshare scheduling job queue that are currently utilizing capacity.
+        public var activeShareCount: Swift.Int?
+        /// A list of the top 20 shares with the highest capacity utilization, ordered by usage amount.
+        public var topCapacityUtilization: [BatchClientTypes.FairshareCapacityUtilization]?
+
+        public init(
+            activeShareCount: Swift.Int? = nil,
+            topCapacityUtilization: [BatchClientTypes.FairshareCapacityUtilization]? = nil
+        ) {
+            self.activeShareCount = activeShareCount
+            self.topCapacityUtilization = topCapacityUtilization
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    /// The capacity usage for a quota share, including units of compute capacity and quantity of resources being used.
+    public struct QuotaShareCapacityUsage: Swift.Sendable {
+        /// The unit of compute capacity for the capacity usage.
+        public var capacityUnit: Swift.String?
+        /// The quantity of capacity being used.
+        public var quantity: Swift.Double?
+
+        public init(
+            capacityUnit: Swift.String? = nil,
+            quantity: Swift.Double? = nil
+        ) {
+            self.capacityUnit = capacityUnit
+            self.quantity = quantity
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    /// The capacity utilization for a specific quota share, including the quota share name and its current usage.
+    public struct QuotaShareCapacityUtilization: Swift.Sendable {
+        /// The capacity usage information for this quota share, including the units of compute capacity and quantity being used.
+        public var capacityUsage: [BatchClientTypes.QuotaShareCapacityUsage]?
+        /// The name of the quota share.
+        public var quotaShareName: Swift.String?
+
+        public init(
+            capacityUsage: [BatchClientTypes.QuotaShareCapacityUsage]? = nil,
+            quotaShareName: Swift.String? = nil
+        ) {
+            self.capacityUsage = capacityUsage
+            self.quotaShareName = quotaShareName
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    /// An object that represents the capacity utilization details of all quota shares associated with a single job queue.
+    public struct QuotaShareUtilizationDetail: Swift.Sendable {
+        /// A list of the top capacity utilizations across quota shares associated with a job queue.
+        public var topCapacityUtilization: [BatchClientTypes.QuotaShareCapacityUtilization]?
+
+        public init(
+            topCapacityUtilization: [BatchClientTypes.QuotaShareCapacityUtilization]? = nil
+        ) {
+            self.topCapacityUtilization = topCapacityUtilization
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    /// The configured capacity usage for a job queue snapshot, including the unit of measure and quantity of resources being used.
+    public struct QueueSnapshotCapacityUsage: Swift.Sendable {
+        /// The unit of measure for the capacity usage. For compute jobs, this is VCPU for Amazon EC2 and cpu for Amazon EKS. For service jobs, this is the instance type.
+        public var capacityUnit: Swift.String?
+        /// The quantity of capacity being used in the queue snapshot, measured in the units specified by capacityUnit.
+        public var quantity: Swift.Double?
+
+        public init(
+            capacityUnit: Swift.String? = nil,
+            quantity: Swift.Double? = nil
+        ) {
+            self.capacityUnit = capacityUnit
+            self.quantity = quantity
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    /// The job queue utilization at a specific point in time, including total capacity usage, and quota share or fairshare utilization breakdown depending on the job queue scheduling policy.
+    public struct QueueSnapshotUtilizationDetail: Swift.Sendable {
+        /// The utilization information for a fairshare scheduling job queues, including active share count and top capacity utilization by share.
+        public var fairshareUtilization: BatchClientTypes.FairshareUtilizationDetail?
+        /// The Unix timestamp (in milliseconds) for when the queue utilization information was last updated.
+        public var lastUpdatedAt: Swift.Int?
+        /// The utilization information for a job queue with a quota share scheduling policy.
+        public var quotaShareUtilization: BatchClientTypes.QuotaShareUtilizationDetail?
+        /// The total capacity usage for the entire job queue.
+        public var totalCapacityUsage: [BatchClientTypes.QueueSnapshotCapacityUsage]?
+
+        public init(
+            fairshareUtilization: BatchClientTypes.FairshareUtilizationDetail? = nil,
+            lastUpdatedAt: Swift.Int? = nil,
+            quotaShareUtilization: BatchClientTypes.QuotaShareUtilizationDetail? = nil,
+            totalCapacityUsage: [BatchClientTypes.QueueSnapshotCapacityUsage]? = nil
+        ) {
+            self.fairshareUtilization = fairshareUtilization
+            self.lastUpdatedAt = lastUpdatedAt
+            self.quotaShareUtilization = quotaShareUtilization
+            self.totalCapacityUsage = totalCapacityUsage
+        }
+    }
+}
+
 public struct GetJobQueueSnapshotOutput: Swift.Sendable {
-    /// The list of the first 100 RUNNABLE jobs in each job queue. For first-in-first-out (FIFO) job queues, jobs are ordered based on their submission time. For fair-share scheduling (FSS) job queues, jobs are ordered based on their job priority and share usage.
+    /// The list of the first 100 RUNNABLE jobs in each job queue. For first-in-first-out (FIFO) job queues, jobs are ordered based on their submission time. For job queues with an attached fair-share scheduling (FSS) or quota-share policy, jobs are ordered based on their job priority and share usage.
     public var frontOfQueue: BatchClientTypes.FrontOfQueueDetail?
+    /// The first RUNNABLE job in each quota share. Jobs are ordered based on their job priority and share usage.
+    public var frontOfQuotaShares: BatchClientTypes.FrontOfQuotaSharesDetail?
+    /// The job queue's capacity utilization, including total usage and breakdown per given share.
+    public var queueUtilization: BatchClientTypes.QueueSnapshotUtilizationDetail?
 
     public init(
-        frontOfQueue: BatchClientTypes.FrontOfQueueDetail? = nil
+        frontOfQueue: BatchClientTypes.FrontOfQueueDetail? = nil,
+        frontOfQuotaShares: BatchClientTypes.FrontOfQuotaSharesDetail? = nil,
+        queueUtilization: BatchClientTypes.QueueSnapshotUtilizationDetail? = nil
     ) {
         self.frontOfQueue = frontOfQueue
+        self.frontOfQuotaShares = frontOfQuotaShares
+        self.queueUtilization = queueUtilization
     }
 }
 
@@ -4882,11 +5646,11 @@ public struct ListConsumableResourcesOutput: Swift.Sendable {
 public struct ListJobsInput: Swift.Sendable {
     /// The job ID for an array job. Specifying an array job ID with this parameter lists all child jobs from within the specified array.
     public var arrayJobId: Swift.String?
-    /// The filter to apply to the query. Only one filter can be used at a time. When the filter is used, jobStatus is ignored. The filter doesn't apply to child jobs in an array or multi-node parallel (MNP) jobs. The results are sorted by the createdAt field, with the most recent jobs being first. JOB_NAME The value of the filter is a case-insensitive match for the job name. If the value ends with an asterisk (*), the filter matches any job name that begins with the string before the '*'. This corresponds to the jobName value. For example, test1 matches both Test1 and test1, and test1* matches both test1 and Test10. When the JOB_NAME filter is used, the results are grouped by the job name and version. JOB_DEFINITION The value for the filter is the name or Amazon Resource Name (ARN) of the job definition. This corresponds to the jobDefinition value. The value is case sensitive. When the value for the filter is the job definition name, the results include all the jobs that used any revision of that job definition name. If the value ends with an asterisk (*), the filter matches any job definition name that begins with the string before the '*'. For example, jd1 matches only jd1, and jd1* matches both jd1 and jd1A. The version of the job definition that's used doesn't affect the sort order. When the JOB_DEFINITION filter is used and the ARN is used (which is in the form arn:${Partition}:batch:${Region}:${Account}:job-definition/${JobDefinitionName}:${Revision}), the results include jobs that used the specified revision of the job definition. Asterisk (*) isn't supported when the ARN is used. BEFORE_CREATED_AT The value for the filter is the time that's before the job was created. This corresponds to the createdAt value. The value is a string representation of the number of milliseconds since 00:00:00 UTC (midnight) on January 1, 1970. AFTER_CREATED_AT The value for the filter is the time that's after the job was created. This corresponds to the createdAt value. The value is a string representation of the number of milliseconds since 00:00:00 UTC (midnight) on January 1, 1970.
+    /// The filter to apply to the query. Only one filter can be used at a time. When the filter is used, jobStatus is ignored with the exception that SHARE_IDENTIFIER and jobStatus can be used together. The filter doesn't apply to child jobs in an array or multi-node parallel (MNP) jobs. The results are sorted by the createdAt field, with the most recent jobs being first. The SHARE_IDENTIFIER filter and the jobStatus field can be used together to filter results. JOB_NAME The value of the filter is a case-insensitive match for the job name. If the value ends with an asterisk (*), the filter matches any job name that begins with the string before the '*'. This corresponds to the jobName value. For example, test1 matches both Test1 and test1, and test1* matches both test1 and Test10. When the JOB_NAME filter is used, the results are grouped by the job name and version. JOB_DEFINITION The value for the filter is the name or Amazon Resource Name (ARN) of the job definition. This corresponds to the jobDefinition value. The value is case sensitive. When the value for the filter is the job definition name, the results include all the jobs that used any revision of that job definition name. If the value ends with an asterisk (*), the filter matches any job definition name that begins with the string before the '*'. For example, jd1 matches only jd1, and jd1* matches both jd1 and jd1A. The version of the job definition that's used doesn't affect the sort order. When the JOB_DEFINITION filter is used and the ARN is used (which is in the form arn:${Partition}:batch:${Region}:${Account}:job-definition/${JobDefinitionName}:${Revision}), the results include jobs that used the specified revision of the job definition. Asterisk (*) isn't supported when the ARN is used. BEFORE_CREATED_AT The value for the filter is the time that's before the job was created. This corresponds to the createdAt value. The value is a string representation of the number of milliseconds since 00:00:00 UTC (midnight) on January 1, 1970. AFTER_CREATED_AT The value for the filter is the time that's after the job was created. This corresponds to the createdAt value. The value is a string representation of the number of milliseconds since 00:00:00 UTC (midnight) on January 1, 1970. SHARE_IDENTIFIER The value for the filter is the fairshare scheduling share identifier.
     public var filters: [BatchClientTypes.KeyValuesPair]?
     /// The name or full Amazon Resource Name (ARN) of the job queue used to list jobs.
     public var jobQueue: Swift.String?
-    /// The job status used to filter jobs in the specified queue. If the filters parameter is specified, the jobStatus parameter is ignored and jobs with any status are returned. If you don't specify a status, only RUNNING jobs are returned.
+    /// The job status used to filter jobs in the specified queue. If the filters parameter is specified, the jobStatus parameter is ignored and jobs with any status are returned. The exception is the SHARE_IDENTIFIER filter and jobStatus can be used together. If you don't specify a status, only RUNNING jobs are returned. Array job parents are updated to PENDING when any child job is updated to RUNNABLE and remain in PENDING status while child jobs are running. To view these jobs, filter by PENDING status until all child jobs reach a terminal state.
     public var jobStatus: BatchClientTypes.JobStatus?
     /// The maximum number of results returned by ListJobs in a paginated output. When this parameter is used, ListJobs returns up to maxResults results in a single page and a nextToken response element, if applicable. The remaining results of the initial request can be seen by sending another ListJobs request with the returned nextToken value. The following outlines key parameters and limitations:
     ///
@@ -4919,6 +5683,25 @@ public struct ListJobsInput: Swift.Sendable {
         self.maxResults = maxResults
         self.multiNodeJobId = multiNodeJobId
         self.nextToken = nextToken
+    }
+}
+
+extension BatchClientTypes {
+
+    /// The capacity usage for a job, including the unit of measure and quantity of resources being used.
+    public struct JobCapacityUsageSummary: Swift.Sendable {
+        /// The unit of measure for the capacity usage. This is VCPU for Amazon EC2 and cpu for Amazon EKS.
+        public var capacityUnit: Swift.String?
+        /// The quantity of capacity being used by the job, measured in the units specified by capacityUnit.
+        public var quantity: Swift.Double?
+
+        public init(
+            capacityUnit: Swift.String? = nil,
+            quantity: Swift.Double? = nil
+        ) {
+            self.capacityUnit = capacityUnit
+            self.quantity = quantity
+        }
     }
 }
 
@@ -4970,6 +5753,8 @@ extension BatchClientTypes {
     public struct JobSummary: Swift.Sendable {
         /// The array properties of the job, if it's an array job.
         public var arrayProperties: BatchClientTypes.ArrayPropertiesSummary?
+        /// The configured capacity usage information for this job, including the unit of measure and quantity of resources.
+        public var capacityUsage: [BatchClientTypes.JobCapacityUsageSummary]?
         /// An object that represents the details of the container that's associated with the job.
         public var container: BatchClientTypes.ContainerSummary?
         /// The Unix timestamp (in milliseconds) for when the job was created. For non-array jobs and parent array jobs, this is when the job entered the SUBMITTED state (at the time [SubmitJob](https://docs.aws.amazon.com/batch/latest/APIReference/API_SubmitJob.html) was called). For array child jobs, this is when the child job was spawned by its parent and entered the PENDING state.
@@ -4986,6 +5771,10 @@ extension BatchClientTypes {
         public var jobName: Swift.String?
         /// The node properties for a single node in a job summary list. This isn't applicable to jobs that are running on Fargate resources.
         public var nodeProperties: BatchClientTypes.NodePropertiesSummary?
+        /// The Unix timestamp (in milliseconds) for when the job was scheduled for execution. For more information on job statues, see [Service job status](https://docs.aws.amazon.com/batch/latest/userguide/service-job-status.html) in the Batch User Guide.
+        public var scheduledAt: Swift.Int?
+        /// The share identifier for the fairshare scheduling queue that this job is associated with.
+        public var shareIdentifier: Swift.String?
         /// The Unix timestamp for when the job was started. More specifically, it's when the job transitioned from the STARTING state to the RUNNING state.
         public var startedAt: Swift.Int?
         /// The current status for the job.
@@ -4997,6 +5786,7 @@ extension BatchClientTypes {
 
         public init(
             arrayProperties: BatchClientTypes.ArrayPropertiesSummary? = nil,
+            capacityUsage: [BatchClientTypes.JobCapacityUsageSummary]? = nil,
             container: BatchClientTypes.ContainerSummary? = nil,
             createdAt: Swift.Int? = nil,
             jobArn: Swift.String? = nil,
@@ -5004,12 +5794,15 @@ extension BatchClientTypes {
             jobId: Swift.String? = nil,
             jobName: Swift.String? = nil,
             nodeProperties: BatchClientTypes.NodePropertiesSummary? = nil,
+            scheduledAt: Swift.Int? = nil,
+            shareIdentifier: Swift.String? = nil,
             startedAt: Swift.Int? = nil,
             status: BatchClientTypes.JobStatus? = nil,
             statusReason: Swift.String? = nil,
             stoppedAt: Swift.Int? = nil
         ) {
             self.arrayProperties = arrayProperties
+            self.capacityUsage = capacityUsage
             self.container = container
             self.createdAt = createdAt
             self.jobArn = jobArn
@@ -5017,6 +5810,8 @@ extension BatchClientTypes {
             self.jobId = jobId
             self.jobName = jobName
             self.nodeProperties = nodeProperties
+            self.scheduledAt = scheduledAt
+            self.shareIdentifier = shareIdentifier
             self.startedAt = startedAt
             self.status = status
             self.statusReason = statusReason
@@ -5110,7 +5905,7 @@ extension BatchClientTypes {
         /// The total amount of the consumable resource that is available.
         /// This member is required.
         public var quantity: Swift.Int?
-        /// The fair-share scheduling policy identifier for the job.
+        /// The fair-share scheduling identifier for the job.
         public var shareIdentifier: Swift.String?
         /// The Unix timestamp for when the job was started. More specifically, it's when the job transitioned from the STARTING state to the RUNNING state.
         public var startedAt: Swift.Int?
@@ -5158,6 +5953,84 @@ public struct ListJobsByConsumableResourceOutput: Swift.Sendable {
     ) {
         self.jobs = jobs
         self.nextToken = nextToken
+    }
+}
+
+public struct ListQuotaSharesInput: Swift.Sendable {
+    /// The name or full Amazon Resource Name (ARN) of the job queue used to list quota shares.
+    /// This member is required.
+    public var jobQueue: Swift.String?
+    /// The maximum number of results returned by ListQuotaShares in paginated output. When this parameter is used, ListQuotaShares only returns maxResults results in a single page and a nextToken response element. You can see the remaining results of the initial request by sending another ListQuotaShares request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, ListQuotaShares returns up to 100 results and a nextToken value if applicable.
+    public var maxResults: Swift.Int?
+    /// The nextToken value that's returned from a previous paginated ListQuotaShares request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return. Treat this token as an opaque identifier that's only used to retrieve the next items in a list and not for other programmatic purposes.
+    public var nextToken: Swift.String?
+
+    public init(
+        jobQueue: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.jobQueue = jobQueue
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension BatchClientTypes {
+
+    /// Detailed information about a quota share, including its configuration, state, and capacity limits.
+    public struct QuotaShareDetail: Swift.Sendable {
+        /// A list that specifies the quantity and type of compute capacity allocated to the quota share.
+        public var capacityLimits: [BatchClientTypes.QuotaShareCapacityLimit]?
+        /// The Amazon Resource Name (ARN) of the job queue associated with the quota share.
+        public var jobQueueArn: Swift.String?
+        /// Specifies the preemption behavior for jobs in a quota share.
+        public var preemptionConfiguration: BatchClientTypes.QuotaSharePreemptionConfiguration?
+        /// The Amazon Resource Name (ARN) of the quota share.
+        public var quotaShareArn: Swift.String?
+        /// The name of the quota share.
+        public var quotaShareName: Swift.String?
+        /// Specifies whether a quota share reserves, lends, or both lends and borrows idle compute capacity.
+        public var resourceSharingConfiguration: BatchClientTypes.QuotaShareResourceSharingConfiguration?
+        /// The state of the quota share.
+        public var state: BatchClientTypes.QuotaShareState?
+        /// The current status of the quota share.
+        public var status: BatchClientTypes.QuotaShareStatus?
+
+        public init(
+            capacityLimits: [BatchClientTypes.QuotaShareCapacityLimit]? = nil,
+            jobQueueArn: Swift.String? = nil,
+            preemptionConfiguration: BatchClientTypes.QuotaSharePreemptionConfiguration? = nil,
+            quotaShareArn: Swift.String? = nil,
+            quotaShareName: Swift.String? = nil,
+            resourceSharingConfiguration: BatchClientTypes.QuotaShareResourceSharingConfiguration? = nil,
+            state: BatchClientTypes.QuotaShareState? = nil,
+            status: BatchClientTypes.QuotaShareStatus? = nil
+        ) {
+            self.capacityLimits = capacityLimits
+            self.jobQueueArn = jobQueueArn
+            self.preemptionConfiguration = preemptionConfiguration
+            self.quotaShareArn = quotaShareArn
+            self.quotaShareName = quotaShareName
+            self.resourceSharingConfiguration = resourceSharingConfiguration
+            self.state = state
+            self.status = status
+        }
+    }
+}
+
+public struct ListQuotaSharesOutput: Swift.Sendable {
+    /// The nextToken value to include in a future ListQuotaShares request. When the results of a ListQuotaShares request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+    /// A list of quota shares that match the request.
+    public var quotaShares: [BatchClientTypes.QuotaShareDetail]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        quotaShares: [BatchClientTypes.QuotaShareDetail]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.quotaShares = quotaShares
     }
 }
 
@@ -5209,11 +6082,11 @@ public struct ListSchedulingPoliciesOutput: Swift.Sendable {
 }
 
 public struct ListServiceJobsInput: Swift.Sendable {
-    /// The filter to apply to the query. Only one filter can be used at a time. When the filter is used, jobStatus is ignored. The results are sorted by the createdAt field, with the most recent jobs being first. JOB_NAME The value of the filter is a case-insensitive match for the job name. If the value ends with an asterisk (*), the filter matches any job name that begins with the string before the '*'. This corresponds to the jobName value. For example, test1 matches both Test1 and test1, and test1* matches both test1 and Test10. When the JOB_NAME filter is used, the results are grouped by the job name and version. BEFORE_CREATED_AT The value for the filter is the time that's before the job was created. This corresponds to the createdAt value. The value is a string representation of the number of milliseconds since 00:00:00 UTC (midnight) on January 1, 1970. AFTER_CREATED_AT The value for the filter is the time that's after the job was created. This corresponds to the createdAt value. The value is a string representation of the number of milliseconds since 00:00:00 UTC (midnight) on January 1, 1970.
+    /// The filter to apply to the query. Only one filter can be used at a time. When the filter is used, jobStatus is ignored with the exception that SHARE_IDENTIFIER or QUOTA_SHARE_NAME and jobStatus can be used together. The results are sorted by the createdAt field, with the most recent jobs being first. The SHARE_IDENTIFIER or QUOTA_SHARE_NAME filter and the jobStatus field can be used together to filter results. JOB_NAME The value of the filter is a case-insensitive match for the job name. If the value ends with an asterisk (*), the filter matches any job name that begins with the string before the '*'. This corresponds to the jobName value. For example, test1 matches both Test1 and test1, and test1* matches both test1 and Test10. When the JOB_NAME filter is used, the results are grouped by the job name and version. BEFORE_CREATED_AT The value for the filter is the time that's before the job was created. This corresponds to the createdAt value. The value is a string representation of the number of milliseconds since 00:00:00 UTC (midnight) on January 1, 1970. AFTER_CREATED_AT The value for the filter is the time that's after the job was created. This corresponds to the createdAt value. The value is a string representation of the number of milliseconds since 00:00:00 UTC (midnight) on January 1, 1970. SHARE_IDENTIFIER The value for the filter is the fairshare scheduling share identifier. QUOTA_SHARE_NAME The value for the filter is the quota management share name.
     public var filters: [BatchClientTypes.KeyValuesPair]?
     /// The name or ARN of the job queue with which to list service jobs.
     public var jobQueue: Swift.String?
-    /// The job status with which to filter service jobs.
+    /// The job status used to filter service jobs in the specified queue. If the filters parameter is specified, the jobStatus parameter is ignored and jobs with any status are returned. The exceptions are the SHARE_IDENTIFIER filter and QUOTA_SHARE_NAME filter, which can be used with jobStatus. If you don't specify a status, only RUNNING jobs are returned. The SHARE_IDENTIFIER filter or QUOTA_SHARE_NAME filter can be used with the jobStatus field to filter results.
     public var jobStatus: BatchClientTypes.ServiceJobStatus?
     /// The maximum number of results returned by ListServiceJobs in paginated output. When this parameter is used, ListServiceJobs only returns maxResults results in a single page and a nextToken response element. The remaining results of the initial request can be seen by sending another ListServiceJobs request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then ListServiceJobs returns up to 100 results and a nextToken value if applicable.
     public var maxResults: Swift.Int?
@@ -5237,8 +6110,29 @@ public struct ListServiceJobsInput: Swift.Sendable {
 
 extension BatchClientTypes {
 
+    /// The capacity usage for a service job, including the unit of measure and quantity of resources being used.
+    public struct ServiceJobCapacityUsageSummary: Swift.Sendable {
+        /// The unit of measure for the service job capacity usage. For service jobs, this is the instance type.
+        public var capacityUnit: Swift.String?
+        /// The quantity of capacity being used by the service job, measured in the units specified by capacityUnit.
+        public var quantity: Swift.Double?
+
+        public init(
+            capacityUnit: Swift.String? = nil,
+            quantity: Swift.Double? = nil
+        ) {
+            self.capacityUnit = capacityUnit
+            self.quantity = quantity
+        }
+    }
+}
+
+extension BatchClientTypes {
+
     /// Summary information about a service job.
     public struct ServiceJobSummary: Swift.Sendable {
+        /// The capacity usage information for this service job, including the unit of measure and quantity of resources being used.
+        public var capacityUsage: [BatchClientTypes.ServiceJobCapacityUsageSummary]?
         /// The Unix timestamp (in milliseconds) for when the service job was created.
         public var createdAt: Swift.Int?
         /// The Amazon Resource Name (ARN) of the service job.
@@ -5251,6 +6145,10 @@ extension BatchClientTypes {
         public var jobName: Swift.String?
         /// Information about the latest attempt for the service job.
         public var latestAttempt: BatchClientTypes.LatestServiceJobAttempt?
+        /// The quota share for the service job.
+        public var quotaShareName: Swift.String?
+        /// The Unix timestamp (in milliseconds) for when the service job was scheduled for execution.
+        public var scheduledAt: Swift.Int?
         /// The type of service job. For SageMaker Training jobs, this value is SAGEMAKER_TRAINING.
         /// This member is required.
         public var serviceJobType: BatchClientTypes.ServiceJobType?
@@ -5266,11 +6164,14 @@ extension BatchClientTypes {
         public var stoppedAt: Swift.Int?
 
         public init(
+            capacityUsage: [BatchClientTypes.ServiceJobCapacityUsageSummary]? = nil,
             createdAt: Swift.Int? = nil,
             jobArn: Swift.String? = nil,
             jobId: Swift.String? = nil,
             jobName: Swift.String? = nil,
             latestAttempt: BatchClientTypes.LatestServiceJobAttempt? = nil,
+            quotaShareName: Swift.String? = nil,
+            scheduledAt: Swift.Int? = nil,
             serviceJobType: BatchClientTypes.ServiceJobType? = nil,
             shareIdentifier: Swift.String? = nil,
             startedAt: Swift.Int? = nil,
@@ -5278,11 +6179,14 @@ extension BatchClientTypes {
             statusReason: Swift.String? = nil,
             stoppedAt: Swift.Int? = nil
         ) {
+            self.capacityUsage = capacityUsage
             self.createdAt = createdAt
             self.jobArn = jobArn
             self.jobId = jobId
             self.jobName = jobName
             self.latestAttempt = latestAttempt
+            self.quotaShareName = quotaShareName
+            self.scheduledAt = scheduledAt
             self.serviceJobType = serviceJobType
             self.shareIdentifier = shareIdentifier
             self.startedAt = startedAt
@@ -5794,6 +6698,10 @@ public struct SubmitServiceJobInput: Swift.Sendable {
     /// The job queue into which the service job is submitted. You can specify either the name or the ARN of the queue. The job queue must have the type SAGEMAKER_TRAINING.
     /// This member is required.
     public var jobQueue: Swift.String?
+    /// Specifies the service job behavior when preempted.
+    public var preemptionConfiguration: BatchClientTypes.ServiceJobPreemptionConfiguration?
+    /// The quota share for the service job. Don't specify this parameter if the job queue doesn't have a quota share scheduling policy. If the job queue has a quota share scheduling policy, then this parameter must be specified.
+    public var quotaShareName: Swift.String?
     /// The retry strategy to use for failed service jobs that are submitted with this service job request.
     public var retryStrategy: BatchClientTypes.ServiceJobRetryStrategy?
     /// The scheduling priority of the service job. Valid values are integers between 0 and 9999.
@@ -5815,6 +6723,8 @@ public struct SubmitServiceJobInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         jobName: Swift.String? = nil,
         jobQueue: Swift.String? = nil,
+        preemptionConfiguration: BatchClientTypes.ServiceJobPreemptionConfiguration? = nil,
+        quotaShareName: Swift.String? = nil,
         retryStrategy: BatchClientTypes.ServiceJobRetryStrategy? = nil,
         schedulingPriority: Swift.Int? = nil,
         serviceJobType: BatchClientTypes.ServiceJobType? = nil,
@@ -5826,6 +6736,8 @@ public struct SubmitServiceJobInput: Swift.Sendable {
         self.clientToken = clientToken
         self.jobName = jobName
         self.jobQueue = jobQueue
+        self.preemptionConfiguration = preemptionConfiguration
+        self.quotaShareName = quotaShareName
         self.retryStrategy = retryStrategy
         self.schedulingPriority = schedulingPriority
         self.serviceJobType = serviceJobType
@@ -5990,11 +6902,11 @@ extension BatchClientTypes {
         public var bidPercentage: Swift.Int?
         /// The desired number of vCPUS in the compute environment. Batch modifies this value between the minimum and maximum values based on job queue demand. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it. Batch doesn't support changing the desired number of vCPUs of an existing compute environment. Don't specify this parameter for compute environments using Amazon EKS clusters. When you update the desiredvCpus setting, the value must be between the minvCpus and maxvCpus values. Additionally, the updated desiredvCpus value must be greater than or equal to the current desiredvCpus value. For more information, see [Troubleshooting Batch](https://docs.aws.amazon.com/batch/latest/userguide/troubleshooting.html#error-desired-vcpus-update) in the Batch User Guide.
         public var desiredvCpus: Swift.Int?
-        /// Provides information used to select Amazon Machine Images (AMIs) for Amazon EC2 instances in the compute environment. If Ec2Configuration isn't specified, the default is ECS_AL2. When updating a compute environment, changing this setting requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. To remove the Amazon EC2 configuration and any custom AMI ID specified in imageIdOverride, set this value to an empty string. One or two values can be provided. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
+        /// Provides information used to select Amazon Machine Images (AMIs) for Amazon EC2 instances in the compute environment. If Ec2Configuration isn't specified, the default is ECS_AL2023 for EC2 (ECS) compute environments and EKS_AL2023 for EKS compute environments. When updating a compute environment, changing this setting requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. To remove the Amazon EC2 configuration and any custom AMI ID specified in imageIdOverride, set this value to an empty string. One or two values can be provided. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public var ec2Configuration: [BatchClientTypes.Ec2Configuration]?
         /// The Amazon EC2 key pair that's used for instances launched in the compute environment. You can use this key pair to log in to your instances with SSH. To remove the Amazon EC2 key pair, set this value to an empty string. When updating a compute environment, changing the Amazon EC2 key pair requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public var ec2KeyPair: Swift.String?
-        /// The Amazon Machine Image (AMI) ID used for instances launched in the compute environment. This parameter is overridden by the imageIdOverride member of the Ec2Configuration structure. To remove the custom AMI ID and use the default AMI ID, set this value to an empty string. When updating a compute environment, changing the AMI ID requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it. The AMI that you choose for a compute environment must match the architecture of the instance types that you intend to use for that compute environment. For example, if your compute environment uses A1 instance types, the compute resource AMI that you choose must support ARM instances. Amazon ECS vends both x86 and ARM versions of the Amazon ECS-optimized Amazon Linux 2 AMI. For more information, see [Amazon ECS-optimized Amazon Linux 2 AMI](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#ecs-optimized-ami-linux-variants.html) in the Amazon Elastic Container Service Developer Guide.
+        /// The Amazon Machine Image (AMI) ID used for instances launched in the compute environment. This parameter is overridden by the imageIdOverride member of the Ec2Configuration structure. To remove the custom AMI ID and use the default AMI ID, set this value to an empty string. When updating a compute environment, changing the AMI ID requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it. The AMI that you choose for a compute environment must match the architecture of the instance types that you intend to use for that compute environment. For example, if your compute environment uses A1 instance types, the compute resource AMI that you choose must support ARM instances. Amazon ECS vends both x86 and ARM versions of the Amazon ECS-optimized Amazon Linux 2023 AMI. For more information, see [Amazon ECS-optimized Amazon Linux 2023 AMI](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#ecs-optimized-ami-linux-variants.html) in the Amazon Elastic Container Service Developer Guide.
         public var imageId: Swift.String?
         /// The Amazon ECS instance profile applied to Amazon EC2 instances in a compute environment. Required for Amazon EC2 instances. You can specify the short name or full Amazon Resource Name (ARN) of an instance profile. For example,  ecsInstanceRole  or arn:aws:iam:::instance-profile/ecsInstanceRole . For more information, see [Amazon ECS instance role](https://docs.aws.amazon.com/batch/latest/userguide/instance_IAM_role.html) in the Batch User Guide. When updating a compute environment, changing this setting requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public var instanceRole: Swift.String?
@@ -6017,6 +6929,8 @@ extension BatchClientTypes {
         public var minvCpus: Swift.Int?
         /// The Amazon EC2 placement group to associate with your compute resources. If you intend to submit multi-node parallel jobs to your compute environment, you should consider creating a cluster placement group and associate it with your compute resources. This keeps your multi-node parallel job on a logical grouping of instances within a single Availability Zone with high network flow potential. For more information, see [Placement groups](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html) in the Amazon EC2 User Guide for Linux Instances. When updating a compute environment, changing the placement group requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public var placementGroup: Swift.String?
+        /// The scaling policy configuration for the compute environment. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
+        public var scalingPolicy: BatchClientTypes.ComputeScalingPolicy?
         /// The Amazon EC2 security groups that are associated with instances launched in the compute environment. This parameter is required for Fargate compute resources, where it can contain up to 5 security groups. For Fargate compute resources, providing an empty list is handled as if this parameter wasn't specified and no change is made. For Amazon EC2 compute resources, providing an empty list removes the security groups from the compute resource. When updating a compute environment, changing the Amazon EC2 security groups requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide.
         public var securityGroupIds: [Swift.String]?
         /// The VPC subnets where the compute resources are launched. Fargate compute resources can contain up to 16 subnets. For Fargate compute resources, providing an empty list will be handled as if this parameter wasn't specified and no change is made. For Amazon EC2 compute resources, providing an empty list removes the VPC subnets from the compute resource. For more information, see [VPCs and subnets](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html) in the Amazon VPC User Guide. When updating a compute environment, changing the VPC subnets requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. Batch on Amazon EC2 and Batch on Amazon EKS support Local Zones. For more information, see [ Local Zones](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-local-zones) in the Amazon EC2 User Guide for Linux Instances, [Amazon EKS and Amazon Web Services Local Zones](https://docs.aws.amazon.com/eks/latest/userguide/local-zones.html) in the Amazon EKS User Guide and [ Amazon ECS clusters in Local Zones, Wavelength Zones, and Amazon Web Services Outposts](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cluster-regions-zones.html#clusters-local-zones) in the Amazon ECS Developer Guide. Batch on Fargate doesn't currently support Local Zones.
@@ -6041,6 +6955,7 @@ extension BatchClientTypes {
             maxvCpus: Swift.Int? = nil,
             minvCpus: Swift.Int? = nil,
             placementGroup: Swift.String? = nil,
+            scalingPolicy: BatchClientTypes.ComputeScalingPolicy? = nil,
             securityGroupIds: [Swift.String]? = nil,
             subnets: [Swift.String]? = nil,
             tags: [Swift.String: Swift.String]? = nil,
@@ -6059,6 +6974,7 @@ extension BatchClientTypes {
             self.maxvCpus = maxvCpus
             self.minvCpus = minvCpus
             self.placementGroup = placementGroup
+            self.scalingPolicy = scalingPolicy
             self.securityGroupIds = securityGroupIds
             self.subnets = subnets
             self.tags = tags
@@ -6079,7 +6995,7 @@ public struct UpdateComputeEnvironmentInput: Swift.Sendable {
     public var context: Swift.String?
     /// The full Amazon Resource Name (ARN) of the IAM role that allows Batch to make calls to other Amazon Web Services services on your behalf. For more information, see [Batch service IAM role](https://docs.aws.amazon.com/batch/latest/userguide/service_IAM_role.html) in the Batch User Guide. If the compute environment has a service-linked role, it can't be changed to use a regular IAM role. Likewise, if the compute environment has a regular IAM role, it can't be changed to use a service-linked role. To update the parameters for the compute environment that require an infrastructure update to change, the AWSServiceRoleForBatch service-linked role must be used. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. If your specified role has a path other than /, then you must either specify the full role ARN (recommended) or prefix the role name with the path. Depending on how you created your Batch service role, its ARN might contain the service-role path prefix. When you only specify the name of the service role, Batch assumes that your ARN doesn't use the service-role path prefix. Because of this, we recommend that you specify the full ARN of your service role when you create compute environments.
     public var serviceRole: Swift.String?
-    /// The state of the compute environment. Compute environments in the ENABLED state can accept jobs from a queue and scale in or out automatically based on the workload demand of its associated queues. If the state is ENABLED, then the Batch scheduler can attempt to place jobs from an associated job queue on the compute resources within the environment. If the compute environment is managed, then it can scale its instances out or in automatically, based on the job queue demand. If the state is DISABLED, then the Batch scheduler doesn't attempt to place jobs within the environment. Jobs in a STARTING or RUNNING state continue to progress normally. Managed compute environments in the DISABLED state don't scale out. Compute environments in a DISABLED state may continue to incur billing charges. To prevent additional charges, turn off and then delete the compute environment. For more information, see [State](https://docs.aws.amazon.com/batch/latest/userguide/compute_environment_parameters.html#compute_environment_state) in the Batch User Guide. When an instance is idle, the instance scales down to the minvCpus value. However, the instance size doesn't change. For example, consider a c5.8xlarge instance with a minvCpus value of 4 and a desiredvCpus value of 36. This instance doesn't scale down to a c5.large instance.
+    /// The state of the compute environment. Compute environments in the ENABLED state can accept jobs from a queue and scale in or out automatically based on the workload demand of its associated queues. If the state is ENABLED, then the Batch scheduler can attempt to place jobs from an associated job queue on the compute resources within the environment. If the compute environment is managed, then it can scale its instances out or in automatically, based on the job queue demand. If the state is DISABLED, then the Batch scheduler doesn't attempt to place jobs within the environment. Jobs in a STARTING or RUNNING state continue to progress normally. Managed compute environments in the DISABLED state don't scale out. Compute environments in a DISABLED state may continue to incur billing charges, for example, if they have running instances due to jobs that are still executing or a non-zero minvCpus setting. To prevent additional charges, disable and delete the compute environment. When an instance is idle, the instance scales down to the minvCpus value. However, the instance size doesn't change. For example, consider a c5.8xlarge instance with a minvCpus value of 4 and a desiredvCpus value of 36. This instance doesn't scale down to a c5.large instance.
     public var state: BatchClientTypes.CEState?
     /// The maximum number of vCPUs expected to be used for an unmanaged compute environment. Don't specify this parameter for a managed compute environment. This parameter is only used for fair-share scheduling to reserve vCPU capacity for new share identifiers. If this parameter isn't provided for a fair-share job queue, no vCPU capacity is reserved.
     public var unmanagedvCpus: Swift.Int?
@@ -6223,20 +7139,67 @@ public struct UpdateJobQueueOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateQuotaShareInput: Swift.Sendable {
+    /// A list that specifies the quantity and type of compute capacity allocated to the quota share.
+    public var capacityLimits: [BatchClientTypes.QuotaShareCapacityLimit]?
+    /// Specifies the preemption behavior for jobs in a quota share.
+    public var preemptionConfiguration: BatchClientTypes.QuotaSharePreemptionConfiguration?
+    /// The Amazon Resource Name (ARN) of the quota share to update.
+    /// This member is required.
+    public var quotaShareArn: Swift.String?
+    /// Specifies whether a quota share reserves, lends, or both lends and borrows idle compute capacity.
+    public var resourceSharingConfiguration: BatchClientTypes.QuotaShareResourceSharingConfiguration?
+    /// The state of the quota share. If the quota share is ENABLED, it is able to accept jobs. If the quota share is DISABLED, new jobs won't be accepted but jobs already submitted can finish.
+    public var state: BatchClientTypes.QuotaShareState?
+
+    public init(
+        capacityLimits: [BatchClientTypes.QuotaShareCapacityLimit]? = nil,
+        preemptionConfiguration: BatchClientTypes.QuotaSharePreemptionConfiguration? = nil,
+        quotaShareArn: Swift.String? = nil,
+        resourceSharingConfiguration: BatchClientTypes.QuotaShareResourceSharingConfiguration? = nil,
+        state: BatchClientTypes.QuotaShareState? = nil
+    ) {
+        self.capacityLimits = capacityLimits
+        self.preemptionConfiguration = preemptionConfiguration
+        self.quotaShareArn = quotaShareArn
+        self.resourceSharingConfiguration = resourceSharingConfiguration
+        self.state = state
+    }
+}
+
+public struct UpdateQuotaShareOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the quota share.
+    public var quotaShareArn: Swift.String?
+    /// The name of the quota share.
+    public var quotaShareName: Swift.String?
+
+    public init(
+        quotaShareArn: Swift.String? = nil,
+        quotaShareName: Swift.String? = nil
+    ) {
+        self.quotaShareArn = quotaShareArn
+        self.quotaShareName = quotaShareName
+    }
+}
+
 /// Contains the parameters for UpdateSchedulingPolicy.
 public struct UpdateSchedulingPolicyInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the scheduling policy to update.
     /// This member is required.
     public var arn: Swift.String?
-    /// The fair-share policy scheduling details.
+    /// The fair-share policy scheduling details. Once set during creation, a fairsharePolicy cannot be removed or changed to a quotaSharePolicy.
     public var fairsharePolicy: BatchClientTypes.FairsharePolicy?
+    /// The quota share scheduling policy details. Once set during creation, a quotaSharePolicy cannot be removed or changed to a fairsharePolicy.
+    public var quotaSharePolicy: BatchClientTypes.QuotaSharePolicy?
 
     public init(
         arn: Swift.String? = nil,
-        fairsharePolicy: BatchClientTypes.FairsharePolicy? = nil
+        fairsharePolicy: BatchClientTypes.FairsharePolicy? = nil,
+        quotaSharePolicy: BatchClientTypes.QuotaSharePolicy? = nil
     ) {
         self.arn = arn
         self.fairsharePolicy = fairsharePolicy
+        self.quotaSharePolicy = quotaSharePolicy
     }
 }
 
@@ -6282,6 +7245,42 @@ public struct UpdateServiceEnvironmentOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateServiceJobInput: Swift.Sendable {
+    /// The Batch job ID of the job to update.
+    /// This member is required.
+    public var jobId: Swift.String?
+    /// The scheduling priority for the job. This only affects jobs in job queues with a quota-share or fair-share scheduling policy. Jobs with a higher scheduling priority are scheduled before jobs with a lower scheduling priority within a share. The minimum supported value is 0 and the maximum supported value is 9999.
+    /// This member is required.
+    public var schedulingPriority: Swift.Int?
+
+    public init(
+        jobId: Swift.String? = nil,
+        schedulingPriority: Swift.Int? = nil
+    ) {
+        self.jobId = jobId
+        self.schedulingPriority = schedulingPriority
+    }
+}
+
+public struct UpdateServiceJobOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) for the job.
+    public var jobArn: Swift.String?
+    /// The unique identifier for the job.
+    public var jobId: Swift.String?
+    /// The name of the job.
+    public var jobName: Swift.String?
+
+    public init(
+        jobArn: Swift.String? = nil,
+        jobId: Swift.String? = nil,
+        jobName: Swift.String? = nil
+    ) {
+        self.jobArn = jobArn
+        self.jobId = jobId
+        self.jobName = jobName
+    }
+}
+
 extension CancelJobInput {
 
     static func urlPathProvider(_ value: CancelJobInput) -> Swift.String? {
@@ -6307,6 +7306,13 @@ extension CreateJobQueueInput {
 
     static func urlPathProvider(_ value: CreateJobQueueInput) -> Swift.String? {
         return "/v1/createjobqueue"
+    }
+}
+
+extension CreateQuotaShareInput {
+
+    static func urlPathProvider(_ value: CreateQuotaShareInput) -> Swift.String? {
+        return "/v1/createquotashare"
     }
 }
 
@@ -6342,6 +7348,13 @@ extension DeleteJobQueueInput {
 
     static func urlPathProvider(_ value: DeleteJobQueueInput) -> Swift.String? {
         return "/v1/deletejobqueue"
+    }
+}
+
+extension DeleteQuotaShareInput {
+
+    static func urlPathProvider(_ value: DeleteQuotaShareInput) -> Swift.String? {
+        return "/v1/deletequotashare"
     }
 }
 
@@ -6401,6 +7414,13 @@ extension DescribeJobsInput {
     }
 }
 
+extension DescribeQuotaShareInput {
+
+    static func urlPathProvider(_ value: DescribeQuotaShareInput) -> Swift.String? {
+        return "/v1/describequotashare"
+    }
+}
+
 extension DescribeSchedulingPoliciesInput {
 
     static func urlPathProvider(_ value: DescribeSchedulingPoliciesInput) -> Swift.String? {
@@ -6447,6 +7467,13 @@ extension ListJobsByConsumableResourceInput {
 
     static func urlPathProvider(_ value: ListJobsByConsumableResourceInput) -> Swift.String? {
         return "/v1/listjobsbyconsumableresource"
+    }
+}
+
+extension ListQuotaSharesInput {
+
+    static func urlPathProvider(_ value: ListQuotaSharesInput) -> Swift.String? {
+        return "/v1/listquotashares"
     }
 }
 
@@ -6566,6 +7593,13 @@ extension UpdateJobQueueInput {
     }
 }
 
+extension UpdateQuotaShareInput {
+
+    static func urlPathProvider(_ value: UpdateQuotaShareInput) -> Swift.String? {
+        return "/v1/updatequotashare"
+    }
+}
+
 extension UpdateSchedulingPolicyInput {
 
     static func urlPathProvider(_ value: UpdateSchedulingPolicyInput) -> Swift.String? {
@@ -6577,6 +7611,13 @@ extension UpdateServiceEnvironmentInput {
 
     static func urlPathProvider(_ value: UpdateServiceEnvironmentInput) -> Swift.String? {
         return "/v1/updateserviceenvironment"
+    }
+}
+
+extension UpdateServiceJobInput {
+
+    static func urlPathProvider(_ value: UpdateServiceJobInput) -> Swift.String? {
+        return "/v1/updateservicejob"
     }
 }
 
@@ -6632,12 +7673,27 @@ extension CreateJobQueueInput {
     }
 }
 
+extension CreateQuotaShareInput {
+
+    static func write(value: CreateQuotaShareInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["capacityLimits"].writeList(value.capacityLimits, memberWritingClosure: BatchClientTypes.QuotaShareCapacityLimit.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["jobQueue"].write(value.jobQueue)
+        try writer["preemptionConfiguration"].write(value.preemptionConfiguration, with: BatchClientTypes.QuotaSharePreemptionConfiguration.write(value:to:))
+        try writer["quotaShareName"].write(value.quotaShareName)
+        try writer["resourceSharingConfiguration"].write(value.resourceSharingConfiguration, with: BatchClientTypes.QuotaShareResourceSharingConfiguration.write(value:to:))
+        try writer["state"].write(value.state)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
 extension CreateSchedulingPolicyInput {
 
     static func write(value: CreateSchedulingPolicyInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["fairsharePolicy"].write(value.fairsharePolicy, with: BatchClientTypes.FairsharePolicy.write(value:to:))
         try writer["name"].write(value.name)
+        try writer["quotaSharePolicy"].write(value.quotaSharePolicy, with: BatchClientTypes.QuotaSharePolicy.write(value:to:))
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -6675,6 +7731,14 @@ extension DeleteJobQueueInput {
     static func write(value: DeleteJobQueueInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["jobQueue"].write(value.jobQueue)
+    }
+}
+
+extension DeleteQuotaShareInput {
+
+    static func write(value: DeleteQuotaShareInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["quotaShareArn"].write(value.quotaShareArn)
     }
 }
 
@@ -6750,6 +7814,14 @@ extension DescribeJobsInput {
     }
 }
 
+extension DescribeQuotaShareInput {
+
+    static func write(value: DescribeQuotaShareInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["quotaShareArn"].write(value.quotaShareArn)
+    }
+}
+
 extension DescribeSchedulingPoliciesInput {
 
     static func write(value: DescribeSchedulingPoliciesInput?, to writer: SmithyJSON.Writer) throws {
@@ -6814,6 +7886,16 @@ extension ListJobsByConsumableResourceInput {
         guard let value else { return }
         try writer["consumableResource"].write(value.consumableResource)
         try writer["filters"].writeList(value.filters, memberWritingClosure: BatchClientTypes.KeyValuesPair.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+    }
+}
+
+extension ListQuotaSharesInput {
+
+    static func write(value: ListQuotaSharesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["jobQueue"].write(value.jobQueue)
         try writer["maxResults"].write(value.maxResults)
         try writer["nextToken"].write(value.nextToken)
     }
@@ -6892,6 +7974,8 @@ extension SubmitServiceJobInput {
         try writer["clientToken"].write(value.clientToken)
         try writer["jobName"].write(value.jobName)
         try writer["jobQueue"].write(value.jobQueue)
+        try writer["preemptionConfiguration"].write(value.preemptionConfiguration, with: BatchClientTypes.ServiceJobPreemptionConfiguration.write(value:to:))
+        try writer["quotaShareName"].write(value.quotaShareName)
         try writer["retryStrategy"].write(value.retryStrategy, with: BatchClientTypes.ServiceJobRetryStrategy.write(value:to:))
         try writer["schedulingPriority"].write(value.schedulingPriority)
         try writer["serviceJobType"].write(value.serviceJobType)
@@ -6967,12 +8051,25 @@ extension UpdateJobQueueInput {
     }
 }
 
+extension UpdateQuotaShareInput {
+
+    static func write(value: UpdateQuotaShareInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["capacityLimits"].writeList(value.capacityLimits, memberWritingClosure: BatchClientTypes.QuotaShareCapacityLimit.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["preemptionConfiguration"].write(value.preemptionConfiguration, with: BatchClientTypes.QuotaSharePreemptionConfiguration.write(value:to:))
+        try writer["quotaShareArn"].write(value.quotaShareArn)
+        try writer["resourceSharingConfiguration"].write(value.resourceSharingConfiguration, with: BatchClientTypes.QuotaShareResourceSharingConfiguration.write(value:to:))
+        try writer["state"].write(value.state)
+    }
+}
+
 extension UpdateSchedulingPolicyInput {
 
     static func write(value: UpdateSchedulingPolicyInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["arn"].write(value.arn)
         try writer["fairsharePolicy"].write(value.fairsharePolicy, with: BatchClientTypes.FairsharePolicy.write(value:to:))
+        try writer["quotaSharePolicy"].write(value.quotaSharePolicy, with: BatchClientTypes.QuotaSharePolicy.write(value:to:))
     }
 }
 
@@ -6983,6 +8080,15 @@ extension UpdateServiceEnvironmentInput {
         try writer["capacityLimits"].writeList(value.capacityLimits, memberWritingClosure: BatchClientTypes.CapacityLimit.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["serviceEnvironment"].write(value.serviceEnvironment)
         try writer["state"].write(value.state)
+    }
+}
+
+extension UpdateServiceJobInput {
+
+    static func write(value: UpdateServiceJobInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["jobId"].write(value.jobId)
+        try writer["schedulingPriority"].write(value.schedulingPriority)
     }
 }
 
@@ -7032,6 +8138,19 @@ extension CreateJobQueueOutput {
     }
 }
 
+extension CreateQuotaShareOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateQuotaShareOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateQuotaShareOutput()
+        value.quotaShareArn = try reader["quotaShareArn"].readIfPresent()
+        value.quotaShareName = try reader["quotaShareName"].readIfPresent()
+        return value
+    }
+}
+
 extension CreateSchedulingPolicyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateSchedulingPolicyOutput {
@@ -7076,6 +8195,13 @@ extension DeleteJobQueueOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteJobQueueOutput {
         return DeleteJobQueueOutput()
+    }
+}
+
+extension DeleteQuotaShareOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteQuotaShareOutput {
+        return DeleteQuotaShareOutput()
     }
 }
 
@@ -7170,6 +8296,26 @@ extension DescribeJobsOutput {
     }
 }
 
+extension DescribeQuotaShareOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeQuotaShareOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeQuotaShareOutput()
+        value.capacityLimits = try reader["capacityLimits"].readListIfPresent(memberReadingClosure: BatchClientTypes.QuotaShareCapacityLimit.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.jobQueueArn = try reader["jobQueueArn"].readIfPresent()
+        value.preemptionConfiguration = try reader["preemptionConfiguration"].readIfPresent(with: BatchClientTypes.QuotaSharePreemptionConfiguration.read(from:))
+        value.quotaShareArn = try reader["quotaShareArn"].readIfPresent()
+        value.quotaShareName = try reader["quotaShareName"].readIfPresent()
+        value.resourceSharingConfiguration = try reader["resourceSharingConfiguration"].readIfPresent(with: BatchClientTypes.QuotaShareResourceSharingConfiguration.read(from:))
+        value.state = try reader["state"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
 extension DescribeSchedulingPoliciesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeSchedulingPoliciesOutput {
@@ -7203,6 +8349,7 @@ extension DescribeServiceJobOutput {
         let reader = responseReader
         var value = DescribeServiceJobOutput()
         value.attempts = try reader["attempts"].readListIfPresent(memberReadingClosure: BatchClientTypes.ServiceJobAttemptDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.capacityUsage = try reader["capacityUsage"].readListIfPresent(memberReadingClosure: BatchClientTypes.ServiceJobCapacityUsageDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.createdAt = try reader["createdAt"].readIfPresent()
         value.isTerminated = try reader["isTerminated"].readIfPresent()
         value.jobArn = try reader["jobArn"].readIfPresent()
@@ -7210,7 +8357,11 @@ extension DescribeServiceJobOutput {
         value.jobName = try reader["jobName"].readIfPresent() ?? ""
         value.jobQueue = try reader["jobQueue"].readIfPresent() ?? ""
         value.latestAttempt = try reader["latestAttempt"].readIfPresent(with: BatchClientTypes.LatestServiceJobAttempt.read(from:))
+        value.preemptionConfiguration = try reader["preemptionConfiguration"].readIfPresent(with: BatchClientTypes.ServiceJobPreemptionConfiguration.read(from:))
+        value.preemptionSummary = try reader["preemptionSummary"].readIfPresent(with: BatchClientTypes.ServiceJobPreemptionSummary.read(from:))
+        value.quotaShareName = try reader["quotaShareName"].readIfPresent()
         value.retryStrategy = try reader["retryStrategy"].readIfPresent(with: BatchClientTypes.ServiceJobRetryStrategy.read(from:))
+        value.scheduledAt = try reader["scheduledAt"].readIfPresent()
         value.schedulingPriority = try reader["schedulingPriority"].readIfPresent()
         value.serviceJobType = try reader["serviceJobType"].readIfPresent() ?? .sdkUnknown("")
         value.serviceRequestPayload = try reader["serviceRequestPayload"].readIfPresent()
@@ -7233,6 +8384,8 @@ extension GetJobQueueSnapshotOutput {
         let reader = responseReader
         var value = GetJobQueueSnapshotOutput()
         value.frontOfQueue = try reader["frontOfQueue"].readIfPresent(with: BatchClientTypes.FrontOfQueueDetail.read(from:))
+        value.frontOfQuotaShares = try reader["frontOfQuotaShares"].readIfPresent(with: BatchClientTypes.FrontOfQuotaSharesDetail.read(from:))
+        value.queueUtilization = try reader["queueUtilization"].readIfPresent(with: BatchClientTypes.QueueSnapshotUtilizationDetail.read(from:))
         return value
     }
 }
@@ -7272,6 +8425,19 @@ extension ListJobsByConsumableResourceOutput {
         var value = ListJobsByConsumableResourceOutput()
         value.jobs = try reader["jobs"].readListIfPresent(memberReadingClosure: BatchClientTypes.ListJobsByConsumableResourceSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListQuotaSharesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListQuotaSharesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListQuotaSharesOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.quotaShares = try reader["quotaShares"].readListIfPresent(memberReadingClosure: BatchClientTypes.QuotaShareDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -7424,6 +8590,19 @@ extension UpdateJobQueueOutput {
     }
 }
 
+extension UpdateQuotaShareOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateQuotaShareOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateQuotaShareOutput()
+        value.quotaShareArn = try reader["quotaShareArn"].readIfPresent()
+        value.quotaShareName = try reader["quotaShareName"].readIfPresent()
+        return value
+    }
+}
+
 extension UpdateSchedulingPolicyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateSchedulingPolicyOutput {
@@ -7444,12 +8623,26 @@ extension UpdateServiceEnvironmentOutput {
     }
 }
 
+extension UpdateServiceJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateServiceJobOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateServiceJobOutput()
+        value.jobArn = try reader["jobArn"].readIfPresent()
+        value.jobId = try reader["jobId"].readIfPresent()
+        value.jobName = try reader["jobName"].readIfPresent()
+        return value
+    }
+}
+
 enum CancelJobOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -7464,7 +8657,7 @@ enum CreateComputeEnvironmentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -7479,7 +8672,7 @@ enum CreateConsumableResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -7494,7 +8687,22 @@ enum CreateJobQueueOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateQuotaShareOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -7509,7 +8717,7 @@ enum CreateSchedulingPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -7524,7 +8732,7 @@ enum CreateServiceEnvironmentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -7539,7 +8747,7 @@ enum DeleteComputeEnvironmentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -7554,7 +8762,7 @@ enum DeleteConsumableResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -7569,7 +8777,22 @@ enum DeleteJobQueueOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteQuotaShareOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -7584,7 +8807,7 @@ enum DeleteSchedulingPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -7599,7 +8822,7 @@ enum DeleteServiceEnvironmentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -7614,7 +8837,7 @@ enum DeregisterJobDefinitionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -7629,7 +8852,7 @@ enum DescribeComputeEnvironmentsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -7644,7 +8867,7 @@ enum DescribeConsumableResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -7659,7 +8882,7 @@ enum DescribeJobDefinitionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -7674,7 +8897,7 @@ enum DescribeJobQueuesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -7689,7 +8912,22 @@ enum DescribeJobsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeQuotaShareOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -7704,7 +8942,7 @@ enum DescribeSchedulingPoliciesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -7719,7 +8957,7 @@ enum DescribeServiceEnvironmentsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -7734,7 +8972,7 @@ enum DescribeServiceJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -7749,7 +8987,7 @@ enum GetJobQueueSnapshotOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -7764,7 +9002,7 @@ enum ListConsumableResourcesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -7779,7 +9017,7 @@ enum ListJobsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -7794,7 +9032,22 @@ enum ListJobsByConsumableResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListQuotaSharesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -7809,7 +9062,7 @@ enum ListSchedulingPoliciesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -7824,7 +9077,7 @@ enum ListServiceJobsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -7839,7 +9092,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -7854,7 +9107,7 @@ enum RegisterJobDefinitionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -7869,7 +9122,7 @@ enum SubmitJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -7884,7 +9137,7 @@ enum SubmitServiceJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -7899,7 +9152,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -7914,7 +9167,7 @@ enum TerminateJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -7929,7 +9182,7 @@ enum TerminateServiceJobOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -7944,7 +9197,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -7959,7 +9212,7 @@ enum UpdateComputeEnvironmentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -7974,7 +9227,7 @@ enum UpdateConsumableResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -7989,7 +9242,22 @@ enum UpdateJobQueueOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateQuotaShareOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -8004,7 +9272,7 @@ enum UpdateSchedulingPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -8019,7 +9287,22 @@ enum UpdateServiceEnvironmentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateServiceJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
@@ -8031,7 +9314,7 @@ enum UpdateServiceEnvironmentOutputError {
 
 extension ClientException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ClientException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ClientException {
         let reader = baseError.errorBodyReader
         var value = ClientException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -8044,13 +9327,119 @@ extension ClientException {
 
 extension ServerException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServerException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServerException {
         let reader = baseError.errorBodyReader
         var value = ServerException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
+        return value
+    }
+}
+
+extension BatchClientTypes.ArrayProperties {
+
+    static func write(value: BatchClientTypes.ArrayProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["size"].write(value.size)
+    }
+}
+
+extension BatchClientTypes.ArrayPropertiesDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ArrayPropertiesDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.ArrayPropertiesDetail()
+        value.statusSummary = try reader["statusSummary"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.statusSummaryLastUpdatedAt = try reader["statusSummaryLastUpdatedAt"].readIfPresent()
+        value.size = try reader["size"].readIfPresent()
+        value.index = try reader["index"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.ArrayPropertiesSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ArrayPropertiesSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.ArrayPropertiesSummary()
+        value.size = try reader["size"].readIfPresent()
+        value.index = try reader["index"].readIfPresent()
+        value.statusSummary = try reader["statusSummary"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.statusSummaryLastUpdatedAt = try reader["statusSummaryLastUpdatedAt"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.AttemptContainerDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.AttemptContainerDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.AttemptContainerDetail()
+        value.containerInstanceArn = try reader["containerInstanceArn"].readIfPresent()
+        value.taskArn = try reader["taskArn"].readIfPresent()
+        value.exitCode = try reader["exitCode"].readIfPresent()
+        value.reason = try reader["reason"].readIfPresent()
+        value.logStreamName = try reader["logStreamName"].readIfPresent()
+        value.networkInterfaces = try reader["networkInterfaces"].readListIfPresent(memberReadingClosure: BatchClientTypes.NetworkInterface.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BatchClientTypes.AttemptDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.AttemptDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.AttemptDetail()
+        value.container = try reader["container"].readIfPresent(with: BatchClientTypes.AttemptContainerDetail.read(from:))
+        value.startedAt = try reader["startedAt"].readIfPresent()
+        value.stoppedAt = try reader["stoppedAt"].readIfPresent()
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.taskProperties = try reader["taskProperties"].readListIfPresent(memberReadingClosure: BatchClientTypes.AttemptEcsTaskDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BatchClientTypes.AttemptEcsTaskDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.AttemptEcsTaskDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.AttemptEcsTaskDetails()
+        value.containerInstanceArn = try reader["containerInstanceArn"].readIfPresent()
+        value.taskArn = try reader["taskArn"].readIfPresent()
+        value.containers = try reader["containers"].readListIfPresent(memberReadingClosure: BatchClientTypes.AttemptTaskContainerDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BatchClientTypes.AttemptTaskContainerDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.AttemptTaskContainerDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.AttemptTaskContainerDetails()
+        value.exitCode = try reader["exitCode"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.reason = try reader["reason"].readIfPresent()
+        value.logStreamName = try reader["logStreamName"].readIfPresent()
+        value.networkInterfaces = try reader["networkInterfaces"].readListIfPresent(memberReadingClosure: BatchClientTypes.NetworkInterface.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BatchClientTypes.CapacityLimit {
+
+    static func write(value: BatchClientTypes.CapacityLimit?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["capacityUnit"].write(value.capacityUnit)
+        try writer["maxCapacity"].write(value.maxCapacity)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.CapacityLimit {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.CapacityLimit()
+        value.maxCapacity = try reader["maxCapacity"].readIfPresent()
+        value.capacityUnit = try reader["capacityUnit"].readIfPresent()
         return value
     }
 }
@@ -8080,36 +9469,19 @@ extension BatchClientTypes.ComputeEnvironmentDetail {
     }
 }
 
-extension BatchClientTypes.EksConfiguration {
+extension BatchClientTypes.ComputeEnvironmentOrder {
 
-    static func write(value: BatchClientTypes.EksConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: BatchClientTypes.ComputeEnvironmentOrder?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["eksClusterArn"].write(value.eksClusterArn)
-        try writer["kubernetesNamespace"].write(value.kubernetesNamespace)
+        try writer["computeEnvironment"].write(value.computeEnvironment)
+        try writer["order"].write(value.order)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EksConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ComputeEnvironmentOrder {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.EksConfiguration()
-        value.eksClusterArn = try reader["eksClusterArn"].readIfPresent() ?? ""
-        value.kubernetesNamespace = try reader["kubernetesNamespace"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension BatchClientTypes.UpdatePolicy {
-
-    static func write(value: BatchClientTypes.UpdatePolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["jobExecutionTimeoutMinutes"].write(value.jobExecutionTimeoutMinutes)
-        try writer["terminateJobsOnUpdate"].write(value.terminateJobsOnUpdate)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.UpdatePolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.UpdatePolicy()
-        value.terminateJobsOnUpdate = try reader["terminateJobsOnUpdate"].readIfPresent()
-        value.jobExecutionTimeoutMinutes = try reader["jobExecutionTimeoutMinutes"].readIfPresent()
+        var value = BatchClientTypes.ComputeEnvironmentOrder()
+        value.order = try reader["order"].readIfPresent() ?? 0
+        value.computeEnvironment = try reader["computeEnvironment"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8130,6 +9502,7 @@ extension BatchClientTypes.ComputeResource {
         try writer["maxvCpus"].write(value.maxvCpus)
         try writer["minvCpus"].write(value.minvCpus)
         try writer["placementGroup"].write(value.placementGroup)
+        try writer["scalingPolicy"].write(value.scalingPolicy, with: BatchClientTypes.ComputeScalingPolicy.write(value:to:))
         try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["spotIamFleetRole"].write(value.spotIamFleetRole)
         try writer["subnets"].writeList(value.subnets, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -8157,98 +9530,47 @@ extension BatchClientTypes.ComputeResource {
         value.spotIamFleetRole = try reader["spotIamFleetRole"].readIfPresent()
         value.launchTemplate = try reader["launchTemplate"].readIfPresent(with: BatchClientTypes.LaunchTemplateSpecification.read(from:))
         value.ec2Configuration = try reader["ec2Configuration"].readListIfPresent(memberReadingClosure: BatchClientTypes.Ec2Configuration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.scalingPolicy = try reader["scalingPolicy"].readIfPresent(with: BatchClientTypes.ComputeScalingPolicy.read(from:))
         return value
     }
 }
 
-extension BatchClientTypes.Ec2Configuration {
+extension BatchClientTypes.ComputeResourceUpdate {
 
-    static func write(value: BatchClientTypes.Ec2Configuration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: BatchClientTypes.ComputeResourceUpdate?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["imageIdOverride"].write(value.imageIdOverride)
-        try writer["imageKubernetesVersion"].write(value.imageKubernetesVersion)
-        try writer["imageType"].write(value.imageType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.Ec2Configuration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.Ec2Configuration()
-        value.imageType = try reader["imageType"].readIfPresent() ?? ""
-        value.imageIdOverride = try reader["imageIdOverride"].readIfPresent()
-        value.imageKubernetesVersion = try reader["imageKubernetesVersion"].readIfPresent()
-        return value
+        try writer["allocationStrategy"].write(value.allocationStrategy)
+        try writer["bidPercentage"].write(value.bidPercentage)
+        try writer["desiredvCpus"].write(value.desiredvCpus)
+        try writer["ec2Configuration"].writeList(value.ec2Configuration, memberWritingClosure: BatchClientTypes.Ec2Configuration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ec2KeyPair"].write(value.ec2KeyPair)
+        try writer["imageId"].write(value.imageId)
+        try writer["instanceRole"].write(value.instanceRole)
+        try writer["instanceTypes"].writeList(value.instanceTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["launchTemplate"].write(value.launchTemplate, with: BatchClientTypes.LaunchTemplateSpecification.write(value:to:))
+        try writer["maxvCpus"].write(value.maxvCpus)
+        try writer["minvCpus"].write(value.minvCpus)
+        try writer["placementGroup"].write(value.placementGroup)
+        try writer["scalingPolicy"].write(value.scalingPolicy, with: BatchClientTypes.ComputeScalingPolicy.write(value:to:))
+        try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["subnets"].writeList(value.subnets, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["type"].write(value.type)
+        try writer["updateToLatestImageVersion"].write(value.updateToLatestImageVersion)
     }
 }
 
-extension BatchClientTypes.LaunchTemplateSpecification {
+extension BatchClientTypes.ComputeScalingPolicy {
 
-    static func write(value: BatchClientTypes.LaunchTemplateSpecification?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: BatchClientTypes.ComputeScalingPolicy?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["launchTemplateId"].write(value.launchTemplateId)
-        try writer["launchTemplateName"].write(value.launchTemplateName)
-        try writer["overrides"].writeList(value.overrides, memberWritingClosure: BatchClientTypes.LaunchTemplateSpecificationOverride.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["userdataType"].write(value.userdataType)
-        try writer["version"].write(value.version)
+        try writer["minScaleDownDelayMinutes"].write(value.minScaleDownDelayMinutes)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.LaunchTemplateSpecification {
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ComputeScalingPolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.LaunchTemplateSpecification()
-        value.launchTemplateId = try reader["launchTemplateId"].readIfPresent()
-        value.launchTemplateName = try reader["launchTemplateName"].readIfPresent()
-        value.version = try reader["version"].readIfPresent()
-        value.overrides = try reader["overrides"].readListIfPresent(memberReadingClosure: BatchClientTypes.LaunchTemplateSpecificationOverride.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.userdataType = try reader["userdataType"].readIfPresent()
-        return value
-    }
-}
-
-extension BatchClientTypes.LaunchTemplateSpecificationOverride {
-
-    static func write(value: BatchClientTypes.LaunchTemplateSpecificationOverride?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["launchTemplateId"].write(value.launchTemplateId)
-        try writer["launchTemplateName"].write(value.launchTemplateName)
-        try writer["targetInstanceTypes"].writeList(value.targetInstanceTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["userdataType"].write(value.userdataType)
-        try writer["version"].write(value.version)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.LaunchTemplateSpecificationOverride {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.LaunchTemplateSpecificationOverride()
-        value.launchTemplateId = try reader["launchTemplateId"].readIfPresent()
-        value.launchTemplateName = try reader["launchTemplateName"].readIfPresent()
-        value.version = try reader["version"].readIfPresent()
-        value.targetInstanceTypes = try reader["targetInstanceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.userdataType = try reader["userdataType"].readIfPresent()
-        return value
-    }
-}
-
-extension BatchClientTypes.JobDefinition {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.JobDefinition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.JobDefinition()
-        value.jobDefinitionName = try reader["jobDefinitionName"].readIfPresent() ?? ""
-        value.jobDefinitionArn = try reader["jobDefinitionArn"].readIfPresent() ?? ""
-        value.revision = try reader["revision"].readIfPresent() ?? 0
-        value.status = try reader["status"].readIfPresent()
-        value.type = try reader["type"].readIfPresent() ?? ""
-        value.schedulingPriority = try reader["schedulingPriority"].readIfPresent()
-        value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.retryStrategy = try reader["retryStrategy"].readIfPresent(with: BatchClientTypes.RetryStrategy.read(from:))
-        value.containerProperties = try reader["containerProperties"].readIfPresent(with: BatchClientTypes.ContainerProperties.read(from:))
-        value.timeout = try reader["timeout"].readIfPresent(with: BatchClientTypes.JobTimeout.read(from:))
-        value.nodeProperties = try reader["nodeProperties"].readIfPresent(with: BatchClientTypes.NodeProperties.read(from:))
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.propagateTags = try reader["propagateTags"].readIfPresent()
-        value.platformCapabilities = try reader["platformCapabilities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BatchClientTypes.PlatformCapability>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.ecsProperties = try reader["ecsProperties"].readIfPresent(with: BatchClientTypes.EcsProperties.read(from:))
-        value.eksProperties = try reader["eksProperties"].readIfPresent(with: BatchClientTypes.EksProperties.read(from:))
-        value.containerOrchestrationType = try reader["containerOrchestrationType"].readIfPresent()
-        value.consumableResourceProperties = try reader["consumableResourceProperties"].readIfPresent(with: BatchClientTypes.ConsumableResourceProperties.read(from:))
+        var value = BatchClientTypes.ComputeScalingPolicy()
+        value.minScaleDownDelayMinutes = try reader["minScaleDownDelayMinutes"].readIfPresent()
         return value
     }
 }
@@ -8285,765 +9607,69 @@ extension BatchClientTypes.ConsumableResourceRequirement {
     }
 }
 
-extension BatchClientTypes.EksProperties {
+extension BatchClientTypes.ConsumableResourceSummary {
 
-    static func write(value: BatchClientTypes.EksProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["podProperties"].write(value.podProperties, with: BatchClientTypes.EksPodProperties.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EksProperties {
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ConsumableResourceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.EksProperties()
-        value.podProperties = try reader["podProperties"].readIfPresent(with: BatchClientTypes.EksPodProperties.read(from:))
+        var value = BatchClientTypes.ConsumableResourceSummary()
+        value.consumableResourceArn = try reader["consumableResourceArn"].readIfPresent() ?? ""
+        value.consumableResourceName = try reader["consumableResourceName"].readIfPresent() ?? ""
+        value.totalQuantity = try reader["totalQuantity"].readIfPresent()
+        value.inUseQuantity = try reader["inUseQuantity"].readIfPresent()
+        value.resourceType = try reader["resourceType"].readIfPresent()
         return value
     }
 }
 
-extension BatchClientTypes.EksPodProperties {
+extension BatchClientTypes.ContainerDetail {
 
-    static func write(value: BatchClientTypes.EksPodProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["containers"].writeList(value.containers, memberWritingClosure: BatchClientTypes.EksContainer.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["dnsPolicy"].write(value.dnsPolicy)
-        try writer["hostNetwork"].write(value.hostNetwork)
-        try writer["imagePullSecrets"].writeList(value.imagePullSecrets, memberWritingClosure: BatchClientTypes.ImagePullSecret.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["initContainers"].writeList(value.initContainers, memberWritingClosure: BatchClientTypes.EksContainer.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["metadata"].write(value.metadata, with: BatchClientTypes.EksMetadata.write(value:to:))
-        try writer["serviceAccountName"].write(value.serviceAccountName)
-        try writer["shareProcessNamespace"].write(value.shareProcessNamespace)
-        try writer["volumes"].writeList(value.volumes, memberWritingClosure: BatchClientTypes.EksVolume.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EksPodProperties {
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ContainerDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.EksPodProperties()
-        value.serviceAccountName = try reader["serviceAccountName"].readIfPresent()
-        value.hostNetwork = try reader["hostNetwork"].readIfPresent()
-        value.dnsPolicy = try reader["dnsPolicy"].readIfPresent()
-        value.imagePullSecrets = try reader["imagePullSecrets"].readListIfPresent(memberReadingClosure: BatchClientTypes.ImagePullSecret.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.containers = try reader["containers"].readListIfPresent(memberReadingClosure: BatchClientTypes.EksContainer.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.initContainers = try reader["initContainers"].readListIfPresent(memberReadingClosure: BatchClientTypes.EksContainer.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.volumes = try reader["volumes"].readListIfPresent(memberReadingClosure: BatchClientTypes.EksVolume.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.metadata = try reader["metadata"].readIfPresent(with: BatchClientTypes.EksMetadata.read(from:))
-        value.shareProcessNamespace = try reader["shareProcessNamespace"].readIfPresent()
-        return value
-    }
-}
-
-extension BatchClientTypes.EksMetadata {
-
-    static func write(value: BatchClientTypes.EksMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["annotations"].writeMap(value.annotations, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["labels"].writeMap(value.labels, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["namespace"].write(value.namespace)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EksMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.EksMetadata()
-        value.labels = try reader["labels"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.annotations = try reader["annotations"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.namespace = try reader["namespace"].readIfPresent()
-        return value
-    }
-}
-
-extension BatchClientTypes.EksVolume {
-
-    static func write(value: BatchClientTypes.EksVolume?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["emptyDir"].write(value.emptyDir, with: BatchClientTypes.EksEmptyDir.write(value:to:))
-        try writer["hostPath"].write(value.hostPath, with: BatchClientTypes.EksHostPath.write(value:to:))
-        try writer["name"].write(value.name)
-        try writer["persistentVolumeClaim"].write(value.persistentVolumeClaim, with: BatchClientTypes.EksPersistentVolumeClaim.write(value:to:))
-        try writer["secret"].write(value.secret, with: BatchClientTypes.EksSecret.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EksVolume {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.EksVolume()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.hostPath = try reader["hostPath"].readIfPresent(with: BatchClientTypes.EksHostPath.read(from:))
-        value.emptyDir = try reader["emptyDir"].readIfPresent(with: BatchClientTypes.EksEmptyDir.read(from:))
-        value.secret = try reader["secret"].readIfPresent(with: BatchClientTypes.EksSecret.read(from:))
-        value.persistentVolumeClaim = try reader["persistentVolumeClaim"].readIfPresent(with: BatchClientTypes.EksPersistentVolumeClaim.read(from:))
-        return value
-    }
-}
-
-extension BatchClientTypes.EksPersistentVolumeClaim {
-
-    static func write(value: BatchClientTypes.EksPersistentVolumeClaim?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["claimName"].write(value.claimName)
-        try writer["readOnly"].write(value.readOnly)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EksPersistentVolumeClaim {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.EksPersistentVolumeClaim()
-        value.claimName = try reader["claimName"].readIfPresent() ?? ""
-        value.readOnly = try reader["readOnly"].readIfPresent()
-        return value
-    }
-}
-
-extension BatchClientTypes.EksSecret {
-
-    static func write(value: BatchClientTypes.EksSecret?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["optional"].write(value.`optional`)
-        try writer["secretName"].write(value.secretName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EksSecret {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.EksSecret()
-        value.secretName = try reader["secretName"].readIfPresent() ?? ""
-        value.`optional` = try reader["optional"].readIfPresent()
-        return value
-    }
-}
-
-extension BatchClientTypes.EksEmptyDir {
-
-    static func write(value: BatchClientTypes.EksEmptyDir?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["medium"].write(value.medium)
-        try writer["sizeLimit"].write(value.sizeLimit)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EksEmptyDir {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.EksEmptyDir()
-        value.medium = try reader["medium"].readIfPresent()
-        value.sizeLimit = try reader["sizeLimit"].readIfPresent()
-        return value
-    }
-}
-
-extension BatchClientTypes.EksHostPath {
-
-    static func write(value: BatchClientTypes.EksHostPath?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["path"].write(value.path)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EksHostPath {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.EksHostPath()
-        value.path = try reader["path"].readIfPresent()
-        return value
-    }
-}
-
-extension BatchClientTypes.EksContainer {
-
-    static func write(value: BatchClientTypes.EksContainer?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["args"].writeList(value.args, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["command"].writeList(value.command, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["env"].writeList(value.env, memberWritingClosure: BatchClientTypes.EksContainerEnvironmentVariable.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["image"].write(value.image)
-        try writer["imagePullPolicy"].write(value.imagePullPolicy)
-        try writer["name"].write(value.name)
-        try writer["resources"].write(value.resources, with: BatchClientTypes.EksContainerResourceRequirements.write(value:to:))
-        try writer["securityContext"].write(value.securityContext, with: BatchClientTypes.EksContainerSecurityContext.write(value:to:))
-        try writer["volumeMounts"].writeList(value.volumeMounts, memberWritingClosure: BatchClientTypes.EksContainerVolumeMount.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EksContainer {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.EksContainer()
-        value.name = try reader["name"].readIfPresent()
-        value.image = try reader["image"].readIfPresent() ?? ""
-        value.imagePullPolicy = try reader["imagePullPolicy"].readIfPresent()
+        var value = BatchClientTypes.ContainerDetail()
+        value.image = try reader["image"].readIfPresent()
+        value.vcpus = try reader["vcpus"].readIfPresent()
+        value.memory = try reader["memory"].readIfPresent()
         value.command = try reader["command"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.args = try reader["args"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.env = try reader["env"].readListIfPresent(memberReadingClosure: BatchClientTypes.EksContainerEnvironmentVariable.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.resources = try reader["resources"].readIfPresent(with: BatchClientTypes.EksContainerResourceRequirements.read(from:))
-        value.volumeMounts = try reader["volumeMounts"].readListIfPresent(memberReadingClosure: BatchClientTypes.EksContainerVolumeMount.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.securityContext = try reader["securityContext"].readIfPresent(with: BatchClientTypes.EksContainerSecurityContext.read(from:))
-        return value
-    }
-}
-
-extension BatchClientTypes.EksContainerSecurityContext {
-
-    static func write(value: BatchClientTypes.EksContainerSecurityContext?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["allowPrivilegeEscalation"].write(value.allowPrivilegeEscalation)
-        try writer["privileged"].write(value.privileged)
-        try writer["readOnlyRootFilesystem"].write(value.readOnlyRootFilesystem)
-        try writer["runAsGroup"].write(value.runAsGroup)
-        try writer["runAsNonRoot"].write(value.runAsNonRoot)
-        try writer["runAsUser"].write(value.runAsUser)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EksContainerSecurityContext {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.EksContainerSecurityContext()
-        value.runAsUser = try reader["runAsUser"].readIfPresent()
-        value.runAsGroup = try reader["runAsGroup"].readIfPresent()
-        value.privileged = try reader["privileged"].readIfPresent()
-        value.allowPrivilegeEscalation = try reader["allowPrivilegeEscalation"].readIfPresent()
-        value.readOnlyRootFilesystem = try reader["readOnlyRootFilesystem"].readIfPresent()
-        value.runAsNonRoot = try reader["runAsNonRoot"].readIfPresent()
-        return value
-    }
-}
-
-extension BatchClientTypes.EksContainerVolumeMount {
-
-    static func write(value: BatchClientTypes.EksContainerVolumeMount?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["mountPath"].write(value.mountPath)
-        try writer["name"].write(value.name)
-        try writer["readOnly"].write(value.readOnly)
-        try writer["subPath"].write(value.subPath)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EksContainerVolumeMount {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.EksContainerVolumeMount()
-        value.name = try reader["name"].readIfPresent()
-        value.mountPath = try reader["mountPath"].readIfPresent()
-        value.subPath = try reader["subPath"].readIfPresent()
-        value.readOnly = try reader["readOnly"].readIfPresent()
-        return value
-    }
-}
-
-extension BatchClientTypes.EksContainerResourceRequirements {
-
-    static func write(value: BatchClientTypes.EksContainerResourceRequirements?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["limits"].writeMap(value.limits, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["requests"].writeMap(value.requests, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EksContainerResourceRequirements {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.EksContainerResourceRequirements()
-        value.limits = try reader["limits"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.requests = try reader["requests"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension BatchClientTypes.EksContainerEnvironmentVariable {
-
-    static func write(value: BatchClientTypes.EksContainerEnvironmentVariable?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EksContainerEnvironmentVariable {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.EksContainerEnvironmentVariable()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.value = try reader["value"].readIfPresent()
-        return value
-    }
-}
-
-extension BatchClientTypes.ImagePullSecret {
-
-    static func write(value: BatchClientTypes.ImagePullSecret?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ImagePullSecret {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.ImagePullSecret()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension BatchClientTypes.EcsProperties {
-
-    static func write(value: BatchClientTypes.EcsProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["taskProperties"].writeList(value.taskProperties, memberWritingClosure: BatchClientTypes.EcsTaskProperties.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EcsProperties {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.EcsProperties()
-        value.taskProperties = try reader["taskProperties"].readListIfPresent(memberReadingClosure: BatchClientTypes.EcsTaskProperties.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension BatchClientTypes.EcsTaskProperties {
-
-    static func write(value: BatchClientTypes.EcsTaskProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["containers"].writeList(value.containers, memberWritingClosure: BatchClientTypes.TaskContainerProperties.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["enableExecuteCommand"].write(value.enableExecuteCommand)
-        try writer["ephemeralStorage"].write(value.ephemeralStorage, with: BatchClientTypes.EphemeralStorage.write(value:to:))
-        try writer["executionRoleArn"].write(value.executionRoleArn)
-        try writer["ipcMode"].write(value.ipcMode)
-        try writer["networkConfiguration"].write(value.networkConfiguration, with: BatchClientTypes.NetworkConfiguration.write(value:to:))
-        try writer["pidMode"].write(value.pidMode)
-        try writer["platformVersion"].write(value.platformVersion)
-        try writer["runtimePlatform"].write(value.runtimePlatform, with: BatchClientTypes.RuntimePlatform.write(value:to:))
-        try writer["taskRoleArn"].write(value.taskRoleArn)
-        try writer["volumes"].writeList(value.volumes, memberWritingClosure: BatchClientTypes.Volume.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EcsTaskProperties {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.EcsTaskProperties()
-        value.containers = try reader["containers"].readListIfPresent(memberReadingClosure: BatchClientTypes.TaskContainerProperties.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.ephemeralStorage = try reader["ephemeralStorage"].readIfPresent(with: BatchClientTypes.EphemeralStorage.read(from:))
+        value.jobRoleArn = try reader["jobRoleArn"].readIfPresent()
         value.executionRoleArn = try reader["executionRoleArn"].readIfPresent()
-        value.platformVersion = try reader["platformVersion"].readIfPresent()
-        value.ipcMode = try reader["ipcMode"].readIfPresent()
-        value.taskRoleArn = try reader["taskRoleArn"].readIfPresent()
-        value.pidMode = try reader["pidMode"].readIfPresent()
-        value.networkConfiguration = try reader["networkConfiguration"].readIfPresent(with: BatchClientTypes.NetworkConfiguration.read(from:))
-        value.runtimePlatform = try reader["runtimePlatform"].readIfPresent(with: BatchClientTypes.RuntimePlatform.read(from:))
         value.volumes = try reader["volumes"].readListIfPresent(memberReadingClosure: BatchClientTypes.Volume.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.environment = try reader["environment"].readListIfPresent(memberReadingClosure: BatchClientTypes.KeyValuePair.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.mountPoints = try reader["mountPoints"].readListIfPresent(memberReadingClosure: BatchClientTypes.MountPoint.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.readonlyRootFilesystem = try reader["readonlyRootFilesystem"].readIfPresent()
+        value.ulimits = try reader["ulimits"].readListIfPresent(memberReadingClosure: BatchClientTypes.Ulimit.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.privileged = try reader["privileged"].readIfPresent()
+        value.user = try reader["user"].readIfPresent()
+        value.exitCode = try reader["exitCode"].readIfPresent()
+        value.reason = try reader["reason"].readIfPresent()
+        value.containerInstanceArn = try reader["containerInstanceArn"].readIfPresent()
+        value.taskArn = try reader["taskArn"].readIfPresent()
+        value.logStreamName = try reader["logStreamName"].readIfPresent()
+        value.instanceType = try reader["instanceType"].readIfPresent()
+        value.networkInterfaces = try reader["networkInterfaces"].readListIfPresent(memberReadingClosure: BatchClientTypes.NetworkInterface.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resourceRequirements = try reader["resourceRequirements"].readListIfPresent(memberReadingClosure: BatchClientTypes.ResourceRequirement.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.linuxParameters = try reader["linuxParameters"].readIfPresent(with: BatchClientTypes.LinuxParameters.read(from:))
+        value.logConfiguration = try reader["logConfiguration"].readIfPresent(with: BatchClientTypes.LogConfiguration.read(from:))
+        value.secrets = try reader["secrets"].readListIfPresent(memberReadingClosure: BatchClientTypes.Secret.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.networkConfiguration = try reader["networkConfiguration"].readIfPresent(with: BatchClientTypes.NetworkConfiguration.read(from:))
+        value.fargatePlatformConfiguration = try reader["fargatePlatformConfiguration"].readIfPresent(with: BatchClientTypes.FargatePlatformConfiguration.read(from:))
+        value.ephemeralStorage = try reader["ephemeralStorage"].readIfPresent(with: BatchClientTypes.EphemeralStorage.read(from:))
+        value.runtimePlatform = try reader["runtimePlatform"].readIfPresent(with: BatchClientTypes.RuntimePlatform.read(from:))
+        value.repositoryCredentials = try reader["repositoryCredentials"].readIfPresent(with: BatchClientTypes.RepositoryCredentials.read(from:))
         value.enableExecuteCommand = try reader["enableExecuteCommand"].readIfPresent()
         return value
     }
 }
 
-extension BatchClientTypes.Volume {
+extension BatchClientTypes.ContainerOverrides {
 
-    static func write(value: BatchClientTypes.Volume?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["efsVolumeConfiguration"].write(value.efsVolumeConfiguration, with: BatchClientTypes.EFSVolumeConfiguration.write(value:to:))
-        try writer["host"].write(value.host, with: BatchClientTypes.Host.write(value:to:))
-        try writer["name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.Volume {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.Volume()
-        value.host = try reader["host"].readIfPresent(with: BatchClientTypes.Host.read(from:))
-        value.name = try reader["name"].readIfPresent()
-        value.efsVolumeConfiguration = try reader["efsVolumeConfiguration"].readIfPresent(with: BatchClientTypes.EFSVolumeConfiguration.read(from:))
-        return value
-    }
-}
-
-extension BatchClientTypes.EFSVolumeConfiguration {
-
-    static func write(value: BatchClientTypes.EFSVolumeConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["authorizationConfig"].write(value.authorizationConfig, with: BatchClientTypes.EFSAuthorizationConfig.write(value:to:))
-        try writer["fileSystemId"].write(value.fileSystemId)
-        try writer["rootDirectory"].write(value.rootDirectory)
-        try writer["transitEncryption"].write(value.transitEncryption)
-        try writer["transitEncryptionPort"].write(value.transitEncryptionPort)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EFSVolumeConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.EFSVolumeConfiguration()
-        value.fileSystemId = try reader["fileSystemId"].readIfPresent() ?? ""
-        value.rootDirectory = try reader["rootDirectory"].readIfPresent()
-        value.transitEncryption = try reader["transitEncryption"].readIfPresent()
-        value.transitEncryptionPort = try reader["transitEncryptionPort"].readIfPresent()
-        value.authorizationConfig = try reader["authorizationConfig"].readIfPresent(with: BatchClientTypes.EFSAuthorizationConfig.read(from:))
-        return value
-    }
-}
-
-extension BatchClientTypes.EFSAuthorizationConfig {
-
-    static func write(value: BatchClientTypes.EFSAuthorizationConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accessPointId"].write(value.accessPointId)
-        try writer["iam"].write(value.iam)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EFSAuthorizationConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.EFSAuthorizationConfig()
-        value.accessPointId = try reader["accessPointId"].readIfPresent()
-        value.iam = try reader["iam"].readIfPresent()
-        return value
-    }
-}
-
-extension BatchClientTypes.Host {
-
-    static func write(value: BatchClientTypes.Host?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["sourcePath"].write(value.sourcePath)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.Host {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.Host()
-        value.sourcePath = try reader["sourcePath"].readIfPresent()
-        return value
-    }
-}
-
-extension BatchClientTypes.RuntimePlatform {
-
-    static func write(value: BatchClientTypes.RuntimePlatform?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cpuArchitecture"].write(value.cpuArchitecture)
-        try writer["operatingSystemFamily"].write(value.operatingSystemFamily)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.RuntimePlatform {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.RuntimePlatform()
-        value.operatingSystemFamily = try reader["operatingSystemFamily"].readIfPresent()
-        value.cpuArchitecture = try reader["cpuArchitecture"].readIfPresent()
-        return value
-    }
-}
-
-extension BatchClientTypes.NetworkConfiguration {
-
-    static func write(value: BatchClientTypes.NetworkConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["assignPublicIp"].write(value.assignPublicIp)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.NetworkConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.NetworkConfiguration()
-        value.assignPublicIp = try reader["assignPublicIp"].readIfPresent()
-        return value
-    }
-}
-
-extension BatchClientTypes.EphemeralStorage {
-
-    static func write(value: BatchClientTypes.EphemeralStorage?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["sizeInGiB"].write(value.sizeInGiB)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EphemeralStorage {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.EphemeralStorage()
-        value.sizeInGiB = try reader["sizeInGiB"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension BatchClientTypes.TaskContainerProperties {
-
-    static func write(value: BatchClientTypes.TaskContainerProperties?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: BatchClientTypes.ContainerOverrides?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["command"].writeList(value.command, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["dependsOn"].writeList(value.dependsOn, memberWritingClosure: BatchClientTypes.TaskContainerDependency.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["environment"].writeList(value.environment, memberWritingClosure: BatchClientTypes.KeyValuePair.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["essential"].write(value.essential)
-        try writer["firelensConfiguration"].write(value.firelensConfiguration, with: BatchClientTypes.FirelensConfiguration.write(value:to:))
-        try writer["image"].write(value.image)
-        try writer["linuxParameters"].write(value.linuxParameters, with: BatchClientTypes.LinuxParameters.write(value:to:))
-        try writer["logConfiguration"].write(value.logConfiguration, with: BatchClientTypes.LogConfiguration.write(value:to:))
-        try writer["mountPoints"].writeList(value.mountPoints, memberWritingClosure: BatchClientTypes.MountPoint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["name"].write(value.name)
-        try writer["privileged"].write(value.privileged)
-        try writer["readonlyRootFilesystem"].write(value.readonlyRootFilesystem)
-        try writer["repositoryCredentials"].write(value.repositoryCredentials, with: BatchClientTypes.RepositoryCredentials.write(value:to:))
+        try writer["instanceType"].write(value.instanceType)
+        try writer["memory"].write(value.memory)
         try writer["resourceRequirements"].writeList(value.resourceRequirements, memberWritingClosure: BatchClientTypes.ResourceRequirement.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["secrets"].writeList(value.secrets, memberWritingClosure: BatchClientTypes.Secret.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ulimits"].writeList(value.ulimits, memberWritingClosure: BatchClientTypes.Ulimit.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["user"].write(value.user)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.TaskContainerProperties {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.TaskContainerProperties()
-        value.command = try reader["command"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.dependsOn = try reader["dependsOn"].readListIfPresent(memberReadingClosure: BatchClientTypes.TaskContainerDependency.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.environment = try reader["environment"].readListIfPresent(memberReadingClosure: BatchClientTypes.KeyValuePair.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.essential = try reader["essential"].readIfPresent()
-        value.firelensConfiguration = try reader["firelensConfiguration"].readIfPresent(with: BatchClientTypes.FirelensConfiguration.read(from:))
-        value.image = try reader["image"].readIfPresent() ?? ""
-        value.linuxParameters = try reader["linuxParameters"].readIfPresent(with: BatchClientTypes.LinuxParameters.read(from:))
-        value.logConfiguration = try reader["logConfiguration"].readIfPresent(with: BatchClientTypes.LogConfiguration.read(from:))
-        value.mountPoints = try reader["mountPoints"].readListIfPresent(memberReadingClosure: BatchClientTypes.MountPoint.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.name = try reader["name"].readIfPresent()
-        value.privileged = try reader["privileged"].readIfPresent()
-        value.readonlyRootFilesystem = try reader["readonlyRootFilesystem"].readIfPresent()
-        value.repositoryCredentials = try reader["repositoryCredentials"].readIfPresent(with: BatchClientTypes.RepositoryCredentials.read(from:))
-        value.resourceRequirements = try reader["resourceRequirements"].readListIfPresent(memberReadingClosure: BatchClientTypes.ResourceRequirement.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.secrets = try reader["secrets"].readListIfPresent(memberReadingClosure: BatchClientTypes.Secret.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.ulimits = try reader["ulimits"].readListIfPresent(memberReadingClosure: BatchClientTypes.Ulimit.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.user = try reader["user"].readIfPresent()
-        return value
-    }
-}
-
-extension BatchClientTypes.Ulimit {
-
-    static func write(value: BatchClientTypes.Ulimit?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["hardLimit"].write(value.hardLimit)
-        try writer["name"].write(value.name)
-        try writer["softLimit"].write(value.softLimit)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.Ulimit {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.Ulimit()
-        value.hardLimit = try reader["hardLimit"].readIfPresent() ?? 0
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.softLimit = try reader["softLimit"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension BatchClientTypes.Secret {
-
-    static func write(value: BatchClientTypes.Secret?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["valueFrom"].write(value.valueFrom)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.Secret {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.Secret()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.valueFrom = try reader["valueFrom"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension BatchClientTypes.ResourceRequirement {
-
-    static func write(value: BatchClientTypes.ResourceRequirement?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["type"].write(value.type)
-        try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ResourceRequirement {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.ResourceRequirement()
-        value.value = try reader["value"].readIfPresent() ?? ""
-        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension BatchClientTypes.RepositoryCredentials {
-
-    static func write(value: BatchClientTypes.RepositoryCredentials?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["credentialsParameter"].write(value.credentialsParameter)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.RepositoryCredentials {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.RepositoryCredentials()
-        value.credentialsParameter = try reader["credentialsParameter"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension BatchClientTypes.MountPoint {
-
-    static func write(value: BatchClientTypes.MountPoint?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["containerPath"].write(value.containerPath)
-        try writer["readOnly"].write(value.readOnly)
-        try writer["sourceVolume"].write(value.sourceVolume)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.MountPoint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.MountPoint()
-        value.containerPath = try reader["containerPath"].readIfPresent()
-        value.readOnly = try reader["readOnly"].readIfPresent()
-        value.sourceVolume = try reader["sourceVolume"].readIfPresent()
-        return value
-    }
-}
-
-extension BatchClientTypes.LogConfiguration {
-
-    static func write(value: BatchClientTypes.LogConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["logDriver"].write(value.logDriver)
-        try writer["options"].writeMap(value.options, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["secretOptions"].writeList(value.secretOptions, memberWritingClosure: BatchClientTypes.Secret.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.LogConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.LogConfiguration()
-        value.logDriver = try reader["logDriver"].readIfPresent() ?? .sdkUnknown("")
-        value.options = try reader["options"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.secretOptions = try reader["secretOptions"].readListIfPresent(memberReadingClosure: BatchClientTypes.Secret.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension BatchClientTypes.LinuxParameters {
-
-    static func write(value: BatchClientTypes.LinuxParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["devices"].writeList(value.devices, memberWritingClosure: BatchClientTypes.Device.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["initProcessEnabled"].write(value.initProcessEnabled)
-        try writer["maxSwap"].write(value.maxSwap)
-        try writer["sharedMemorySize"].write(value.sharedMemorySize)
-        try writer["swappiness"].write(value.swappiness)
-        try writer["tmpfs"].writeList(value.tmpfs, memberWritingClosure: BatchClientTypes.Tmpfs.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.LinuxParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.LinuxParameters()
-        value.devices = try reader["devices"].readListIfPresent(memberReadingClosure: BatchClientTypes.Device.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.initProcessEnabled = try reader["initProcessEnabled"].readIfPresent()
-        value.sharedMemorySize = try reader["sharedMemorySize"].readIfPresent()
-        value.tmpfs = try reader["tmpfs"].readListIfPresent(memberReadingClosure: BatchClientTypes.Tmpfs.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.maxSwap = try reader["maxSwap"].readIfPresent()
-        value.swappiness = try reader["swappiness"].readIfPresent()
-        return value
-    }
-}
-
-extension BatchClientTypes.Tmpfs {
-
-    static func write(value: BatchClientTypes.Tmpfs?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["containerPath"].write(value.containerPath)
-        try writer["mountOptions"].writeList(value.mountOptions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["size"].write(value.size)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.Tmpfs {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.Tmpfs()
-        value.containerPath = try reader["containerPath"].readIfPresent() ?? ""
-        value.size = try reader["size"].readIfPresent() ?? 0
-        value.mountOptions = try reader["mountOptions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension BatchClientTypes.Device {
-
-    static func write(value: BatchClientTypes.Device?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["containerPath"].write(value.containerPath)
-        try writer["hostPath"].write(value.hostPath)
-        try writer["permissions"].writeList(value.permissions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BatchClientTypes.DeviceCgroupPermission>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.Device {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.Device()
-        value.hostPath = try reader["hostPath"].readIfPresent() ?? ""
-        value.containerPath = try reader["containerPath"].readIfPresent()
-        value.permissions = try reader["permissions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BatchClientTypes.DeviceCgroupPermission>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension BatchClientTypes.FirelensConfiguration {
-
-    static func write(value: BatchClientTypes.FirelensConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["options"].writeMap(value.options, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.FirelensConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.FirelensConfiguration()
-        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
-        value.options = try reader["options"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension BatchClientTypes.KeyValuePair {
-
-    static func write(value: BatchClientTypes.KeyValuePair?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.KeyValuePair {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.KeyValuePair()
-        value.name = try reader["name"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
-        return value
-    }
-}
-
-extension BatchClientTypes.TaskContainerDependency {
-
-    static func write(value: BatchClientTypes.TaskContainerDependency?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["condition"].write(value.condition)
-        try writer["containerName"].write(value.containerName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.TaskContainerDependency {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.TaskContainerDependency()
-        value.containerName = try reader["containerName"].readIfPresent()
-        value.condition = try reader["condition"].readIfPresent()
-        return value
-    }
-}
-
-extension BatchClientTypes.NodeProperties {
-
-    static func write(value: BatchClientTypes.NodeProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["mainNode"].write(value.mainNode)
-        try writer["nodeRangeProperties"].writeList(value.nodeRangeProperties, memberWritingClosure: BatchClientTypes.NodeRangeProperty.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["numNodes"].write(value.numNodes)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.NodeProperties {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.NodeProperties()
-        value.numNodes = try reader["numNodes"].readIfPresent() ?? 0
-        value.mainNode = try reader["mainNode"].readIfPresent() ?? 0
-        value.nodeRangeProperties = try reader["nodeRangeProperties"].readListIfPresent(memberReadingClosure: BatchClientTypes.NodeRangeProperty.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension BatchClientTypes.NodeRangeProperty {
-
-    static func write(value: BatchClientTypes.NodeRangeProperty?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["consumableResourceProperties"].write(value.consumableResourceProperties, with: BatchClientTypes.ConsumableResourceProperties.write(value:to:))
-        try writer["container"].write(value.container, with: BatchClientTypes.ContainerProperties.write(value:to:))
-        try writer["ecsProperties"].write(value.ecsProperties, with: BatchClientTypes.EcsProperties.write(value:to:))
-        try writer["eksProperties"].write(value.eksProperties, with: BatchClientTypes.EksProperties.write(value:to:))
-        try writer["instanceTypes"].writeList(value.instanceTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["targetNodes"].write(value.targetNodes)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.NodeRangeProperty {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.NodeRangeProperty()
-        value.targetNodes = try reader["targetNodes"].readIfPresent() ?? ""
-        value.container = try reader["container"].readIfPresent(with: BatchClientTypes.ContainerProperties.read(from:))
-        value.instanceTypes = try reader["instanceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.ecsProperties = try reader["ecsProperties"].readIfPresent(with: BatchClientTypes.EcsProperties.read(from:))
-        value.eksProperties = try reader["eksProperties"].readIfPresent(with: BatchClientTypes.EksProperties.read(from:))
-        value.consumableResourceProperties = try reader["consumableResourceProperties"].readIfPresent(with: BatchClientTypes.ConsumableResourceProperties.read(from:))
-        return value
+        try writer["vcpus"].write(value.vcpus)
     }
 }
 
@@ -9108,49 +9734,592 @@ extension BatchClientTypes.ContainerProperties {
     }
 }
 
-extension BatchClientTypes.FargatePlatformConfiguration {
+extension BatchClientTypes.ContainerSummary {
 
-    static func write(value: BatchClientTypes.FargatePlatformConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ContainerSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.ContainerSummary()
+        value.exitCode = try reader["exitCode"].readIfPresent()
+        value.reason = try reader["reason"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.Device {
+
+    static func write(value: BatchClientTypes.Device?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["platformVersion"].write(value.platformVersion)
+        try writer["containerPath"].write(value.containerPath)
+        try writer["hostPath"].write(value.hostPath)
+        try writer["permissions"].writeList(value.permissions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BatchClientTypes.DeviceCgroupPermission>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.FargatePlatformConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.Device {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.FargatePlatformConfiguration()
+        var value = BatchClientTypes.Device()
+        value.hostPath = try reader["hostPath"].readIfPresent() ?? ""
+        value.containerPath = try reader["containerPath"].readIfPresent()
+        value.permissions = try reader["permissions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BatchClientTypes.DeviceCgroupPermission>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BatchClientTypes.Ec2Configuration {
+
+    static func write(value: BatchClientTypes.Ec2Configuration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["batchImageStatus"].write(value.batchImageStatus)
+        try writer["imageIdOverride"].write(value.imageIdOverride)
+        try writer["imageKubernetesVersion"].write(value.imageKubernetesVersion)
+        try writer["imageType"].write(value.imageType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.Ec2Configuration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.Ec2Configuration()
+        value.imageType = try reader["imageType"].readIfPresent() ?? ""
+        value.imageIdOverride = try reader["imageIdOverride"].readIfPresent()
+        value.batchImageStatus = try reader["batchImageStatus"].readIfPresent()
+        value.imageKubernetesVersion = try reader["imageKubernetesVersion"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.EcsProperties {
+
+    static func write(value: BatchClientTypes.EcsProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["taskProperties"].writeList(value.taskProperties, memberWritingClosure: BatchClientTypes.EcsTaskProperties.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EcsProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.EcsProperties()
+        value.taskProperties = try reader["taskProperties"].readListIfPresent(memberReadingClosure: BatchClientTypes.EcsTaskProperties.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BatchClientTypes.EcsPropertiesDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EcsPropertiesDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.EcsPropertiesDetail()
+        value.taskProperties = try reader["taskProperties"].readListIfPresent(memberReadingClosure: BatchClientTypes.EcsTaskDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BatchClientTypes.EcsPropertiesOverride {
+
+    static func write(value: BatchClientTypes.EcsPropertiesOverride?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["taskProperties"].writeList(value.taskProperties, memberWritingClosure: BatchClientTypes.TaskPropertiesOverride.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BatchClientTypes.EcsTaskDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EcsTaskDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.EcsTaskDetails()
+        value.containers = try reader["containers"].readListIfPresent(memberReadingClosure: BatchClientTypes.TaskContainerDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.containerInstanceArn = try reader["containerInstanceArn"].readIfPresent()
+        value.taskArn = try reader["taskArn"].readIfPresent()
+        value.ephemeralStorage = try reader["ephemeralStorage"].readIfPresent(with: BatchClientTypes.EphemeralStorage.read(from:))
+        value.executionRoleArn = try reader["executionRoleArn"].readIfPresent()
         value.platformVersion = try reader["platformVersion"].readIfPresent()
+        value.ipcMode = try reader["ipcMode"].readIfPresent()
+        value.taskRoleArn = try reader["taskRoleArn"].readIfPresent()
+        value.pidMode = try reader["pidMode"].readIfPresent()
+        value.networkConfiguration = try reader["networkConfiguration"].readIfPresent(with: BatchClientTypes.NetworkConfiguration.read(from:))
+        value.runtimePlatform = try reader["runtimePlatform"].readIfPresent(with: BatchClientTypes.RuntimePlatform.read(from:))
+        value.volumes = try reader["volumes"].readListIfPresent(memberReadingClosure: BatchClientTypes.Volume.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.enableExecuteCommand = try reader["enableExecuteCommand"].readIfPresent()
         return value
     }
 }
 
-extension BatchClientTypes.JobTimeout {
+extension BatchClientTypes.EcsTaskProperties {
 
-    static func write(value: BatchClientTypes.JobTimeout?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: BatchClientTypes.EcsTaskProperties?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["attemptDurationSeconds"].write(value.attemptDurationSeconds)
+        try writer["containers"].writeList(value.containers, memberWritingClosure: BatchClientTypes.TaskContainerProperties.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["enableExecuteCommand"].write(value.enableExecuteCommand)
+        try writer["ephemeralStorage"].write(value.ephemeralStorage, with: BatchClientTypes.EphemeralStorage.write(value:to:))
+        try writer["executionRoleArn"].write(value.executionRoleArn)
+        try writer["ipcMode"].write(value.ipcMode)
+        try writer["networkConfiguration"].write(value.networkConfiguration, with: BatchClientTypes.NetworkConfiguration.write(value:to:))
+        try writer["pidMode"].write(value.pidMode)
+        try writer["platformVersion"].write(value.platformVersion)
+        try writer["runtimePlatform"].write(value.runtimePlatform, with: BatchClientTypes.RuntimePlatform.write(value:to:))
+        try writer["taskRoleArn"].write(value.taskRoleArn)
+        try writer["volumes"].writeList(value.volumes, memberWritingClosure: BatchClientTypes.Volume.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.JobTimeout {
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EcsTaskProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.JobTimeout()
-        value.attemptDurationSeconds = try reader["attemptDurationSeconds"].readIfPresent()
+        var value = BatchClientTypes.EcsTaskProperties()
+        value.containers = try reader["containers"].readListIfPresent(memberReadingClosure: BatchClientTypes.TaskContainerProperties.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.ephemeralStorage = try reader["ephemeralStorage"].readIfPresent(with: BatchClientTypes.EphemeralStorage.read(from:))
+        value.executionRoleArn = try reader["executionRoleArn"].readIfPresent()
+        value.platformVersion = try reader["platformVersion"].readIfPresent()
+        value.ipcMode = try reader["ipcMode"].readIfPresent()
+        value.taskRoleArn = try reader["taskRoleArn"].readIfPresent()
+        value.pidMode = try reader["pidMode"].readIfPresent()
+        value.networkConfiguration = try reader["networkConfiguration"].readIfPresent(with: BatchClientTypes.NetworkConfiguration.read(from:))
+        value.runtimePlatform = try reader["runtimePlatform"].readIfPresent(with: BatchClientTypes.RuntimePlatform.read(from:))
+        value.volumes = try reader["volumes"].readListIfPresent(memberReadingClosure: BatchClientTypes.Volume.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.enableExecuteCommand = try reader["enableExecuteCommand"].readIfPresent()
         return value
     }
 }
 
-extension BatchClientTypes.RetryStrategy {
+extension BatchClientTypes.EFSAuthorizationConfig {
 
-    static func write(value: BatchClientTypes.RetryStrategy?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: BatchClientTypes.EFSAuthorizationConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["attempts"].write(value.attempts)
-        try writer["evaluateOnExit"].writeList(value.evaluateOnExit, memberWritingClosure: BatchClientTypes.EvaluateOnExit.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["accessPointId"].write(value.accessPointId)
+        try writer["iam"].write(value.iam)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.RetryStrategy {
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EFSAuthorizationConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.RetryStrategy()
-        value.attempts = try reader["attempts"].readIfPresent()
-        value.evaluateOnExit = try reader["evaluateOnExit"].readListIfPresent(memberReadingClosure: BatchClientTypes.EvaluateOnExit.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = BatchClientTypes.EFSAuthorizationConfig()
+        value.accessPointId = try reader["accessPointId"].readIfPresent()
+        value.iam = try reader["iam"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.EFSVolumeConfiguration {
+
+    static func write(value: BatchClientTypes.EFSVolumeConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["authorizationConfig"].write(value.authorizationConfig, with: BatchClientTypes.EFSAuthorizationConfig.write(value:to:))
+        try writer["fileSystemId"].write(value.fileSystemId)
+        try writer["rootDirectory"].write(value.rootDirectory)
+        try writer["transitEncryption"].write(value.transitEncryption)
+        try writer["transitEncryptionPort"].write(value.transitEncryptionPort)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EFSVolumeConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.EFSVolumeConfiguration()
+        value.fileSystemId = try reader["fileSystemId"].readIfPresent() ?? ""
+        value.rootDirectory = try reader["rootDirectory"].readIfPresent()
+        value.transitEncryption = try reader["transitEncryption"].readIfPresent()
+        value.transitEncryptionPort = try reader["transitEncryptionPort"].readIfPresent()
+        value.authorizationConfig = try reader["authorizationConfig"].readIfPresent(with: BatchClientTypes.EFSAuthorizationConfig.read(from:))
+        return value
+    }
+}
+
+extension BatchClientTypes.EksAttemptContainerDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EksAttemptContainerDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.EksAttemptContainerDetail()
+        value.name = try reader["name"].readIfPresent()
+        value.containerID = try reader["containerID"].readIfPresent()
+        value.exitCode = try reader["exitCode"].readIfPresent()
+        value.reason = try reader["reason"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.EksAttemptDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EksAttemptDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.EksAttemptDetail()
+        value.containers = try reader["containers"].readListIfPresent(memberReadingClosure: BatchClientTypes.EksAttemptContainerDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.initContainers = try reader["initContainers"].readListIfPresent(memberReadingClosure: BatchClientTypes.EksAttemptContainerDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.eksClusterArn = try reader["eksClusterArn"].readIfPresent()
+        value.podName = try reader["podName"].readIfPresent()
+        value.podNamespace = try reader["podNamespace"].readIfPresent()
+        value.nodeName = try reader["nodeName"].readIfPresent()
+        value.startedAt = try reader["startedAt"].readIfPresent()
+        value.stoppedAt = try reader["stoppedAt"].readIfPresent()
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.EksConfiguration {
+
+    static func write(value: BatchClientTypes.EksConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["eksClusterArn"].write(value.eksClusterArn)
+        try writer["kubernetesNamespace"].write(value.kubernetesNamespace)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EksConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.EksConfiguration()
+        value.eksClusterArn = try reader["eksClusterArn"].readIfPresent() ?? ""
+        value.kubernetesNamespace = try reader["kubernetesNamespace"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BatchClientTypes.EksContainer {
+
+    static func write(value: BatchClientTypes.EksContainer?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["args"].writeList(value.args, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["command"].writeList(value.command, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["env"].writeList(value.env, memberWritingClosure: BatchClientTypes.EksContainerEnvironmentVariable.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["image"].write(value.image)
+        try writer["imagePullPolicy"].write(value.imagePullPolicy)
+        try writer["name"].write(value.name)
+        try writer["resources"].write(value.resources, with: BatchClientTypes.EksContainerResourceRequirements.write(value:to:))
+        try writer["securityContext"].write(value.securityContext, with: BatchClientTypes.EksContainerSecurityContext.write(value:to:))
+        try writer["volumeMounts"].writeList(value.volumeMounts, memberWritingClosure: BatchClientTypes.EksContainerVolumeMount.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EksContainer {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.EksContainer()
+        value.name = try reader["name"].readIfPresent()
+        value.image = try reader["image"].readIfPresent() ?? ""
+        value.imagePullPolicy = try reader["imagePullPolicy"].readIfPresent()
+        value.command = try reader["command"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.args = try reader["args"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.env = try reader["env"].readListIfPresent(memberReadingClosure: BatchClientTypes.EksContainerEnvironmentVariable.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resources = try reader["resources"].readIfPresent(with: BatchClientTypes.EksContainerResourceRequirements.read(from:))
+        value.volumeMounts = try reader["volumeMounts"].readListIfPresent(memberReadingClosure: BatchClientTypes.EksContainerVolumeMount.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.securityContext = try reader["securityContext"].readIfPresent(with: BatchClientTypes.EksContainerSecurityContext.read(from:))
+        return value
+    }
+}
+
+extension BatchClientTypes.EksContainerDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EksContainerDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.EksContainerDetail()
+        value.name = try reader["name"].readIfPresent()
+        value.image = try reader["image"].readIfPresent()
+        value.imagePullPolicy = try reader["imagePullPolicy"].readIfPresent()
+        value.command = try reader["command"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.args = try reader["args"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.env = try reader["env"].readListIfPresent(memberReadingClosure: BatchClientTypes.EksContainerEnvironmentVariable.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resources = try reader["resources"].readIfPresent(with: BatchClientTypes.EksContainerResourceRequirements.read(from:))
+        value.exitCode = try reader["exitCode"].readIfPresent()
+        value.reason = try reader["reason"].readIfPresent()
+        value.volumeMounts = try reader["volumeMounts"].readListIfPresent(memberReadingClosure: BatchClientTypes.EksContainerVolumeMount.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.securityContext = try reader["securityContext"].readIfPresent(with: BatchClientTypes.EksContainerSecurityContext.read(from:))
+        return value
+    }
+}
+
+extension BatchClientTypes.EksContainerEnvironmentVariable {
+
+    static func write(value: BatchClientTypes.EksContainerEnvironmentVariable?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EksContainerEnvironmentVariable {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.EksContainerEnvironmentVariable()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.EksContainerOverride {
+
+    static func write(value: BatchClientTypes.EksContainerOverride?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["args"].writeList(value.args, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["command"].writeList(value.command, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["env"].writeList(value.env, memberWritingClosure: BatchClientTypes.EksContainerEnvironmentVariable.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["image"].write(value.image)
+        try writer["name"].write(value.name)
+        try writer["resources"].write(value.resources, with: BatchClientTypes.EksContainerResourceRequirements.write(value:to:))
+    }
+}
+
+extension BatchClientTypes.EksContainerResourceRequirements {
+
+    static func write(value: BatchClientTypes.EksContainerResourceRequirements?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["limits"].writeMap(value.limits, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["requests"].writeMap(value.requests, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EksContainerResourceRequirements {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.EksContainerResourceRequirements()
+        value.limits = try reader["limits"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.requests = try reader["requests"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension BatchClientTypes.EksContainerSecurityContext {
+
+    static func write(value: BatchClientTypes.EksContainerSecurityContext?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["allowPrivilegeEscalation"].write(value.allowPrivilegeEscalation)
+        try writer["privileged"].write(value.privileged)
+        try writer["readOnlyRootFilesystem"].write(value.readOnlyRootFilesystem)
+        try writer["runAsGroup"].write(value.runAsGroup)
+        try writer["runAsNonRoot"].write(value.runAsNonRoot)
+        try writer["runAsUser"].write(value.runAsUser)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EksContainerSecurityContext {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.EksContainerSecurityContext()
+        value.runAsUser = try reader["runAsUser"].readIfPresent()
+        value.runAsGroup = try reader["runAsGroup"].readIfPresent()
+        value.privileged = try reader["privileged"].readIfPresent()
+        value.allowPrivilegeEscalation = try reader["allowPrivilegeEscalation"].readIfPresent()
+        value.readOnlyRootFilesystem = try reader["readOnlyRootFilesystem"].readIfPresent()
+        value.runAsNonRoot = try reader["runAsNonRoot"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.EksContainerVolumeMount {
+
+    static func write(value: BatchClientTypes.EksContainerVolumeMount?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["mountPath"].write(value.mountPath)
+        try writer["name"].write(value.name)
+        try writer["readOnly"].write(value.readOnly)
+        try writer["subPath"].write(value.subPath)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EksContainerVolumeMount {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.EksContainerVolumeMount()
+        value.name = try reader["name"].readIfPresent()
+        value.mountPath = try reader["mountPath"].readIfPresent()
+        value.subPath = try reader["subPath"].readIfPresent()
+        value.readOnly = try reader["readOnly"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.EksEmptyDir {
+
+    static func write(value: BatchClientTypes.EksEmptyDir?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["medium"].write(value.medium)
+        try writer["sizeLimit"].write(value.sizeLimit)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EksEmptyDir {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.EksEmptyDir()
+        value.medium = try reader["medium"].readIfPresent()
+        value.sizeLimit = try reader["sizeLimit"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.EksHostPath {
+
+    static func write(value: BatchClientTypes.EksHostPath?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["path"].write(value.path)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EksHostPath {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.EksHostPath()
+        value.path = try reader["path"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.EksMetadata {
+
+    static func write(value: BatchClientTypes.EksMetadata?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["annotations"].writeMap(value.annotations, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["labels"].writeMap(value.labels, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["namespace"].write(value.namespace)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EksMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.EksMetadata()
+        value.labels = try reader["labels"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.annotations = try reader["annotations"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.namespace = try reader["namespace"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.EksPersistentVolumeClaim {
+
+    static func write(value: BatchClientTypes.EksPersistentVolumeClaim?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["claimName"].write(value.claimName)
+        try writer["readOnly"].write(value.readOnly)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EksPersistentVolumeClaim {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.EksPersistentVolumeClaim()
+        value.claimName = try reader["claimName"].readIfPresent() ?? ""
+        value.readOnly = try reader["readOnly"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.EksPodProperties {
+
+    static func write(value: BatchClientTypes.EksPodProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["containers"].writeList(value.containers, memberWritingClosure: BatchClientTypes.EksContainer.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["dnsPolicy"].write(value.dnsPolicy)
+        try writer["hostNetwork"].write(value.hostNetwork)
+        try writer["imagePullSecrets"].writeList(value.imagePullSecrets, memberWritingClosure: BatchClientTypes.ImagePullSecret.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["initContainers"].writeList(value.initContainers, memberWritingClosure: BatchClientTypes.EksContainer.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["metadata"].write(value.metadata, with: BatchClientTypes.EksMetadata.write(value:to:))
+        try writer["serviceAccountName"].write(value.serviceAccountName)
+        try writer["shareProcessNamespace"].write(value.shareProcessNamespace)
+        try writer["volumes"].writeList(value.volumes, memberWritingClosure: BatchClientTypes.EksVolume.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EksPodProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.EksPodProperties()
+        value.serviceAccountName = try reader["serviceAccountName"].readIfPresent()
+        value.hostNetwork = try reader["hostNetwork"].readIfPresent()
+        value.dnsPolicy = try reader["dnsPolicy"].readIfPresent()
+        value.imagePullSecrets = try reader["imagePullSecrets"].readListIfPresent(memberReadingClosure: BatchClientTypes.ImagePullSecret.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.containers = try reader["containers"].readListIfPresent(memberReadingClosure: BatchClientTypes.EksContainer.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.initContainers = try reader["initContainers"].readListIfPresent(memberReadingClosure: BatchClientTypes.EksContainer.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.volumes = try reader["volumes"].readListIfPresent(memberReadingClosure: BatchClientTypes.EksVolume.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.metadata = try reader["metadata"].readIfPresent(with: BatchClientTypes.EksMetadata.read(from:))
+        value.shareProcessNamespace = try reader["shareProcessNamespace"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.EksPodPropertiesDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EksPodPropertiesDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.EksPodPropertiesDetail()
+        value.serviceAccountName = try reader["serviceAccountName"].readIfPresent()
+        value.hostNetwork = try reader["hostNetwork"].readIfPresent()
+        value.dnsPolicy = try reader["dnsPolicy"].readIfPresent()
+        value.imagePullSecrets = try reader["imagePullSecrets"].readListIfPresent(memberReadingClosure: BatchClientTypes.ImagePullSecret.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.containers = try reader["containers"].readListIfPresent(memberReadingClosure: BatchClientTypes.EksContainerDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.initContainers = try reader["initContainers"].readListIfPresent(memberReadingClosure: BatchClientTypes.EksContainerDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.volumes = try reader["volumes"].readListIfPresent(memberReadingClosure: BatchClientTypes.EksVolume.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.podName = try reader["podName"].readIfPresent()
+        value.nodeName = try reader["nodeName"].readIfPresent()
+        value.metadata = try reader["metadata"].readIfPresent(with: BatchClientTypes.EksMetadata.read(from:))
+        value.shareProcessNamespace = try reader["shareProcessNamespace"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.EksPodPropertiesOverride {
+
+    static func write(value: BatchClientTypes.EksPodPropertiesOverride?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["containers"].writeList(value.containers, memberWritingClosure: BatchClientTypes.EksContainerOverride.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["initContainers"].writeList(value.initContainers, memberWritingClosure: BatchClientTypes.EksContainerOverride.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["metadata"].write(value.metadata, with: BatchClientTypes.EksMetadata.write(value:to:))
+    }
+}
+
+extension BatchClientTypes.EksProperties {
+
+    static func write(value: BatchClientTypes.EksProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["podProperties"].write(value.podProperties, with: BatchClientTypes.EksPodProperties.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EksProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.EksProperties()
+        value.podProperties = try reader["podProperties"].readIfPresent(with: BatchClientTypes.EksPodProperties.read(from:))
+        return value
+    }
+}
+
+extension BatchClientTypes.EksPropertiesDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EksPropertiesDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.EksPropertiesDetail()
+        value.podProperties = try reader["podProperties"].readIfPresent(with: BatchClientTypes.EksPodPropertiesDetail.read(from:))
+        return value
+    }
+}
+
+extension BatchClientTypes.EksPropertiesOverride {
+
+    static func write(value: BatchClientTypes.EksPropertiesOverride?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["podProperties"].write(value.podProperties, with: BatchClientTypes.EksPodPropertiesOverride.write(value:to:))
+    }
+}
+
+extension BatchClientTypes.EksSecret {
+
+    static func write(value: BatchClientTypes.EksSecret?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["optional"].write(value.`optional`)
+        try writer["secretName"].write(value.secretName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EksSecret {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.EksSecret()
+        value.secretName = try reader["secretName"].readIfPresent() ?? ""
+        value.`optional` = try reader["optional"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.EksVolume {
+
+    static func write(value: BatchClientTypes.EksVolume?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["emptyDir"].write(value.emptyDir, with: BatchClientTypes.EksEmptyDir.write(value:to:))
+        try writer["hostPath"].write(value.hostPath, with: BatchClientTypes.EksHostPath.write(value:to:))
+        try writer["name"].write(value.name)
+        try writer["persistentVolumeClaim"].write(value.persistentVolumeClaim, with: BatchClientTypes.EksPersistentVolumeClaim.write(value:to:))
+        try writer["secret"].write(value.secret, with: BatchClientTypes.EksSecret.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EksVolume {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.EksVolume()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.hostPath = try reader["hostPath"].readIfPresent(with: BatchClientTypes.EksHostPath.read(from:))
+        value.emptyDir = try reader["emptyDir"].readIfPresent(with: BatchClientTypes.EksEmptyDir.read(from:))
+        value.secret = try reader["secret"].readIfPresent(with: BatchClientTypes.EksSecret.read(from:))
+        value.persistentVolumeClaim = try reader["persistentVolumeClaim"].readIfPresent(with: BatchClientTypes.EksPersistentVolumeClaim.read(from:))
+        return value
+    }
+}
+
+extension BatchClientTypes.EphemeralStorage {
+
+    static func write(value: BatchClientTypes.EphemeralStorage?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["sizeInGiB"].write(value.sizeInGiB)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EphemeralStorage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.EphemeralStorage()
+        value.sizeInGiB = try reader["sizeInGiB"].readIfPresent() ?? 0
         return value
     }
 }
@@ -9172,6 +10341,258 @@ extension BatchClientTypes.EvaluateOnExit {
         value.onReason = try reader["onReason"].readIfPresent()
         value.onExitCode = try reader["onExitCode"].readIfPresent()
         value.action = try reader["action"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension BatchClientTypes.FairshareCapacityUsage {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.FairshareCapacityUsage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.FairshareCapacityUsage()
+        value.capacityUnit = try reader["capacityUnit"].readIfPresent()
+        value.quantity = try reader["quantity"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.FairshareCapacityUtilization {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.FairshareCapacityUtilization {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.FairshareCapacityUtilization()
+        value.shareIdentifier = try reader["shareIdentifier"].readIfPresent()
+        value.capacityUsage = try reader["capacityUsage"].readListIfPresent(memberReadingClosure: BatchClientTypes.FairshareCapacityUsage.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BatchClientTypes.FairsharePolicy {
+
+    static func write(value: BatchClientTypes.FairsharePolicy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["computeReservation"].write(value.computeReservation)
+        try writer["shareDecaySeconds"].write(value.shareDecaySeconds)
+        try writer["shareDistribution"].writeList(value.shareDistribution, memberWritingClosure: BatchClientTypes.ShareAttributes.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.FairsharePolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.FairsharePolicy()
+        value.shareDecaySeconds = try reader["shareDecaySeconds"].readIfPresent()
+        value.computeReservation = try reader["computeReservation"].readIfPresent()
+        value.shareDistribution = try reader["shareDistribution"].readListIfPresent(memberReadingClosure: BatchClientTypes.ShareAttributes.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BatchClientTypes.FairshareUtilizationDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.FairshareUtilizationDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.FairshareUtilizationDetail()
+        value.activeShareCount = try reader["activeShareCount"].readIfPresent()
+        value.topCapacityUtilization = try reader["topCapacityUtilization"].readListIfPresent(memberReadingClosure: BatchClientTypes.FairshareCapacityUtilization.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BatchClientTypes.FargatePlatformConfiguration {
+
+    static func write(value: BatchClientTypes.FargatePlatformConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["platformVersion"].write(value.platformVersion)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.FargatePlatformConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.FargatePlatformConfiguration()
+        value.platformVersion = try reader["platformVersion"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.FirelensConfiguration {
+
+    static func write(value: BatchClientTypes.FirelensConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["options"].writeMap(value.options, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.FirelensConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.FirelensConfiguration()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.options = try reader["options"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension BatchClientTypes.FrontOfQueueDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.FrontOfQueueDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.FrontOfQueueDetail()
+        value.jobs = try reader["jobs"].readListIfPresent(memberReadingClosure: BatchClientTypes.FrontOfQueueJobSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.FrontOfQueueJobSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.FrontOfQueueJobSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.FrontOfQueueJobSummary()
+        value.jobArn = try reader["jobArn"].readIfPresent()
+        value.earliestTimeAtPosition = try reader["earliestTimeAtPosition"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.FrontOfQuotaShareJobSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.FrontOfQuotaShareJobSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.FrontOfQuotaShareJobSummary()
+        value.jobArn = try reader["jobArn"].readIfPresent()
+        value.earliestTimeAtPosition = try reader["earliestTimeAtPosition"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.FrontOfQuotaSharesDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.FrontOfQuotaSharesDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.FrontOfQuotaSharesDetail()
+        value.quotaShares = try reader["quotaShares"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: BatchClientTypes.FrontOfQuotaShareJobSummary.read(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.Host {
+
+    static func write(value: BatchClientTypes.Host?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["sourcePath"].write(value.sourcePath)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.Host {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.Host()
+        value.sourcePath = try reader["sourcePath"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.ImagePullSecret {
+
+    static func write(value: BatchClientTypes.ImagePullSecret?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ImagePullSecret {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.ImagePullSecret()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BatchClientTypes.JobCapacityUsageSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.JobCapacityUsageSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.JobCapacityUsageSummary()
+        value.capacityUnit = try reader["capacityUnit"].readIfPresent()
+        value.quantity = try reader["quantity"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.JobDefinition {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.JobDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.JobDefinition()
+        value.jobDefinitionName = try reader["jobDefinitionName"].readIfPresent() ?? ""
+        value.jobDefinitionArn = try reader["jobDefinitionArn"].readIfPresent() ?? ""
+        value.revision = try reader["revision"].readIfPresent() ?? 0
+        value.status = try reader["status"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? ""
+        value.schedulingPriority = try reader["schedulingPriority"].readIfPresent()
+        value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.retryStrategy = try reader["retryStrategy"].readIfPresent(with: BatchClientTypes.RetryStrategy.read(from:))
+        value.containerProperties = try reader["containerProperties"].readIfPresent(with: BatchClientTypes.ContainerProperties.read(from:))
+        value.timeout = try reader["timeout"].readIfPresent(with: BatchClientTypes.JobTimeout.read(from:))
+        value.nodeProperties = try reader["nodeProperties"].readIfPresent(with: BatchClientTypes.NodeProperties.read(from:))
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.propagateTags = try reader["propagateTags"].readIfPresent()
+        value.platformCapabilities = try reader["platformCapabilities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BatchClientTypes.PlatformCapability>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ecsProperties = try reader["ecsProperties"].readIfPresent(with: BatchClientTypes.EcsProperties.read(from:))
+        value.eksProperties = try reader["eksProperties"].readIfPresent(with: BatchClientTypes.EksProperties.read(from:))
+        value.containerOrchestrationType = try reader["containerOrchestrationType"].readIfPresent()
+        value.consumableResourceProperties = try reader["consumableResourceProperties"].readIfPresent(with: BatchClientTypes.ConsumableResourceProperties.read(from:))
+        return value
+    }
+}
+
+extension BatchClientTypes.JobDependency {
+
+    static func write(value: BatchClientTypes.JobDependency?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["jobId"].write(value.jobId)
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.JobDependency {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.JobDependency()
+        value.jobId = try reader["jobId"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.JobDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.JobDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.JobDetail()
+        value.jobArn = try reader["jobArn"].readIfPresent()
+        value.jobName = try reader["jobName"].readIfPresent() ?? ""
+        value.jobId = try reader["jobId"].readIfPresent() ?? ""
+        value.jobQueue = try reader["jobQueue"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.shareIdentifier = try reader["shareIdentifier"].readIfPresent()
+        value.schedulingPriority = try reader["schedulingPriority"].readIfPresent()
+        value.attempts = try reader["attempts"].readListIfPresent(memberReadingClosure: BatchClientTypes.AttemptDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readIfPresent()
+        value.retryStrategy = try reader["retryStrategy"].readIfPresent(with: BatchClientTypes.RetryStrategy.read(from:))
+        value.startedAt = try reader["startedAt"].readIfPresent() ?? 0
+        value.stoppedAt = try reader["stoppedAt"].readIfPresent()
+        value.dependsOn = try reader["dependsOn"].readListIfPresent(memberReadingClosure: BatchClientTypes.JobDependency.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.jobDefinition = try reader["jobDefinition"].readIfPresent() ?? ""
+        value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.container = try reader["container"].readIfPresent(with: BatchClientTypes.ContainerDetail.read(from:))
+        value.nodeDetails = try reader["nodeDetails"].readIfPresent(with: BatchClientTypes.NodeDetails.read(from:))
+        value.nodeProperties = try reader["nodeProperties"].readIfPresent(with: BatchClientTypes.NodeProperties.read(from:))
+        value.arrayProperties = try reader["arrayProperties"].readIfPresent(with: BatchClientTypes.ArrayPropertiesDetail.read(from:))
+        value.timeout = try reader["timeout"].readIfPresent(with: BatchClientTypes.JobTimeout.read(from:))
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.propagateTags = try reader["propagateTags"].readIfPresent()
+        value.platformCapabilities = try reader["platformCapabilities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BatchClientTypes.PlatformCapability>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.eksProperties = try reader["eksProperties"].readIfPresent(with: BatchClientTypes.EksPropertiesDetail.read(from:))
+        value.eksAttempts = try reader["eksAttempts"].readListIfPresent(memberReadingClosure: BatchClientTypes.EksAttemptDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ecsProperties = try reader["ecsProperties"].readIfPresent(with: BatchClientTypes.EcsPropertiesDetail.read(from:))
+        value.isCancelled = try reader["isCancelled"].readIfPresent()
+        value.isTerminated = try reader["isTerminated"].readIfPresent()
+        value.consumableResourceProperties = try reader["consumableResourceProperties"].readIfPresent(with: BatchClientTypes.ConsumableResourceProperties.read(from:))
         return value
     }
 }
@@ -9218,6 +10639,607 @@ extension BatchClientTypes.JobStateTimeLimitAction {
     }
 }
 
+extension BatchClientTypes.JobSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.JobSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.JobSummary()
+        value.jobArn = try reader["jobArn"].readIfPresent()
+        value.jobId = try reader["jobId"].readIfPresent() ?? ""
+        value.jobName = try reader["jobName"].readIfPresent() ?? ""
+        value.capacityUsage = try reader["capacityUsage"].readListIfPresent(memberReadingClosure: BatchClientTypes.JobCapacityUsageSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.createdAt = try reader["createdAt"].readIfPresent()
+        value.scheduledAt = try reader["scheduledAt"].readIfPresent()
+        value.shareIdentifier = try reader["shareIdentifier"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.startedAt = try reader["startedAt"].readIfPresent()
+        value.stoppedAt = try reader["stoppedAt"].readIfPresent()
+        value.container = try reader["container"].readIfPresent(with: BatchClientTypes.ContainerSummary.read(from:))
+        value.arrayProperties = try reader["arrayProperties"].readIfPresent(with: BatchClientTypes.ArrayPropertiesSummary.read(from:))
+        value.nodeProperties = try reader["nodeProperties"].readIfPresent(with: BatchClientTypes.NodePropertiesSummary.read(from:))
+        value.jobDefinition = try reader["jobDefinition"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.JobTimeout {
+
+    static func write(value: BatchClientTypes.JobTimeout?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["attemptDurationSeconds"].write(value.attemptDurationSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.JobTimeout {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.JobTimeout()
+        value.attemptDurationSeconds = try reader["attemptDurationSeconds"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.KeyValuePair {
+
+    static func write(value: BatchClientTypes.KeyValuePair?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.KeyValuePair {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.KeyValuePair()
+        value.name = try reader["name"].readIfPresent()
+        value.value = try reader["value"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.KeyValuesPair {
+
+    static func write(value: BatchClientTypes.KeyValuesPair?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BatchClientTypes.LatestServiceJobAttempt {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.LatestServiceJobAttempt {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.LatestServiceJobAttempt()
+        value.serviceResourceId = try reader["serviceResourceId"].readIfPresent(with: BatchClientTypes.ServiceResourceId.read(from:))
+        return value
+    }
+}
+
+extension BatchClientTypes.LaunchTemplateSpecification {
+
+    static func write(value: BatchClientTypes.LaunchTemplateSpecification?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["launchTemplateId"].write(value.launchTemplateId)
+        try writer["launchTemplateName"].write(value.launchTemplateName)
+        try writer["overrides"].writeList(value.overrides, memberWritingClosure: BatchClientTypes.LaunchTemplateSpecificationOverride.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["userdataType"].write(value.userdataType)
+        try writer["version"].write(value.version)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.LaunchTemplateSpecification {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.LaunchTemplateSpecification()
+        value.launchTemplateId = try reader["launchTemplateId"].readIfPresent()
+        value.launchTemplateName = try reader["launchTemplateName"].readIfPresent()
+        value.version = try reader["version"].readIfPresent()
+        value.overrides = try reader["overrides"].readListIfPresent(memberReadingClosure: BatchClientTypes.LaunchTemplateSpecificationOverride.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.userdataType = try reader["userdataType"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.LaunchTemplateSpecificationOverride {
+
+    static func write(value: BatchClientTypes.LaunchTemplateSpecificationOverride?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["launchTemplateId"].write(value.launchTemplateId)
+        try writer["launchTemplateName"].write(value.launchTemplateName)
+        try writer["targetInstanceTypes"].writeList(value.targetInstanceTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["userdataType"].write(value.userdataType)
+        try writer["version"].write(value.version)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.LaunchTemplateSpecificationOverride {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.LaunchTemplateSpecificationOverride()
+        value.launchTemplateId = try reader["launchTemplateId"].readIfPresent()
+        value.launchTemplateName = try reader["launchTemplateName"].readIfPresent()
+        value.version = try reader["version"].readIfPresent()
+        value.targetInstanceTypes = try reader["targetInstanceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.userdataType = try reader["userdataType"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.LinuxParameters {
+
+    static func write(value: BatchClientTypes.LinuxParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["devices"].writeList(value.devices, memberWritingClosure: BatchClientTypes.Device.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["initProcessEnabled"].write(value.initProcessEnabled)
+        try writer["maxSwap"].write(value.maxSwap)
+        try writer["sharedMemorySize"].write(value.sharedMemorySize)
+        try writer["swappiness"].write(value.swappiness)
+        try writer["tmpfs"].writeList(value.tmpfs, memberWritingClosure: BatchClientTypes.Tmpfs.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.LinuxParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.LinuxParameters()
+        value.devices = try reader["devices"].readListIfPresent(memberReadingClosure: BatchClientTypes.Device.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.initProcessEnabled = try reader["initProcessEnabled"].readIfPresent()
+        value.sharedMemorySize = try reader["sharedMemorySize"].readIfPresent()
+        value.tmpfs = try reader["tmpfs"].readListIfPresent(memberReadingClosure: BatchClientTypes.Tmpfs.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.maxSwap = try reader["maxSwap"].readIfPresent()
+        value.swappiness = try reader["swappiness"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.ListJobsByConsumableResourceSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ListJobsByConsumableResourceSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.ListJobsByConsumableResourceSummary()
+        value.jobArn = try reader["jobArn"].readIfPresent() ?? ""
+        value.jobQueueArn = try reader["jobQueueArn"].readIfPresent() ?? ""
+        value.jobName = try reader["jobName"].readIfPresent() ?? ""
+        value.jobDefinitionArn = try reader["jobDefinitionArn"].readIfPresent()
+        value.shareIdentifier = try reader["shareIdentifier"].readIfPresent()
+        value.jobStatus = try reader["jobStatus"].readIfPresent() ?? ""
+        value.quantity = try reader["quantity"].readIfPresent() ?? 0
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.startedAt = try reader["startedAt"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readIfPresent() ?? 0
+        value.consumableResourceProperties = try reader["consumableResourceProperties"].readIfPresent(with: BatchClientTypes.ConsumableResourceProperties.read(from:))
+        return value
+    }
+}
+
+extension BatchClientTypes.LogConfiguration {
+
+    static func write(value: BatchClientTypes.LogConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["logDriver"].write(value.logDriver)
+        try writer["options"].writeMap(value.options, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["secretOptions"].writeList(value.secretOptions, memberWritingClosure: BatchClientTypes.Secret.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.LogConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.LogConfiguration()
+        value.logDriver = try reader["logDriver"].readIfPresent() ?? .sdkUnknown("")
+        value.options = try reader["options"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.secretOptions = try reader["secretOptions"].readListIfPresent(memberReadingClosure: BatchClientTypes.Secret.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BatchClientTypes.MountPoint {
+
+    static func write(value: BatchClientTypes.MountPoint?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["containerPath"].write(value.containerPath)
+        try writer["readOnly"].write(value.readOnly)
+        try writer["sourceVolume"].write(value.sourceVolume)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.MountPoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.MountPoint()
+        value.containerPath = try reader["containerPath"].readIfPresent()
+        value.readOnly = try reader["readOnly"].readIfPresent()
+        value.sourceVolume = try reader["sourceVolume"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.NetworkConfiguration {
+
+    static func write(value: BatchClientTypes.NetworkConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["assignPublicIp"].write(value.assignPublicIp)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.NetworkConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.NetworkConfiguration()
+        value.assignPublicIp = try reader["assignPublicIp"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.NetworkInterface {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.NetworkInterface {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.NetworkInterface()
+        value.attachmentId = try reader["attachmentId"].readIfPresent()
+        value.ipv6Address = try reader["ipv6Address"].readIfPresent()
+        value.privateIpv4Address = try reader["privateIpv4Address"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.NodeDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.NodeDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.NodeDetails()
+        value.nodeIndex = try reader["nodeIndex"].readIfPresent()
+        value.isMainNode = try reader["isMainNode"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.NodeOverrides {
+
+    static func write(value: BatchClientTypes.NodeOverrides?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["nodePropertyOverrides"].writeList(value.nodePropertyOverrides, memberWritingClosure: BatchClientTypes.NodePropertyOverride.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["numNodes"].write(value.numNodes)
+    }
+}
+
+extension BatchClientTypes.NodeProperties {
+
+    static func write(value: BatchClientTypes.NodeProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["mainNode"].write(value.mainNode)
+        try writer["nodeRangeProperties"].writeList(value.nodeRangeProperties, memberWritingClosure: BatchClientTypes.NodeRangeProperty.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["numNodes"].write(value.numNodes)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.NodeProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.NodeProperties()
+        value.numNodes = try reader["numNodes"].readIfPresent() ?? 0
+        value.mainNode = try reader["mainNode"].readIfPresent() ?? 0
+        value.nodeRangeProperties = try reader["nodeRangeProperties"].readListIfPresent(memberReadingClosure: BatchClientTypes.NodeRangeProperty.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BatchClientTypes.NodePropertiesSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.NodePropertiesSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.NodePropertiesSummary()
+        value.isMainNode = try reader["isMainNode"].readIfPresent()
+        value.numNodes = try reader["numNodes"].readIfPresent()
+        value.nodeIndex = try reader["nodeIndex"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.NodePropertyOverride {
+
+    static func write(value: BatchClientTypes.NodePropertyOverride?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["consumableResourcePropertiesOverride"].write(value.consumableResourcePropertiesOverride, with: BatchClientTypes.ConsumableResourceProperties.write(value:to:))
+        try writer["containerOverrides"].write(value.containerOverrides, with: BatchClientTypes.ContainerOverrides.write(value:to:))
+        try writer["ecsPropertiesOverride"].write(value.ecsPropertiesOverride, with: BatchClientTypes.EcsPropertiesOverride.write(value:to:))
+        try writer["eksPropertiesOverride"].write(value.eksPropertiesOverride, with: BatchClientTypes.EksPropertiesOverride.write(value:to:))
+        try writer["instanceTypes"].writeList(value.instanceTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["targetNodes"].write(value.targetNodes)
+    }
+}
+
+extension BatchClientTypes.NodeRangeProperty {
+
+    static func write(value: BatchClientTypes.NodeRangeProperty?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["consumableResourceProperties"].write(value.consumableResourceProperties, with: BatchClientTypes.ConsumableResourceProperties.write(value:to:))
+        try writer["container"].write(value.container, with: BatchClientTypes.ContainerProperties.write(value:to:))
+        try writer["ecsProperties"].write(value.ecsProperties, with: BatchClientTypes.EcsProperties.write(value:to:))
+        try writer["eksProperties"].write(value.eksProperties, with: BatchClientTypes.EksProperties.write(value:to:))
+        try writer["instanceTypes"].writeList(value.instanceTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["targetNodes"].write(value.targetNodes)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.NodeRangeProperty {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.NodeRangeProperty()
+        value.targetNodes = try reader["targetNodes"].readIfPresent() ?? ""
+        value.container = try reader["container"].readIfPresent(with: BatchClientTypes.ContainerProperties.read(from:))
+        value.instanceTypes = try reader["instanceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ecsProperties = try reader["ecsProperties"].readIfPresent(with: BatchClientTypes.EcsProperties.read(from:))
+        value.eksProperties = try reader["eksProperties"].readIfPresent(with: BatchClientTypes.EksProperties.read(from:))
+        value.consumableResourceProperties = try reader["consumableResourceProperties"].readIfPresent(with: BatchClientTypes.ConsumableResourceProperties.read(from:))
+        return value
+    }
+}
+
+extension BatchClientTypes.QueueSnapshotCapacityUsage {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.QueueSnapshotCapacityUsage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.QueueSnapshotCapacityUsage()
+        value.capacityUnit = try reader["capacityUnit"].readIfPresent()
+        value.quantity = try reader["quantity"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.QueueSnapshotUtilizationDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.QueueSnapshotUtilizationDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.QueueSnapshotUtilizationDetail()
+        value.totalCapacityUsage = try reader["totalCapacityUsage"].readListIfPresent(memberReadingClosure: BatchClientTypes.QueueSnapshotCapacityUsage.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.fairshareUtilization = try reader["fairshareUtilization"].readIfPresent(with: BatchClientTypes.FairshareUtilizationDetail.read(from:))
+        value.quotaShareUtilization = try reader["quotaShareUtilization"].readIfPresent(with: BatchClientTypes.QuotaShareUtilizationDetail.read(from:))
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.QuotaShareCapacityLimit {
+
+    static func write(value: BatchClientTypes.QuotaShareCapacityLimit?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["capacityUnit"].write(value.capacityUnit)
+        try writer["maxCapacity"].write(value.maxCapacity)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.QuotaShareCapacityLimit {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.QuotaShareCapacityLimit()
+        value.maxCapacity = try reader["maxCapacity"].readIfPresent() ?? 0
+        value.capacityUnit = try reader["capacityUnit"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BatchClientTypes.QuotaShareCapacityUsage {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.QuotaShareCapacityUsage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.QuotaShareCapacityUsage()
+        value.capacityUnit = try reader["capacityUnit"].readIfPresent()
+        value.quantity = try reader["quantity"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.QuotaShareCapacityUtilization {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.QuotaShareCapacityUtilization {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.QuotaShareCapacityUtilization()
+        value.quotaShareName = try reader["quotaShareName"].readIfPresent()
+        value.capacityUsage = try reader["capacityUsage"].readListIfPresent(memberReadingClosure: BatchClientTypes.QuotaShareCapacityUsage.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BatchClientTypes.QuotaShareDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.QuotaShareDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.QuotaShareDetail()
+        value.quotaShareName = try reader["quotaShareName"].readIfPresent()
+        value.quotaShareArn = try reader["quotaShareArn"].readIfPresent()
+        value.jobQueueArn = try reader["jobQueueArn"].readIfPresent()
+        value.capacityLimits = try reader["capacityLimits"].readListIfPresent(memberReadingClosure: BatchClientTypes.QuotaShareCapacityLimit.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resourceSharingConfiguration = try reader["resourceSharingConfiguration"].readIfPresent(with: BatchClientTypes.QuotaShareResourceSharingConfiguration.read(from:))
+        value.preemptionConfiguration = try reader["preemptionConfiguration"].readIfPresent(with: BatchClientTypes.QuotaSharePreemptionConfiguration.read(from:))
+        value.state = try reader["state"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.QuotaSharePolicy {
+
+    static func write(value: BatchClientTypes.QuotaSharePolicy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["idleResourceAssignmentStrategy"].write(value.idleResourceAssignmentStrategy)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.QuotaSharePolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.QuotaSharePolicy()
+        value.idleResourceAssignmentStrategy = try reader["idleResourceAssignmentStrategy"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension BatchClientTypes.QuotaSharePreemptionConfiguration {
+
+    static func write(value: BatchClientTypes.QuotaSharePreemptionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["inSharePreemption"].write(value.inSharePreemption)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.QuotaSharePreemptionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.QuotaSharePreemptionConfiguration()
+        value.inSharePreemption = try reader["inSharePreemption"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension BatchClientTypes.QuotaShareResourceSharingConfiguration {
+
+    static func write(value: BatchClientTypes.QuotaShareResourceSharingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["borrowLimit"].write(value.borrowLimit)
+        try writer["strategy"].write(value.strategy)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.QuotaShareResourceSharingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.QuotaShareResourceSharingConfiguration()
+        value.strategy = try reader["strategy"].readIfPresent() ?? .sdkUnknown("")
+        value.borrowLimit = try reader["borrowLimit"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.QuotaShareUtilizationDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.QuotaShareUtilizationDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.QuotaShareUtilizationDetail()
+        value.topCapacityUtilization = try reader["topCapacityUtilization"].readListIfPresent(memberReadingClosure: BatchClientTypes.QuotaShareCapacityUtilization.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BatchClientTypes.RepositoryCredentials {
+
+    static func write(value: BatchClientTypes.RepositoryCredentials?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["credentialsParameter"].write(value.credentialsParameter)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.RepositoryCredentials {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.RepositoryCredentials()
+        value.credentialsParameter = try reader["credentialsParameter"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BatchClientTypes.ResourceRequirement {
+
+    static func write(value: BatchClientTypes.ResourceRequirement?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["type"].write(value.type)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ResourceRequirement {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.ResourceRequirement()
+        value.value = try reader["value"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension BatchClientTypes.RetryStrategy {
+
+    static func write(value: BatchClientTypes.RetryStrategy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["attempts"].write(value.attempts)
+        try writer["evaluateOnExit"].writeList(value.evaluateOnExit, memberWritingClosure: BatchClientTypes.EvaluateOnExit.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.RetryStrategy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.RetryStrategy()
+        value.attempts = try reader["attempts"].readIfPresent()
+        value.evaluateOnExit = try reader["evaluateOnExit"].readListIfPresent(memberReadingClosure: BatchClientTypes.EvaluateOnExit.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BatchClientTypes.RuntimePlatform {
+
+    static func write(value: BatchClientTypes.RuntimePlatform?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["cpuArchitecture"].write(value.cpuArchitecture)
+        try writer["operatingSystemFamily"].write(value.operatingSystemFamily)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.RuntimePlatform {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.RuntimePlatform()
+        value.operatingSystemFamily = try reader["operatingSystemFamily"].readIfPresent()
+        value.cpuArchitecture = try reader["cpuArchitecture"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.S3FilesVolumeConfiguration {
+
+    static func write(value: BatchClientTypes.S3FilesVolumeConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accessPointArn"].write(value.accessPointArn)
+        try writer["fileSystemArn"].write(value.fileSystemArn)
+        try writer["rootDirectory"].write(value.rootDirectory)
+        try writer["transitEncryptionPort"].write(value.transitEncryptionPort)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.S3FilesVolumeConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.S3FilesVolumeConfiguration()
+        value.fileSystemArn = try reader["fileSystemArn"].readIfPresent() ?? ""
+        value.rootDirectory = try reader["rootDirectory"].readIfPresent()
+        value.transitEncryptionPort = try reader["transitEncryptionPort"].readIfPresent()
+        value.accessPointArn = try reader["accessPointArn"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.SchedulingPolicyDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.SchedulingPolicyDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.SchedulingPolicyDetail()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.quotaSharePolicy = try reader["quotaSharePolicy"].readIfPresent(with: BatchClientTypes.QuotaSharePolicy.read(from:))
+        value.fairsharePolicy = try reader["fairsharePolicy"].readIfPresent(with: BatchClientTypes.FairsharePolicy.read(from:))
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension BatchClientTypes.SchedulingPolicyListingDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.SchedulingPolicyListingDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.SchedulingPolicyListingDetail()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BatchClientTypes.Secret {
+
+    static func write(value: BatchClientTypes.Secret?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["valueFrom"].write(value.valueFrom)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.Secret {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.Secret()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.valueFrom = try reader["valueFrom"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BatchClientTypes.ServiceEnvironmentDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ServiceEnvironmentDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.ServiceEnvironmentDetail()
+        value.serviceEnvironmentName = try reader["serviceEnvironmentName"].readIfPresent() ?? ""
+        value.serviceEnvironmentArn = try reader["serviceEnvironmentArn"].readIfPresent() ?? ""
+        value.serviceEnvironmentType = try reader["serviceEnvironmentType"].readIfPresent() ?? .sdkUnknown("")
+        value.state = try reader["state"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.capacityLimits = try reader["capacityLimits"].readListIfPresent(memberReadingClosure: BatchClientTypes.CapacityLimit.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
 extension BatchClientTypes.ServiceEnvironmentOrder {
 
     static func write(value: BatchClientTypes.ServiceEnvironmentOrder?, to writer: SmithyJSON.Writer) throws {
@@ -9235,90 +11257,193 @@ extension BatchClientTypes.ServiceEnvironmentOrder {
     }
 }
 
-extension BatchClientTypes.ComputeEnvironmentOrder {
+extension BatchClientTypes.ServiceJobAttemptDetail {
 
-    static func write(value: BatchClientTypes.ComputeEnvironmentOrder?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["computeEnvironment"].write(value.computeEnvironment)
-        try writer["order"].write(value.order)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ComputeEnvironmentOrder {
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ServiceJobAttemptDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.ComputeEnvironmentOrder()
-        value.order = try reader["order"].readIfPresent() ?? 0
-        value.computeEnvironment = try reader["computeEnvironment"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension BatchClientTypes.JobDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.JobDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.JobDetail()
-        value.jobArn = try reader["jobArn"].readIfPresent()
-        value.jobName = try reader["jobName"].readIfPresent() ?? ""
-        value.jobId = try reader["jobId"].readIfPresent() ?? ""
-        value.jobQueue = try reader["jobQueue"].readIfPresent() ?? ""
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.shareIdentifier = try reader["shareIdentifier"].readIfPresent()
-        value.schedulingPriority = try reader["schedulingPriority"].readIfPresent()
-        value.attempts = try reader["attempts"].readListIfPresent(memberReadingClosure: BatchClientTypes.AttemptDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.statusReason = try reader["statusReason"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readIfPresent()
-        value.retryStrategy = try reader["retryStrategy"].readIfPresent(with: BatchClientTypes.RetryStrategy.read(from:))
-        value.startedAt = try reader["startedAt"].readIfPresent() ?? 0
+        var value = BatchClientTypes.ServiceJobAttemptDetail()
+        value.serviceResourceId = try reader["serviceResourceId"].readIfPresent(with: BatchClientTypes.ServiceResourceId.read(from:))
+        value.startedAt = try reader["startedAt"].readIfPresent()
         value.stoppedAt = try reader["stoppedAt"].readIfPresent()
-        value.dependsOn = try reader["dependsOn"].readListIfPresent(memberReadingClosure: BatchClientTypes.JobDependency.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.jobDefinition = try reader["jobDefinition"].readIfPresent() ?? ""
-        value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.container = try reader["container"].readIfPresent(with: BatchClientTypes.ContainerDetail.read(from:))
-        value.nodeDetails = try reader["nodeDetails"].readIfPresent(with: BatchClientTypes.NodeDetails.read(from:))
-        value.nodeProperties = try reader["nodeProperties"].readIfPresent(with: BatchClientTypes.NodeProperties.read(from:))
-        value.arrayProperties = try reader["arrayProperties"].readIfPresent(with: BatchClientTypes.ArrayPropertiesDetail.read(from:))
-        value.timeout = try reader["timeout"].readIfPresent(with: BatchClientTypes.JobTimeout.read(from:))
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.propagateTags = try reader["propagateTags"].readIfPresent()
-        value.platformCapabilities = try reader["platformCapabilities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BatchClientTypes.PlatformCapability>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.eksProperties = try reader["eksProperties"].readIfPresent(with: BatchClientTypes.EksPropertiesDetail.read(from:))
-        value.eksAttempts = try reader["eksAttempts"].readListIfPresent(memberReadingClosure: BatchClientTypes.EksAttemptDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.ecsProperties = try reader["ecsProperties"].readIfPresent(with: BatchClientTypes.EcsPropertiesDetail.read(from:))
-        value.isCancelled = try reader["isCancelled"].readIfPresent()
-        value.isTerminated = try reader["isTerminated"].readIfPresent()
-        value.consumableResourceProperties = try reader["consumableResourceProperties"].readIfPresent(with: BatchClientTypes.ConsumableResourceProperties.read(from:))
+        value.statusReason = try reader["statusReason"].readIfPresent()
         return value
     }
 }
 
-extension BatchClientTypes.EcsPropertiesDetail {
+extension BatchClientTypes.ServiceJobCapacityUsageDetail {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EcsPropertiesDetail {
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ServiceJobCapacityUsageDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.EcsPropertiesDetail()
-        value.taskProperties = try reader["taskProperties"].readListIfPresent(memberReadingClosure: BatchClientTypes.EcsTaskDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = BatchClientTypes.ServiceJobCapacityUsageDetail()
+        value.capacityUnit = try reader["capacityUnit"].readIfPresent()
+        value.quantity = try reader["quantity"].readIfPresent()
         return value
     }
 }
 
-extension BatchClientTypes.EcsTaskDetails {
+extension BatchClientTypes.ServiceJobCapacityUsageSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EcsTaskDetails {
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ServiceJobCapacityUsageSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.EcsTaskDetails()
-        value.containers = try reader["containers"].readListIfPresent(memberReadingClosure: BatchClientTypes.TaskContainerDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.containerInstanceArn = try reader["containerInstanceArn"].readIfPresent()
-        value.taskArn = try reader["taskArn"].readIfPresent()
-        value.ephemeralStorage = try reader["ephemeralStorage"].readIfPresent(with: BatchClientTypes.EphemeralStorage.read(from:))
-        value.executionRoleArn = try reader["executionRoleArn"].readIfPresent()
-        value.platformVersion = try reader["platformVersion"].readIfPresent()
-        value.ipcMode = try reader["ipcMode"].readIfPresent()
-        value.taskRoleArn = try reader["taskRoleArn"].readIfPresent()
-        value.pidMode = try reader["pidMode"].readIfPresent()
-        value.networkConfiguration = try reader["networkConfiguration"].readIfPresent(with: BatchClientTypes.NetworkConfiguration.read(from:))
-        value.runtimePlatform = try reader["runtimePlatform"].readIfPresent(with: BatchClientTypes.RuntimePlatform.read(from:))
-        value.volumes = try reader["volumes"].readListIfPresent(memberReadingClosure: BatchClientTypes.Volume.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.enableExecuteCommand = try reader["enableExecuteCommand"].readIfPresent()
+        var value = BatchClientTypes.ServiceJobCapacityUsageSummary()
+        value.capacityUnit = try reader["capacityUnit"].readIfPresent()
+        value.quantity = try reader["quantity"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.ServiceJobEvaluateOnExit {
+
+    static func write(value: BatchClientTypes.ServiceJobEvaluateOnExit?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["action"].write(value.action)
+        try writer["onStatusReason"].write(value.onStatusReason)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ServiceJobEvaluateOnExit {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.ServiceJobEvaluateOnExit()
+        value.action = try reader["action"].readIfPresent()
+        value.onStatusReason = try reader["onStatusReason"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.ServiceJobPreemptedAttempt {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ServiceJobPreemptedAttempt {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.ServiceJobPreemptedAttempt()
+        value.serviceResourceId = try reader["serviceResourceId"].readIfPresent(with: BatchClientTypes.ServiceResourceId.read(from:))
+        value.startedAt = try reader["startedAt"].readIfPresent()
+        value.stoppedAt = try reader["stoppedAt"].readIfPresent()
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.ServiceJobPreemptionConfiguration {
+
+    static func write(value: BatchClientTypes.ServiceJobPreemptionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["preemptionRetriesBeforeTermination"].write(value.preemptionRetriesBeforeTermination)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ServiceJobPreemptionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.ServiceJobPreemptionConfiguration()
+        value.preemptionRetriesBeforeTermination = try reader["preemptionRetriesBeforeTermination"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.ServiceJobPreemptionSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ServiceJobPreemptionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.ServiceJobPreemptionSummary()
+        value.preemptedAttemptCount = try reader["preemptedAttemptCount"].readIfPresent()
+        value.recentPreemptedAttempts = try reader["recentPreemptedAttempts"].readListIfPresent(memberReadingClosure: BatchClientTypes.ServiceJobPreemptedAttempt.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BatchClientTypes.ServiceJobRetryStrategy {
+
+    static func write(value: BatchClientTypes.ServiceJobRetryStrategy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["attempts"].write(value.attempts)
+        try writer["evaluateOnExit"].writeList(value.evaluateOnExit, memberWritingClosure: BatchClientTypes.ServiceJobEvaluateOnExit.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ServiceJobRetryStrategy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.ServiceJobRetryStrategy()
+        value.attempts = try reader["attempts"].readIfPresent() ?? 0
+        value.evaluateOnExit = try reader["evaluateOnExit"].readListIfPresent(memberReadingClosure: BatchClientTypes.ServiceJobEvaluateOnExit.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BatchClientTypes.ServiceJobSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ServiceJobSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.ServiceJobSummary()
+        value.latestAttempt = try reader["latestAttempt"].readIfPresent(with: BatchClientTypes.LatestServiceJobAttempt.read(from:))
+        value.capacityUsage = try reader["capacityUsage"].readListIfPresent(memberReadingClosure: BatchClientTypes.ServiceJobCapacityUsageSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.createdAt = try reader["createdAt"].readIfPresent()
+        value.jobArn = try reader["jobArn"].readIfPresent()
+        value.jobId = try reader["jobId"].readIfPresent() ?? ""
+        value.jobName = try reader["jobName"].readIfPresent() ?? ""
+        value.scheduledAt = try reader["scheduledAt"].readIfPresent()
+        value.serviceJobType = try reader["serviceJobType"].readIfPresent() ?? .sdkUnknown("")
+        value.shareIdentifier = try reader["shareIdentifier"].readIfPresent()
+        value.quotaShareName = try reader["quotaShareName"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.startedAt = try reader["startedAt"].readIfPresent()
+        value.stoppedAt = try reader["stoppedAt"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.ServiceJobTimeout {
+
+    static func write(value: BatchClientTypes.ServiceJobTimeout?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["attemptDurationSeconds"].write(value.attemptDurationSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ServiceJobTimeout {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.ServiceJobTimeout()
+        value.attemptDurationSeconds = try reader["attemptDurationSeconds"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.ServiceResourceId {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ServiceResourceId {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.ServiceResourceId()
+        value.name = try reader["name"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BatchClientTypes.ShareAttributes {
+
+    static func write(value: BatchClientTypes.ShareAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["shareIdentifier"].write(value.shareIdentifier)
+        try writer["weightFactor"].write(value.weightFactor)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ShareAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.ShareAttributes()
+        value.shareIdentifier = try reader["shareIdentifier"].readIfPresent() ?? ""
+        value.weightFactor = try reader["weightFactor"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.TaskContainerDependency {
+
+    static func write(value: BatchClientTypes.TaskContainerDependency?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["condition"].write(value.condition)
+        try writer["containerName"].write(value.containerName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.TaskContainerDependency {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.TaskContainerDependency()
+        value.containerName = try reader["containerName"].readIfPresent()
+        value.condition = try reader["condition"].readIfPresent()
         return value
     }
 }
@@ -9345,643 +11470,13 @@ extension BatchClientTypes.TaskContainerDetails {
         value.secrets = try reader["secrets"].readListIfPresent(memberReadingClosure: BatchClientTypes.Secret.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.ulimits = try reader["ulimits"].readListIfPresent(memberReadingClosure: BatchClientTypes.Ulimit.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.user = try reader["user"].readIfPresent()
+        value.startTimeout = try reader["startTimeout"].readIfPresent()
+        value.stopTimeout = try reader["stopTimeout"].readIfPresent()
         value.exitCode = try reader["exitCode"].readIfPresent()
         value.reason = try reader["reason"].readIfPresent()
         value.logStreamName = try reader["logStreamName"].readIfPresent()
         value.networkInterfaces = try reader["networkInterfaces"].readListIfPresent(memberReadingClosure: BatchClientTypes.NetworkInterface.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
-    }
-}
-
-extension BatchClientTypes.NetworkInterface {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.NetworkInterface {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.NetworkInterface()
-        value.attachmentId = try reader["attachmentId"].readIfPresent()
-        value.ipv6Address = try reader["ipv6Address"].readIfPresent()
-        value.privateIpv4Address = try reader["privateIpv4Address"].readIfPresent()
-        return value
-    }
-}
-
-extension BatchClientTypes.EksAttemptDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EksAttemptDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.EksAttemptDetail()
-        value.containers = try reader["containers"].readListIfPresent(memberReadingClosure: BatchClientTypes.EksAttemptContainerDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.initContainers = try reader["initContainers"].readListIfPresent(memberReadingClosure: BatchClientTypes.EksAttemptContainerDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.eksClusterArn = try reader["eksClusterArn"].readIfPresent()
-        value.podName = try reader["podName"].readIfPresent()
-        value.podNamespace = try reader["podNamespace"].readIfPresent()
-        value.nodeName = try reader["nodeName"].readIfPresent()
-        value.startedAt = try reader["startedAt"].readIfPresent()
-        value.stoppedAt = try reader["stoppedAt"].readIfPresent()
-        value.statusReason = try reader["statusReason"].readIfPresent()
-        return value
-    }
-}
-
-extension BatchClientTypes.EksAttemptContainerDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EksAttemptContainerDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.EksAttemptContainerDetail()
-        value.name = try reader["name"].readIfPresent()
-        value.containerID = try reader["containerID"].readIfPresent()
-        value.exitCode = try reader["exitCode"].readIfPresent()
-        value.reason = try reader["reason"].readIfPresent()
-        return value
-    }
-}
-
-extension BatchClientTypes.EksPropertiesDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EksPropertiesDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.EksPropertiesDetail()
-        value.podProperties = try reader["podProperties"].readIfPresent(with: BatchClientTypes.EksPodPropertiesDetail.read(from:))
-        return value
-    }
-}
-
-extension BatchClientTypes.EksPodPropertiesDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EksPodPropertiesDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.EksPodPropertiesDetail()
-        value.serviceAccountName = try reader["serviceAccountName"].readIfPresent()
-        value.hostNetwork = try reader["hostNetwork"].readIfPresent()
-        value.dnsPolicy = try reader["dnsPolicy"].readIfPresent()
-        value.imagePullSecrets = try reader["imagePullSecrets"].readListIfPresent(memberReadingClosure: BatchClientTypes.ImagePullSecret.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.containers = try reader["containers"].readListIfPresent(memberReadingClosure: BatchClientTypes.EksContainerDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.initContainers = try reader["initContainers"].readListIfPresent(memberReadingClosure: BatchClientTypes.EksContainerDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.volumes = try reader["volumes"].readListIfPresent(memberReadingClosure: BatchClientTypes.EksVolume.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.podName = try reader["podName"].readIfPresent()
-        value.nodeName = try reader["nodeName"].readIfPresent()
-        value.metadata = try reader["metadata"].readIfPresent(with: BatchClientTypes.EksMetadata.read(from:))
-        value.shareProcessNamespace = try reader["shareProcessNamespace"].readIfPresent()
-        return value
-    }
-}
-
-extension BatchClientTypes.EksContainerDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EksContainerDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.EksContainerDetail()
-        value.name = try reader["name"].readIfPresent()
-        value.image = try reader["image"].readIfPresent()
-        value.imagePullPolicy = try reader["imagePullPolicy"].readIfPresent()
-        value.command = try reader["command"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.args = try reader["args"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.env = try reader["env"].readListIfPresent(memberReadingClosure: BatchClientTypes.EksContainerEnvironmentVariable.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.resources = try reader["resources"].readIfPresent(with: BatchClientTypes.EksContainerResourceRequirements.read(from:))
-        value.exitCode = try reader["exitCode"].readIfPresent()
-        value.reason = try reader["reason"].readIfPresent()
-        value.volumeMounts = try reader["volumeMounts"].readListIfPresent(memberReadingClosure: BatchClientTypes.EksContainerVolumeMount.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.securityContext = try reader["securityContext"].readIfPresent(with: BatchClientTypes.EksContainerSecurityContext.read(from:))
-        return value
-    }
-}
-
-extension BatchClientTypes.ArrayPropertiesDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ArrayPropertiesDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.ArrayPropertiesDetail()
-        value.statusSummary = try reader["statusSummary"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.size = try reader["size"].readIfPresent()
-        value.index = try reader["index"].readIfPresent()
-        return value
-    }
-}
-
-extension BatchClientTypes.NodeDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.NodeDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.NodeDetails()
-        value.nodeIndex = try reader["nodeIndex"].readIfPresent()
-        value.isMainNode = try reader["isMainNode"].readIfPresent()
-        return value
-    }
-}
-
-extension BatchClientTypes.ContainerDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ContainerDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.ContainerDetail()
-        value.image = try reader["image"].readIfPresent()
-        value.vcpus = try reader["vcpus"].readIfPresent()
-        value.memory = try reader["memory"].readIfPresent()
-        value.command = try reader["command"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.jobRoleArn = try reader["jobRoleArn"].readIfPresent()
-        value.executionRoleArn = try reader["executionRoleArn"].readIfPresent()
-        value.volumes = try reader["volumes"].readListIfPresent(memberReadingClosure: BatchClientTypes.Volume.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.environment = try reader["environment"].readListIfPresent(memberReadingClosure: BatchClientTypes.KeyValuePair.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.mountPoints = try reader["mountPoints"].readListIfPresent(memberReadingClosure: BatchClientTypes.MountPoint.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.readonlyRootFilesystem = try reader["readonlyRootFilesystem"].readIfPresent()
-        value.ulimits = try reader["ulimits"].readListIfPresent(memberReadingClosure: BatchClientTypes.Ulimit.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.privileged = try reader["privileged"].readIfPresent()
-        value.user = try reader["user"].readIfPresent()
-        value.exitCode = try reader["exitCode"].readIfPresent()
-        value.reason = try reader["reason"].readIfPresent()
-        value.containerInstanceArn = try reader["containerInstanceArn"].readIfPresent()
-        value.taskArn = try reader["taskArn"].readIfPresent()
-        value.logStreamName = try reader["logStreamName"].readIfPresent()
-        value.instanceType = try reader["instanceType"].readIfPresent()
-        value.networkInterfaces = try reader["networkInterfaces"].readListIfPresent(memberReadingClosure: BatchClientTypes.NetworkInterface.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.resourceRequirements = try reader["resourceRequirements"].readListIfPresent(memberReadingClosure: BatchClientTypes.ResourceRequirement.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.linuxParameters = try reader["linuxParameters"].readIfPresent(with: BatchClientTypes.LinuxParameters.read(from:))
-        value.logConfiguration = try reader["logConfiguration"].readIfPresent(with: BatchClientTypes.LogConfiguration.read(from:))
-        value.secrets = try reader["secrets"].readListIfPresent(memberReadingClosure: BatchClientTypes.Secret.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.networkConfiguration = try reader["networkConfiguration"].readIfPresent(with: BatchClientTypes.NetworkConfiguration.read(from:))
-        value.fargatePlatformConfiguration = try reader["fargatePlatformConfiguration"].readIfPresent(with: BatchClientTypes.FargatePlatformConfiguration.read(from:))
-        value.ephemeralStorage = try reader["ephemeralStorage"].readIfPresent(with: BatchClientTypes.EphemeralStorage.read(from:))
-        value.runtimePlatform = try reader["runtimePlatform"].readIfPresent(with: BatchClientTypes.RuntimePlatform.read(from:))
-        value.repositoryCredentials = try reader["repositoryCredentials"].readIfPresent(with: BatchClientTypes.RepositoryCredentials.read(from:))
-        value.enableExecuteCommand = try reader["enableExecuteCommand"].readIfPresent()
-        return value
-    }
-}
-
-extension BatchClientTypes.JobDependency {
-
-    static func write(value: BatchClientTypes.JobDependency?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["jobId"].write(value.jobId)
-        try writer["type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.JobDependency {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.JobDependency()
-        value.jobId = try reader["jobId"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        return value
-    }
-}
-
-extension BatchClientTypes.AttemptDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.AttemptDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.AttemptDetail()
-        value.container = try reader["container"].readIfPresent(with: BatchClientTypes.AttemptContainerDetail.read(from:))
-        value.startedAt = try reader["startedAt"].readIfPresent()
-        value.stoppedAt = try reader["stoppedAt"].readIfPresent()
-        value.statusReason = try reader["statusReason"].readIfPresent()
-        value.taskProperties = try reader["taskProperties"].readListIfPresent(memberReadingClosure: BatchClientTypes.AttemptEcsTaskDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension BatchClientTypes.AttemptEcsTaskDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.AttemptEcsTaskDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.AttemptEcsTaskDetails()
-        value.containerInstanceArn = try reader["containerInstanceArn"].readIfPresent()
-        value.taskArn = try reader["taskArn"].readIfPresent()
-        value.containers = try reader["containers"].readListIfPresent(memberReadingClosure: BatchClientTypes.AttemptTaskContainerDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension BatchClientTypes.AttemptTaskContainerDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.AttemptTaskContainerDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.AttemptTaskContainerDetails()
-        value.exitCode = try reader["exitCode"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.reason = try reader["reason"].readIfPresent()
-        value.logStreamName = try reader["logStreamName"].readIfPresent()
-        value.networkInterfaces = try reader["networkInterfaces"].readListIfPresent(memberReadingClosure: BatchClientTypes.NetworkInterface.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension BatchClientTypes.AttemptContainerDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.AttemptContainerDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.AttemptContainerDetail()
-        value.containerInstanceArn = try reader["containerInstanceArn"].readIfPresent()
-        value.taskArn = try reader["taskArn"].readIfPresent()
-        value.exitCode = try reader["exitCode"].readIfPresent()
-        value.reason = try reader["reason"].readIfPresent()
-        value.logStreamName = try reader["logStreamName"].readIfPresent()
-        value.networkInterfaces = try reader["networkInterfaces"].readListIfPresent(memberReadingClosure: BatchClientTypes.NetworkInterface.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension BatchClientTypes.SchedulingPolicyDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.SchedulingPolicyDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.SchedulingPolicyDetail()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.fairsharePolicy = try reader["fairsharePolicy"].readIfPresent(with: BatchClientTypes.FairsharePolicy.read(from:))
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension BatchClientTypes.FairsharePolicy {
-
-    static func write(value: BatchClientTypes.FairsharePolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["computeReservation"].write(value.computeReservation)
-        try writer["shareDecaySeconds"].write(value.shareDecaySeconds)
-        try writer["shareDistribution"].writeList(value.shareDistribution, memberWritingClosure: BatchClientTypes.ShareAttributes.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.FairsharePolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.FairsharePolicy()
-        value.shareDecaySeconds = try reader["shareDecaySeconds"].readIfPresent()
-        value.computeReservation = try reader["computeReservation"].readIfPresent()
-        value.shareDistribution = try reader["shareDistribution"].readListIfPresent(memberReadingClosure: BatchClientTypes.ShareAttributes.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension BatchClientTypes.ShareAttributes {
-
-    static func write(value: BatchClientTypes.ShareAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["shareIdentifier"].write(value.shareIdentifier)
-        try writer["weightFactor"].write(value.weightFactor)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ShareAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.ShareAttributes()
-        value.shareIdentifier = try reader["shareIdentifier"].readIfPresent() ?? ""
-        value.weightFactor = try reader["weightFactor"].readIfPresent()
-        return value
-    }
-}
-
-extension BatchClientTypes.ServiceEnvironmentDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ServiceEnvironmentDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.ServiceEnvironmentDetail()
-        value.serviceEnvironmentName = try reader["serviceEnvironmentName"].readIfPresent() ?? ""
-        value.serviceEnvironmentArn = try reader["serviceEnvironmentArn"].readIfPresent() ?? ""
-        value.serviceEnvironmentType = try reader["serviceEnvironmentType"].readIfPresent() ?? .sdkUnknown("")
-        value.state = try reader["state"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.capacityLimits = try reader["capacityLimits"].readListIfPresent(memberReadingClosure: BatchClientTypes.CapacityLimit.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension BatchClientTypes.CapacityLimit {
-
-    static func write(value: BatchClientTypes.CapacityLimit?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["capacityUnit"].write(value.capacityUnit)
-        try writer["maxCapacity"].write(value.maxCapacity)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.CapacityLimit {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.CapacityLimit()
-        value.maxCapacity = try reader["maxCapacity"].readIfPresent()
-        value.capacityUnit = try reader["capacityUnit"].readIfPresent()
-        return value
-    }
-}
-
-extension BatchClientTypes.ServiceJobAttemptDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ServiceJobAttemptDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.ServiceJobAttemptDetail()
-        value.serviceResourceId = try reader["serviceResourceId"].readIfPresent(with: BatchClientTypes.ServiceResourceId.read(from:))
-        value.startedAt = try reader["startedAt"].readIfPresent()
-        value.stoppedAt = try reader["stoppedAt"].readIfPresent()
-        value.statusReason = try reader["statusReason"].readIfPresent()
-        return value
-    }
-}
-
-extension BatchClientTypes.ServiceResourceId {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ServiceResourceId {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.ServiceResourceId()
-        value.name = try reader["name"].readIfPresent() ?? .sdkUnknown("")
-        value.value = try reader["value"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension BatchClientTypes.LatestServiceJobAttempt {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.LatestServiceJobAttempt {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.LatestServiceJobAttempt()
-        value.serviceResourceId = try reader["serviceResourceId"].readIfPresent(with: BatchClientTypes.ServiceResourceId.read(from:))
-        return value
-    }
-}
-
-extension BatchClientTypes.ServiceJobRetryStrategy {
-
-    static func write(value: BatchClientTypes.ServiceJobRetryStrategy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["attempts"].write(value.attempts)
-        try writer["evaluateOnExit"].writeList(value.evaluateOnExit, memberWritingClosure: BatchClientTypes.ServiceJobEvaluateOnExit.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ServiceJobRetryStrategy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.ServiceJobRetryStrategy()
-        value.attempts = try reader["attempts"].readIfPresent() ?? 0
-        value.evaluateOnExit = try reader["evaluateOnExit"].readListIfPresent(memberReadingClosure: BatchClientTypes.ServiceJobEvaluateOnExit.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension BatchClientTypes.ServiceJobEvaluateOnExit {
-
-    static func write(value: BatchClientTypes.ServiceJobEvaluateOnExit?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["action"].write(value.action)
-        try writer["onStatusReason"].write(value.onStatusReason)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ServiceJobEvaluateOnExit {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.ServiceJobEvaluateOnExit()
-        value.action = try reader["action"].readIfPresent()
-        value.onStatusReason = try reader["onStatusReason"].readIfPresent()
-        return value
-    }
-}
-
-extension BatchClientTypes.ServiceJobTimeout {
-
-    static func write(value: BatchClientTypes.ServiceJobTimeout?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["attemptDurationSeconds"].write(value.attemptDurationSeconds)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ServiceJobTimeout {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.ServiceJobTimeout()
-        value.attemptDurationSeconds = try reader["attemptDurationSeconds"].readIfPresent()
-        return value
-    }
-}
-
-extension BatchClientTypes.FrontOfQueueDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.FrontOfQueueDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.FrontOfQueueDetail()
-        value.jobs = try reader["jobs"].readListIfPresent(memberReadingClosure: BatchClientTypes.FrontOfQueueJobSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.lastUpdatedAt = try reader["lastUpdatedAt"].readIfPresent()
-        return value
-    }
-}
-
-extension BatchClientTypes.FrontOfQueueJobSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.FrontOfQueueJobSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.FrontOfQueueJobSummary()
-        value.jobArn = try reader["jobArn"].readIfPresent()
-        value.earliestTimeAtPosition = try reader["earliestTimeAtPosition"].readIfPresent()
-        return value
-    }
-}
-
-extension BatchClientTypes.ConsumableResourceSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ConsumableResourceSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.ConsumableResourceSummary()
-        value.consumableResourceArn = try reader["consumableResourceArn"].readIfPresent() ?? ""
-        value.consumableResourceName = try reader["consumableResourceName"].readIfPresent() ?? ""
-        value.totalQuantity = try reader["totalQuantity"].readIfPresent()
-        value.inUseQuantity = try reader["inUseQuantity"].readIfPresent()
-        value.resourceType = try reader["resourceType"].readIfPresent()
-        return value
-    }
-}
-
-extension BatchClientTypes.JobSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.JobSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.JobSummary()
-        value.jobArn = try reader["jobArn"].readIfPresent()
-        value.jobId = try reader["jobId"].readIfPresent() ?? ""
-        value.jobName = try reader["jobName"].readIfPresent() ?? ""
-        value.createdAt = try reader["createdAt"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.statusReason = try reader["statusReason"].readIfPresent()
-        value.startedAt = try reader["startedAt"].readIfPresent()
-        value.stoppedAt = try reader["stoppedAt"].readIfPresent()
-        value.container = try reader["container"].readIfPresent(with: BatchClientTypes.ContainerSummary.read(from:))
-        value.arrayProperties = try reader["arrayProperties"].readIfPresent(with: BatchClientTypes.ArrayPropertiesSummary.read(from:))
-        value.nodeProperties = try reader["nodeProperties"].readIfPresent(with: BatchClientTypes.NodePropertiesSummary.read(from:))
-        value.jobDefinition = try reader["jobDefinition"].readIfPresent()
-        return value
-    }
-}
-
-extension BatchClientTypes.NodePropertiesSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.NodePropertiesSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.NodePropertiesSummary()
-        value.isMainNode = try reader["isMainNode"].readIfPresent()
-        value.numNodes = try reader["numNodes"].readIfPresent()
-        value.nodeIndex = try reader["nodeIndex"].readIfPresent()
-        return value
-    }
-}
-
-extension BatchClientTypes.ArrayPropertiesSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ArrayPropertiesSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.ArrayPropertiesSummary()
-        value.size = try reader["size"].readIfPresent()
-        value.index = try reader["index"].readIfPresent()
-        return value
-    }
-}
-
-extension BatchClientTypes.ContainerSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ContainerSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.ContainerSummary()
-        value.exitCode = try reader["exitCode"].readIfPresent()
-        value.reason = try reader["reason"].readIfPresent()
-        return value
-    }
-}
-
-extension BatchClientTypes.ListJobsByConsumableResourceSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ListJobsByConsumableResourceSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.ListJobsByConsumableResourceSummary()
-        value.jobArn = try reader["jobArn"].readIfPresent() ?? ""
-        value.jobQueueArn = try reader["jobQueueArn"].readIfPresent() ?? ""
-        value.jobName = try reader["jobName"].readIfPresent() ?? ""
-        value.jobDefinitionArn = try reader["jobDefinitionArn"].readIfPresent()
-        value.shareIdentifier = try reader["shareIdentifier"].readIfPresent()
-        value.jobStatus = try reader["jobStatus"].readIfPresent() ?? ""
-        value.quantity = try reader["quantity"].readIfPresent() ?? 0
-        value.statusReason = try reader["statusReason"].readIfPresent()
-        value.startedAt = try reader["startedAt"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readIfPresent() ?? 0
-        value.consumableResourceProperties = try reader["consumableResourceProperties"].readIfPresent(with: BatchClientTypes.ConsumableResourceProperties.read(from:))
-        return value
-    }
-}
-
-extension BatchClientTypes.SchedulingPolicyListingDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.SchedulingPolicyListingDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.SchedulingPolicyListingDetail()
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension BatchClientTypes.ServiceJobSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ServiceJobSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BatchClientTypes.ServiceJobSummary()
-        value.latestAttempt = try reader["latestAttempt"].readIfPresent(with: BatchClientTypes.LatestServiceJobAttempt.read(from:))
-        value.createdAt = try reader["createdAt"].readIfPresent()
-        value.jobArn = try reader["jobArn"].readIfPresent()
-        value.jobId = try reader["jobId"].readIfPresent() ?? ""
-        value.jobName = try reader["jobName"].readIfPresent() ?? ""
-        value.serviceJobType = try reader["serviceJobType"].readIfPresent() ?? .sdkUnknown("")
-        value.shareIdentifier = try reader["shareIdentifier"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.statusReason = try reader["statusReason"].readIfPresent()
-        value.startedAt = try reader["startedAt"].readIfPresent()
-        value.stoppedAt = try reader["stoppedAt"].readIfPresent()
-        return value
-    }
-}
-
-extension BatchClientTypes.KeyValuesPair {
-
-    static func write(value: BatchClientTypes.KeyValuesPair?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension BatchClientTypes.ArrayProperties {
-
-    static func write(value: BatchClientTypes.ArrayProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["size"].write(value.size)
-    }
-}
-
-extension BatchClientTypes.ContainerOverrides {
-
-    static func write(value: BatchClientTypes.ContainerOverrides?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["command"].writeList(value.command, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["environment"].writeList(value.environment, memberWritingClosure: BatchClientTypes.KeyValuePair.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["instanceType"].write(value.instanceType)
-        try writer["memory"].write(value.memory)
-        try writer["resourceRequirements"].writeList(value.resourceRequirements, memberWritingClosure: BatchClientTypes.ResourceRequirement.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["vcpus"].write(value.vcpus)
-    }
-}
-
-extension BatchClientTypes.NodeOverrides {
-
-    static func write(value: BatchClientTypes.NodeOverrides?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["nodePropertyOverrides"].writeList(value.nodePropertyOverrides, memberWritingClosure: BatchClientTypes.NodePropertyOverride.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["numNodes"].write(value.numNodes)
-    }
-}
-
-extension BatchClientTypes.NodePropertyOverride {
-
-    static func write(value: BatchClientTypes.NodePropertyOverride?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["consumableResourcePropertiesOverride"].write(value.consumableResourcePropertiesOverride, with: BatchClientTypes.ConsumableResourceProperties.write(value:to:))
-        try writer["containerOverrides"].write(value.containerOverrides, with: BatchClientTypes.ContainerOverrides.write(value:to:))
-        try writer["ecsPropertiesOverride"].write(value.ecsPropertiesOverride, with: BatchClientTypes.EcsPropertiesOverride.write(value:to:))
-        try writer["eksPropertiesOverride"].write(value.eksPropertiesOverride, with: BatchClientTypes.EksPropertiesOverride.write(value:to:))
-        try writer["instanceTypes"].writeList(value.instanceTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["targetNodes"].write(value.targetNodes)
-    }
-}
-
-extension BatchClientTypes.EksPropertiesOverride {
-
-    static func write(value: BatchClientTypes.EksPropertiesOverride?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["podProperties"].write(value.podProperties, with: BatchClientTypes.EksPodPropertiesOverride.write(value:to:))
-    }
-}
-
-extension BatchClientTypes.EksPodPropertiesOverride {
-
-    static func write(value: BatchClientTypes.EksPodPropertiesOverride?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["containers"].writeList(value.containers, memberWritingClosure: BatchClientTypes.EksContainerOverride.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["initContainers"].writeList(value.initContainers, memberWritingClosure: BatchClientTypes.EksContainerOverride.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["metadata"].write(value.metadata, with: BatchClientTypes.EksMetadata.write(value:to:))
-    }
-}
-
-extension BatchClientTypes.EksContainerOverride {
-
-    static func write(value: BatchClientTypes.EksContainerOverride?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["args"].writeList(value.args, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["command"].writeList(value.command, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["env"].writeList(value.env, memberWritingClosure: BatchClientTypes.EksContainerEnvironmentVariable.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["image"].write(value.image)
-        try writer["name"].write(value.name)
-        try writer["resources"].write(value.resources, with: BatchClientTypes.EksContainerResourceRequirements.write(value:to:))
-    }
-}
-
-extension BatchClientTypes.EcsPropertiesOverride {
-
-    static func write(value: BatchClientTypes.EcsPropertiesOverride?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["taskProperties"].writeList(value.taskProperties, memberWritingClosure: BatchClientTypes.TaskPropertiesOverride.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension BatchClientTypes.TaskPropertiesOverride {
-
-    static func write(value: BatchClientTypes.TaskPropertiesOverride?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["containers"].writeList(value.containers, memberWritingClosure: BatchClientTypes.TaskContainerOverrides.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -9996,27 +11491,138 @@ extension BatchClientTypes.TaskContainerOverrides {
     }
 }
 
-extension BatchClientTypes.ComputeResourceUpdate {
+extension BatchClientTypes.TaskContainerProperties {
 
-    static func write(value: BatchClientTypes.ComputeResourceUpdate?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: BatchClientTypes.TaskContainerProperties?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["allocationStrategy"].write(value.allocationStrategy)
-        try writer["bidPercentage"].write(value.bidPercentage)
-        try writer["desiredvCpus"].write(value.desiredvCpus)
-        try writer["ec2Configuration"].writeList(value.ec2Configuration, memberWritingClosure: BatchClientTypes.Ec2Configuration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ec2KeyPair"].write(value.ec2KeyPair)
-        try writer["imageId"].write(value.imageId)
-        try writer["instanceRole"].write(value.instanceRole)
-        try writer["instanceTypes"].writeList(value.instanceTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["launchTemplate"].write(value.launchTemplate, with: BatchClientTypes.LaunchTemplateSpecification.write(value:to:))
-        try writer["maxvCpus"].write(value.maxvCpus)
-        try writer["minvCpus"].write(value.minvCpus)
-        try writer["placementGroup"].write(value.placementGroup)
-        try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["subnets"].writeList(value.subnets, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["type"].write(value.type)
-        try writer["updateToLatestImageVersion"].write(value.updateToLatestImageVersion)
+        try writer["command"].writeList(value.command, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["dependsOn"].writeList(value.dependsOn, memberWritingClosure: BatchClientTypes.TaskContainerDependency.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["environment"].writeList(value.environment, memberWritingClosure: BatchClientTypes.KeyValuePair.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["essential"].write(value.essential)
+        try writer["firelensConfiguration"].write(value.firelensConfiguration, with: BatchClientTypes.FirelensConfiguration.write(value:to:))
+        try writer["image"].write(value.image)
+        try writer["linuxParameters"].write(value.linuxParameters, with: BatchClientTypes.LinuxParameters.write(value:to:))
+        try writer["logConfiguration"].write(value.logConfiguration, with: BatchClientTypes.LogConfiguration.write(value:to:))
+        try writer["mountPoints"].writeList(value.mountPoints, memberWritingClosure: BatchClientTypes.MountPoint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["name"].write(value.name)
+        try writer["privileged"].write(value.privileged)
+        try writer["readonlyRootFilesystem"].write(value.readonlyRootFilesystem)
+        try writer["repositoryCredentials"].write(value.repositoryCredentials, with: BatchClientTypes.RepositoryCredentials.write(value:to:))
+        try writer["resourceRequirements"].writeList(value.resourceRequirements, memberWritingClosure: BatchClientTypes.ResourceRequirement.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["secrets"].writeList(value.secrets, memberWritingClosure: BatchClientTypes.Secret.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["startTimeout"].write(value.startTimeout)
+        try writer["stopTimeout"].write(value.stopTimeout)
+        try writer["ulimits"].writeList(value.ulimits, memberWritingClosure: BatchClientTypes.Ulimit.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["user"].write(value.user)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.TaskContainerProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.TaskContainerProperties()
+        value.command = try reader["command"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dependsOn = try reader["dependsOn"].readListIfPresent(memberReadingClosure: BatchClientTypes.TaskContainerDependency.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.environment = try reader["environment"].readListIfPresent(memberReadingClosure: BatchClientTypes.KeyValuePair.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.essential = try reader["essential"].readIfPresent()
+        value.firelensConfiguration = try reader["firelensConfiguration"].readIfPresent(with: BatchClientTypes.FirelensConfiguration.read(from:))
+        value.image = try reader["image"].readIfPresent() ?? ""
+        value.linuxParameters = try reader["linuxParameters"].readIfPresent(with: BatchClientTypes.LinuxParameters.read(from:))
+        value.logConfiguration = try reader["logConfiguration"].readIfPresent(with: BatchClientTypes.LogConfiguration.read(from:))
+        value.mountPoints = try reader["mountPoints"].readListIfPresent(memberReadingClosure: BatchClientTypes.MountPoint.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.name = try reader["name"].readIfPresent()
+        value.privileged = try reader["privileged"].readIfPresent()
+        value.readonlyRootFilesystem = try reader["readonlyRootFilesystem"].readIfPresent()
+        value.repositoryCredentials = try reader["repositoryCredentials"].readIfPresent(with: BatchClientTypes.RepositoryCredentials.read(from:))
+        value.resourceRequirements = try reader["resourceRequirements"].readListIfPresent(memberReadingClosure: BatchClientTypes.ResourceRequirement.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.secrets = try reader["secrets"].readListIfPresent(memberReadingClosure: BatchClientTypes.Secret.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ulimits = try reader["ulimits"].readListIfPresent(memberReadingClosure: BatchClientTypes.Ulimit.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.user = try reader["user"].readIfPresent()
+        value.startTimeout = try reader["startTimeout"].readIfPresent()
+        value.stopTimeout = try reader["stopTimeout"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.TaskPropertiesOverride {
+
+    static func write(value: BatchClientTypes.TaskPropertiesOverride?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["containers"].writeList(value.containers, memberWritingClosure: BatchClientTypes.TaskContainerOverrides.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BatchClientTypes.Tmpfs {
+
+    static func write(value: BatchClientTypes.Tmpfs?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["containerPath"].write(value.containerPath)
+        try writer["mountOptions"].writeList(value.mountOptions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["size"].write(value.size)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.Tmpfs {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.Tmpfs()
+        value.containerPath = try reader["containerPath"].readIfPresent() ?? ""
+        value.size = try reader["size"].readIfPresent() ?? 0
+        value.mountOptions = try reader["mountOptions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BatchClientTypes.Ulimit {
+
+    static func write(value: BatchClientTypes.Ulimit?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["hardLimit"].write(value.hardLimit)
+        try writer["name"].write(value.name)
+        try writer["softLimit"].write(value.softLimit)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.Ulimit {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.Ulimit()
+        value.hardLimit = try reader["hardLimit"].readIfPresent() ?? 0
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.softLimit = try reader["softLimit"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension BatchClientTypes.UpdatePolicy {
+
+    static func write(value: BatchClientTypes.UpdatePolicy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["jobExecutionTimeoutMinutes"].write(value.jobExecutionTimeoutMinutes)
+        try writer["terminateJobsOnUpdate"].write(value.terminateJobsOnUpdate)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.UpdatePolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.UpdatePolicy()
+        value.terminateJobsOnUpdate = try reader["terminateJobsOnUpdate"].readIfPresent()
+        value.jobExecutionTimeoutMinutes = try reader["jobExecutionTimeoutMinutes"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.Volume {
+
+    static func write(value: BatchClientTypes.Volume?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["efsVolumeConfiguration"].write(value.efsVolumeConfiguration, with: BatchClientTypes.EFSVolumeConfiguration.write(value:to:))
+        try writer["host"].write(value.host, with: BatchClientTypes.Host.write(value:to:))
+        try writer["name"].write(value.name)
+        try writer["s3filesVolumeConfiguration"].write(value.s3filesVolumeConfiguration, with: BatchClientTypes.S3FilesVolumeConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.Volume {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.Volume()
+        value.host = try reader["host"].readIfPresent(with: BatchClientTypes.Host.read(from:))
+        value.name = try reader["name"].readIfPresent()
+        value.efsVolumeConfiguration = try reader["efsVolumeConfiguration"].readIfPresent(with: BatchClientTypes.EFSVolumeConfiguration.read(from:))
+        value.s3filesVolumeConfiguration = try reader["s3filesVolumeConfiguration"].readIfPresent(with: BatchClientTypes.S3FilesVolumeConfiguration.read(from:))
+        return value
     }
 }
 

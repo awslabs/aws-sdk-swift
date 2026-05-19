@@ -25,8 +25,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
@@ -42,9 +42,9 @@ public struct AccessDeniedByMetaException: ClientRuntime.ModeledError, AWSClient
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -65,9 +65,9 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -88,9 +88,9 @@ public struct DependencyException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { true }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -111,9 +111,9 @@ public struct InvalidParametersException: ClientRuntime.ModeledError, AWSClientR
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -134,9 +134,9 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -157,9 +157,9 @@ public struct ThrottledRequestException: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { true }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -505,15 +505,19 @@ extension SocialMessagingClientTypes.WhatsAppSignupCallbackResult: Swift.CustomD
 }
 
 public struct AssociateWhatsAppBusinessAccountOutput: Swift.Sendable {
+    /// The ID of the WhatsApp Business Account that was linked to your Amazon Web Services account.
+    public var linkedWhatsAppBusinessAccountId: Swift.String?
     /// Contains your WhatsApp registration status.
     public var signupCallbackResult: SocialMessagingClientTypes.WhatsAppSignupCallbackResult?
     /// The status code for the response.
     public var statusCode: Swift.Int?
 
     public init(
+        linkedWhatsAppBusinessAccountId: Swift.String? = nil,
         signupCallbackResult: SocialMessagingClientTypes.WhatsAppSignupCallbackResult? = nil,
         statusCode: Swift.Int? = nil
     ) {
+        self.linkedWhatsAppBusinessAccountId = linkedWhatsAppBusinessAccountId
         self.signupCallbackResult = signupCallbackResult
         self.statusCode = statusCode
     }
@@ -531,9 +535,9 @@ public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRun
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { true }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -554,9 +558,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -954,6 +958,8 @@ extension SocialMessagingClientTypes {
         /// The date the WhatsApp Business Account was linked.
         /// This member is required.
         public var linkDate: Foundation.Date?
+        /// The onboarding status for the Marketing Messages API. This value is fetched from Meta and indicates whether the WhatsApp Business Account is onboarded for Meta's Marketing Messages API.
+        public var marketingMessagesOnboardingStatus: Swift.String?
         /// The phone numbers associated with the Linked WhatsApp Business Account.
         /// This member is required.
         public var phoneNumbers: [SocialMessagingClientTypes.WhatsAppPhoneNumberSummary]?
@@ -972,6 +978,7 @@ extension SocialMessagingClientTypes {
             eventDestinations: [SocialMessagingClientTypes.WhatsAppBusinessAccountEventDestination]? = nil,
             id: Swift.String? = nil,
             linkDate: Foundation.Date? = nil,
+            marketingMessagesOnboardingStatus: Swift.String? = nil,
             phoneNumbers: [SocialMessagingClientTypes.WhatsAppPhoneNumberSummary]? = nil,
             registrationStatus: SocialMessagingClientTypes.RegistrationStatus? = nil,
             wabaId: Swift.String? = nil,
@@ -981,6 +988,7 @@ extension SocialMessagingClientTypes {
             self.eventDestinations = eventDestinations
             self.id = id
             self.linkDate = linkDate
+            self.marketingMessagesOnboardingStatus = marketingMessagesOnboardingStatus
             self.phoneNumbers = phoneNumbers
             self.registrationStatus = registrationStatus
             self.wabaId = wabaId
@@ -1108,15 +1116,22 @@ public struct GetWhatsAppMessageTemplateInput: Swift.Sendable {
     /// This member is required.
     public var id: Swift.String?
     /// The numeric ID of the template assigned by Meta.
-    /// This member is required.
     public var metaTemplateId: Swift.String?
+    /// The language code of the message template (for example, en or en_US). Use together with templateName as an alternative to metaTemplateId to identify a template.
+    public var templateLanguageCode: Swift.String?
+    /// The name of the message template. Use together with templateLanguageCode as an alternative to metaTemplateId to identify a template.
+    public var templateName: Swift.String?
 
     public init(
         id: Swift.String? = nil,
-        metaTemplateId: Swift.String? = nil
+        metaTemplateId: Swift.String? = nil,
+        templateLanguageCode: Swift.String? = nil,
+        templateName: Swift.String? = nil
     ) {
         self.id = id
         self.metaTemplateId = metaTemplateId
+        self.templateLanguageCode = templateLanguageCode
+        self.templateName = templateName
     }
 }
 
@@ -1201,6 +1216,8 @@ extension SocialMessagingClientTypes {
         /// The date the WhatsApp Business Account was linked.
         /// This member is required.
         public var linkDate: Foundation.Date?
+        /// The onboarding status for the Marketing Messages API. This value is fetched from Meta and indicates whether the WhatsApp Business Account is onboarded for Meta's Marketing Messages API.
+        public var marketingMessagesOnboardingStatus: Swift.String?
         /// The registration status of the linked WhatsApp Business Account.
         /// This member is required.
         public var registrationStatus: SocialMessagingClientTypes.RegistrationStatus?
@@ -1216,6 +1233,7 @@ extension SocialMessagingClientTypes {
             eventDestinations: [SocialMessagingClientTypes.WhatsAppBusinessAccountEventDestination]? = nil,
             id: Swift.String? = nil,
             linkDate: Foundation.Date? = nil,
+            marketingMessagesOnboardingStatus: Swift.String? = nil,
             registrationStatus: SocialMessagingClientTypes.RegistrationStatus? = nil,
             wabaId: Swift.String? = nil,
             wabaName: Swift.String? = nil
@@ -1224,6 +1242,7 @@ extension SocialMessagingClientTypes {
             self.eventDestinations = eventDestinations
             self.id = id
             self.linkDate = linkDate
+            self.marketingMessagesOnboardingStatus = marketingMessagesOnboardingStatus
             self.registrationStatus = registrationStatus
             self.wabaId = wabaId
             self.wabaName = wabaName
@@ -1439,7 +1458,6 @@ public struct UpdateWhatsAppMessageTemplateInput: Swift.Sendable {
     /// This member is required.
     public var id: Swift.String?
     /// The numeric ID of the template assigned by Meta.
-    /// This member is required.
     public var metaTemplateId: Swift.String?
     /// The format specification for parameters in the template, this can be either 'named' or 'positional'.
     public var parameterFormat: Swift.String?
@@ -1447,6 +1465,10 @@ public struct UpdateWhatsAppMessageTemplateInput: Swift.Sendable {
     public var templateCategory: Swift.String?
     /// The updated components of the template as a JSON blob (maximum 3000 characters).
     public var templateComponents: Foundation.Data?
+    /// The language code of the message template (for example, en or en_US). Use together with templateName as an alternative to metaTemplateId to identify a template.
+    public var templateLanguageCode: Swift.String?
+    /// The name of the message template. Use together with templateLanguageCode as an alternative to metaTemplateId to identify a template.
+    public var templateName: Swift.String?
 
     public init(
         ctaUrlLinkTrackingOptedOut: Swift.Bool? = nil,
@@ -1454,7 +1476,9 @@ public struct UpdateWhatsAppMessageTemplateInput: Swift.Sendable {
         metaTemplateId: Swift.String? = nil,
         parameterFormat: Swift.String? = nil,
         templateCategory: Swift.String? = nil,
-        templateComponents: Foundation.Data? = nil
+        templateComponents: Foundation.Data? = nil,
+        templateLanguageCode: Swift.String? = nil,
+        templateName: Swift.String? = nil
     ) {
         self.ctaUrlLinkTrackingOptedOut = ctaUrlLinkTrackingOptedOut
         self.id = id
@@ -1462,6 +1486,8 @@ public struct UpdateWhatsAppMessageTemplateInput: Swift.Sendable {
         self.parameterFormat = parameterFormat
         self.templateCategory = templateCategory
         self.templateComponents = templateComponents
+        self.templateLanguageCode = templateLanguageCode
+        self.templateName = templateName
     }
 }
 
@@ -1639,9 +1665,9 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -1821,12 +1847,18 @@ extension GetWhatsAppMessageTemplateInput {
 
     static func queryItemProvider(_ value: GetWhatsAppMessageTemplateInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
-        guard let metaTemplateId = value.metaTemplateId else {
-            let message = "Creating a URL Query Item failed. metaTemplateId is required and must not be nil."
-            throw Smithy.ClientError.unknownError(message)
+        if let templateLanguageCode = value.templateLanguageCode {
+            let templateLanguageCodeQueryItem = Smithy.URIQueryItem(name: "templateLanguageCode".urlPercentEncoding(), value: Swift.String(templateLanguageCode).urlPercentEncoding())
+            items.append(templateLanguageCodeQueryItem)
         }
-        let metaTemplateIdQueryItem = Smithy.URIQueryItem(name: "metaTemplateId".urlPercentEncoding(), value: Swift.String(metaTemplateId).urlPercentEncoding())
-        items.append(metaTemplateIdQueryItem)
+        if let templateName = value.templateName {
+            let templateNameQueryItem = Smithy.URIQueryItem(name: "templateName".urlPercentEncoding(), value: Swift.String(templateName).urlPercentEncoding())
+            items.append(templateNameQueryItem)
+        }
+        if let metaTemplateId = value.metaTemplateId {
+            let metaTemplateIdQueryItem = Smithy.URIQueryItem(name: "metaTemplateId".urlPercentEncoding(), value: Swift.String(metaTemplateId).urlPercentEncoding())
+            items.append(metaTemplateIdQueryItem)
+        }
         guard let id = value.id else {
             let message = "Creating a URL Query Item failed. id is required and must not be nil."
             throw Smithy.ClientError.unknownError(message)
@@ -2088,6 +2120,8 @@ extension UpdateWhatsAppMessageTemplateInput {
         try writer["parameterFormat"].write(value.parameterFormat)
         try writer["templateCategory"].write(value.templateCategory)
         try writer["templateComponents"].write(value.templateComponents)
+        try writer["templateLanguageCode"].write(value.templateLanguageCode)
+        try writer["templateName"].write(value.templateName)
     }
 }
 
@@ -2098,6 +2132,7 @@ extension AssociateWhatsAppBusinessAccountOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = AssociateWhatsAppBusinessAccountOutput()
+        value.linkedWhatsAppBusinessAccountId = try reader["linkedWhatsAppBusinessAccountId"].readIfPresent()
         value.signupCallbackResult = try reader["signupCallbackResult"].readIfPresent(with: SocialMessagingClientTypes.WhatsAppSignupCallbackResult.read(from:))
         value.statusCode = try reader["statusCode"].readIfPresent()
         return value
@@ -2334,7 +2369,7 @@ extension UpdateWhatsAppMessageTemplateOutput {
     }
 }
 
-func httpServiceError(baseError: AWSClientRuntime.RestJSONError) throws -> Swift.Error? {
+func httpServiceError(baseError: ClientRuntime.RestJSONError) throws -> Swift.Error? {
     switch baseError.code {
         case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
         case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -2347,7 +2382,7 @@ enum AssociateWhatsAppBusinessAccountOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -2365,7 +2400,7 @@ enum CreateWhatsAppMessageTemplateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -2384,7 +2419,7 @@ enum CreateWhatsAppMessageTemplateFromLibraryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -2403,7 +2438,7 @@ enum CreateWhatsAppMessageTemplateMediaOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -2422,7 +2457,7 @@ enum DeleteWhatsAppMessageMediaOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -2442,7 +2477,7 @@ enum DeleteWhatsAppMessageTemplateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -2461,7 +2496,7 @@ enum DisassociateWhatsAppBusinessAccountOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -2479,7 +2514,7 @@ enum GetLinkedWhatsAppBusinessAccountOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -2498,7 +2533,7 @@ enum GetLinkedWhatsAppBusinessAccountPhoneNumberOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -2517,7 +2552,7 @@ enum GetWhatsAppMessageMediaOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -2537,7 +2572,7 @@ enum GetWhatsAppMessageTemplateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -2556,7 +2591,7 @@ enum ListLinkedWhatsAppBusinessAccountsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -2574,7 +2609,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -2591,7 +2626,7 @@ enum ListWhatsAppMessageTemplatesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -2610,7 +2645,7 @@ enum ListWhatsAppTemplateLibraryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -2629,7 +2664,7 @@ enum PostWhatsAppMessageMediaOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -2649,7 +2684,7 @@ enum PutWhatsAppBusinessAccountEventDestinationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -2666,7 +2701,7 @@ enum SendWhatsAppMessageOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -2685,7 +2720,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -2702,7 +2737,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -2719,7 +2754,7 @@ enum UpdateWhatsAppMessageTemplateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -2735,7 +2770,7 @@ enum UpdateWhatsAppMessageTemplateOutputError {
 
 extension DependencyException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DependencyException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> DependencyException {
         let reader = baseError.errorBodyReader
         var value = DependencyException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2748,7 +2783,7 @@ extension DependencyException {
 
 extension InvalidParametersException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidParametersException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidParametersException {
         let reader = baseError.errorBodyReader
         var value = InvalidParametersException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2761,7 +2796,7 @@ extension InvalidParametersException {
 
 extension LimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> LimitExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> LimitExceededException {
         let reader = baseError.errorBodyReader
         var value = LimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2774,7 +2809,7 @@ extension LimitExceededException {
 
 extension ThrottledRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottledRequestException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ThrottledRequestException {
         let reader = baseError.errorBodyReader
         var value = ThrottledRequestException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2787,7 +2822,7 @@ extension ThrottledRequestException {
 
 extension InternalServiceException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServiceException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalServiceException {
         let reader = baseError.errorBodyReader
         var value = InternalServiceException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2800,7 +2835,7 @@ extension InternalServiceException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2813,7 +2848,7 @@ extension ResourceNotFoundException {
 
 extension AccessDeniedByMetaException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedByMetaException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessDeniedByMetaException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedByMetaException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2826,7 +2861,7 @@ extension AccessDeniedByMetaException {
 
 extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2839,7 +2874,7 @@ extension AccessDeniedException {
 
 extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -2850,13 +2885,61 @@ extension ValidationException {
     }
 }
 
-extension SocialMessagingClientTypes.WhatsAppSignupCallbackResult {
+extension SocialMessagingClientTypes.LibraryTemplateBodyInputs {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SocialMessagingClientTypes.WhatsAppSignupCallbackResult {
+    static func write(value: SocialMessagingClientTypes.LibraryTemplateBodyInputs?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["addContactNumber"].write(value.addContactNumber)
+        try writer["addLearnMoreLink"].write(value.addLearnMoreLink)
+        try writer["addSecurityRecommendation"].write(value.addSecurityRecommendation)
+        try writer["addTrackPackageLink"].write(value.addTrackPackageLink)
+        try writer["codeExpirationMinutes"].write(value.codeExpirationMinutes)
+    }
+}
+
+extension SocialMessagingClientTypes.LibraryTemplateButtonInput {
+
+    static func write(value: SocialMessagingClientTypes.LibraryTemplateButtonInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["otpType"].write(value.otpType)
+        try writer["phoneNumber"].write(value.phoneNumber)
+        try writer["supportedApps"].writeList(value.supportedApps, memberWritingClosure: SmithyReadWrite.mapWritingClosure(valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        try writer["type"].write(value.type)
+        try writer["url"].writeMap(value.url, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["zeroTapTermsAccepted"].write(value.zeroTapTermsAccepted)
+    }
+}
+
+extension SocialMessagingClientTypes.LibraryTemplateButtonList {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SocialMessagingClientTypes.LibraryTemplateButtonList {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SocialMessagingClientTypes.WhatsAppSignupCallbackResult()
-        value.associateInProgressToken = try reader["associateInProgressToken"].readIfPresent()
-        value.linkedAccountsWithIncompleteSetup = try reader["linkedAccountsWithIncompleteSetup"].readMapIfPresent(valueReadingClosure: SocialMessagingClientTypes.LinkedWhatsAppBusinessAccountIdMetaData.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        var value = SocialMessagingClientTypes.LibraryTemplateButtonList()
+        value.type = try reader["type"].readIfPresent()
+        value.text = try reader["text"].readIfPresent()
+        value.phoneNumber = try reader["phoneNumber"].readIfPresent()
+        value.url = try reader["url"].readIfPresent()
+        value.otpType = try reader["otpType"].readIfPresent()
+        value.zeroTapTermsAccepted = try reader["zeroTapTermsAccepted"].readIfPresent()
+        value.supportedApps = try reader["supportedApps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SocialMessagingClientTypes.LinkedWhatsAppBusinessAccount {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SocialMessagingClientTypes.LinkedWhatsAppBusinessAccount {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SocialMessagingClientTypes.LinkedWhatsAppBusinessAccount()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.wabaId = try reader["wabaId"].readIfPresent() ?? ""
+        value.registrationStatus = try reader["registrationStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.linkDate = try reader["linkDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.wabaName = try reader["wabaName"].readIfPresent() ?? ""
+        value.eventDestinations = try reader["eventDestinations"].readListIfPresent(memberReadingClosure: SocialMessagingClientTypes.WhatsAppBusinessAccountEventDestination.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.marketingMessagesOnboardingStatus = try reader["marketingMessagesOnboardingStatus"].readIfPresent()
+        value.phoneNumbers = try reader["phoneNumbers"].readListIfPresent(memberReadingClosure: SocialMessagingClientTypes.WhatsAppPhoneNumberSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -2874,74 +2957,6 @@ extension SocialMessagingClientTypes.LinkedWhatsAppBusinessAccountIdMetaData {
     }
 }
 
-extension SocialMessagingClientTypes.WhatsAppPhoneNumberDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SocialMessagingClientTypes.WhatsAppPhoneNumberDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SocialMessagingClientTypes.WhatsAppPhoneNumberDetail()
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.phoneNumber = try reader["phoneNumber"].readIfPresent() ?? ""
-        value.phoneNumberId = try reader["phoneNumberId"].readIfPresent() ?? ""
-        value.metaPhoneNumberId = try reader["metaPhoneNumberId"].readIfPresent() ?? ""
-        value.displayPhoneNumberName = try reader["displayPhoneNumberName"].readIfPresent() ?? ""
-        value.displayPhoneNumber = try reader["displayPhoneNumber"].readIfPresent() ?? ""
-        value.qualityRating = try reader["qualityRating"].readIfPresent() ?? ""
-        value.dataLocalizationRegion = try reader["dataLocalizationRegion"].readIfPresent()
-        return value
-    }
-}
-
-extension SocialMessagingClientTypes.LinkedWhatsAppBusinessAccount {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SocialMessagingClientTypes.LinkedWhatsAppBusinessAccount {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SocialMessagingClientTypes.LinkedWhatsAppBusinessAccount()
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.wabaId = try reader["wabaId"].readIfPresent() ?? ""
-        value.registrationStatus = try reader["registrationStatus"].readIfPresent() ?? .sdkUnknown("")
-        value.linkDate = try reader["linkDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.wabaName = try reader["wabaName"].readIfPresent() ?? ""
-        value.eventDestinations = try reader["eventDestinations"].readListIfPresent(memberReadingClosure: SocialMessagingClientTypes.WhatsAppBusinessAccountEventDestination.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.phoneNumbers = try reader["phoneNumbers"].readListIfPresent(memberReadingClosure: SocialMessagingClientTypes.WhatsAppPhoneNumberSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension SocialMessagingClientTypes.WhatsAppPhoneNumberSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SocialMessagingClientTypes.WhatsAppPhoneNumberSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SocialMessagingClientTypes.WhatsAppPhoneNumberSummary()
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.phoneNumber = try reader["phoneNumber"].readIfPresent() ?? ""
-        value.phoneNumberId = try reader["phoneNumberId"].readIfPresent() ?? ""
-        value.metaPhoneNumberId = try reader["metaPhoneNumberId"].readIfPresent() ?? ""
-        value.displayPhoneNumberName = try reader["displayPhoneNumberName"].readIfPresent() ?? ""
-        value.displayPhoneNumber = try reader["displayPhoneNumber"].readIfPresent() ?? ""
-        value.qualityRating = try reader["qualityRating"].readIfPresent() ?? ""
-        value.dataLocalizationRegion = try reader["dataLocalizationRegion"].readIfPresent()
-        return value
-    }
-}
-
-extension SocialMessagingClientTypes.WhatsAppBusinessAccountEventDestination {
-
-    static func write(value: SocialMessagingClientTypes.WhatsAppBusinessAccountEventDestination?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["eventDestinationArn"].write(value.eventDestinationArn)
-        try writer["roleArn"].write(value.roleArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SocialMessagingClientTypes.WhatsAppBusinessAccountEventDestination {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SocialMessagingClientTypes.WhatsAppBusinessAccountEventDestination()
-        value.eventDestinationArn = try reader["eventDestinationArn"].readIfPresent() ?? ""
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        return value
-    }
-}
-
 extension SocialMessagingClientTypes.LinkedWhatsAppBusinessAccountSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SocialMessagingClientTypes.LinkedWhatsAppBusinessAccountSummary {
@@ -2954,7 +2969,59 @@ extension SocialMessagingClientTypes.LinkedWhatsAppBusinessAccountSummary {
         value.linkDate = try reader["linkDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.wabaName = try reader["wabaName"].readIfPresent() ?? ""
         value.eventDestinations = try reader["eventDestinations"].readListIfPresent(memberReadingClosure: SocialMessagingClientTypes.WhatsAppBusinessAccountEventDestination.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.marketingMessagesOnboardingStatus = try reader["marketingMessagesOnboardingStatus"].readIfPresent()
         return value
+    }
+}
+
+extension SocialMessagingClientTypes.MetaLibraryTemplate {
+
+    static func write(value: SocialMessagingClientTypes.MetaLibraryTemplate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["libraryTemplateBodyInputs"].write(value.libraryTemplateBodyInputs, with: SocialMessagingClientTypes.LibraryTemplateBodyInputs.write(value:to:))
+        try writer["libraryTemplateButtonInputs"].writeList(value.libraryTemplateButtonInputs, memberWritingClosure: SocialMessagingClientTypes.LibraryTemplateButtonInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["libraryTemplateName"].write(value.libraryTemplateName)
+        try writer["templateCategory"].write(value.templateCategory)
+        try writer["templateLanguage"].write(value.templateLanguage)
+        try writer["templateName"].write(value.templateName)
+    }
+}
+
+extension SocialMessagingClientTypes.MetaLibraryTemplateDefinition {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SocialMessagingClientTypes.MetaLibraryTemplateDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SocialMessagingClientTypes.MetaLibraryTemplateDefinition()
+        value.templateName = try reader["templateName"].readIfPresent()
+        value.templateLanguage = try reader["templateLanguage"].readIfPresent()
+        value.templateCategory = try reader["templateCategory"].readIfPresent()
+        value.templateTopic = try reader["templateTopic"].readIfPresent()
+        value.templateUseCase = try reader["templateUseCase"].readIfPresent()
+        value.templateIndustry = try reader["templateIndustry"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.templateHeader = try reader["templateHeader"].readIfPresent()
+        value.templateBody = try reader["templateBody"].readIfPresent()
+        value.templateButtons = try reader["templateButtons"].readListIfPresent(memberReadingClosure: SocialMessagingClientTypes.LibraryTemplateButtonList.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.templateId = try reader["templateId"].readIfPresent()
+        value.templateBodyExampleParams = try reader["templateBodyExampleParams"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SocialMessagingClientTypes.S3File {
+
+    static func write(value: SocialMessagingClientTypes.S3File?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bucketName"].write(value.bucketName)
+        try writer["key"].write(value.key)
+    }
+}
+
+extension SocialMessagingClientTypes.S3PresignedUrl {
+
+    static func write(value: SocialMessagingClientTypes.S3PresignedUrl?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["headers"].writeMap(value.headers, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["url"].write(value.url)
     }
 }
 
@@ -2990,48 +3057,75 @@ extension SocialMessagingClientTypes.TemplateSummary {
     }
 }
 
-extension SocialMessagingClientTypes.MetaLibraryTemplateDefinition {
+extension SocialMessagingClientTypes.WabaPhoneNumberSetupFinalization {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SocialMessagingClientTypes.MetaLibraryTemplateDefinition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SocialMessagingClientTypes.MetaLibraryTemplateDefinition()
-        value.templateName = try reader["templateName"].readIfPresent()
-        value.templateLanguage = try reader["templateLanguage"].readIfPresent()
-        value.templateCategory = try reader["templateCategory"].readIfPresent()
-        value.templateTopic = try reader["templateTopic"].readIfPresent()
-        value.templateUseCase = try reader["templateUseCase"].readIfPresent()
-        value.templateIndustry = try reader["templateIndustry"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.templateHeader = try reader["templateHeader"].readIfPresent()
-        value.templateBody = try reader["templateBody"].readIfPresent()
-        value.templateButtons = try reader["templateButtons"].readListIfPresent(memberReadingClosure: SocialMessagingClientTypes.LibraryTemplateButtonList.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.templateId = try reader["templateId"].readIfPresent()
-        value.templateBodyExampleParams = try reader["templateBodyExampleParams"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension SocialMessagingClientTypes.LibraryTemplateButtonList {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SocialMessagingClientTypes.LibraryTemplateButtonList {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SocialMessagingClientTypes.LibraryTemplateButtonList()
-        value.type = try reader["type"].readIfPresent()
-        value.text = try reader["text"].readIfPresent()
-        value.phoneNumber = try reader["phoneNumber"].readIfPresent()
-        value.url = try reader["url"].readIfPresent()
-        value.otpType = try reader["otpType"].readIfPresent()
-        value.zeroTapTermsAccepted = try reader["zeroTapTermsAccepted"].readIfPresent()
-        value.supportedApps = try reader["supportedApps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension SocialMessagingClientTypes.WhatsAppSignupCallback {
-
-    static func write(value: SocialMessagingClientTypes.WhatsAppSignupCallback?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: SocialMessagingClientTypes.WabaPhoneNumberSetupFinalization?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["accessToken"].write(value.accessToken)
-        try writer["callbackUrl"].write(value.callbackUrl)
+        try writer["dataLocalizationRegion"].write(value.dataLocalizationRegion)
+        try writer["id"].write(value.id)
+        try writer["tags"].writeList(value.tags, memberWritingClosure: SocialMessagingClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["twoFactorPin"].write(value.twoFactorPin)
+    }
+}
+
+extension SocialMessagingClientTypes.WabaSetupFinalization {
+
+    static func write(value: SocialMessagingClientTypes.WabaSetupFinalization?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["eventDestinations"].writeList(value.eventDestinations, memberWritingClosure: SocialMessagingClientTypes.WhatsAppBusinessAccountEventDestination.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["id"].write(value.id)
+        try writer["tags"].writeList(value.tags, memberWritingClosure: SocialMessagingClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension SocialMessagingClientTypes.WhatsAppBusinessAccountEventDestination {
+
+    static func write(value: SocialMessagingClientTypes.WhatsAppBusinessAccountEventDestination?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["eventDestinationArn"].write(value.eventDestinationArn)
+        try writer["roleArn"].write(value.roleArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SocialMessagingClientTypes.WhatsAppBusinessAccountEventDestination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SocialMessagingClientTypes.WhatsAppBusinessAccountEventDestination()
+        value.eventDestinationArn = try reader["eventDestinationArn"].readIfPresent() ?? ""
+        value.roleArn = try reader["roleArn"].readIfPresent()
+        return value
+    }
+}
+
+extension SocialMessagingClientTypes.WhatsAppPhoneNumberDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SocialMessagingClientTypes.WhatsAppPhoneNumberDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SocialMessagingClientTypes.WhatsAppPhoneNumberDetail()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.phoneNumber = try reader["phoneNumber"].readIfPresent() ?? ""
+        value.phoneNumberId = try reader["phoneNumberId"].readIfPresent() ?? ""
+        value.metaPhoneNumberId = try reader["metaPhoneNumberId"].readIfPresent() ?? ""
+        value.displayPhoneNumberName = try reader["displayPhoneNumberName"].readIfPresent() ?? ""
+        value.displayPhoneNumber = try reader["displayPhoneNumber"].readIfPresent() ?? ""
+        value.qualityRating = try reader["qualityRating"].readIfPresent() ?? ""
+        value.dataLocalizationRegion = try reader["dataLocalizationRegion"].readIfPresent()
+        return value
+    }
+}
+
+extension SocialMessagingClientTypes.WhatsAppPhoneNumberSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SocialMessagingClientTypes.WhatsAppPhoneNumberSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SocialMessagingClientTypes.WhatsAppPhoneNumberSummary()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.phoneNumber = try reader["phoneNumber"].readIfPresent() ?? ""
+        value.phoneNumberId = try reader["phoneNumberId"].readIfPresent() ?? ""
+        value.metaPhoneNumberId = try reader["metaPhoneNumberId"].readIfPresent() ?? ""
+        value.displayPhoneNumberName = try reader["displayPhoneNumberName"].readIfPresent() ?? ""
+        value.displayPhoneNumber = try reader["displayPhoneNumber"].readIfPresent() ?? ""
+        value.qualityRating = try reader["qualityRating"].readIfPresent() ?? ""
+        value.dataLocalizationRegion = try reader["dataLocalizationRegion"].readIfPresent()
+        return value
     }
 }
 
@@ -3046,80 +3140,23 @@ extension SocialMessagingClientTypes.WhatsAppSetupFinalization {
     }
 }
 
-extension SocialMessagingClientTypes.WabaSetupFinalization {
+extension SocialMessagingClientTypes.WhatsAppSignupCallback {
 
-    static func write(value: SocialMessagingClientTypes.WabaSetupFinalization?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: SocialMessagingClientTypes.WhatsAppSignupCallback?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["eventDestinations"].writeList(value.eventDestinations, memberWritingClosure: SocialMessagingClientTypes.WhatsAppBusinessAccountEventDestination.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["id"].write(value.id)
-        try writer["tags"].writeList(value.tags, memberWritingClosure: SocialMessagingClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["accessToken"].write(value.accessToken)
+        try writer["callbackUrl"].write(value.callbackUrl)
     }
 }
 
-extension SocialMessagingClientTypes.WabaPhoneNumberSetupFinalization {
+extension SocialMessagingClientTypes.WhatsAppSignupCallbackResult {
 
-    static func write(value: SocialMessagingClientTypes.WabaPhoneNumberSetupFinalization?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["dataLocalizationRegion"].write(value.dataLocalizationRegion)
-        try writer["id"].write(value.id)
-        try writer["tags"].writeList(value.tags, memberWritingClosure: SocialMessagingClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["twoFactorPin"].write(value.twoFactorPin)
-    }
-}
-
-extension SocialMessagingClientTypes.MetaLibraryTemplate {
-
-    static func write(value: SocialMessagingClientTypes.MetaLibraryTemplate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["libraryTemplateBodyInputs"].write(value.libraryTemplateBodyInputs, with: SocialMessagingClientTypes.LibraryTemplateBodyInputs.write(value:to:))
-        try writer["libraryTemplateButtonInputs"].writeList(value.libraryTemplateButtonInputs, memberWritingClosure: SocialMessagingClientTypes.LibraryTemplateButtonInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["libraryTemplateName"].write(value.libraryTemplateName)
-        try writer["templateCategory"].write(value.templateCategory)
-        try writer["templateLanguage"].write(value.templateLanguage)
-        try writer["templateName"].write(value.templateName)
-    }
-}
-
-extension SocialMessagingClientTypes.LibraryTemplateBodyInputs {
-
-    static func write(value: SocialMessagingClientTypes.LibraryTemplateBodyInputs?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["addContactNumber"].write(value.addContactNumber)
-        try writer["addLearnMoreLink"].write(value.addLearnMoreLink)
-        try writer["addSecurityRecommendation"].write(value.addSecurityRecommendation)
-        try writer["addTrackPackageLink"].write(value.addTrackPackageLink)
-        try writer["codeExpirationMinutes"].write(value.codeExpirationMinutes)
-    }
-}
-
-extension SocialMessagingClientTypes.LibraryTemplateButtonInput {
-
-    static func write(value: SocialMessagingClientTypes.LibraryTemplateButtonInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["otpType"].write(value.otpType)
-        try writer["phoneNumber"].write(value.phoneNumber)
-        try writer["supportedApps"].writeList(value.supportedApps, memberWritingClosure: SmithyReadWrite.mapWritingClosure(valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        try writer["type"].write(value.type)
-        try writer["url"].writeMap(value.url, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["zeroTapTermsAccepted"].write(value.zeroTapTermsAccepted)
-    }
-}
-
-extension SocialMessagingClientTypes.S3File {
-
-    static func write(value: SocialMessagingClientTypes.S3File?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["bucketName"].write(value.bucketName)
-        try writer["key"].write(value.key)
-    }
-}
-
-extension SocialMessagingClientTypes.S3PresignedUrl {
-
-    static func write(value: SocialMessagingClientTypes.S3PresignedUrl?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["headers"].writeMap(value.headers, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["url"].write(value.url)
+    static func read(from reader: SmithyJSON.Reader) throws -> SocialMessagingClientTypes.WhatsAppSignupCallbackResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SocialMessagingClientTypes.WhatsAppSignupCallbackResult()
+        value.associateInProgressToken = try reader["associateInProgressToken"].readIfPresent()
+        value.linkedAccountsWithIncompleteSetup = try reader["linkedAccountsWithIncompleteSetup"].readMapIfPresent(valueReadingClosure: SocialMessagingClientTypes.LinkedWhatsAppBusinessAccountIdMetaData.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
     }
 }
 
