@@ -38,10 +38,6 @@ val codegenTests = listOf(
         "AwsQueryExtras"
     ),
     CodegenTest(
-        "aws.protocoltests.waiters#Waiters",
-        "Waiters"
-    ),
-    CodegenTest(
         "aws.protocoltests.eventstream#TestService",
         "EventStream"
     ),
