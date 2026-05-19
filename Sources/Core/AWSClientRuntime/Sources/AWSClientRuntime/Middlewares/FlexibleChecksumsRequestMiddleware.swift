@@ -41,9 +41,6 @@ public struct FlexibleChecksumsRequestMiddleware<OperationStackInput, OperationS
 
         if case(.stream(let stream)) = builder.body {
             attributes.isChunkedEligibleStream = stream.isEligibleForChunkedStreaming
-            if stream.isEligibleForChunkedStreaming {
-                try builder.setAwsChunkedHeaders() // x-amz-decoded-content-length
-            }
         } else if case(.noStream) = builder.body {
             logger.debug("Request body is empty. Skipping request checksum calculation...")
             return
@@ -111,6 +108,7 @@ public struct FlexibleChecksumsRequestMiddleware<OperationStackInput, OperationS
             try await calculateAndAddChecksumHeader(data: data)
         case .stream(let stream):
             if stream.isEligibleForChunkedStreaming {
+                try builder.setAwsChunkedHeaders() // x-amz-decoded-content-length
                 // Handle calculating and adding checksum header in ChunkedStream
                 builder.updateHeader(name: "x-amz-trailer", value: [checksumHashHeaderName])
             } else {

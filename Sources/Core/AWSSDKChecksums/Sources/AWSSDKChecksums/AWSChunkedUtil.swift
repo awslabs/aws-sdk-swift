@@ -26,6 +26,8 @@ extension HTTPRequestBuilder {
                 throw ClientError.dataNotFound("Cannot use aws-chunked encoding with an unknown stream length!")
             }
             self.withHeader(name: "X-Amz-Decoded-Content-Length", value: String(decodedContentLength))
+            // Content-Length must not accompany Transfer-Encoding.
+            self.headers.remove(name: "Content-Length")
         } else {
             throw ClientError.dataNotFound("aws-chunked encoding requires a streaming payload!")
         }
