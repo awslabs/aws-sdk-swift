@@ -59,9 +59,9 @@ public struct DisabledOperationException: ClientRuntime.ModeledError, AWSClientR
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -83,9 +83,9 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -107,9 +107,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -342,9 +342,9 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -563,9 +563,9 @@ public struct BaseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -587,9 +587,9 @@ public struct DependencyFailureException: ClientRuntime.ModeledError, AWSClientR
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -611,9 +611,9 @@ public struct InternalException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -635,9 +635,9 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -942,6 +942,8 @@ extension OpenSearchClientTypes {
     public struct JWTOptionsOutput: Swift.Sendable {
         /// True if JWT use is enabled.
         public var enabled: Swift.Bool?
+        /// The configured JWKS URL endpoint from which the cluster retrieves public keys to verify JWT requests.
+        public var jwksUrl: Swift.String?
         /// The key used to verify the signature of incoming JWT requests.
         public var publicKey: Swift.String?
         /// The key used for matching the JWT roles attribute.
@@ -951,11 +953,13 @@ extension OpenSearchClientTypes {
 
         public init(
             enabled: Swift.Bool? = nil,
+            jwksUrl: Swift.String? = nil,
             publicKey: Swift.String? = nil,
             rolesKey: Swift.String? = nil,
             subjectKey: Swift.String? = nil
         ) {
             self.enabled = enabled
+            self.jwksUrl = jwksUrl
             self.publicKey = publicKey
             self.rolesKey = rolesKey
             self.subjectKey = subjectKey
@@ -1083,6 +1087,8 @@ extension OpenSearchClientTypes {
     public struct JWTOptionsInput: Swift.Sendable {
         /// True to enable JWT authentication and authorization for a domain.
         public var enabled: Swift.Bool?
+        /// The URL endpoint that hosts the JSON Web Key Set (JWKS) containing public keys used to verify JWT signatures.
+        public var jwksUrl: Swift.String?
         /// Element of the JWT assertion used by the cluster to verify JWT signatures.
         public var publicKey: Swift.String?
         /// Element of the JWT assertion to use for roles.
@@ -1092,11 +1098,13 @@ extension OpenSearchClientTypes {
 
         public init(
             enabled: Swift.Bool? = nil,
+            jwksUrl: Swift.String? = nil,
             publicKey: Swift.String? = nil,
             rolesKey: Swift.String? = nil,
             subjectKey: Swift.String? = nil
         ) {
             self.enabled = enabled
+            self.jwksUrl = jwksUrl
             self.publicKey = publicKey
             self.rolesKey = rolesKey
             self.subjectKey = subjectKey
@@ -1460,9 +1468,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -2249,9 +2257,9 @@ public struct InvalidTypeException: ClientRuntime.ModeledError, AWSClientRuntime
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -2273,14 +2281,38 @@ public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
     ) {
         self.properties.message = message
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// Specifies the automated snapshot pause request options for the domain. Suspending snapshots reduces data protection. You cannot restore your domain to points in time when snapshots are suspended. Use this feature only for short-term operational needs such as migrations or maintenance windows. Maximum suspension duration: 3 days.
+    public struct AutomatedSnapshotPauseRequestOptions: Swift.Sendable {
+        /// Whether to enable or disable automated snapshot pause for the domain.
+        /// This member is required.
+        public var enabled: Swift.Bool?
+        /// The timestamp at which the automated snapshot pause should end. The maximum allowed duration between StartTime and EndTime is 3 days.
+        public var endTime: Foundation.Date?
+        /// The timestamp at which the automated snapshot pause should begin.
+        public var startTime: Foundation.Date?
+
+        public init(
+            enabled: Swift.Bool? = nil,
+            endTime: Foundation.Date? = nil,
+            startTime: Foundation.Date? = nil
+        ) {
+            self.enabled = enabled
+            self.endTime = endTime
+            self.startTime = startTime
+        }
     }
 }
 
@@ -3457,15 +3489,19 @@ extension OpenSearchClientTypes {
 
     /// Options to specify the subnets and security groups for an Amazon OpenSearch Service VPC endpoint. For more information, see [Launching your Amazon OpenSearch Service domains using a VPC](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/vpc.html).
     public struct VPCOptions: Swift.Sendable {
+        /// Controls whether egress traffic from the domain is routed through the customer VPC. When true, outbound traffic flows through the VPC. When false, outbound traffic goes through the public internet.
+        public var egressEnabled: Swift.Bool?
         /// The list of security group IDs associated with the VPC endpoints for the domain. If you do not provide a security group ID, OpenSearch Service uses the default security group for the VPC.
         public var securityGroupIds: [Swift.String]?
         /// A list of subnet IDs associated with the VPC endpoints for the domain. If your domain uses multiple Availability Zones, you need to provide two subnet IDs, one per zone. Otherwise, provide only one.
         public var subnetIds: [Swift.String]?
 
         public init(
+            egressEnabled: Swift.Bool? = nil,
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil
         ) {
+            self.egressEnabled = egressEnabled
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
         }
@@ -3494,6 +3530,8 @@ public struct CreateDomainInput: Swift.Sendable {
     public var aimlOptions: OpenSearchClientTypes.AIMLOptionsInput?
     /// Options for Auto-Tune.
     public var autoTuneOptions: OpenSearchClientTypes.AutoTuneOptionsInput?
+    /// Specifies the automated snapshot pause options for the domain. Suspending snapshots reduces data protection. You cannot restore your domain to points in time when snapshots are suspended. Use this feature only for short-term operational needs such as migrations or maintenance windows. Maximum suspension duration: 3 days.
+    public var automatedSnapshotPauseOptions: OpenSearchClientTypes.AutomatedSnapshotPauseRequestOptions?
     /// Container for the cluster configuration of a domain.
     public var clusterConfig: OpenSearchClientTypes.ClusterConfig?
     /// Key-value pairs to configure Amazon Cognito authentication. For more information, see [Configuring Amazon Cognito authentication for OpenSearch Dashboards](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/cognito-auth.html).
@@ -3536,6 +3574,7 @@ public struct CreateDomainInput: Swift.Sendable {
         advancedSecurityOptions: OpenSearchClientTypes.AdvancedSecurityOptionsInput? = nil,
         aimlOptions: OpenSearchClientTypes.AIMLOptionsInput? = nil,
         autoTuneOptions: OpenSearchClientTypes.AutoTuneOptionsInput? = nil,
+        automatedSnapshotPauseOptions: OpenSearchClientTypes.AutomatedSnapshotPauseRequestOptions? = nil,
         clusterConfig: OpenSearchClientTypes.ClusterConfig? = nil,
         cognitoOptions: OpenSearchClientTypes.CognitoOptions? = nil,
         deploymentStrategyOptions: OpenSearchClientTypes.DeploymentStrategyOptions? = nil,
@@ -3559,6 +3598,7 @@ public struct CreateDomainInput: Swift.Sendable {
         self.advancedSecurityOptions = advancedSecurityOptions
         self.aimlOptions = aimlOptions
         self.autoTuneOptions = autoTuneOptions
+        self.automatedSnapshotPauseOptions = automatedSnapshotPauseOptions
         self.clusterConfig = clusterConfig
         self.cognitoOptions = cognitoOptions
         self.deploymentStrategyOptions = deploymentStrategyOptions
@@ -3576,6 +3616,70 @@ public struct CreateDomainInput: Swift.Sendable {
         self.softwareUpdateOptions = softwareUpdateOptions
         self.tagList = tagList
         self.vpcOptions = vpcOptions
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// The state of the automated snapshot pause. Valid values are Active, Completed, Scheduled, and Disabled.
+    public enum PauseState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case completed
+        case disabled
+        case scheduled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PauseState] {
+            return [
+                .active,
+                .completed,
+                .disabled,
+                .scheduled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "Active"
+            case .completed: return "Completed"
+            case .disabled: return "Disabled"
+            case .scheduled: return "Scheduled"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// Specifies the automated snapshot pause options for the domain. These options allow you to temporarily pause automated snapshots for a specified time period.
+    public struct AutomatedSnapshotPauseOptions: Swift.Sendable {
+        /// Whether automated snapshot pause is enabled for the domain.
+        /// This member is required.
+        public var enabled: Swift.Bool?
+        /// The timestamp at which the automated snapshot pause ends.
+        public var endTime: Foundation.Date?
+        /// The timestamp at which the automated snapshot pause begins.
+        public var startTime: Foundation.Date?
+        /// The current state of the automated snapshot pause. Valid values are Active, Completed, Scheduled, and Disabled.
+        public var state: OpenSearchClientTypes.PauseState?
+
+        public init(
+            enabled: Swift.Bool? = nil,
+            endTime: Foundation.Date? = nil,
+            startTime: Foundation.Date? = nil,
+            state: OpenSearchClientTypes.PauseState? = nil
+        ) {
+            self.enabled = enabled
+            self.endTime = endTime
+            self.startTime = startTime
+            self.state = state
+        }
     }
 }
 
@@ -3913,6 +4017,8 @@ extension OpenSearchClientTypes {
     public struct VPCDerivedInfo: Swift.Sendable {
         /// The list of Availability Zones associated with the VPC subnets.
         public var availabilityZones: [Swift.String]?
+        /// Indicates whether egress traffic from the domain is routed through the customer VPC. When true, outbound traffic flows through the VPC. When false, outbound traffic goes through the public internet.
+        public var egressEnabled: Swift.Bool?
         /// The list of security group IDs associated with the VPC endpoints for the domain.
         public var securityGroupIds: [Swift.String]?
         /// A list of subnet IDs associated with the VPC endpoints for the domain.
@@ -3922,11 +4028,13 @@ extension OpenSearchClientTypes {
 
         public init(
             availabilityZones: [Swift.String]? = nil,
+            egressEnabled: Swift.Bool? = nil,
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil,
             vpcId: Swift.String? = nil
         ) {
             self.availabilityZones = availabilityZones
+            self.egressEnabled = egressEnabled
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
             self.vpcId = vpcId
@@ -3951,6 +4059,8 @@ extension OpenSearchClientTypes {
         public var arn: Swift.String?
         /// Auto-Tune settings for the domain.
         public var autoTuneOptions: OpenSearchClientTypes.AutoTuneOptionsOutput?
+        /// The current status of the domain's automated snapshot pause options.
+        public var automatedSnapshotPauseOptions: OpenSearchClientTypes.AutomatedSnapshotPauseOptions?
         /// Information about a configuration change happening on the domain.
         public var changeProgressDetails: OpenSearchClientTypes.ChangeProgressDetails?
         /// Container for the cluster configuration of the domain.
@@ -4024,6 +4134,7 @@ extension OpenSearchClientTypes {
             aimlOptions: OpenSearchClientTypes.AIMLOptionsOutput? = nil,
             arn: Swift.String? = nil,
             autoTuneOptions: OpenSearchClientTypes.AutoTuneOptionsOutput? = nil,
+            automatedSnapshotPauseOptions: OpenSearchClientTypes.AutomatedSnapshotPauseOptions? = nil,
             changeProgressDetails: OpenSearchClientTypes.ChangeProgressDetails? = nil,
             clusterConfig: OpenSearchClientTypes.ClusterConfig? = nil,
             cognitoOptions: OpenSearchClientTypes.CognitoOptions? = nil,
@@ -4060,6 +4171,7 @@ extension OpenSearchClientTypes {
             self.aimlOptions = aimlOptions
             self.arn = arn
             self.autoTuneOptions = autoTuneOptions
+            self.automatedSnapshotPauseOptions = automatedSnapshotPauseOptions
             self.changeProgressDetails = changeProgressDetails
             self.clusterConfig = clusterConfig
             self.cognitoOptions = cognitoOptions
@@ -4118,9 +4230,9 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -5583,6 +5695,27 @@ public struct DescribeDomainConfigInput: Swift.Sendable {
 
 extension OpenSearchClientTypes {
 
+    /// The status of automated snapshot pause options for the domain.
+    public struct AutomatedSnapshotPauseOptionsStatus: Swift.Sendable {
+        /// Automated snapshot pause options for the domain.
+        /// This member is required.
+        public var options: OpenSearchClientTypes.AutomatedSnapshotPauseOptions?
+        /// The current status of the automated snapshot pause options for the domain.
+        /// This member is required.
+        public var status: OpenSearchClientTypes.OptionStatus?
+
+        public init(
+            options: OpenSearchClientTypes.AutomatedSnapshotPauseOptions? = nil,
+            status: OpenSearchClientTypes.OptionStatus? = nil
+        ) {
+            self.options = options
+            self.status = status
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
     /// The rollback state while disabling Auto-Tune for the domain.
     public enum RollbackOnDisable: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case defaultRollback
@@ -6018,6 +6151,8 @@ extension OpenSearchClientTypes {
         public var aimlOptions: OpenSearchClientTypes.AIMLOptionsStatus?
         /// Container for Auto-Tune settings for the domain.
         public var autoTuneOptions: OpenSearchClientTypes.AutoTuneOptionsStatus?
+        /// Specifies AutomatedSnapshotPauseOptions for the domain.
+        public var automatedSnapshotPauseOptions: OpenSearchClientTypes.AutomatedSnapshotPauseOptionsStatus?
         /// Container for information about the progress of an existing configuration change.
         public var changeProgressDetails: OpenSearchClientTypes.ChangeProgressDetails?
         /// Container for the cluster configuration of a the domain.
@@ -6059,6 +6194,7 @@ extension OpenSearchClientTypes {
             advancedSecurityOptions: OpenSearchClientTypes.AdvancedSecurityOptionsStatus? = nil,
             aimlOptions: OpenSearchClientTypes.AIMLOptionsStatus? = nil,
             autoTuneOptions: OpenSearchClientTypes.AutoTuneOptionsStatus? = nil,
+            automatedSnapshotPauseOptions: OpenSearchClientTypes.AutomatedSnapshotPauseOptionsStatus? = nil,
             changeProgressDetails: OpenSearchClientTypes.ChangeProgressDetails? = nil,
             clusterConfig: OpenSearchClientTypes.ClusterConfigStatus? = nil,
             cognitoOptions: OpenSearchClientTypes.CognitoOptionsStatus? = nil,
@@ -6082,6 +6218,7 @@ extension OpenSearchClientTypes {
             self.advancedSecurityOptions = advancedSecurityOptions
             self.aimlOptions = aimlOptions
             self.autoTuneOptions = autoTuneOptions
+            self.automatedSnapshotPauseOptions = automatedSnapshotPauseOptions
             self.changeProgressDetails = changeProgressDetails
             self.clusterConfig = clusterConfig
             self.cognitoOptions = cognitoOptions
@@ -6683,9 +6820,9 @@ public struct InvalidPaginationTokenException: ClientRuntime.ModeledError, AWSCl
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -9441,9 +9578,9 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -9943,6 +10080,8 @@ public struct UpdateDomainConfigInput: Swift.Sendable {
     public var aimlOptions: OpenSearchClientTypes.AIMLOptionsInput?
     /// Options for Auto-Tune.
     public var autoTuneOptions: OpenSearchClientTypes.AutoTuneOptions?
+    /// Specifies the automated snapshot pause options for the domain. Suspending snapshots reduces data protection. You cannot restore your domain to points in time when snapshots are suspended. Use this feature only for short-term operational needs such as migrations or maintenance windows. Maximum suspension duration: 3 days.
+    public var automatedSnapshotPauseOptions: OpenSearchClientTypes.AutomatedSnapshotPauseRequestOptions?
     /// Changes that you want to make to the cluster configuration, such as the instance type and number of EC2 instances.
     public var clusterConfig: OpenSearchClientTypes.ClusterConfig?
     /// Key-value pairs to configure Amazon Cognito authentication for OpenSearch Dashboards.
@@ -9989,6 +10128,7 @@ public struct UpdateDomainConfigInput: Swift.Sendable {
         advancedSecurityOptions: OpenSearchClientTypes.AdvancedSecurityOptionsInput? = nil,
         aimlOptions: OpenSearchClientTypes.AIMLOptionsInput? = nil,
         autoTuneOptions: OpenSearchClientTypes.AutoTuneOptions? = nil,
+        automatedSnapshotPauseOptions: OpenSearchClientTypes.AutomatedSnapshotPauseRequestOptions? = nil,
         clusterConfig: OpenSearchClientTypes.ClusterConfig? = nil,
         cognitoOptions: OpenSearchClientTypes.CognitoOptions? = nil,
         deploymentStrategyOptions: OpenSearchClientTypes.DeploymentStrategyOptions? = nil,
@@ -10012,6 +10152,7 @@ public struct UpdateDomainConfigInput: Swift.Sendable {
         self.advancedSecurityOptions = advancedSecurityOptions
         self.aimlOptions = aimlOptions
         self.autoTuneOptions = autoTuneOptions
+        self.automatedSnapshotPauseOptions = automatedSnapshotPauseOptions
         self.clusterConfig = clusterConfig
         self.cognitoOptions = cognitoOptions
         self.deploymentStrategyOptions = deploymentStrategyOptions
@@ -10221,9 +10362,9 @@ public struct SlotNotAvailableException: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -11639,6 +11780,7 @@ extension CreateDomainInput {
         try writer["AdvancedOptions"].writeMap(value.advancedOptions, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["AdvancedSecurityOptions"].write(value.advancedSecurityOptions, with: OpenSearchClientTypes.AdvancedSecurityOptionsInput.write(value:to:))
         try writer["AutoTuneOptions"].write(value.autoTuneOptions, with: OpenSearchClientTypes.AutoTuneOptionsInput.write(value:to:))
+        try writer["AutomatedSnapshotPauseOptions"].write(value.automatedSnapshotPauseOptions, with: OpenSearchClientTypes.AutomatedSnapshotPauseRequestOptions.write(value:to:))
         try writer["ClusterConfig"].write(value.clusterConfig, with: OpenSearchClientTypes.ClusterConfig.write(value:to:))
         try writer["CognitoOptions"].write(value.cognitoOptions, with: OpenSearchClientTypes.CognitoOptions.write(value:to:))
         try writer["DeploymentStrategyOptions"].write(value.deploymentStrategyOptions, with: OpenSearchClientTypes.DeploymentStrategyOptions.write(value:to:))
@@ -11895,6 +12037,7 @@ extension UpdateDomainConfigInput {
         try writer["AdvancedOptions"].writeMap(value.advancedOptions, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["AdvancedSecurityOptions"].write(value.advancedSecurityOptions, with: OpenSearchClientTypes.AdvancedSecurityOptionsInput.write(value:to:))
         try writer["AutoTuneOptions"].write(value.autoTuneOptions, with: OpenSearchClientTypes.AutoTuneOptions.write(value:to:))
+        try writer["AutomatedSnapshotPauseOptions"].write(value.automatedSnapshotPauseOptions, with: OpenSearchClientTypes.AutomatedSnapshotPauseRequestOptions.write(value:to:))
         try writer["ClusterConfig"].write(value.clusterConfig, with: OpenSearchClientTypes.ClusterConfig.write(value:to:))
         try writer["CognitoOptions"].write(value.cognitoOptions, with: OpenSearchClientTypes.CognitoOptions.write(value:to:))
         try writer["DeploymentStrategyOptions"].write(value.deploymentStrategyOptions, with: OpenSearchClientTypes.DeploymentStrategyOptions.write(value:to:))
@@ -15056,6 +15199,40 @@ extension OpenSearchClientTypes.AuthorizedPrincipal {
     }
 }
 
+extension OpenSearchClientTypes.AutomatedSnapshotPauseOptions {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.AutomatedSnapshotPauseOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.AutomatedSnapshotPauseOptions()
+        value.enabled = try reader["Enabled"].readIfPresent() ?? false
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.state = try reader["State"].readIfPresent()
+        return value
+    }
+}
+
+extension OpenSearchClientTypes.AutomatedSnapshotPauseOptionsStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.AutomatedSnapshotPauseOptionsStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.AutomatedSnapshotPauseOptionsStatus()
+        value.options = try reader["Options"].readIfPresent(with: OpenSearchClientTypes.AutomatedSnapshotPauseOptions.read(from:))
+        value.status = try reader["Status"].readIfPresent(with: OpenSearchClientTypes.OptionStatus.read(from:))
+        return value
+    }
+}
+
+extension OpenSearchClientTypes.AutomatedSnapshotPauseRequestOptions {
+
+    static func write(value: OpenSearchClientTypes.AutomatedSnapshotPauseRequestOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Enabled"].write(value.enabled)
+        try writer["EndTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["StartTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+}
+
 extension OpenSearchClientTypes.AutoTune {
 
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.AutoTune {
@@ -15630,6 +15807,7 @@ extension OpenSearchClientTypes.DomainConfig {
         value.modifyingProperties = try reader["ModifyingProperties"].readListIfPresent(memberReadingClosure: OpenSearchClientTypes.ModifyingProperties.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.aimlOptions = try reader["AIMLOptions"].readIfPresent(with: OpenSearchClientTypes.AIMLOptionsStatus.read(from:))
         value.deploymentStrategyOptions = try reader["DeploymentStrategyOptions"].readIfPresent(with: OpenSearchClientTypes.DeploymentStrategyOptionsStatus.read(from:))
+        value.automatedSnapshotPauseOptions = try reader["AutomatedSnapshotPauseOptions"].readIfPresent(with: OpenSearchClientTypes.AutomatedSnapshotPauseOptionsStatus.read(from:))
         return value
     }
 }
@@ -15788,6 +15966,7 @@ extension OpenSearchClientTypes.DomainStatus {
         value.modifyingProperties = try reader["ModifyingProperties"].readListIfPresent(memberReadingClosure: OpenSearchClientTypes.ModifyingProperties.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.aimlOptions = try reader["AIMLOptions"].readIfPresent(with: OpenSearchClientTypes.AIMLOptionsOutput.read(from:))
         value.deploymentStrategyOptions = try reader["DeploymentStrategyOptions"].readIfPresent(with: OpenSearchClientTypes.DeploymentStrategyOptions.read(from:))
+        value.automatedSnapshotPauseOptions = try reader["AutomatedSnapshotPauseOptions"].readIfPresent(with: OpenSearchClientTypes.AutomatedSnapshotPauseOptions.read(from:))
         return value
     }
 }
@@ -16136,6 +16315,7 @@ extension OpenSearchClientTypes.JWTOptionsInput {
     static func write(value: OpenSearchClientTypes.JWTOptionsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Enabled"].write(value.enabled)
+        try writer["JwksUrl"].write(value.jwksUrl)
         try writer["PublicKey"].write(value.publicKey)
         try writer["RolesKey"].write(value.rolesKey)
         try writer["SubjectKey"].write(value.subjectKey)
@@ -16150,6 +16330,7 @@ extension OpenSearchClientTypes.JWTOptionsOutput {
         value.enabled = try reader["Enabled"].readIfPresent()
         value.subjectKey = try reader["SubjectKey"].readIfPresent()
         value.rolesKey = try reader["RolesKey"].readIfPresent()
+        value.jwksUrl = try reader["JwksUrl"].readIfPresent()
         value.publicKey = try reader["PublicKey"].readIfPresent()
         return value
     }
@@ -16940,6 +17121,7 @@ extension OpenSearchClientTypes.VPCDerivedInfo {
         value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.availabilityZones = try reader["AvailabilityZones"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.egressEnabled = try reader["EgressEnabled"].readIfPresent()
         return value
     }
 }
@@ -16999,6 +17181,7 @@ extension OpenSearchClientTypes.VPCOptions {
 
     static func write(value: OpenSearchClientTypes.VPCOptions?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["EgressEnabled"].write(value.egressEnabled)
         try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }

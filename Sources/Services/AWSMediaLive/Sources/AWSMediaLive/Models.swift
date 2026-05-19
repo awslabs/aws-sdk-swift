@@ -10961,7 +10961,7 @@ extension MediaLiveClientTypes {
 
     /// Media Connect Router Output Settings
     public struct MediaConnectRouterOutputSettings: Swift.Sendable {
-        /// Shows the MediaConnect Router Inputs that are connected to this output. This parameter is purely informative, and editing it will have no effect. To connect or disconnect MediaConnect Router Inputs, go to MediaConnect.
+        /// This parameter is deprecated and unused.
         public var connectedRouterInputs: MediaLiveClientTypes.MediaConnectRouterOutputConnectionMap?
         /// Media Connect Router Container Settings
         /// This member is required.
@@ -14056,6 +14056,21 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// Connection details for a single pipeline of a MediaConnect Router output.
+    public struct MediaConnectRouterOutputConnection: Swift.Sendable {
+        /// The ARN of the MediaConnect Router Input connected to this pipeline.
+        public var routerInputArn: Swift.String?
+
+        public init(
+            routerInputArn: Swift.String? = nil
+        ) {
+            self.routerInputArn = routerInputArn
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// Runtime details of a pipeline when a channel is running.
     public struct PipelineDetail: Swift.Sendable {
         /// The name of the active input attachment currently being ingested by this pipeline.
@@ -14068,6 +14083,8 @@ extension MediaLiveClientTypes {
         public var activeMotionGraphicsUri: Swift.String?
         /// Current engine version of the encoder for this pipeline.
         public var channelEngineVersion: MediaLiveClientTypes.ChannelEngineVersionResponse?
+        /// A map of output names to the MediaConnect Router connection for this pipeline. Only present for channels with MediaConnect Router outputs.
+        public var mediaConnectRouterOutputConnectionMap: [Swift.String: MediaLiveClientTypes.MediaConnectRouterOutputConnection]?
         /// Pipeline ID
         public var pipelineId: Swift.String?
 
@@ -14077,6 +14094,7 @@ extension MediaLiveClientTypes {
             activeMotionGraphicsActionName: Swift.String? = nil,
             activeMotionGraphicsUri: Swift.String? = nil,
             channelEngineVersion: MediaLiveClientTypes.ChannelEngineVersionResponse? = nil,
+            mediaConnectRouterOutputConnectionMap: [Swift.String: MediaLiveClientTypes.MediaConnectRouterOutputConnection]? = nil,
             pipelineId: Swift.String? = nil
         ) {
             self.activeInputAttachmentName = activeInputAttachmentName
@@ -14084,6 +14102,7 @@ extension MediaLiveClientTypes {
             self.activeMotionGraphicsActionName = activeMotionGraphicsActionName
             self.activeMotionGraphicsUri = activeMotionGraphicsUri
             self.channelEngineVersion = channelEngineVersion
+            self.mediaConnectRouterOutputConnectionMap = mediaConnectRouterOutputConnectionMap
             self.pipelineId = pipelineId
         }
     }
@@ -19235,9 +19254,9 @@ public struct BadGatewayException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -19259,9 +19278,9 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -19283,9 +19302,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -19307,9 +19326,9 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -19331,9 +19350,9 @@ public struct GatewayTimeoutException: ClientRuntime.ModeledError, AWSClientRunt
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -19355,9 +19374,9 @@ public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClien
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -19379,9 +19398,9 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -19403,9 +19422,9 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -19429,9 +19448,9 @@ public struct UnprocessableEntityException: ClientRuntime.ModeledError, AWSClien
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -38675,6 +38694,16 @@ extension MediaLiveClientTypes.MediaConnectRouterGroupSettings {
     }
 }
 
+extension MediaLiveClientTypes.MediaConnectRouterOutputConnection {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.MediaConnectRouterOutputConnection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.MediaConnectRouterOutputConnection()
+        value.routerInputArn = try reader["routerInputArn"].readIfPresent()
+        return value
+    }
+}
+
 extension MediaLiveClientTypes.MediaConnectRouterOutputConnectionMap {
 
     static func write(value: MediaLiveClientTypes.MediaConnectRouterOutputConnectionMap?, to writer: SmithyJSON.Writer) throws {
@@ -39915,6 +39944,7 @@ extension MediaLiveClientTypes.PipelineDetail {
         value.activeMotionGraphicsUri = try reader["activeMotionGraphicsUri"].readIfPresent()
         value.pipelineId = try reader["pipelineId"].readIfPresent()
         value.channelEngineVersion = try reader["channelEngineVersion"].readIfPresent(with: MediaLiveClientTypes.ChannelEngineVersionResponse.read(from:))
+        value.mediaConnectRouterOutputConnectionMap = try reader["mediaConnectRouterOutputConnectionMap"].readMapIfPresent(valueReadingClosure: MediaLiveClientTypes.MediaConnectRouterOutputConnection.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }

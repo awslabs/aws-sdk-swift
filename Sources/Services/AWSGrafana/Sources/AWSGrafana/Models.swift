@@ -45,9 +45,9 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -107,9 +107,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -138,9 +138,9 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { true }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -171,9 +171,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -212,9 +212,9 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -251,9 +251,9 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { true }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -343,9 +343,9 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         fieldList: [GrafanaClientTypes.ValidationExceptionField]? = nil,
@@ -676,6 +676,37 @@ extension GrafanaClientTypes {
 
 extension GrafanaClientTypes {
 
+    public enum IPAddressType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Indicates that connections to this workspace can be made over IPv4 or IPv6.
+        case dualStack
+        /// Indicates that connections to this workspace can only be made over IPv4.
+        case ipv4
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IPAddressType] {
+            return [
+                .dualStack,
+                .ipv4
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dualStack: return "DualStack"
+            case .ipv4: return "IPv4"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GrafanaClientTypes {
+
     /// The configuration settings for in-bound network access to your workspace. When this is configured, only listed IP addresses and VPC endpoints will be able to access your workspace. Standard Grafana authentication and authorization are still required. Access is granted to a caller that is in either the IP address list or the VPC endpoint list - they do not need to be in both. If this is not configured, or is removed, then all IP addresses and VPC endpoints are allowed. Standard Grafana authentication and authorization are still required. While both prefixListIds and vpceIds are required, you can pass in an empty array of strings for either parameter if you do not want to allow any of that type. If both are passed as empty arrays, no traffic is allowed to the workspace, because only explicitly allowed connections are accepted.
     public struct NetworkAccessConfiguration: Swift.Sendable {
         /// An array of prefix list IDs. A prefix list is a list of CIDR ranges of IP addresses. The IP addresses specified are allowed to access your workspace. If the list is not included in the configuration (passed an empty array) then no IP addresses are allowed to access the workspace. You create a prefix list using the Amazon VPC console. Prefix list IDs have the format pl-1a2b3c4d . For more information about prefix lists, see [Group CIDR blocks using managed prefix lists](https://docs.aws.amazon.com/vpc/latest/userguide/managed-prefix-lists.html)in the Amazon Virtual Private Cloud User Guide.
@@ -881,6 +912,8 @@ extension GrafanaClientTypes {
         /// The unique ID of this workspace.
         /// This member is required.
         public var id: Swift.String?
+        /// The type of IP addresses supported for connection to the workspace. Valid values are IPv4 and DualStack.
+        public var ipAddressType: GrafanaClientTypes.IPAddressType?
         /// The ID or ARN of the Key Management Service key used for encrypting workspace data.
         public var kmsKeyId: Swift.String?
         /// If this workspace has a full Grafana Enterprise license purchased through Amazon Web Services Marketplace, this specifies when the license ends and will need to be renewed. Purchasing the Enterprise plugins option through Amazon Managed Grafana does not have an expiration. It is valid until the license is removed.
@@ -926,6 +959,7 @@ extension GrafanaClientTypes {
             grafanaToken: Swift.String? = nil,
             grafanaVersion: Swift.String? = nil,
             id: Swift.String? = nil,
+            ipAddressType: GrafanaClientTypes.IPAddressType? = nil,
             kmsKeyId: Swift.String? = nil,
             licenseExpiration: Foundation.Date? = nil,
             licenseType: GrafanaClientTypes.LicenseType? = nil,
@@ -953,6 +987,7 @@ extension GrafanaClientTypes {
             self.grafanaToken = grafanaToken
             self.grafanaVersion = grafanaVersion
             self.id = id
+            self.ipAddressType = ipAddressType
             self.kmsKeyId = kmsKeyId
             self.licenseExpiration = licenseExpiration
             self.licenseType = licenseType
@@ -974,7 +1009,7 @@ extension GrafanaClientTypes {
 
 extension GrafanaClientTypes.WorkspaceDescription: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "WorkspaceDescription(accountAccessType: \(Swift.String(describing: accountAccessType)), authentication: \(Swift.String(describing: authentication)), created: \(Swift.String(describing: created)), dataSources: \(Swift.String(describing: dataSources)), endpoint: \(Swift.String(describing: endpoint)), freeTrialConsumed: \(Swift.String(describing: freeTrialConsumed)), freeTrialExpiration: \(Swift.String(describing: freeTrialExpiration)), grafanaToken: \(Swift.String(describing: grafanaToken)), grafanaVersion: \(Swift.String(describing: grafanaVersion)), id: \(Swift.String(describing: id)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), licenseExpiration: \(Swift.String(describing: licenseExpiration)), licenseType: \(Swift.String(describing: licenseType)), modified: \(Swift.String(describing: modified)), networkAccessControl: \(Swift.String(describing: networkAccessControl)), notificationDestinations: \(Swift.String(describing: notificationDestinations)), permissionType: \(Swift.String(describing: permissionType)), stackSetName: \(Swift.String(describing: stackSetName)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), vpcConfiguration: \(Swift.String(describing: vpcConfiguration)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", organizationRoleName: \"CONTENT_REDACTED\", organizationalUnits: \"CONTENT_REDACTED\", workspaceRoleArn: \"CONTENT_REDACTED\")"}
+        "WorkspaceDescription(accountAccessType: \(Swift.String(describing: accountAccessType)), authentication: \(Swift.String(describing: authentication)), created: \(Swift.String(describing: created)), dataSources: \(Swift.String(describing: dataSources)), endpoint: \(Swift.String(describing: endpoint)), freeTrialConsumed: \(Swift.String(describing: freeTrialConsumed)), freeTrialExpiration: \(Swift.String(describing: freeTrialExpiration)), grafanaToken: \(Swift.String(describing: grafanaToken)), grafanaVersion: \(Swift.String(describing: grafanaVersion)), id: \(Swift.String(describing: id)), ipAddressType: \(Swift.String(describing: ipAddressType)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), licenseExpiration: \(Swift.String(describing: licenseExpiration)), licenseType: \(Swift.String(describing: licenseType)), modified: \(Swift.String(describing: modified)), networkAccessControl: \(Swift.String(describing: networkAccessControl)), notificationDestinations: \(Swift.String(describing: notificationDestinations)), permissionType: \(Swift.String(describing: permissionType)), stackSetName: \(Swift.String(describing: stackSetName)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), vpcConfiguration: \(Swift.String(describing: vpcConfiguration)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", organizationRoleName: \"CONTENT_REDACTED\", organizationalUnits: \"CONTENT_REDACTED\", workspaceRoleArn: \"CONTENT_REDACTED\")"}
 }
 
 public struct AssociateLicenseOutput: Swift.Sendable {
@@ -2003,6 +2038,8 @@ public struct CreateWorkspaceInput: Swift.Sendable {
     public var configuration: Swift.String?
     /// Specifies the version of Grafana to support in the new workspace. If not specified, defaults to the latest version (for example, 10.4). To get a list of supported versions, use the ListVersions operation.
     public var grafanaVersion: Swift.String?
+    /// Specifies whether the workspace supports IPv4 only, or IPv4 and IPv6. Valid values are IPv4 and DualStack. For more information about IP address types, see [Network access control](https://docs.aws.amazon.com/grafana/latest/userguide/AMG-configure-nac.html).
+    public var ipAddressType: GrafanaClientTypes.IPAddressType?
     /// The ID or ARN of the Key Management Service key to use for encrypting workspace data.
     public var kmsKeyId: Swift.String?
     /// Configuration for network access to your workspace. When this is configured, only listed IP addresses and VPC endpoints will be able to access your workspace. Standard Grafana authentication and authorization will still be required. If this is not configured, or is removed, then all IP addresses and VPC endpoints will be allowed. Standard Grafana authentication and authorization will still be required.
@@ -2037,6 +2074,7 @@ public struct CreateWorkspaceInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         configuration: Swift.String? = nil,
         grafanaVersion: Swift.String? = nil,
+        ipAddressType: GrafanaClientTypes.IPAddressType? = nil,
         kmsKeyId: Swift.String? = nil,
         networkAccessControl: GrafanaClientTypes.NetworkAccessConfiguration? = nil,
         organizationRoleName: Swift.String? = nil,
@@ -2056,6 +2094,7 @@ public struct CreateWorkspaceInput: Swift.Sendable {
         self.clientToken = clientToken
         self.configuration = configuration
         self.grafanaVersion = grafanaVersion
+        self.ipAddressType = ipAddressType
         self.kmsKeyId = kmsKeyId
         self.networkAccessControl = networkAccessControl
         self.organizationRoleName = organizationRoleName
@@ -2074,7 +2113,7 @@ public struct CreateWorkspaceInput: Swift.Sendable {
 
 extension CreateWorkspaceInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateWorkspaceInput(accountAccessType: \(Swift.String(describing: accountAccessType)), authenticationProviders: \(Swift.String(describing: authenticationProviders)), clientToken: \(Swift.String(describing: clientToken)), configuration: \(Swift.String(describing: configuration)), grafanaVersion: \(Swift.String(describing: grafanaVersion)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), networkAccessControl: \(Swift.String(describing: networkAccessControl)), permissionType: \(Swift.String(describing: permissionType)), stackSetName: \(Swift.String(describing: stackSetName)), tags: \(Swift.String(describing: tags)), vpcConfiguration: \(Swift.String(describing: vpcConfiguration)), workspaceDataSources: \(Swift.String(describing: workspaceDataSources)), workspaceNotificationDestinations: \(Swift.String(describing: workspaceNotificationDestinations)), organizationRoleName: \"CONTENT_REDACTED\", workspaceDescription: \"CONTENT_REDACTED\", workspaceName: \"CONTENT_REDACTED\", workspaceOrganizationalUnits: \"CONTENT_REDACTED\", workspaceRoleArn: \"CONTENT_REDACTED\")"}
+        "CreateWorkspaceInput(accountAccessType: \(Swift.String(describing: accountAccessType)), authenticationProviders: \(Swift.String(describing: authenticationProviders)), clientToken: \(Swift.String(describing: clientToken)), configuration: \(Swift.String(describing: configuration)), grafanaVersion: \(Swift.String(describing: grafanaVersion)), ipAddressType: \(Swift.String(describing: ipAddressType)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), networkAccessControl: \(Swift.String(describing: networkAccessControl)), permissionType: \(Swift.String(describing: permissionType)), stackSetName: \(Swift.String(describing: stackSetName)), tags: \(Swift.String(describing: tags)), vpcConfiguration: \(Swift.String(describing: vpcConfiguration)), workspaceDataSources: \(Swift.String(describing: workspaceDataSources)), workspaceNotificationDestinations: \(Swift.String(describing: workspaceNotificationDestinations)), organizationRoleName: \"CONTENT_REDACTED\", workspaceDescription: \"CONTENT_REDACTED\", workspaceName: \"CONTENT_REDACTED\", workspaceOrganizationalUnits: \"CONTENT_REDACTED\", workspaceRoleArn: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateWorkspaceOutput: Swift.Sendable {
@@ -2246,6 +2285,8 @@ public struct ListWorkspacesOutput: Swift.Sendable {
 public struct UpdateWorkspaceInput: Swift.Sendable {
     /// Specifies whether the workspace can access Amazon Web Services resources in this Amazon Web Services account only, or whether it can also access Amazon Web Services resources in other accounts in the same organization. If you specify ORGANIZATION, you must specify which organizational units the workspace can access in the workspaceOrganizationalUnits parameter.
     public var accountAccessType: GrafanaClientTypes.AccountAccessType?
+    /// Specifies whether the workspace supports IPv4 only, or IPv4 and IPv6. Valid values are IPv4 and DualStack. For more information about IP address types, see [Network access control](https://docs.aws.amazon.com/grafana/latest/userguide/AMG-configure-nac.html).
+    public var ipAddressType: GrafanaClientTypes.IPAddressType?
     /// The configuration settings for network access to your workspace. When this is configured, only listed IP addresses and VPC endpoints will be able to access your workspace. Standard Grafana authentication and authorization will still be required. If this is not configured, or is removed, then all IP addresses and VPC endpoints will be allowed. Standard Grafana authentication and authorization will still be required.
     public var networkAccessControl: GrafanaClientTypes.NetworkAccessConfiguration?
     /// The name of an IAM role that already exists to use to access resources through Organizations. This can only be used with a workspace that has the permissionType set to CUSTOMER_MANAGED.
@@ -2278,6 +2319,7 @@ public struct UpdateWorkspaceInput: Swift.Sendable {
 
     public init(
         accountAccessType: GrafanaClientTypes.AccountAccessType? = nil,
+        ipAddressType: GrafanaClientTypes.IPAddressType? = nil,
         networkAccessControl: GrafanaClientTypes.NetworkAccessConfiguration? = nil,
         organizationRoleName: Swift.String? = nil,
         permissionType: GrafanaClientTypes.PermissionType? = nil,
@@ -2294,6 +2336,7 @@ public struct UpdateWorkspaceInput: Swift.Sendable {
         workspaceRoleArn: Swift.String? = nil
     ) {
         self.accountAccessType = accountAccessType
+        self.ipAddressType = ipAddressType
         self.networkAccessControl = networkAccessControl
         self.organizationRoleName = organizationRoleName
         self.permissionType = permissionType
@@ -2313,7 +2356,7 @@ public struct UpdateWorkspaceInput: Swift.Sendable {
 
 extension UpdateWorkspaceInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateWorkspaceInput(accountAccessType: \(Swift.String(describing: accountAccessType)), networkAccessControl: \(Swift.String(describing: networkAccessControl)), permissionType: \(Swift.String(describing: permissionType)), removeNetworkAccessConfiguration: \(Swift.String(describing: removeNetworkAccessConfiguration)), removeVpcConfiguration: \(Swift.String(describing: removeVpcConfiguration)), stackSetName: \(Swift.String(describing: stackSetName)), vpcConfiguration: \(Swift.String(describing: vpcConfiguration)), workspaceDataSources: \(Swift.String(describing: workspaceDataSources)), workspaceId: \(Swift.String(describing: workspaceId)), workspaceNotificationDestinations: \(Swift.String(describing: workspaceNotificationDestinations)), organizationRoleName: \"CONTENT_REDACTED\", workspaceDescription: \"CONTENT_REDACTED\", workspaceName: \"CONTENT_REDACTED\", workspaceOrganizationalUnits: \"CONTENT_REDACTED\", workspaceRoleArn: \"CONTENT_REDACTED\")"}
+        "UpdateWorkspaceInput(accountAccessType: \(Swift.String(describing: accountAccessType)), ipAddressType: \(Swift.String(describing: ipAddressType)), networkAccessControl: \(Swift.String(describing: networkAccessControl)), permissionType: \(Swift.String(describing: permissionType)), removeNetworkAccessConfiguration: \(Swift.String(describing: removeNetworkAccessConfiguration)), removeVpcConfiguration: \(Swift.String(describing: removeVpcConfiguration)), stackSetName: \(Swift.String(describing: stackSetName)), vpcConfiguration: \(Swift.String(describing: vpcConfiguration)), workspaceDataSources: \(Swift.String(describing: workspaceDataSources)), workspaceId: \(Swift.String(describing: workspaceId)), workspaceNotificationDestinations: \(Swift.String(describing: workspaceNotificationDestinations)), organizationRoleName: \"CONTENT_REDACTED\", workspaceDescription: \"CONTENT_REDACTED\", workspaceName: \"CONTENT_REDACTED\", workspaceOrganizationalUnits: \"CONTENT_REDACTED\", workspaceRoleArn: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateWorkspaceOutput: Swift.Sendable {
@@ -2725,6 +2768,7 @@ extension CreateWorkspaceInput {
         try writer["clientToken"].write(value.clientToken)
         try writer["configuration"].write(value.configuration)
         try writer["grafanaVersion"].write(value.grafanaVersion)
+        try writer["ipAddressType"].write(value.ipAddressType)
         try writer["kmsKeyId"].write(value.kmsKeyId)
         try writer["networkAccessControl"].write(value.networkAccessControl, with: GrafanaClientTypes.NetworkAccessConfiguration.write(value:to:))
         try writer["organizationRoleName"].write(value.organizationRoleName)
@@ -2790,6 +2834,7 @@ extension UpdateWorkspaceInput {
     static func write(value: UpdateWorkspaceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["accountAccessType"].write(value.accountAccessType)
+        try writer["ipAddressType"].write(value.ipAddressType)
         try writer["networkAccessControl"].write(value.networkAccessControl, with: GrafanaClientTypes.NetworkAccessConfiguration.write(value:to:))
         try writer["organizationRoleName"].write(value.organizationRoleName)
         try writer["permissionType"].write(value.permissionType)
@@ -4014,6 +4059,7 @@ extension GrafanaClientTypes.WorkspaceDescription {
         value.vpcConfiguration = try reader["vpcConfiguration"].readIfPresent(with: GrafanaClientTypes.VpcConfiguration.read(from:))
         value.networkAccessControl = try reader["networkAccessControl"].readIfPresent(with: GrafanaClientTypes.NetworkAccessConfiguration.read(from:))
         value.grafanaToken = try reader["grafanaToken"].readIfPresent()
+        value.ipAddressType = try reader["ipAddressType"].readIfPresent()
         value.kmsKeyId = try reader["kmsKeyId"].readIfPresent()
         return value
     }

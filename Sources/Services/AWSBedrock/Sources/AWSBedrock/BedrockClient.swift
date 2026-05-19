@@ -15,7 +15,7 @@ import class AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain
 import class ClientRuntime.ClientBuilder
 import class ClientRuntime.DefaultClientPlugin
 import class ClientRuntime.HttpClientConfiguration
-import class ClientRuntime.OrchestratorBuilder
+@_spi(SchemaBasedSerde) import class ClientRuntime.OrchestratorBuilder
 import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
@@ -616,6 +616,78 @@ extension BedrockClient {
 }
 
 extension BedrockClient {
+    /// Performs the `BatchDeleteAdvancedPromptOptimizationJob` operation on the `Bedrock` service.
+    ///
+    /// Batch delete the specified advanced prompt optimization jobs.
+    ///
+    /// - Parameter input: Batch Delete Advanced Prompt Optimization Jobs Request (Type: `BatchDeleteAdvancedPromptOptimizationJobInput`)
+    ///
+    /// - Returns: Batch Delete Advanced Prompt Optimization Jobs Response (Type: `BatchDeleteAdvancedPromptOptimizationJobOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
+    public func batchDeleteAdvancedPromptOptimizationJob(input: BatchDeleteAdvancedPromptOptimizationJobInput) async throws -> BatchDeleteAdvancedPromptOptimizationJobOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "batchDeleteAdvancedPromptOptimizationJob")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bedrock")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<BatchDeleteAdvancedPromptOptimizationJobInput, BatchDeleteAdvancedPromptOptimizationJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchDeleteAdvancedPromptOptimizationJobInput, BatchDeleteAdvancedPromptOptimizationJobOutput>(BatchDeleteAdvancedPromptOptimizationJobInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchDeleteAdvancedPromptOptimizationJobInput, BatchDeleteAdvancedPromptOptimizationJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchDeleteAdvancedPromptOptimizationJobInput, BatchDeleteAdvancedPromptOptimizationJobOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<BatchDeleteAdvancedPromptOptimizationJobInput, BatchDeleteAdvancedPromptOptimizationJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchDeleteAdvancedPromptOptimizationJobInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDeleteAdvancedPromptOptimizationJobInput, BatchDeleteAdvancedPromptOptimizationJobOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchDeleteAdvancedPromptOptimizationJobOutput>(BatchDeleteAdvancedPromptOptimizationJobOutput.httpOutput(from:), BatchDeleteAdvancedPromptOptimizationJobOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDeleteAdvancedPromptOptimizationJobInput, BatchDeleteAdvancedPromptOptimizationJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<BatchDeleteAdvancedPromptOptimizationJobOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchDeleteAdvancedPromptOptimizationJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchDeleteAdvancedPromptOptimizationJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchDeleteAdvancedPromptOptimizationJobInput, BatchDeleteAdvancedPromptOptimizationJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchDeleteAdvancedPromptOptimizationJobInput, BatchDeleteAdvancedPromptOptimizationJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.BedrockAPIKeyInterceptor())
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchDeleteAdvancedPromptOptimizationJobInput, BatchDeleteAdvancedPromptOptimizationJobOutput>(serviceID: serviceName, version: BedrockClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Bedrock")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchDeleteAdvancedPromptOptimizationJob")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `BatchDeleteEvaluationJob` operation on the `Bedrock` service.
     ///
     /// Deletes a batch of evaluation jobs. An evaluation job can only be deleted if it has following status FAILED, COMPLETED, and STOPPED. You can request up to 25 model evaluation jobs be deleted in a single request.
@@ -748,6 +820,83 @@ extension BedrockClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Bedrock")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CancelAutomatedReasoningPolicyBuildWorkflow")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateAdvancedPromptOptimizationJob` operation on the `Bedrock` service.
+    ///
+    /// Creates an asynchronous batch job for advanced prompt optimization.
+    ///
+    /// - Parameter input: Create Advanced Prompt Optimization Job Request (Type: `CreateAdvancedPromptOptimizationJobInput`)
+    ///
+    /// - Returns: Create Advanced Prompt Optimization Job Response (Type: `CreateAdvancedPromptOptimizationJobOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `ConflictException` : Error occurred because of a conflict while performing an operation.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceNotFoundException` : The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
+    /// - `ServiceQuotaExceededException` : The number of requests exceeds the service quota. Resubmit your request later.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `TooManyTagsException` : The request contains more tags than can be associated with a resource (50 tags per resource). The maximum number of tags includes both existing tags and those included in your current request.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
+    public func createAdvancedPromptOptimizationJob(input: CreateAdvancedPromptOptimizationJobInput) async throws -> CreateAdvancedPromptOptimizationJobOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createAdvancedPromptOptimizationJob")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bedrock")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateAdvancedPromptOptimizationJobInput, CreateAdvancedPromptOptimizationJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateAdvancedPromptOptimizationJobInput, CreateAdvancedPromptOptimizationJobOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateAdvancedPromptOptimizationJobInput, CreateAdvancedPromptOptimizationJobOutput>(CreateAdvancedPromptOptimizationJobInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateAdvancedPromptOptimizationJobInput, CreateAdvancedPromptOptimizationJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAdvancedPromptOptimizationJobInput, CreateAdvancedPromptOptimizationJobOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateAdvancedPromptOptimizationJobInput, CreateAdvancedPromptOptimizationJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateAdvancedPromptOptimizationJobInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAdvancedPromptOptimizationJobInput, CreateAdvancedPromptOptimizationJobOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAdvancedPromptOptimizationJobOutput>(CreateAdvancedPromptOptimizationJobOutput.httpOutput(from:), CreateAdvancedPromptOptimizationJobOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAdvancedPromptOptimizationJobInput, CreateAdvancedPromptOptimizationJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateAdvancedPromptOptimizationJobOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateAdvancedPromptOptimizationJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateAdvancedPromptOptimizationJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateAdvancedPromptOptimizationJobInput, CreateAdvancedPromptOptimizationJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateAdvancedPromptOptimizationJobInput, CreateAdvancedPromptOptimizationJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.BedrockAPIKeyInterceptor())
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateAdvancedPromptOptimizationJobInput, CreateAdvancedPromptOptimizationJobOutput>(serviceID: serviceName, version: BedrockClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Bedrock")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateAdvancedPromptOptimizationJob")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -3306,6 +3455,76 @@ extension BedrockClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetAdvancedPromptOptimizationJob` operation on the `Bedrock` service.
+    ///
+    /// Retrieves the details and status of an advanced prompt optimization job.
+    ///
+    /// - Parameter input: Get Advanced Prompt Optimization Job Request (Type: `GetAdvancedPromptOptimizationJobInput`)
+    ///
+    /// - Returns: Get Advanced Prompt Optimization Job Response (Type: `GetAdvancedPromptOptimizationJobOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceNotFoundException` : The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
+    public func getAdvancedPromptOptimizationJob(input: GetAdvancedPromptOptimizationJobInput) async throws -> GetAdvancedPromptOptimizationJobOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getAdvancedPromptOptimizationJob")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bedrock")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetAdvancedPromptOptimizationJobInput, GetAdvancedPromptOptimizationJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetAdvancedPromptOptimizationJobInput, GetAdvancedPromptOptimizationJobOutput>(GetAdvancedPromptOptimizationJobInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAdvancedPromptOptimizationJobInput, GetAdvancedPromptOptimizationJobOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAdvancedPromptOptimizationJobOutput>(GetAdvancedPromptOptimizationJobOutput.httpOutput(from:), GetAdvancedPromptOptimizationJobOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAdvancedPromptOptimizationJobInput, GetAdvancedPromptOptimizationJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetAdvancedPromptOptimizationJobOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAdvancedPromptOptimizationJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAdvancedPromptOptimizationJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAdvancedPromptOptimizationJobInput, GetAdvancedPromptOptimizationJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAdvancedPromptOptimizationJobInput, GetAdvancedPromptOptimizationJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.BedrockAPIKeyInterceptor())
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAdvancedPromptOptimizationJobInput, GetAdvancedPromptOptimizationJobOutput>(serviceID: serviceName, version: BedrockClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Bedrock")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetAdvancedPromptOptimizationJob")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetAutomatedReasoningPolicy` operation on the `Bedrock` service.
     ///
     /// Retrieves details about an Automated Reasoning policy or policy version. Returns information including the policy definition, metadata, and timestamps.
@@ -5049,6 +5268,76 @@ extension BedrockClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Bedrock")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetUseCaseForModelAccess")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListAdvancedPromptOptimizationJobs` operation on the `Bedrock` service.
+    ///
+    /// Lists all advanced prompt optimization jobs for the account.
+    ///
+    /// - Parameter input: List Advanced Prompt Optimization Jobs Request (Type: `ListAdvancedPromptOptimizationJobsInput`)
+    ///
+    /// - Returns: List Advanced Prompt Optimization Jobs Response (Type: `ListAdvancedPromptOptimizationJobsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
+    public func listAdvancedPromptOptimizationJobs(input: ListAdvancedPromptOptimizationJobsInput) async throws -> ListAdvancedPromptOptimizationJobsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listAdvancedPromptOptimizationJobs")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bedrock")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListAdvancedPromptOptimizationJobsInput, ListAdvancedPromptOptimizationJobsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListAdvancedPromptOptimizationJobsInput, ListAdvancedPromptOptimizationJobsOutput>(ListAdvancedPromptOptimizationJobsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAdvancedPromptOptimizationJobsInput, ListAdvancedPromptOptimizationJobsOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListAdvancedPromptOptimizationJobsInput, ListAdvancedPromptOptimizationJobsOutput>(ListAdvancedPromptOptimizationJobsInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAdvancedPromptOptimizationJobsOutput>(ListAdvancedPromptOptimizationJobsOutput.httpOutput(from:), ListAdvancedPromptOptimizationJobsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAdvancedPromptOptimizationJobsInput, ListAdvancedPromptOptimizationJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListAdvancedPromptOptimizationJobsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAdvancedPromptOptimizationJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAdvancedPromptOptimizationJobsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAdvancedPromptOptimizationJobsInput, ListAdvancedPromptOptimizationJobsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAdvancedPromptOptimizationJobsInput, ListAdvancedPromptOptimizationJobsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.BedrockAPIKeyInterceptor())
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAdvancedPromptOptimizationJobsInput, ListAdvancedPromptOptimizationJobsOutput>(serviceID: serviceName, version: BedrockClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Bedrock")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListAdvancedPromptOptimizationJobs")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -7056,6 +7345,77 @@ extension BedrockClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Bedrock")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartAutomatedReasoningPolicyTestWorkflow")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `StopAdvancedPromptOptimizationJob` operation on the `Bedrock` service.
+    ///
+    /// Stops an in-progress advanced prompt optimization job.
+    ///
+    /// - Parameter input: Stop Advanced Prompt Optimization Job Request (Type: `StopAdvancedPromptOptimizationJobInput`)
+    ///
+    /// - Returns: Stop Advanced Prompt Optimization Job Response (Type: `StopAdvancedPromptOptimizationJobOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `ConflictException` : Error occurred because of a conflict while performing an operation.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceNotFoundException` : The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
+    public func stopAdvancedPromptOptimizationJob(input: StopAdvancedPromptOptimizationJobInput) async throws -> StopAdvancedPromptOptimizationJobOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "stopAdvancedPromptOptimizationJob")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bedrock")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<StopAdvancedPromptOptimizationJobInput, StopAdvancedPromptOptimizationJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StopAdvancedPromptOptimizationJobInput, StopAdvancedPromptOptimizationJobOutput>(StopAdvancedPromptOptimizationJobInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopAdvancedPromptOptimizationJobInput, StopAdvancedPromptOptimizationJobOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StopAdvancedPromptOptimizationJobOutput>(StopAdvancedPromptOptimizationJobOutput.httpOutput(from:), StopAdvancedPromptOptimizationJobOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopAdvancedPromptOptimizationJobInput, StopAdvancedPromptOptimizationJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<StopAdvancedPromptOptimizationJobOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopAdvancedPromptOptimizationJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopAdvancedPromptOptimizationJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopAdvancedPromptOptimizationJobInput, StopAdvancedPromptOptimizationJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopAdvancedPromptOptimizationJobInput, StopAdvancedPromptOptimizationJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.BedrockAPIKeyInterceptor())
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopAdvancedPromptOptimizationJobInput, StopAdvancedPromptOptimizationJobOutput>(serviceID: serviceName, version: BedrockClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Bedrock")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StopAdvancedPromptOptimizationJob")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

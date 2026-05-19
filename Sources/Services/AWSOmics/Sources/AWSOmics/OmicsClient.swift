@@ -15,7 +15,7 @@ import class AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain
 import class ClientRuntime.ClientBuilder
 import class ClientRuntime.DefaultClientPlugin
 import class ClientRuntime.HttpClientConfiguration
-import class ClientRuntime.OrchestratorBuilder
+@_spi(SchemaBasedSerde) import class ClientRuntime.OrchestratorBuilder
 import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
@@ -7522,7 +7522,7 @@ extension OmicsClient {
 
     /// Performs the `StartRunBatch` operation on the `Omics` service.
     ///
-    /// Starts a batch of workflow runs. You can group up to 100,000 runs into a single batch that share a common configuration defined in defaultRunSetting. Per-run overrides can be provided either inline via inlineSettings (up to 100 runs) or via a JSON file stored in Amazon S3 via s3UriSettings (up to 100,000 runs). StartRunBatch validates common fields synchronously and returns immediately with a batch ID and status PENDING. Runs are submitted gradually and asynchronously at a rate governed by your StartRun throughput quota.
+    /// Starts a batch of workflow runs. You can group up to 100,000 runs into a single batch that share a common configuration defined in defaultRunSetting. Per-run overrides can be provided either inline via inlineSettings (up to 100 runs) or via a JSON file stored in Amazon S3 via s3UriSettings (up to 100,000 runs). StartRunBatch validates common fields synchronously and returns immediately with a batch ID and status CREATING. The batch transitions to PENDING once initial setup completes. Runs are then submitted gradually and asynchronously at a rate governed by your StartRun throughput quota.
     ///
     /// - Parameter input: [no documentation found] (Type: `StartRunBatchInput`)
     ///

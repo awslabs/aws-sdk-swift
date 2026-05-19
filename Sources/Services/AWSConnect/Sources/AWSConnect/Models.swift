@@ -431,9 +431,9 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -547,9 +547,9 @@ public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRun
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -571,9 +571,9 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -594,9 +594,9 @@ public struct ResourceConflictException: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -618,9 +618,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -641,9 +641,9 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -659,7 +659,7 @@ public struct ActivateEvaluationFormInput: Swift.Sendable {
     /// The version of the evaluation form to activate. If the version property is not provided, the latest version of the evaluation form is activated.
     /// This member is required.
     public var evaluationFormVersion: Swift.Int?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -1013,7 +1013,7 @@ extension ConnectClientTypes {
         public var channel: ConnectClientTypes.Channel?
         /// The time at which the contact was connected to an agent.
         public var connectedToAgentTimestamp: Foundation.Date?
-        /// The identifier of the contact in this instance of Amazon Connect.
+        /// The identifier of the contact in this instance of Connect Customer.
         public var contactId: Swift.String?
         /// How the contact was initiated.
         public var initiationMethod: ConnectClientTypes.ContactInitiationMethod?
@@ -1140,7 +1140,7 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
-    /// A structure that defines search criteria for contacts using agent hierarchy group levels. For more information about agent hierarchies, see [Set Up Agent Hierarchies](https://docs.aws.amazon.com/connect/latest/adminguide/agent-hierarchy.html) in the Amazon Connect Administrator Guide.
+    /// A structure that defines search criteria for contacts using agent hierarchy group levels. For more information about agent hierarchies, see [Set Up Agent Hierarchies](https://docs.aws.amazon.com/connect/latest/adminguide/agent-hierarchy.html) in the Connect Customer Administrator Guide.
     public struct AgentHierarchyGroups: Swift.Sendable {
         /// The identifiers for level 1 hierarchy groups.
         public var l1Ids: [Swift.String]?
@@ -1223,7 +1223,7 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
-    /// The configuration for the allowed video and screen sharing capabilities for participants present over the call. For more information, see [Set up in-app, web, video calling, and screen sharing capabilities](https://docs.aws.amazon.com/connect/latest/adminguide/inapp-calling.html) in the Amazon Connect Administrator Guide.
+    /// The configuration for the allowed video and screen sharing capabilities for participants present over the call. For more information, see [Set up in-app, web, video calling, and screen sharing capabilities](https://docs.aws.amazon.com/connect/latest/adminguide/inapp-calling.html) in the Connect Customer Administrator Guide.
     public struct ParticipantCapabilities: Swift.Sendable {
         /// The screen sharing capability that is enabled for the participant. SEND indicates the participant can share their screen.
         public var screenShare: ConnectClientTypes.ScreenShareCapability?
@@ -1400,7 +1400,7 @@ extension ConnectClientTypes {
         public var agentInitiatedHoldDuration: Swift.Int?
         /// Agent pause duration for a contact in seconds.
         public var agentPauseDurationInSeconds: Swift.Int?
-        /// The configuration for the allowed video and screen sharing capabilities for participants present over the call. For more information, see [Set up in-app, web, video calling, and screen sharing capabilities](https://docs.aws.amazon.com/connect/latest/adminguide/inapp-calling.html) in the Amazon Connect Administrator Guide.
+        /// The configuration for the allowed video and screen sharing capabilities for participants present over the call. For more information, see [Set up in-app, web, video calling, and screen sharing capabilities](https://docs.aws.amazon.com/connect/latest/adminguide/inapp-calling.html) in the Connect Customer Administrator Guide.
         public var capabilities: ConnectClientTypes.ParticipantCapabilities?
         /// The timestamp when the contact was connected to the agent.
         public var connectedToAgentTimestamp: Foundation.Date?
@@ -1913,6 +1913,22 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
+    /// Information about an allowed file extension.
+    public struct AllowedExtension: Swift.Sendable {
+        /// The file extension. The extension must be between 1 and 10 characters and can contain only alphanumeric characters, hyphens, and underscores.
+        /// This member is required.
+        public var `extension`: Swift.String?
+
+        public init(
+            `extension`: Swift.String? = nil
+        ) {
+            self.`extension` = `extension`
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     public enum FlowModuleType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case mcp
         case sdkUnknown(Swift.String)
@@ -2042,9 +2058,9 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -2059,10 +2075,10 @@ public struct AssociateAnalyticsDataSetInput: Swift.Sendable {
     /// The identifier of the dataset to associate with the target account.
     /// This member is required.
     public var dataSetId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
-    /// The identifier of the target account. Use to associate a dataset to a different account than the one containing the Amazon Connect instance. If not specified, by default this value is the Amazon Web Services account that has the Amazon Connect instance.
+    /// The identifier of the target account. Use to associate a dataset to a different account than the one containing the Connect Customer instance. If not specified, by default this value is the Amazon Web Services account that has the Connect Customer instance.
     public var targetAccountId: Swift.String?
 
     public init(
@@ -2152,9 +2168,9 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -2168,7 +2184,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 public struct AssociateApprovedOriginInput: Swift.Sendable {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The domain to add to your allow list.
@@ -2199,9 +2215,9 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -2249,7 +2265,7 @@ extension ConnectClientTypes {
 public struct AssociateBotInput: Swift.Sendable {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// Configuration information of an Amazon Lex bot.
@@ -2271,10 +2287,10 @@ public struct AssociateBotInput: Swift.Sendable {
 }
 
 public struct AssociateContactWithUserInput: Swift.Sendable {
-    /// The identifier of the contact in this instance of Amazon Connect.
+    /// The identifier of the contact in this instance of Connect Customer.
     /// This member is required.
     public var contactId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier for the user. This can be the ID or the ARN of the user.
@@ -2420,7 +2436,7 @@ extension ConnectClientTypes {
 }
 
 public struct AssociateDefaultVocabularyInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The language code of the vocabulary entries. For a list of languages and their corresponding language codes, see [What is Amazon Transcribe?](https://docs.aws.amazon.com/transcribe/latest/dg/transcribe-whatis.html)
@@ -2457,9 +2473,9 @@ public struct IdempotencyException: ClientRuntime.ModeledError, AWSClientRuntime
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -2469,7 +2485,7 @@ public struct IdempotencyException: ClientRuntime.ModeledError, AWSClientRuntime
 }
 
 public struct AssociateEmailAddressAliasInput: Swift.Sendable {
-    /// Configuration object that specifies which email address will serve as the alias. The specified email address must already exist in the Amazon Connect instance and cannot already be configured as an alias or have an alias of its own.
+    /// Configuration object that specifies which email address will serve as the alias. The specified email address must already exist in the Connect Customer instance and cannot already be configured as an alias or have an alias of its own.
     /// This member is required.
     public var aliasConfiguration: ConnectClientTypes.AliasConfiguration?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
@@ -2477,7 +2493,7 @@ public struct AssociateEmailAddressAliasInput: Swift.Sendable {
     /// The identifier of the email address.
     /// This member is required.
     public var emailAddressId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -2541,7 +2557,7 @@ public struct AssociateFlowInput: Swift.Sendable {
     /// The identifier of the flow.
     /// This member is required.
     public var flowId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier of the resource.
@@ -2585,9 +2601,9 @@ public struct ConditionalOperationFailedException: ClientRuntime.ModeledError, A
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -2760,7 +2776,7 @@ extension ConnectClientTypes {
         /// The type of encryption.
         /// This member is required.
         public var encryptionType: ConnectClientTypes.EncryptionType?
-        /// The full ARN of the encryption key. Be sure to provide the full ARN of the encryption key, not just the ID. Amazon Connect supports only KMS keys with the default key spec of [SYMMETRIC_DEFAULT](https://docs.aws.amazon.com/kms/latest/developerguide/asymmetric-key-specs.html#key-spec-symmetric-default).
+        /// The full ARN of the encryption key. Be sure to provide the full ARN of the encryption key, not just the ID. Connect Customer supports only KMS keys with the default key spec of [SYMMETRIC_DEFAULT](https://docs.aws.amazon.com/kms/latest/developerguide/asymmetric-key-specs.html#key-spec-symmetric-default).
         /// This member is required.
         public var keyId: Swift.String?
 
@@ -2899,7 +2915,7 @@ extension ConnectClientTypes {
 public struct AssociateInstanceStorageConfigInput: Swift.Sendable {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// A valid resource type. To [enable streaming for real-time analysis of contacts](https://docs.aws.amazon.com/connect/latest/adminguide/enable-contact-analysis-segment-streams.html), use the following types:
@@ -2946,7 +2962,7 @@ public struct AssociateLambdaFunctionInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) for the Lambda function being associated. Maximum number of characters allowed is 140.
     /// This member is required.
     public var functionArn: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -2964,7 +2980,7 @@ public struct AssociateLambdaFunctionInput: Swift.Sendable {
 public struct AssociateLexBotInput: Swift.Sendable {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The Amazon Lex bot to associate with the instance.
@@ -2986,7 +3002,7 @@ public struct AssociatePhoneNumberContactFlowInput: Swift.Sendable {
     /// The identifier of the flow.
     /// This member is required.
     public var contactFlowId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// A unique identifier for the phone number.
@@ -3008,7 +3024,7 @@ extension ConnectClientTypes {
 
     /// Configuration object that specifies an email address to be associated with a queue. This configuration contains the identifier of the email address that should be linked to the queue for routing email contacts.
     public struct EmailAddressConfig: Swift.Sendable {
-        /// The identifier of the email address that should be associated with the queue. This email address must already exist in the Amazon Connect instance and will be used to route incoming email contacts to the specified queue.
+        /// The identifier of the email address that should be associated with the queue. This email address must already exist in the Connect Customer instance and will be used to route incoming email contacts to the specified queue.
         /// This member is required.
         public var emailAddressId: Swift.String?
 
@@ -3026,7 +3042,7 @@ public struct AssociateQueueEmailAddressesInput: Swift.Sendable {
     /// Configuration list containing the email addresses to associate with the queue. Each configuration specifies an email address ID that should be linked to this queue for routing purposes.
     /// This member is required.
     public var emailAddressesConfig: [ConnectClientTypes.EmailAddressConfig]?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier for the queue.
@@ -3047,7 +3063,7 @@ public struct AssociateQueueEmailAddressesInput: Swift.Sendable {
 }
 
 public struct AssociateQueueQuickConnectsInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier for the queue.
@@ -3109,7 +3125,7 @@ extension ConnectClientTypes {
 
     /// Contains information about the queue and channel for which priority and delay can be set.
     public struct RoutingProfileQueueConfig: Swift.Sendable {
-        /// The delay, in seconds, a contact should be in the queue before they are routed to an available agent. For more information, see [Queues: priority and delay](https://docs.aws.amazon.com/connect/latest/adminguide/concepts-routing-profiles-priority.html) in the Amazon Connect Administrator Guide.
+        /// The delay, in seconds, a contact should be in the queue before they are routed to an available agent. For more information, see [Queues: priority and delay](https://docs.aws.amazon.com/connect/latest/adminguide/concepts-routing-profiles-priority.html) in the Connect Customer Administrator Guide.
         /// This member is required.
         public var delay: Swift.Int?
         /// The order in which contacts are to be handled for the queue. For more information, see [Queues: priority and delay](https://docs.aws.amazon.com/connect/latest/adminguide/concepts-routing-profiles-priority.html).
@@ -3132,7 +3148,7 @@ extension ConnectClientTypes {
 }
 
 public struct AssociateRoutingProfileQueuesInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The manual assignment queues to associate with this routing profile. Note: Use this config for chat, email, and task contacts. It does not support voice contacts.
@@ -3159,7 +3175,7 @@ public struct AssociateRoutingProfileQueuesInput: Swift.Sendable {
 public struct AssociateSecurityKeyInput: Swift.Sendable {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// A valid security key in PEM format as a String.
@@ -3260,7 +3276,7 @@ public struct AssociateSecurityProfilesInput: Swift.Sendable {
 }
 
 public struct AssociateTrafficDistributionGroupUserInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier of the traffic distribution group. This can be the ID or the ARN of the traffic distribution group.
@@ -3290,10 +3306,10 @@ extension ConnectClientTypes {
 
     /// Information about proficiency of a user.
     public struct UserProficiency: Swift.Sendable {
-        /// The name of user's proficiency. You must use name of predefined attribute present in the Amazon Connect instance.
+        /// The name of user's proficiency. You must use name of predefined attribute present in the Connect Customer instance.
         /// This member is required.
         public var attributeName: Swift.String?
-        /// The value of user's proficiency. You must use value of predefined attribute present in the Amazon Connect instance.
+        /// The value of user's proficiency. You must use value of predefined attribute present in the Connect Customer instance.
         /// This member is required.
         public var attributeValue: Swift.String?
         /// The level of the proficiency. The valid values are 1, 2, 3, 4 and 5.
@@ -3313,7 +3329,7 @@ extension ConnectClientTypes {
 }
 
 public struct AssociateUserProficienciesInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN of the instance).
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN of the instance).
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier of the user account.
@@ -3346,9 +3362,9 @@ public struct DuplicateResourceException: ClientRuntime.ModeledError, AWSClientR
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -3436,10 +3452,10 @@ public struct BatchAssociateAnalyticsDataSetInput: Swift.Sendable {
     /// An array of dataset identifiers to associate.
     /// This member is required.
     public var dataSetIds: [Swift.String]?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
-    /// The identifier of the target account. Use to associate a dataset to a different account than the one containing the Amazon Connect instance. If not specified, by default this value is the Amazon Web Services account that has the Amazon Connect instance.
+    /// The identifier of the target account. Use to associate a dataset to a different account than the one containing the Connect Customer instance. If not specified, by default this value is the Amazon Web Services account that has the Connect Customer instance.
     public var targetAccountId: Swift.String?
 
     public init(
@@ -3455,7 +3471,7 @@ public struct BatchAssociateAnalyticsDataSetInput: Swift.Sendable {
 
 extension ConnectClientTypes {
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Information about associations that are successfully created: DataSetId, TargetAccountId, ResourceShareId, ResourceShareArn.
+    /// This API is in preview release for Connect Customer and is subject to change. Information about associations that are successfully created: DataSetId, TargetAccountId, ResourceShareId, ResourceShareArn.
     public struct AnalyticsDataAssociationResult: Swift.Sendable {
         /// The identifier of the dataset.
         public var dataSetId: Swift.String?
@@ -3486,7 +3502,7 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
-    /// This API is in preview release for Amazon Connect and is subject to change. List of errors for dataset association failures.
+    /// This API is in preview release for Connect Customer and is subject to change. List of errors for dataset association failures.
     public struct ErrorResult: Swift.Sendable {
         /// The error code.
         public var errorCode: Swift.String?
@@ -3530,9 +3546,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -3998,10 +4014,10 @@ public struct BatchDisassociateAnalyticsDataSetInput: Swift.Sendable {
     /// An array of associated dataset identifiers to remove.
     /// This member is required.
     public var dataSetIds: [Swift.String]?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
-    /// The identifier of the target account. Use to disassociate a dataset from a different account than the one containing the Amazon Connect instance. If not specified, by default this value is the Amazon Web Services account that has the Amazon Connect instance.
+    /// The identifier of the target account. Use to disassociate a dataset from a different account than the one containing the Connect Customer instance. If not specified, by default this value is the Amazon Web Services account that has the Connect Customer instance.
     public var targetAccountId: Swift.String?
 
     public init(
@@ -4274,7 +4290,7 @@ extension ConnectClientTypes {
 }
 
 public struct BatchGetFlowAssociationInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// A list of resource identifiers to retrieve flow associations.
@@ -4477,11 +4493,11 @@ extension ConnectClientTypes {
         public var customerEndpoint: ConnectClientTypes.Endpoint?
         /// Information about the outbound strategy.
         public var outboundStrategy: ConnectClientTypes.OutboundStrategy?
-        /// The identifier of the queue associated with the Amazon Connect instance in which contacts that are created will be queued.
+        /// The identifier of the queue associated with the Connect Customer instance in which contacts that are created will be queued.
         public var queueId: Swift.String?
         /// Identifier to uniquely identify individual requests in the batch.
         public var requestIdentifier: Swift.String?
-        /// Endpoint associated with the Amazon Connect instance from which outbound contact will be initiated for the campaign.
+        /// Endpoint associated with the Connect Customer instance from which outbound contact will be initiated for the campaign.
         public var systemEndpoint: ConnectClientTypes.Endpoint?
 
         public init(
@@ -4510,7 +4526,7 @@ public struct BatchPutContactInput: Swift.Sendable {
     /// List of individual contact requests.
     /// This member is required.
     public var contactDataRequestList: [ConnectClientTypes.ContactDataRequest]?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -4732,7 +4748,7 @@ public struct BatchUpdateDataTableValueOutput: Swift.Sendable {
 public struct ClaimPhoneNumberInput: Swift.Sendable {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/). Pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
     public var clientToken: Swift.String?
-    /// The identifier of the Amazon Connect instance that phone numbers are claimed to. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance. You must enter InstanceId or TargetArn.
+    /// The identifier of the Connect Customer instance that phone numbers are claimed to. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance. You must enter InstanceId or TargetArn.
     public var instanceId: Swift.String?
     /// The phone number you want to claim. Phone numbers are formatted [+] [country code] [subscriber number including area code].
     /// This member is required.
@@ -4741,7 +4757,7 @@ public struct ClaimPhoneNumberInput: Swift.Sendable {
     public var phoneNumberDescription: Swift.String?
     /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
     public var tags: [Swift.String: Swift.String]?
-    /// The Amazon Resource Name (ARN) for Amazon Connect instances or traffic distribution groups that phone number inbound traffic is routed through. You must enter InstanceId or TargetArn.
+    /// The Amazon Resource Name (ARN) for Connect Customer instances or traffic distribution groups that phone number inbound traffic is routed through. You must enter InstanceId or TargetArn.
     public var targetArn: Swift.String?
 
     public init(
@@ -4784,7 +4800,7 @@ public struct CompleteAttachedFileUploadInput: Swift.Sendable {
     /// The unique identifier of the attached file resource.
     /// This member is required.
     public var fileId: Swift.String?
-    /// The unique identifier of the Amazon Connect instance.
+    /// The unique identifier of the Connect Customer instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -4810,7 +4826,7 @@ public struct CreateAgentStatusInput: Swift.Sendable {
     public var description: Swift.String?
     /// The display order of the status.
     public var displayOrder: Swift.Int?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The name of the status.
@@ -5030,7 +5046,7 @@ extension ConnectClientTypes {
 public struct CreateContactOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the created contact.
     public var contactArn: Swift.String?
-    /// The identifier of the contact in this instance of Amazon Connect.
+    /// The identifier of the contact in this instance of Connect Customer.
     public var contactId: Swift.String?
 
     public init(
@@ -5070,9 +5086,9 @@ public struct InvalidContactFlowException: ClientRuntime.ModeledError, AWSClient
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         problems: [ConnectClientTypes.ProblemDetail]? = nil
@@ -5164,12 +5180,12 @@ extension ConnectClientTypes {
 }
 
 public struct CreateContactFlowInput: Swift.Sendable {
-    /// The JSON string that represents the content of the flow. For an example, see [Example flow in Amazon Connect Flow language](https://docs.aws.amazon.com/connect/latest/APIReference/flow-language-example.html). Length Constraints: Minimum length of 1. Maximum length of 256000.
+    /// The JSON string that represents the content of the flow. For an example, see [Example flow in Connect Customer Flow language](https://docs.aws.amazon.com/connect/latest/APIReference/flow-language-example.html). Length Constraints: Minimum length of 1. Maximum length of 256000.
     /// This member is required.
     public var content: Swift.String?
     /// The description of the flow.
     public var description: Swift.String?
-    /// The identifier of the Amazon Connect instance.
+    /// The identifier of the Connect Customer instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The name of the flow.
@@ -5179,7 +5195,7 @@ public struct CreateContactFlowInput: Swift.Sendable {
     public var status: ConnectClientTypes.ContactFlowStatus?
     /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
     public var tags: [Swift.String: Swift.String]?
-    /// The type of the flow. For descriptions of the available types, see [Choose a flow type](https://docs.aws.amazon.com/connect/latest/adminguide/create-contact-flow.html#contact-flow-types) in the Amazon Connect Administrator Guide.
+    /// The type of the flow. For descriptions of the available types, see [Choose a flow type](https://docs.aws.amazon.com/connect/latest/adminguide/create-contact-flow.html#contact-flow-types) in the Connect Customer Administrator Guide.
     /// This member is required.
     public var type: ConnectClientTypes.ContactFlowType?
 
@@ -5233,9 +5249,9 @@ public struct InvalidContactFlowModuleException: ClientRuntime.ModeledError, AWS
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         problems: [ConnectClientTypes.ProblemDetail]? = nil
@@ -5262,14 +5278,14 @@ extension ConnectClientTypes {
 public struct CreateContactFlowModuleInput: Swift.Sendable {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
-    /// The JSON string that represents the content of the flow. For an example, see [Example flow in Amazon Connect Flow language](https://docs.aws.amazon.com/connect/latest/APIReference/flow-language-example.html).
+    /// The JSON string that represents the content of the flow. For an example, see [Example flow in Connect Customer Flow language](https://docs.aws.amazon.com/connect/latest/APIReference/flow-language-example.html).
     /// This member is required.
     public var content: Swift.String?
     /// The description of the flow module.
     public var description: Swift.String?
     /// The external invocation configuration for the flow module.
     public var externalInvocationConfiguration: ConnectClientTypes.ExternalInvocationConfiguration?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The name of the flow module.
@@ -5328,7 +5344,7 @@ public struct CreateContactFlowModuleAliasInput: Swift.Sendable {
     public var contactFlowModuleVersion: Swift.Int?
     /// The description of the alias.
     public var description: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -5370,7 +5386,7 @@ public struct CreateContactFlowModuleVersionInput: Swift.Sendable {
     public var description: Swift.String?
     /// Indicates the checksum value of the flow module content.
     public var flowModuleContentSha256: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -5412,7 +5428,7 @@ public struct CreateContactFlowVersionInput: Swift.Sendable {
     public var description: Swift.String?
     /// Indicates the checksum value of the flow content.
     public var flowContentSha256: Swift.String?
-    /// The identifier of the Amazon Connect instance.
+    /// The identifier of the Connect Customer instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The Amazon Web Services Region where this resource was last modified.
@@ -5762,7 +5778,7 @@ public struct CreateEmailAddressInput: Swift.Sendable {
     /// The email address, including the domain.
     /// This member is required.
     public var emailAddress: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
@@ -7060,7 +7076,7 @@ public struct CreateHoursOfOperationInput: Swift.Sendable {
     public var config: [ConnectClientTypes.HoursOfOperationConfig]?
     /// The description of the hours of operation.
     public var description: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The name of the hours of operation.
@@ -7324,7 +7340,7 @@ public struct CreateHoursOfOperationOverrideInput: Swift.Sendable {
     /// The identifier for the hours of operation
     /// This member is required.
     public var hoursOfOperationId: Swift.String?
-    /// The identifier of the Amazon Connect instance.
+    /// The identifier of the Connect Customer instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The name of the hours of operation override.
@@ -7406,7 +7422,7 @@ public struct CreateInstanceInput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// The identifier for the directory.
     public var directoryId: Swift.String?
-    /// The type of identity management for your Amazon Connect users.
+    /// The type of identity management for your Connect Customer users.
     /// This member is required.
     public var identityManagementType: ConnectClientTypes.DirectoryType?
     /// Your contact center handles incoming contacts.
@@ -7560,10 +7576,10 @@ extension ConnectClientTypes {
 }
 
 public struct CreateIntegrationAssociationInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
-    /// The Amazon Resource Name (ARN) of the integration. When integrating with Amazon Web Services End User Messaging, the Amazon Connect and Amazon Web Services End User Messaging instances must be in the same account.
+    /// The Amazon Resource Name (ARN) of the integration. When integrating with Amazon Web Services End User Messaging, the Connect Customer and Amazon Web Services End User Messaging instances must be in the same account.
     /// This member is required.
     public var integrationArn: Swift.String?
     /// The type of information to be ingested.
@@ -7803,7 +7819,7 @@ extension ConnectClientTypes {
     public struct ParticipantDetailsToAdd: Swift.Sendable {
         /// The display name of the participant.
         public var displayName: Swift.String?
-        /// The configuration for the allowed video and screen sharing capabilities for participants present over the call. For more information, see [Set up in-app, web, video calling, and screen sharing capabilities](https://docs.aws.amazon.com/connect/latest/adminguide/inapp-calling.html) in the Amazon Connect Administrator Guide.
+        /// The configuration for the allowed video and screen sharing capabilities for participants present over the call. For more information, see [Set up in-app, web, video calling, and screen sharing capabilities](https://docs.aws.amazon.com/connect/latest/adminguide/inapp-calling.html) in the Connect Customer Administrator Guide.
         public var participantCapabilities: ConnectClientTypes.ParticipantCapabilities?
         /// The role of the participant being added.
         public var participantRole: ConnectClientTypes.ParticipantRole?
@@ -7823,10 +7839,10 @@ extension ConnectClientTypes {
 public struct CreateParticipantInput: Swift.Sendable {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
-    /// The identifier of the contact in this instance of Amazon Connect. Supports contacts in the CHAT channel and VOICE (WebRTC) channels. For WebRTC calls, this should be the initial contact ID that was generated when the contact was first created (from the StartWebRTCContact API) in the VOICE channel
+    /// The identifier of the contact in this instance of Connect Customer. Supports contacts in the CHAT channel and VOICE (WebRTC) channels. For WebRTC calls, this should be the initial contact ID that was generated when the contact was first created (from the StartWebRTCContact API) in the VOICE channel
     /// This member is required.
     public var contactId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// Information identifying the participant. The only valid value for ParticipantRole is CUSTOM_BOT for chat contact and CUSTOMER for voice contact.
@@ -7915,12 +7931,12 @@ public struct CreatePersistentContactAssociationInput: Swift.Sendable {
     /// This is the contactId of the current contact that the CreatePersistentContactAssociation API is being called from.
     /// This member is required.
     public var initialContactId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The contactId chosen for rehydration depends on the type chosen.
     ///
-    /// * ENTIRE_PAST_SESSION: Rehydrates a chat from the most recently terminated past chat contact of the specified past ended chat session. To use this type, provide the initialContactId of the past ended chat session in the sourceContactId field. In this type, Amazon Connect determines what the most recent chat contact on the past ended chat session and uses it to start a persistent chat.
+    /// * ENTIRE_PAST_SESSION: Rehydrates a chat from the most recently terminated past chat contact of the specified past ended chat session. To use this type, provide the initialContactId of the past ended chat session in the sourceContactId field. In this type, Connect Customer determines what the most recent chat contact on the past ended chat session and uses it to start a persistent chat.
     ///
     /// * FROM_SEGMENT: Rehydrates a chat from the specified past chat contact provided in the sourceContactId field.
     ///
@@ -7996,9 +8012,9 @@ public struct CreatePersistentContactAssociationOutput: Swift.Sendable {
 
 extension ConnectClientTypes {
 
-    /// Custom metadata that is associated to predefined attributes to control behavior in upstream services, such as controlling how a predefined attribute should be displayed in the Amazon Connect admin website.
+    /// Custom metadata that is associated to predefined attributes to control behavior in upstream services, such as controlling how a predefined attribute should be displayed in the Connect Customer admin website.
     public struct InputPredefinedAttributeConfiguration: Swift.Sendable {
-        /// When this parameter is set to true, Amazon Connect enforces strict validation on the specific values, if the values are predefined in attributes. The contact will store only valid and predefined values for the predefined attribute key.
+        /// When this parameter is set to true, Connect Customer enforces strict validation on the specific values, if the values are predefined in attributes. The contact will store only valid and predefined values for the predefined attribute key.
         public var enableValueValidationOnAssociation: Swift.Bool
 
         public init(
@@ -8020,15 +8036,15 @@ extension ConnectClientTypes {
 }
 
 public struct CreatePredefinedAttributeInput: Swift.Sendable {
-    /// Custom metadata that is associated to predefined attributes to control behavior in upstream services, such as controlling how a predefined attribute should be displayed in the Amazon Connect admin website.
+    /// Custom metadata that is associated to predefined attributes to control behavior in upstream services, such as controlling how a predefined attribute should be displayed in the Connect Customer admin website.
     public var attributeConfiguration: ConnectClientTypes.InputPredefinedAttributeConfiguration?
-    /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The name of the predefined attribute.
     /// This member is required.
     public var name: Swift.String?
-    /// Values that enable you to categorize your predefined attributes. You can use them in custom UI elements across the Amazon Connect admin website.
+    /// Values that enable you to categorize your predefined attributes. You can use them in custom UI elements across the Connect Customer admin website.
     public var purposes: [Swift.String]?
     /// The values of the predefined attribute.
     public var values: ConnectClientTypes.PredefinedAttributeValues?
@@ -8051,7 +8067,7 @@ public struct CreatePredefinedAttributeInput: Swift.Sendable {
 public struct CreatePromptInput: Swift.Sendable {
     /// The description of the prompt.
     public var description: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The name of the prompt.
@@ -8243,7 +8259,7 @@ public struct CreateQueueInput: Swift.Sendable {
     /// The identifier for the hours of operation.
     /// This member is required.
     public var hoursOfOperationId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of contacts that can be in the queue before it is considered full.
@@ -8419,7 +8435,7 @@ extension ConnectClientTypes {
         public var phoneConfig: ConnectClientTypes.PhoneNumberQuickConnectConfig?
         /// The queue configuration. This is required only if QuickConnectType is QUEUE.
         public var queueConfig: ConnectClientTypes.QueueQuickConnectConfig?
-        /// The type of quick connect. In the Amazon Connect admin website, when you create a quick connect, you are prompted to assign one of the following types: Agent (USER), External (PHONE_NUMBER), or Queue (QUEUE).
+        /// The type of quick connect. In the Connect Customer admin website, when you create a quick connect, you are prompted to assign one of the following types: Agent (USER), External (PHONE_NUMBER), or Queue (QUEUE).
         /// This member is required.
         public var quickConnectType: ConnectClientTypes.QuickConnectType?
         /// The user configuration. This is required only if QuickConnectType is USER.
@@ -8444,7 +8460,7 @@ extension ConnectClientTypes {
 public struct CreateQuickConnectInput: Swift.Sendable {
     /// The description of the quick connect.
     public var description: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// A unique name of the quick connect.
@@ -8565,10 +8581,10 @@ public struct CreateRoutingProfileInput: Swift.Sendable {
     /// Description of the routing profile. Must not be more than 250 characters.
     /// This member is required.
     public var description: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
-    /// The manual assignment queues associated with the routing profile. If no queue is added, agents and supervisors can't pick or assign any contacts from this routing profile. The limit of 10 array members applies to the maximum number of RoutingProfileManualAssignmentQueueConfig objects that can be passed during a CreateRoutingProfile API request. It is different from the quota of 50 queues per routing profile per instance that is listed in Amazon Connect service quotas. Note: Use this config for chat, email, and task contacts. It does not support voice contacts.
+    /// The manual assignment queues associated with the routing profile. If no queue is added, agents and supervisors can't pick or assign any contacts from this routing profile. The limit of 10 array members applies to the maximum number of RoutingProfileManualAssignmentQueueConfig objects that can be passed during a CreateRoutingProfile API request. It is different from the quota of 50 queues per routing profile per instance that is listed in Connect Customer service quotas. Note: Use this config for chat, email, and task contacts. It does not support voice contacts.
     public var manualAssignmentQueueConfigs: [ConnectClientTypes.RoutingProfileManualAssignmentQueueConfig]?
     /// The channels that agents can handle in the Contact Control Panel (CCP) for this routing profile.
     /// This member is required.
@@ -8576,7 +8592,7 @@ public struct CreateRoutingProfileInput: Swift.Sendable {
     /// The name of the routing profile. Must not be more than 127 characters.
     /// This member is required.
     public var name: Swift.String?
-    /// The inbound queues associated with the routing profile. If no queue is added, the agent can make only outbound calls. The limit of 10 array members applies to the maximum number of RoutingProfileQueueConfig objects that can be passed during a CreateRoutingProfile API request. It is different from the quota of 50 queues per routing profile per instance that is listed in [Amazon Connect service quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html).
+    /// The inbound queues associated with the routing profile. If no queue is added, the agent can make only outbound calls. The limit of 10 array members applies to the maximum number of RoutingProfileQueueConfig objects that can be passed during a CreateRoutingProfile API request. It is different from the quota of 50 queues per routing profile per instance that is listed in [Connect Customer service quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html).
     public var queueConfigs: [ConnectClientTypes.RoutingProfileQueueConfig]?
     /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
     public var tags: [Swift.String: Swift.String]?
@@ -8895,7 +8911,7 @@ extension ConnectClientTypes {
     public struct NotificationRecipientType: Swift.Sendable {
         /// A list of user IDs. Supports variable injection of $.ContactLens.ContactEvaluation.Agent.AgentId for OnContactEvaluationSubmit event source.
         public var userIds: [Swift.String]?
-        /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }. Amazon Connect users with the specified tags will be notified.
+        /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }. Connect Customer users with the specified tags will be notified.
         public var userTags: [Swift.String: Swift.String]?
 
         public init(
@@ -8912,7 +8928,7 @@ extension ConnectClientTypes {
 
     /// Information about the send notification action.
     public struct SendNotificationActionDefinition: Swift.Sendable {
-        /// Notification content. Supports variable injection. For more information, see [JSONPath reference](https://docs.aws.amazon.com/connect/latest/adminguide/contact-lens-variable-injection.html) in the Amazon Connect Administrators Guide.
+        /// Notification content. Supports variable injection. For more information, see [JSONPath reference](https://docs.aws.amazon.com/connect/latest/adminguide/contact-lens-variable-injection.html) in the Connect Customer Administrators Guide.
         /// This member is required.
         public var content: Swift.String?
         /// Content type format.
@@ -8926,7 +8942,7 @@ extension ConnectClientTypes {
         /// Notification recipient.
         /// This member is required.
         public var recipient: ConnectClientTypes.NotificationRecipientType?
-        /// The subject of the email if the delivery method is EMAIL. Supports variable injection. For more information, see [JSONPath reference](https://docs.aws.amazon.com/connect/latest/adminguide/contact-lens-variable-injection.html) in the Amazon Connect Administrators Guide.
+        /// The subject of the email if the delivery method is EMAIL. Supports variable injection. For more information, see [JSONPath reference](https://docs.aws.amazon.com/connect/latest/adminguide/contact-lens-variable-injection.html) in the Connect Customer Administrators Guide.
         public var subject: Swift.String?
 
         public init(
@@ -8970,9 +8986,9 @@ extension ConnectClientTypes {
         /// The identifier of the flow.
         /// This member is required.
         public var contactFlowId: Swift.String?
-        /// The description. Supports variable injection. For more information, see [JSONPath reference](https://docs.aws.amazon.com/connect/latest/adminguide/contact-lens-variable-injection.html) in the Amazon Connect Administrators Guide.
+        /// The description. Supports variable injection. For more information, see [JSONPath reference](https://docs.aws.amazon.com/connect/latest/adminguide/contact-lens-variable-injection.html) in the Connect Customer Administrators Guide.
         public var description: Swift.String?
-        /// The name. Supports variable injection. For more information, see [JSONPath reference](https://docs.aws.amazon.com/connect/latest/adminguide/contact-lens-variable-injection.html) in the Amazon Connect Administrators Guide.
+        /// The name. Supports variable injection. For more information, see [JSONPath reference](https://docs.aws.amazon.com/connect/latest/adminguide/contact-lens-variable-injection.html) in the Connect Customer Administrators Guide.
         /// This member is required.
         public var name: Swift.String?
         /// Information about the reference when the referenceType is URL. Otherwise, null. (Supports variable injection in the Value field.)
@@ -9092,6 +9108,7 @@ extension ConnectClientTypes {
 extension ConnectClientTypes {
 
     public enum EventSourceName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case onalertupdate
         case oncasecreate
         case oncaseupdate
         case oncontactevaluationsubmit
@@ -9102,6 +9119,9 @@ extension ConnectClientTypes {
         case onrealtimecallanalysisavailable
         case onrealtimechatanalysisavailable
         case onsalesforcecasecreate
+        case onschedulepublish
+        case onscheduletimeoffrequestactivity
+        case onscheduleupdate
         case onslabreach
         case onzendeskticketcreate
         case onzendeskticketstatusupdate
@@ -9109,6 +9129,7 @@ extension ConnectClientTypes {
 
         public static var allCases: [EventSourceName] {
             return [
+                .onalertupdate,
                 .oncasecreate,
                 .oncaseupdate,
                 .oncontactevaluationsubmit,
@@ -9119,6 +9140,9 @@ extension ConnectClientTypes {
                 .onrealtimecallanalysisavailable,
                 .onrealtimechatanalysisavailable,
                 .onsalesforcecasecreate,
+                .onschedulepublish,
+                .onscheduletimeoffrequestactivity,
+                .onscheduleupdate,
                 .onslabreach,
                 .onzendeskticketcreate,
                 .onzendeskticketstatusupdate
@@ -9132,6 +9156,7 @@ extension ConnectClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .onalertupdate: return "OnAlertUpdate"
             case .oncasecreate: return "OnCaseCreate"
             case .oncaseupdate: return "OnCaseUpdate"
             case .oncontactevaluationsubmit: return "OnContactEvaluationSubmit"
@@ -9142,6 +9167,9 @@ extension ConnectClientTypes {
             case .onrealtimecallanalysisavailable: return "OnRealTimeCallAnalysisAvailable"
             case .onrealtimechatanalysisavailable: return "OnRealTimeChatAnalysisAvailable"
             case .onsalesforcecasecreate: return "OnSalesforceCaseCreate"
+            case .onschedulepublish: return "OnSchedulePublish"
+            case .onscheduletimeoffrequestactivity: return "OnScheduleTimeOffRequestActivity"
+            case .onscheduleupdate: return "OnScheduleUpdate"
             case .onslabreach: return "OnSlaBreach"
             case .onzendeskticketcreate: return "OnZendeskTicketCreate"
             case .onzendeskticketstatusupdate: return "OnZendeskTicketStatusUpdate"
@@ -9180,7 +9208,7 @@ public struct CreateRuleInput: Swift.Sendable {
     /// The conditions of the rule.
     /// This member is required.
     public var function: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// A unique name for the rule.
@@ -9260,7 +9288,7 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
-    /// This API is in preview release for Amazon Connect and is subject to change. A third-party application's metadata.
+    /// This API is in preview release for Connect Customer and is subject to change. A third-party application's metadata.
     public struct Application: Swift.Sendable {
         /// The permissions that the agent is granted on the application. For third-party applications, only the ACCESS permission is supported. For MCP Servers, the permissions are tool Identifiers accepted by MCP Server.
         public var applicationPermissions: [Swift.String]?
@@ -9350,9 +9378,9 @@ extension ConnectClientTypes {
 }
 
 public struct CreateSecurityProfileInput: Swift.Sendable {
-    /// The identifier of the hierarchy group that a security profile uses to restrict access to resources in Amazon Connect.
+    /// The identifier of the hierarchy group that a security profile uses to restrict access to resources in Connect Customer.
     public var allowedAccessControlHierarchyGroupId: Swift.String?
-    /// The list of tags that a security profile uses to restrict access to resources in Amazon Connect.
+    /// The list of tags that a security profile uses to restrict access to resources in Connect Customer.
     public var allowedAccessControlTags: [Swift.String: Swift.String]?
     /// A list of Flow Modules an AI Agent can invoke as a tool.
     public var allowedFlowModules: [ConnectClientTypes.FlowModule]?
@@ -9362,9 +9390,9 @@ public struct CreateSecurityProfileInput: Swift.Sendable {
     public var description: Swift.String?
     /// The granular access control configuration for the security profile, including data table permissions.
     public var granularAccessControlConfiguration: ConnectClientTypes.GranularAccessControlConfiguration?
-    /// The list of resources that a security profile applies hierarchy restrictions to in Amazon Connect. Following are acceptable ResourceNames: User.
+    /// The list of resources that a security profile applies hierarchy restrictions to in Connect Customer. Following are acceptable ResourceNames: User.
     public var hierarchyRestrictedResources: [Swift.String]?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// Permissions assigned to the security profile. For a list of valid permissions, see [List of security profile permissions](https://docs.aws.amazon.com/connect/latest/adminguide/security-profile-list.html).
@@ -9372,7 +9400,7 @@ public struct CreateSecurityProfileInput: Swift.Sendable {
     /// The name of the security profile.
     /// This member is required.
     public var securityProfileName: Swift.String?
-    /// The list of resources that a security profile applies tag restrictions to in Amazon Connect. For a list of Amazon Connect resources that you can tag, see [Add tags to resources in Amazon Connect](https://docs.aws.amazon.com/connect/latest/adminguide/tagging.html) in the Amazon Connect Administrator Guide.
+    /// The list of resources that a security profile applies tag restrictions to in Connect Customer. For a list of Connect Customer resources that you can tag, see [Add tags to resources in Connect Customer](https://docs.aws.amazon.com/connect/latest/adminguide/tagging.html) in the Connect Customer Administrator Guide.
     public var tagRestrictedResources: [Swift.String]?
     /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
     public var tags: [Swift.String: Swift.String]?
@@ -9502,9 +9530,9 @@ public struct PropertyValidationException: ClientRuntime.ModeledError, AWSClient
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -9768,7 +9796,7 @@ public struct CreateTaskTemplateInput: Swift.Sendable {
     /// Fields that are part of the template.
     /// This member is required.
     public var fields: [ConnectClientTypes.TaskTemplateField]?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The name of the task template.
@@ -9834,9 +9862,9 @@ public struct InvalidTestCaseException: ClientRuntime.ModeledError, AWSClientRun
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         problems: [ConnectClientTypes.ProblemDetail]? = nil
@@ -10046,9 +10074,9 @@ public struct ResourceNotReadyException: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -10062,7 +10090,7 @@ public struct CreateTrafficDistributionGroupInput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// A description for the traffic distribution group.
     public var description: Swift.String?
-    /// The identifier of the Amazon Connect instance that has been replicated. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Connect Customer instance that has been replicated. You can find the instanceId in the ARN of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The name for the traffic distribution group.
@@ -10131,7 +10159,7 @@ extension ConnectClientTypes {
 }
 
 public struct CreateUseCaseInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier for the integration association.
@@ -10198,13 +10226,13 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
-    /// Contains information about the identity of a user. For Amazon Connect instances that are created with the EXISTING_DIRECTORY identity management type, FirstName, LastName, and Email cannot be updated from within Amazon Connect because they are managed by the directory. The FirstName and LastName length constraints below apply only to instances using SAML for identity management. If you are using Amazon Connect for identity management, the length constraints are 1-255 for FirstName, and 1-256 for LastName.
+    /// Contains information about the identity of a user. For Connect Customer instances that are created with the EXISTING_DIRECTORY identity management type, FirstName, LastName, and Email cannot be updated from within Connect Customer because they are managed by the directory. The FirstName and LastName length constraints below apply only to instances using SAML for identity management. If you are using Connect Customer for identity management, the length constraints are 1-255 for FirstName, and 1-256 for LastName.
     public struct UserIdentityInfo: Swift.Sendable {
         /// The email address. If you are using SAML for identity management and include this parameter, an error is returned.
         public var email: Swift.String?
-        /// The first name. This is required if you are using Amazon Connect or SAML for identity management. Inputs must be in Unicode Normalization Form C (NFC). Text containing characters in a non-NFC form (for example, decomposed characters or combining marks) are not accepted.
+        /// The first name. This is required if you are using Connect Customer or SAML for identity management. Inputs must be in Unicode Normalization Form C (NFC). Text containing characters in a non-NFC form (for example, decomposed characters or combining marks) are not accepted.
         public var firstName: Swift.String?
-        /// The last name. This is required if you are using Amazon Connect or SAML for identity management. Inputs must be in Unicode Normalization Form C (NFC). Text containing characters in a non-NFC form (for example, decomposed characters or combining marks) are not accepted.
+        /// The last name. This is required if you are using Connect Customer or SAML for identity management. Inputs must be in Unicode Normalization Form C (NFC). Text containing characters in a non-NFC form (for example, decomposed characters or combining marks) are not accepted.
         public var lastName: Swift.String?
         /// The user's mobile number.
         public var mobile: Swift.String?
@@ -10374,16 +10402,16 @@ public struct CreateUserInput: Swift.Sendable {
     public var afterContactWorkConfigs: [ConnectClientTypes.AfterContactWorkConfigPerChannel]?
     /// The list of auto-accept configuration settings for each channel.
     public var autoAcceptConfigs: [ConnectClientTypes.AutoAcceptConfig]?
-    /// The identifier of the user account in the directory used for identity management. If Amazon Connect cannot access the directory, you can specify this identifier to authenticate users. If you include the identifier, we assume that Amazon Connect cannot access the directory. Otherwise, the identity information is used to authenticate users from your directory. This parameter is required if you are using an existing directory for identity management in Amazon Connect when Amazon Connect cannot access your directory to authenticate users. If you are using SAML for identity management and include this parameter, an error is returned.
+    /// The identifier of the user account in the directory used for identity management. If Connect Customer cannot access the directory, you can specify this identifier to authenticate users. If you include the identifier, we assume that Connect Customer cannot access the directory. Otherwise, the identity information is used to authenticate users from your directory. This parameter is required if you are using an existing directory for identity management in Connect Customer when Connect Customer cannot access your directory to authenticate users. If you are using SAML for identity management and include this parameter, an error is returned.
     public var directoryUserId: Swift.String?
     /// The identifier of the hierarchy group for the user.
     public var hierarchyGroupId: Swift.String?
     /// The information about the identity of the user.
     public var identityInfo: ConnectClientTypes.UserIdentityInfo?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
-    /// The password for the user account. A password is required if you are using Amazon Connect for identity management. Otherwise, it is an error to include a password.
+    /// The password for the user account. A password is required if you are using Connect Customer for identity management. Otherwise, it is an error to include a password.
     public var password: Swift.String?
     /// The list of persistent connection configuration settings for each channel.
     public var persistentConnectionConfigs: [ConnectClientTypes.PersistentConnectionConfig]?
@@ -10467,7 +10495,7 @@ public struct CreateUserOutput: Swift.Sendable {
 }
 
 public struct CreateUserHierarchyGroupInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The name of the user hierarchy group. Must not be more than 100 characters.
@@ -10569,9 +10597,9 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -10596,9 +10624,9 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -10668,7 +10696,7 @@ public struct CreateViewInput: Swift.Sendable {
     public var content: ConnectClientTypes.ViewInputContent?
     /// The description of the view.
     public var description: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The name of the view.
@@ -10841,7 +10869,7 @@ public struct CreateViewOutput: Swift.Sendable {
 }
 
 public struct CreateViewVersionInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The description for the version being published.
@@ -10882,7 +10910,7 @@ public struct CreateVocabularyInput: Swift.Sendable {
     /// The content of the custom vocabulary in plain-text format with a table of values. Each row in the table represents a word or a phrase, described with Phrase, IPA, SoundsLike, and DisplayAs fields. Separate the fields with TAB characters. The size limit is 50KB. For more information, see [Create a custom vocabulary using a table](https://docs.aws.amazon.com/transcribe/latest/dg/custom-vocabulary.html#create-vocabulary-table).
     /// This member is required.
     public var content: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The language code of the vocabulary entries. For a list of languages and their corresponding language codes, see [What is Amazon Transcribe?](https://docs.aws.amazon.com/transcribe/latest/dg/transcribe-whatis.html)
@@ -11351,7 +11379,7 @@ public struct DeactivateEvaluationFormInput: Swift.Sendable {
     /// A version of the evaluation form. If the version property is not provided, the latest version of the evaluation form is deactivated.
     /// This member is required.
     public var evaluationFormVersion: Swift.Int?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -11421,7 +11449,7 @@ public struct DeleteContactEvaluationInput: Swift.Sendable {
     /// A unique identifier for the contact evaluation.
     /// This member is required.
     public var evaluationId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -11438,7 +11466,7 @@ public struct DeleteContactFlowInput: Swift.Sendable {
     /// The identifier of the flow.
     /// This member is required.
     public var contactFlowId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -11460,7 +11488,7 @@ public struct DeleteContactFlowModuleInput: Swift.Sendable {
     /// The identifier of the flow module.
     /// This member is required.
     public var contactFlowModuleId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -11485,7 +11513,7 @@ public struct DeleteContactFlowModuleAliasInput: Swift.Sendable {
     /// The identifier of the flow module.
     /// This member is required.
     public var contactFlowModuleId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -11512,7 +11540,7 @@ public struct DeleteContactFlowModuleVersionInput: Swift.Sendable {
     /// The version of the flow module to delete.
     /// This member is required.
     public var contactFlowModuleVersion: Swift.Int?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -11539,7 +11567,7 @@ public struct DeleteContactFlowVersionInput: Swift.Sendable {
     /// The identifier of the flow version.
     /// This member is required.
     public var contactFlowVersion: Swift.Int?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -11619,7 +11647,7 @@ public struct DeleteEmailAddressInput: Swift.Sendable {
     /// The identifier of the email address.
     /// This member is required.
     public var emailAddressId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -11643,7 +11671,7 @@ public struct DeleteEvaluationFormInput: Swift.Sendable {
     public var evaluationFormId: Swift.String?
     /// The unique identifier for the evaluation form.
     public var evaluationFormVersion: Swift.Int?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -11662,7 +11690,7 @@ public struct DeleteHoursOfOperationInput: Swift.Sendable {
     /// The identifier for the hours of operation.
     /// This member is required.
     public var hoursOfOperationId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -11682,7 +11710,7 @@ public struct DeleteHoursOfOperationOverrideInput: Swift.Sendable {
     /// The identifier for the hours of operation override.
     /// This member is required.
     public var hoursOfOperationOverrideId: Swift.String?
-    /// The identifier of the Amazon Connect instance.
+    /// The identifier of the Connect Customer instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -11700,7 +11728,7 @@ public struct DeleteHoursOfOperationOverrideInput: Swift.Sendable {
 public struct DeleteInstanceInput: Swift.Sendable {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -11714,7 +11742,7 @@ public struct DeleteInstanceInput: Swift.Sendable {
 }
 
 public struct DeleteIntegrationAssociationInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier for the integration association.
@@ -11754,7 +11782,7 @@ public struct DeleteNotificationOutput: Swift.Sendable {
 }
 
 public struct DeletePredefinedAttributeInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The name of the predefined attribute.
@@ -11771,7 +11799,7 @@ public struct DeletePredefinedAttributeInput: Swift.Sendable {
 }
 
 public struct DeletePromptInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// A unique identifier for the prompt.
@@ -11788,7 +11816,7 @@ public struct DeletePromptInput: Swift.Sendable {
 }
 
 public struct DeletePushNotificationRegistrationInput: Swift.Sendable {
-    /// The identifier of the contact within the Amazon Connect instance.
+    /// The identifier of the contact within the Connect Customer instance.
     /// This member is required.
     public var contactId: Swift.String?
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
@@ -11815,7 +11843,7 @@ public struct DeletePushNotificationRegistrationOutput: Swift.Sendable {
 }
 
 public struct DeleteQueueInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier for the queue.
@@ -11832,7 +11860,7 @@ public struct DeleteQueueInput: Swift.Sendable {
 }
 
 public struct DeleteQuickConnectInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier for the quick connect.
@@ -11849,7 +11877,7 @@ public struct DeleteQuickConnectInput: Swift.Sendable {
 }
 
 public struct DeleteRoutingProfileInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier of the routing profile.
@@ -11866,7 +11894,7 @@ public struct DeleteRoutingProfileInput: Swift.Sendable {
 }
 
 public struct DeleteRuleInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// A unique identifier for the rule.
@@ -11883,7 +11911,7 @@ public struct DeleteRuleInput: Swift.Sendable {
 }
 
 public struct DeleteSecurityProfileInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier for the security profle.
@@ -11900,7 +11928,7 @@ public struct DeleteSecurityProfileInput: Swift.Sendable {
 }
 
 public struct DeleteTaskTemplateInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// A unique identifier for the task template.
@@ -11961,7 +11989,7 @@ public struct DeleteTrafficDistributionGroupOutput: Swift.Sendable {
 }
 
 public struct DeleteUseCaseInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier for the integration association.
@@ -11983,7 +12011,7 @@ public struct DeleteUseCaseInput: Swift.Sendable {
 }
 
 public struct DeleteUserInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier of the user.
@@ -12003,7 +12031,7 @@ public struct DeleteUserHierarchyGroupInput: Swift.Sendable {
     /// The identifier of the hierarchy group.
     /// This member is required.
     public var hierarchyGroupId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -12017,7 +12045,7 @@ public struct DeleteUserHierarchyGroupInput: Swift.Sendable {
 }
 
 public struct DeleteViewInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier of the view. Both ViewArn and ViewId can be used.
@@ -12039,7 +12067,7 @@ public struct DeleteViewOutput: Swift.Sendable {
 }
 
 public struct DeleteViewVersionInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier of the view. Both ViewArn and ViewId can be used.
@@ -12066,7 +12094,7 @@ public struct DeleteViewVersionOutput: Swift.Sendable {
 }
 
 public struct DeleteVocabularyInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier of the custom vocabulary.
@@ -12219,7 +12247,7 @@ public struct DescribeAgentStatusInput: Swift.Sendable {
     /// The identifier for the agent status.
     /// This member is required.
     public var agentStatusId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -12243,11 +12271,133 @@ public struct DescribeAgentStatusOutput: Swift.Sendable {
     }
 }
 
+extension ConnectClientTypes {
+
+    /// The scope of the attachment. Valid values are:
+    ///
+    /// * EMAIL - Attachments for email messages.
+    ///
+    /// * CHAT - Attachments for chat conversations.
+    ///
+    /// * CASE - Attachments for cases.
+    ///
+    /// * TASK - Attachments for tasks.
+    public enum AttachmentScope: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `case`
+        case chat
+        case email
+        case task
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AttachmentScope] {
+            return [
+                .case,
+                .chat,
+                .email,
+                .task
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .case: return "CASE"
+            case .chat: return "CHAT"
+            case .email: return "EMAIL"
+            case .task: return "TASK"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct DescribeAttachedFilesConfigurationInput: Swift.Sendable {
+    /// The scope of the attachment. Valid values are EMAIL, CHAT, CASE, and TASK.
+    /// This member is required.
+    public var attachmentScope: ConnectClientTypes.AttachmentScope?
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+
+    public init(
+        attachmentScope: ConnectClientTypes.AttachmentScope? = nil,
+        instanceId: Swift.String? = nil
+    ) {
+        self.attachmentScope = attachmentScope
+        self.instanceId = instanceId
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// The configuration for allowed file extensions.
+    public struct ExtensionConfiguration: Swift.Sendable {
+        /// The list of allowed file extensions.
+        /// This member is required.
+        public var allowedExtensions: [ConnectClientTypes.AllowedExtension]?
+
+        public init(
+            allowedExtensions: [ConnectClientTypes.AllowedExtension]? = nil
+        ) {
+            self.allowedExtensions = allowedExtensions
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// The configuration for attached files for a specific attachment scope.
+    public struct AttachedFilesConfiguration: Swift.Sendable {
+        /// The scope of the attachment. Valid values are EMAIL, CHAT, CASE, and TASK.
+        /// This member is required.
+        public var attachmentScope: ConnectClientTypes.AttachmentScope?
+        /// The configuration for allowed file extensions.
+        public var extensionConfiguration: ConnectClientTypes.ExtensionConfiguration?
+        /// The identifier of the Connect Customer instance.
+        /// This member is required.
+        public var instanceId: Swift.String?
+        /// The timestamp when the configuration was last modified.
+        public var lastModifiedTime: Foundation.Date?
+        /// The maximum size limit for attached files in bytes.
+        public var maximumSizeLimitInBytes: Swift.Int?
+
+        public init(
+            attachmentScope: ConnectClientTypes.AttachmentScope? = nil,
+            extensionConfiguration: ConnectClientTypes.ExtensionConfiguration? = nil,
+            instanceId: Swift.String? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            maximumSizeLimitInBytes: Swift.Int? = nil
+        ) {
+            self.attachmentScope = attachmentScope
+            self.extensionConfiguration = extensionConfiguration
+            self.instanceId = instanceId
+            self.lastModifiedTime = lastModifiedTime
+            self.maximumSizeLimitInBytes = maximumSizeLimitInBytes
+        }
+    }
+}
+
+public struct DescribeAttachedFilesConfigurationOutput: Swift.Sendable {
+    /// Information about the attached files configuration.
+    /// This member is required.
+    public var attachedFilesConfiguration: ConnectClientTypes.AttachedFilesConfiguration?
+
+    public init(
+        attachedFilesConfiguration: ConnectClientTypes.AttachedFilesConfiguration? = nil
+    ) {
+        self.attachedFilesConfiguration = attachedFilesConfiguration
+    }
+}
+
 public struct DescribeAuthenticationProfileInput: Swift.Sendable {
     /// A unique identifier for the authentication profile.
     /// This member is required.
     public var authenticationProfileId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -12262,13 +12412,13 @@ public struct DescribeAuthenticationProfileInput: Swift.Sendable {
 
 extension ConnectClientTypes {
 
-    /// This API is in preview release for Amazon Connect and is subject to change. To request access to this API, contact Amazon Web Services Support. Information about an authentication profile. An authentication profile is a resource that stores the authentication settings for users in your contact center. You use authentication profiles to set up IP address range restrictions and session timeouts. For more information, see [Set IP address restrictions or session timeouts](https://docs.aws.amazon.com/connect/latest/adminguide/authentication-profiles.html).
+    /// This API is in preview release for Connect Customer and is subject to change. To request access to this API, contact Amazon Web Services Support. Information about an authentication profile. An authentication profile is a resource that stores the authentication settings for users in your contact center. You use authentication profiles to set up IP address range restrictions and session timeouts. For more information, see [Set IP address restrictions or session timeouts](https://docs.aws.amazon.com/connect/latest/adminguide/authentication-profiles.html).
     public struct AuthenticationProfile: Swift.Sendable {
-        /// A list of IP address range strings that are allowed to access the Amazon Connect instance. For more information about how to configure IP addresses, see [Configure IP address based access control](https://docs.aws.amazon.com/connect/latest/adminguide/authentication-profiles.html#configure-ip-based-ac) in the Amazon Connect Administrator Guide.
+        /// A list of IP address range strings that are allowed to access the Connect Customer instance. For more information about how to configure IP addresses, see [Configure IP address based access control](https://docs.aws.amazon.com/connect/latest/adminguide/authentication-profiles.html#configure-ip-based-ac) in the Connect Customer Administrator Guide.
         public var allowedIps: [Swift.String]?
         /// The Amazon Resource Name (ARN) for the authentication profile.
         public var arn: Swift.String?
-        /// A list of IP address range strings that are blocked from accessing the Amazon Connect instance. For more information about how to configure IP addresses, see [Configure IP address based access control](https://docs.aws.amazon.com/connect/latest/adminguide/authentication-profiles.html#configure-ip-based-ac) in the Amazon Connect Administrator Guide.
+        /// A list of IP address range strings that are blocked from accessing the Connect Customer instance. For more information about how to configure IP addresses, see [Configure IP address based access control](https://docs.aws.amazon.com/connect/latest/adminguide/authentication-profiles.html#configure-ip-based-ac) in the Connect Customer Administrator Guide.
         public var blockedIps: [Swift.String]?
         /// The timestamp when the authentication profile was created.
         public var createdTime: Foundation.Date?
@@ -12276,17 +12426,17 @@ extension ConnectClientTypes {
         public var description: Swift.String?
         /// A unique identifier for the authentication profile.
         public var id: Swift.String?
-        /// Shows whether the authentication profile is the default authentication profile for the Amazon Connect instance. The default authentication profile applies to all agents in an Amazon Connect instance, unless overridden by another authentication profile.
+        /// Shows whether the authentication profile is the default authentication profile for the Connect Customer instance. The default authentication profile applies to all agents in an Connect Customer instance, unless overridden by another authentication profile.
         public var isDefault: Swift.Bool
         /// The Amazon Web Services Region where the authentication profile was last modified.
         public var lastModifiedRegion: Swift.String?
         /// The timestamp when the authentication profile was last modified.
         public var lastModifiedTime: Foundation.Date?
-        /// The long lived session duration for users logged in to Amazon Connect, in minutes. After this time period, users must log in again. For more information, see [Configure the session duration](https://docs.aws.amazon.com/connect/latest/adminguide/authentication-profiles.html#configure-session-timeouts) in the Amazon Connect Administrator Guide.
+        /// The long lived session duration for users logged in to Connect Customer, in minutes. After this time period, users must log in again. For more information, see [Configure the session duration](https://docs.aws.amazon.com/connect/latest/adminguide/authentication-profiles.html#configure-session-timeouts) in the Connect Customer Administrator Guide.
         public var maxSessionDuration: Swift.Int?
         /// The name for the authentication profile.
         public var name: Swift.String?
-        /// The short lived session duration configuration for users logged in to Amazon Connect, in minutes. This value determines the maximum possible time before an agent is authenticated. For more information, see [Configure the session duration](https://docs.aws.amazon.com/connect/latest/adminguide/authentication-profiles.html#configure-session-timeouts) in the Amazon Connect Administrator Guide.
+        /// The short lived session duration configuration for users logged in to Connect Customer, in minutes. This value determines the maximum possible time before an agent is authenticated. For more information, see [Configure the session duration](https://docs.aws.amazon.com/connect/latest/adminguide/authentication-profiles.html#configure-session-timeouts) in the Connect Customer Administrator Guide.
         @available(*, deprecated, message: "PeriodicSessionDuration is deprecated. Use SessionInactivityDuration instead. API deprecated since 10/31/2025")
         public var periodicSessionDuration: Swift.Int?
         /// The period, in minutes, before an agent is automatically signed out of the contact center when they go inactive.
@@ -12343,7 +12493,7 @@ public struct DescribeContactInput: Swift.Sendable {
     /// The identifier of the contact.
     /// This member is required.
     public var contactId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -12666,7 +12816,7 @@ extension ConnectClientTypes {
 
     /// Information about the Customer on the contact.
     public struct Customer: Swift.Sendable {
-        /// The configuration for the allowed video and screen sharing capabilities for participants present over the call. For more information, see [Set up in-app, web, video calling, and screen sharing capabilities](https://docs.aws.amazon.com/connect/latest/adminguide/inapp-calling.html) in the Amazon Connect Administrator Guide.
+        /// The configuration for the allowed video and screen sharing capabilities for participants present over the call. For more information, see [Set up in-app, web, video calling, and screen sharing capabilities](https://docs.aws.amazon.com/connect/latest/adminguide/inapp-calling.html) in the Connect Customer Administrator Guide.
         public var capabilities: ConnectClientTypes.ParticipantCapabilities?
         /// Information regarding Customer’s device.
         public var deviceInfo: ConnectClientTypes.DeviceInfo?
@@ -13169,7 +13319,7 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
-    /// Information about Amazon Connect Wisdom.
+    /// Information about Connect Customer Wisdom.
     public struct WisdomInfo: Swift.Sendable {
         /// The array of AI agents involved in the contact.
         public var aiAgents: [ConnectClientTypes.AiAgentInfo]?
@@ -13190,7 +13340,7 @@ public struct DescribeContactEvaluationInput: Swift.Sendable {
     /// A unique identifier for the contact evaluation.
     /// This member is required.
     public var evaluationId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -13777,7 +13927,7 @@ extension ConnectClientTypes {
         public var calibrationSessionId: Swift.String?
         /// The identifier of the agent who performed the contact.
         public var contactAgentId: Swift.String?
-        /// The identifier of the contact in this instance of Amazon Connect.
+        /// The identifier of the contact in this instance of Connect Customer.
         /// This member is required.
         public var contactId: Swift.String?
         /// Information about a contact participant in this evaluation.
@@ -13943,9 +14093,9 @@ public struct ContactFlowNotPublishedException: ClientRuntime.ModeledError, AWSC
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -13958,7 +14108,7 @@ public struct DescribeContactFlowInput: Swift.Sendable {
     /// The identifier of the flow.
     /// This member is required.
     public var contactFlowId: Swift.String?
-    /// The identifier of the Amazon Connect instance.
+    /// The identifier of the Connect Customer instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -14006,7 +14156,7 @@ extension ConnectClientTypes {
     public struct ContactFlow: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the flow.
         public var arn: Swift.String?
-        /// The JSON string that represents the content of the flow. For an example, see [Example flow in Amazon Connect Flow language](https://docs.aws.amazon.com/connect/latest/APIReference/flow-language-example.html). Length Constraints: Minimum length of 1. Maximum length of 256000.
+        /// The JSON string that represents the content of the flow. For an example, see [Example flow in Connect Customer Flow language](https://docs.aws.amazon.com/connect/latest/APIReference/flow-language-example.html). Length Constraints: Minimum length of 1. Maximum length of 256000.
         public var content: Swift.String?
         /// The description of the flow.
         public var description: Swift.String?
@@ -14026,7 +14176,7 @@ extension ConnectClientTypes {
         public var status: ConnectClientTypes.ContactFlowStatus?
         /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public var tags: [Swift.String: Swift.String]?
-        /// The type of the flow. For descriptions of the available types, see [Choose a flow type](https://docs.aws.amazon.com/connect/latest/adminguide/create-contact-flow.html#contact-flow-types) in the Amazon Connect Administrator Guide.
+        /// The type of the flow. For descriptions of the available types, see [Choose a flow type](https://docs.aws.amazon.com/connect/latest/adminguide/create-contact-flow.html#contact-flow-types) in the Connect Customer Administrator Guide.
         public var type: ConnectClientTypes.ContactFlowType?
         /// The identifier of the flow version.
         public var version: Swift.Int?
@@ -14082,7 +14232,7 @@ public struct DescribeContactFlowModuleInput: Swift.Sendable {
     /// The identifier of the flow module.
     /// This member is required.
     public var contactFlowModuleId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -14159,7 +14309,7 @@ extension ConnectClientTypes {
     public struct ContactFlowModule: Swift.Sendable {
         /// The Amazon Resource Name (ARN).
         public var arn: Swift.String?
-        /// The JSON string that represents the content of the flow. For an example, see [Example flow in Amazon Connect Flow language](https://docs.aws.amazon.com/connect/latest/APIReference/flow-language-example.html).
+        /// The JSON string that represents the content of the flow. For an example, see [Example flow in Connect Customer Flow language](https://docs.aws.amazon.com/connect/latest/APIReference/flow-language-example.html).
         public var content: Swift.String?
         /// The description of the flow module.
         public var description: Swift.String?
@@ -14234,7 +14384,7 @@ public struct DescribeContactFlowModuleAliasInput: Swift.Sendable {
     /// The identifier of the flow module.
     /// This member is required.
     public var contactFlowModuleId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -14503,7 +14653,7 @@ public struct DescribeEmailAddressInput: Swift.Sendable {
     /// The identifier of the email address.
     /// This member is required.
     public var emailAddressId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -14570,7 +14720,7 @@ public struct DescribeEvaluationFormInput: Swift.Sendable {
     public var evaluationFormId: Swift.String?
     /// A version of the evaluation form.
     public var evaluationFormVersion: Swift.Int?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -14618,7 +14768,7 @@ public struct DescribeHoursOfOperationInput: Swift.Sendable {
     /// The identifier for the hours of operation.
     /// This member is required.
     public var hoursOfOperationId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -14725,7 +14875,7 @@ public struct DescribeHoursOfOperationOverrideInput: Swift.Sendable {
     /// The identifier for the hours of operation override.
     /// This member is required.
     public var hoursOfOperationOverrideId: Swift.String?
-    /// The identifier of the Amazon Connect instance.
+    /// The identifier of the Connect Customer instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -14803,7 +14953,7 @@ public struct DescribeHoursOfOperationOverrideOutput: Swift.Sendable {
 }
 
 public struct DescribeInstanceInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -14863,19 +15013,19 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
-    /// The Amazon Connect instance.
+    /// The Connect Customer instance.
     public struct Instance: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the instance.
         public var arn: Swift.String?
         /// When the instance was created.
         public var createdTime: Foundation.Date?
-        /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
         public var id: Swift.String?
         /// The identity management type.
         public var identityManagementType: ConnectClientTypes.DirectoryType?
         /// Whether inbound calls are enabled.
         public var inboundCallsEnabled: Swift.Bool?
-        /// This URL allows contact center users to access the Amazon Connect admin website.
+        /// This URL allows contact center users to access the Connect Customer admin website.
         public var instanceAccessUrl: Swift.String?
         /// The alias of instance.
         public var instanceAlias: Swift.String?
@@ -14968,13 +15118,13 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
-    /// Status information about the replication process, where you use the [ReplicateInstance](https://docs.aws.amazon.com/connect/latest/APIReference/API_ReplicateInstance.html) API to create a replica of your Amazon Connect instance in another Amazon Web Services Region. For more information, see [Set up Amazon Connect Global Resiliency](https://docs.aws.amazon.com/connect/latest/adminguide/setup-connect-global-resiliency.html) in the Amazon Connect Administrator Guide.
+    /// Status information about the replication process, where you use the [ReplicateInstance](https://docs.aws.amazon.com/connect/latest/APIReference/API_ReplicateInstance.html) API to create a replica of your Connect Customer instance in another Amazon Web Services Region. For more information, see [Set up Connect Customer Global Resiliency](https://docs.aws.amazon.com/connect/latest/adminguide/setup-connect-global-resiliency.html) in the Connect Customer Administrator Guide.
     public struct ReplicationStatusSummary: Swift.Sendable {
         /// The Amazon Web Services Region. This can be either the source or the replica Region, depending where it appears in the summary list.
         public var region: Swift.String?
         /// The state of the replication.
         public var replicationStatus: ConnectClientTypes.InstanceReplicationStatus?
-        /// A description of the replication status. Use this information to resolve any issues that are preventing the successful replication of your Amazon Connect instance to another Region.
+        /// A description of the replication status. Use this information to resolve any issues that are preventing the successful replication of your Connect Customer instance to another Region.
         public var replicationStatusReason: Swift.String?
 
         public init(
@@ -14991,13 +15141,13 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
-    /// Details about the status of the replication of a source Amazon Connect instance across Amazon Web Services Regions. Use these details to understand the general status of a given replication. For information about why a replication process may fail, see [Why a ReplicateInstance call fails](https://docs.aws.amazon.com/connect/latest/adminguide/create-replica-connect-instance.html#why-replicateinstance-fails) in the Create a replica of your existing Amazon Connect instance topic in the Amazon Connect Administrator Guide.
+    /// Details about the status of the replication of a source Connect Customer instance across Amazon Web Services Regions. Use these details to understand the general status of a given replication. For information about why a replication process may fail, see [Why a ReplicateInstance call fails](https://docs.aws.amazon.com/connect/latest/adminguide/create-replica-connect-instance.html#why-replicateinstance-fails) in the Create a replica of your existing Connect Customer instance topic in the Connect Customer Administrator Guide.
     public struct ReplicationConfiguration: Swift.Sendable {
-        /// The URL that is used to sign-in to your Amazon Connect instance according to your traffic distribution group configuration. For more information about sign-in and traffic distribution groups, see [Important things to know](https://docs.aws.amazon.com/connect/latest/adminguide/setup-traffic-distribution-groups.html) in the Create traffic distribution groups topic in the Amazon Connect Administrator Guide.
+        /// The URL that is used to sign-in to your Connect Customer instance according to your traffic distribution group configuration. For more information about sign-in and traffic distribution groups, see [Important things to know](https://docs.aws.amazon.com/connect/latest/adminguide/setup-traffic-distribution-groups.html) in the Create traffic distribution groups topic in the Connect Customer Administrator Guide.
         public var globalSignInEndpoint: Swift.String?
-        /// A list of replication status summaries. The summaries contain details about the replication of configuration information for Amazon Connect resources, for each Amazon Web Services Region.
+        /// A list of replication status summaries. The summaries contain details about the replication of configuration information for Connect Customer resources, for each Amazon Web Services Region.
         public var replicationStatusSummaryList: [ConnectClientTypes.ReplicationStatusSummary]?
-        /// The Amazon Web Services Region where the source Amazon Connect instance was created. This is the Region where the [ReplicateInstance](https://docs.aws.amazon.com/connect/latest/APIReference/API_ReplicateInstance.html) API was called to start the replication process.
+        /// The Amazon Web Services Region where the source Connect Customer instance was created. This is the Region where the [ReplicateInstance](https://docs.aws.amazon.com/connect/latest/APIReference/API_ReplicateInstance.html) API was called to start the replication process.
         public var sourceRegion: Swift.String?
 
         public init(
@@ -15015,7 +15165,7 @@ extension ConnectClientTypes {
 public struct DescribeInstanceOutput: Swift.Sendable {
     /// The name of the instance.
     public var instance: ConnectClientTypes.Instance?
-    /// Status information about the replication process. This field is included only when you are using the [ReplicateInstance](https://docs.aws.amazon.com/connect/latest/APIReference/API_ReplicateInstance.html) API to replicate an Amazon Connect instance across Amazon Web Services Regions. For information about replicating Amazon Connect instances, see [Create a replica of your existing Amazon Connect instance](https://docs.aws.amazon.com/connect/latest/adminguide/create-replica-connect-instance.html) in the Amazon Connect Administrator Guide.
+    /// Status information about the replication process. This field is included only when you are using the [ReplicateInstance](https://docs.aws.amazon.com/connect/latest/APIReference/API_ReplicateInstance.html) API to replicate an Connect Customer instance across Amazon Web Services Regions. For information about replicating Connect Customer instances, see [Create a replica of your existing Connect Customer instance](https://docs.aws.amazon.com/connect/latest/adminguide/create-replica-connect-instance.html) in the Connect Customer Administrator Guide.
     public var replicationConfiguration: ConnectClientTypes.ReplicationConfiguration?
 
     public init(
@@ -15093,7 +15243,7 @@ public struct DescribeInstanceAttributeInput: Swift.Sendable {
     /// The type of attribute.
     /// This member is required.
     public var attributeType: ConnectClientTypes.InstanceAttributeType?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -15140,7 +15290,7 @@ public struct DescribeInstanceStorageConfigInput: Swift.Sendable {
     /// The existing association identifier that uniquely identifies the resource type and storage config for the given instance ID.
     /// This member is required.
     public var associationId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// A valid resource type.
@@ -16134,9 +16284,9 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
-    /// Information about a phone number that has been claimed to your Amazon Connect instance or traffic distribution group.
+    /// Information about a phone number that has been claimed to your Connect Customer instance or traffic distribution group.
     public struct ClaimedPhoneNumberSummary: Swift.Sendable {
-        /// The identifier of the Amazon Connect instance that phone numbers are claimed to. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance that phone numbers are claimed to. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
         public var instanceId: Swift.String?
         /// The phone number. Phone numbers are formatted [+] [country code] [subscriber number including area code].
         public var phoneNumber: Swift.String?
@@ -16165,7 +16315,7 @@ extension ConnectClientTypes {
         public var sourcePhoneNumberArn: Swift.String?
         /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public var tags: [Swift.String: Swift.String]?
-        /// The Amazon Resource Name (ARN) for Amazon Connect instances or traffic distribution groups that phone number inbound traffic is routed through.
+        /// The Amazon Resource Name (ARN) for Connect Customer instances or traffic distribution groups that phone number inbound traffic is routed through.
         public var targetArn: Swift.String?
 
         public init(
@@ -16197,7 +16347,7 @@ extension ConnectClientTypes {
 }
 
 public struct DescribePhoneNumberOutput: Swift.Sendable {
-    /// Information about a phone number that's been claimed to your Amazon Connect instance or traffic distribution group.
+    /// Information about a phone number that's been claimed to your Connect Customer instance or traffic distribution group.
     public var claimedPhoneNumberSummary: ConnectClientTypes.ClaimedPhoneNumberSummary?
 
     public init(
@@ -16208,7 +16358,7 @@ public struct DescribePhoneNumberOutput: Swift.Sendable {
 }
 
 public struct DescribePredefinedAttributeInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The name of the predefined attribute.
@@ -16226,11 +16376,11 @@ public struct DescribePredefinedAttributeInput: Swift.Sendable {
 
 extension ConnectClientTypes {
 
-    /// Custom metadata that is associated to predefined attributes to control behavior in upstream services, such as controlling how a predefined attribute should be displayed in the Amazon Connect admin website.
+    /// Custom metadata that is associated to predefined attributes to control behavior in upstream services, such as controlling how a predefined attribute should be displayed in the Connect Customer admin website.
     public struct PredefinedAttributeConfiguration: Swift.Sendable {
-        /// When this parameter is set to true, Amazon Connect enforces strict validation on the specific values, if the values are predefined in attributes. The contact will store only valid and predefined values for teh predefined attribute key.
+        /// When this parameter is set to true, Connect Customer enforces strict validation on the specific values, if the values are predefined in attributes. The contact will store only valid and predefined values for teh predefined attribute key.
         public var enableValueValidationOnAssociation: Swift.Bool
-        /// A boolean flag used to indicate whether a predefined attribute should be displayed in the Amazon Connect admin website.
+        /// A boolean flag used to indicate whether a predefined attribute should be displayed in the Connect Customer admin website.
         public var isReadOnly: Swift.Bool
 
         public init(
@@ -16247,7 +16397,7 @@ extension ConnectClientTypes {
 
     /// Information about a predefined attribute.
     public struct PredefinedAttribute: Swift.Sendable {
-        /// Custom metadata that is associated to predefined attributes to control behavior in upstream services, such as controlling how a predefined attribute should be displayed in the Amazon Connect admin website.
+        /// Custom metadata that is associated to predefined attributes to control behavior in upstream services, such as controlling how a predefined attribute should be displayed in the Connect Customer admin website.
         public var attributeConfiguration: ConnectClientTypes.PredefinedAttributeConfiguration?
         /// Last modified region.
         public var lastModifiedRegion: Swift.String?
@@ -16255,7 +16405,7 @@ extension ConnectClientTypes {
         public var lastModifiedTime: Foundation.Date?
         /// The name of the predefined attribute.
         public var name: Swift.String?
-        /// Values that enable you to categorize your predefined attributes. You can use them in custom UI elements across the Amazon Connect admin website.
+        /// Values that enable you to categorize your predefined attributes. You can use them in custom UI elements across the Connect Customer admin website.
         public var purposes: [Swift.String]?
         /// The values of the predefined attribute.
         public var values: ConnectClientTypes.PredefinedAttributeValues?
@@ -16290,7 +16440,7 @@ public struct DescribePredefinedAttributeOutput: Swift.Sendable {
 }
 
 public struct DescribePromptInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// A unique identifier for the prompt.
@@ -16357,7 +16507,7 @@ public struct DescribePromptOutput: Swift.Sendable {
 }
 
 public struct DescribeQueueInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier for the queue.
@@ -16473,7 +16623,7 @@ public struct DescribeQueueOutput: Swift.Sendable {
 }
 
 public struct DescribeQuickConnectInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier for the quick connect.
@@ -16544,7 +16694,7 @@ public struct DescribeQuickConnectOutput: Swift.Sendable {
 }
 
 public struct DescribeRoutingProfileInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier of the routing profile.
@@ -16574,7 +16724,7 @@ extension ConnectClientTypes {
         public var defaultOutboundQueueId: Swift.String?
         /// The description of the routing profile.
         public var description: Swift.String?
-        /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
         public var instanceId: Swift.String?
         /// Whether this a default routing profile.
         public var isDefault: Swift.Bool
@@ -16651,7 +16801,7 @@ public struct DescribeRoutingProfileOutput: Swift.Sendable {
 }
 
 public struct DescribeRuleInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// A unique identifier for the rule.
@@ -16745,7 +16895,7 @@ public struct DescribeRuleOutput: Swift.Sendable {
 }
 
 public struct DescribeSecurityProfileInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier for the security profle.
@@ -16765,9 +16915,9 @@ extension ConnectClientTypes {
 
     /// Contains information about a security profile.
     public struct SecurityProfile: Swift.Sendable {
-        /// The identifier of the hierarchy group that a security profile uses to restrict access to resources in Amazon Connect.
+        /// The identifier of the hierarchy group that a security profile uses to restrict access to resources in Connect Customer.
         public var allowedAccessControlHierarchyGroupId: Swift.String?
-        /// The list of tags that a security profile uses to restrict access to resources in Amazon Connect.
+        /// The list of tags that a security profile uses to restrict access to resources in Connect Customer.
         public var allowedAccessControlTags: [Swift.String: Swift.String]?
         /// The Amazon Resource Name (ARN) for the security profile.
         public var arn: Swift.String?
@@ -16775,7 +16925,7 @@ extension ConnectClientTypes {
         public var description: Swift.String?
         /// The granular access control configuration for the security profile, including data table permissions.
         public var granularAccessControlConfiguration: ConnectClientTypes.GranularAccessControlConfiguration?
-        /// The list of resources that a security profile applies hierarchy restrictions to in Amazon Connect. Following are acceptable ResourceNames: User.
+        /// The list of resources that a security profile applies hierarchy restrictions to in Connect Customer. Following are acceptable ResourceNames: User.
         public var hierarchyRestrictedResources: [Swift.String]?
         /// The identifier for the security profile.
         public var id: Swift.String?
@@ -16787,7 +16937,7 @@ extension ConnectClientTypes {
         public var organizationResourceId: Swift.String?
         /// The name for the security profile.
         public var securityProfileName: Swift.String?
-        /// The list of resources that a security profile applies tag restrictions to in Amazon Connect.
+        /// The list of resources that a security profile applies tag restrictions to in Connect Customer.
         public var tagRestrictedResources: [Swift.String]?
         /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public var tags: [Swift.String: Swift.String]?
@@ -17046,7 +17196,7 @@ public struct DescribeTrafficDistributionGroupOutput: Swift.Sendable {
 }
 
 public struct DescribeUserInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier of the user account.
@@ -17064,7 +17214,7 @@ public struct DescribeUserInput: Swift.Sendable {
 
 extension ConnectClientTypes {
 
-    /// Contains information about a user account for an Amazon Connect instance.
+    /// Contains information about a user account for an Connect Customer instance.
     public struct User: Swift.Sendable {
         /// The list of after contact work (ACW) timeout configuration settings for each channel.
         public var afterContactWorkConfigs: [ConnectClientTypes.AfterContactWorkConfigPerChannel]?
@@ -17156,7 +17306,7 @@ public struct DescribeUserHierarchyGroupInput: Swift.Sendable {
     /// The identifier of the hierarchy group.
     /// This member is required.
     public var hierarchyGroupId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -17286,7 +17436,7 @@ public struct DescribeUserHierarchyGroupOutput: Swift.Sendable {
 }
 
 public struct DescribeUserHierarchyStructureInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -17371,7 +17521,7 @@ public struct DescribeUserHierarchyStructureOutput: Swift.Sendable {
 }
 
 public struct DescribeViewInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The ViewId of the view. This must be an ARN for Amazon Web Services managed views.
@@ -17399,7 +17549,7 @@ public struct DescribeViewOutput: Swift.Sendable {
 }
 
 public struct DescribeVocabularyInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier of the custom vocabulary.
@@ -17469,7 +17619,7 @@ extension ConnectClientTypes {
 }
 
 public struct DescribeVocabularyOutput: Swift.Sendable {
-    /// A list of specific words that you want Contact Lens for Amazon Connect to recognize in your audio input. They are generally domain-specific words and phrases, words that Contact Lens is not recognizing, or proper nouns.
+    /// A list of specific words that you want Contact Lens for Connect Customer to recognize in your audio input. They are generally domain-specific words and phrases, words that Contact Lens is not recognizing, or proper nouns.
     /// This member is required.
     public var vocabulary: ConnectClientTypes.Vocabulary?
 
@@ -17600,10 +17750,10 @@ public struct DisassociateAnalyticsDataSetInput: Swift.Sendable {
     /// The identifier of the dataset to remove.
     /// This member is required.
     public var dataSetId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
-    /// The identifier of the target account. Use to associate a dataset to a different account than the one containing the Amazon Connect instance. If not specified, by default this value is the Amazon Web Services account that has the Amazon Connect instance.
+    /// The identifier of the target account. Use to associate a dataset to a different account than the one containing the Connect Customer instance. If not specified, by default this value is the Amazon Web Services account that has the Connect Customer instance.
     public var targetAccountId: Swift.String?
 
     public init(
@@ -17620,7 +17770,7 @@ public struct DisassociateAnalyticsDataSetInput: Swift.Sendable {
 public struct DisassociateApprovedOriginInput: Swift.Sendable {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The domain URL of the integrated application.
@@ -17641,7 +17791,7 @@ public struct DisassociateApprovedOriginInput: Swift.Sendable {
 public struct DisassociateBotInput: Swift.Sendable {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// Configuration information of an Amazon Lex bot.
@@ -17671,7 +17821,7 @@ public struct DisassociateEmailAddressAliasInput: Swift.Sendable {
     /// The identifier of the email address.
     /// This member is required.
     public var emailAddressId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -17694,7 +17844,7 @@ public struct DisassociateEmailAddressAliasOutput: Swift.Sendable {
 }
 
 public struct DisassociateFlowInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier of the resource.
@@ -17752,7 +17902,7 @@ public struct DisassociateInstanceStorageConfigInput: Swift.Sendable {
     public var associationId: Swift.String?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// A valid resource type.
@@ -17778,7 +17928,7 @@ public struct DisassociateLambdaFunctionInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the Lambda function being disassociated.
     /// This member is required.
     public var functionArn: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance..
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance..
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -17799,7 +17949,7 @@ public struct DisassociateLexBotInput: Swift.Sendable {
     public var botName: Swift.String?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The Amazon Web Services Region in which the Amazon Lex bot has been created.
@@ -17820,7 +17970,7 @@ public struct DisassociateLexBotInput: Swift.Sendable {
 }
 
 public struct DisassociatePhoneNumberContactFlowInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// A unique identifier for the phone number.
@@ -17842,7 +17992,7 @@ public struct DisassociateQueueEmailAddressesInput: Swift.Sendable {
     /// List of email address identifiers to disassociate from the queue. These are the unique identifiers of email addresses that should no longer be routed to this queue.
     /// This member is required.
     public var emailAddressesId: [Swift.String]?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier for the queue.
@@ -17863,7 +18013,7 @@ public struct DisassociateQueueEmailAddressesInput: Swift.Sendable {
 }
 
 public struct DisassociateQueueQuickConnectsInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier for the queue.
@@ -17885,7 +18035,7 @@ public struct DisassociateQueueQuickConnectsInput: Swift.Sendable {
 }
 
 public struct DisassociateRoutingProfileQueuesInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The manual assignment queues to disassociate with this routing profile.
@@ -17915,7 +18065,7 @@ public struct DisassociateSecurityKeyInput: Swift.Sendable {
     public var associationId: Swift.String?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -17958,7 +18108,7 @@ public struct DisassociateSecurityProfilesInput: Swift.Sendable {
 }
 
 public struct DisassociateTrafficDistributionGroupUserInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier of the traffic distribution group. This can be the ID or the ARN of the traffic distribution group.
@@ -18006,7 +18156,7 @@ extension ConnectClientTypes {
 }
 
 public struct DisassociateUserProficienciesInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier of the user account.
@@ -18068,7 +18218,7 @@ public struct DismissUserContactInput: Swift.Sendable {
     /// The identifier of the contact.
     /// This member is required.
     public var contactId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier of the user account.
@@ -18215,7 +18365,7 @@ public struct GetAttachedFileInput: Swift.Sendable {
     /// The unique identifier of the attached file resource.
     /// This member is required.
     public var fileId: Swift.String?
-    /// The unique identifier of the Amazon Connect instance.
+    /// The unique identifier of the Connect Customer instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// Optional override for the expiry of the pre-signed S3 URL in seconds. The default value is 300.
@@ -18310,7 +18460,7 @@ public struct GetContactAttributesInput: Swift.Sendable {
     /// The identifier of the initial contact.
     /// This member is required.
     public var initialContactId: Swift.String?
-    /// The identifier of the Amazon Connect instance.
+    /// The identifier of the Connect Customer instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -18380,10 +18530,10 @@ extension ConnectClientTypes {
 }
 
 public struct GetContactMetricsInput: Swift.Sendable {
-    /// The identifier of the contact in this instance of Amazon Connect.
+    /// The identifier of the contact in this instance of Connect Customer.
     /// This member is required.
     public var contactId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// A list of contact level metrics to retrieve.Supported metrics include POSITION_IN_QUEUE (the contact's current position in the queue) and ESTIMATED_WAIT_TIME (the predicted time in seconds until the contact is connected to an agent)
@@ -18551,7 +18701,7 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
-    /// Contains information about a real-time metric. For a description of each metric, see [Metrics definitions](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html) in the Amazon Connect Administrator Guide. Only one of either the Name or MetricId is required.
+    /// Contains information about a real-time metric. For a description of each metric, see [Metrics definitions](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html) in the Connect Customer Administrator Guide. Only one of either the Name or MetricId is required.
     public struct CurrentMetric: Swift.Sendable {
         /// Out of the box current metrics or custom metrics can be referenced via this field. This field is a valid AWS Connect Arn or a UUID.
         public var metricId: Swift.String?
@@ -18704,7 +18854,7 @@ extension ConnectClientTypes {
 }
 
 public struct GetCurrentMetricDataInput: Swift.Sendable {
-    /// The metrics to retrieve. Specify the name or metricId, and unit for each metric. The following metrics are available. For a description of all the metrics, see [Metrics definitions](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html) in the Amazon Connect Administrator Guide. MetricId should be used to reference custom metrics or out of the box metrics as Arn. If using MetricId, the limit is 10 MetricId per request. AGENTS_AFTER_CONTACT_WORK Unit: COUNT Name in real-time metrics report: [ACW](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#aftercallwork-real-time) AGENTS_AVAILABLE Unit: COUNT Name in real-time metrics report: [Available](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#available-real-time) AGENTS_ERROR Unit: COUNT Name in real-time metrics report: [Error](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#error-real-time) AGENTS_NON_PRODUCTIVE Unit: COUNT Name in real-time metrics report: [NPT (Non-Productive Time)](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#non-productive-time-real-time) AGENTS_ON_CALL Unit: COUNT Name in real-time metrics report: [On contact](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#on-call-real-time) AGENTS_ON_CONTACT Unit: COUNT Name in real-time metrics report: [On contact](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#on-call-real-time) AGENTS_ONLINE Unit: COUNT Name in real-time metrics report: [Online](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#online-real-time) AGENTS_STAFFED Unit: COUNT Name in real-time metrics report: [Staffed](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#staffed-real-time) CONTACTS_IN_QUEUE Unit: COUNT Name in real-time metrics report: [In queue](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#in-queue-real-time) CONTACTS_SCHEDULED Unit: COUNT Name in real-time metrics report: [Scheduled](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#scheduled-real-time) ESTIMATED_WAIT_TIME Unit: SECONDS This metric supports filter and grouping combination only used for core routing purpose. Valid filter and grouping use cases:
+    /// The metrics to retrieve. Specify the name or metricId, and unit for each metric. The following metrics are available. For a description of all the metrics, see [Metrics definitions](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html) in the Connect Customer Administrator Guide. MetricId should be used to reference custom metrics or out of the box metrics as Arn. If using MetricId, the limit is 10 MetricId per request. AGENTS_AFTER_CONTACT_WORK Unit: COUNT Name in real-time metrics report: [ACW](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#aftercallwork-real-time) AGENTS_AVAILABLE Unit: COUNT Name in real-time metrics report: [Available](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#available-real-time) AGENTS_ERROR Unit: COUNT Name in real-time metrics report: [Error](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#error-real-time) AGENTS_NON_PRODUCTIVE Unit: COUNT Name in real-time metrics report: [NPT (Non-Productive Time)](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#non-productive-time-real-time) AGENTS_ON_CALL Unit: COUNT Name in real-time metrics report: [On contact](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#on-call-real-time) AGENTS_ON_CONTACT Unit: COUNT Name in real-time metrics report: [On contact](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#on-call-real-time) AGENTS_ONLINE Unit: COUNT Name in real-time metrics report: [Online](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#online-real-time) AGENTS_STAFFED Unit: COUNT Name in real-time metrics report: [Staffed](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#staffed-real-time) CONTACTS_IN_QUEUE Unit: COUNT Name in real-time metrics report: [In queue](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#in-queue-real-time) CONTACTS_SCHEDULED Unit: COUNT Name in real-time metrics report: [Scheduled](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#scheduled-real-time) ESTIMATED_WAIT_TIME Unit: SECONDS This metric supports filter and grouping combination only used for core routing purpose. Valid filter and grouping use cases:
     ///
     /// * Filter by a list of [Queues] and a list of [Channels], group by [“QUEUE”, “CHANNEL”]
     ///
@@ -18746,7 +18896,7 @@ public struct GetCurrentMetricDataInput: Swift.Sendable {
     ///
     /// * When using the RoutingStepExpression filter, group by ROUTING_STEP_EXPRESSION is required.
     public var groupings: [ConnectClientTypes.Grouping]?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -18959,7 +19109,7 @@ public struct GetCurrentUserDataInput: Swift.Sendable {
     /// The user data is retrieved for only the specified values/resources in the filter. A maximum of one filter can be passed from queues, routing profiles, agents, and user hierarchy groups. Currently tagging is only supported on the resources that are passed in the filter.
     /// This member is required.
     public var filters: ConnectClientTypes.UserDataFilters?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -19122,7 +19272,7 @@ public struct GetEffectiveHoursOfOperationsInput: Swift.Sendable {
     /// The identifier for the hours of operation.
     /// This member is required.
     public var hoursOfOperationId: Swift.String?
-    /// The identifier of the Amazon Connect instance.
+    /// The identifier of the Connect Customer instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The date until when the hours of operation are listed.
@@ -19274,7 +19424,7 @@ public struct GetEffectiveHoursOfOperationsOutput: Swift.Sendable {
     }
 }
 
-/// No user with the specified credentials was found in the Amazon Connect instance.
+/// No user with the specified credentials was found in the Connect Customer instance.
 public struct UserNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -19286,9 +19436,9 @@ public struct UserNotFoundException: ClientRuntime.ModeledError, AWSClientRuntim
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -19298,7 +19448,7 @@ public struct UserNotFoundException: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 public struct GetFederationTokenInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -19313,11 +19463,11 @@ extension ConnectClientTypes {
 
     /// Contains credentials to use for federation.
     public struct Credentials: Swift.Sendable {
-        /// An access token generated for a federated user to access Amazon Connect.
+        /// An access token generated for a federated user to access Connect Customer.
         public var accessToken: Swift.String?
-        /// A token generated with an expiration time for the session a user is logged in to Amazon Connect.
+        /// A token generated with an expiration time for the session a user is logged in to Connect Customer.
         public var accessTokenExpiration: Foundation.Date?
-        /// Renews a token generated for a user to access the Amazon Connect instance.
+        /// Renews a token generated for a user to access the Connect Customer instance.
         public var refreshToken: Swift.String?
         /// Renews the expiration timer for a generated token.
         public var refreshTokenExpiration: Foundation.Date?
@@ -19371,7 +19521,7 @@ extension GetFederationTokenOutput: Swift.CustomDebugStringConvertible {
 }
 
 public struct GetFlowAssociationInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier of the resource.
@@ -19595,7 +19745,7 @@ extension ConnectClientTypes {
 
     /// Contains information about a historical metric.
     public struct HistoricalMetric: Swift.Sendable {
-        /// The name of the metric. Following is a list of each supported metric mapped to the UI name, linked to a detailed description in the Amazon Connect Administrator Guide. ABANDON_TIME Unit: SECONDS Statistic: AVG UI name: [Average queue abandon time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-queue-abandon-time) AFTER_CONTACT_WORK_TIME Unit: SECONDS Statistic: AVG UI name: [After contact work time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#after-contact-work-time) API_CONTACTS_HANDLED Unit: COUNT Statistic: SUM UI name: [API contacts handled](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#api-contacts-handled) AVG_HOLD_TIME Unit: SECONDS Statistic: AVG UI name: [Average customer hold time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-customer-hold-time) CALLBACK_CONTACTS_HANDLED Unit: COUNT Statistic: SUM UI name: [Callback contacts handled](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#callback-contacts-handled) CONTACTS_ABANDONED Unit: COUNT Statistic: SUM UI name: [Contacts abandoned](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-abandoned) CONTACTS_AGENT_HUNG_UP_FIRST Unit: COUNT Statistic: SUM UI name: [Contacts agent hung up first](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-agent-hung-up-first) CONTACTS_CONSULTED Unit: COUNT Statistic: SUM UI name: [Contacts consulted](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-consulted) CONTACTS_HANDLED Unit: COUNT Statistic: SUM UI name: [Contacts handled](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-handled) CONTACTS_HANDLED_INCOMING Unit: COUNT Statistic: SUM UI name: [Contacts handled incoming](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-handled-incoming) CONTACTS_HANDLED_OUTBOUND Unit: COUNT Statistic: SUM UI name: [Contacts handled outbound](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-handled-outbound) CONTACTS_HOLD_ABANDONS Unit: COUNT Statistic: SUM UI name: [Contacts hold disconnect](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-hold-disconnect) CONTACTS_MISSED Unit: COUNT Statistic: SUM UI name: [AGENT_NON_RESPONSE](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#agent-non-response) CONTACTS_QUEUED Unit: COUNT Statistic: SUM UI name: [Contacts queued](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-queued) CONTACTS_TRANSFERRED_IN Unit: COUNT Statistic: SUM UI name: [Contacts transferred in](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-transferred-in) CONTACTS_TRANSFERRED_IN_FROM_QUEUE Unit: COUNT Statistic: SUM UI name: [Contacts transferred out queue](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-transferred-out-queue) CONTACTS_TRANSFERRED_OUT Unit: COUNT Statistic: SUM UI name: [Contacts transferred out](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-transferred-out) CONTACTS_TRANSFERRED_OUT_FROM_QUEUE Unit: COUNT Statistic: SUM UI name: [Contacts transferred out queue](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-transferred-out-queue) HANDLE_TIME Unit: SECONDS Statistic: AVG UI name: [Average handle time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-handle-time) INTERACTION_AND_HOLD_TIME Unit: SECONDS Statistic: AVG UI name: [Average agent interaction and customer hold time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-interaction-and-customer-hold-time) INTERACTION_TIME Unit: SECONDS Statistic: AVG UI name: [Average agent interaction time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#aaverage-agent-interaction-time) OCCUPANCY Unit: PERCENT Statistic: AVG UI name: [Occupancy](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#occupancy) QUEUE_ANSWER_TIME Unit: SECONDS Statistic: AVG UI name: [Average queue answer time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html##average-queue-answer-time) QUEUED_TIME Unit: SECONDS Statistic: MAX UI name: [Minimum flow time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#minimum-flow-time) SERVICE_LEVEL You can include up to 20 SERVICE_LEVEL metrics in a request. Unit: PERCENT Statistic: AVG Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than"). UI name: [Service level X](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#service-level)
+        /// The name of the metric. Following is a list of each supported metric mapped to the UI name, linked to a detailed description in the Connect Customer Administrator Guide. ABANDON_TIME Unit: SECONDS Statistic: AVG UI name: [Average queue abandon time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-queue-abandon-time) AFTER_CONTACT_WORK_TIME Unit: SECONDS Statistic: AVG UI name: [After contact work time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#after-contact-work-time) API_CONTACTS_HANDLED Unit: COUNT Statistic: SUM UI name: [API contacts handled](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#api-contacts-handled) AVG_HOLD_TIME Unit: SECONDS Statistic: AVG UI name: [Average customer hold time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-customer-hold-time) CALLBACK_CONTACTS_HANDLED Unit: COUNT Statistic: SUM UI name: [Callback contacts handled](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#callback-contacts-handled) CONTACTS_ABANDONED Unit: COUNT Statistic: SUM UI name: [Contacts abandoned](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-abandoned) CONTACTS_AGENT_HUNG_UP_FIRST Unit: COUNT Statistic: SUM UI name: [Contacts agent hung up first](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-agent-hung-up-first) CONTACTS_CONSULTED Unit: COUNT Statistic: SUM UI name: [Contacts consulted](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-consulted) CONTACTS_HANDLED Unit: COUNT Statistic: SUM UI name: [Contacts handled](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-handled) CONTACTS_HANDLED_INCOMING Unit: COUNT Statistic: SUM UI name: [Contacts handled incoming](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-handled-incoming) CONTACTS_HANDLED_OUTBOUND Unit: COUNT Statistic: SUM UI name: [Contacts handled outbound](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-handled-outbound) CONTACTS_HOLD_ABANDONS Unit: COUNT Statistic: SUM UI name: [Contacts hold disconnect](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-hold-disconnect) CONTACTS_MISSED Unit: COUNT Statistic: SUM UI name: [AGENT_NON_RESPONSE](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#agent-non-response) CONTACTS_QUEUED Unit: COUNT Statistic: SUM UI name: [Contacts queued](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-queued) CONTACTS_TRANSFERRED_IN Unit: COUNT Statistic: SUM UI name: [Contacts transferred in](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-transferred-in) CONTACTS_TRANSFERRED_IN_FROM_QUEUE Unit: COUNT Statistic: SUM UI name: [Contacts transferred out queue](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-transferred-out-queue) CONTACTS_TRANSFERRED_OUT Unit: COUNT Statistic: SUM UI name: [Contacts transferred out](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-transferred-out) CONTACTS_TRANSFERRED_OUT_FROM_QUEUE Unit: COUNT Statistic: SUM UI name: [Contacts transferred out queue](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-transferred-out-queue) HANDLE_TIME Unit: SECONDS Statistic: AVG UI name: [Average handle time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-handle-time) INTERACTION_AND_HOLD_TIME Unit: SECONDS Statistic: AVG UI name: [Average agent interaction and customer hold time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-interaction-and-customer-hold-time) INTERACTION_TIME Unit: SECONDS Statistic: AVG UI name: [Average agent interaction time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#aaverage-agent-interaction-time) OCCUPANCY Unit: PERCENT Statistic: AVG UI name: [Occupancy](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#occupancy) QUEUE_ANSWER_TIME Unit: SECONDS Statistic: AVG UI name: [Average queue answer time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html##average-queue-answer-time) QUEUED_TIME Unit: SECONDS Statistic: MAX UI name: [Minimum flow time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#minimum-flow-time) SERVICE_LEVEL You can include up to 20 SERVICE_LEVEL metrics in a request. Unit: PERCENT Statistic: AVG Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than"). UI name: [Service level X](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#service-level)
         public var name: ConnectClientTypes.HistoricalMetricName?
         /// The statistic for the metric.
         public var statistic: ConnectClientTypes.Statistic?
@@ -19627,10 +19777,10 @@ public struct GetMetricDataInput: Swift.Sendable {
     public var filters: ConnectClientTypes.Filters?
     /// The grouping applied to the metrics returned. For example, when results are grouped by queue, the metrics returned are grouped by queue. The values returned apply to the metrics for each queue rather than aggregated for all queues. If no grouping is specified, a summary of metrics for all queues is returned. RoutingStepExpression is not a valid filter for GetMetricData and we recommend switching to GetMetricDataV2 for more up-to-date features.
     public var groupings: [ConnectClientTypes.Grouping]?
-    /// The metrics to retrieve. Specify the name, unit, and statistic for each metric. The following historical metrics are available. For a description of each metric, see [Metrics definition](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html) in the Amazon Connect Administrator Guide. This API does not support a contacts incoming metric (there's no CONTACTS_INCOMING metric missing from the documented list). ABANDON_TIME Unit: SECONDS Statistic: AVG UI name: [Average queue abandon time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-queue-abandon-time) AFTER_CONTACT_WORK_TIME Unit: SECONDS Statistic: AVG UI name: [After contact work time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#after-contact-work-time) API_CONTACTS_HANDLED Unit: COUNT Statistic: SUM UI name: [API contacts handled](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#api-contacts-handled) AVG_HOLD_TIME Unit: SECONDS Statistic: AVG UI name: [Average customer hold time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-customer-hold-time) CALLBACK_CONTACTS_HANDLED Unit: COUNT Statistic: SUM UI name: [Callback contacts handled](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#callback-contacts-handled) CONTACTS_ABANDONED Unit: COUNT Statistic: SUM UI name: [Contacts abandoned](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-abandoned) CONTACTS_AGENT_HUNG_UP_FIRST Unit: COUNT Statistic: SUM UI name: [Contacts agent hung up first](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-agent-hung-up-first) CONTACTS_CONSULTED Unit: COUNT Statistic: SUM UI name: [Contacts consulted](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-consulted) CONTACTS_HANDLED Unit: COUNT Statistic: SUM UI name: [Contacts handled](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-handled) CONTACTS_HANDLED_INCOMING Unit: COUNT Statistic: SUM UI name: [Contacts handled incoming](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-handled-incoming) CONTACTS_HANDLED_OUTBOUND Unit: COUNT Statistic: SUM UI name: [Contacts handled outbound](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-handled-outbound) CONTACTS_HOLD_ABANDONS Unit: COUNT Statistic: SUM UI name: [Contacts hold disconnect](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-hold-disconnect) CONTACTS_MISSED Unit: COUNT Statistic: SUM UI name: [AGENT_NON_RESPONSE](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#agent-non-response) CONTACTS_QUEUED Unit: COUNT Statistic: SUM UI name: [Contacts queued](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-queued) CONTACTS_TRANSFERRED_IN Unit: COUNT Statistic: SUM UI name: [Contacts transferred in](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-transferred-in) CONTACTS_TRANSFERRED_IN_FROM_QUEUE Unit: COUNT Statistic: SUM UI name: [Contacts transferred out queue](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-transferred-out-queue) CONTACTS_TRANSFERRED_OUT Unit: COUNT Statistic: SUM UI name: [Contacts transferred out](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-transferred-out) CONTACTS_TRANSFERRED_OUT_FROM_QUEUE Unit: COUNT Statistic: SUM UI name: [Contacts transferred out queue](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-transferred-out-queue) HANDLE_TIME Unit: SECONDS Statistic: AVG UI name: [Average handle time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-handle-time) INTERACTION_AND_HOLD_TIME Unit: SECONDS Statistic: AVG UI name: [Average agent interaction and customer hold time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-interaction-and-customer-hold-time) INTERACTION_TIME Unit: SECONDS Statistic: AVG UI name: [Average agent interaction time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#aaverage-agent-interaction-time) OCCUPANCY Unit: PERCENT Statistic: AVG UI name: [Occupancy](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#occupancy) QUEUE_ANSWER_TIME Unit: SECONDS Statistic: AVG UI name: [Average queue answer time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html##average-queue-answer-time) QUEUED_TIME Unit: SECONDS Statistic: MAX UI name: [Minimum flow time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#minimum-flow-time) SERVICE_LEVEL You can include up to 20 SERVICE_LEVEL metrics in a request. Unit: PERCENT Statistic: AVG Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than"). UI name: [Average queue abandon time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-queue-abandon-time)
+    /// The metrics to retrieve. Specify the name, unit, and statistic for each metric. The following historical metrics are available. For a description of each metric, see [Metrics definition](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html) in the Connect Customer Administrator Guide. This API does not support a contacts incoming metric (there's no CONTACTS_INCOMING metric missing from the documented list). ABANDON_TIME Unit: SECONDS Statistic: AVG UI name: [Average queue abandon time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-queue-abandon-time) AFTER_CONTACT_WORK_TIME Unit: SECONDS Statistic: AVG UI name: [After contact work time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#after-contact-work-time) API_CONTACTS_HANDLED Unit: COUNT Statistic: SUM UI name: [API contacts handled](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#api-contacts-handled) AVG_HOLD_TIME Unit: SECONDS Statistic: AVG UI name: [Average customer hold time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-customer-hold-time) CALLBACK_CONTACTS_HANDLED Unit: COUNT Statistic: SUM UI name: [Callback contacts handled](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#callback-contacts-handled) CONTACTS_ABANDONED Unit: COUNT Statistic: SUM UI name: [Contacts abandoned](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-abandoned) CONTACTS_AGENT_HUNG_UP_FIRST Unit: COUNT Statistic: SUM UI name: [Contacts agent hung up first](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-agent-hung-up-first) CONTACTS_CONSULTED Unit: COUNT Statistic: SUM UI name: [Contacts consulted](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-consulted) CONTACTS_HANDLED Unit: COUNT Statistic: SUM UI name: [Contacts handled](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-handled) CONTACTS_HANDLED_INCOMING Unit: COUNT Statistic: SUM UI name: [Contacts handled incoming](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-handled-incoming) CONTACTS_HANDLED_OUTBOUND Unit: COUNT Statistic: SUM UI name: [Contacts handled outbound](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-handled-outbound) CONTACTS_HOLD_ABANDONS Unit: COUNT Statistic: SUM UI name: [Contacts hold disconnect](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-hold-disconnect) CONTACTS_MISSED Unit: COUNT Statistic: SUM UI name: [AGENT_NON_RESPONSE](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#agent-non-response) CONTACTS_QUEUED Unit: COUNT Statistic: SUM UI name: [Contacts queued](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-queued) CONTACTS_TRANSFERRED_IN Unit: COUNT Statistic: SUM UI name: [Contacts transferred in](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-transferred-in) CONTACTS_TRANSFERRED_IN_FROM_QUEUE Unit: COUNT Statistic: SUM UI name: [Contacts transferred out queue](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-transferred-out-queue) CONTACTS_TRANSFERRED_OUT Unit: COUNT Statistic: SUM UI name: [Contacts transferred out](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-transferred-out) CONTACTS_TRANSFERRED_OUT_FROM_QUEUE Unit: COUNT Statistic: SUM UI name: [Contacts transferred out queue](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-transferred-out-queue) HANDLE_TIME Unit: SECONDS Statistic: AVG UI name: [Average handle time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-handle-time) INTERACTION_AND_HOLD_TIME Unit: SECONDS Statistic: AVG UI name: [Average agent interaction and customer hold time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-interaction-and-customer-hold-time) INTERACTION_TIME Unit: SECONDS Statistic: AVG UI name: [Average agent interaction time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#aaverage-agent-interaction-time) OCCUPANCY Unit: PERCENT Statistic: AVG UI name: [Occupancy](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#occupancy) QUEUE_ANSWER_TIME Unit: SECONDS Statistic: AVG UI name: [Average queue answer time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html##average-queue-answer-time) QUEUED_TIME Unit: SECONDS Statistic: MAX UI name: [Minimum flow time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#minimum-flow-time) SERVICE_LEVEL You can include up to 20 SERVICE_LEVEL metrics in a request. Unit: PERCENT Statistic: AVG Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than"). UI name: [Average queue abandon time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-queue-abandon-time)
     /// This member is required.
     public var historicalMetrics: [ConnectClientTypes.HistoricalMetric]?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -19824,7 +19974,7 @@ extension ConnectClientTypes {
 
     /// Information about the interval period to use for returning results.
     public struct IntervalDetails: Swift.Sendable {
-        /// IntervalPeriod: An aggregated grouping applied to request metrics. Valid IntervalPeriod values are: FIFTEEN_MIN | THIRTY_MIN | HOUR | DAY | WEEK | TOTAL. For example, if IntervalPeriod is selected THIRTY_MIN, StartTime and EndTime differs by 1 day, then Amazon Connect returns 48 results in the response. Each result is aggregated by the THIRTY_MIN period. By default Amazon Connect aggregates results based on the TOTAL interval period. The following list describes restrictions on StartTime and EndTime based on what IntervalPeriod is requested.
+        /// IntervalPeriod: An aggregated grouping applied to request metrics. Valid IntervalPeriod values are: FIFTEEN_MIN | THIRTY_MIN | HOUR | DAY | WEEK | TOTAL. For example, if IntervalPeriod is selected THIRTY_MIN, StartTime and EndTime differs by 1 day, then Connect Customer returns 48 results in the response. Each result is aggregated by the THIRTY_MIN period. By default Connect Customer aggregates results based on the TOTAL interval period. The following list describes restrictions on StartTime and EndTime based on what IntervalPeriod is requested.
         ///
         /// * FIFTEEN_MIN: The difference between StartTime and EndTime must be less than 3 days.
         ///
@@ -19873,7 +20023,7 @@ extension ConnectClientTypes {
         ///
         /// * INITIATION_METHOD
         public var metricFilterKey: Swift.String?
-        /// The values to use for filtering data. Values for metric-level filters can be either a fixed set of values or a customized list, depending on the use case. For valid values of metric-level filters INITIATION_METHOD, DISCONNECT_REASON, and ANSWERING_MACHINE_DETECTION_STATUS, see [ContactTraceRecord](https://docs.aws.amazon.com/connect/latest/adminguide/ctr-data-model.html#ctr-ContactTraceRecord) in the Amazon Connect Administrator Guide. For valid values of the metric-level filter FLOWS_OUTCOME_TYPE, see the description for the [Flow outcome](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#flows-outcome) metric in the Amazon Connect Administrator Guide. For valid values of the metric-level filter BOT_CONVERSATION_OUTCOME_TYPE, see the description for the [Bot conversations completed](https://docs.aws.amazon.com/connect/latest/adminguide/bot-metrics.html#bot-conversations-completed-metric) in the Amazon Connect Administrator Guide. For valid values of the metric-level filter BOT_INTENT_OUTCOME_TYPE, see the description for the [Bot intents completed](https://docs.aws.amazon.com/connect/latest/adminguide/bot-metrics.html#bot-intents-completed-metric) metric in the Amazon Connect Administrator Guide.
+        /// The values to use for filtering data. Values for metric-level filters can be either a fixed set of values or a customized list, depending on the use case. For valid values of metric-level filters INITIATION_METHOD, DISCONNECT_REASON, and ANSWERING_MACHINE_DETECTION_STATUS, see [ContactTraceRecord](https://docs.aws.amazon.com/connect/latest/adminguide/ctr-data-model.html#ctr-ContactTraceRecord) in the Connect Customer Administrator Guide. For valid values of the metric-level filter FLOWS_OUTCOME_TYPE, see the description for the [Flow outcome](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#flows-outcome) metric in the Connect Customer Administrator Guide. For valid values of the metric-level filter BOT_CONVERSATION_OUTCOME_TYPE, see the description for the [Bot conversations completed](https://docs.aws.amazon.com/connect/latest/adminguide/bot-metrics.html#bot-conversations-completed-metric) in the Connect Customer Administrator Guide. For valid values of the metric-level filter BOT_INTENT_OUTCOME_TYPE, see the description for the [Bot intents completed](https://docs.aws.amazon.com/connect/latest/adminguide/bot-metrics.html#bot-intents-completed-metric) metric in the Connect Customer Administrator Guide.
         public var metricFilterValues: [Swift.String]?
         /// If set to true, the API response contains results that filter out the results matched by the metric-level filters condition. By default, Negate is set to false.
         public var negate: Swift.Bool
@@ -19915,7 +20065,7 @@ extension ConnectClientTypes {
     public struct MetricV2: Swift.Sendable {
         /// Contains the filters to be used when returning data.
         public var metricFilters: [ConnectClientTypes.MetricFilterV2]?
-        /// Historical metrics or custom metrics can be referenced via this field. This field is a valid Amazon Connect Arn or a UUID
+        /// Historical metrics or custom metrics can be referenced via this field. This field is a valid Connect Customer Arn or a UUID
         public var metricId: Swift.String?
         /// The name of the metric.
         public var name: Swift.String?
@@ -19940,7 +20090,7 @@ public struct GetMetricDataV2Input: Swift.Sendable {
     /// The timestamp, in UNIX Epoch time format, at which to end the reporting interval for the retrieval of historical metrics data. The time must be later than the start time timestamp. It cannot be later than the current timestamp.
     /// This member is required.
     public var endTime: Foundation.Date?
-    /// Filtering is an operation that selects records that match a set of specified criteria. By narrowing the dataset before aggregation, filters ensure that only relevant records are included in the computation. Filter keys The following are valid filter keys for a GetMetricDataV2 request: AGENT | AGENT_HIERARCHY_LEVEL_ONE | AGENT_HIERARCHY_LEVEL_TWO | AGENT_HIERARCHY_LEVEL_THREE | AGENT_HIERARCHY_LEVEL_FOUR | AGENT_HIERARCHY_LEVEL_FIVE | ANSWERING_MACHINE_DETECTION_STATUS | BOT_ALIAS | BOT_ID | BOT_INTENT_NAME | BOT_LOCALE | BOT_VERSION | CAMPAIGN | CAMPAIGN_DELIVERY_EVENT_TYPE | CAMPAIGN_EXCLUDED_EVENT_TYPE | CASE_STATUS | CASE_TEMPLATE_ARN | CHANNEL | contact/segmentAttributes/connect:Subtype | contact/segmentAttributes/connect:ValidationTestType | DISCONNECT_REASON | EVALUATION_FORM | EVALUATION_QUESTION | EVALUATION_SECTION | EVALUATION_SOURCE | EVALUATOR_ID | FEATURE | FLOW_ACTION_ID | FLOW_TYPE | FLOWS_MODULE_RESOURCE_ID | FLOWS_NEXT_RESOURCE_ID | FLOWS_NEXT_RESOURCE_QUEUE_ID | FLOWS_OUTCOME_TYPE | FLOWS_RESOURCE_ID | FORM_VERSION | INITIATING_FLOW | INITIATION_METHOD | INVOKING_RESOURCE_PUBLISHED_TIMESTAMP | INVOKING_RESOURCE_TYPE | PARENT_FLOWS_RESOURCE_ID | Q_CONNECT_ENABLED | QUEUE | RESOURCE_PUBLISHED_TIMESTAMP | ROUTING_PROFILE | ROUTING_STEP_EXPRESSION | TEST_CASE | TEST_CASE_EXECUTION_FAILURE_REASON | TEST_CASE_EXECUTION_RESULT | TEST_CASE_EXECUTION_STATE The following filter keys correspond to Amazon Connect resources and are used for authorizing requests. A GetMetricDataV2 request requires at least one of these filters: QUEUE, ROUTING_PROFILE, AGENT, AGENT_HIERARCHY_LEVEL_ONE, AGENT_HIERARCHY_LEVEL_TWO, AGENT_HIERARCHY_LEVEL_THREE, AGENT_HIERARCHY_LEVEL_FOUR, AGENT_HIERARCHY_LEVEL_FIVE, CAMPAIGN, EVALUATION_FORM, EVALUATOR_ID You can use up to 5 filter keys in a single request, and up to 100 filter values across all filter keys. Filter values
+    /// Filtering is an operation that selects records that match a set of specified criteria. By narrowing the dataset before aggregation, filters ensure that only relevant records are included in the computation. Filter keys The following are valid filter keys for a GetMetricDataV2 request: AGENT | AGENT_HIERARCHY_LEVEL_ONE | AGENT_HIERARCHY_LEVEL_TWO | AGENT_HIERARCHY_LEVEL_THREE | AGENT_HIERARCHY_LEVEL_FOUR | AGENT_HIERARCHY_LEVEL_FIVE | ANSWERING_MACHINE_DETECTION_STATUS | BOT_ALIAS | BOT_ID | BOT_INTENT_NAME | BOT_LOCALE | BOT_VERSION | CAMPAIGN | CAMPAIGN_DELIVERY_EVENT_TYPE | CAMPAIGN_EXCLUDED_EVENT_TYPE | CASE_STATUS | CASE_TEMPLATE_ARN | CHANNEL | contact/segmentAttributes/connect:Subtype | contact/segmentAttributes/connect:ValidationTestType | DISCONNECT_REASON | EVALUATION_FORM | EVALUATION_QUESTION | EVALUATION_SECTION | EVALUATION_SOURCE | EVALUATOR_ID | FEATURE | FLOW_ACTION_ID | FLOW_TYPE | FLOWS_MODULE_RESOURCE_ID | FLOWS_NEXT_RESOURCE_ID | FLOWS_NEXT_RESOURCE_QUEUE_ID | FLOWS_OUTCOME_TYPE | FLOWS_RESOURCE_ID | FORM_VERSION | INITIATING_FLOW | INITIATION_METHOD | INVOKING_RESOURCE_PUBLISHED_TIMESTAMP | INVOKING_RESOURCE_TYPE | PARENT_FLOWS_RESOURCE_ID | Q_CONNECT_ENABLED | QUEUE | RESOURCE_PUBLISHED_TIMESTAMP | ROUTING_PROFILE | ROUTING_STEP_EXPRESSION | TEST_CASE | TEST_CASE_EXECUTION_FAILURE_REASON | TEST_CASE_EXECUTION_RESULT | TEST_CASE_EXECUTION_STATE The following filter keys correspond to Connect Customer resources and are used for authorizing requests. A GetMetricDataV2 request requires at least one of these filters: QUEUE, ROUTING_PROFILE, AGENT, AGENT_HIERARCHY_LEVEL_ONE, AGENT_HIERARCHY_LEVEL_TWO, AGENT_HIERARCHY_LEVEL_THREE, AGENT_HIERARCHY_LEVEL_FOUR, AGENT_HIERARCHY_LEVEL_FIVE, CAMPAIGN, EVALUATION_FORM, EVALUATOR_ID You can use up to 5 filter keys in a single request, and up to 100 filter values across all filter keys. Filter values
     ///
     /// * VOICE, CHAT, TASK, and EMAIL are valid filter values for the CHANNEL filter key. They do not count towards the limit of 100 filter values. For example, a GetMetricDataV2 request can filter by 50 queues, 35 agents, and 15 routing profiles for a total of 100 filter values, along with 4 channel filters.
     ///
@@ -19963,14 +20113,14 @@ public struct GetMetricDataV2Input: Swift.Sendable {
     ///
     /// * [Campaign](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-outbound-campaigns_Campaign.html) ARNs are valid filter values for the CAMPAIGN filter key.
     ///
-    /// * To filter by phone number, see [Create a historical metrics report](https://docs.aws.amazon.com/connect/latest/adminguide/create-historical-metrics-report.html) in the Amazon Connect Administrator Guide.
+    /// * To filter by phone number, see [Create a historical metrics report](https://docs.aws.amazon.com/connect/latest/adminguide/create-historical-metrics-report.html) in the Connect Customer Administrator Guide.
     /// This member is required.
     public var filters: [ConnectClientTypes.FilterV2]?
     /// The grouping applied to the metrics that are returned. For example, when results are grouped by queue, the metrics returned are grouped by queue. The values that are returned apply to the metrics for each queue. They are not aggregated for all queues. If no grouping is specified, a summary of all metrics is returned. Valid grouping keys: AGENT | AGENT_HIERARCHY_LEVEL_ONE | AGENT_HIERARCHY_LEVEL_TWO | AGENT_HIERARCHY_LEVEL_THREE | AGENT_HIERARCHY_LEVEL_FOUR | AGENT_HIERARCHY_LEVEL_FIVE | ANSWERING_MACHINE_DETECTION_STATUS | BOT_ID | BOT_ALIAS | BOT_VERSION | BOT_LOCALE | BOT_INTENT_NAME | CAMPAIGN | CAMPAIGN_DELIVERY_EVENT_TYPE | CAMPAIGN_EXCLUDED_EVENT_TYPE | CAMPAIGN_EXECUTION_TIMESTAMP | CASE_TEMPLATE_ARN | CASE_STATUS | CHANNEL | contact/segmentAttributes/connect:Subtype | DISCONNECT_REASON | EVALUATION_FORM | EVALUATION_SECTION | EVALUATION_QUESTION | EVALUATION_SOURCE | EVALUATOR_ID | FLOWS_RESOURCE_ID | FLOWS_MODULE_RESOURCE_ID | FLOW_ACTION_ID | FLOW_TYPE | FLOWS_OUTCOME_TYPE | FORM_VERSION | INITIATION_METHOD | INVOKING_RESOURCE_PUBLISHED_TIMESTAMP | INVOKING_RESOURCE_TYPE | PARENT_FLOWS_RESOURCE_ID | Q_CONNECT_ENABLED | QUEUE | RESOURCE_PUBLISHED_TIMESTAMP | ROUTING_PROFILE | ROUTING_STEP_EXPRESSION | TEST_CASE | TEST_CASE_EXECUTION_FAILURE_REASON | TEST_CASE_INVOCATION_METHOD API, SCHEDULE, and EVENT are the only valid filterValues for TEST_CASE_INVOCATION_METHOD. OBSERVE_EVENT, SEND_INSTRUCTION, ASSERT_DATA, and OVERRIDE_SYSTEM_BEHAVIOR are the only valid filterValues for TEST_CASE_EXECUTION_FAILURE_REASON Type: Array of strings Array Members: Maximum number of 4 items Required: No
     public var groupings: [Swift.String]?
     /// The interval period and timezone to apply to returned metrics.
     ///
-    /// * IntervalPeriod: An aggregated grouping applied to request metrics. Valid IntervalPeriod values are: FIFTEEN_MIN | THIRTY_MIN | HOUR | DAY | WEEK | TOTAL. For example, if IntervalPeriod is selected THIRTY_MIN, StartTime and EndTime differs by 1 day, then Amazon Connect returns 48 results in the response. Each result is aggregated by the THIRTY_MIN period. By default Amazon Connect aggregates results based on the TOTAL interval period. The following list describes restrictions on StartTime and EndTime based on which IntervalPeriod is requested.
+    /// * IntervalPeriod: An aggregated grouping applied to request metrics. Valid IntervalPeriod values are: FIFTEEN_MIN | THIRTY_MIN | HOUR | DAY | WEEK | TOTAL. For example, if IntervalPeriod is selected THIRTY_MIN, StartTime and EndTime differs by 1 day, then Connect Customer returns 48 results in the response. Each result is aggregated by the THIRTY_MIN period. By default Connect Customer aggregates results based on the TOTAL interval period. The following list describes restrictions on StartTime and EndTime based on which IntervalPeriod is requested.
     ///
     /// * FIFTEEN_MIN: The difference between StartTime and EndTime must be less than 3 days.
     ///
@@ -19991,7 +20141,7 @@ public struct GetMetricDataV2Input: Swift.Sendable {
     public var interval: ConnectClientTypes.IntervalDetails?
     /// The maximum number of results to return per page.
     public var maxResults: Swift.Int?
-    /// The metrics to retrieve. Specify the name or metricId, groupings, and filters for each metric. The following historical metrics are available. For a description of each metric, see [Metrics definition](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html) in the Amazon Connect Administrator Guide. MetricId should be used to reference custom metrics or out of the box metrics as Arn. If using MetricId, the limit is 20 MetricId per request. ABANDONMENT_RATE Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Abandonment rate](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#abandonment-rate) AGENT_ADHERENT_TIME This metric is available only in Amazon Web Services Regions where [Forecasting, capacity planning, and scheduling](https://docs.aws.amazon.com/connect/latest/adminguide/regions.html#optimization_region) is available. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Adherent time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#adherent-time) AGENT_ANSWER_RATE Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Agent answer rate](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#agent-answer-rate) AGENT_NON_ADHERENT_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Non-adherent time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#non-adherent-time) AGENT_NON_RESPONSE Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Agent non-response](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#agent-non-response) AGENT_NON_RESPONSE_WITHOUT_CUSTOMER_ABANDONS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy Data for this metric is available starting from October 1, 2023 0:00:00 GMT. UI name: [Agent non-response without customer abandons](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#agent-non-response-without-customer-abandons) AGENT_OCCUPANCY Unit: Percentage Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: [Occupancy](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#occupancy) AGENT_SCHEDULE_ADHERENCE This metric is available only in Amazon Web Services Regions where [Forecasting, capacity planning, and scheduling](https://docs.aws.amazon.com/connect/latest/adminguide/regions.html#optimization_region) is available. Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Adherence](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#adherence) AGENT_SCHEDULED_TIME This metric is available only in Amazon Web Services Regions where [Forecasting, capacity planning, and scheduling](https://docs.aws.amazon.com/connect/latest/adminguide/regions.html#optimization_region) is available. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Scheduled time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#scheduled-time) AVG_ABANDON_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect Valid metric filter key: INITIATION_METHOD UI name: [Average queue abandon time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-queue-abandon-time) AVG_ACTIVE_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [Average active time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-active-time) AVG_AFTER_CONTACT_WORK_TIME Unit: Seconds Valid metric filter key: INITIATION_METHOD Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average after contact work time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#after-contact-work-time) Feature is a valid filter but not a valid grouping. AVG_AGENT_CONCURRENCY Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [Average agent concurrency](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-concurrency) AVG_AGENT_CONNECTING_TIME Unit: Seconds Valid metric filter key: INITIATION_METHOD. For now, this metric only supports the following as INITIATION_METHOD: INBOUND | OUTBOUND | CALLBACK | API Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Average agent API connecting time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-api-connecting-time) The Negate key in metric-level filters is not applicable for this metric. AVG_AGENT_PAUSE_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [Average agent pause time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-pause-time) AVG_BOT_CONVERSATION_TIME Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: [Average bot conversation time](https://docs.aws.amazon.com/connect/latest/adminguide/bot-metrics.html#average-bot-conversation-time) AVG_BOT_CONVERSATION_TURNS Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: [Average bot conversation turns](https://docs.aws.amazon.com/connect/latest/adminguide/bot-metrics.html#average-bot-conversation-turns) AVG_CASE_RELATED_CONTACTS Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Average contacts per case](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-contacts-per-case) AVG_CASE_RESOLUTION_TIME Unit: Seconds Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Average case resolution time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-case-resolution-time) AVG_CONTACT_DURATION Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average contact duration](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-contact-duration) Feature is a valid filter but not a valid grouping. AVG_CONTACT_FIRST_RESPONSE_TIME_AGENT Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Agent average contact first response wait time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#agent-average-contact-first-response-wait-time) AVG_CONVERSATION_CLOSE_TIME Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Average conversation close time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-conversation-close-time) AVG_CONVERSATION_DURATION Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average conversation duration](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-conversation-duration) AVG_DIALS_PER_MINUTE This metric is available only for outbound campaigns that use the agent assisted voice and automated voice delivery modes. Unit: Count Valid groupings and filters: Agent, Campaign, Queue, Routing Profile UI name: [Average dials per minute](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-dials-per-minute) AVG_EVALUATION_SCORE Unit: Percent Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form ID, Evaluation Section ID, Evaluation Question ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: [Average evaluation score](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-evaluation-score) AVG_FIRST_RESPONSE_TIME_AGENT Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Average agent first response time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-first-response-time) AVG_FLOW_TIME Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: [Average flow time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-flow-time) AVG_GREETING_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average agent greeting time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-greeting-time) AVG_HANDLE_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, RoutingStepExpression UI name: [Average handle time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-handle-time) Feature is a valid filter but not a valid grouping. ACTIVE_AI_AGENTS Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: [Active AI Agents](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#active-ai-agents) AI_HANDOFF_RATE Unit: Percent Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: [AI Handoff Rate](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#ai-handoff-rate) AI_HANDOFFS Unit: Count Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: [AI Handoffs](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#ai-handoffs) AI_AGENT_INVOCATION_SUCCESS Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: [AI Agent Invocation Success](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#ai-agent-invocation-success) AI Agent Name Version is not a valid filter but a valid grouping. AI_AGENT_INVOCATION_SUCCESS_RATE Unit: Percent Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: [AI Agent Invocation Success Rate](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#ai-agent-invocation-success-rate) AI Agent Name Version is not a valid filter but a valid grouping. AI_AGENT_INVOCATIONS Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Type, AI Agent Name Version, AI Use Case, Channel, Queue, Routing Profile UI name: [AI Agent Invocations](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#ai-agent-invocations) AI Agent Name Version is not a valid filter but a valid grouping. AI_RESPONSE_COMPLETION_RATE Unit: Percent Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: [AI Response Completion Rate](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#ai-response-completion-rate) AI_INVOLVED_CONTACTS Unit: Count Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: [AI Involved Contacts](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#ai-involved-contacts) AI_PROMPT_INVOCATION_SUCCESS Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Prompt, AI Prompt ID, AI Prompt Name, AI Prompt Type, AI Use Case, Channel, Queue, Routing Profile UI name: [AI Prompt Invocation Success](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#ai-prompt-invocation-success) AI Agent Name Version is not a valid filter but a valid grouping. AI_PROMPT_INVOCATION_SUCCESS_RATE Unit: Percent Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Prompt, AI Prompt ID, AI Prompt Name, AI Prompt Type, AI Use Case, Channel, Queue, Routing Profile UI name: [AI Prompt Invocation Success Rate](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#ai-prompt-invocation-success-rate) AI Agent Name Version is not a valid filter but a valid grouping. AI_PROMPT_INVOCATIONS Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Prompt, AI Prompt ID, AI Prompt Name, AI Prompt Type, AI Use Case, Channel, Queue, Routing Profile UI name: [AI Prompt Invocations](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#ai-prompt-invocations) AI Agent Name Version is not a valid filter but a valid grouping. AI_TOOL_INVOCATION_SUCCESS Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Tool ID, AI Tool Name, AI Tool Type, AI Use Case, Channel, Queue, Routing Profile UI name: [AI Tool Invocation Success](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#ai-tool-invocation-success) AI Agent Name Version is not a valid filter but a valid grouping. AI_TOOL_INVOCATION_SUCCESS_RATE Unit: Percent Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Tool ID, AI Tool Name, AI Tool Type, AI Use Case, Channel, Queue, Routing Profile UI name: [AI Tool Invocation Success Rate](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#ai-tool-invocation-success-rate) AI Agent Name Version is not a valid filter but a valid grouping. AI_TOOL_INVOCATIONS Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Tool ID, AI Tool Name, AI Tool Type, AI Use Case, Channel, Queue, Routing Profile UI name: [AI Tool Invocations](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#ai-tool-invocations) AI Agent Name Version is not a valid filter but a valid grouping. AVG_AI_AGENT_CONVERSATION_TURNS Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: [Average AI Agent Conversation Turns](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-ai-agent-conversation-turns) AI Agent Name Version is not a valid filter but a valid grouping. AVG_AI_CONVERSATION_TURNS Unit: Count Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: [Average AI Conversation Turns](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-ai-conversation-turns) AVG_AI_PROMPT_INVOCATION_LATENCY Unit: Milliseconds Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Prompt, AI Prompt ID, AI Prompt Name, AI Prompt Type, AI Use Case, Channel, Queue, Routing Profile UI name: [Average AI Prompt Invocation Latency](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-ai-prompt-invocation-latency) AI Agent Name Version is not a valid filter but a valid grouping. AVG_AI_TOOL_INVOCATION_LATENCY Unit: Milliseconds Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Tool ID, AI Tool Name, AI Tool Type, AI Use Case, Channel, Queue, Routing Profile UI name: [Average AI Tool Invocation Latency](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-ai-tool-invocation-latency) AI Agent Name Version is not a valid filter but a valid grouping. KNOWLEDGE_CONTENT_REFERENCES Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Type, AI Use Case, Channel, Knowledge Base Name, Queue, Routing Profile UI name: [Knowledge Content References](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#knowledge-content-references) PROACTIVE_INTENT_ENGAGEMENT_RATE Unit: Percent Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: [Proactive Intent Engagement Rate](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#proactive-intents-engagement-rate) PROACTIVE_INTENT_RESPONSE_RATE Unit: Percent Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: [Proactive Intent Response Rate](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#proactive-intents-response-rate) PROACTIVE_INTENTS_ANSWERED Unit: Count Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: [Proactive Intents Answered](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#proactive-intents-answered) PROACTIVE_INTENTS_DETECTED Unit: Count Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: [Proactive Intents Detected](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#proactive-intents-detected) PROACTIVE_INTENTS_ENGAGED Unit: Count Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: [Proactive Intents Engaged](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#proactive-intents-engaged) AVG_HOLD_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average customer hold time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-customer-hold-time) Feature is a valid filter but not a valid grouping. AVG_HOLD_TIME_ALL_CONTACTS Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average customer hold time all contacts](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-customer-hold-time-all-contacts) AVG_HOLDS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average holds](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-holds) Feature is a valid filter but not a valid grouping. AVG_INTERACTION_AND_HOLD_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average agent interaction and customer hold time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-interaction-and-customer-hold-time) AVG_INTERACTION_TIME Unit: Seconds Valid metric filter key: INITIATION_METHOD Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average agent interaction time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-interaction-time) Feature is a valid filter but not a valid grouping. AVG_INTERRUPTIONS_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average agent interruptions](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-interruptions) AVG_INTERRUPTION_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average agent interruption time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-interruption-time) AVG_MESSAGE_LENGTH_AGENT Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Average agent message length](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-message-length) AVG_MESSAGE_LENGTH_CUSTOMER Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Average customer message length](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-customer-message-length) AVG_MESSAGES Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Average messages](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-messages) AVG_MESSAGES_AGENT Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Average agent messages](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-messages) AVG_MESSAGES_BOT Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Average bot messages](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-bot-messages) AVG_MESSAGES_CUSTOMER Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Average customer messages](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-customer-messages) AVG_NON_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average non-talk time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-non-talk-time) AVG_QUEUE_ANSWER_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average queue answer time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-queue-answer-time) Valid metric level filters: INITIATION_METHOD, FEATURE, DISCONNECT_REASON Feature is a valid filter but not a valid grouping. AVG_QUEUE_ANSWER_TIME_CUSTOMER_FIRST_CALLBACK Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect, Agent Hierarchy UI name: [Avg. queue answer time - customer first callback](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-queue-answer-time-customer-first-callback) AVG_RESPONSE_TIME_AGENT Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Average agent response time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-response-time-agent) AVG_RESPONSE_TIME_CUSTOMER Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Average customer response time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-customer-time-agent) AVG_RESOLUTION_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average resolution time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-resolution-time) AVG_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average talk time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-talk-time) AVG_TALK_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average agent talk time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-talk-time) AVG_TALK_TIME_CUSTOMER This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average customer talk time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-customer-talk-time) AVG_WAIT_TIME_AFTER_CUSTOMER_CONNECTION This metric is available only for outbound campaigns that use the agent assisted voice and automated voice delivery modes. Unit: Seconds Valid groupings and filters: Campaign UI name: [Average wait time after customer connection](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-wait-time-after-customer-connection) AVG_WAIT_TIME_AFTER_CUSTOMER_FIRST_CALLBACK_CONNECTION Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect, Agent Hierarchy UI name: [Avg. wait time after customer connection - customer first callback](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-wait-time-after-customer-connection-customer-first-callback) AVG_WEIGHTED_EVALUATION_SCORE Unit: Percent Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form Id, Evaluation Section ID, Evaluation Question ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: [Average weighted evaluation score](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-weighted-evaluation-score) BOT_CONVERSATIONS_COMPLETED Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: [Bot conversations completed](https://docs.aws.amazon.com/connect/latest/adminguide/bot-metrics.html#bot-conversations-completed) BOT_INTENTS_COMPLETED Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Bot intent name, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: [Bot intents completed](https://docs.aws.amazon.com/connect/latest/adminguide/bot-metrics.html#bot-intents-completed) CAMPAIGN_CONTACTS_ABANDONED_AFTER_X This metric is available only for outbound campaigns using the agent assisted voice and automated voice delivery modes. Unit: Count Valid groupings and filters: Agent, Campaign Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter GT (for Greater than). UI name: [Campaign contacts abandoned after X](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#campaign-contacts-abandoned-after-x) CAMPAIGN_CONTACTS_ABANDONED_AFTER_X_RATE This metric is available only for outbound campaigns using the agent assisted voice and automated voice delivery modes. Unit: Percent Valid groupings and filters: Agent, Campaign Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter GT (for Greater than). UI name: [Campaign contacts abandoned after X rate](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#campaign-contacts-abandoned-after-x-rate) CAMPAIGN_INTERACTIONS This metric is available only for outbound campaigns using the email delivery mode. Unit: Count Valid metric filter key: CAMPAIGN_INTERACTION_EVENT_TYPE Valid groupings and filters: Campaign UI name: [Campaign interactions](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#campaign-interactions) CAMPAIGN_PROGRESS_RATE This metric is only available for outbound campaigns initiated using a customer segment. It is not available for event triggered campaigns. Unit: Percent Valid groupings and filters: Campaign, Campaign Execution Timestamp UI name: [Campaign progress rate](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#campaign-progress-rate) CAMPAIGN_SEND_ATTEMPTS This metric is available only for outbound campaigns. Unit: Count Valid groupings and filters: Campaign, Channel, contact/segmentAttributes/connect:Subtype UI name: [Campaign send attempts](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#campaign-send-attempts) CAMPAIGN_SEND_EXCLUSIONS This metric is available only for outbound campaigns. Valid metric filter key: CAMPAIGN_EXCLUDED_EVENT_TYPE Unit: Count Valid groupings and filters: Campaign, Campaign Excluded Event Type, Campaign Execution Timestamp UI name: [Campaign send exclusions](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#campaign-send-exclusions) CASES_CREATED Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Cases created](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#cases-created) CONTACTS_CREATED Unit: Count Valid metric filter key: INITIATION_METHOD Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Contacts created](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-created) Feature is a valid filter but not a valid grouping. CONTACTS_HANDLED Unit: Count Valid metric filter key: INITIATION_METHOD, DISCONNECT_REASON Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, RoutingStepExpression, Q in Connect UI name: [Contacts handled](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-handled) Feature is a valid filter but not a valid grouping. CONTACTS_HANDLED_BY_CONNECTED_TO_AGENT Unit: Count Valid metric filter key: INITIATION_METHOD Valid groupings and filters: Queue, Channel, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Contacts handled (connected to agent timestamp)](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-handled-by-connected-to-agent-timestamp) CONTACTS_HOLD_ABANDONS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Contacts hold disconnect](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-hold-disconnect) CONTACTS_ON_HOLD_AGENT_DISCONNECT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [Contacts hold agent disconnect](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-hold-agent-disconnect) CONTACTS_ON_HOLD_CUSTOMER_DISCONNECT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [Contacts hold customer disconnect](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-hold-customer-disconnect) CONTACTS_PUT_ON_HOLD Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [Contacts put on hold](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-put-on-hold) CONTACTS_TRANSFERRED_OUT_EXTERNAL Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [Contacts transferred out external](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-transferred-out-external) CONTACTS_TRANSFERRED_OUT_INTERNAL Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [Contacts transferred out internal](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-transferred-out-internal) CONTACTS_QUEUED Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Contacts queued](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-queued) CONTACTS_QUEUED_BY_ENQUEUE Unit: Count Valid groupings and filters: Queue, Channel, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: [Contacts queued (enqueue timestamp)](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-queued-by-enqueue) CONTACTS_REMOVED_FROM_QUEUE_IN_X Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: [Contacts removed from queue in X seconds](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-removed-from-queue) CONTACTS_RESOLVED_IN_X Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: [Contacts resolved in X](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-resolved) CONTACTS_TRANSFERRED_OUT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Contacts transferred out](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-transferred-out) Feature is a valid filter but not a valid grouping. CONTACTS_TRANSFERRED_OUT_BY_AGENT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Contacts transferred out by agent](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-transferred-out-by-agent) CONTACTS_TRANSFERRED_OUT_FROM_QUEUE Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Contacts transferred out queue](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-transferred-out-queue) CURRENT_CASES Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Current cases](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#current-cases) CONVERSATIONS_ABANDONED Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Conversations abandoned](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#conversations-abandoned) DELIVERY_ATTEMPTS This metric is available only for outbound campaigns. Unit: Count Valid metric filter key: ANSWERING_MACHINE_DETECTION_STATUS, CAMPAIGN_DELIVERY_EVENT_TYPE, DISCONNECT_REASON Valid groupings and filters: Agent, Answering Machine Detection Status, Campaign, Campaign Delivery EventType, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Queue, Routing Profile UI name: [Delivery attempts](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#delivery-attempts) Campaign Delivery EventType filter and grouping are only available for SMS and Email campaign delivery modes. Agent, Queue, Routing Profile, Answering Machine Detection Status and Disconnect Reason are only available for agent assisted voice and automated voice delivery modes. DELIVERY_ATTEMPT_DISPOSITION_RATE This metric is available only for outbound campaigns. Dispositions for the agent assisted voice and automated voice delivery modes are only available with answering machine detection enabled. Unit: Percent Valid metric filter key: ANSWERING_MACHINE_DETECTION_STATUS, CAMPAIGN_DELIVERY_EVENT_TYPE, DISCONNECT_REASON Valid groupings and filters: Agent, Answering Machine Detection Status, Campaign, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Queue, Routing Profile UI name: [Delivery attempt disposition rate](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#delivery-attempt-disposition-rate) Campaign Delivery Event Type filter and grouping are only available for SMS and Email campaign delivery modes. Agent, Queue, Routing Profile, Answering Machine Detection Status and Disconnect Reason are only available for agent assisted voice and automated voice delivery modes. EVALUATIONS_PERFORMED Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: [Evaluations performed](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#evaluations-performed) FLOWS_OUTCOME Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: [Flows outcome](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#flows-outcome) FLOWS_STARTED Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows resource ID, Initiation method, Resource published timestamp UI name: [Flows started](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#flows-started) HUMAN_ANSWERED_CALLS This metric is available only for outbound campaigns. Dispositions for the agent assisted voice and automated voice delivery modes are only available with answering machine detection enabled. Unit: Count Valid groupings and filters: Agent, Campaign UI name: [Human answered](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#human-answered) MAX_FLOW_TIME Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: [Maximum flow time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#maximum-flow-time) MAX_QUEUED_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Maximum queued time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#maximum-queued-time) MIN_FLOW_TIME Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: [Minimum flow time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#minimum-flow-time) PERCENT_AUTOMATIC_FAILS Unit: Percent Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: [Automatic fails percent](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#automatic-fails-percent) PERCENT_BOT_CONVERSATIONS_OUTCOME Unit: Percent Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: [Percent bot conversations outcome](https://docs.aws.amazon.com/connect/latest/adminguide/bot-metrics.html#percent-bot-conversations-outcome) PERCENT_BOT_INTENTS_OUTCOME Unit: Percent Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Bot intent name, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: [Percent bot intents outcome](https://docs.aws.amazon.com/connect/latest/adminguide/bot-metrics.html#percent-bot-intents-outcome) PERCENT_CASES_FIRST_CONTACT_RESOLVED Unit: Percent Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Cases resolved on first contact](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#cases-resolved-on-first-contact) PERCENT_CONTACTS_STEP_EXPIRED Unit: Percent Valid groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in Real-time Metrics UI but not on the Historical Metrics UI. PERCENT_CONTACTS_STEP_JOINED Unit: Percent Valid groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in Real-time Metrics UI but not on the Historical Metrics UI. PERCENT_FLOWS_OUTCOME Unit: Percent Valid metric filter key: FLOWS_OUTCOME_TYPE Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: [Flows outcome percentage](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#flows-outcome-percentage). The FLOWS_OUTCOME_TYPE is not a valid grouping. PERCENT_NON_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Non-talk time percent](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#non-talk-time-percent) PERCENT_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Talk time percent](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#talk-time-percent) PERCENT_TALK_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Agent talk time percent](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#agent-talk-time-percent) PERCENT_TALK_TIME_CUSTOMER This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Customer talk time percent](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#customer-talk-time-percent) RECIPIENTS_ATTEMPTED This metric is only available for outbound campaigns initiated using a customer segment. It is not available for event triggered campaigns. Unit: Count Valid groupings and filters: Campaign, Campaign Execution Timestamp UI name: [Recipients attempted](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#recipients-attempted) RECIPIENTS_INTERACTED This metric is only available for outbound campaigns initiated using a customer segment. It is not available for event triggered campaigns. Valid metric filter key: CAMPAIGN_INTERACTION_EVENT_TYPE Unit: Count Valid groupings and filters: Campaign, Channel, contact/segmentAttributes/connect:Subtype, Campaign Execution Timestamp UI name: [Recipients interacted](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#recipients-interacted) RECIPIENTS_TARGETED This metric is only available for outbound campaigns initiated using a customer segment. It is not available for event triggered campaigns. Unit: Count Valid groupings and filters: Campaign, Campaign Execution Timestamp UI name: [Recipients targeted](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#recipients-targeted) REOPENED_CASE_ACTIONS Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Cases reopened](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#cases-reopened) RESOLVED_CASE_ACTIONS Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Cases resolved](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#cases-resolved) SERVICE_LEVEL You can include up to 20 SERVICE_LEVEL metrics in a request. Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: [Service level X](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#service-level) STEP_CONTACTS_QUEUED Unit: Count Valid groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in Real-time Metrics UI but not on the Historical Metrics UI. SUM_AFTER_CONTACT_WORK_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [After contact work time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#after-contact-work-time) SUM_CONNECTING_TIME_AGENT Unit: Seconds Valid metric filter key: INITIATION_METHOD. This metric only supports the following filter keys as INITIATION_METHOD: INBOUND | OUTBOUND | CALLBACK | API | CALLBACK_CUSTOMER_FIRST_DIALED Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Agent API connecting time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#agent-api-connecting-time) The Negate key in metric-level filters is not applicable for this metric. CONTACTS_ABANDONED Unit: Count Metric filter:
+    /// The metrics to retrieve. Specify the name or metricId, groupings, and filters for each metric. The following historical metrics are available. For a description of each metric, see [Metrics definition](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html) in the Connect Customer Administrator Guide. MetricId should be used to reference custom metrics or out of the box metrics as Arn. If using MetricId, the limit is 20 MetricId per request. ABANDONMENT_RATE Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Abandonment rate](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#abandonment-rate) AGENT_ADHERENT_TIME This metric is available only in Amazon Web Services Regions where [Forecasting, capacity planning, and scheduling](https://docs.aws.amazon.com/connect/latest/adminguide/regions.html#optimization_region) is available. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Adherent time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#adherent-time) AGENT_ANSWER_RATE Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Agent answer rate](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#agent-answer-rate) AGENT_NON_ADHERENT_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Non-adherent time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#non-adherent-time) AGENT_NON_RESPONSE Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Agent non-response](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#agent-non-response) AGENT_NON_RESPONSE_WITHOUT_CUSTOMER_ABANDONS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy Data for this metric is available starting from October 1, 2023 0:00:00 GMT. UI name: [Agent non-response without customer abandons](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#agent-non-response-without-customer-abandons) AGENT_OCCUPANCY Unit: Percentage Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: [Occupancy](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#occupancy) AGENT_SCHEDULE_ADHERENCE This metric is available only in Amazon Web Services Regions where [Forecasting, capacity planning, and scheduling](https://docs.aws.amazon.com/connect/latest/adminguide/regions.html#optimization_region) is available. Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Adherence](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#adherence) AGENT_SCHEDULED_TIME This metric is available only in Amazon Web Services Regions where [Forecasting, capacity planning, and scheduling](https://docs.aws.amazon.com/connect/latest/adminguide/regions.html#optimization_region) is available. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Scheduled time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#scheduled-time) AVG_ABANDON_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect Valid metric filter key: INITIATION_METHOD UI name: [Average queue abandon time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-queue-abandon-time) AVG_ACTIVE_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [Average active time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-active-time) AVG_AFTER_CONTACT_WORK_TIME Unit: Seconds Valid metric filter key: INITIATION_METHOD Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average after contact work time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#after-contact-work-time) Feature is a valid filter but not a valid grouping. AVG_AGENT_CONCURRENCY Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [Average agent concurrency](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-concurrency) AVG_AGENT_CONNECTING_TIME Unit: Seconds Valid metric filter key: INITIATION_METHOD. For now, this metric only supports the following as INITIATION_METHOD: INBOUND | OUTBOUND | CALLBACK | API Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Average agent API connecting time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-api-connecting-time) The Negate key in metric-level filters is not applicable for this metric. AVG_AGENT_PAUSE_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [Average agent pause time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-pause-time) AVG_BOT_CONVERSATION_TIME Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: [Average bot conversation time](https://docs.aws.amazon.com/connect/latest/adminguide/bot-metrics.html#average-bot-conversation-time) AVG_BOT_CONVERSATION_TURNS Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: [Average bot conversation turns](https://docs.aws.amazon.com/connect/latest/adminguide/bot-metrics.html#average-bot-conversation-turns) AVG_CASE_RELATED_CONTACTS Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Average contacts per case](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-contacts-per-case) AVG_CASE_RESOLUTION_TIME Unit: Seconds Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Average case resolution time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-case-resolution-time) AVG_CONTACT_DURATION Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average contact duration](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-contact-duration) Feature is a valid filter but not a valid grouping. AVG_CONTACT_FIRST_RESPONSE_TIME_AGENT Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Agent average contact first response wait time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#agent-average-contact-first-response-wait-time) AVG_CONVERSATION_CLOSE_TIME Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Average conversation close time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-conversation-close-time) AVG_CONVERSATION_DURATION Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average conversation duration](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-conversation-duration) AVG_DIALS_PER_MINUTE This metric is available only for outbound campaigns that use the agent assisted voice and automated voice delivery modes. Unit: Count Valid groupings and filters: Agent, Campaign, Queue, Routing Profile UI name: [Average dials per minute](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-dials-per-minute) AVG_EVALUATION_SCORE Unit: Percent Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form ID, Evaluation Section ID, Evaluation Question ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: [Average evaluation score](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-evaluation-score) AVG_FIRST_RESPONSE_TIME_AGENT Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Average agent first response time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-first-response-time) AVG_FLOW_TIME Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: [Average flow time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-flow-time) AVG_GREETING_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average agent greeting time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-greeting-time) AVG_HANDLE_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, RoutingStepExpression UI name: [Average handle time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-handle-time) Feature is a valid filter but not a valid grouping. ACTIVE_AI_AGENTS Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: [Active AI Agents](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#active-ai-agents) AI_HANDOFF_RATE Unit: Percent Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: [AI Handoff Rate](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#ai-handoff-rate) AI_HANDOFFS Unit: Count Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: [AI Handoffs](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#ai-handoffs) AI_AGENT_INVOCATION_SUCCESS Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: [AI Agent Invocation Success](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#ai-agent-invocation-success) AI Agent Name Version is not a valid filter but a valid grouping. AI_AGENT_INVOCATION_SUCCESS_RATE Unit: Percent Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: [AI Agent Invocation Success Rate](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#ai-agent-invocation-success-rate) AI Agent Name Version is not a valid filter but a valid grouping. AI_AGENT_INVOCATIONS Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Type, AI Agent Name Version, AI Use Case, Channel, Queue, Routing Profile UI name: [AI Agent Invocations](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#ai-agent-invocations) AI Agent Name Version is not a valid filter but a valid grouping. AI_RESPONSE_COMPLETION_RATE Unit: Percent Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: [AI Response Completion Rate](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#ai-response-completion-rate) AI_INVOLVED_CONTACTS Unit: Count Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: [AI Involved Contacts](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#ai-involved-contacts) AI_PROMPT_INVOCATION_SUCCESS Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Prompt, AI Prompt ID, AI Prompt Name, AI Prompt Type, AI Use Case, Channel, Queue, Routing Profile UI name: [AI Prompt Invocation Success](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#ai-prompt-invocation-success) AI Agent Name Version is not a valid filter but a valid grouping. AI_PROMPT_INVOCATION_SUCCESS_RATE Unit: Percent Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Prompt, AI Prompt ID, AI Prompt Name, AI Prompt Type, AI Use Case, Channel, Queue, Routing Profile UI name: [AI Prompt Invocation Success Rate](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#ai-prompt-invocation-success-rate) AI Agent Name Version is not a valid filter but a valid grouping. AI_PROMPT_INVOCATIONS Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Prompt, AI Prompt ID, AI Prompt Name, AI Prompt Type, AI Use Case, Channel, Queue, Routing Profile UI name: [AI Prompt Invocations](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#ai-prompt-invocations) AI Agent Name Version is not a valid filter but a valid grouping. AI_TOOL_INVOCATION_SUCCESS Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Tool ID, AI Tool Name, AI Tool Type, AI Use Case, Channel, Queue, Routing Profile UI name: [AI Tool Invocation Success](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#ai-tool-invocation-success) AI Agent Name Version is not a valid filter but a valid grouping. AI_TOOL_INVOCATION_SUCCESS_RATE Unit: Percent Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Tool ID, AI Tool Name, AI Tool Type, AI Use Case, Channel, Queue, Routing Profile UI name: [AI Tool Invocation Success Rate](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#ai-tool-invocation-success-rate) AI Agent Name Version is not a valid filter but a valid grouping. AI_TOOL_INVOCATIONS Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Tool ID, AI Tool Name, AI Tool Type, AI Use Case, Channel, Queue, Routing Profile UI name: [AI Tool Invocations](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#ai-tool-invocations) AI Agent Name Version is not a valid filter but a valid grouping. AVG_AI_AGENT_CONVERSATION_TURNS Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: [Average AI Agent Conversation Turns](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-ai-agent-conversation-turns) AI Agent Name Version is not a valid filter but a valid grouping. AVG_AI_CONVERSATION_TURNS Unit: Count Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: [Average AI Conversation Turns](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-ai-conversation-turns) AVG_AI_PROMPT_INVOCATION_LATENCY Unit: Milliseconds Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Prompt, AI Prompt ID, AI Prompt Name, AI Prompt Type, AI Use Case, Channel, Queue, Routing Profile UI name: [Average AI Prompt Invocation Latency](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-ai-prompt-invocation-latency) AI Agent Name Version is not a valid filter but a valid grouping. AVG_AI_TOOL_INVOCATION_LATENCY Unit: Milliseconds Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Tool ID, AI Tool Name, AI Tool Type, AI Use Case, Channel, Queue, Routing Profile UI name: [Average AI Tool Invocation Latency](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-ai-tool-invocation-latency) AI Agent Name Version is not a valid filter but a valid grouping. KNOWLEDGE_CONTENT_REFERENCES Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Type, AI Use Case, Channel, Knowledge Base Name, Queue, Routing Profile UI name: [Knowledge Content References](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#knowledge-content-references) PROACTIVE_INTENT_ENGAGEMENT_RATE Unit: Percent Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: [Proactive Intent Engagement Rate](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#proactive-intents-engagement-rate) PROACTIVE_INTENT_RESPONSE_RATE Unit: Percent Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: [Proactive Intent Response Rate](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#proactive-intents-response-rate) PROACTIVE_INTENTS_ANSWERED Unit: Count Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: [Proactive Intents Answered](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#proactive-intents-answered) PROACTIVE_INTENTS_DETECTED Unit: Count Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: [Proactive Intents Detected](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#proactive-intents-detected) PROACTIVE_INTENTS_ENGAGED Unit: Count Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: [Proactive Intents Engaged](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#proactive-intents-engaged) AVG_HOLD_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average customer hold time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-customer-hold-time) Feature is a valid filter but not a valid grouping. AVG_HOLD_TIME_ALL_CONTACTS Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average customer hold time all contacts](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-customer-hold-time-all-contacts) AVG_HOLDS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average holds](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-holds) Feature is a valid filter but not a valid grouping. AVG_INTERACTION_AND_HOLD_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average agent interaction and customer hold time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-interaction-and-customer-hold-time) AVG_INTERACTION_TIME Unit: Seconds Valid metric filter key: INITIATION_METHOD Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average agent interaction time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-interaction-time) Feature is a valid filter but not a valid grouping. AVG_INTERRUPTIONS_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average agent interruptions](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-interruptions) AVG_INTERRUPTION_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average agent interruption time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-interruption-time) AVG_MESSAGE_LENGTH_AGENT Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Average agent message length](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-message-length) AVG_MESSAGE_LENGTH_CUSTOMER Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Average customer message length](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-customer-message-length) AVG_MESSAGES Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Average messages](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-messages) AVG_MESSAGES_AGENT Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Average agent messages](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-messages) AVG_MESSAGES_BOT Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Average bot messages](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-bot-messages) AVG_MESSAGES_CUSTOMER Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Average customer messages](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-customer-messages) AVG_NON_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average non-talk time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-non-talk-time) AVG_QUEUE_ANSWER_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average queue answer time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-queue-answer-time) Valid metric level filters: INITIATION_METHOD, FEATURE, DISCONNECT_REASON Feature is a valid filter but not a valid grouping. AVG_QUEUE_ANSWER_TIME_CUSTOMER_FIRST_CALLBACK Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect, Agent Hierarchy UI name: [Avg. queue answer time - customer first callback](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-queue-answer-time-customer-first-callback) AVG_RESPONSE_TIME_AGENT Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Average agent response time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-response-time-agent) AVG_RESPONSE_TIME_CUSTOMER Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Average customer response time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-customer-time-agent) AVG_RESOLUTION_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average resolution time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-resolution-time) AVG_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average talk time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-talk-time) AVG_TALK_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average agent talk time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-agent-talk-time) AVG_TALK_TIME_CUSTOMER This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average customer talk time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-customer-talk-time) AVG_WAIT_TIME_AFTER_CUSTOMER_CONNECTION This metric is available only for outbound campaigns that use the agent assisted voice and automated voice delivery modes. Unit: Seconds Valid groupings and filters: Campaign UI name: [Average wait time after customer connection](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-wait-time-after-customer-connection) AVG_WAIT_TIME_AFTER_CUSTOMER_FIRST_CALLBACK_CONNECTION Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect, Agent Hierarchy UI name: [Avg. wait time after customer connection - customer first callback](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-wait-time-after-customer-connection-customer-first-callback) AVG_WEIGHTED_EVALUATION_SCORE Unit: Percent Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form Id, Evaluation Section ID, Evaluation Question ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: [Average weighted evaluation score](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#average-weighted-evaluation-score) BOT_CONVERSATIONS_COMPLETED Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: [Bot conversations completed](https://docs.aws.amazon.com/connect/latest/adminguide/bot-metrics.html#bot-conversations-completed) BOT_INTENTS_COMPLETED Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Bot intent name, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: [Bot intents completed](https://docs.aws.amazon.com/connect/latest/adminguide/bot-metrics.html#bot-intents-completed) CAMPAIGN_CONTACTS_ABANDONED_AFTER_X This metric is available only for outbound campaigns using the agent assisted voice and automated voice delivery modes. Unit: Count Valid groupings and filters: Agent, Campaign Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter GT (for Greater than). UI name: [Campaign contacts abandoned after X](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#campaign-contacts-abandoned-after-x) CAMPAIGN_CONTACTS_ABANDONED_AFTER_X_RATE This metric is available only for outbound campaigns using the agent assisted voice and automated voice delivery modes. Unit: Percent Valid groupings and filters: Agent, Campaign Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter GT (for Greater than). UI name: [Campaign contacts abandoned after X rate](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#campaign-contacts-abandoned-after-x-rate) CAMPAIGN_INTERACTIONS This metric is available only for outbound campaigns using the email delivery mode. Unit: Count Valid metric filter key: CAMPAIGN_INTERACTION_EVENT_TYPE Valid groupings and filters: Campaign UI name: [Campaign interactions](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#campaign-interactions) CAMPAIGN_PROGRESS_RATE This metric is only available for outbound campaigns initiated using a customer segment. It is not available for event triggered campaigns. Unit: Percent Valid groupings and filters: Campaign, Campaign Execution Timestamp UI name: [Campaign progress rate](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#campaign-progress-rate) CAMPAIGN_SEND_ATTEMPTS This metric is available only for outbound campaigns. Unit: Count Valid groupings and filters: Campaign, Channel, contact/segmentAttributes/connect:Subtype UI name: [Campaign send attempts](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#campaign-send-attempts) CAMPAIGN_SEND_EXCLUSIONS This metric is available only for outbound campaigns. Valid metric filter key: CAMPAIGN_EXCLUDED_EVENT_TYPE Unit: Count Valid groupings and filters: Campaign, Campaign Excluded Event Type, Campaign Execution Timestamp UI name: [Campaign send exclusions](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#campaign-send-exclusions) CASES_CREATED Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Cases created](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#cases-created) CONTACTS_CREATED Unit: Count Valid metric filter key: INITIATION_METHOD Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Contacts created](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-created) Feature is a valid filter but not a valid grouping. CONTACTS_HANDLED Unit: Count Valid metric filter key: INITIATION_METHOD, DISCONNECT_REASON Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, RoutingStepExpression, Q in Connect UI name: [Contacts handled](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-handled) Feature is a valid filter but not a valid grouping. CONTACTS_HANDLED_BY_CONNECTED_TO_AGENT Unit: Count Valid metric filter key: INITIATION_METHOD Valid groupings and filters: Queue, Channel, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Contacts handled (connected to agent timestamp)](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-handled-by-connected-to-agent-timestamp) CONTACTS_HOLD_ABANDONS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Contacts hold disconnect](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-hold-disconnect) CONTACTS_ON_HOLD_AGENT_DISCONNECT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [Contacts hold agent disconnect](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-hold-agent-disconnect) CONTACTS_ON_HOLD_CUSTOMER_DISCONNECT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [Contacts hold customer disconnect](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-hold-customer-disconnect) CONTACTS_PUT_ON_HOLD Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [Contacts put on hold](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-put-on-hold) CONTACTS_TRANSFERRED_OUT_EXTERNAL Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [Contacts transferred out external](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-transferred-out-external) CONTACTS_TRANSFERRED_OUT_INTERNAL Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [Contacts transferred out internal](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-transferred-out-internal) CONTACTS_QUEUED Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Contacts queued](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-queued) CONTACTS_QUEUED_BY_ENQUEUE Unit: Count Valid groupings and filters: Queue, Channel, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: [Contacts queued (enqueue timestamp)](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-queued-by-enqueue) CONTACTS_REMOVED_FROM_QUEUE_IN_X Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: [Contacts removed from queue in X seconds](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-removed-from-queue) CONTACTS_RESOLVED_IN_X Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: [Contacts resolved in X](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-resolved) CONTACTS_TRANSFERRED_OUT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Contacts transferred out](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-transferred-out) Feature is a valid filter but not a valid grouping. CONTACTS_TRANSFERRED_OUT_BY_AGENT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Contacts transferred out by agent](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-transferred-out-by-agent) CONTACTS_TRANSFERRED_OUT_FROM_QUEUE Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Contacts transferred out queue](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#contacts-transferred-out-queue) CURRENT_CASES Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Current cases](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#current-cases) CONVERSATIONS_ABANDONED Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: [Conversations abandoned](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#conversations-abandoned) DELIVERY_ATTEMPTS This metric is available only for outbound campaigns. Unit: Count Valid metric filter key: ANSWERING_MACHINE_DETECTION_STATUS, CAMPAIGN_DELIVERY_EVENT_TYPE, DISCONNECT_REASON Valid groupings and filters: Agent, Answering Machine Detection Status, Campaign, Campaign Delivery EventType, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Queue, Routing Profile UI name: [Delivery attempts](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#delivery-attempts) Campaign Delivery EventType filter and grouping are only available for SMS and Email campaign delivery modes. Agent, Queue, Routing Profile, Answering Machine Detection Status and Disconnect Reason are only available for agent assisted voice and automated voice delivery modes. DELIVERY_ATTEMPT_DISPOSITION_RATE This metric is available only for outbound campaigns. Dispositions for the agent assisted voice and automated voice delivery modes are only available with answering machine detection enabled. Unit: Percent Valid metric filter key: ANSWERING_MACHINE_DETECTION_STATUS, CAMPAIGN_DELIVERY_EVENT_TYPE, DISCONNECT_REASON Valid groupings and filters: Agent, Answering Machine Detection Status, Campaign, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Queue, Routing Profile UI name: [Delivery attempt disposition rate](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#delivery-attempt-disposition-rate) Campaign Delivery Event Type filter and grouping are only available for SMS and Email campaign delivery modes. Agent, Queue, Routing Profile, Answering Machine Detection Status and Disconnect Reason are only available for agent assisted voice and automated voice delivery modes. EVALUATIONS_PERFORMED Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: [Evaluations performed](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#evaluations-performed) FLOWS_OUTCOME Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: [Flows outcome](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#flows-outcome) FLOWS_STARTED Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows resource ID, Initiation method, Resource published timestamp UI name: [Flows started](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#flows-started) HUMAN_ANSWERED_CALLS This metric is available only for outbound campaigns. Dispositions for the agent assisted voice and automated voice delivery modes are only available with answering machine detection enabled. Unit: Count Valid groupings and filters: Agent, Campaign UI name: [Human answered](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#human-answered) MAX_FLOW_TIME Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: [Maximum flow time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#maximum-flow-time) MAX_QUEUED_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Maximum queued time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#maximum-queued-time) MIN_FLOW_TIME Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: [Minimum flow time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#minimum-flow-time) PERCENT_AUTOMATIC_FAILS Unit: Percent Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: [Automatic fails percent](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#automatic-fails-percent) PERCENT_BOT_CONVERSATIONS_OUTCOME Unit: Percent Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: [Percent bot conversations outcome](https://docs.aws.amazon.com/connect/latest/adminguide/bot-metrics.html#percent-bot-conversations-outcome) PERCENT_BOT_INTENTS_OUTCOME Unit: Percent Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Bot intent name, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: [Percent bot intents outcome](https://docs.aws.amazon.com/connect/latest/adminguide/bot-metrics.html#percent-bot-intents-outcome) PERCENT_CASES_FIRST_CONTACT_RESOLVED Unit: Percent Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Cases resolved on first contact](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#cases-resolved-on-first-contact) PERCENT_CONTACTS_STEP_EXPIRED Unit: Percent Valid groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in Real-time Metrics UI but not on the Historical Metrics UI. PERCENT_CONTACTS_STEP_JOINED Unit: Percent Valid groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in Real-time Metrics UI but not on the Historical Metrics UI. PERCENT_FLOWS_OUTCOME Unit: Percent Valid metric filter key: FLOWS_OUTCOME_TYPE Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: [Flows outcome percentage](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#flows-outcome-percentage). The FLOWS_OUTCOME_TYPE is not a valid grouping. PERCENT_NON_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Non-talk time percent](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#non-talk-time-percent) PERCENT_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Talk time percent](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#talk-time-percent) PERCENT_TALK_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Agent talk time percent](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#agent-talk-time-percent) PERCENT_TALK_TIME_CUSTOMER This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Customer talk time percent](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#customer-talk-time-percent) RECIPIENTS_ATTEMPTED This metric is only available for outbound campaigns initiated using a customer segment. It is not available for event triggered campaigns. Unit: Count Valid groupings and filters: Campaign, Campaign Execution Timestamp UI name: [Recipients attempted](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#recipients-attempted) RECIPIENTS_INTERACTED This metric is only available for outbound campaigns initiated using a customer segment. It is not available for event triggered campaigns. Valid metric filter key: CAMPAIGN_INTERACTION_EVENT_TYPE Unit: Count Valid groupings and filters: Campaign, Channel, contact/segmentAttributes/connect:Subtype, Campaign Execution Timestamp UI name: [Recipients interacted](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#recipients-interacted) RECIPIENTS_TARGETED This metric is only available for outbound campaigns initiated using a customer segment. It is not available for event triggered campaigns. Unit: Count Valid groupings and filters: Campaign, Campaign Execution Timestamp UI name: [Recipients targeted](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#recipients-targeted) REOPENED_CASE_ACTIONS Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Cases reopened](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#cases-reopened) RESOLVED_CASE_ACTIONS Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Cases resolved](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#cases-resolved) SERVICE_LEVEL You can include up to 20 SERVICE_LEVEL metrics in a request. Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: [Service level X](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#service-level) STEP_CONTACTS_QUEUED Unit: Count Valid groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in Real-time Metrics UI but not on the Historical Metrics UI. SUM_AFTER_CONTACT_WORK_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [After contact work time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#after-contact-work-time) SUM_CONNECTING_TIME_AGENT Unit: Seconds Valid metric filter key: INITIATION_METHOD. This metric only supports the following filter keys as INITIATION_METHOD: INBOUND | OUTBOUND | CALLBACK | API | CALLBACK_CUSTOMER_FIRST_DIALED Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Agent API connecting time](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#agent-api-connecting-time) The Negate key in metric-level filters is not applicable for this metric. CONTACTS_ABANDONED Unit: Count Metric filter:
     ///
     /// * Valid values: API| INCOMING | OUTBOUND | TRANSFER | CALLBACK | QUEUE_TRANSFER| Disconnect | CALLBACK_CUSTOMER_FIRST_DIALED
     ///
@@ -20001,7 +20151,7 @@ public struct GetMetricDataV2Input: Swift.Sendable {
     public var metrics: [ConnectClientTypes.MetricV2]?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     public var nextToken: Swift.String?
-    /// The Amazon Resource Name (ARN) of the resource. This includes the instanceId an Amazon Connect instance.
+    /// The Amazon Resource Name (ARN) of the resource. This includes the instanceId an Connect Customer instance.
     /// This member is required.
     public var resourceArn: Swift.String?
     /// The timestamp, in UNIX Epoch time format, at which to start the reporting interval for the retrieval of historical metrics data. The time must be before the end time timestamp. The start and end time depends on the IntervalPeriod selected. By default the time range between start and end time is 35 days. Historical metrics are available for 3 months.
@@ -20112,7 +20262,7 @@ public struct GetMetricDataV2Output: Swift.Sendable {
 }
 
 public struct GetPromptFileInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// A unique identifier for the prompt.
@@ -20148,7 +20298,7 @@ public struct GetPromptFileOutput: Swift.Sendable {
 }
 
 public struct GetTaskTemplateInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The system generated version of a task template that is associated with a task, when the task is created.
@@ -20187,7 +20337,7 @@ public struct GetTaskTemplateOutput: Swift.Sendable {
     /// A unique identifier for the task template.
     /// This member is required.
     public var id: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     public var instanceId: Swift.String?
     /// The timestamp when the task template was last modified.
     public var lastModifiedTime: Foundation.Date?
@@ -20436,7 +20586,7 @@ public struct GetTrafficDistributionOutput: Swift.Sendable {
 public struct ImportPhoneNumberInput: Swift.Sendable {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The description of the phone number.
@@ -20512,7 +20662,7 @@ public struct ImportWorkspaceMediaOutput: Swift.Sendable {
 public struct ListAgentStatusesInput: Swift.Sendable {
     /// Available agent status types.
     public var agentStatusTypes: [ConnectClientTypes.AgentStatusType]?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -20551,7 +20701,7 @@ public struct ListAgentStatusesOutput: Swift.Sendable {
 public struct ListAnalyticsDataAssociationsInput: Swift.Sendable {
     /// The identifier of the dataset to get the association status.
     public var dataSetId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -20588,7 +20738,7 @@ public struct ListAnalyticsDataAssociationsOutput: Swift.Sendable {
 }
 
 public struct ListAnalyticsDataLakeDataSetsInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -20642,7 +20792,7 @@ public struct ListAnalyticsDataLakeDataSetsOutput: Swift.Sendable {
 }
 
 public struct ListApprovedOriginsInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -20677,10 +20827,10 @@ public struct ListApprovedOriginsOutput: Swift.Sendable {
 }
 
 public struct ListAssociatedContactsInput: Swift.Sendable {
-    /// The identifier of the contact in this instance of Amazon Connect.
+    /// The identifier of the contact in this instance of Connect Customer.
     /// This member is required.
     public var contactId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -20709,7 +20859,7 @@ extension ConnectClientTypes {
         public var channel: ConnectClientTypes.Channel?
         /// The Amazon Resource Name (ARN) of the contact
         public var contactArn: Swift.String?
-        /// The identifier of the contact in this instance of Amazon Connect.
+        /// The identifier of the contact in this instance of Connect Customer.
         public var contactId: Swift.String?
         /// The date and time that the customer endpoint disconnected from the current contact, in UTC time. In transfer scenarios, the DisconnectTimestamp of the previous contact indicates the date and time when that contact ended.
         public var disconnectTimestamp: Foundation.Date?
@@ -20763,8 +20913,72 @@ public struct ListAssociatedContactsOutput: Swift.Sendable {
     }
 }
 
+public struct ListAttachedFilesConfigurationsInput: Swift.Sendable {
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The maximum number of results to return per page. The default MaxResult size is 100.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.instanceId = instanceId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// A summary of the attached files configuration.
+    public struct AttachedFilesConfigurationSummary: Swift.Sendable {
+        /// The scope of the attachment. Valid values are EMAIL, CHAT, CASE, and TASK.
+        /// This member is required.
+        public var attachmentScope: ConnectClientTypes.AttachmentScope?
+        /// The configuration for allowed file extensions.
+        public var extensionConfiguration: ConnectClientTypes.ExtensionConfiguration?
+        /// The identifier of the Connect Customer instance.
+        /// This member is required.
+        public var instanceId: Swift.String?
+        /// The maximum size limit for attached files in bytes. The minimum value is 1 and the maximum value is 104857600 (100 MB).
+        public var maximumSizeLimitInBytes: Swift.Int?
+
+        public init(
+            attachmentScope: ConnectClientTypes.AttachmentScope? = nil,
+            extensionConfiguration: ConnectClientTypes.ExtensionConfiguration? = nil,
+            instanceId: Swift.String? = nil,
+            maximumSizeLimitInBytes: Swift.Int? = nil
+        ) {
+            self.attachmentScope = attachmentScope
+            self.extensionConfiguration = extensionConfiguration
+            self.instanceId = instanceId
+            self.maximumSizeLimitInBytes = maximumSizeLimitInBytes
+        }
+    }
+}
+
+public struct ListAttachedFilesConfigurationsOutput: Swift.Sendable {
+    /// Information about the attached files configurations.
+    public var attachedFilesConfigurations: [ConnectClientTypes.AttachedFilesConfigurationSummary]?
+    /// If there are additional results, this is the token for the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        attachedFilesConfigurations: [ConnectClientTypes.AttachedFilesConfigurationSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.attachedFilesConfigurations = attachedFilesConfigurations
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListAuthenticationProfilesInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -20785,13 +20999,13 @@ public struct ListAuthenticationProfilesInput: Swift.Sendable {
 
 extension ConnectClientTypes {
 
-    /// This API is in preview release for Amazon Connect and is subject to change. To request access to this API, contact Amazon Web Services Support. A summary of a given authentication profile.
+    /// This API is in preview release for Connect Customer and is subject to change. To request access to this API, contact Amazon Web Services Support. A summary of a given authentication profile.
     public struct AuthenticationProfileSummary: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the authentication profile summary.
         public var arn: Swift.String?
         /// The unique identifier of the authentication profile.
         public var id: Swift.String?
-        /// Shows whether the authentication profile is the default authentication profile for the Amazon Connect instance. The default authentication profile applies to all agents in an Amazon Connect instance, unless overridden by another authentication profile.
+        /// Shows whether the authentication profile is the default authentication profile for the Connect Customer instance. The default authentication profile applies to all agents in an Connect Customer instance, unless overridden by another authentication profile.
         public var isDefault: Swift.Bool
         /// The Amazon Web Services Region when the authentication profile summary was last modified.
         public var lastModifiedRegion: Swift.String?
@@ -20863,7 +21077,7 @@ extension ConnectClientTypes {
 }
 
 public struct ListBotsInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The version of Amazon Lex or Amazon Lex V2.
@@ -20970,10 +21184,10 @@ public struct ListChildHoursOfOperationsOutput: Swift.Sendable {
 }
 
 public struct ListContactEvaluationsInput: Swift.Sendable {
-    /// The identifier of the contact in this instance of Amazon Connect.
+    /// The identifier of the contact in this instance of Connect Customer.
     /// This member is required.
     public var contactId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. This is not expected to be set because the value returned in the previous response is always null.
@@ -21112,7 +21326,7 @@ public struct ListContactFlowModuleAliasesInput: Swift.Sendable {
     /// The identifier of the flow module.
     /// This member is required.
     public var contactFlowModuleId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -21186,7 +21400,7 @@ public struct ListContactFlowModuleAliasesOutput: Swift.Sendable {
 public struct ListContactFlowModulesInput: Swift.Sendable {
     /// The state of the flow module.
     public var contactFlowModuleState: ConnectClientTypes.ContactFlowModuleState?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -21253,7 +21467,7 @@ public struct ListContactFlowModuleVersionsInput: Swift.Sendable {
     /// The identifier of the flow module.
     /// This member is required.
     public var contactFlowModuleId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -21315,7 +21529,7 @@ public struct ListContactFlowModuleVersionsOutput: Swift.Sendable {
 public struct ListContactFlowsInput: Swift.Sendable {
     /// The type of flow.
     public var contactFlowTypes: [ConnectClientTypes.ContactFlowType]?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page. The default MaxResult size is 100.
@@ -21338,7 +21552,7 @@ public struct ListContactFlowsInput: Swift.Sendable {
 
 extension ConnectClientTypes {
 
-    /// Contains summary information about a flow. You can also create and update flows using the [Amazon Connect Flow language](https://docs.aws.amazon.com/connect/latest/APIReference/flow-language.html).
+    /// Contains summary information about a flow. You can also create and update flows using the [Connect Customer Flow language](https://docs.aws.amazon.com/connect/latest/APIReference/flow-language.html).
     public struct ContactFlowSummary: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the flow.
         public var arn: Swift.String?
@@ -21390,7 +21604,7 @@ public struct ListContactFlowVersionsInput: Swift.Sendable {
     /// The identifier of the flow.
     /// This member is required.
     public var contactFlowId: Swift.String?
-    /// The identifier of the Amazon Connect instance.
+    /// The identifier of the Connect Customer instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page. The default MaxResult size is 100.
@@ -21453,7 +21667,7 @@ public struct ListContactReferencesInput: Swift.Sendable {
     /// The identifier of the initial contact.
     /// This member is required.
     public var contactId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. This is not expected to be set, because the value returned in the previous response is always null.
@@ -21969,7 +22183,7 @@ public struct ListDataTableValuesOutput: Swift.Sendable {
 }
 
 public struct ListDefaultVocabulariesInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The language code of the vocabulary entries. For a list of languages and their corresponding language codes, see [What is Amazon Transcribe?](https://docs.aws.amazon.com/transcribe/latest/dg/transcribe-whatis.html)
@@ -21996,7 +22210,7 @@ extension ConnectClientTypes {
 
     /// Contains information about a default vocabulary.
     public struct DefaultVocabulary: Swift.Sendable {
-        /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
         /// This member is required.
         public var instanceId: Swift.String?
         /// The language code of the vocabulary entries. For a list of languages and their corresponding language codes, see [What is Amazon Transcribe?](https://docs.aws.amazon.com/transcribe/latest/dg/transcribe-whatis.html)
@@ -22085,7 +22299,7 @@ public struct ListEntitySecurityProfilesOutput: Swift.Sendable {
 }
 
 public struct ListEvaluationFormsInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -22187,7 +22401,7 @@ public struct ListEvaluationFormVersionsInput: Swift.Sendable {
     /// The unique identifier for the evaluation form.
     /// This member is required.
     public var evaluationFormId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -22281,7 +22495,7 @@ public struct ListEvaluationFormVersionsOutput: Swift.Sendable {
 }
 
 public struct ListFlowAssociationsInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -22323,7 +22537,7 @@ public struct ListHoursOfOperationOverridesInput: Swift.Sendable {
     /// The identifier for the hours of operation.
     /// This member is required.
     public var hoursOfOperationId: Swift.String?
-    /// The identifier of the Amazon Connect instance.
+    /// The identifier of the Connect Customer instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -22368,7 +22582,7 @@ public struct ListHoursOfOperationOverridesOutput: Swift.Sendable {
 }
 
 public struct ListHoursOfOperationsInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page. The default MaxResult size is 100.
@@ -22434,7 +22648,7 @@ public struct ListHoursOfOperationsOutput: Swift.Sendable {
 }
 
 public struct ListInstanceAttributesInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -22497,7 +22711,7 @@ extension ConnectClientTypes {
         public var identityManagementType: ConnectClientTypes.DirectoryType?
         /// Whether inbound calls are enabled.
         public var inboundCallsEnabled: Swift.Bool?
-        /// This URL allows contact center users to access the Amazon Connect admin website.
+        /// This URL allows contact center users to access the Connect Customer admin website.
         public var instanceAccessUrl: Swift.String?
         /// The alias of the instance.
         public var instanceAlias: Swift.String?
@@ -22555,7 +22769,7 @@ public struct ListInstancesOutput: Swift.Sendable {
 }
 
 public struct ListInstanceStorageConfigsInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -22595,7 +22809,7 @@ public struct ListInstanceStorageConfigsOutput: Swift.Sendable {
 }
 
 public struct ListIntegrationAssociationsInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The Amazon Resource Name (ARN) of the integration.
@@ -22626,7 +22840,7 @@ extension ConnectClientTypes {
 
     /// Contains summary information about the associated AppIntegrations.
     public struct IntegrationAssociationSummary: Swift.Sendable {
-        /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
         public var instanceId: Swift.String?
         /// The Amazon Resource Name (ARN) for the AppIntegration.
         public var integrationArn: Swift.String?
@@ -22681,7 +22895,7 @@ public struct ListIntegrationAssociationsOutput: Swift.Sendable {
 }
 
 public struct ListLambdaFunctionsInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -22716,7 +22930,7 @@ public struct ListLambdaFunctionsOutput: Swift.Sendable {
 }
 
 public struct ListLexBotsInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page. If no value is specified, the default is 10.
@@ -22787,7 +23001,7 @@ public struct ListNotificationsOutput: Swift.Sendable {
 }
 
 public struct ListPhoneNumbersInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page. The default MaxResult size is 100.
@@ -22861,7 +23075,7 @@ public struct ListPhoneNumbersOutput: Swift.Sendable {
 }
 
 public struct ListPhoneNumbersV2Input: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance that phone numbers are claimed to. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance. If both TargetArn and InstanceId are not provided, this API lists numbers claimed to all the Amazon Connect instances belonging to your account in the same Amazon Web Services Region as the request.
+    /// The identifier of the Connect Customer instance that phone numbers are claimed to. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance. If both TargetArn and InstanceId are not provided, this API lists numbers claimed to all the Connect Customer instances belonging to your account in the same Amazon Web Services Region as the request.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
     public var maxResults: Swift.Int?
@@ -22873,7 +23087,7 @@ public struct ListPhoneNumbersV2Input: Swift.Sendable {
     public var phoneNumberPrefix: Swift.String?
     /// The type of phone number.
     public var phoneNumberTypes: [ConnectClientTypes.PhoneNumberType]?
-    /// The Amazon Resource Name (ARN) for Amazon Connect instances or traffic distribution groups that phone number inbound traffic is routed through. If both TargetArn and InstanceId input are not provided, this API lists numbers claimed to all the Amazon Connect instances belonging to your account in the same Amazon Web Services Region as the request.
+    /// The Amazon Resource Name (ARN) for Connect Customer instances or traffic distribution groups that phone number inbound traffic is routed through. If both TargetArn and InstanceId input are not provided, this API lists numbers claimed to all the Connect Customer instances belonging to your account in the same Amazon Web Services Region as the request.
     public var targetArn: Swift.String?
 
     public init(
@@ -22897,9 +23111,9 @@ public struct ListPhoneNumbersV2Input: Swift.Sendable {
 
 extension ConnectClientTypes {
 
-    /// Information about phone numbers that have been claimed to your Amazon Connect instance or traffic distribution group.
+    /// Information about phone numbers that have been claimed to your Connect Customer instance or traffic distribution group.
     public struct ListPhoneNumbersSummary: Swift.Sendable {
-        /// The identifier of the Amazon Connect instance that phone numbers are claimed to. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance that phone numbers are claimed to. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
         public var instanceId: Swift.String?
         /// The phone number. Phone numbers are formatted [+] [country code] [subscriber number including area code].
         public var phoneNumber: Swift.String?
@@ -22915,7 +23129,7 @@ extension ConnectClientTypes {
         public var phoneNumberType: ConnectClientTypes.PhoneNumberType?
         /// The claimed phone number ARN that was previously imported from the external service, such as Amazon Web Services End User Messaging. If it is from Amazon Web Services End User Messaging, it looks like the ARN of the phone number that was imported from Amazon Web Services End User Messaging.
         public var sourcePhoneNumberArn: Swift.String?
-        /// The Amazon Resource Name (ARN) for Amazon Connect instances or traffic distribution groups that phone number inbound traffic is routed through.
+        /// The Amazon Resource Name (ARN) for Connect Customer instances or traffic distribution groups that phone number inbound traffic is routed through.
         public var targetArn: Swift.String?
 
         public init(
@@ -22943,7 +23157,7 @@ extension ConnectClientTypes {
 }
 
 public struct ListPhoneNumbersV2Output: Swift.Sendable {
-    /// Information about phone numbers that have been claimed to your Amazon Connect instances or traffic distribution groups.
+    /// Information about phone numbers that have been claimed to your Connect Customer instances or traffic distribution groups.
     public var listPhoneNumbersSummaryList: [ConnectClientTypes.ListPhoneNumbersSummary]?
     /// If there are additional results, this is the token for the next set of results.
     public var nextToken: Swift.String?
@@ -22958,7 +23172,7 @@ public struct ListPhoneNumbersV2Output: Swift.Sendable {
 }
 
 public struct ListPredefinedAttributesInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -23016,7 +23230,7 @@ public struct ListPredefinedAttributesOutput: Swift.Sendable {
 }
 
 public struct ListPromptsInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance.
+    /// The identifier of the Connect Customer instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page. The default MaxResult size is 100.
@@ -23082,7 +23296,7 @@ public struct ListPromptsOutput: Swift.Sendable {
 }
 
 public struct ListQueueEmailAddressesInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -23153,7 +23367,7 @@ public struct ListQueueEmailAddressesOutput: Swift.Sendable {
 }
 
 public struct ListQueueQuickConnectsInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page. The default MaxResult size is 100.
@@ -23191,7 +23405,7 @@ extension ConnectClientTypes {
         public var lastModifiedTime: Foundation.Date?
         /// The name of the quick connect.
         public var name: Swift.String?
-        /// The type of quick connect. In the Amazon Connect admin website, when you create a quick connect, you are prompted to assign one of the following types: Agent (USER), External (PHONE_NUMBER), or Queue (QUEUE).
+        /// The type of quick connect. In the Connect Customer admin website, when you create a quick connect, you are prompted to assign one of the following types: Agent (USER), External (PHONE_NUMBER), or Queue (QUEUE).
         public var quickConnectType: ConnectClientTypes.QuickConnectType?
 
         public init(
@@ -23265,7 +23479,7 @@ extension ConnectClientTypes {
 }
 
 public struct ListQueuesInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page. The default MaxResult size is 100.
@@ -23339,14 +23553,14 @@ public struct ListQueuesOutput: Swift.Sendable {
 }
 
 public struct ListQuickConnectsInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance. Both Instance ID and Instance ARN are supported input formats.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance. Both Instance ID and Instance ARN are supported input formats.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page. The default MaxResult size is 100.
     public var maxResults: Swift.Int?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     public var nextToken: Swift.String?
-    /// The type of quick connect. In the Amazon Connect admin website, when you create a quick connect, you are prompted to assign one of the following types: Agent (USER), External (PHONE_NUMBER), or Queue (QUEUE).
+    /// The type of quick connect. In the Connect Customer admin website, when you create a quick connect, you are prompted to assign one of the following types: Agent (USER), External (PHONE_NUMBER), or Queue (QUEUE).
     public var quickConnectTypes: [ConnectClientTypes.QuickConnectType]?
 
     public init(
@@ -23389,9 +23603,9 @@ public struct OutputTypeNotFoundException: ClientRuntime.ModeledError, AWSClient
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -23471,10 +23685,10 @@ extension ConnectClientTypes {
 }
 
 public struct ListRealtimeContactAnalysisSegmentsV2Input: Swift.Sendable {
-    /// The identifier of the contact in this instance of Amazon Connect.
+    /// The identifier of the contact in this instance of Connect Customer.
     /// This member is required.
     public var contactId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -23576,7 +23790,7 @@ extension ConnectClientTypes {
         /// A case-sensitive name of the attachment being uploaded. Can be redacted.
         /// This member is required.
         public var attachmentName: Swift.String?
-        /// Describes the MIME file type of the attachment. For a list of supported file types, see [Feature specifications](https://docs.aws.amazon.com/connect/latest/adminguide/feature-limits.html) in the Amazon Connect Administrator Guide.
+        /// Describes the MIME file type of the attachment. For a list of supported file types, see [Feature specifications](https://docs.aws.amazon.com/connect/latest/adminguide/feature-limits.html) in the Connect Customer Administrator Guide.
         public var contentType: Swift.String?
         /// Status of the attachment.
         public var status: ConnectClientTypes.ArtifactStatus?
@@ -24106,7 +24320,7 @@ public struct ListRealtimeContactAnalysisSegmentsV2Output: Swift.Sendable {
 }
 
 public struct ListRoutingProfileManualAssignmentQueuesInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -24185,7 +24399,7 @@ public struct ListRoutingProfileManualAssignmentQueuesOutput: Swift.Sendable {
 }
 
 public struct ListRoutingProfileQueuesInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page. The default MaxResult size is 100.
@@ -24216,7 +24430,7 @@ extension ConnectClientTypes {
         /// The channels this queue supports.
         /// This member is required.
         public var channel: ConnectClientTypes.Channel?
-        /// The delay, in seconds, that a contact should be in the queue before they are routed to an available agent. For more information, see [Queues: priority and delay](https://docs.aws.amazon.com/connect/latest/adminguide/concepts-routing-profiles-priority.html) in the Amazon Connect Administrator Guide.
+        /// The delay, in seconds, that a contact should be in the queue before they are routed to an available agent. For more information, see [Queues: priority and delay](https://docs.aws.amazon.com/connect/latest/adminguide/concepts-routing-profiles-priority.html) in the Connect Customer Administrator Guide.
         /// This member is required.
         public var delay: Swift.Int
         /// The order in which contacts are to be handled for the queue. For more information, see [Queues: priority and delay](https://docs.aws.amazon.com/connect/latest/adminguide/concepts-routing-profiles-priority.html).
@@ -24274,7 +24488,7 @@ public struct ListRoutingProfileQueuesOutput: Swift.Sendable {
 }
 
 public struct ListRoutingProfilesInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page. The default MaxResult size is 100.
@@ -24342,7 +24556,7 @@ public struct ListRoutingProfilesOutput: Swift.Sendable {
 public struct ListRulesInput: Swift.Sendable {
     /// The name of the event source.
     public var eventSourceName: ConnectClientTypes.EventSourceName?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -24435,7 +24649,7 @@ public struct ListRulesOutput: Swift.Sendable {
 }
 
 public struct ListSecurityKeysInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -24493,7 +24707,7 @@ public struct ListSecurityKeysOutput: Swift.Sendable {
 }
 
 public struct ListSecurityProfileApplicationsInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -24541,7 +24755,7 @@ public struct ListSecurityProfileApplicationsOutput: Swift.Sendable {
 }
 
 public struct ListSecurityProfileFlowModulesInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page. The default MaxResult size is 100.
@@ -24589,7 +24803,7 @@ public struct ListSecurityProfileFlowModulesOutput: Swift.Sendable {
 }
 
 public struct ListSecurityProfilePermissionsInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -24637,7 +24851,7 @@ public struct ListSecurityProfilePermissionsOutput: Swift.Sendable {
 }
 
 public struct ListSecurityProfilesInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page. The default MaxResult size is 100.
@@ -24703,7 +24917,7 @@ public struct ListSecurityProfilesOutput: Swift.Sendable {
 }
 
 public struct ListTagsForResourceInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the resource. All Amazon Connect resources (instances, queues, flows, routing profiles, etc) have an ARN. To locate the ARN for an instance, for example, see [Find your Amazon Connect instance ID/ARN](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html).
+    /// The Amazon Resource Name (ARN) of the resource. All Connect Customer resources (instances, queues, flows, routing profiles, etc) have an ARN. To locate the ARN for an instance, for example, see [Find your Connect Customer instance ID/ARN](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html).
     /// This member is required.
     public var resourceArn: Swift.String?
 
@@ -24726,7 +24940,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 }
 
 public struct ListTaskTemplatesInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page. It is not expected that you set this.
@@ -25079,7 +25293,7 @@ public struct ListTestCasesOutput: Swift.Sendable {
 }
 
 public struct ListTrafficDistributionGroupsInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
     public var maxResults: Swift.Int?
@@ -25211,7 +25425,7 @@ public struct ListTrafficDistributionGroupUsersOutput: Swift.Sendable {
 
 /// Provides summary information about the use cases for the specified integration association.
 public struct ListUseCasesInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier for the integration association.
@@ -25274,7 +25488,7 @@ public struct ListUseCasesOutput: Swift.Sendable {
 }
 
 public struct ListUserHierarchyGroupsInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page. The default MaxResult size is 100.
@@ -25462,7 +25676,7 @@ public struct ListUserNotificationsOutput: Swift.Sendable {
 }
 
 public struct ListUserProficienciesInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -25510,7 +25724,7 @@ public struct ListUserProficienciesOutput: Swift.Sendable {
 }
 
 public struct ListUsersInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page. The default MaxResult size is 100.
@@ -25541,7 +25755,7 @@ extension ConnectClientTypes {
         public var lastModifiedRegion: Swift.String?
         /// The timestamp when this resource was last modified.
         public var lastModifiedTime: Foundation.Date?
-        /// The Amazon Connect user name of the user account.
+        /// The Connect Customer user name of the user account.
         public var username: Swift.String?
 
         public init(
@@ -25576,7 +25790,7 @@ public struct ListUsersOutput: Swift.Sendable {
 }
 
 public struct ListViewsInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page. The default MaxResult size is 100.
@@ -25655,7 +25869,7 @@ public struct ListViewsOutput: Swift.Sendable {
 }
 
 public struct ListViewVersionsInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page. The default MaxResult size is 100.
@@ -25928,7 +26142,7 @@ public struct MonitorContactInput: Swift.Sendable {
     /// The identifier of the contact.
     /// This member is required.
     public var contactId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier of the user account.
@@ -25971,7 +26185,7 @@ public struct PauseContactInput: Swift.Sendable {
     /// The identifier of the contact.
     /// This member is required.
     public var contactId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -25995,7 +26209,7 @@ public struct PutUserStatusInput: Swift.Sendable {
     /// The identifier of the agent status.
     /// This member is required.
     public var agentStatusId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier of the user.
@@ -26037,13 +26251,13 @@ public struct ReleasePhoneNumberInput: Swift.Sendable {
 public struct ReplicateInstanceInput: Swift.Sendable {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance. You can provide the InstanceId, or the entire ARN.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance. You can provide the InstanceId, or the entire ARN.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The alias for the replicated instance. The ReplicaAlias must be unique.
     /// This member is required.
     public var replicaAlias: Swift.String?
-    /// The Amazon Web Services Region where to replicate the Amazon Connect instance.
+    /// The Amazon Web Services Region where to replicate the Connect Customer instance.
     /// This member is required.
     public var replicaRegion: Swift.String?
 
@@ -26086,7 +26300,7 @@ public struct ResumeContactInput: Swift.Sendable {
     /// The identifier of the contact.
     /// This member is required.
     public var contactId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -26118,9 +26332,9 @@ public struct InvalidActiveRegionException: ClientRuntime.ModeledError, AWSClien
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -26170,7 +26384,7 @@ public struct ResumeContactRecordingInput: Swift.Sendable {
     /// The identifier of the contact. This is the identifier of the contact associated with the first interaction with the contact center.
     /// This member is required.
     public var initialContactId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -26212,7 +26426,7 @@ public struct SearchAgentStatusesOutput: Swift.Sendable {
 }
 
 public struct SearchAvailablePhoneNumbersInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance that phone numbers are claimed to. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance. You must enter InstanceId or TargetArn.
+    /// The identifier of the Connect Customer instance that phone numbers are claimed to. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance. You must enter InstanceId or TargetArn.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
     public var maxResults: Swift.Int?
@@ -26226,7 +26440,7 @@ public struct SearchAvailablePhoneNumbersInput: Swift.Sendable {
     /// The type of phone number.
     /// This member is required.
     public var phoneNumberType: ConnectClientTypes.PhoneNumberType?
-    /// The Amazon Resource Name (ARN) for Amazon Connect instances or traffic distribution groups that phone number inbound traffic is routed through. You must enter InstanceId or TargetArn.
+    /// The Amazon Resource Name (ARN) for Connect Customer instances or traffic distribution groups that phone number inbound traffic is routed through. You must enter InstanceId or TargetArn.
     public var targetArn: Swift.String?
 
     public init(
@@ -26272,7 +26486,7 @@ extension ConnectClientTypes {
 }
 
 public struct SearchAvailablePhoneNumbersOutput: Swift.Sendable {
-    /// A list of available phone numbers that you can claim to your Amazon Connect instance or traffic distribution group.
+    /// A list of available phone numbers that you can claim to your Connect Customer instance or traffic distribution group.
     public var availableNumbersList: [ConnectClientTypes.AvailableNumberSummary]?
     /// If there are additional results, this is the token for the next set of results.
     public var nextToken: Swift.String?
@@ -26581,7 +26795,7 @@ extension ConnectClientTypes {
         public var calibrationSessionId: Swift.String?
         /// The unique ID of the agent who handled the contact.
         public var contactAgentId: Swift.String?
-        /// The identifier of the contact in this instance of Amazon Connect.
+        /// The identifier of the contact in this instance of Connect Customer.
         /// This member is required.
         public var contactId: Swift.String?
         /// Identifier for a contact participant in the evaluation.
@@ -27108,7 +27322,7 @@ extension ConnectClientTypes.TranscriptCriteria: Swift.CustomDebugStringConverti
 
 extension ConnectClientTypes {
 
-    /// A structure that defines search criteria and matching logic to search for contacts by matching text with transcripts analyzed by Amazon Connect Contact Lens.
+    /// A structure that defines search criteria and matching logic to search for contacts by matching text with transcripts analyzed by Connect Customer Contact Lens.
     public struct Transcript: Swift.Sendable {
         /// The list of search criteria based on Contact Lens conversational analytics transcript.
         /// This member is required.
@@ -27128,9 +27342,9 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
-    /// A structure that defines search criteria for contacts using analysis outputs from Amazon Connect Contact Lens.
+    /// A structure that defines search criteria for contacts using analysis outputs from Connect Customer Contact Lens.
     public struct ContactAnalysis: Swift.Sendable {
-        /// Search criteria based on transcript analyzed by Amazon Connect Contact Lens.
+        /// Search criteria based on transcript analyzed by Connect Customer Contact Lens.
         public var transcript: ConnectClientTypes.Transcript?
 
         public init(
@@ -27322,7 +27536,7 @@ extension ConnectClientTypes {
         public var agentIds: [Swift.String]?
         /// The list of channels associated with contacts.
         public var channels: [ConnectClientTypes.Channel]?
-        /// Search criteria based on analysis outputs from Amazon Connect Contact Lens.
+        /// Search criteria based on analysis outputs from Connect Customer Contact Lens.
         public var contactAnalysis: ConnectClientTypes.ContactAnalysis?
         /// An object that can be used to specify Tag conditions inside the SearchFilter. This accepts an OR of AND (List of List) input where:
         ///
@@ -27338,7 +27552,7 @@ extension ConnectClientTypes {
         public var queueIds: [Swift.String]?
         /// Routing criteria for the contact.
         public var routingCriteria: ConnectClientTypes.SearchableRoutingCriteria?
-        /// The search criteria based on user-defined contact attributes that have been configured for contact search. For more information, see [Search by custom contact attributes](https://docs.aws.amazon.com/connect/latest/adminguide/search-custom-attributes.html) in the Amazon Connect Administrator Guide. To use SearchableContactAttributes in a search request, the GetContactAttributes action is required to perform an API request. For more information, see [https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonconnect.html#amazonconnect-actions-as-permissions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonconnect.html#amazonconnect-actions-as-permissions)Actions defined by Amazon Connect.
+        /// The search criteria based on user-defined contact attributes that have been configured for contact search. For more information, see [Search by custom contact attributes](https://docs.aws.amazon.com/connect/latest/adminguide/search-custom-attributes.html) in the Connect Customer Administrator Guide. To use SearchableContactAttributes in a search request, the GetContactAttributes action is required to perform an API request. For more information, see [https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonconnect.html#amazonconnect-actions-as-permissions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonconnect.html#amazonconnect-actions-as-permissions)Actions defined by Connect Customer.
         public var searchableContactAttributes: ConnectClientTypes.SearchableContactAttributes?
         /// The search criteria based on searchable segment attributes of a contact.
         public var searchableSegmentAttributes: ConnectClientTypes.SearchableSegmentAttributes?
@@ -27441,7 +27655,7 @@ extension ConnectClientTypes {
 }
 
 public struct SearchContactsInput: Swift.Sendable {
-    /// The identifier of Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -28131,9 +28345,9 @@ public struct MaximumResultReturnedException: ClientRuntime.ModeledError, AWSCli
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -28185,7 +28399,7 @@ extension ConnectClientTypes {
 }
 
 public struct SearchResourceTagsInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can find the instanceId in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -28254,7 +28468,7 @@ extension ConnectClientTypes {
 public struct SearchResourceTagsOutput: Swift.Sendable {
     /// If there are additional results, this is the token for the next set of results.
     public var nextToken: Swift.String?
-    /// A list of tags used in the Amazon Connect instance.
+    /// A list of tags used in the Connect Customer instance.
     public var tags: [ConnectClientTypes.TagSet]?
 
     public init(
@@ -28797,7 +29011,7 @@ public struct SearchViewsOutput: Swift.Sendable {
 }
 
 public struct SearchVocabulariesInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The language code of the vocabulary entries. For a list of languages and their corresponding language codes, see [What is Amazon Transcribe?](https://docs.aws.amazon.com/transcribe/latest/dg/transcribe-whatis.html)
@@ -29086,15 +29300,15 @@ extension ConnectClientTypes {
     public struct ChatEvent: Swift.Sendable {
         /// Content of the message or event. This is required when Type is MESSAGE and for certain ContentTypes when Type is EVENT.
         ///
-        /// * For allowed message content, see the Content parameter in the [SendMessage](https://docs.aws.amazon.com/connect-participant/latest/APIReference/API_SendMessage.html) topic in the Amazon Connect Participant Service API Reference.
+        /// * For allowed message content, see the Content parameter in the [SendMessage](https://docs.aws.amazon.com/connect-participant/latest/APIReference/API_SendMessage.html) topic in the Connect Customer Participant Service API Reference.
         ///
-        /// * For allowed event content, see the Content parameter in the [SendEvent](https://docs.aws.amazon.com/connect-participant/latest/APIReference/API_SendEvent.html) topic in the Amazon Connect Participant Service API Reference.
+        /// * For allowed event content, see the Content parameter in the [SendEvent](https://docs.aws.amazon.com/connect-participant/latest/APIReference/API_SendEvent.html) topic in the Connect Customer Participant Service API Reference.
         public var content: Swift.String?
         /// Type of content. This is required when Type is MESSAGE or EVENT.
         ///
-        /// * For allowed message content types, see the ContentType parameter in the [SendMessage](https://docs.aws.amazon.com/connect-participant/latest/APIReference/API_SendMessage.html) topic in the Amazon Connect Participant Service API Reference.
+        /// * For allowed message content types, see the ContentType parameter in the [SendMessage](https://docs.aws.amazon.com/connect-participant/latest/APIReference/API_SendMessage.html) topic in the Connect Customer Participant Service API Reference.
         ///
-        /// * For allowed event content types, see the ContentType parameter in the [SendEvent](https://docs.aws.amazon.com/connect-participant/latest/APIReference/API_SendEvent.html) topic in the Amazon Connect Participant Service API Reference.
+        /// * For allowed event content types, see the ContentType parameter in the [SendEvent](https://docs.aws.amazon.com/connect-participant/latest/APIReference/API_SendEvent.html) topic in the Connect Customer Participant Service API Reference.
         public var contentType: Swift.String?
         /// Type of chat integration event.
         /// This member is required.
@@ -29148,7 +29362,7 @@ extension ConnectClientTypes {
 
     /// Payload of chat properties to apply when starting a new contact.
     public struct NewSessionDetails: Swift.Sendable {
-        /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes. They can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
+        /// A custom key-value pair using an attribute map. The attributes are standard Connect Customer attributes. They can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
         public var attributes: [Swift.String: Swift.String]?
         /// The customer's details.
         public var participantDetails: ConnectClientTypes.ParticipantDetails?
@@ -29172,7 +29386,7 @@ extension ConnectClientTypes {
 }
 
 public struct SendChatIntegrationEventInput: Swift.Sendable {
-    /// Chat system identifier, used in part to uniquely identify chat. This is associated with the Amazon Connect instance and flow to be used to start chats. For Server Migration Service, this is the phone number destination of inbound Server Migration Service messages represented by an Amazon Web Services End User Messaging phone number ARN.
+    /// Chat system identifier, used in part to uniquely identify chat. This is associated with the Connect Customer instance and flow to be used to start chats. For Server Migration Service, this is the phone number destination of inbound Server Migration Service messages represented by an Amazon Web Services End User Messaging phone number ARN.
     /// This member is required.
     public var destinationId: Swift.String?
     /// Chat integration event payload
@@ -29447,7 +29661,7 @@ public struct SendOutboundEmailInput: Swift.Sendable {
     /// The email address to be used for sending email.
     /// This member is required.
     public var fromEmailAddress: ConnectClientTypes.EmailAddressInfo?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// A Campaign object need for Campaign traffic type.
@@ -29499,7 +29713,7 @@ public struct StartAttachedFileUploadInput: Swift.Sendable {
     /// The use case for the file. Only ATTACHMENTS are supported.
     /// This member is required.
     public var fileUseCaseType: ConnectClientTypes.FileUseCaseType?
-    /// The unique identifier of the Amazon Connect instance.
+    /// The unique identifier of the Connect Customer instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
@@ -29688,7 +29902,7 @@ extension ConnectClientTypes {
     public struct PersistentChat: Swift.Sendable {
         /// The contactId that is used for rehydration depends on the rehydration type. RehydrationType is required for persistent chat.
         ///
-        /// * ENTIRE_PAST_SESSION: Rehydrates a chat from the most recently terminated past chat contact of the specified past ended chat session. To use this type, provide the initialContactId of the past ended chat session in the sourceContactId field. In this type, Amazon Connect determines the most recent chat contact on the specified chat session that has ended, and uses it to start a persistent chat.
+        /// * ENTIRE_PAST_SESSION: Rehydrates a chat from the most recently terminated past chat contact of the specified past ended chat session. To use this type, provide the initialContactId of the past ended chat session in the sourceContactId field. In this type, Connect Customer determines the most recent chat contact on the specified chat session that has ended, and uses it to start a persistent chat.
         ///
         /// * FROM_SEGMENT: Rehydrates a chat from the past chat contact that is specified in the sourceContactId field.
         ///
@@ -29709,7 +29923,7 @@ extension ConnectClientTypes {
 }
 
 public struct StartChatContactOutput: Swift.Sendable {
-    /// The identifier of this contact within the Amazon Connect instance.
+    /// The identifier of this contact within the Connect Customer instance.
     public var contactId: Swift.String?
     /// The contactId from which a persistent chat session is started. This field is populated only for persistent chats.
     public var continuedFromContactId: Swift.String?
@@ -29752,13 +29966,13 @@ public struct StartContactEvaluationInput: Swift.Sendable {
     public var autoEvaluationConfiguration: ConnectClientTypes.AutoEvaluationConfiguration?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
-    /// The identifier of the contact in this instance of Amazon Connect.
+    /// The identifier of the contact in this instance of Connect Customer.
     /// This member is required.
     public var contactId: Swift.String?
     /// The unique identifier for the evaluation form.
     /// This member is required.
     public var evaluationFormId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
@@ -29832,7 +30046,7 @@ public struct StartContactMediaProcessingInput: Swift.Sendable {
     public var contactId: Swift.String?
     /// The desired behavior for failed message processing.
     public var failureMode: ConnectClientTypes.ContactMediaProcessingFailureMode?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     public var instanceId: Swift.String?
     /// The Amazon Resource Name (ARN) of the Lambda processor. You can find the Amazon Resource Name of the lambda in the lambda console.
     public var processorArn: Swift.String?
@@ -29939,7 +30153,7 @@ public struct StartContactRecordingInput: Swift.Sendable {
     /// The identifier of the contact. This is the identifier of the contact associated with the first interaction with the contact center.
     /// This member is required.
     public var initialContactId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The person being recorded.
@@ -29974,7 +30188,7 @@ public struct StartContactStreamingInput: Swift.Sendable {
     /// The identifier of the contact. This is the identifier of the contact associated with the first interaction with the contact center.
     /// This member is required.
     public var contactId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -30163,7 +30377,7 @@ extension ConnectClientTypes {
 }
 
 public struct StartEmailContactOutput: Swift.Sendable {
-    /// The identifier of this contact within the Amazon Connect instance.
+    /// The identifier of this contact within the Connect Customer instance.
     public var contactId: Swift.String?
 
     public init(
@@ -30174,7 +30388,7 @@ public struct StartEmailContactOutput: Swift.Sendable {
 }
 
 public struct StartOutboundChatContactOutput: Swift.Sendable {
-    /// The identifier of this contact within the Amazon Connect instance.
+    /// The identifier of this contact within the Connect Customer instance.
     public var contactId: Swift.String?
 
     public init(
@@ -30189,7 +30403,7 @@ public struct StartOutboundEmailContactInput: Swift.Sendable {
     public var additionalRecipients: ConnectClientTypes.OutboundAdditionalRecipients?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
-    /// The identifier of the contact in this instance of Amazon Connect.
+    /// The identifier of the contact in this instance of Connect Customer.
     /// This member is required.
     public var contactId: Swift.String?
     /// The email address of the customer.
@@ -30198,9 +30412,9 @@ public struct StartOutboundEmailContactInput: Swift.Sendable {
     /// The email message body to be sent to the newly created email.
     /// This member is required.
     public var emailMessage: ConnectClientTypes.OutboundEmailContent?
-    /// The email address associated with the Amazon Connect instance.
+    /// The email address associated with the Connect Customer instance.
     public var fromEmailAddress: ConnectClientTypes.EmailAddressInfo?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -30224,7 +30438,7 @@ public struct StartOutboundEmailContactInput: Swift.Sendable {
 }
 
 public struct StartOutboundEmailContactOutput: Swift.Sendable {
-    /// The identifier of the contact in this instance of Amazon Connect.
+    /// The identifier of the contact in this instance of Connect Customer.
     public var contactId: Swift.String?
 
     public init(
@@ -30247,9 +30461,9 @@ public struct DestinationNotAllowedException: ClientRuntime.ModeledError, AWSCli
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -30271,9 +30485,9 @@ public struct OutboundContactNotPermittedException: ClientRuntime.ModeledError, 
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -30304,21 +30518,21 @@ extension ConnectClientTypes {
 public struct StartOutboundVoiceContactInput: Swift.Sendable {
     /// Configuration of the answering machine detection for this outbound call.
     public var answerMachineDetectionConfig: ConnectClientTypes.AnswerMachineDetectionConfig?
-    /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
+    /// A custom key-value pair using an attribute map. The attributes are standard Connect Customer attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
     public var attributes: [Swift.String: Swift.String]?
     /// The campaign identifier of the outbound communication.
     public var campaignId: Swift.String?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/). The token is valid for 7 days after creation. If a contact is already started, the contact ID is returned.
     public var clientToken: Swift.String?
-    /// The identifier of the flow for the outbound call. To see the ContactFlowId in the Amazon Connect admin website, on the navigation menu go to Routing, Contact Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold: arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
+    /// The identifier of the flow for the outbound call. To see the ContactFlowId in the Connect Customer admin website, on the navigation menu go to Routing, Contact Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold: arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
     /// This member is required.
     public var contactFlowId: Swift.String?
-    /// A description of the voice contact that appears in the agent's snapshot in the CCP logs. For more information about CCP logs, see [Download and review CCP logs](https://docs.aws.amazon.com/connect/latest/adminguide/download-ccp-logs.html) in the Amazon Connect Administrator Guide.
+    /// A description of the voice contact that appears in the agent's snapshot in the CCP logs. For more information about CCP logs, see [Download and review CCP logs](https://docs.aws.amazon.com/connect/latest/adminguide/download-ccp-logs.html) in the Connect Customer Administrator Guide.
     public var description: Swift.String?
     /// The phone number of the customer, in E.164 format.
     /// This member is required.
     public var destinationPhoneNumber: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The name of a voice contact that is shown to an agent in the Contact Control Panel (CCP).
@@ -30333,9 +30547,9 @@ public struct StartOutboundVoiceContactInput: Swift.Sendable {
     public var relatedContactId: Swift.String?
     /// The maximum time the outbound call will wait for the destination to answer the call, in seconds
     public var ringTimeoutInSeconds: Swift.Int?
-    /// The phone number associated with the Amazon Connect instance, in E.164 format. If you do not specify a source phone number, you must specify a queue.
+    /// The phone number associated with the Connect Customer instance, in E.164 format. If you do not specify a source phone number, you must specify a queue.
     public var sourcePhoneNumber: Swift.String?
-    /// Denotes the class of traffic. Calls with different traffic types are handled differently by Amazon Connect. The default value is GENERAL. Use CAMPAIGN if EnableAnswerMachineDetection is set to true. For all other cases, use GENERAL.
+    /// Denotes the class of traffic. Calls with different traffic types are handled differently by Connect Customer. The default value is GENERAL. Use CAMPAIGN if EnableAnswerMachineDetection is set to true. For all other cases, use GENERAL.
     public var trafficType: ConnectClientTypes.TrafficType?
 
     public init(
@@ -30381,7 +30595,7 @@ extension StartOutboundVoiceContactInput: Swift.CustomDebugStringConvertible {
 }
 
 public struct StartOutboundVoiceContactOutput: Swift.Sendable {
-    /// The identifier of this contact within the Amazon Connect instance.
+    /// The identifier of this contact within the Connect Customer instance.
     public var contactId: Swift.String?
 
     public init(
@@ -30394,10 +30608,10 @@ public struct StartOutboundVoiceContactOutput: Swift.Sendable {
 public struct StartScreenSharingInput: Swift.Sendable {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
-    /// The identifier of the contact in this instance of Amazon Connect.
+    /// The identifier of the contact in this instance of Connect Customer.
     /// This member is required.
     public var contactId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -30439,7 +30653,7 @@ extension ConnectClientTypes {
 }
 
 public struct StartTaskContactOutput: Swift.Sendable {
-    /// The identifier of this contact within the Amazon Connect instance.
+    /// The identifier of this contact within the Connect Customer instance.
     public var contactId: Swift.String?
 
     public init(
@@ -30492,16 +30706,16 @@ public struct StartTestCaseExecutionOutput: Swift.Sendable {
 public struct StartWebRTCContactInput: Swift.Sendable {
     /// Information about the video sharing capabilities of the participants (customer, agent).
     public var allowedCapabilities: ConnectClientTypes.AllowedCapabilities?
-    /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, -, and _ characters.
+    /// A custom key-value pair using an attribute map. The attributes are standard Connect Customer attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, -, and _ characters.
     public var attributes: [Swift.String: Swift.String]?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/). The token is valid for 7 days after creation. If a contact is already started, the contact ID is returned.
     public var clientToken: Swift.String?
-    /// The identifier of the flow for the call. To see the ContactFlowId in the Amazon Connect admin website, on the navigation menu go to Routing, Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold: arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
+    /// The identifier of the flow for the call. To see the ContactFlowId in the Connect Customer admin website, on the navigation menu go to Routing, Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold: arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
     /// This member is required.
     public var contactFlowId: Swift.String?
     /// A description of the task that is shown to an agent in the Contact Control Panel (CCP).
     public var description: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The customer's details.
@@ -30509,7 +30723,7 @@ public struct StartWebRTCContactInput: Swift.Sendable {
     public var participantDetails: ConnectClientTypes.ParticipantDetails?
     /// A formatted URL that is shown to an agent in the Contact Control Panel (CCP). Tasks can have the following reference types at the time of creation: URL | NUMBER | STRING | DATE | EMAIL. ATTACHMENT is not a supported reference type during task creation.
     public var references: [Swift.String: ConnectClientTypes.Reference]?
-    /// The unique identifier for an Amazon Connect contact. This identifier is related to the contact starting.
+    /// The unique identifier for an Connect Customer contact. This identifier is related to the contact starting.
     public var relatedContactId: Swift.String?
 
     public init(
@@ -30703,7 +30917,7 @@ extension ConnectClientTypes {
 public struct StartWebRTCContactOutput: Swift.Sendable {
     /// Information required for the client application (mobile application or website) to connect to the call.
     public var connectionData: ConnectClientTypes.ConnectionData?
-    /// The identifier of the contact in this instance of Amazon Connect.
+    /// The identifier of the contact in this instance of Connect Customer.
     public var contactId: Swift.String?
     /// The identifier for a contact participant. The ParticipantId for a contact participant is the same throughout the contact lifecycle.
     public var participantId: Swift.String?
@@ -30736,9 +30950,9 @@ public struct ContactNotFoundException: ClientRuntime.ModeledError, AWSClientRun
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -30749,7 +30963,7 @@ public struct ContactNotFoundException: ClientRuntime.ModeledError, AWSClientRun
 
 extension ConnectClientTypes {
 
-    /// Contains details about why a contact was disconnected. Only Amazon Connect outbound campaigns can provide this field.
+    /// Contains details about why a contact was disconnected. Only Connect Customer outbound campaigns can provide this field.
     public struct DisconnectReason: Swift.Sendable {
         /// A code that indicates how the contact was terminated.
         public var code: Swift.String?
@@ -30766,9 +30980,9 @@ public struct StopContactInput: Swift.Sendable {
     /// The ID of the contact.
     /// This member is required.
     public var contactId: Swift.String?
-    /// The reason a contact can be disconnected. Only Amazon Connect outbound campaigns can provide this field. For a list and description of all the possible disconnect reasons by channel (including outbound campaign voice contacts) see DisconnectReason under [ContactTraceRecord](https://docs.aws.amazon.com/connect/latest/adminguide/ctr-data-model.html#ctr-ContactTraceRecord) in the Amazon Connect Administrator Guide.
+    /// The reason a contact can be disconnected. Only Connect Customer outbound campaigns can provide this field. For a list and description of all the possible disconnect reasons by channel (including outbound campaign voice contacts) see DisconnectReason under [ContactTraceRecord](https://docs.aws.amazon.com/connect/latest/adminguide/ctr-data-model.html#ctr-ContactTraceRecord) in the Connect Customer Administrator Guide.
     public var disconnectReason: ConnectClientTypes.DisconnectReason?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -30791,7 +31005,7 @@ public struct StopContactOutput: Swift.Sendable {
 public struct StopContactMediaProcessingInput: Swift.Sendable {
     /// The identifier of the contact.
     public var contactId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     public var instanceId: Swift.String?
 
     public init(
@@ -30817,7 +31031,7 @@ public struct StopContactRecordingInput: Swift.Sendable {
     /// The identifier of the contact. This is the identifier of the contact associated with the first interaction with the contact center.
     /// This member is required.
     public var initialContactId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -30843,7 +31057,7 @@ public struct StopContactStreamingInput: Swift.Sendable {
     /// The identifier of the contact. This is the identifier of the contact that is associated with the first interaction with the contact center.
     /// This member is required.
     public var contactId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier of the streaming configuration enabled.
@@ -30916,7 +31130,7 @@ extension ConnectClientTypes {
 
     /// Represents the entity that performed the action on the evaluation.
     public enum EvaluatorUserUnion: Swift.Sendable {
-        /// Represents the Amazon Connect ARN of the user.
+        /// Represents the Connect Customer ARN of the user.
         case connectuserarn(Swift.String)
         case sdkUnknown(Swift.String)
     }
@@ -30928,7 +31142,7 @@ public struct SubmitContactEvaluationInput: Swift.Sendable {
     /// A unique identifier for the contact evaluation.
     /// This member is required.
     public var evaluationId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// A map of question identifiers to note value.
@@ -30977,7 +31191,7 @@ public struct SuspendContactRecordingInput: Swift.Sendable {
     /// The identifier of the contact. This is the identifier of the contact associated with the first interaction with the contact center.
     /// This member is required.
     public var initialContactId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -31000,10 +31214,10 @@ public struct SuspendContactRecordingOutput: Swift.Sendable {
 }
 
 public struct TagContactInput: Swift.Sendable {
-    /// The identifier of the contact in this instance of Amazon Connect.
+    /// The identifier of the contact in this instance of Connect Customer.
     /// This member is required.
     public var contactId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The tags to be assigned to the contact resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }. Authorization is not supported by this tag.
@@ -31049,10 +31263,10 @@ public struct TransferContactInput: Swift.Sendable {
     /// The identifier of the flow.
     /// This member is required.
     public var contactFlowId: Swift.String?
-    /// The identifier of the contact in this instance of Amazon Connect.
+    /// The identifier of the contact in this instance of Connect Customer.
     /// This member is required.
     public var contactId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier for the queue.
@@ -31080,7 +31294,7 @@ public struct TransferContactInput: Swift.Sendable {
 public struct TransferContactOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the contact.
     public var contactArn: Swift.String?
-    /// The identifier of the contact in this instance of Amazon Connect.
+    /// The identifier of the contact in this instance of Connect Customer.
     public var contactId: Swift.String?
 
     public init(
@@ -31093,10 +31307,10 @@ public struct TransferContactOutput: Swift.Sendable {
 }
 
 public struct UntagContactInput: Swift.Sendable {
-    /// The identifier of the contact in this instance of Amazon Connect.
+    /// The identifier of the contact in this instance of Connect Customer.
     /// This member is required.
     public var contactId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// A list of tag keys. Existing tags on the contact whose keys are members of this list will be removed.
@@ -31144,7 +31358,7 @@ public struct UpdateAgentStatusInput: Swift.Sendable {
     public var description: Swift.String?
     /// The display order of the agent status.
     public var displayOrder: Swift.Int?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The name of the agent status.
@@ -31173,22 +31387,76 @@ public struct UpdateAgentStatusInput: Swift.Sendable {
     }
 }
 
+public struct UpdateAttachedFilesConfigurationInput: Swift.Sendable {
+    /// The scope of the attachment. Valid values are EMAIL, CHAT, CASE, and TASK.
+    /// This member is required.
+    public var attachmentScope: ConnectClientTypes.AttachmentScope?
+    /// The configuration for allowed file extensions.
+    public var extensionConfiguration: ConnectClientTypes.ExtensionConfiguration?
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The maximum size limit for attached files in bytes. The minimum value is 1 and the maximum value is 104857600 (100 MB).
+    public var maximumSizeLimitInBytes: Swift.Int?
+
+    public init(
+        attachmentScope: ConnectClientTypes.AttachmentScope? = nil,
+        extensionConfiguration: ConnectClientTypes.ExtensionConfiguration? = nil,
+        instanceId: Swift.String? = nil,
+        maximumSizeLimitInBytes: Swift.Int? = nil
+    ) {
+        self.attachmentScope = attachmentScope
+        self.extensionConfiguration = extensionConfiguration
+        self.instanceId = instanceId
+        self.maximumSizeLimitInBytes = maximumSizeLimitInBytes
+    }
+}
+
+public struct UpdateAttachedFilesConfigurationOutput: Swift.Sendable {
+    /// The scope of the attachment.
+    /// This member is required.
+    public var attachmentScope: ConnectClientTypes.AttachmentScope?
+    /// The configuration for allowed file extensions.
+    public var extensionConfiguration: ConnectClientTypes.ExtensionConfiguration?
+    /// The identifier of the Connect Customer instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The timestamp when the configuration was last modified.
+    public var lastModifiedTime: Foundation.Date?
+    /// The maximum size limit for attached files in bytes.
+    public var maximumSizeLimitInBytes: Swift.Int?
+
+    public init(
+        attachmentScope: ConnectClientTypes.AttachmentScope? = nil,
+        extensionConfiguration: ConnectClientTypes.ExtensionConfiguration? = nil,
+        instanceId: Swift.String? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
+        maximumSizeLimitInBytes: Swift.Int? = nil
+    ) {
+        self.attachmentScope = attachmentScope
+        self.extensionConfiguration = extensionConfiguration
+        self.instanceId = instanceId
+        self.lastModifiedTime = lastModifiedTime
+        self.maximumSizeLimitInBytes = maximumSizeLimitInBytes
+    }
+}
+
 public struct UpdateAuthenticationProfileInput: Swift.Sendable {
-    /// A list of IP address range strings that are allowed to access the instance. For more information on how to configure IP addresses, see[Configure session timeouts](https://docs.aws.amazon.com/connect/latest/adminguide/authentication-profiles.html#configure-session-timeouts) in the Amazon Connect Administrator Guide.
+    /// A list of IP address range strings that are allowed to access the instance. For more information on how to configure IP addresses, see[Configure session timeouts](https://docs.aws.amazon.com/connect/latest/adminguide/authentication-profiles.html#configure-session-timeouts) in the Connect Customer Administrator Guide.
     public var allowedIps: [Swift.String]?
     /// A unique identifier for the authentication profile.
     /// This member is required.
     public var authenticationProfileId: Swift.String?
-    /// A list of IP address range strings that are blocked from accessing the instance. For more information on how to configure IP addresses, For more information on how to configure IP addresses, see [Configure IP-based access control](https://docs.aws.amazon.com/connect/latest/adminguide/authentication-profiles.html#configure-ip-based-ac) in the Amazon Connect Administrator Guide.
+    /// A list of IP address range strings that are blocked from accessing the instance. For more information on how to configure IP addresses, For more information on how to configure IP addresses, see [Configure IP-based access control](https://docs.aws.amazon.com/connect/latest/adminguide/authentication-profiles.html#configure-ip-based-ac) in the Connect Customer Administrator Guide.
     public var blockedIps: [Swift.String]?
     /// The description for the authentication profile.
     public var description: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The name for the authentication profile.
     public var name: Swift.String?
-    /// The short lived session duration configuration for users logged in to Amazon Connect, in minutes. This value determines the maximum possible time before an agent is authenticated. For more information, For more information on how to configure IP addresses, see [Configure session timeouts](https://docs.aws.amazon.com/connect/latest/adminguide/authentication-profiles.html#configure-session-timeouts) in the Amazon Connect Administrator Guide.
+    /// The short lived session duration configuration for users logged in to Connect Customer, in minutes. This value determines the maximum possible time before an agent is authenticated. For more information, For more information on how to configure IP addresses, see [Configure session timeouts](https://docs.aws.amazon.com/connect/latest/adminguide/authentication-profiles.html#configure-session-timeouts) in the Connect Customer Administrator Guide.
     @available(*, deprecated, message: "PeriodicSessionDuration is deprecated. Use SessionInactivityDuration instead. API deprecated since 10/31/2025")
     public var periodicSessionDuration: Swift.Int?
     /// The period, in minutes, before an agent is automatically signed out of the contact center when they go inactive.
@@ -31240,17 +31508,17 @@ public struct UpdateContactOutput: Swift.Sendable {
 }
 
 public struct UpdateContactAttributesInput: Swift.Sendable {
-    /// The Amazon Connect attributes. These attributes can be accessed in flows just like any other contact attributes. You can have up to 32,768 UTF-8 bytes across all attributes for a contact. Attribute keys can include only alphanumeric, dash, and underscore characters. In the [Set contact attributes](https://docs.aws.amazon.com/connect/latest/adminguide/set-contact-attributes.html) block, when the attributes for a contact exceed 32 KB, the contact is routed down the Error branch of the flow. As a mitigation, consider the following options:
+    /// The Connect Customer attributes. These attributes can be accessed in flows just like any other contact attributes. You can have up to 32,768 UTF-8 bytes across all attributes for a contact. Attribute keys can include only alphanumeric, dash, and underscore characters. In the [Set contact attributes](https://docs.aws.amazon.com/connect/latest/adminguide/set-contact-attributes.html) block, when the attributes for a contact exceed 32 KB, the contact is routed down the Error branch of the flow. As a mitigation, consider the following options:
     ///
     /// * Remove unnecessary attributes by setting their values to empty.
     ///
-    /// * If the attributes are only used in one flow and don't need to be referred to outside of that flow (for example, by a Lambda or another flow), then use flow attributes. This way you aren't needlessly persisting the 32 KB of information from one flow to another. For more information, see [Flow block: Set contact attributes](https://docs.aws.amazon.com/connect/latest/adminguide/set-contact-attributes.html) in the Amazon Connect Administrator Guide.
+    /// * If the attributes are only used in one flow and don't need to be referred to outside of that flow (for example, by a Lambda or another flow), then use flow attributes. This way you aren't needlessly persisting the 32 KB of information from one flow to another. For more information, see [Flow block: Set contact attributes](https://docs.aws.amazon.com/connect/latest/adminguide/set-contact-attributes.html) in the Connect Customer Administrator Guide.
     /// This member is required.
     public var attributes: [Swift.String: Swift.String]?
     /// The identifier of the contact. This is the identifier of the contact associated with the first interaction with the contact center.
     /// This member is required.
     public var initialContactId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -31276,7 +31544,7 @@ public struct UpdateContactEvaluationInput: Swift.Sendable {
     /// A unique identifier for the contact evaluation.
     /// This member is required.
     public var evaluationId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// A map of question identifiers to note value.
@@ -31320,10 +31588,10 @@ public struct UpdateContactFlowContentInput: Swift.Sendable {
     /// The identifier of the flow.
     /// This member is required.
     public var contactFlowId: Swift.String?
-    /// The JSON string that represents the content of the flow. For an example, see [Example flow in Amazon Connect Flow language](https://docs.aws.amazon.com/connect/latest/APIReference/flow-language-example.html). Length Constraints: Minimum length of 1. Maximum length of 256000.
+    /// The JSON string that represents the content of the flow. For an example, see [Example flow in Connect Customer Flow language](https://docs.aws.amazon.com/connect/latest/APIReference/flow-language-example.html). Length Constraints: Minimum length of 1. Maximum length of 256000.
     /// This member is required.
     public var content: Swift.String?
-    /// The identifier of the Amazon Connect instance.
+    /// The identifier of the Connect Customer instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -31351,7 +31619,7 @@ public struct UpdateContactFlowMetadataInput: Swift.Sendable {
     public var contactFlowState: ConnectClientTypes.ContactFlowState?
     /// The description of the flow.
     public var description: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The name of the flow.
@@ -31388,7 +31656,7 @@ public struct UpdateContactFlowModuleAliasInput: Swift.Sendable {
     public var contactFlowModuleVersion: Swift.Int?
     /// The description of the alias.
     public var description: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The name of the alias.
@@ -31420,9 +31688,9 @@ public struct UpdateContactFlowModuleContentInput: Swift.Sendable {
     /// The identifier of the flow module.
     /// This member is required.
     public var contactFlowModuleId: Swift.String?
-    /// The JSON string that represents the content of the flow. For an example, see [Example flow in Amazon Connect Flow language](https://docs.aws.amazon.com/connect/latest/APIReference/flow-language-example.html).
+    /// The JSON string that represents the content of the flow. For an example, see [Example flow in Connect Customer Flow language](https://docs.aws.amazon.com/connect/latest/APIReference/flow-language-example.html).
     public var content: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// Serialized JSON string of the flow module Settings schema.
@@ -31452,7 +31720,7 @@ public struct UpdateContactFlowModuleMetadataInput: Swift.Sendable {
     public var contactFlowModuleId: Swift.String?
     /// The description of the flow module.
     public var description: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The name of the flow module.
@@ -31486,7 +31754,7 @@ public struct UpdateContactFlowNameInput: Swift.Sendable {
     public var contactFlowId: Swift.String?
     /// The description of the flow.
     public var description: Swift.String?
-    /// The identifier of the Amazon Connect instance.
+    /// The identifier of the Connect Customer instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The name of the flow.
@@ -31534,7 +31802,7 @@ public struct UpdateContactScheduleInput: Swift.Sendable {
     /// The identifier of the contact.
     /// This member is required.
     public var contactId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The timestamp, in Unix Epoch seconds format, at which to start running the inbound flow. The scheduled time cannot be in the past. It must be within up to 6 days in future.
@@ -31720,7 +31988,7 @@ public struct UpdateEmailAddressMetadataInput: Swift.Sendable {
     /// The identifier of the email address.
     /// This member is required.
     public var emailAddressId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -31789,7 +32057,7 @@ public struct UpdateHoursOfOperationInput: Swift.Sendable {
     /// The identifier of the hours of operation.
     /// This member is required.
     public var hoursOfOperationId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The name of the hours of operation.
@@ -31829,7 +32097,7 @@ public struct UpdateHoursOfOperationOverrideInput: Swift.Sendable {
     /// The identifier for the hours of operation override.
     /// This member is required.
     public var hoursOfOperationOverrideId: Swift.String?
-    /// The identifier of the Amazon Connect instance.
+    /// The identifier of the Connect Customer instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The name of the hours of operation override.
@@ -31870,7 +32138,7 @@ public struct UpdateInstanceAttributeInput: Swift.Sendable {
     public var attributeType: ConnectClientTypes.InstanceAttributeType?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The value for the attribute. Maximum character limit is 100.
@@ -31896,7 +32164,7 @@ public struct UpdateInstanceStorageConfigInput: Swift.Sendable {
     public var associationId: Swift.String?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// A valid resource type.
@@ -31956,7 +32224,7 @@ public struct UpdateParticipantAuthenticationInput: Swift.Sendable {
     public var error: Swift.String?
     /// The error_description parameter provided by Cognito in the redirectUri.
     public var errorDescription: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The state query parameter that was provided by Cognito in the redirectUri. This will also match the state parameter provided in the AuthenticationUrl from the [GetAuthenticationUrl](https://docs.aws.amazon.com/connect/latest/APIReference/API_GetAuthenticationUrl.html) response.
@@ -32137,13 +32405,13 @@ extension ConnectClientTypes {
 }
 
 public struct UpdateParticipantRoleConfigInput: Swift.Sendable {
-    /// The Amazon Connect channel you want to configure.
+    /// The Connect Customer channel you want to configure.
     /// This member is required.
     public var channelConfiguration: ConnectClientTypes.UpdateParticipantRoleConfigChannelInfo?
-    /// The identifier of the contact in this instance of Amazon Connect.
+    /// The identifier of the contact in this instance of Connect Customer.
     /// This member is required.
     public var contactId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -32166,12 +32434,12 @@ public struct UpdateParticipantRoleConfigOutput: Swift.Sendable {
 public struct UpdatePhoneNumberInput: Swift.Sendable {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
-    /// The identifier of the Amazon Connect instance that phone numbers are claimed to. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance. You must enter InstanceId or TargetArn.
+    /// The identifier of the Connect Customer instance that phone numbers are claimed to. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance. You must enter InstanceId or TargetArn.
     public var instanceId: Swift.String?
     /// A unique identifier for the phone number.
     /// This member is required.
     public var phoneNumberId: Swift.String?
-    /// The Amazon Resource Name (ARN) for Amazon Connect instances or traffic distribution groups that phone number inbound traffic is routed through. You must enter InstanceId or TargetArn.
+    /// The Amazon Resource Name (ARN) for Connect Customer instances or traffic distribution groups that phone number inbound traffic is routed through. You must enter InstanceId or TargetArn.
     public var targetArn: Swift.String?
 
     public init(
@@ -32223,15 +32491,15 @@ public struct UpdatePhoneNumberMetadataInput: Swift.Sendable {
 }
 
 public struct UpdatePredefinedAttributeInput: Swift.Sendable {
-    /// Custom metadata that is associated to predefined attributes to control behavior in upstream services, such as controlling how a predefined attribute should be displayed in the Amazon Connect admin website.
+    /// Custom metadata that is associated to predefined attributes to control behavior in upstream services, such as controlling how a predefined attribute should be displayed in the Connect Customer admin website.
     public var attributeConfiguration: ConnectClientTypes.InputPredefinedAttributeConfiguration?
-    /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The name of the predefined attribute.
     /// This member is required.
     public var name: Swift.String?
-    /// Values that enable you to categorize your predefined attributes. You can use them in custom UI elements across the Amazon Connect admin website.
+    /// Values that enable you to categorize your predefined attributes. You can use them in custom UI elements across the Connect Customer admin website.
     public var purposes: [Swift.String]?
     /// The values of the predefined attribute.
     public var values: ConnectClientTypes.PredefinedAttributeValues?
@@ -32254,7 +32522,7 @@ public struct UpdatePredefinedAttributeInput: Swift.Sendable {
 public struct UpdatePromptInput: Swift.Sendable {
     /// A description of the prompt.
     public var description: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The name of the prompt.
@@ -32299,7 +32567,7 @@ public struct UpdateQueueHoursOfOperationInput: Swift.Sendable {
     /// The identifier for the hours of operation.
     /// This member is required.
     public var hoursOfOperationId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier for the queue.
@@ -32318,7 +32586,7 @@ public struct UpdateQueueHoursOfOperationInput: Swift.Sendable {
 }
 
 public struct UpdateQueueMaxContactsInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of contacts that can be in the queue before it is considered full.
@@ -32341,7 +32609,7 @@ public struct UpdateQueueMaxContactsInput: Swift.Sendable {
 public struct UpdateQueueNameInput: Swift.Sendable {
     /// The description of the queue.
     public var description: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The name of the queue.
@@ -32364,7 +32632,7 @@ public struct UpdateQueueNameInput: Swift.Sendable {
 }
 
 public struct UpdateQueueOutboundCallerConfigInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The outbound caller ID name, number, and outbound whisper flow.
@@ -32386,7 +32654,7 @@ public struct UpdateQueueOutboundCallerConfigInput: Swift.Sendable {
 }
 
 public struct UpdateQueueOutboundEmailConfigInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The outbound email address ID for a specified queue.
@@ -32408,7 +32676,7 @@ public struct UpdateQueueOutboundEmailConfigInput: Swift.Sendable {
 }
 
 public struct UpdateQueueStatusInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier for the queue.
@@ -32430,7 +32698,7 @@ public struct UpdateQueueStatusInput: Swift.Sendable {
 }
 
 public struct UpdateQuickConnectConfigInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// Information about the configuration settings for the quick connect.
@@ -32454,7 +32722,7 @@ public struct UpdateQuickConnectConfigInput: Swift.Sendable {
 public struct UpdateQuickConnectNameInput: Swift.Sendable {
     /// The description of the quick connect.
     public var description: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The name of the quick connect.
@@ -32480,7 +32748,7 @@ public struct UpdateRoutingProfileAgentAvailabilityTimerInput: Swift.Sendable {
     /// Whether agents with this routing profile will have their routing order calculated based on time since their last inbound contact or longest idle time.
     /// This member is required.
     public var agentAvailabilityTimer: ConnectClientTypes.AgentAvailabilityTimer?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier of the routing profile.
@@ -32499,7 +32767,7 @@ public struct UpdateRoutingProfileAgentAvailabilityTimerInput: Swift.Sendable {
 }
 
 public struct UpdateRoutingProfileConcurrencyInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The channels that agents can handle in the Contact Control Panel (CCP).
@@ -32524,7 +32792,7 @@ public struct UpdateRoutingProfileDefaultOutboundQueueInput: Swift.Sendable {
     /// The identifier for the default outbound queue.
     /// This member is required.
     public var defaultOutboundQueueId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier of the routing profile.
@@ -32545,7 +32813,7 @@ public struct UpdateRoutingProfileDefaultOutboundQueueInput: Swift.Sendable {
 public struct UpdateRoutingProfileNameInput: Swift.Sendable {
     /// The description of the routing profile. Must not be more than 250 characters.
     public var description: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The name of the routing profile. Must not be more than 127 characters.
@@ -32568,7 +32836,7 @@ public struct UpdateRoutingProfileNameInput: Swift.Sendable {
 }
 
 public struct UpdateRoutingProfileQueuesInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The queues to be updated for this routing profile. Queues must first be associated to the routing profile. You can do this using AssociateRoutingProfileQueues.
@@ -32596,7 +32864,7 @@ public struct UpdateRuleInput: Swift.Sendable {
     /// The conditions of the rule.
     /// This member is required.
     public var function: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The name of the rule. You can change the name only if TriggerEventSource is one of the following values: OnZendeskTicketCreate | OnZendeskTicketStatusUpdate | OnSalesforceCaseCreate
@@ -32627,9 +32895,9 @@ public struct UpdateRuleInput: Swift.Sendable {
 }
 
 public struct UpdateSecurityProfileInput: Swift.Sendable {
-    /// The identifier of the hierarchy group that a security profile uses to restrict access to resources in Amazon Connect.
+    /// The identifier of the hierarchy group that a security profile uses to restrict access to resources in Connect Customer.
     public var allowedAccessControlHierarchyGroupId: Swift.String?
-    /// The list of tags that a security profile uses to restrict access to resources in Amazon Connect.
+    /// The list of tags that a security profile uses to restrict access to resources in Connect Customer.
     public var allowedAccessControlTags: [Swift.String: Swift.String]?
     /// A list of Flow Modules an AI Agent can invoke as a tool
     public var allowedFlowModules: [ConnectClientTypes.FlowModule]?
@@ -32639,9 +32907,9 @@ public struct UpdateSecurityProfileInput: Swift.Sendable {
     public var description: Swift.String?
     /// The granular access control configuration for the security profile, including data table permissions.
     public var granularAccessControlConfiguration: ConnectClientTypes.GranularAccessControlConfiguration?
-    /// The list of resources that a security profile applies hierarchy restrictions to in Amazon Connect. Following are acceptable ResourceNames: User.
+    /// The list of resources that a security profile applies hierarchy restrictions to in Connect Customer. Following are acceptable ResourceNames: User.
     public var hierarchyRestrictedResources: [Swift.String]?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The permissions granted to a security profile. For a list of valid permissions, see [List of security profile permissions](https://docs.aws.amazon.com/connect/latest/adminguide/security-profile-list.html).
@@ -32649,7 +32917,7 @@ public struct UpdateSecurityProfileInput: Swift.Sendable {
     /// The identifier for the security profle.
     /// This member is required.
     public var securityProfileId: Swift.String?
-    /// The list of resources that a security profile applies tag restrictions to in Amazon Connect.
+    /// The list of resources that a security profile applies tag restrictions to in Connect Customer.
     public var tagRestrictedResources: [Swift.String]?
 
     public init(
@@ -32690,7 +32958,7 @@ public struct UpdateTaskTemplateInput: Swift.Sendable {
     public var description: Swift.String?
     /// Fields that are part of the template.
     public var fields: [ConnectClientTypes.TaskTemplateField]?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The name of the task template.
@@ -32745,7 +33013,7 @@ public struct UpdateTaskTemplateOutput: Swift.Sendable {
     public var fields: [ConnectClientTypes.TaskTemplateField]?
     /// The identifier of the task template resource.
     public var id: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     public var instanceId: Swift.String?
     /// The timestamp when the task template was last modified.
     public var lastModifiedTime: Foundation.Date?
@@ -32875,7 +33143,7 @@ public struct UpdateUserConfigInput: Swift.Sendable {
     public var afterContactWorkConfigs: [ConnectClientTypes.AfterContactWorkConfigPerChannel]?
     /// The list of auto-accept configuration settings for each channel. When auto-accept is enabled for a channel, available agents are automatically connected to contacts from that channel without needing to manually accept. Auto-accept connects agents to contacts in less than one second.
     public var autoAcceptConfigs: [ConnectClientTypes.AutoAcceptConfig]?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The list of persistent connection configuration settings for each channel.
@@ -32910,7 +33178,7 @@ public struct UpdateUserConfigInput: Swift.Sendable {
 public struct UpdateUserHierarchyInput: Swift.Sendable {
     /// The identifier of the hierarchy group.
     public var hierarchyGroupId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier of the user account.
@@ -32932,7 +33200,7 @@ public struct UpdateUserHierarchyGroupNameInput: Swift.Sendable {
     /// The identifier of the hierarchy group.
     /// This member is required.
     public var hierarchyGroupId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The name of the hierarchy group. Must not be more than 100 characters.
@@ -33001,7 +33269,7 @@ public struct UpdateUserHierarchyStructureInput: Swift.Sendable {
     /// The hierarchy levels to update.
     /// This member is required.
     public var hierarchyStructure: ConnectClientTypes.HierarchyStructureUpdate?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -33018,7 +33286,7 @@ public struct UpdateUserIdentityInfoInput: Swift.Sendable {
     /// The identity information for the user.
     /// This member is required.
     public var identityInfo: ConnectClientTypes.UserIdentityInfo?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier of the user account.
@@ -33078,7 +33346,7 @@ public struct UpdateUserNotificationStatusOutput: Swift.Sendable {
 }
 
 public struct UpdateUserPhoneConfigInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// Information about phone configuration settings for the user.
@@ -33100,7 +33368,7 @@ public struct UpdateUserPhoneConfigInput: Swift.Sendable {
 }
 
 public struct UpdateUserProficienciesInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier of the user account.
@@ -33122,7 +33390,7 @@ public struct UpdateUserProficienciesInput: Swift.Sendable {
 }
 
 public struct UpdateUserRoutingProfileInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier of the routing profile for the user.
@@ -33144,7 +33412,7 @@ public struct UpdateUserRoutingProfileInput: Swift.Sendable {
 }
 
 public struct UpdateUserSecurityProfilesInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifiers of the security profiles for the user.
@@ -33169,7 +33437,7 @@ public struct UpdateViewContentInput: Swift.Sendable {
     /// View content containing all content necessary to render a view except for runtime input data and the runtime input schema, which is auto-generated by this operation. The total uncompressed content has a maximum file size of 400kB.
     /// This member is required.
     public var content: ConnectClientTypes.ViewInputContent?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// Indicates the view status as either SAVED or PUBLISHED. The PUBLISHED status will initiate validation on the content.
@@ -33206,7 +33474,7 @@ public struct UpdateViewContentOutput: Swift.Sendable {
 public struct UpdateViewMetadataInput: Swift.Sendable {
     /// The description of the view.
     public var description: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The name of the view.
@@ -34154,7 +34422,7 @@ extension ConnectClientTypes {
 }
 
 public struct SearchAgentStatusesInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -34182,7 +34450,7 @@ public struct SearchAgentStatusesInput: Swift.Sendable {
 }
 
 public struct SearchContactEvaluationsInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -34210,7 +34478,7 @@ public struct SearchContactEvaluationsInput: Swift.Sendable {
 }
 
 public struct SearchContactFlowModulesInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -34238,7 +34506,7 @@ public struct SearchContactFlowModulesInput: Swift.Sendable {
 }
 
 public struct SearchContactFlowsInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -34294,7 +34562,7 @@ public struct SearchDataTablesInput: Swift.Sendable {
 }
 
 public struct SearchEmailAddressesInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -34322,7 +34590,7 @@ public struct SearchEmailAddressesInput: Swift.Sendable {
 }
 
 public struct SearchEvaluationFormsInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -34350,7 +34618,7 @@ public struct SearchEvaluationFormsInput: Swift.Sendable {
 }
 
 public struct SearchHoursOfOperationOverridesInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance.
+    /// The identifier of the Connect Customer instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -34378,7 +34646,7 @@ public struct SearchHoursOfOperationOverridesInput: Swift.Sendable {
 }
 
 public struct SearchHoursOfOperationsInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -34434,7 +34702,7 @@ public struct SearchNotificationsInput: Swift.Sendable {
 }
 
 public struct SearchPredefinedAttributesInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -34458,7 +34726,7 @@ public struct SearchPredefinedAttributesInput: Swift.Sendable {
 }
 
 public struct SearchPromptsInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -34486,7 +34754,7 @@ public struct SearchPromptsInput: Swift.Sendable {
 }
 
 public struct SearchQueuesInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -34514,7 +34782,7 @@ public struct SearchQueuesInput: Swift.Sendable {
 }
 
 public struct SearchQuickConnectsInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -34542,7 +34810,7 @@ public struct SearchQuickConnectsInput: Swift.Sendable {
 }
 
 public struct SearchRoutingProfilesInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -34570,7 +34838,7 @@ public struct SearchRoutingProfilesInput: Swift.Sendable {
 }
 
 public struct SearchSecurityProfilesInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -34626,7 +34894,7 @@ public struct SearchTestCasesInput: Swift.Sendable {
 }
 
 public struct SearchUserHierarchyGroupsInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -34654,7 +34922,7 @@ public struct SearchUserHierarchyGroupsInput: Swift.Sendable {
 }
 
 public struct SearchUsersInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -34785,7 +35053,7 @@ extension ConnectClientTypes {
 }
 
 public struct CreateContactInput: Swift.Sendable {
-    /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
+    /// A custom key-value pair using an attribute map. The attributes are standard Connect Customer attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
     public var attributes: [Swift.String: Swift.String]?
     /// The channel for the contact. The CHAT channel is not supported. The following information is incorrect. We're working to correct it.
     /// This member is required.
@@ -34810,18 +35078,18 @@ public struct CreateContactInput: Swift.Sendable {
     /// The other channels listed below are incorrect. We're working to correct this information.
     /// This member is required.
     public var initiationMethod: ConnectClientTypes.ContactInitiationMethod?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The name of a the contact.
     public var name: Swift.String?
-    /// The ID of the previous contact when creating a transfer contact. This value can be provided only for external audio contacts. For more information, see [Integrate Amazon Connect Contact Lens with external voice systems](https://docs.aws.amazon.com/connect/latest/adminguide/contact-lens-integration.html) in the Amazon Connect Administrator Guide.
+    /// The ID of the previous contact when creating a transfer contact. This value can be provided only for external audio contacts. For more information, see [Integrate Connect Customer Contact Lens with external voice systems](https://docs.aws.amazon.com/connect/latest/adminguide/contact-lens-integration.html) in the Connect Customer Administrator Guide.
     public var previousContactId: Swift.String?
     /// A formatted URL that is shown to an agent in the Contact Control Panel (CCP). Tasks can have the following reference types at the time of creation: URL | NUMBER | STRING | DATE | EMAIL | ATTACHMENT.
     public var references: [Swift.String: ConnectClientTypes.Reference]?
-    /// The identifier of the contact in this instance of Amazon Connect.
+    /// The identifier of the contact in this instance of Connect Customer.
     public var relatedContactId: Swift.String?
-    /// A set of system defined key-value pairs stored on individual contact segments (unique contact ID) using an attribute map. The attributes are standard Amazon Connect attributes. They can be accessed in flows. Attribute keys can include only alphanumeric, -, and _. This field can be used to set Segment Contact Expiry as a duration in minutes. To set contact expiry, a ValueMap must be specified containing the integer number of minutes the contact will be active for before expiring, with SegmentAttributes like {  "connect:ContactExpiry": {"ValueMap" : { "ExpiryDuration": { "ValueInteger": 135}}}}.
+    /// A set of system defined key-value pairs stored on individual contact segments (unique contact ID) using an attribute map. The attributes are standard Connect Customer attributes. They can be accessed in flows. Attribute keys can include only alphanumeric, -, and _. This field can be used to set Segment Contact Expiry as a duration in minutes. To set contact expiry, a ValueMap must be specified containing the integer number of minutes the contact will be active for before expiring, with SegmentAttributes like {  "connect:ContactExpiry": {"ValueMap" : { "ExpiryDuration": { "ValueInteger": 135}}}}.
     public var segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]?
     /// User details for the contact UserInfo is required when creating an EMAIL contact with OUTBOUND and AGENT_REPLY contact initiation methods.
     public var userInfo: ConnectClientTypes.UserInfo?
@@ -34865,13 +35133,13 @@ extension CreateContactInput: Swift.CustomDebugStringConvertible {
 }
 
 public struct StartChatContactInput: Swift.Sendable {
-    /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes. They can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
+    /// A custom key-value pair using an attribute map. The attributes are standard Connect Customer attributes. They can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
     public var attributes: [Swift.String: Swift.String]?
     /// The total duration of the newly started chat session. If not specified, the chat session duration defaults to 25 hour. The minimum configurable time is 60 minutes. The maximum configurable time is 10,080 minutes (7 days).
     public var chatDurationInMinutes: Swift.Int?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
-    /// The identifier of the flow for initiating the chat. To see the ContactFlowId in the Amazon Connect admin website, on the navigation menu go to Routing, Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold: arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
+    /// The identifier of the flow for initiating the chat. To see the ContactFlowId in the Connect Customer admin website, on the navigation menu go to Routing, Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold: arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
     /// This member is required.
     public var contactFlowId: Swift.String?
     /// The customer's identification number. For example, the CustomerId may be a customer number from your CRM.
@@ -34880,7 +35148,7 @@ public struct StartChatContactInput: Swift.Sendable {
     public var disconnectOnCustomerExit: [ConnectClientTypes.DisconnectOnCustomerExitParticipantType]?
     /// The initial message to be sent to the newly created chat.
     public var initialMessage: ConnectClientTypes.ChatMessage?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The configuration of the participant.
@@ -34890,9 +35158,9 @@ public struct StartChatContactInput: Swift.Sendable {
     public var participantDetails: ConnectClientTypes.ParticipantDetails?
     /// Enable persistent chats. For more information about enabling persistent chat, and for example use cases and how to configure for them, see [Enable persistent chat](https://docs.aws.amazon.com/connect/latest/adminguide/chat-persistence.html).
     public var persistentChat: ConnectClientTypes.PersistentChat?
-    /// The unique identifier for an Amazon Connect contact. This identifier is related to the chat starting. You cannot provide data for both RelatedContactId and PersistentChat.
+    /// The unique identifier for an Connect Customer contact. This identifier is related to the chat starting. You cannot provide data for both RelatedContactId and PersistentChat.
     public var relatedContactId: Swift.String?
-    /// A set of system defined key-value pairs stored on individual contact segments using an attribute map. The attributes are standard Amazon Connect attributes. They can be accessed in flows. Attribute keys can include only alphanumeric, -, and _. This field can be used to show channel subtype, such as connect:Guide. The types application/vnd.amazonaws.connect.message.interactive and application/vnd.amazonaws.connect.message.interactive.response must be present in the SupportedMessagingContentTypes field of this API in order to set SegmentAttributes as { "connect:Subtype": {"valueString" : "connect:Guide" }}.
+    /// A set of system defined key-value pairs stored on individual contact segments using an attribute map. The attributes are standard Connect Customer attributes. They can be accessed in flows. Attribute keys can include only alphanumeric, -, and _. This field can be used to show channel subtype, such as connect:Guide. The types application/vnd.amazonaws.connect.message.interactive and application/vnd.amazonaws.connect.message.interactive.response must be present in the SupportedMessagingContentTypes field of this API in order to set SegmentAttributes as { "connect:Subtype": {"valueString" : "connect:Guide" }}.
     public var segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]?
     /// The supported chat message content types. Supported types are text/plain, text/markdown, application/json, application/vnd.amazonaws.connect.message.interactive, and application/vnd.amazonaws.connect.message.interactive.response. Content types must always contain text/plain. You can then put any other supported type in the list. For example, all the following lists are valid because they contain text/plain: [text/plain, text/markdown, application/json], [text/markdown, text/plain], [text/plain, application/json, application/vnd.amazonaws.connect.message.interactive.response]. The type application/vnd.amazonaws.connect.message.interactive is required to use the [Show view](https://docs.aws.amazon.com/connect/latest/adminguide/show-view-block.html) flow block.
     public var supportedMessagingContentTypes: [Swift.String]?
@@ -34940,15 +35208,15 @@ public struct StartEmailContactInput: Swift.Sendable {
     public var additionalRecipients: ConnectClientTypes.InboundAdditionalRecipients?
     /// List of S3 presigned URLs of email attachments and their file name.
     public var attachments: [ConnectClientTypes.EmailAttachment]?
-    /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
+    /// A custom key-value pair using an attribute map. The attributes are standard Connect Customer attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
     public var attributes: [Swift.String: Swift.String]?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
-    /// The identifier of the flow for initiating the emails. To see the ContactFlowId in the Amazon Connect admin website, on the navigation menu go to Routing, Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold: arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
+    /// The identifier of the flow for initiating the emails. To see the ContactFlowId in the Connect Customer admin website, on the navigation menu go to Routing, Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold: arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
     public var contactFlowId: Swift.String?
     /// A description of the email contact.
     public var description: Swift.String?
-    /// The email address associated with the Amazon Connect instance.
+    /// The email address associated with the Connect Customer instance.
     /// This member is required.
     public var destinationEmailAddress: Swift.String?
     /// The email message body to be sent to the newly created email.
@@ -34957,7 +35225,7 @@ public struct StartEmailContactInput: Swift.Sendable {
     /// The email address of the customer.
     /// This member is required.
     public var fromEmailAddress: ConnectClientTypes.EmailAddressInfo?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The name of a email that is shown to an agent in the Contact Control Panel (CCP).
@@ -34966,7 +35234,7 @@ public struct StartEmailContactInput: Swift.Sendable {
     public var references: [Swift.String: ConnectClientTypes.Reference]?
     /// The contactId that is related to this contact. Linking emails together by using RelatedContactID copies over contact attributes from the related email contact to the new email contact. All updates to user-defined attributes in the new email contact are limited to the individual contact ID. There are no limits to the number of contacts that can be linked by using RelatedContactId.
     public var relatedContactId: Swift.String?
-    /// A set of system defined key-value pairs stored on individual contact segments using an attribute map. The attributes are standard Amazon Connect attributes. They can be accessed in flows. Attribute keys can include only alphanumeric, -, and _. This field can be used to show channel subtype, such as connect:Guide. To set contact expiry, a ValueMap must be specified containing the integer number of minutes the contact will be active for before expiring, with SegmentAttributes like {  "connect:ContactExpiry": {"ValueMap" : { "ExpiryDuration": { "ValueInteger":135}}}}.
+    /// A set of system defined key-value pairs stored on individual contact segments using an attribute map. The attributes are standard Connect Customer attributes. They can be accessed in flows. Attribute keys can include only alphanumeric, -, and _. This field can be used to show channel subtype, such as connect:Guide. To set contact expiry, a ValueMap must be specified containing the integer number of minutes the contact will be active for before expiring, with SegmentAttributes like {  "connect:ContactExpiry": {"ValueMap" : { "ExpiryDuration": { "ValueInteger":135}}}}.
     public var segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]?
 
     public init(
@@ -35008,13 +35276,13 @@ extension StartEmailContactInput: Swift.CustomDebugStringConvertible {
 }
 
 public struct StartOutboundChatContactInput: Swift.Sendable {
-    /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in flows just like any other contact attributes.
+    /// A custom key-value pair using an attribute map. The attributes are standard Connect Customer attributes, and can be accessed in flows just like any other contact attributes.
     public var attributes: [Swift.String: Swift.String]?
     /// The total duration of the newly started chat session. If not specified, the chat session duration defaults to 25 hour. The minimum configurable time is 60 minutes. The maximum configurable time is 10,080 minutes (7 days).
     public var chatDurationInMinutes: Swift.Int?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/). The token is valid for 7 days after creation. If a contact is already started, the contact ID is returned.
     public var clientToken: Swift.String?
-    /// The identifier of the flow for the call. To see the ContactFlowId in the Amazon Connect console user interface, on the navigation menu go to Routing, Contact Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold:
+    /// The identifier of the flow for the call. To see the ContactFlowId in the Connect Customer console user interface, on the navigation menu go to Routing, Contact Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold:
     ///
     /// * arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/123ec456-a007-89c0-1234-xxxxxxxxxxxx
     /// This member is required.
@@ -35026,14 +35294,14 @@ public struct StartOutboundChatContactInput: Swift.Sendable {
     public var initialSystemMessage: ConnectClientTypes.ChatMessage?
     /// Information about template message configuration.
     public var initialTemplatedSystemMessage: ConnectClientTypes.TemplatedMessageConfig?
-    /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The customer's details.
     public var participantDetails: ConnectClientTypes.ParticipantDetails?
-    /// The unique identifier for an Amazon Connect contact. This identifier is related to the contact starting.
+    /// The unique identifier for an Connect Customer contact. This identifier is related to the contact starting.
     public var relatedContactId: Swift.String?
-    /// A set of system defined key-value pairs stored on individual contact segments using an attribute map. The attributes are standard Amazon Connect attributes. They can be accessed in flows.
+    /// A set of system defined key-value pairs stored on individual contact segments using an attribute map. The attributes are standard Connect Customer attributes. They can be accessed in flows.
     ///
     /// * Attribute keys can include only alphanumeric, -, and _.
     ///
@@ -35097,15 +35365,15 @@ public struct StartOutboundChatContactInput: Swift.Sendable {
 public struct StartTaskContactInput: Swift.Sendable {
     /// List of S3 presigned URLs of task attachments and their file name. You can have a maximum of 5 attachments per task.
     public var attachments: [ConnectClientTypes.TaskAttachment]?
-    /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
+    /// A custom key-value pair using an attribute map. The attributes are standard Connect Customer attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
     public var attributes: [Swift.String: Swift.String]?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
-    /// The identifier of the flow for initiating the tasks. To see the ContactFlowId in the Amazon Connect admin website, on the navigation menu go to Routing, Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold: arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
+    /// The identifier of the flow for initiating the tasks. To see the ContactFlowId in the Connect Customer admin website, on the navigation menu go to Routing, Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold: arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
     public var contactFlowId: Swift.String?
     /// A description of the task that is shown to an agent in the Contact Control Panel (CCP).
     public var description: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The name of a task that is shown to an agent in the Contact Control Panel (CCP).
@@ -35121,9 +35389,9 @@ public struct StartTaskContactInput: Swift.Sendable {
     public var relatedContactId: Swift.String?
     /// The timestamp, in Unix Epoch seconds format, at which to start running the inbound flow. The scheduled time cannot be in the past. It must be within up to 6 days in future.
     public var scheduledTime: Foundation.Date?
-    /// A set of system defined key-value pairs stored on individual contact segments (unique contact ID) using an attribute map. The attributes are standard Amazon Connect attributes. They can be accessed in flows. Attribute keys can include only alphanumeric, -, and _. This field can be used to set Contact Expiry as a duration in minutes and set a UserId for the User who created a task. To set contact expiry, a ValueMap must be specified containing the integer number of minutes the contact will be active for before expiring, with SegmentAttributes like {  "connect:ContactExpiry": {"ValueMap" : { "ExpiryDuration": { "ValueInteger": 135}}}}. To set the created by user, a valid AgentResourceId must be supplied, with SegmentAttributes like { "connect:CreatedByUser" { "ValueString": "arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/agent/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"}}}.
+    /// A set of system defined key-value pairs stored on individual contact segments (unique contact ID) using an attribute map. The attributes are standard Connect Customer attributes. They can be accessed in flows. Attribute keys can include only alphanumeric, -, and _. This field can be used to set Contact Expiry as a duration in minutes and set a UserId for the User who created a task. To set contact expiry, a ValueMap must be specified containing the integer number of minutes the contact will be active for before expiring, with SegmentAttributes like {  "connect:ContactExpiry": {"ValueMap" : { "ExpiryDuration": { "ValueInteger": 135}}}}. To set the created by user, a valid AgentResourceId must be supplied, with SegmentAttributes like { "connect:CreatedByUser" { "ValueString": "arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/agent/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"}}}.
     public var segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]?
-    /// A unique identifier for the task template. For more information about task templates, see [Create task templates](https://docs.aws.amazon.com/connect/latest/adminguide/task-templates.html) in the Amazon Connect Administrator Guide.
+    /// A unique identifier for the task template. For more information about task templates, see [Create task templates](https://docs.aws.amazon.com/connect/latest/adminguide/task-templates.html) in the Connect Customer Administrator Guide.
     public var taskTemplateId: Swift.String?
 
     public init(
@@ -35168,24 +35436,24 @@ public struct UpdateContactInput: Swift.Sendable {
     /// The identifier of the contact. This is the identifier of the contact associated with the first interaction with your contact center.
     /// This member is required.
     public var contactId: Swift.String?
-    /// The endpoint of the customer for which the contact was initiated. For external audio contacts, this is usually the end customer's phone number. This value can only be updated for external audio contacts. For more information, see [Amazon Connect Contact Lens integration](https://docs.aws.amazon.com/connect/latest/adminguide/contact-lens-integration.html) in the Amazon Connect Administrator Guide.
+    /// The endpoint of the customer for which the contact was initiated. For external audio contacts, this is usually the end customer's phone number. This value can only be updated for external audio contacts. For more information, see [Connect Customer Contact Lens integration](https://docs.aws.amazon.com/connect/latest/adminguide/contact-lens-integration.html) in the Connect Customer Administrator Guide.
     public var customerEndpoint: ConnectClientTypes.Endpoint?
     /// The description of the contact.
     public var description: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The name of the contact.
     public var name: Swift.String?
-    /// Information about the queue associated with a contact. This parameter can only be updated for external audio contacts. It is used when you integrate third-party systems with Contact Lens for analytics. For more information, see [Amazon Connect Contact Lens integration](https://docs.aws.amazon.com/connect/latest/adminguide/contact-lens-integration.html) in the Amazon Connect Administrator Guide.
+    /// Information about the queue associated with a contact. This parameter can only be updated for external audio contacts. It is used when you integrate third-party systems with Contact Lens for analytics. For more information, see [Connect Customer Contact Lens integration](https://docs.aws.amazon.com/connect/latest/adminguide/contact-lens-integration.html) in the Connect Customer Administrator Guide.
     public var queueInfo: ConnectClientTypes.QueueInfoInput?
     /// Well-formed data on contact, shown to agents on Contact Control Panel (CCP).
     public var references: [Swift.String: ConnectClientTypes.Reference]?
-    /// A set of system defined key-value pairs stored on individual contact segments (unique contact ID) using an attribute map. The attributes are standard Amazon Connect attributes. They can be accessed in flows. Attribute keys can include only alphanumeric, -, and _. This field can be used to show channel subtype, such as connect:Guide. Contact Expiry, and user-defined attributes (String - String) that are defined in predefined attributes, can be updated by using the UpdateContact API.
+    /// A set of system defined key-value pairs stored on individual contact segments (unique contact ID) using an attribute map. The attributes are standard Connect Customer attributes. They can be accessed in flows. Attribute keys can include only alphanumeric, -, and _. This field can be used to show channel subtype, such as connect:Guide. Contact Expiry, and user-defined attributes (String - String) that are defined in predefined attributes, can be updated by using the UpdateContact API.
     public var segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]?
-    /// External system endpoint for the contact was initiated. For external audio contacts, this is the phone number of the external system such as the contact center. This value can only be updated for external audio contacts. For more information, see [Amazon Connect Contact Lens integration](https://docs.aws.amazon.com/connect/latest/adminguide/contact-lens-integration.html) in the Amazon Connect Administrator Guide.
+    /// External system endpoint for the contact was initiated. For external audio contacts, this is the phone number of the external system such as the contact center. This value can only be updated for external audio contacts. For more information, see [Connect Customer Contact Lens integration](https://docs.aws.amazon.com/connect/latest/adminguide/contact-lens-integration.html) in the Connect Customer Administrator Guide.
     public var systemEndpoint: ConnectClientTypes.Endpoint?
-    /// Information about the agent associated with a contact. This parameter can only be updated for external audio contacts. It is used when you integrate third-party systems with Contact Lens for analytics. For more information, see [Amazon Connect Contact Lens integration](https://docs.aws.amazon.com/connect/latest/adminguide/contact-lens-integration.html) in the Amazon Connect Administrator Guide.
+    /// Information about the agent associated with a contact. This parameter can only be updated for external audio contacts. It is used when you integrate third-party systems with Contact Lens for analytics. For more information, see [Connect Customer Contact Lens integration](https://docs.aws.amazon.com/connect/latest/adminguide/contact-lens-integration.html) in the Connect Customer Administrator Guide.
     public var userInfo: ConnectClientTypes.UserInfo?
 
     public init(
@@ -35238,7 +35506,7 @@ extension ConnectClientTypes {
         public var activationTimestamp: Foundation.Date?
         /// Information about the index of the routing criteria.
         public var index: Swift.Int?
-        /// List of routing steps. When Amazon Connect does not find an available agent meeting the requirements in a step for a given step duration, the routing criteria will move on to the next step sequentially until a join is completed with an agent. When all steps are exhausted, the contact will be offered to any agent in the queue.
+        /// List of routing steps. When Connect Customer does not find an available agent meeting the requirements in a step for a given step duration, the routing criteria will move on to the next step sequentially until a join is completed with an agent. When all steps are exhausted, the contact will be offered to any agent in the queue.
         public var steps: [ConnectClientTypes.Step]?
 
         public init(
@@ -35257,7 +35525,7 @@ extension ConnectClientTypes {
 
     /// An object to define the RoutingCriteria.
     public struct RoutingCriteriaInput: Swift.Sendable {
-        /// When Amazon Connect does not find an available agent meeting the requirements in a step for a given step duration, the routing criteria will move on to the next step sequentially until a join is completed with an agent. When all steps are exhausted, the contact will be offered to any agent in the queue.
+        /// When Connect Customer does not find an available agent meeting the requirements in a step for a given step duration, the routing criteria will move on to the next step sequentially until a join is completed with an agent. When all steps are exhausted, the contact will be offered to any agent in the queue.
         public var steps: [ConnectClientTypes.RoutingCriteriaInputStep]?
 
         public init(
@@ -35465,7 +35733,7 @@ public struct CreateEvaluationFormInput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// The description of the evaluation form.
     public var description: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// Items that are part of the evaluation form. The total number of sections and questions must not exceed 100 each. Questions must be contained in a section.
@@ -35515,10 +35783,10 @@ public struct CreateEvaluationFormInput: Swift.Sendable {
 }
 
 public struct UpdateContactRoutingDataInput: Swift.Sendable {
-    /// The identifier of the contact in this instance of Amazon Connect.
+    /// The identifier of the contact in this instance of Connect Customer.
     /// This member is required.
     public var contactId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// Priority of the contact in the queue. The default priority for new contacts is 5. You can raise the priority of a contact compared to other contacts in the queue by assigning them a higher priority, such as 1 or 2.
@@ -35560,7 +35828,7 @@ public struct UpdateEvaluationFormInput: Swift.Sendable {
     /// A version of the evaluation form to update.
     /// This member is required.
     public var evaluationFormVersion: Swift.Int?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// Items that are part of the evaluation form. The total number of sections and questions must not exceed 100 each. Questions must be contained in a section.
@@ -35648,7 +35916,7 @@ extension ConnectClientTypes {
         public var additionalEmailRecipients: ConnectClientTypes.AdditionalEmailRecipients?
         /// Information about the agent who accepted the contact.
         public var agentInfo: ConnectClientTypes.AgentInfo?
-        /// Indicates how an [outbound campaign](https://docs.aws.amazon.com/connect/latest/adminguide/how-to-create-campaigns.html) call is actually disposed if the contact is connected to Amazon Connect.
+        /// Indicates how an [outbound campaign](https://docs.aws.amazon.com/connect/latest/adminguide/how-to-create-campaigns.html) call is actually disposed if the contact is connected to Connect Customer.
         public var answeringMachineDetectionStatus: ConnectClientTypes.AnsweringMachineDetectionStatus?
         /// The Amazon Resource Name (ARN) for the contact.
         public var arn: Swift.String?
@@ -35660,7 +35928,7 @@ extension ConnectClientTypes {
         public var channel: ConnectClientTypes.Channel?
         /// Information about how agent, bot, and customer interact in a chat contact.
         public var chatMetrics: ConnectClientTypes.ChatMetrics?
-        /// The timestamp when customer endpoint connected to Amazon Connect.
+        /// The timestamp when customer endpoint connected to Connect Customer.
         public var connectedToSystemTimestamp: Foundation.Date?
         /// This is the root contactId which is used as a unique identifier for all subsequent contacts in a contact tree.
         public var contactAssociationId: Swift.String?
@@ -35672,7 +35940,7 @@ extension ConnectClientTypes {
         public var customer: ConnectClientTypes.Customer?
         /// The customer or external third party participant endpoint.
         public var customerEndpoint: ConnectClientTypes.EndpointInfo?
-        /// The customer's identification number. For example, the CustomerId may be a customer number from your CRM. You can create a Lambda function to pull the unique customer ID of the caller from your CRM system. If you enable Amazon Connect Voice ID capability, this attribute is populated with the CustomerSpeakerId of the caller.
+        /// The customer's identification number. For example, the CustomerId may be a customer number from your CRM. You can create a Lambda function to pull the unique customer ID of the caller from your CRM system. If you enable Connect Customer Voice ID capability, this attribute is populated with the CustomerSpeakerId of the caller.
         public var customerId: Swift.String?
         /// Information about customer’s voice activity.
         public var customerVoiceActivity: ConnectClientTypes.CustomerVoiceActivity?
@@ -35680,7 +35948,7 @@ extension ConnectClientTypes {
         public var description: Swift.String?
         /// Information about the call disconnect experience.
         public var disconnectDetails: ConnectClientTypes.DisconnectDetails?
-        /// The disconnect reason for the contact. For a list and description of all the possible disconnect reasons by channel, see DisconnectReason under [ContactTraceRecord](https://docs.aws.amazon.com/connect/latest/adminguide/ctr-data-model.html#ctr-ContactTraceRecord) in the Amazon Connect Administrator Guide.
+        /// The disconnect reason for the contact. For a list and description of all the possible disconnect reasons by channel, see DisconnectReason under [ContactTraceRecord](https://docs.aws.amazon.com/connect/latest/adminguide/ctr-data-model.html#ctr-ContactTraceRecord) in the Connect Customer Administrator Guide.
         public var disconnectReason: Swift.String?
         /// The date and time that the customer endpoint disconnected from the current contact, in UTC time. In transfer scenarios, the DisconnectTimestamp of the previous contact indicates the date and time when that contact ended.
         public var disconnectTimestamp: Foundation.Date?
@@ -35726,7 +35994,7 @@ extension ConnectClientTypes {
         public var routingCriteria: ConnectClientTypes.RoutingCriteria?
         /// The timestamp, in Unix epoch time format, at which to start running the inbound flow.
         public var scheduledTimestamp: Foundation.Date?
-        /// A set of system defined key-value pairs stored on individual contact segments using an attribute map. The attributes are standard Amazon Connect attributes and can be accessed in flows. Attribute keys can include only alphanumeric, -, and _ characters. This field can be used to show channel subtype. For example, connect:Guide or connect:SMS.
+        /// A set of system defined key-value pairs stored on individual contact segments using an attribute map. The attributes are standard Connect Customer attributes and can be accessed in flows. Attribute keys can include only alphanumeric, -, and _ characters. This field can be used to show channel subtype. For example, connect:Guide or connect:SMS.
         public var segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]?
         /// The system endpoint. For INBOUND, this is the phone number or email address that the customer dialed. For OUTBOUND and EXTERNAL_OUTBOUND, this is the outbound caller ID number assigned to the outbound queue that is used to dial the customer. For callback, this shows up as Softphone for calls handled by agents with softphone.
         public var systemEndpoint: ConnectClientTypes.EndpointInfo?
@@ -35738,7 +36006,7 @@ extension ConnectClientTypes {
         public var totalPauseCount: Swift.Int?
         /// Total pause duration for a contact in seconds.
         public var totalPauseDurationInSeconds: Swift.Int?
-        /// Information about Amazon Connect Wisdom.
+        /// Information about Connect Customer Wisdom.
         public var wisdomInfo: ConnectClientTypes.WisdomInfo?
 
         public init(
@@ -35858,7 +36126,7 @@ extension ConnectClientTypes {
         public var arn: Swift.String?
         /// How the contact reached your contact center.
         public var channel: ConnectClientTypes.Channel?
-        /// The timestamp when the customer endpoint disconnected from Amazon Connect.
+        /// The timestamp when the customer endpoint disconnected from Connect Customer.
         public var disconnectTimestamp: Foundation.Date?
         /// Additional routing information for contacts created in ACGR instances.
         public var globalResiliencyMetadata: ConnectClientTypes.GlobalResiliencyMetadata?
@@ -37329,6 +37597,19 @@ extension DescribeAgentStatusInput {
     }
 }
 
+extension DescribeAttachedFilesConfigurationInput {
+
+    static func urlPathProvider(_ value: DescribeAttachedFilesConfigurationInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let attachmentScope = value.attachmentScope else {
+            return nil
+        }
+        return "/attached-files-configurations/\(instanceId.urlPercentEncoding())/\(attachmentScope.rawValue.urlPercentEncoding())"
+    }
+}
+
 extension DescribeAuthenticationProfileInput {
 
     static func urlPathProvider(_ value: DescribeAuthenticationProfileInput) -> Swift.String? {
@@ -38532,6 +38813,32 @@ extension ListAssociatedContactsInput {
         }
         let contactIdQueryItem = Smithy.URIQueryItem(name: "contactId".urlPercentEncoding(), value: Swift.String(contactId).urlPercentEncoding())
         items.append(contactIdQueryItem)
+        return items
+    }
+}
+
+extension ListAttachedFilesConfigurationsInput {
+
+    static func urlPathProvider(_ value: ListAttachedFilesConfigurationsInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        return "/attached-files-configurations/\(instanceId.urlPercentEncoding())"
+    }
+}
+
+extension ListAttachedFilesConfigurationsInput {
+
+    static func queryItemProvider(_ value: ListAttachedFilesConfigurationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
         return items
     }
 }
@@ -40811,6 +41118,19 @@ extension UpdateAgentStatusInput {
             return nil
         }
         return "/agent-status/\(instanceId.urlPercentEncoding())/\(agentStatusId.urlPercentEncoding())"
+    }
+}
+
+extension UpdateAttachedFilesConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateAttachedFilesConfigurationInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let attachmentScope = value.attachmentScope else {
+            return nil
+        }
+        return "/attached-files-configurations/\(instanceId.urlPercentEncoding())/\(attachmentScope.rawValue.urlPercentEncoding())"
     }
 }
 
@@ -43398,6 +43718,15 @@ extension UpdateAgentStatusInput {
     }
 }
 
+extension UpdateAttachedFilesConfigurationInput {
+
+    static func write(value: UpdateAttachedFilesConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ExtensionConfiguration"].write(value.extensionConfiguration, with: ConnectClientTypes.ExtensionConfiguration.write(value:to:))
+        try writer["MaximumSizeLimitInBytes"].write(value.maximumSizeLimitInBytes)
+    }
+}
+
 extension UpdateAuthenticationProfileInput {
 
     static func write(value: UpdateAuthenticationProfileInput?, to writer: SmithyJSON.Writer) throws {
@@ -45078,6 +45407,18 @@ extension DescribeAgentStatusOutput {
     }
 }
 
+extension DescribeAttachedFilesConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeAttachedFilesConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeAttachedFilesConfigurationOutput()
+        value.attachedFilesConfiguration = try reader["AttachedFilesConfiguration"].readIfPresent(with: ConnectClientTypes.AttachedFilesConfiguration.read(from:))
+        return value
+    }
+}
+
 extension DescribeAuthenticationProfileOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeAuthenticationProfileOutput {
@@ -45920,6 +46261,19 @@ extension ListAssociatedContactsOutput {
         let reader = responseReader
         var value = ListAssociatedContactsOutput()
         value.contactSummaryList = try reader["ContactSummaryList"].readListIfPresent(memberReadingClosure: ConnectClientTypes.AssociatedContactSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListAttachedFilesConfigurationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAttachedFilesConfigurationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAttachedFilesConfigurationsOutput()
+        value.attachedFilesConfigurations = try reader["AttachedFilesConfigurations"].readListIfPresent(memberReadingClosure: ConnectClientTypes.AttachedFilesConfigurationSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -47473,6 +47827,22 @@ extension UpdateAgentStatusOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateAgentStatusOutput {
         return UpdateAgentStatusOutput()
+    }
+}
+
+extension UpdateAttachedFilesConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateAttachedFilesConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateAttachedFilesConfigurationOutput()
+        value.attachmentScope = try reader["AttachmentScope"].readIfPresent() ?? .sdkUnknown("")
+        value.extensionConfiguration = try reader["ExtensionConfiguration"].readIfPresent(with: ConnectClientTypes.ExtensionConfiguration.read(from:))
+        value.instanceId = try reader["InstanceId"].readIfPresent() ?? ""
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.maximumSizeLimitInBytes = try reader["MaximumSizeLimitInBytes"].readIfPresent()
+        return value
     }
 }
 
@@ -50056,6 +50426,24 @@ enum DescribeAgentStatusOutputError {
     }
 }
 
+enum DescribeAttachedFilesConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeAuthenticationProfileOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -51382,6 +51770,24 @@ enum ListAssociatedContactsOutputError {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListAttachedFilesConfigurationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -53690,6 +54096,24 @@ enum UpdateAgentStatusOutputError {
     }
 }
 
+enum UpdateAttachedFilesConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateAuthenticationProfileOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -55521,6 +55945,21 @@ extension ConnectClientTypes.AllowedCapabilities {
     }
 }
 
+extension ConnectClientTypes.AllowedExtension {
+
+    static func write(value: ConnectClientTypes.AllowedExtension?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Extension"].write(value.`extension`)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.AllowedExtension {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.AllowedExtension()
+        value.`extension` = try reader["Extension"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension ConnectClientTypes.AnalyticsDataAssociationResult {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.AnalyticsDataAssociationResult {
@@ -55649,6 +56088,33 @@ extension ConnectClientTypes.AttachedFileError {
         value.errorCode = try reader["ErrorCode"].readIfPresent()
         value.errorMessage = try reader["ErrorMessage"].readIfPresent()
         value.fileId = try reader["FileId"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectClientTypes.AttachedFilesConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.AttachedFilesConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.AttachedFilesConfiguration()
+        value.instanceId = try reader["InstanceId"].readIfPresent() ?? ""
+        value.attachmentScope = try reader["AttachmentScope"].readIfPresent() ?? .sdkUnknown("")
+        value.maximumSizeLimitInBytes = try reader["MaximumSizeLimitInBytes"].readIfPresent()
+        value.extensionConfiguration = try reader["ExtensionConfiguration"].readIfPresent(with: ConnectClientTypes.ExtensionConfiguration.read(from:))
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension ConnectClientTypes.AttachedFilesConfigurationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.AttachedFilesConfigurationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.AttachedFilesConfigurationSummary()
+        value.instanceId = try reader["InstanceId"].readIfPresent() ?? ""
+        value.attachmentScope = try reader["AttachmentScope"].readIfPresent() ?? .sdkUnknown("")
+        value.maximumSizeLimitInBytes = try reader["MaximumSizeLimitInBytes"].readIfPresent()
+        value.extensionConfiguration = try reader["ExtensionConfiguration"].readIfPresent(with: ConnectClientTypes.ExtensionConfiguration.read(from:))
         return value
     }
 }
@@ -58440,6 +58906,21 @@ extension ConnectClientTypes.Expression {
         value.andExpression = try reader["AndExpression"].readListIfPresent(memberReadingClosure: ConnectClientTypes.Expression.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.orExpression = try reader["OrExpression"].readListIfPresent(memberReadingClosure: ConnectClientTypes.Expression.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.notAttributeCondition = try reader["NotAttributeCondition"].readIfPresent(with: ConnectClientTypes.AttributeCondition.read(from:))
+        return value
+    }
+}
+
+extension ConnectClientTypes.ExtensionConfiguration {
+
+    static func write(value: ConnectClientTypes.ExtensionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AllowedExtensions"].writeList(value.allowedExtensions, memberWritingClosure: ConnectClientTypes.AllowedExtension.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.ExtensionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.ExtensionConfiguration()
+        value.allowedExtensions = try reader["AllowedExtensions"].readListIfPresent(memberReadingClosure: ConnectClientTypes.AllowedExtension.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }

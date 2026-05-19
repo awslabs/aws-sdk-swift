@@ -43,9 +43,9 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -67,9 +67,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -91,9 +91,9 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { true }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -115,9 +115,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -139,9 +139,9 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { true }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -163,9 +163,9 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -780,6 +780,113 @@ public struct AcceptLinkOutput: Swift.Sendable {
     }
 }
 
+/// The request could not be completed because you exceeded a service quota.
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct AssociateCertificateInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the ACM certificate to associate.
+    /// This member is required.
+    public var acmCertificateArn: Swift.String?
+    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
+    /// This member is required.
+    public var clientToken: Swift.String?
+    /// The unique identifier of the gateway.
+    /// This member is required.
+    public var gatewayId: Swift.String?
+
+    public init(
+        acmCertificateArn: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        gatewayId: Swift.String? = nil
+    ) {
+        self.acmCertificateArn = acmCertificateArn
+        self.clientToken = clientToken
+        self.gatewayId = gatewayId
+    }
+}
+
+extension RTBFabricClientTypes {
+
+    /// The status of a certificate association with a gateway.
+    public enum CertificateAssociationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case associated
+        case disassociated
+        case failed
+        case pendingAssociation
+        case pendingDisassociation
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CertificateAssociationStatus] {
+            return [
+                .associated,
+                .disassociated,
+                .failed,
+                .pendingAssociation,
+                .pendingDisassociation
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .associated: return "ASSOCIATED"
+            case .disassociated: return "DISASSOCIATED"
+            case .failed: return "FAILED"
+            case .pendingAssociation: return "PENDING_ASSOCIATION"
+            case .pendingDisassociation: return "PENDING_DISASSOCIATION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct AssociateCertificateOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the ACM certificate.
+    /// This member is required.
+    public var acmCertificateArn: Swift.String?
+    /// The unique identifier of the gateway.
+    /// This member is required.
+    public var gatewayId: Swift.String?
+    /// The status of the certificate association.
+    /// This member is required.
+    public var status: RTBFabricClientTypes.CertificateAssociationStatus?
+
+    public init(
+        acmCertificateArn: Swift.String? = nil,
+        gatewayId: Swift.String? = nil,
+        status: RTBFabricClientTypes.CertificateAssociationStatus? = nil
+    ) {
+        self.acmCertificateArn = acmCertificateArn
+        self.gatewayId = gatewayId
+        self.status = status
+    }
+}
+
 extension RTBFabricClientTypes {
 
     public enum ModelProtocol: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -879,27 +986,32 @@ extension RTBFabricClientTypes {
     }
 }
 
-/// The request could not be completed because you exceeded a service quota.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+extension RTBFabricClientTypes {
 
-    public struct Properties: Swift.Sendable {
+    /// Describes a summary of a certificate association.
+    public struct CertificateAssociationSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the ACM certificate.
         /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-    }
+        public var acmCertificateArn: Swift.String?
+        /// The timestamp of when the certificate was associated.
+        public var associatedAt: Foundation.Date?
+        /// The status of the certificate association.
+        /// This member is required.
+        public var status: RTBFabricClientTypes.CertificateAssociationStatus?
+        /// The timestamp of when the certificate association was last updated.
+        public var updatedAt: Foundation.Date?
 
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
+        public init(
+            acmCertificateArn: Swift.String? = nil,
+            associatedAt: Foundation.Date? = nil,
+            status: RTBFabricClientTypes.CertificateAssociationStatus? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.acmCertificateArn = acmCertificateArn
+            self.associatedAt = associatedAt
+            self.status = status
+            self.updatedAt = updatedAt
+        }
     }
 }
 
@@ -1060,6 +1172,162 @@ public struct CreateLinkOutput: Swift.Sendable {
         self.pendingFlowModules = pendingFlowModules
         self.status = status
         self.updatedAt = updatedAt
+    }
+}
+
+extension RTBFabricClientTypes {
+
+    /// Key-value pair for query string matching
+    public struct QueryStringKeyValuePair: Swift.Sendable {
+        /// RFC 3986 unreserved characters
+        /// This member is required.
+        public var key: Swift.String?
+        /// RFC 3986 unreserved characters
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.key = key
+            self.value = value
+        }
+    }
+}
+
+extension RTBFabricClientTypes {
+
+    /// Conditions bag for a routing rule. All non-null fields must match (AND logic). At least one field must be set (enforced by CP).
+    public struct RuleCondition: Swift.Sendable {
+        /// Exact host match — RFC 3986 unreserved characters
+        public var hostHeader: Swift.String?
+        /// Wildcard host pattern (e.g., *.example.com) — RFC 3986 unreserved plus *
+        public var hostHeaderWildcard: Swift.String?
+        /// Exact path match — must start with /; RFC 3986 unreserved plus /
+        public var pathExact: Swift.String?
+        /// Path prefix matching — strict starts-with, no wildcard (preferred for new rules). Must start with /; RFC 3986 unreserved plus /
+        public var pathPrefix: Swift.String?
+        /// Query string key=value pair match (single pair)
+        public var queryStringEquals: RTBFabricClientTypes.QueryStringKeyValuePair?
+        /// Query string key presence check (any value accepted) — RFC 3986 unreserved characters
+        public var queryStringExists: Swift.String?
+
+        public init(
+            hostHeader: Swift.String? = nil,
+            hostHeaderWildcard: Swift.String? = nil,
+            pathExact: Swift.String? = nil,
+            pathPrefix: Swift.String? = nil,
+            queryStringEquals: RTBFabricClientTypes.QueryStringKeyValuePair? = nil,
+            queryStringExists: Swift.String? = nil
+        ) {
+            self.hostHeader = hostHeader
+            self.hostHeaderWildcard = hostHeaderWildcard
+            self.pathExact = pathExact
+            self.pathPrefix = pathPrefix
+            self.queryStringEquals = queryStringEquals
+            self.queryStringExists = queryStringExists
+        }
+    }
+}
+
+public struct CreateLinkRoutingRuleInput: Swift.Sendable {
+    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
+    /// This member is required.
+    public var clientToken: Swift.String?
+    /// The conditions for the routing rule. All specified fields must match for the rule to apply. At least one condition field must be set.
+    /// This member is required.
+    public var conditions: RTBFabricClientTypes.RuleCondition?
+    /// The unique identifier of the gateway.
+    /// This member is required.
+    public var gatewayId: Swift.String?
+    /// The unique identifier of the link.
+    /// This member is required.
+    public var linkId: Swift.String?
+    /// The priority of the routing rule. Lower numbers are evaluated first. Valid values are 1 to 1000. Priority must be unique among non-deleted rules within a link.
+    /// This member is required.
+    public var priority: Swift.Int?
+    /// A map of the key-value pairs of the tag or tags to assign to the resource.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        conditions: RTBFabricClientTypes.RuleCondition? = nil,
+        gatewayId: Swift.String? = nil,
+        linkId: Swift.String? = nil,
+        priority: Swift.Int? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.conditions = conditions
+        self.gatewayId = gatewayId
+        self.linkId = linkId
+        self.priority = priority
+        self.tags = tags
+    }
+}
+
+extension RTBFabricClientTypes {
+
+    /// Status of a routing rule
+    public enum RuleStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case creationInProgress
+        case deleted
+        case deletionInProgress
+        case failed
+        case updateInProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RuleStatus] {
+            return [
+                .active,
+                .creationInProgress,
+                .deleted,
+                .deletionInProgress,
+                .failed,
+                .updateInProgress
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .creationInProgress: return "CREATION_IN_PROGRESS"
+            case .deleted: return "DELETED"
+            case .deletionInProgress: return "DELETION_IN_PROGRESS"
+            case .failed: return "FAILED"
+            case .updateInProgress: return "UPDATE_IN_PROGRESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateLinkRoutingRuleOutput: Swift.Sendable {
+    /// The timestamp of when the routing rule was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The unique identifier of the routing rule.
+    /// This member is required.
+    public var ruleId: Swift.String?
+    /// The status of the routing rule.
+    /// This member is required.
+    public var status: RTBFabricClientTypes.RuleStatus?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        ruleId: Swift.String? = nil,
+        status: RTBFabricClientTypes.RuleStatus? = nil
+    ) {
+        self.createdAt = createdAt
+        self.ruleId = ruleId
+        self.status = status
     }
 }
 
@@ -1560,6 +1828,45 @@ public struct DeleteLinkOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteLinkRoutingRuleInput: Swift.Sendable {
+    /// The unique identifier of the gateway.
+    /// This member is required.
+    public var gatewayId: Swift.String?
+    /// The unique identifier of the link.
+    /// This member is required.
+    public var linkId: Swift.String?
+    /// The unique identifier of the routing rule.
+    /// This member is required.
+    public var ruleId: Swift.String?
+
+    public init(
+        gatewayId: Swift.String? = nil,
+        linkId: Swift.String? = nil,
+        ruleId: Swift.String? = nil
+    ) {
+        self.gatewayId = gatewayId
+        self.linkId = linkId
+        self.ruleId = ruleId
+    }
+}
+
+public struct DeleteLinkRoutingRuleOutput: Swift.Sendable {
+    /// The unique identifier of the routing rule.
+    /// This member is required.
+    public var ruleId: Swift.String?
+    /// The status of the routing rule.
+    /// This member is required.
+    public var status: RTBFabricClientTypes.RuleStatus?
+
+    public init(
+        ruleId: Swift.String? = nil,
+        status: RTBFabricClientTypes.RuleStatus? = nil
+    ) {
+        self.ruleId = ruleId
+        self.status = status
+    }
+}
+
 public struct DeleteOutboundExternalLinkInput: Swift.Sendable {
     /// The unique identifier of the gateway.
     /// This member is required.
@@ -1652,6 +1959,45 @@ public struct DeleteResponderGatewayOutput: Swift.Sendable {
     }
 }
 
+public struct DisassociateCertificateInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the ACM certificate to disassociate.
+    /// This member is required.
+    public var acmCertificateArn: Swift.String?
+    /// The unique identifier of the gateway.
+    /// This member is required.
+    public var gatewayId: Swift.String?
+
+    public init(
+        acmCertificateArn: Swift.String? = nil,
+        gatewayId: Swift.String? = nil
+    ) {
+        self.acmCertificateArn = acmCertificateArn
+        self.gatewayId = gatewayId
+    }
+}
+
+public struct DisassociateCertificateOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the ACM certificate.
+    /// This member is required.
+    public var acmCertificateArn: Swift.String?
+    /// The unique identifier of the gateway.
+    /// This member is required.
+    public var gatewayId: Swift.String?
+    /// The status of the certificate association.
+    /// This member is required.
+    public var status: RTBFabricClientTypes.CertificateAssociationStatus?
+
+    public init(
+        acmCertificateArn: Swift.String? = nil,
+        gatewayId: Swift.String? = nil,
+        status: RTBFabricClientTypes.CertificateAssociationStatus? = nil
+    ) {
+        self.acmCertificateArn = acmCertificateArn
+        self.gatewayId = gatewayId
+        self.status = status
+    }
+}
+
 public struct GetLinkInput: Swift.Sendable {
     /// The unique identifier of the gateway.
     /// This member is required.
@@ -1738,6 +2084,214 @@ public struct GetLinkOutput: Swift.Sendable {
         self.status = status
         self.tags = tags
         self.timeoutInMillis = timeoutInMillis
+        self.updatedAt = updatedAt
+    }
+}
+
+public struct GetLinkRoutingRuleInput: Swift.Sendable {
+    /// The unique identifier of the gateway.
+    /// This member is required.
+    public var gatewayId: Swift.String?
+    /// The unique identifier of the link.
+    /// This member is required.
+    public var linkId: Swift.String?
+    /// The unique identifier of the routing rule.
+    /// This member is required.
+    public var ruleId: Swift.String?
+
+    public init(
+        gatewayId: Swift.String? = nil,
+        linkId: Swift.String? = nil,
+        ruleId: Swift.String? = nil
+    ) {
+        self.gatewayId = gatewayId
+        self.linkId = linkId
+        self.ruleId = ruleId
+    }
+}
+
+public struct GetLinkRoutingRuleOutput: Swift.Sendable {
+    /// The conditions for the routing rule.
+    /// This member is required.
+    public var conditions: RTBFabricClientTypes.RuleCondition?
+    /// The timestamp of when the routing rule was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The unique identifier of the gateway.
+    /// This member is required.
+    public var gatewayId: Swift.String?
+    /// The unique identifier of the link.
+    /// This member is required.
+    public var linkId: Swift.String?
+    /// The priority of the routing rule.
+    /// This member is required.
+    public var priority: Swift.Int?
+    /// The unique identifier of the routing rule.
+    /// This member is required.
+    public var ruleId: Swift.String?
+    /// The status of the routing rule.
+    /// This member is required.
+    public var status: RTBFabricClientTypes.RuleStatus?
+    /// A map of the key-value pairs for the tag or tags assigned to the specified resource.
+    public var tags: [Swift.String: Swift.String]?
+    /// The timestamp of when the routing rule was last updated.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        conditions: RTBFabricClientTypes.RuleCondition? = nil,
+        createdAt: Foundation.Date? = nil,
+        gatewayId: Swift.String? = nil,
+        linkId: Swift.String? = nil,
+        priority: Swift.Int? = nil,
+        ruleId: Swift.String? = nil,
+        status: RTBFabricClientTypes.RuleStatus? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.conditions = conditions
+        self.createdAt = createdAt
+        self.gatewayId = gatewayId
+        self.linkId = linkId
+        self.priority = priority
+        self.ruleId = ruleId
+        self.status = status
+        self.tags = tags
+        self.updatedAt = updatedAt
+    }
+}
+
+public struct ListLinkRoutingRulesInput: Swift.Sendable {
+    /// The unique identifier of the gateway.
+    /// This member is required.
+    public var gatewayId: Swift.String?
+    /// The unique identifier of the link.
+    /// This member is required.
+    public var linkId: Swift.String?
+    /// The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. This is only an upper limit. The actual number of results returned per call might be fewer than the specified maximum.
+    public var maxResults: Swift.Int?
+    /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+    public var nextToken: Swift.String?
+
+    public init(
+        gatewayId: Swift.String? = nil,
+        linkId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.gatewayId = gatewayId
+        self.linkId = linkId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension RTBFabricClientTypes {
+
+    /// Summary of a routing rule for list responses
+    public struct LinkRoutingRuleSummary: Swift.Sendable {
+        /// The conditions for the routing rule.
+        /// This member is required.
+        public var conditions: RTBFabricClientTypes.RuleCondition?
+        /// The timestamp of when the routing rule was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The priority of the routing rule.
+        /// This member is required.
+        public var priority: Swift.Int?
+        /// The unique identifier of the routing rule.
+        /// This member is required.
+        public var ruleId: Swift.String?
+        /// The status of the routing rule.
+        /// This member is required.
+        public var status: RTBFabricClientTypes.RuleStatus?
+        /// The timestamp of when the routing rule was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            conditions: RTBFabricClientTypes.RuleCondition? = nil,
+            createdAt: Foundation.Date? = nil,
+            priority: Swift.Int? = nil,
+            ruleId: Swift.String? = nil,
+            status: RTBFabricClientTypes.RuleStatus? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.conditions = conditions
+            self.createdAt = createdAt
+            self.priority = priority
+            self.ruleId = ruleId
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct ListLinkRoutingRulesOutput: Swift.Sendable {
+    /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+    public var nextToken: Swift.String?
+    /// The list of routing rules for the link.
+    public var rules: [RTBFabricClientTypes.LinkRoutingRuleSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        rules: [RTBFabricClientTypes.LinkRoutingRuleSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.rules = rules
+    }
+}
+
+public struct UpdateLinkRoutingRuleInput: Swift.Sendable {
+    /// The updated conditions for the routing rule. All specified fields must match for the rule to apply. At least one condition field must be set.
+    /// This member is required.
+    public var conditions: RTBFabricClientTypes.RuleCondition?
+    /// The unique identifier of the gateway.
+    /// This member is required.
+    public var gatewayId: Swift.String?
+    /// The unique identifier of the link.
+    /// This member is required.
+    public var linkId: Swift.String?
+    /// The updated priority of the routing rule. Lower numbers are evaluated first. Valid values are 1 to 1000. Priority must be unique among non-deleted rules within a link.
+    /// This member is required.
+    public var priority: Swift.Int?
+    /// The unique identifier of the routing rule.
+    /// This member is required.
+    public var ruleId: Swift.String?
+
+    public init(
+        conditions: RTBFabricClientTypes.RuleCondition? = nil,
+        gatewayId: Swift.String? = nil,
+        linkId: Swift.String? = nil,
+        priority: Swift.Int? = nil,
+        ruleId: Swift.String? = nil
+    ) {
+        self.conditions = conditions
+        self.gatewayId = gatewayId
+        self.linkId = linkId
+        self.priority = priority
+        self.ruleId = ruleId
+    }
+}
+
+public struct UpdateLinkRoutingRuleOutput: Swift.Sendable {
+    /// The unique identifier of the routing rule.
+    /// This member is required.
+    public var ruleId: Swift.String?
+    /// The status of the routing rule.
+    /// This member is required.
+    public var status: RTBFabricClientTypes.RuleStatus?
+    /// The timestamp of when the routing rule was last updated.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        ruleId: Swift.String? = nil,
+        status: RTBFabricClientTypes.RuleStatus? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.ruleId = ruleId
+        self.status = status
         self.updatedAt = updatedAt
     }
 }
@@ -2016,6 +2570,53 @@ public struct UpdateLinkModuleFlowOutput: Swift.Sendable {
         self.gatewayId = gatewayId
         self.linkId = linkId
         self.status = status
+    }
+}
+
+public struct GetCertificateAssociationInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the ACM certificate.
+    /// This member is required.
+    public var acmCertificateArn: Swift.String?
+    /// The unique identifier of the gateway.
+    /// This member is required.
+    public var gatewayId: Swift.String?
+
+    public init(
+        acmCertificateArn: Swift.String? = nil,
+        gatewayId: Swift.String? = nil
+    ) {
+        self.acmCertificateArn = acmCertificateArn
+        self.gatewayId = gatewayId
+    }
+}
+
+public struct GetCertificateAssociationOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the ACM certificate.
+    /// This member is required.
+    public var acmCertificateArn: Swift.String?
+    /// The timestamp of when the certificate was associated.
+    public var associatedAt: Foundation.Date?
+    /// The unique identifier of the gateway.
+    /// This member is required.
+    public var gatewayId: Swift.String?
+    /// The status of the certificate association.
+    /// This member is required.
+    public var status: RTBFabricClientTypes.CertificateAssociationStatus?
+    /// The timestamp of when the certificate association was last updated.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        acmCertificateArn: Swift.String? = nil,
+        associatedAt: Foundation.Date? = nil,
+        gatewayId: Swift.String? = nil,
+        status: RTBFabricClientTypes.CertificateAssociationStatus? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.acmCertificateArn = acmCertificateArn
+        self.associatedAt = associatedAt
+        self.gatewayId = gatewayId
+        self.status = status
+        self.updatedAt = updatedAt
     }
 }
 
@@ -2350,6 +2951,42 @@ public struct GetResponderGatewayOutput: Swift.Sendable {
     }
 }
 
+public struct ListCertificateAssociationsInput: Swift.Sendable {
+    /// The unique identifier of the gateway.
+    /// This member is required.
+    public var gatewayId: Swift.String?
+    /// The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. This is only an upper limit. The actual number of results returned per call might be fewer than the specified maximum.
+    public var maxResults: Swift.Int?
+    /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+    public var nextToken: Swift.String?
+
+    public init(
+        gatewayId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.gatewayId = gatewayId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListCertificateAssociationsOutput: Swift.Sendable {
+    /// The list of certificate associations for the gateway.
+    /// This member is required.
+    public var certificateAssociations: [RTBFabricClientTypes.CertificateAssociationSummary]?
+    /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+    public var nextToken: Swift.String?
+
+    public init(
+        certificateAssociations: [RTBFabricClientTypes.CertificateAssociationSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.certificateAssociations = certificateAssociations
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListRequesterGatewaysInput: Swift.Sendable {
     /// The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. This is only an upper limit. The actual number of results returned per call might be fewer than the specified maximum.
     public var maxResults: Swift.Int?
@@ -2592,6 +3229,16 @@ extension AcceptLinkInput {
     }
 }
 
+extension AssociateCertificateInput {
+
+    static func urlPathProvider(_ value: AssociateCertificateInput) -> Swift.String? {
+        guard let gatewayId = value.gatewayId else {
+            return nil
+        }
+        return "/responder-gateway/\(gatewayId.urlPercentEncoding())/certificate"
+    }
+}
+
 extension CreateInboundExternalLinkInput {
 
     static func urlPathProvider(_ value: CreateInboundExternalLinkInput) -> Swift.String? {
@@ -2609,6 +3256,19 @@ extension CreateLinkInput {
             return nil
         }
         return "/gateway/\(gatewayId.urlPercentEncoding())/create-link"
+    }
+}
+
+extension CreateLinkRoutingRuleInput {
+
+    static func urlPathProvider(_ value: CreateLinkRoutingRuleInput) -> Swift.String? {
+        guard let gatewayId = value.gatewayId else {
+            return nil
+        }
+        guard let linkId = value.linkId else {
+            return nil
+        }
+        return "/responder-gateway/\(gatewayId.urlPercentEncoding())/link/\(linkId.urlPercentEncoding())/routing-rule"
     }
 }
 
@@ -2662,6 +3322,22 @@ extension DeleteLinkInput {
     }
 }
 
+extension DeleteLinkRoutingRuleInput {
+
+    static func urlPathProvider(_ value: DeleteLinkRoutingRuleInput) -> Swift.String? {
+        guard let gatewayId = value.gatewayId else {
+            return nil
+        }
+        guard let linkId = value.linkId else {
+            return nil
+        }
+        guard let ruleId = value.ruleId else {
+            return nil
+        }
+        return "/responder-gateway/\(gatewayId.urlPercentEncoding())/link/\(linkId.urlPercentEncoding())/routing-rule/\(ruleId.urlPercentEncoding())"
+    }
+}
+
 extension DeleteOutboundExternalLinkInput {
 
     static func urlPathProvider(_ value: DeleteOutboundExternalLinkInput) -> Swift.String? {
@@ -2695,6 +3371,54 @@ extension DeleteResponderGatewayInput {
     }
 }
 
+extension DisassociateCertificateInput {
+
+    static func urlPathProvider(_ value: DisassociateCertificateInput) -> Swift.String? {
+        guard let gatewayId = value.gatewayId else {
+            return nil
+        }
+        return "/responder-gateway/\(gatewayId.urlPercentEncoding())/certificate"
+    }
+}
+
+extension DisassociateCertificateInput {
+
+    static func queryItemProvider(_ value: DisassociateCertificateInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let acmCertificateArn = value.acmCertificateArn else {
+            let message = "Creating a URL Query Item failed. acmCertificateArn is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let acmCertificateArnQueryItem = Smithy.URIQueryItem(name: "acmCertificateArn".urlPercentEncoding(), value: Swift.String(acmCertificateArn).urlPercentEncoding())
+        items.append(acmCertificateArnQueryItem)
+        return items
+    }
+}
+
+extension GetCertificateAssociationInput {
+
+    static func urlPathProvider(_ value: GetCertificateAssociationInput) -> Swift.String? {
+        guard let gatewayId = value.gatewayId else {
+            return nil
+        }
+        return "/responder-gateway/\(gatewayId.urlPercentEncoding())/certificate"
+    }
+}
+
+extension GetCertificateAssociationInput {
+
+    static func queryItemProvider(_ value: GetCertificateAssociationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let acmCertificateArn = value.acmCertificateArn else {
+            let message = "Creating a URL Query Item failed. acmCertificateArn is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let acmCertificateArnQueryItem = Smithy.URIQueryItem(name: "acmCertificateArn".urlPercentEncoding(), value: Swift.String(acmCertificateArn).urlPercentEncoding())
+        items.append(acmCertificateArnQueryItem)
+        return items
+    }
+}
+
 extension GetInboundExternalLinkInput {
 
     static func urlPathProvider(_ value: GetInboundExternalLinkInput) -> Swift.String? {
@@ -2718,6 +3442,22 @@ extension GetLinkInput {
             return nil
         }
         return "/gateway/\(gatewayId.urlPercentEncoding())/link/\(linkId.urlPercentEncoding())"
+    }
+}
+
+extension GetLinkRoutingRuleInput {
+
+    static func urlPathProvider(_ value: GetLinkRoutingRuleInput) -> Swift.String? {
+        guard let gatewayId = value.gatewayId else {
+            return nil
+        }
+        guard let linkId = value.linkId else {
+            return nil
+        }
+        guard let ruleId = value.ruleId else {
+            return nil
+        }
+        return "/responder-gateway/\(gatewayId.urlPercentEncoding())/link/\(linkId.urlPercentEncoding())/routing-rule/\(ruleId.urlPercentEncoding())"
     }
 }
 
@@ -2751,6 +3491,61 @@ extension GetResponderGatewayInput {
             return nil
         }
         return "/responder-gateway/\(gatewayId.urlPercentEncoding())"
+    }
+}
+
+extension ListCertificateAssociationsInput {
+
+    static func urlPathProvider(_ value: ListCertificateAssociationsInput) -> Swift.String? {
+        guard let gatewayId = value.gatewayId else {
+            return nil
+        }
+        return "/responder-gateway/\(gatewayId.urlPercentEncoding())/certificates"
+    }
+}
+
+extension ListCertificateAssociationsInput {
+
+    static func queryItemProvider(_ value: ListCertificateAssociationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListLinkRoutingRulesInput {
+
+    static func urlPathProvider(_ value: ListLinkRoutingRulesInput) -> Swift.String? {
+        guard let gatewayId = value.gatewayId else {
+            return nil
+        }
+        guard let linkId = value.linkId else {
+            return nil
+        }
+        return "/responder-gateway/\(gatewayId.urlPercentEncoding())/link/\(linkId.urlPercentEncoding())/routing-rules"
+    }
+}
+
+extension ListLinkRoutingRulesInput {
+
+    static func queryItemProvider(_ value: ListLinkRoutingRulesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
@@ -2911,6 +3706,22 @@ extension UpdateLinkModuleFlowInput {
     }
 }
 
+extension UpdateLinkRoutingRuleInput {
+
+    static func urlPathProvider(_ value: UpdateLinkRoutingRuleInput) -> Swift.String? {
+        guard let gatewayId = value.gatewayId else {
+            return nil
+        }
+        guard let linkId = value.linkId else {
+            return nil
+        }
+        guard let ruleId = value.ruleId else {
+            return nil
+        }
+        return "/responder-gateway/\(gatewayId.urlPercentEncoding())/link/\(linkId.urlPercentEncoding())/routing-rule/\(ruleId.urlPercentEncoding())"
+    }
+}
+
 extension UpdateRequesterGatewayInput {
 
     static func urlPathProvider(_ value: UpdateRequesterGatewayInput) -> Swift.String? {
@@ -2941,6 +3752,15 @@ extension AcceptLinkInput {
     }
 }
 
+extension AssociateCertificateInput {
+
+    static func write(value: AssociateCertificateInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["acmCertificateArn"].write(value.acmCertificateArn)
+        try writer["clientToken"].write(value.clientToken)
+    }
+}
+
 extension CreateInboundExternalLinkInput {
 
     static func write(value: CreateInboundExternalLinkInput?, to writer: SmithyJSON.Writer) throws {
@@ -2962,6 +3782,17 @@ extension CreateLinkInput {
         try writer["peerGatewayId"].write(value.peerGatewayId)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["timeoutInMillis"].write(value.timeoutInMillis)
+    }
+}
+
+extension CreateLinkRoutingRuleInput {
+
+    static func write(value: CreateLinkRoutingRuleInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["conditions"].write(value.conditions, with: RTBFabricClientTypes.RuleCondition.write(value:to:))
+        try writer["priority"].write(value.priority)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -3036,6 +3867,15 @@ extension UpdateLinkModuleFlowInput {
     }
 }
 
+extension UpdateLinkRoutingRuleInput {
+
+    static func write(value: UpdateLinkRoutingRuleInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["conditions"].write(value.conditions, with: RTBFabricClientTypes.RuleCondition.write(value:to:))
+        try writer["priority"].write(value.priority)
+    }
+}
+
 extension UpdateRequesterGatewayInput {
 
     static func write(value: UpdateRequesterGatewayInput?, to writer: SmithyJSON.Writer) throws {
@@ -3083,6 +3923,20 @@ extension AcceptLinkOutput {
     }
 }
 
+extension AssociateCertificateOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateCertificateOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = AssociateCertificateOutput()
+        value.acmCertificateArn = try reader["acmCertificateArn"].readIfPresent() ?? ""
+        value.gatewayId = try reader["gatewayId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension CreateInboundExternalLinkOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateInboundExternalLinkOutput {
@@ -3118,6 +3972,20 @@ extension CreateLinkOutput {
         value.pendingFlowModules = try reader["pendingFlowModules"].readListIfPresent(memberReadingClosure: RTBFabricClientTypes.ModuleConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension CreateLinkRoutingRuleOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateLinkRoutingRuleOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateLinkRoutingRuleOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.ruleId = try reader["ruleId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -3191,6 +4059,19 @@ extension DeleteLinkOutput {
     }
 }
 
+extension DeleteLinkRoutingRuleOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteLinkRoutingRuleOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteLinkRoutingRuleOutput()
+        value.ruleId = try reader["ruleId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension DeleteOutboundExternalLinkOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteOutboundExternalLinkOutput {
@@ -3226,6 +4107,36 @@ extension DeleteResponderGatewayOutput {
         var value = DeleteResponderGatewayOutput()
         value.gatewayId = try reader["gatewayId"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension DisassociateCertificateOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisassociateCertificateOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DisassociateCertificateOutput()
+        value.acmCertificateArn = try reader["acmCertificateArn"].readIfPresent() ?? ""
+        value.gatewayId = try reader["gatewayId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension GetCertificateAssociationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetCertificateAssociationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetCertificateAssociationOutput()
+        value.acmCertificateArn = try reader["acmCertificateArn"].readIfPresent() ?? ""
+        value.associatedAt = try reader["associatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.gatewayId = try reader["gatewayId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -3274,6 +4185,26 @@ extension GetLinkOutput {
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.timeoutInMillis = try reader["timeoutInMillis"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension GetLinkRoutingRuleOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetLinkRoutingRuleOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetLinkRoutingRuleOutput()
+        value.conditions = try reader["conditions"].readIfPresent(with: RTBFabricClientTypes.RuleCondition.read(from:))
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.gatewayId = try reader["gatewayId"].readIfPresent() ?? ""
+        value.linkId = try reader["linkId"].readIfPresent() ?? ""
+        value.priority = try reader["priority"].readIfPresent() ?? 0
+        value.ruleId = try reader["ruleId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
@@ -3352,6 +4283,32 @@ extension GetResponderGatewayOutput {
         value.trustStoreConfiguration = try reader["trustStoreConfiguration"].readIfPresent(with: RTBFabricClientTypes.TrustStoreConfiguration.read(from:))
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.vpcId = try reader["vpcId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ListCertificateAssociationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListCertificateAssociationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListCertificateAssociationsOutput()
+        value.certificateAssociations = try reader["certificateAssociations"].readListIfPresent(memberReadingClosure: RTBFabricClientTypes.CertificateAssociationSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListLinkRoutingRulesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListLinkRoutingRulesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListLinkRoutingRulesOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.rules = try reader["rules"].readListIfPresent(memberReadingClosure: RTBFabricClientTypes.LinkRoutingRuleSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -3471,6 +4428,20 @@ extension UpdateLinkModuleFlowOutput {
     }
 }
 
+extension UpdateLinkRoutingRuleOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateLinkRoutingRuleOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateLinkRoutingRuleOutput()
+        value.ruleId = try reader["ruleId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
 extension UpdateRequesterGatewayOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateRequesterGatewayOutput {
@@ -3509,6 +4480,26 @@ enum AcceptLinkOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum AssociateCertificateOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -3556,6 +4547,26 @@ enum CreateLinkOutputError {
     }
 }
 
+enum CreateLinkRoutingRuleOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateOutboundExternalLinkOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -3565,6 +4576,7 @@ enum CreateOutboundExternalLinkOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
@@ -3651,6 +4663,25 @@ enum DeleteLinkOutputError {
     }
 }
 
+enum DeleteLinkRoutingRuleOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteOutboundExternalLinkOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -3679,6 +4710,7 @@ enum DeleteRequesterGatewayOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -3689,6 +4721,45 @@ enum DeleteRequesterGatewayOutputError {
 }
 
 enum DeleteResponderGatewayOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DisassociateCertificateOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetCertificateAssociationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -3743,6 +4814,24 @@ enum GetLinkOutputError {
     }
 }
 
+enum GetLinkRoutingRuleOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetOutboundExternalLinkOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -3780,6 +4869,42 @@ enum GetRequesterGatewayOutputError {
 }
 
 enum GetResponderGatewayOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListCertificateAssociationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListLinkRoutingRulesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -3950,6 +5075,25 @@ enum UpdateLinkModuleFlowOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateLinkRoutingRuleOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -4133,6 +5277,19 @@ extension RTBFabricClientTypes.AutoScalingGroupsConfiguration {
     }
 }
 
+extension RTBFabricClientTypes.CertificateAssociationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RTBFabricClientTypes.CertificateAssociationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RTBFabricClientTypes.CertificateAssociationSummary()
+        value.acmCertificateArn = try reader["acmCertificateArn"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.associatedAt = try reader["associatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
 extension RTBFabricClientTypes.EksEndpointsConfiguration {
 
     static func write(value: RTBFabricClientTypes.EksEndpointsConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -4296,6 +5453,21 @@ extension RTBFabricClientTypes.LinkLogSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RTBFabricClientTypes.LinkLogSettings()
         value.applicationLogs = try reader["applicationLogs"].readIfPresent(with: RTBFabricClientTypes.LinkApplicationLogConfiguration.read(from:))
+        return value
+    }
+}
+
+extension RTBFabricClientTypes.LinkRoutingRuleSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RTBFabricClientTypes.LinkRoutingRuleSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RTBFabricClientTypes.LinkRoutingRuleSummary()
+        value.ruleId = try reader["ruleId"].readIfPresent() ?? ""
+        value.priority = try reader["priority"].readIfPresent() ?? 0
+        value.conditions = try reader["conditions"].readIfPresent(with: RTBFabricClientTypes.RuleCondition.read(from:))
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -4474,6 +5646,23 @@ extension RTBFabricClientTypes.OpenRtbAttributeModuleParameters {
     }
 }
 
+extension RTBFabricClientTypes.QueryStringKeyValuePair {
+
+    static func write(value: RTBFabricClientTypes.QueryStringKeyValuePair?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["key"].write(value.key)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RTBFabricClientTypes.QueryStringKeyValuePair {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RTBFabricClientTypes.QueryStringKeyValuePair()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension RTBFabricClientTypes.RateLimiterModuleParameters {
 
     static func write(value: RTBFabricClientTypes.RateLimiterModuleParameters?, to writer: SmithyJSON.Writer) throws {
@@ -4506,6 +5695,31 @@ extension RTBFabricClientTypes.ResponderErrorMaskingForHttpCode {
         value.action = try reader["action"].readIfPresent() ?? .sdkUnknown("")
         value.loggingTypes = try reader["loggingTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<RTBFabricClientTypes.ResponderErrorMaskingLoggingType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.responseLoggingPercentage = try reader["responseLoggingPercentage"].readIfPresent()
+        return value
+    }
+}
+
+extension RTBFabricClientTypes.RuleCondition {
+
+    static func write(value: RTBFabricClientTypes.RuleCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["hostHeader"].write(value.hostHeader)
+        try writer["hostHeaderWildcard"].write(value.hostHeaderWildcard)
+        try writer["pathExact"].write(value.pathExact)
+        try writer["pathPrefix"].write(value.pathPrefix)
+        try writer["queryStringEquals"].write(value.queryStringEquals, with: RTBFabricClientTypes.QueryStringKeyValuePair.write(value:to:))
+        try writer["queryStringExists"].write(value.queryStringExists)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RTBFabricClientTypes.RuleCondition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RTBFabricClientTypes.RuleCondition()
+        value.hostHeader = try reader["hostHeader"].readIfPresent()
+        value.hostHeaderWildcard = try reader["hostHeaderWildcard"].readIfPresent()
+        value.pathPrefix = try reader["pathPrefix"].readIfPresent()
+        value.pathExact = try reader["pathExact"].readIfPresent()
+        value.queryStringEquals = try reader["queryStringEquals"].readIfPresent(with: RTBFabricClientTypes.QueryStringKeyValuePair.read(from:))
+        value.queryStringExists = try reader["queryStringExists"].readIfPresent()
         return value
     }
 }

@@ -1,0 +1,8 @@
+{
+    "service": "com.amazonaws.swf#SimpleWorkflowService",
+    "module": "AWSSWF",
+    "sdkId": "SWF",
+    "internalClient": false,
+    "operations": [],
+    "modelPath": "codegen/sdk-codegen/aws-models/swf.json"
+}

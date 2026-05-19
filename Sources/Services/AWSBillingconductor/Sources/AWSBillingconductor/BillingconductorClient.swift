@@ -14,7 +14,7 @@ import class AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain
 import class ClientRuntime.ClientBuilder
 import class ClientRuntime.DefaultClientPlugin
 import class ClientRuntime.HttpClientConfiguration
-import class ClientRuntime.OrchestratorBuilder
+@_spi(SchemaBasedSerde) import class ClientRuntime.OrchestratorBuilder
 import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
@@ -2727,6 +2727,7 @@ extension BillingconductorClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : You can cause an inconsistent state by updating or deleting a resource.
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.

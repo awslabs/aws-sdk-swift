@@ -53,6 +53,11 @@ public struct DeleteArchiveRuleOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteServiceLinkedAnalyzerOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct GenerateFindingRecommendationOutput: Swift.Sendable {
 
     public init() { }
@@ -105,9 +110,9 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -135,9 +140,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -165,9 +170,9 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { true }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -197,9 +202,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -231,9 +236,9 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -261,9 +266,9 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { true }
     public static var isThrottling: Swift.Bool { true }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -351,9 +356,9 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         fieldList: [AccessAnalyzerClientTypes.ValidationExceptionField]? = nil,
@@ -898,6 +903,23 @@ public struct DeleteAnalyzerInput: Swift.Sendable {
     }
 }
 
+/// Deletes a service-linked analyzer.
+public struct DeleteServiceLinkedAnalyzerInput: Swift.Sendable {
+    /// The name of the service-linked analyzer to delete. Service-linked analyzer names follow the format _AccessAnalyzerFor{ServiceName}-{Id}.
+    /// This member is required.
+    public var analyzerName: Swift.String?
+    /// A client token.
+    public var clientToken: Swift.String?
+
+    public init(
+        analyzerName: Swift.String? = nil,
+        clientToken: Swift.String? = nil
+    ) {
+        self.analyzerName = analyzerName
+        self.clientToken = clientToken
+    }
+}
+
 /// Retrieves an analyzer.
 public struct GetAnalyzerInput: Swift.Sendable {
     /// The name of the analyzer retrieved.
@@ -1013,6 +1035,8 @@ extension AccessAnalyzerClientTypes {
         public var lastResourceAnalyzed: Swift.String?
         /// The time at which the most recently analyzed resource was analyzed.
         public var lastResourceAnalyzedAt: Foundation.Date?
+        /// The service principal that manages this analyzer (for example, securityhubv2.amazonaws.com). This field is only present for service-linked analyzers and is not included for customer-managed analyzers.
+        public var managedBy: Swift.String?
         /// The name of the analyzer.
         /// This member is required.
         public var name: Swift.String?
@@ -1033,6 +1057,7 @@ extension AccessAnalyzerClientTypes {
             createdAt: Foundation.Date? = nil,
             lastResourceAnalyzed: Swift.String? = nil,
             lastResourceAnalyzedAt: Foundation.Date? = nil,
+            managedBy: Swift.String? = nil,
             name: Swift.String? = nil,
             status: AccessAnalyzerClientTypes.AnalyzerStatus? = nil,
             statusReason: AccessAnalyzerClientTypes.StatusReason? = nil,
@@ -1044,6 +1069,7 @@ extension AccessAnalyzerClientTypes {
             self.createdAt = createdAt
             self.lastResourceAnalyzed = lastResourceAnalyzed
             self.lastResourceAnalyzedAt = lastResourceAnalyzedAt
+            self.managedBy = managedBy
             self.name = name
             self.status = status
             self.statusReason = statusReason
@@ -1182,9 +1208,9 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -1206,9 +1232,9 @@ public struct UnprocessableEntityException: ClientRuntime.ModeledError, AWSClien
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { true }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -2275,6 +2301,43 @@ public struct CreateAccessPreviewOutput: Swift.Sendable {
         id: Swift.String? = nil
     ) {
         self.id = id
+    }
+}
+
+/// Creates a service-linked analyzer.
+public struct CreateServiceLinkedAnalyzerInput: Swift.Sendable {
+    /// Specifies the archive rules to add for the analyzer. Archive rules automatically archive findings that meet the criteria you define for the rule.
+    public var archiveRules: [AccessAnalyzerClientTypes.InlineArchiveRule]?
+    /// A client token.
+    public var clientToken: Swift.String?
+    /// Specifies the configuration of the analyzer. The specified scope of unused access is used for the configuration.
+    public var configuration: AccessAnalyzerClientTypes.AnalyzerConfiguration?
+    /// The type of analyzer to create. Valid values are ACCOUNT_UNUSED_ACCESS and ORGANIZATION_UNUSED_ACCESS.
+    /// This member is required.
+    public var type: AccessAnalyzerClientTypes.ModelType?
+
+    public init(
+        archiveRules: [AccessAnalyzerClientTypes.InlineArchiveRule]? = nil,
+        clientToken: Swift.String? = nil,
+        configuration: AccessAnalyzerClientTypes.AnalyzerConfiguration? = nil,
+        type: AccessAnalyzerClientTypes.ModelType? = nil
+    ) {
+        self.archiveRules = archiveRules
+        self.clientToken = clientToken
+        self.configuration = configuration
+        self.type = type
+    }
+}
+
+/// The response to the request to create a service-linked analyzer.
+public struct CreateServiceLinkedAnalyzerOutput: Swift.Sendable {
+    /// The ARN of the service-linked analyzer that was created by the request. The analyzer name follows the format _AccessAnalyzerFor{ServiceName}-{Id} where Id is a randomly generated identifier.
+    public var arn: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil
+    ) {
+        self.arn = arn
     }
 }
 
@@ -5261,6 +5324,13 @@ extension CreateArchiveRuleInput {
     }
 }
 
+extension CreateServiceLinkedAnalyzerInput {
+
+    static func urlPathProvider(_ value: CreateServiceLinkedAnalyzerInput) -> Swift.String? {
+        return "/service-linked-analyzer"
+    }
+}
+
 extension DeleteAnalyzerInput {
 
     static func urlPathProvider(_ value: DeleteAnalyzerInput) -> Swift.String? {
@@ -5299,6 +5369,28 @@ extension DeleteArchiveRuleInput {
 extension DeleteArchiveRuleInput {
 
     static func queryItemProvider(_ value: DeleteArchiveRuleInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let clientToken = value.clientToken {
+            let clientTokenQueryItem = Smithy.URIQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            items.append(clientTokenQueryItem)
+        }
+        return items
+    }
+}
+
+extension DeleteServiceLinkedAnalyzerInput {
+
+    static func urlPathProvider(_ value: DeleteServiceLinkedAnalyzerInput) -> Swift.String? {
+        guard let analyzerName = value.analyzerName else {
+            return nil
+        }
+        return "/service-linked-analyzer/\(analyzerName.urlPercentEncoding())"
+    }
+}
+
+extension DeleteServiceLinkedAnalyzerInput {
+
+    static func queryItemProvider(_ value: DeleteServiceLinkedAnalyzerInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
         if let clientToken = value.clientToken {
             let clientTokenQueryItem = Smithy.URIQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
@@ -5852,6 +5944,17 @@ extension CreateArchiveRuleInput {
     }
 }
 
+extension CreateServiceLinkedAnalyzerInput {
+
+    static func write(value: CreateServiceLinkedAnalyzerInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["archiveRules"].writeList(value.archiveRules, memberWritingClosure: AccessAnalyzerClientTypes.InlineArchiveRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["clientToken"].write(value.clientToken)
+        try writer["configuration"].write(value.configuration, with: AccessAnalyzerClientTypes.AnalyzerConfiguration.write(value:to:))
+        try writer["type"].write(value.type)
+    }
+}
+
 extension GetFindingsStatisticsInput {
 
     static func write(value: GetFindingsStatisticsInput?, to writer: SmithyJSON.Writer) throws {
@@ -6061,6 +6164,18 @@ extension CreateArchiveRuleOutput {
     }
 }
 
+extension CreateServiceLinkedAnalyzerOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateServiceLinkedAnalyzerOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateServiceLinkedAnalyzerOutput()
+        value.arn = try reader["arn"].readIfPresent()
+        return value
+    }
+}
+
 extension DeleteAnalyzerOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteAnalyzerOutput {
@@ -6072,6 +6187,13 @@ extension DeleteArchiveRuleOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteArchiveRuleOutput {
         return DeleteArchiveRuleOutput()
+    }
+}
+
+extension DeleteServiceLinkedAnalyzerOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteServiceLinkedAnalyzerOutput {
+        return DeleteServiceLinkedAnalyzerOutput()
     }
 }
 
@@ -6549,6 +6671,25 @@ enum CreateArchiveRuleOutputError {
     }
 }
 
+enum CreateServiceLinkedAnalyzerOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteAnalyzerOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -6576,6 +6717,25 @@ enum DeleteArchiveRuleOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteServiceLinkedAnalyzerOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -7409,6 +7569,7 @@ extension AccessAnalyzerClientTypes.AnalyzerSummary {
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.statusReason = try reader["statusReason"].readIfPresent(with: AccessAnalyzerClientTypes.StatusReason.read(from:))
         value.configuration = try reader["configuration"].readIfPresent(with: AccessAnalyzerClientTypes.AnalyzerConfiguration.read(from:))
+        value.managedBy = try reader["managedBy"].readIfPresent()
         return value
     }
 }

@@ -15,7 +15,7 @@ import class AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain
 import class ClientRuntime.ClientBuilder
 import class ClientRuntime.DefaultClientPlugin
 import class ClientRuntime.HttpClientConfiguration
-import class ClientRuntime.OrchestratorBuilder
+@_spi(SchemaBasedSerde) import class ClientRuntime.OrchestratorBuilder
 import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
@@ -1431,6 +1431,7 @@ extension Route53GlobalResolverClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have permission to perform this operation. Check your IAM permissions and try again.
+    /// - `ConflictException` : The request conflicts with the current state of the resource. This can occur when trying to modify a resource that is not in a valid state for the requested operation.
     /// - `InternalServerException` : An internal server error occurred. Try again later.
     /// - `ResourceNotFoundException` : The specified resource was not found. Verify the resource ID and try again.
     /// - `ThrottlingException` : The request was throttled due to too many requests. Wait a moment and try again.

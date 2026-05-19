@@ -1,0 +1,8 @@
+{
+    "service": "com.amazonaws.kinesisanalyticsv2#KinesisAnalytics_20180523",
+    "module": "AWSKinesisAnalyticsV2",
+    "sdkId": "Kinesis Analytics V2",
+    "internalClient": false,
+    "operations": [],
+    "modelPath": "codegen/sdk-codegen/aws-models/kinesis-analytics-v2.json"
+}

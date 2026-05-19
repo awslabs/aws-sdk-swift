@@ -1,0 +1,8 @@
+{
+    "service": "com.amazonaws.partnercentralchannel#PartnerCentralChannel",
+    "module": "AWSPartnerCentralChannel",
+    "sdkId": "PartnerCentral Channel",
+    "internalClient": false,
+    "operations": [],
+    "modelPath": "codegen/sdk-codegen/aws-models/partnercentral-channel.json"
+}

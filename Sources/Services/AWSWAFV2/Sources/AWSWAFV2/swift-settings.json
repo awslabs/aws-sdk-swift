@@ -1,0 +1,8 @@
+{
+    "service": "com.amazonaws.wafv2#AWSWAF_20190729",
+    "module": "AWSWAFV2",
+    "sdkId": "WAFV2",
+    "internalClient": false,
+    "operations": [],
+    "modelPath": "codegen/sdk-codegen/aws-models/wafv2.json"
+}

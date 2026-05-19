@@ -4970,6 +4970,7 @@
             } ]
           },
           "ap-southeast-5" : { },
+          "ap-southeast-6" : { },
           "ap-southeast-7" : { },
           "ca-central-1" : {
             "variants" : [ {
@@ -10257,15 +10258,19 @@
         "endpoints" : {
           "af-south-1" : { },
           "ap-east-1" : { },
+          "ap-east-2" : { },
           "ap-northeast-1" : { },
           "ap-northeast-2" : { },
           "ap-northeast-3" : { },
           "ap-south-1" : { },
+          "ap-south-2" : { },
           "ap-southeast-1" : { },
           "ap-southeast-2" : { },
           "ap-southeast-3" : { },
           "ap-southeast-4" : { },
           "ap-southeast-5" : { },
+          "ap-southeast-6" : { },
+          "ap-southeast-7" : { },
           "ca-central-1" : {
             "variants" : [ {
               "hostname" : "emr-serverless-fips.ca-central-1.amazonaws.com",
@@ -10319,6 +10324,7 @@
           "il-central-1" : { },
           "me-central-1" : { },
           "me-south-1" : { },
+          "mx-central-1" : { },
           "sa-east-1" : { },
           "us-east-1" : {
             "variants" : [ {
@@ -11530,6 +11536,7 @@
           "ap-southeast-3" : { },
           "ap-southeast-4" : { },
           "ap-southeast-5" : { },
+          "ap-southeast-6" : { },
           "ap-southeast-7" : { },
           "ca-central-1" : {
             "variants" : [ {
@@ -12896,6 +12903,7 @@
         "endpoints" : {
           "af-south-1" : { },
           "ap-east-1" : { },
+          "ap-east-2" : { },
           "ap-northeast-1" : { },
           "ap-northeast-2" : { },
           "ap-northeast-3" : { },
@@ -17028,6 +17036,7 @@
         "endpoints" : {
           "af-south-1" : { },
           "ap-east-1" : { },
+          "ap-east-2" : { },
           "ap-northeast-1" : { },
           "ap-northeast-2" : { },
           "ap-northeast-3" : { },
@@ -17038,8 +17047,10 @@
           "ap-southeast-3" : { },
           "ap-southeast-4" : { },
           "ap-southeast-5" : { },
+          "ap-southeast-6" : { },
           "ap-southeast-7" : { },
           "ca-central-1" : { },
+          "ca-west-1" : { },
           "eu-central-1" : { },
           "eu-central-2" : { },
           "eu-north-1" : { },
@@ -17079,6 +17090,7 @@
           "il-central-1" : { },
           "me-central-1" : { },
           "me-south-1" : { },
+          "mx-central-1" : { },
           "sa-east-1" : { },
           "us-east-1" : {
             "variants" : [ {
@@ -20168,6 +20180,7 @@
           "ap-southeast-1" : { },
           "ap-southeast-2" : { },
           "ap-southeast-3" : { },
+          "ap-southeast-4" : { },
           "ap-southeast-5" : { },
           "ap-southeast-6" : { },
           "ap-southeast-7" : { },
@@ -20177,6 +20190,7 @@
               "tags" : [ "fips" ]
             } ]
           },
+          "ca-west-1" : { },
           "eu-central-1" : { },
           "eu-central-2" : { },
           "eu-north-1" : { },
@@ -23278,7 +23292,9 @@
           "ap-southeast-2" : { },
           "ap-southeast-3" : { },
           "ap-southeast-4" : { },
+          "ap-southeast-6" : { },
           "ca-central-1" : { },
+          "ca-west-1" : { },
           "eu-central-1" : { },
           "eu-central-2" : { },
           "eu-north-1" : { },
@@ -27773,6 +27789,7 @@
           "eu-west-3" : { },
           "me-central-1" : { },
           "me-south-1" : { },
+          "mx-central-1" : { },
           "sa-east-1" : { },
           "us-east-1" : { },
           "us-east-2" : { },
@@ -36610,6 +36627,12 @@
           "us-iso-west-1" : { }
         }
       },
+      "acm-pca" : {
+        "endpoints" : {
+          "us-iso-east-1" : { },
+          "us-iso-west-1" : { }
+        }
+      },
       "agreement-marketplace" : {
         "endpoints" : {
           "fips-us-iso-east-1" : {
@@ -37329,6 +37352,11 @@
         "endpoints" : {
           "us-iso-east-1" : { },
           "us-iso-west-1" : { }
+        }
+      },
+      "mq" : {
+        "endpoints" : {
+          "us-iso-east-1" : { }
         }
       },
       "network-firewall" : {
@@ -38292,7 +38320,8 @@
       },
       "firehose" : {
         "endpoints" : {
-          "us-isob-east-1" : { }
+          "us-isob-east-1" : { },
+          "us-isob-west-1" : { }
         }
       },
       "fsx" : {
@@ -39253,6 +39282,11 @@
         }
       },
       "redshift-serverless" : {
+        "endpoints" : {
+          "eu-isoe-west-1" : { }
+        }
+      },
+      "rekognition" : {
         "endpoints" : {
           "eu-isoe-west-1" : { }
         }
@@ -40661,6 +40695,11 @@
         }
       },
       "pi" : {
+        "endpoints" : {
+          "eusc-de-east-1" : { }
+        }
+      },
+      "polly" : {
         "endpoints" : {
           "eusc-de-east-1" : { }
         }

@@ -204,6 +204,37 @@ extension PaginatorSequence where OperationStackInput == ListApprovedOriginsInpu
     }
 }
 extension ConnectClient {
+    /// Paginate over `[ListAttachedFilesConfigurationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAttachedFilesConfigurationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAttachedFilesConfigurationsOutput`
+    public func listAttachedFilesConfigurationsPaginated(input: ListAttachedFilesConfigurationsInput) -> ClientRuntime.PaginatorSequence<ListAttachedFilesConfigurationsInput, ListAttachedFilesConfigurationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListAttachedFilesConfigurationsInput, ListAttachedFilesConfigurationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAttachedFilesConfigurations(input:))
+    }
+}
+
+extension ListAttachedFilesConfigurationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListAttachedFilesConfigurationsInput {
+        return ListAttachedFilesConfigurationsInput(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListAttachedFilesConfigurationsInput, OperationStackOutput == ListAttachedFilesConfigurationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listAttachedFilesConfigurationsPaginated`
+    /// to access the nested member `[ConnectClientTypes.AttachedFilesConfigurationSummary]`
+    /// - Returns: `[ConnectClientTypes.AttachedFilesConfigurationSummary]`
+    public func attachedFilesConfigurations() async throws -> [ConnectClientTypes.AttachedFilesConfigurationSummary] {
+        return try await self.asyncCompactMap { item in item.attachedFilesConfigurations }
+    }
+}
+extension ConnectClient {
     /// Paginate over `[ListAuthenticationProfilesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

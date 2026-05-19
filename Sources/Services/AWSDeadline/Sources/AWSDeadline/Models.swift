@@ -61,6 +61,7 @@ extension DeadlineClientTypes {
         case a10g
         case l4
         case l40s
+        case rtxProServer6000
         case t4
         case sdkUnknown(Swift.String)
 
@@ -69,6 +70,7 @@ extension DeadlineClientTypes {
                 .a10g,
                 .l4,
                 .l40s,
+                .rtxProServer6000,
                 .t4
             ]
         }
@@ -83,6 +85,7 @@ extension DeadlineClientTypes {
             case .a10g: return "a10g"
             case .l4: return "l4"
             case .l40s: return "l40s"
+            case .rtxProServer6000: return "rtx-pro-server-6000"
             case .t4: return "t4"
             case let .sdkUnknown(s): return s
             }
@@ -103,11 +106,15 @@ extension DeadlineClientTypes {
         /// * l4 - NVIDIA L4 Tensor Core GPU (24 GiB memory)
         ///
         /// * l40s - NVIDIA L40S Tensor Core GPU (48 GiB memory)
+        ///
+        /// * rtx-pro-server-6000 - NVIDIA RTX PRO Server 6000 GPU (96 GiB memory)
         /// This member is required.
         public var name: DeadlineClientTypes.AcceleratorName?
         /// Specifies the runtime driver to use for the GPU accelerator. You must use the same runtime for all GPUs in a fleet. You can choose from the following runtimes:
         ///
         /// * latest - Use the latest runtime available for the chip. If you specify latest and a new version of the runtime is released, the new version of the runtime is used.
+        ///
+        /// * grid:r580 - [NVIDIA vGPU software 19](https://docs.nvidia.com/vgpu/19.0/index.html)
         ///
         /// * grid:r570 - [NVIDIA vGPU software 18](https://docs.nvidia.com/vgpu/18.0/index.html)
         ///
@@ -116,12 +123,14 @@ extension DeadlineClientTypes {
         ///
         /// If you don't specify a runtime, Amazon Web Services Deadline Cloud uses latest as the default. However, if you have multiple accelerators and specify latest for some and leave others blank, Amazon Web Services Deadline Cloud raises an exception. Not all runtimes are compatible with all accelerator types:
         ///
-        /// * t4 and a10g: Support all runtimes (grid:r570, grid:r535)
+        /// * t4 and a10g: Support all runtimes (grid:r580, grid:r570, grid:r535)
         ///
         /// * l4 and l40s: Only support grid:r570 and newer
         ///
+        /// * rtx-pro-server-6000: Only supports grid:r580
         ///
-        /// All accelerators in a fleet must use the same runtime version. You cannot mix different runtime versions within a single fleet. When you specify latest, it resolves to grid:r570 for all currently supported accelerators.
+        ///
+        /// All accelerators in a fleet must use the same runtime version. You cannot mix different runtime versions within a single fleet. When you specify latest, it resolves to grid:r580 for all currently supported accelerators.
         public var runtime: Swift.String?
 
         public init(
@@ -145,6 +154,8 @@ extension DeadlineClientTypes {
     /// * l4: Uses G6 and Gr6 instance families
     ///
     /// * l40s: Uses G6e instance family
+    ///
+    /// * rtx-pro-server-6000: Uses G7e instance family
     public struct AcceleratorCapabilities: Swift.Sendable {
         /// The number of GPU accelerators specified for worker hosts in this fleet. You must specify either acceleratorCapabilities.count.max or allowedInstanceTypes when using accelerator capabilities. If you don't specify a maximum count, Amazon Web Services Deadline Cloud uses the instance types you specify in allowedInstanceTypes to determine the maximum number of accelerators.
         public var count: DeadlineClientTypes.AcceleratorCountRange?
@@ -230,9 +241,9 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         context: [Swift.String: Swift.String]? = nil,
@@ -470,9 +481,9 @@ public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClien
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { true }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -504,9 +515,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         context: [Swift.String: Swift.String]? = nil,
@@ -582,9 +593,9 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         context: [Swift.String: Swift.String]? = nil,
@@ -626,9 +637,9 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { true }
     public static var isThrottling: Swift.Bool { true }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         context: [Swift.String: Swift.String]? = nil,
@@ -721,9 +732,9 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         context: [Swift.String: Swift.String]? = nil,
@@ -1109,9 +1120,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         context: [Swift.String: Swift.String]? = nil,
@@ -5460,7 +5471,7 @@ extension DeadlineClientTypes {
 
     /// The auto scaling configuration settings for a customer managed fleet.
     public struct CustomerManagedAutoScalingConfiguration: Swift.Sendable {
-        /// The number of workers that can be added per minute to the fleet. The default is a service-defined value that balances efficiency with cost.
+        /// The number of workers that can be added per minute to the fleet. The default is 10 workers per minute.
         public var scaleOutWorkersPerMinute: Swift.Int?
         /// The number of idle workers maintained and ready to process incoming tasks. The default is 0.
         public var standbyWorkerCount: Swift.Int?
@@ -5714,7 +5725,7 @@ extension DeadlineClientTypes {
 
     /// The auto scaling configuration settings for a service managed EC2 fleet.
     public struct ServiceManagedEc2AutoScalingConfiguration: Swift.Sendable {
-        /// The number of workers that can be added per minute to the fleet. The default is a service-defined value that balances efficiency with cost.
+        /// The number of workers that can be added per minute to the fleet. The default is 10 workers per minute.
         public var scaleOutWorkersPerMinute: Swift.Int?
         /// The number of idle workers maintained and ready to process incoming tasks. The default is 0.
         public var standbyWorkerCount: Swift.Int?
@@ -6273,7 +6284,7 @@ public struct CreateMonitorInput: Swift.Sendable {
     /// The Amazon Resource Name of the IAM Identity Center instance that authenticates monitor users.
     /// This member is required.
     public var identityCenterInstanceArn: Swift.String?
-    /// The AWS region where IAM Identity Center is enabled. Required when Identity Center is in a different region than the monitor.
+    /// The AWS Region where IAM Identity Center is enabled. Required when IAM Identity Center is in a different Region than the monitor.
     public var identityCenterRegion: Swift.String?
     /// The Amazon Resource Name of the IAM role that the monitor uses to connect to Deadline Cloud. Every user that signs in to the monitor using IAM Identity Center uses this role to access Deadline Cloud resources.
     /// This member is required.
@@ -12363,7 +12374,7 @@ public struct GetMonitorOutput: Swift.Sendable {
     /// The Amazon Resource Name of the IAM Identity Center instance responsible for authenticating monitor users.
     /// This member is required.
     public var identityCenterInstanceArn: Swift.String?
-    /// The AWS region where IAM Identity Center is enabled.
+    /// The AWS Region where IAM Identity Center is enabled.
     public var identityCenterRegion: Swift.String?
     /// The unique identifier for the monitor.
     /// This member is required.
@@ -12412,7 +12423,7 @@ public struct GetMonitorOutput: Swift.Sendable {
 }
 
 public struct GetMonitorSettingsInput: Swift.Sendable {
-    /// The unique identifier of the monitor. This ID is returned by the CreateMonitor operation, and is included in the response to the GetMonitor operation.
+    /// The unique identifier of the monitor. This ID is returned by the CreateMonitor operation, and is included in the response to the ListMonitors operation.
     /// This member is required.
     public var monitorId: Swift.String?
 
@@ -12424,7 +12435,7 @@ public struct GetMonitorSettingsInput: Swift.Sendable {
 }
 
 public struct GetMonitorSettingsOutput: Swift.Sendable {
-    /// Monitor settings as key-value pairs.
+    /// The monitor settings as key-value pairs.
     /// This member is required.
     public var settings: [Swift.String: Swift.String]?
 
@@ -12470,7 +12481,7 @@ extension DeadlineClientTypes {
         /// The Amazon Resource Name of the IAM Identity Center instance responsible for authenticating monitor users.
         /// This member is required.
         public var identityCenterInstanceArn: Swift.String?
-        /// The AWS region where IAM Identity Center is enabled.
+        /// The AWS Region where IAM Identity Center is enabled.
         public var identityCenterRegion: Swift.String?
         /// The unique identifier for the monitor.
         /// This member is required.
@@ -12569,7 +12580,7 @@ public struct UpdateMonitorSettingsInput: Swift.Sendable {
     /// The unique identifier of the monitor to update settings for.
     /// This member is required.
     public var monitorId: Swift.String?
-    /// Monitor settings as key-value pairs. Keys present in the request are upserted; keys absent are left unchanged. Send an empty string value to delete a key.
+    /// The monitor settings to update as key-value pairs. Keys present in the request are upserted; keys absent are left unchanged. Send an empty string value to delete a key.
     /// This member is required.
     public var settings: [Swift.String: Swift.String]?
 

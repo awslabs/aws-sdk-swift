@@ -48,9 +48,9 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -965,6 +965,26 @@ extension QuickSightClientTypes {
             self.policyArn = policyArn
         }
     }
+}
+
+extension QuickSightClientTypes {
+
+    /// Additional notes that provide supplementary context for a column.
+    public struct AdditionalNotes: Swift.Sendable {
+        /// The additional notes text.
+        public var text: Swift.String?
+
+        public init(
+            text: Swift.String? = nil
+        ) {
+            self.text = text
+        }
+    }
+}
+
+extension QuickSightClientTypes.AdditionalNotes: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AdditionalNotes(text: \"CONTENT_REDACTED\")"}
 }
 
 extension QuickSightClientTypes {
@@ -5086,20 +5106,42 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
+    /// The title format text configuration for a sheet control. This is a tagged union type. Specify either PlainText or RichText, but not both.
+    public struct ControlTitleFormatText: Swift.Sendable {
+        /// The plain text format of the title text.
+        public var plainText: Swift.String?
+        /// The rich text format of the title text.
+        public var richText: Swift.String?
+
+        public init(
+            plainText: Swift.String? = nil,
+            richText: Swift.String? = nil
+        ) {
+            self.plainText = plainText
+            self.richText = richText
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     /// The default configuration for all dependent controls of the filter.
     public struct DefaultFilterControlConfiguration: Swift.Sendable {
         /// The control option for the DefaultFilterControlConfiguration.
         /// This member is required.
         public var controlOptions: QuickSightClientTypes.DefaultFilterControlOptions?
+        /// The title text format configuration for the default filter control.
+        public var controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText?
         /// The title of the DefaultFilterControlConfiguration. This title is shared by all controls that are tied to this filter.
-        /// This member is required.
         public var title: Swift.String?
 
         public init(
             controlOptions: QuickSightClientTypes.DefaultFilterControlOptions? = nil,
-            title: Swift.String? = nil
+            controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText? = nil,
+            title: Swift.String? = ""
         ) {
             self.controlOptions = controlOptions
+            self.controlTitleFormatText = controlTitleFormatText
             self.title = title
         }
     }
@@ -6706,6 +6748,8 @@ extension QuickSightClientTypes {
     public struct FilterDateTimePickerControl: Swift.Sendable {
         /// The visibility configurationof the Apply button on a DateTimePickerControl.
         public var commitMode: QuickSightClientTypes.CommitMode?
+        /// The title text format configuration for the control.
+        public var controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText?
         /// The display options of a control.
         public var displayOptions: QuickSightClientTypes.DateTimePickerControlDisplayOptions?
         /// The ID of the FilterDateTimePickerControl.
@@ -6715,7 +6759,6 @@ extension QuickSightClientTypes {
         /// This member is required.
         public var sourceFilterId: Swift.String?
         /// The title of the FilterDateTimePickerControl.
-        /// This member is required.
         public var title: Swift.String?
         /// The type of the FilterDropDownControl. Choose one of the following options:
         ///
@@ -6726,13 +6769,15 @@ extension QuickSightClientTypes {
 
         public init(
             commitMode: QuickSightClientTypes.CommitMode? = nil,
+            controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText? = nil,
             displayOptions: QuickSightClientTypes.DateTimePickerControlDisplayOptions? = nil,
             filterControlId: Swift.String? = nil,
             sourceFilterId: Swift.String? = nil,
-            title: Swift.String? = nil,
+            title: Swift.String? = "",
             type: QuickSightClientTypes.SheetControlDateTimePickerType? = nil
         ) {
             self.commitMode = commitMode
+            self.controlTitleFormatText = controlTitleFormatText
             self.displayOptions = displayOptions
             self.filterControlId = filterControlId
             self.sourceFilterId = sourceFilterId
@@ -6752,6 +6797,8 @@ extension QuickSightClientTypes {
         public var commitMode: QuickSightClientTypes.CommitMode?
         /// The sort configuration for the values displayed in the control. Only one sort configuration can be applied per control.
         public var controlSortConfigurations: [QuickSightClientTypes.ControlSortConfiguration]?
+        /// The title text format configuration for the control.
+        public var controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText?
         /// The display options of the FilterDropDownControl.
         public var displayOptions: QuickSightClientTypes.DropDownControlDisplayOptions?
         /// The ID of the FilterDropDownControl.
@@ -6763,7 +6810,6 @@ extension QuickSightClientTypes {
         /// This member is required.
         public var sourceFilterId: Swift.String?
         /// The title of the FilterDropDownControl.
-        /// This member is required.
         public var title: Swift.String?
         /// The type of the FilterDropDownControl. Choose one of the following options:
         ///
@@ -6776,16 +6822,18 @@ extension QuickSightClientTypes {
             cascadingControlConfiguration: QuickSightClientTypes.CascadingControlConfiguration? = nil,
             commitMode: QuickSightClientTypes.CommitMode? = nil,
             controlSortConfigurations: [QuickSightClientTypes.ControlSortConfiguration]? = nil,
+            controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText? = nil,
             displayOptions: QuickSightClientTypes.DropDownControlDisplayOptions? = nil,
             filterControlId: Swift.String? = nil,
             selectableValues: QuickSightClientTypes.FilterSelectableValues? = nil,
             sourceFilterId: Swift.String? = nil,
-            title: Swift.String? = nil,
+            title: Swift.String? = "",
             type: QuickSightClientTypes.SheetControlListType? = nil
         ) {
             self.cascadingControlConfiguration = cascadingControlConfiguration
             self.commitMode = commitMode
             self.controlSortConfigurations = controlSortConfigurations
+            self.controlTitleFormatText = controlTitleFormatText
             self.displayOptions = displayOptions
             self.filterControlId = filterControlId
             self.selectableValues = selectableValues
@@ -6804,6 +6852,8 @@ extension QuickSightClientTypes {
         public var cascadingControlConfiguration: QuickSightClientTypes.CascadingControlConfiguration?
         /// The sort configuration for the values displayed in the control. Only one sort configuration can be applied per control.
         public var controlSortConfigurations: [QuickSightClientTypes.ControlSortConfiguration]?
+        /// The title text format configuration for the control.
+        public var controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText?
         /// The display options of a control.
         public var displayOptions: QuickSightClientTypes.ListControlDisplayOptions?
         /// The ID of the FilterListControl.
@@ -6815,7 +6865,6 @@ extension QuickSightClientTypes {
         /// This member is required.
         public var sourceFilterId: Swift.String?
         /// The title of the FilterListControl.
-        /// This member is required.
         public var title: Swift.String?
         /// The type of the FilterListControl. Choose one of the following options:
         ///
@@ -6827,15 +6876,17 @@ extension QuickSightClientTypes {
         public init(
             cascadingControlConfiguration: QuickSightClientTypes.CascadingControlConfiguration? = nil,
             controlSortConfigurations: [QuickSightClientTypes.ControlSortConfiguration]? = nil,
+            controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText? = nil,
             displayOptions: QuickSightClientTypes.ListControlDisplayOptions? = nil,
             filterControlId: Swift.String? = nil,
             selectableValues: QuickSightClientTypes.FilterSelectableValues? = nil,
             sourceFilterId: Swift.String? = nil,
-            title: Swift.String? = nil,
+            title: Swift.String? = "",
             type: QuickSightClientTypes.SheetControlListType? = nil
         ) {
             self.cascadingControlConfiguration = cascadingControlConfiguration
             self.controlSortConfigurations = controlSortConfigurations
+            self.controlTitleFormatText = controlTitleFormatText
             self.displayOptions = displayOptions
             self.filterControlId = filterControlId
             self.selectableValues = selectableValues
@@ -6852,6 +6903,8 @@ extension QuickSightClientTypes {
     public struct FilterRelativeDateTimeControl: Swift.Sendable {
         /// The visibility configuration of the Apply button on a FilterRelativeDateTimeControl.
         public var commitMode: QuickSightClientTypes.CommitMode?
+        /// The title text format configuration for the control.
+        public var controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText?
         /// The display options of a control.
         public var displayOptions: QuickSightClientTypes.RelativeDateTimeControlDisplayOptions?
         /// The ID of the FilterTextAreaControl.
@@ -6861,17 +6914,18 @@ extension QuickSightClientTypes {
         /// This member is required.
         public var sourceFilterId: Swift.String?
         /// The title of the FilterTextAreaControl.
-        /// This member is required.
         public var title: Swift.String?
 
         public init(
             commitMode: QuickSightClientTypes.CommitMode? = nil,
+            controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText? = nil,
             displayOptions: QuickSightClientTypes.RelativeDateTimeControlDisplayOptions? = nil,
             filterControlId: Swift.String? = nil,
             sourceFilterId: Swift.String? = nil,
-            title: Swift.String? = nil
+            title: Swift.String? = ""
         ) {
             self.commitMode = commitMode
+            self.controlTitleFormatText = controlTitleFormatText
             self.displayOptions = displayOptions
             self.filterControlId = filterControlId
             self.sourceFilterId = sourceFilterId
@@ -6884,6 +6938,8 @@ extension QuickSightClientTypes {
 
     /// A control to display a horizontal toggle bar. This is used to change a value by sliding the toggle.
     public struct FilterSliderControl: Swift.Sendable {
+        /// The title text format configuration for the control.
+        public var controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText?
         /// The display options of a control.
         public var displayOptions: QuickSightClientTypes.SliderControlDisplayOptions?
         /// The ID of the FilterSliderControl.
@@ -6902,7 +6958,6 @@ extension QuickSightClientTypes {
         /// This member is required.
         public var stepSize: Swift.Double
         /// The title of the FilterSliderControl.
-        /// This member is required.
         public var title: Swift.String?
         /// The type of the FilterSliderControl. Choose one of the following options:
         ///
@@ -6912,15 +6967,17 @@ extension QuickSightClientTypes {
         public var type: QuickSightClientTypes.SheetControlSliderType?
 
         public init(
+            controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText? = nil,
             displayOptions: QuickSightClientTypes.SliderControlDisplayOptions? = nil,
             filterControlId: Swift.String? = nil,
             maximumValue: Swift.Double = 0.0,
             minimumValue: Swift.Double = 0.0,
             sourceFilterId: Swift.String? = nil,
             stepSize: Swift.Double = 0.0,
-            title: Swift.String? = nil,
+            title: Swift.String? = "",
             type: QuickSightClientTypes.SheetControlSliderType? = nil
         ) {
+            self.controlTitleFormatText = controlTitleFormatText
             self.displayOptions = displayOptions
             self.filterControlId = filterControlId
             self.maximumValue = maximumValue
@@ -6937,6 +6994,8 @@ extension QuickSightClientTypes {
 
     /// A control to display a text box that is used to enter multiple entries.
     public struct FilterTextAreaControl: Swift.Sendable {
+        /// The title text format configuration for the control.
+        public var controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText?
         /// The delimiter that is used to separate the lines in text.
         public var delimiter: Swift.String?
         /// The display options of a control.
@@ -6948,16 +7007,17 @@ extension QuickSightClientTypes {
         /// This member is required.
         public var sourceFilterId: Swift.String?
         /// The title of the FilterTextAreaControl.
-        /// This member is required.
         public var title: Swift.String?
 
         public init(
+            controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText? = nil,
             delimiter: Swift.String? = nil,
             displayOptions: QuickSightClientTypes.TextAreaControlDisplayOptions? = nil,
             filterControlId: Swift.String? = nil,
             sourceFilterId: Swift.String? = nil,
-            title: Swift.String? = nil
+            title: Swift.String? = ""
         ) {
+            self.controlTitleFormatText = controlTitleFormatText
             self.delimiter = delimiter
             self.displayOptions = displayOptions
             self.filterControlId = filterControlId
@@ -6971,6 +7031,8 @@ extension QuickSightClientTypes {
 
     /// A control to display a text box that is used to enter a single entry.
     public struct FilterTextFieldControl: Swift.Sendable {
+        /// The title text format configuration for the control.
+        public var controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText?
         /// The display options of a control.
         public var displayOptions: QuickSightClientTypes.TextFieldControlDisplayOptions?
         /// The ID of the FilterTextFieldControl.
@@ -6980,15 +7042,16 @@ extension QuickSightClientTypes {
         /// This member is required.
         public var sourceFilterId: Swift.String?
         /// The title of the FilterTextFieldControl.
-        /// This member is required.
         public var title: Swift.String?
 
         public init(
+            controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText? = nil,
             displayOptions: QuickSightClientTypes.TextFieldControlDisplayOptions? = nil,
             filterControlId: Swift.String? = nil,
             sourceFilterId: Swift.String? = nil,
-            title: Swift.String? = nil
+            title: Swift.String? = ""
         ) {
+            self.controlTitleFormatText = controlTitleFormatText
             self.displayOptions = displayOptions
             self.filterControlId = filterControlId
             self.sourceFilterId = sourceFilterId
@@ -7860,6 +7923,8 @@ extension QuickSightClientTypes {
 
     /// A control from a date parameter that specifies date and time.
     public struct ParameterDateTimePickerControl: Swift.Sendable {
+        /// The title text format configuration for the control.
+        public var controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText?
         /// The display options of a control.
         public var displayOptions: QuickSightClientTypes.DateTimePickerControlDisplayOptions?
         /// The ID of the ParameterDateTimePickerControl.
@@ -7869,15 +7934,16 @@ extension QuickSightClientTypes {
         /// This member is required.
         public var sourceParameterName: Swift.String?
         /// The title of the ParameterDateTimePickerControl.
-        /// This member is required.
         public var title: Swift.String?
 
         public init(
+            controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText? = nil,
             displayOptions: QuickSightClientTypes.DateTimePickerControlDisplayOptions? = nil,
             parameterControlId: Swift.String? = nil,
             sourceParameterName: Swift.String? = nil,
-            title: Swift.String? = nil
+            title: Swift.String? = ""
         ) {
+            self.controlTitleFormatText = controlTitleFormatText
             self.displayOptions = displayOptions
             self.parameterControlId = parameterControlId
             self.sourceParameterName = sourceParameterName
@@ -7915,6 +7981,8 @@ extension QuickSightClientTypes {
         public var commitMode: QuickSightClientTypes.CommitMode?
         /// The sort configuration for the values displayed in the control. Only one sort configuration can be applied per control.
         public var controlSortConfigurations: [QuickSightClientTypes.ControlSortConfiguration]?
+        /// The title text format configuration for the control.
+        public var controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText?
         /// The display options of a control.
         public var displayOptions: QuickSightClientTypes.DropDownControlDisplayOptions?
         /// The ID of the ParameterDropDownControl.
@@ -7926,7 +7994,6 @@ extension QuickSightClientTypes {
         /// This member is required.
         public var sourceParameterName: Swift.String?
         /// The title of the ParameterDropDownControl.
-        /// This member is required.
         public var title: Swift.String?
         /// The type parameter name of the ParameterDropDownControl.
         public var type: QuickSightClientTypes.SheetControlListType?
@@ -7935,16 +8002,18 @@ extension QuickSightClientTypes {
             cascadingControlConfiguration: QuickSightClientTypes.CascadingControlConfiguration? = nil,
             commitMode: QuickSightClientTypes.CommitMode? = nil,
             controlSortConfigurations: [QuickSightClientTypes.ControlSortConfiguration]? = nil,
+            controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText? = nil,
             displayOptions: QuickSightClientTypes.DropDownControlDisplayOptions? = nil,
             parameterControlId: Swift.String? = nil,
             selectableValues: QuickSightClientTypes.ParameterSelectableValues? = nil,
             sourceParameterName: Swift.String? = nil,
-            title: Swift.String? = nil,
+            title: Swift.String? = "",
             type: QuickSightClientTypes.SheetControlListType? = nil
         ) {
             self.cascadingControlConfiguration = cascadingControlConfiguration
             self.commitMode = commitMode
             self.controlSortConfigurations = controlSortConfigurations
+            self.controlTitleFormatText = controlTitleFormatText
             self.displayOptions = displayOptions
             self.parameterControlId = parameterControlId
             self.selectableValues = selectableValues
@@ -7963,6 +8032,8 @@ extension QuickSightClientTypes {
         public var cascadingControlConfiguration: QuickSightClientTypes.CascadingControlConfiguration?
         /// The sort configuration for the values displayed in the control. Only one sort configuration can be applied per control.
         public var controlSortConfigurations: [QuickSightClientTypes.ControlSortConfiguration]?
+        /// The title text format configuration for the control.
+        public var controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText?
         /// The display options of a control.
         public var displayOptions: QuickSightClientTypes.ListControlDisplayOptions?
         /// The ID of the ParameterListControl.
@@ -7974,7 +8045,6 @@ extension QuickSightClientTypes {
         /// This member is required.
         public var sourceParameterName: Swift.String?
         /// The title of the ParameterListControl.
-        /// This member is required.
         public var title: Swift.String?
         /// The type of ParameterListControl.
         public var type: QuickSightClientTypes.SheetControlListType?
@@ -7982,15 +8052,17 @@ extension QuickSightClientTypes {
         public init(
             cascadingControlConfiguration: QuickSightClientTypes.CascadingControlConfiguration? = nil,
             controlSortConfigurations: [QuickSightClientTypes.ControlSortConfiguration]? = nil,
+            controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText? = nil,
             displayOptions: QuickSightClientTypes.ListControlDisplayOptions? = nil,
             parameterControlId: Swift.String? = nil,
             selectableValues: QuickSightClientTypes.ParameterSelectableValues? = nil,
             sourceParameterName: Swift.String? = nil,
-            title: Swift.String? = nil,
+            title: Swift.String? = "",
             type: QuickSightClientTypes.SheetControlListType? = nil
         ) {
             self.cascadingControlConfiguration = cascadingControlConfiguration
             self.controlSortConfigurations = controlSortConfigurations
+            self.controlTitleFormatText = controlTitleFormatText
             self.displayOptions = displayOptions
             self.parameterControlId = parameterControlId
             self.selectableValues = selectableValues
@@ -8005,6 +8077,8 @@ extension QuickSightClientTypes {
 
     /// A control to display a horizontal toggle bar. This is used to change a value by sliding the toggle.
     public struct ParameterSliderControl: Swift.Sendable {
+        /// The title text format configuration for the control.
+        public var controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText?
         /// The display options of a control.
         public var displayOptions: QuickSightClientTypes.SliderControlDisplayOptions?
         /// The larger value that is displayed at the right of the slider.
@@ -8023,18 +8097,19 @@ extension QuickSightClientTypes {
         /// This member is required.
         public var stepSize: Swift.Double
         /// The title of the ParameterSliderControl.
-        /// This member is required.
         public var title: Swift.String?
 
         public init(
+            controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText? = nil,
             displayOptions: QuickSightClientTypes.SliderControlDisplayOptions? = nil,
             maximumValue: Swift.Double = 0.0,
             minimumValue: Swift.Double = 0.0,
             parameterControlId: Swift.String? = nil,
             sourceParameterName: Swift.String? = nil,
             stepSize: Swift.Double = 0.0,
-            title: Swift.String? = nil
+            title: Swift.String? = ""
         ) {
+            self.controlTitleFormatText = controlTitleFormatText
             self.displayOptions = displayOptions
             self.maximumValue = maximumValue
             self.minimumValue = minimumValue
@@ -8050,6 +8125,8 @@ extension QuickSightClientTypes {
 
     /// A control to display a text box that is used to enter multiple entries.
     public struct ParameterTextAreaControl: Swift.Sendable {
+        /// The title text format configuration for the control.
+        public var controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText?
         /// The delimiter that is used to separate the lines in text.
         public var delimiter: Swift.String?
         /// The display options of a control.
@@ -8061,16 +8138,17 @@ extension QuickSightClientTypes {
         /// This member is required.
         public var sourceParameterName: Swift.String?
         /// The title of the ParameterTextAreaControl.
-        /// This member is required.
         public var title: Swift.String?
 
         public init(
+            controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText? = nil,
             delimiter: Swift.String? = nil,
             displayOptions: QuickSightClientTypes.TextAreaControlDisplayOptions? = nil,
             parameterControlId: Swift.String? = nil,
             sourceParameterName: Swift.String? = nil,
-            title: Swift.String? = nil
+            title: Swift.String? = ""
         ) {
+            self.controlTitleFormatText = controlTitleFormatText
             self.delimiter = delimiter
             self.displayOptions = displayOptions
             self.parameterControlId = parameterControlId
@@ -8084,6 +8162,8 @@ extension QuickSightClientTypes {
 
     /// A control to display a text box that is used to enter a single entry.
     public struct ParameterTextFieldControl: Swift.Sendable {
+        /// The title text format configuration for the control.
+        public var controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText?
         /// The display options of a control.
         public var displayOptions: QuickSightClientTypes.TextFieldControlDisplayOptions?
         /// The ID of the ParameterTextFieldControl.
@@ -8093,15 +8173,16 @@ extension QuickSightClientTypes {
         /// This member is required.
         public var sourceParameterName: Swift.String?
         /// The title of the ParameterTextFieldControl.
-        /// This member is required.
         public var title: Swift.String?
 
         public init(
+            controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText? = nil,
             displayOptions: QuickSightClientTypes.TextFieldControlDisplayOptions? = nil,
             parameterControlId: Swift.String? = nil,
             sourceParameterName: Swift.String? = nil,
-            title: Swift.String? = nil
+            title: Swift.String? = ""
         ) {
+            self.controlTitleFormatText = controlTitleFormatText
             self.displayOptions = displayOptions
             self.parameterControlId = parameterControlId
             self.sourceParameterName = sourceParameterName
@@ -23746,6 +23827,8 @@ extension QuickSightClientTypes {
 
     /// An object that contains information needed to create a data source connection that uses OAuth client credentials. This option is available for data source connections that are made with Snowflake and Starburst.
     public struct OAuthParameters: Swift.Sendable {
+        /// The S3 URI of the identity provider's CA certificates bundle in PEM format. Use this parameter to provide a custom CA certificate bundle for the identity provider when the default trust store does not include the required certificates.
+        public var identityProviderCACertificatesBundleS3Uri: Swift.String?
         /// The resource uri of the identity provider.
         public var identityProviderResourceUri: Swift.String?
         /// VPC connection properties.
@@ -23757,11 +23840,13 @@ extension QuickSightClientTypes {
         public var tokenProviderUrl: Swift.String?
 
         public init(
+            identityProviderCACertificatesBundleS3Uri: Swift.String? = nil,
             identityProviderResourceUri: Swift.String? = nil,
             identityProviderVpcConnectionProperties: QuickSightClientTypes.VpcConnectionProperties? = nil,
             oAuthScope: Swift.String? = nil,
             tokenProviderUrl: Swift.String? = nil
         ) {
+            self.identityProviderCACertificatesBundleS3Uri = identityProviderCACertificatesBundleS3Uri
             self.identityProviderResourceUri = identityProviderResourceUri
             self.identityProviderVpcConnectionProperties = identityProviderVpcConnectionProperties
             self.oAuthScope = oAuthScope
@@ -25251,9 +25336,9 @@ public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRun
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -25278,9 +25363,9 @@ public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSCli
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -25357,9 +25442,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -25386,9 +25471,9 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -26521,9 +26606,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -27025,9 +27110,9 @@ public struct ResourceExistsException: ClientRuntime.ModeledError, AWSClientRunt
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -27115,6 +27200,8 @@ extension QuickSightClientTypes {
 
     /// A set of actions that correspond to Amazon Quick Sight permissions.
     public struct Capabilities: Swift.Sendable {
+        /// The ability to access the native data store for new and existing apps.
+        public var accessAppsNativeDataStore: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions in external services through Action connectors. Actions allow users to interact with third-party systems.
         public var action: QuickSightClientTypes.CapabilityState?
         /// The ability to add or run anomaly detection.
@@ -27131,6 +27218,8 @@ extension QuickSightClientTypes {
         public var analysis: QuickSightClientTypes.CapabilityState?
         /// The ability to review and approve sharing requests of Flows.
         public var approveFlowShareRequests: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform apps-related actions.
+        public var apps: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using Asana connectors.
         public var asanaAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform automate-related actions.
@@ -27159,6 +27248,8 @@ extension QuickSightClientTypes {
         public var createAndUpdateAmazonBedrockKRSAction: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update Amazon S3 actions.
         public var createAndUpdateAmazonSThreeAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create or update apps.
+        public var createAndUpdateApps: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update Asana actions.
         public var createAndUpdateAsanaAction: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update BambooHR actions.
@@ -27295,6 +27386,8 @@ extension QuickSightClientTypes {
         public var includeContentInScheduledReportsEmail: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using Intercom connectors.
         public var intercomAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to add and invoke AI inference in new and existing apps.
+        public var invokeAppsAIInference: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using Jira connectors.
         public var jiraAction: QuickSightClientTypes.CapabilityState?
         /// The ability to use knowledge bases to specify content from external applications.
@@ -27347,6 +27440,8 @@ extension QuickSightClientTypes {
         public var sapPhysicalInventoryAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using SAP Product Master connectors.
         public var sapProductMasterDataAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform Scenario-related actions.
+        public var scenario: QuickSightClientTypes.CapabilityState?
         /// The ability to enable users to upgrade their user role.
         public var selfUpgradeUserRole: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using ServiceNow connectors.
@@ -27361,6 +27456,8 @@ extension QuickSightClientTypes {
         public var shareAmazonSThreeAction: QuickSightClientTypes.CapabilityState?
         /// The ability to share analyses.
         public var shareAnalyses: QuickSightClientTypes.CapabilityState?
+        /// The ability to share apps with other users.
+        public var shareApps: QuickSightClientTypes.CapabilityState?
         /// The ability to share Asana actions.
         public var shareAsanaAction: QuickSightClientTypes.CapabilityState?
         /// The ability to share BambooHR actions.
@@ -27457,6 +27554,8 @@ extension QuickSightClientTypes {
         public var smartsheetAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform space-related actions.
         public var space: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform Story-related actions.
+        public var story: QuickSightClientTypes.CapabilityState?
         /// The ability to subscribe to email reports.
         public var subscribeDashboardEmailReports: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using Textract connectors.
@@ -27559,6 +27658,7 @@ extension QuickSightClientTypes {
         public var zendeskAction: QuickSightClientTypes.CapabilityState?
 
         public init(
+            accessAppsNativeDataStore: QuickSightClientTypes.CapabilityState? = nil,
             action: QuickSightClientTypes.CapabilityState? = nil,
             addOrRunAnomalyDetectionForAnalyses: QuickSightClientTypes.CapabilityState? = nil,
             amazonBedrockARSAction: QuickSightClientTypes.CapabilityState? = nil,
@@ -27567,6 +27667,7 @@ extension QuickSightClientTypes {
             amazonSThreeAction: QuickSightClientTypes.CapabilityState? = nil,
             analysis: QuickSightClientTypes.CapabilityState? = nil,
             approveFlowShareRequests: QuickSightClientTypes.CapabilityState? = nil,
+            apps: QuickSightClientTypes.CapabilityState? = nil,
             asanaAction: QuickSightClientTypes.CapabilityState? = nil,
             automate: QuickSightClientTypes.CapabilityState? = nil,
             bambooHRAction: QuickSightClientTypes.CapabilityState? = nil,
@@ -27581,6 +27682,7 @@ extension QuickSightClientTypes {
             createAndUpdateAmazonBedrockFSAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateAmazonBedrockKRSAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateAmazonSThreeAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateApps: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateAsanaAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateBambooHRAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateBoxAgentAction: QuickSightClientTypes.CapabilityState? = nil,
@@ -27649,6 +27751,7 @@ extension QuickSightClientTypes {
             huggingFaceAction: QuickSightClientTypes.CapabilityState? = nil,
             includeContentInScheduledReportsEmail: QuickSightClientTypes.CapabilityState? = nil,
             intercomAction: QuickSightClientTypes.CapabilityState? = nil,
+            invokeAppsAIInference: QuickSightClientTypes.CapabilityState? = nil,
             jiraAction: QuickSightClientTypes.CapabilityState? = nil,
             knowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
             linearAction: QuickSightClientTypes.CapabilityState? = nil,
@@ -27675,6 +27778,7 @@ extension QuickSightClientTypes {
             sapMaterialStockAction: QuickSightClientTypes.CapabilityState? = nil,
             sapPhysicalInventoryAction: QuickSightClientTypes.CapabilityState? = nil,
             sapProductMasterDataAction: QuickSightClientTypes.CapabilityState? = nil,
+            scenario: QuickSightClientTypes.CapabilityState? = nil,
             selfUpgradeUserRole: QuickSightClientTypes.CapabilityState? = nil,
             serviceNowAction: QuickSightClientTypes.CapabilityState? = nil,
             shareAmazonBedrockARSAction: QuickSightClientTypes.CapabilityState? = nil,
@@ -27682,6 +27786,7 @@ extension QuickSightClientTypes {
             shareAmazonBedrockKRSAction: QuickSightClientTypes.CapabilityState? = nil,
             shareAmazonSThreeAction: QuickSightClientTypes.CapabilityState? = nil,
             shareAnalyses: QuickSightClientTypes.CapabilityState? = nil,
+            shareApps: QuickSightClientTypes.CapabilityState? = nil,
             shareAsanaAction: QuickSightClientTypes.CapabilityState? = nil,
             shareBambooHRAction: QuickSightClientTypes.CapabilityState? = nil,
             shareBoxAgentAction: QuickSightClientTypes.CapabilityState? = nil,
@@ -27730,6 +27835,7 @@ extension QuickSightClientTypes {
             slackAction: QuickSightClientTypes.CapabilityState? = nil,
             smartsheetAction: QuickSightClientTypes.CapabilityState? = nil,
             space: QuickSightClientTypes.CapabilityState? = nil,
+            story: QuickSightClientTypes.CapabilityState? = nil,
             subscribeDashboardEmailReports: QuickSightClientTypes.CapabilityState? = nil,
             textractAction: QuickSightClientTypes.CapabilityState? = nil,
             topic: QuickSightClientTypes.CapabilityState? = nil,
@@ -27781,6 +27887,7 @@ extension QuickSightClientTypes {
             viewAccountSPICECapacity: QuickSightClientTypes.CapabilityState? = nil,
             zendeskAction: QuickSightClientTypes.CapabilityState? = nil
         ) {
+            self.accessAppsNativeDataStore = accessAppsNativeDataStore
             self.action = action
             self.addOrRunAnomalyDetectionForAnalyses = addOrRunAnomalyDetectionForAnalyses
             self.amazonBedrockARSAction = amazonBedrockARSAction
@@ -27789,6 +27896,7 @@ extension QuickSightClientTypes {
             self.amazonSThreeAction = amazonSThreeAction
             self.analysis = analysis
             self.approveFlowShareRequests = approveFlowShareRequests
+            self.apps = apps
             self.asanaAction = asanaAction
             self.automate = automate
             self.bambooHRAction = bambooHRAction
@@ -27803,6 +27911,7 @@ extension QuickSightClientTypes {
             self.createAndUpdateAmazonBedrockFSAction = createAndUpdateAmazonBedrockFSAction
             self.createAndUpdateAmazonBedrockKRSAction = createAndUpdateAmazonBedrockKRSAction
             self.createAndUpdateAmazonSThreeAction = createAndUpdateAmazonSThreeAction
+            self.createAndUpdateApps = createAndUpdateApps
             self.createAndUpdateAsanaAction = createAndUpdateAsanaAction
             self.createAndUpdateBambooHRAction = createAndUpdateBambooHRAction
             self.createAndUpdateBoxAgentAction = createAndUpdateBoxAgentAction
@@ -27871,6 +27980,7 @@ extension QuickSightClientTypes {
             self.huggingFaceAction = huggingFaceAction
             self.includeContentInScheduledReportsEmail = includeContentInScheduledReportsEmail
             self.intercomAction = intercomAction
+            self.invokeAppsAIInference = invokeAppsAIInference
             self.jiraAction = jiraAction
             self.knowledgeBase = knowledgeBase
             self.linearAction = linearAction
@@ -27897,6 +28007,7 @@ extension QuickSightClientTypes {
             self.sapMaterialStockAction = sapMaterialStockAction
             self.sapPhysicalInventoryAction = sapPhysicalInventoryAction
             self.sapProductMasterDataAction = sapProductMasterDataAction
+            self.scenario = scenario
             self.selfUpgradeUserRole = selfUpgradeUserRole
             self.serviceNowAction = serviceNowAction
             self.shareAmazonBedrockARSAction = shareAmazonBedrockARSAction
@@ -27904,6 +28015,7 @@ extension QuickSightClientTypes {
             self.shareAmazonBedrockKRSAction = shareAmazonBedrockKRSAction
             self.shareAmazonSThreeAction = shareAmazonSThreeAction
             self.shareAnalyses = shareAnalyses
+            self.shareApps = shareApps
             self.shareAsanaAction = shareAsanaAction
             self.shareBambooHRAction = shareBambooHRAction
             self.shareBoxAgentAction = shareBoxAgentAction
@@ -27952,6 +28064,7 @@ extension QuickSightClientTypes {
             self.slackAction = slackAction
             self.smartsheetAction = smartsheetAction
             self.space = space
+            self.story = story
             self.subscribeDashboardEmailReports = subscribeDashboardEmailReports
             self.textractAction = textractAction
             self.topic = topic
@@ -28489,6 +28602,44 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
+    /// The semantic type information for a column in the new data preparation experience.
+    public struct ColumnSemanticType: Swift.Sendable {
+        /// The geographical role of the column in the new data preparation experience.
+        public var geographicalRole: QuickSightClientTypes.GeoSpatialDataRole?
+
+        public init(
+            geographicalRole: QuickSightClientTypes.GeoSpatialDataRole? = nil
+        ) {
+            self.geographicalRole = geographicalRole
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A semantic property for a column.
+    public struct ColumnSemanticProperty: Swift.Sendable {
+        /// Additional notes for the column.
+        public var additionalNotes: QuickSightClientTypes.AdditionalNotes?
+        /// A description of the column.
+        public var description: QuickSightClientTypes.ColumnDescription?
+        /// The semantic type of the column.
+        public var semanticType: QuickSightClientTypes.ColumnSemanticType?
+
+        public init(
+            additionalNotes: QuickSightClientTypes.AdditionalNotes? = nil,
+            description: QuickSightClientTypes.ColumnDescription? = nil,
+            semanticType: QuickSightClientTypes.ColumnSemanticType? = nil
+        ) {
+            self.additionalNotes = additionalNotes
+            self.description = description
+            self.semanticType = semanticType
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     /// A tag for a column in a [TagColumnOperation](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_TagColumnOperation.html) structure. This is a variant type structure. For this structure to be valid, only one of the attributes can be non-null.
     public struct ColumnTag: Swift.Sendable {
         /// A description for a column.
@@ -28619,9 +28770,9 @@ public struct ConcurrentUpdatingException: ClientRuntime.ModeledError, AWSClient
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -28629,6 +28780,25 @@ public struct ConcurrentUpdatingException: ClientRuntime.ModeledError, AWSClient
     ) {
         self.properties.message = message
         self.properties.requestId = requestId
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Configures the display properties of the control title.
+    public struct ControlTitleFontConfiguration: Swift.Sendable {
+        /// Configures the font settings for the control title.
+        public var fontConfiguration: QuickSightClientTypes.FontConfiguration?
+        /// Determines the alignment of the control title.
+        public var textAlignment: QuickSightClientTypes.HorizontalTextAlignment?
+
+        public init(
+            fontConfiguration: QuickSightClientTypes.FontConfiguration? = nil,
+            textAlignment: QuickSightClientTypes.HorizontalTextAlignment? = nil
+        ) {
+            self.fontConfiguration = fontConfiguration
+            self.textAlignment = textAlignment
+        }
     }
 }
 
@@ -28648,9 +28818,9 @@ public struct ResourceUnavailableException: ClientRuntime.ModeledError, AWSClien
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -28733,9 +28903,9 @@ public struct PreconditionNotMetException: ClientRuntime.ModeledError, AWSClient
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -29010,9 +29180,9 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -29039,9 +29209,9 @@ public struct UnsupportedUserEditionException: ClientRuntime.ModeledError, AWSCl
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -29322,9 +29492,9 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -29347,9 +29517,9 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -30013,9 +30183,9 @@ public struct InvalidDataSetParameterValueException: ClientRuntime.ModeledError,
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -32154,6 +32324,101 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
+    /// Metadata for an uploaded document associated with a custom instruction.
+    public struct UploadedDocumentMetadata: Swift.Sendable {
+        /// The name of the uploaded document.
+        public var name: Swift.String?
+
+        public init(
+            name: Swift.String? = nil
+        ) {
+            self.name = name
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// An inline custom instruction with text content and optional file upload metadata.
+    public struct InlineCustomInstruction: Swift.Sendable {
+        /// The instruction text content.
+        /// This member is required.
+        public var instructionText: Swift.String?
+        /// Metadata about an uploaded document associated with this instruction.
+        public var uploadedDocumentMetadata: QuickSightClientTypes.UploadedDocumentMetadata?
+
+        public init(
+            instructionText: Swift.String? = nil,
+            uploadedDocumentMetadata: QuickSightClientTypes.UploadedDocumentMetadata? = nil
+        ) {
+            self.instructionText = instructionText
+            self.uploadedDocumentMetadata = uploadedDocumentMetadata
+        }
+    }
+}
+
+extension QuickSightClientTypes.InlineCustomInstruction: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "InlineCustomInstruction(uploadedDocumentMetadata: \(Swift.String(describing: uploadedDocumentMetadata)), instructionText: \"CONTENT_REDACTED\")"}
+}
+
+extension QuickSightClientTypes {
+
+    /// A custom instruction that provides guidance on how the dataset should be consumed.
+    public struct CustomInstruction: Swift.Sendable {
+        /// An inline custom instruction containing text and optional uploaded document metadata.
+        public var inlineCustomInstruction: QuickSightClientTypes.InlineCustomInstruction?
+
+        public init(
+            inlineCustomInstruction: QuickSightClientTypes.InlineCustomInstruction? = nil
+        ) {
+            self.inlineCustomInstruction = inlineCustomInstruction
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A description structure for dataset-level semantic metadata.
+    public struct DataSetSemanticDescription: Swift.Sendable {
+        /// The descriptive text for the dataset.
+        /// This member is required.
+        public var text: Swift.String?
+
+        public init(
+            text: Swift.String? = nil
+        ) {
+            self.text = text
+        }
+    }
+}
+
+extension QuickSightClientTypes.DataSetSemanticDescription: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DataSetSemanticDescription(text: \"CONTENT_REDACTED\")"}
+}
+
+extension QuickSightClientTypes {
+
+    /// Semantic metadata for a dataset, including a description and custom instructions.
+    public struct DataSetSemanticMetadata: Swift.Sendable {
+        /// A list of custom instructions that guide how the dataset should be consumed.
+        public var customInstructions: [QuickSightClientTypes.CustomInstruction]?
+        /// A description of the dataset.
+        public var description: QuickSightClientTypes.DataSetSemanticDescription?
+
+        public init(
+            customInstructions: [QuickSightClientTypes.CustomInstruction]? = nil,
+            description: QuickSightClientTypes.DataSetSemanticDescription? = nil
+        ) {
+            self.customInstructions = customInstructions
+            self.description = description
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     /// Configuration for row level security.
     public struct RowLevelPermissionConfiguration: Swift.Sendable {
         /// Information about a dataset that contains permissions for row-level security (RLS). The permissions dataset maps fields to users or groups. For more information, see [Using Row-Level Security (RLS) to Restrict Access to a Dataset](https://docs.aws.amazon.com/quicksight/latest/user/restrict-access-to-a-data-set-using-row-level-security.html) in the Quick Sight User Guide. The option to deny permissions by setting PermissionPolicy to DENY_ACCESS is not supported for new RLS datasets.
@@ -32173,6 +32438,41 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
+    /// Semantic metadata shared across one or more columns.
+    public struct SharedColumnSemanticMetadata: Swift.Sendable {
+        /// The names of the columns this metadata applies to.
+        public var columnNames: [Swift.String]?
+        /// The semantic properties for the specified columns.
+        /// This member is required.
+        public var columnProperties: [QuickSightClientTypes.ColumnSemanticProperty]?
+
+        public init(
+            columnNames: [Swift.String]? = nil,
+            columnProperties: [QuickSightClientTypes.ColumnSemanticProperty]? = nil
+        ) {
+            self.columnNames = columnNames
+            self.columnProperties = columnProperties
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Column-level semantic metadata for a semantic table.
+    public struct TableSemanticMetadata: Swift.Sendable {
+        /// A list of column semantic metadata entries.
+        public var columnMetadata: [QuickSightClientTypes.SharedColumnSemanticMetadata]?
+
+        public init(
+            columnMetadata: [QuickSightClientTypes.SharedColumnSemanticMetadata]? = nil
+        ) {
+            self.columnMetadata = columnMetadata
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     /// A semantic table that represents the final analytical structure of the data.
     public struct SemanticTable: Swift.Sendable {
         /// Alias for the semantic table.
@@ -32183,15 +32483,19 @@ extension QuickSightClientTypes {
         public var destinationTableId: Swift.String?
         /// Configuration for row level security that control data access for this semantic table.
         public var rowLevelPermissionConfiguration: QuickSightClientTypes.RowLevelPermissionConfiguration?
+        /// The column-level semantic metadata for this semantic table.
+        public var semanticMetadata: QuickSightClientTypes.TableSemanticMetadata?
 
         public init(
             alias: Swift.String? = nil,
             destinationTableId: Swift.String? = nil,
-            rowLevelPermissionConfiguration: QuickSightClientTypes.RowLevelPermissionConfiguration? = nil
+            rowLevelPermissionConfiguration: QuickSightClientTypes.RowLevelPermissionConfiguration? = nil,
+            semanticMetadata: QuickSightClientTypes.TableSemanticMetadata? = nil
         ) {
             self.alias = alias
             self.destinationTableId = destinationTableId
             self.rowLevelPermissionConfiguration = rowLevelPermissionConfiguration
+            self.semanticMetadata = semanticMetadata
         }
     }
 }
@@ -32200,12 +32504,16 @@ extension QuickSightClientTypes {
 
     /// Configuration for the semantic model that defines how prepared data is structured for analysis and reporting.
     public struct SemanticModelConfiguration: Swift.Sendable {
+        /// The dataset-level semantic metadata, including a description and custom instructions.
+        public var semanticMetadata: [QuickSightClientTypes.DataSetSemanticMetadata]?
         /// A map of semantic tables that define the analytical structure.
         public var tableMap: [Swift.String: QuickSightClientTypes.SemanticTable]?
 
         public init(
+            semanticMetadata: [QuickSightClientTypes.DataSetSemanticMetadata]? = nil,
             tableMap: [Swift.String: QuickSightClientTypes.SemanticTable]? = nil
         ) {
+            self.semanticMetadata = semanticMetadata
             self.tableMap = tableMap
         }
     }
@@ -32377,9 +32685,9 @@ public struct CustomerManagedKeyUnavailableException: ClientRuntime.ModeledError
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -34298,6 +34606,8 @@ extension QuickSightClientTypes {
         public var axisLabelFontConfiguration: QuickSightClientTypes.FontConfiguration?
         /// Configures the display properties of the given text.
         public var axisTitleFontConfiguration: QuickSightClientTypes.FontConfiguration?
+        /// Configures the display properties of the control title.
+        public var controlTitleFontConfiguration: QuickSightClientTypes.ControlTitleFontConfiguration?
         /// Configures the display properties of the given text.
         public var dataLabelFontConfiguration: QuickSightClientTypes.FontConfiguration?
         /// Determines the list of font families.
@@ -34314,6 +34624,7 @@ extension QuickSightClientTypes {
         public init(
             axisLabelFontConfiguration: QuickSightClientTypes.FontConfiguration? = nil,
             axisTitleFontConfiguration: QuickSightClientTypes.FontConfiguration? = nil,
+            controlTitleFontConfiguration: QuickSightClientTypes.ControlTitleFontConfiguration? = nil,
             dataLabelFontConfiguration: QuickSightClientTypes.FontConfiguration? = nil,
             fontFamilies: [QuickSightClientTypes.Font]? = nil,
             legendTitleFontConfiguration: QuickSightClientTypes.FontConfiguration? = nil,
@@ -34323,6 +34634,7 @@ extension QuickSightClientTypes {
         ) {
             self.axisLabelFontConfiguration = axisLabelFontConfiguration
             self.axisTitleFontConfiguration = axisTitleFontConfiguration
+            self.controlTitleFontConfiguration = controlTitleFontConfiguration
             self.dataLabelFontConfiguration = dataLabelFontConfiguration
             self.fontFamilies = fontFamilies
             self.legendTitleFontConfiguration = legendTitleFontConfiguration
@@ -39994,9 +40306,9 @@ public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -41183,9 +41495,9 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -42564,9 +42876,9 @@ public struct DomainNotWhitelistedException: ClientRuntime.ModeledError, AWSClie
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -43009,9 +43321,9 @@ public struct SessionLifetimeInMinutesInvalidException: ClientRuntime.ModeledErr
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -43036,9 +43348,9 @@ public struct UnsupportedPricingPlanException: ClientRuntime.ModeledError, AWSCl
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -43171,9 +43483,9 @@ public struct QuickSightUserNotFoundException: ClientRuntime.ModeledError, AWSCl
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -43601,9 +43913,9 @@ public struct IdentityTypeNotSupportedException: ClientRuntime.ModeledError, AWS
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -43900,6 +44212,16 @@ public struct GetIdentityContextInput: Swift.Sendable {
     /// The ID for the Amazon Web Services account that the user whose identity context you want to retrieve is in. Currently, you use the ID for the Amazon Web Services account that contains your Quick Sight account.
     /// This member is required.
     public var awsAccountId: Swift.String?
+    /// The region in which the context is to be used. Use this parameter to obtain an identity context for cross-region use. The specified region must meet the following conditions:
+    ///
+    /// * The region must be in the same Amazon Web Services partition as the region you are calling from. Cross-partition requests are not supported. For example, you cannot specify a region in the aws-cn partition when calling from a region in the aws partition.
+    ///
+    /// * It must be a valid Amazon QuickSight supported region.
+    ///
+    /// * The calling customer account must be enabled in the specified context region.
+    ///
+    /// * This parameter is not supported when calling from an opt-in region.
+    public var contextRegion: Swift.String?
     /// The namespace of the user that you want to get identity context for. This parameter is required when the UserIdentifier is specified using Email or UserName.
     public var namespace: Swift.String?
     /// The timestamp at which the session will expire.
@@ -43910,11 +44232,13 @@ public struct GetIdentityContextInput: Swift.Sendable {
 
     public init(
         awsAccountId: Swift.String? = nil,
+        contextRegion: Swift.String? = nil,
         namespace: Swift.String? = nil,
         sessionExpiresAt: Foundation.Date? = nil,
         userIdentifier: QuickSightClientTypes.UserIdentifier? = nil
     ) {
         self.awsAccountId = awsAccountId
+        self.contextRegion = contextRegion
         self.namespace = namespace
         self.sessionExpiresAt = sessionExpiresAt
         self.userIdentifier = userIdentifier
@@ -54536,6 +54860,7 @@ extension GetIdentityContextInput {
 
     static func write(value: GetIdentityContextInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ContextRegion"].write(value.contextRegion)
         try writer["Namespace"].write(value.namespace)
         try writer["SessionExpiresAt"].writeTimestamp(value.sessionExpiresAt, format: SmithyTimestamps.TimestampFormat.epochSeconds)
         try writer["UserIdentifier"].write(value.userIdentifier, with: QuickSightClientTypes.UserIdentifier.write(value:to:))
@@ -63658,6 +63983,21 @@ extension QuickSightClientTypes.ActiveIAMPolicyAssignment {
     }
 }
 
+extension QuickSightClientTypes.AdditionalNotes {
+
+    static func write(value: QuickSightClientTypes.AdditionalNotes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Text"].write(value.text)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AdditionalNotes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.AdditionalNotes()
+        value.text = try reader["Text"].readIfPresent()
+        return value
+    }
+}
+
 extension QuickSightClientTypes.AdHocFilteringOption {
 
     static func write(value: QuickSightClientTypes.AdHocFilteringOption?, to writer: SmithyJSON.Writer) throws {
@@ -66175,6 +66515,7 @@ extension QuickSightClientTypes.Capabilities {
 
     static func write(value: QuickSightClientTypes.Capabilities?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AccessAppsNativeDataStore"].write(value.accessAppsNativeDataStore)
         try writer["Action"].write(value.action)
         try writer["AddOrRunAnomalyDetectionForAnalyses"].write(value.addOrRunAnomalyDetectionForAnalyses)
         try writer["AmazonBedrockARSAction"].write(value.amazonBedrockARSAction)
@@ -66183,6 +66524,7 @@ extension QuickSightClientTypes.Capabilities {
         try writer["AmazonSThreeAction"].write(value.amazonSThreeAction)
         try writer["Analysis"].write(value.analysis)
         try writer["ApproveFlowShareRequests"].write(value.approveFlowShareRequests)
+        try writer["Apps"].write(value.apps)
         try writer["AsanaAction"].write(value.asanaAction)
         try writer["Automate"].write(value.automate)
         try writer["BambooHRAction"].write(value.bambooHRAction)
@@ -66197,6 +66539,7 @@ extension QuickSightClientTypes.Capabilities {
         try writer["CreateAndUpdateAmazonBedrockFSAction"].write(value.createAndUpdateAmazonBedrockFSAction)
         try writer["CreateAndUpdateAmazonBedrockKRSAction"].write(value.createAndUpdateAmazonBedrockKRSAction)
         try writer["CreateAndUpdateAmazonSThreeAction"].write(value.createAndUpdateAmazonSThreeAction)
+        try writer["CreateAndUpdateApps"].write(value.createAndUpdateApps)
         try writer["CreateAndUpdateAsanaAction"].write(value.createAndUpdateAsanaAction)
         try writer["CreateAndUpdateBambooHRAction"].write(value.createAndUpdateBambooHRAction)
         try writer["CreateAndUpdateBoxAgentAction"].write(value.createAndUpdateBoxAgentAction)
@@ -66265,6 +66608,7 @@ extension QuickSightClientTypes.Capabilities {
         try writer["HuggingFaceAction"].write(value.huggingFaceAction)
         try writer["IncludeContentInScheduledReportsEmail"].write(value.includeContentInScheduledReportsEmail)
         try writer["IntercomAction"].write(value.intercomAction)
+        try writer["InvokeAppsAIInference"].write(value.invokeAppsAIInference)
         try writer["JiraAction"].write(value.jiraAction)
         try writer["KnowledgeBase"].write(value.knowledgeBase)
         try writer["LinearAction"].write(value.linearAction)
@@ -66291,6 +66635,7 @@ extension QuickSightClientTypes.Capabilities {
         try writer["SalesforceAction"].write(value.salesforceAction)
         try writer["SandPGMIAction"].write(value.sandPGMIAction)
         try writer["SandPGlobalEnergyAction"].write(value.sandPGlobalEnergyAction)
+        try writer["Scenario"].write(value.scenario)
         try writer["SelfUpgradeUserRole"].write(value.selfUpgradeUserRole)
         try writer["ServiceNowAction"].write(value.serviceNowAction)
         try writer["ShareAmazonBedrockARSAction"].write(value.shareAmazonBedrockARSAction)
@@ -66298,6 +66643,7 @@ extension QuickSightClientTypes.Capabilities {
         try writer["ShareAmazonBedrockKRSAction"].write(value.shareAmazonBedrockKRSAction)
         try writer["ShareAmazonSThreeAction"].write(value.shareAmazonSThreeAction)
         try writer["ShareAnalyses"].write(value.shareAnalyses)
+        try writer["ShareApps"].write(value.shareApps)
         try writer["ShareAsanaAction"].write(value.shareAsanaAction)
         try writer["ShareBambooHRAction"].write(value.shareBambooHRAction)
         try writer["ShareBoxAgentAction"].write(value.shareBoxAgentAction)
@@ -66346,6 +66692,7 @@ extension QuickSightClientTypes.Capabilities {
         try writer["SlackAction"].write(value.slackAction)
         try writer["SmartsheetAction"].write(value.smartsheetAction)
         try writer["Space"].write(value.space)
+        try writer["Story"].write(value.story)
         try writer["SubscribeDashboardEmailReports"].write(value.subscribeDashboardEmailReports)
         try writer["TextractAction"].write(value.textractAction)
         try writer["Topic"].write(value.topic)
@@ -66428,6 +66775,11 @@ extension QuickSightClientTypes.Capabilities {
         value.analysis = try reader["Analysis"].readIfPresent()
         value.automate = try reader["Automate"].readIfPresent()
         value.flow = try reader["Flow"].readIfPresent()
+        value.apps = try reader["Apps"].readIfPresent()
+        value.createAndUpdateApps = try reader["CreateAndUpdateApps"].readIfPresent()
+        value.shareApps = try reader["ShareApps"].readIfPresent()
+        value.invokeAppsAIInference = try reader["InvokeAppsAIInference"].readIfPresent()
+        value.accessAppsNativeDataStore = try reader["AccessAppsNativeDataStore"].readIfPresent()
         value.publishWithoutApproval = try reader["PublishWithoutApproval"].readIfPresent()
         value.useBedrockModels = try reader["UseBedrockModels"].readIfPresent()
         value.performFlowUiTask = try reader["PerformFlowUiTask"].readIfPresent()
@@ -66622,6 +66974,8 @@ extension QuickSightClientTypes.Capabilities {
         value.`extension` = try reader["Extension"].readIfPresent()
         value.manageSharedFolders = try reader["ManageSharedFolders"].readIfPresent()
         value.generateAnalyses = try reader["GenerateAnalyses"].readIfPresent()
+        value.story = try reader["Story"].readIfPresent()
+        value.scenario = try reader["Scenario"].readIfPresent()
         return value
     }
 }
@@ -67134,6 +67488,40 @@ extension QuickSightClientTypes.ColumnSchema {
         value.name = try reader["Name"].readIfPresent()
         value.dataType = try reader["DataType"].readIfPresent()
         value.geographicRole = try reader["GeographicRole"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.ColumnSemanticProperty {
+
+    static func write(value: QuickSightClientTypes.ColumnSemanticProperty?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AdditionalNotes"].write(value.additionalNotes, with: QuickSightClientTypes.AdditionalNotes.write(value:to:))
+        try writer["Description"].write(value.description, with: QuickSightClientTypes.ColumnDescription.write(value:to:))
+        try writer["SemanticType"].write(value.semanticType, with: QuickSightClientTypes.ColumnSemanticType.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ColumnSemanticProperty {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.ColumnSemanticProperty()
+        value.description = try reader["Description"].readIfPresent(with: QuickSightClientTypes.ColumnDescription.read(from:))
+        value.additionalNotes = try reader["AdditionalNotes"].readIfPresent(with: QuickSightClientTypes.AdditionalNotes.read(from:))
+        value.semanticType = try reader["SemanticType"].readIfPresent(with: QuickSightClientTypes.ColumnSemanticType.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.ColumnSemanticType {
+
+    static func write(value: QuickSightClientTypes.ColumnSemanticType?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["GeographicalRole"].write(value.geographicalRole)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ColumnSemanticType {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.ColumnSemanticType()
+        value.geographicalRole = try reader["GeographicalRole"].readIfPresent()
         return value
     }
 }
@@ -67751,6 +68139,40 @@ extension QuickSightClientTypes.ControlSortConfiguration {
     }
 }
 
+extension QuickSightClientTypes.ControlTitleFontConfiguration {
+
+    static func write(value: QuickSightClientTypes.ControlTitleFontConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FontConfiguration"].write(value.fontConfiguration, with: QuickSightClientTypes.FontConfiguration.write(value:to:))
+        try writer["TextAlignment"].write(value.textAlignment)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ControlTitleFontConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.ControlTitleFontConfiguration()
+        value.fontConfiguration = try reader["FontConfiguration"].readIfPresent(with: QuickSightClientTypes.FontConfiguration.read(from:))
+        value.textAlignment = try reader["TextAlignment"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.ControlTitleFormatText {
+
+    static func write(value: QuickSightClientTypes.ControlTitleFormatText?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PlainText"].write(value.plainText)
+        try writer["RichText"].write(value.richText)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ControlTitleFormatText {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.ControlTitleFormatText()
+        value.plainText = try reader["PlainText"].readIfPresent()
+        value.richText = try reader["RichText"].readIfPresent()
+        return value
+    }
+}
+
 extension QuickSightClientTypes.Coordinate {
 
     static func write(value: QuickSightClientTypes.Coordinate?, to writer: SmithyJSON.Writer) throws {
@@ -68025,6 +68447,21 @@ extension QuickSightClientTypes.CustomFilterListConfiguration {
         value.categoryValues = try reader["CategoryValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.selectAllOptions = try reader["SelectAllOptions"].readIfPresent()
         value.nullOption = try reader["NullOption"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension QuickSightClientTypes.CustomInstruction {
+
+    static func write(value: QuickSightClientTypes.CustomInstruction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["InlineCustomInstruction"].write(value.inlineCustomInstruction, with: QuickSightClientTypes.InlineCustomInstruction.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.CustomInstruction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.CustomInstruction()
+        value.inlineCustomInstruction = try reader["InlineCustomInstruction"].readIfPresent(with: QuickSightClientTypes.InlineCustomInstruction.read(from:))
         return value
     }
 }
@@ -69140,6 +69577,38 @@ extension QuickSightClientTypes.DataSetSearchFilter {
     }
 }
 
+extension QuickSightClientTypes.DataSetSemanticDescription {
+
+    static func write(value: QuickSightClientTypes.DataSetSemanticDescription?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Text"].write(value.text)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DataSetSemanticDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.DataSetSemanticDescription()
+        value.text = try reader["Text"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension QuickSightClientTypes.DataSetSemanticMetadata {
+
+    static func write(value: QuickSightClientTypes.DataSetSemanticMetadata?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CustomInstructions"].writeList(value.customInstructions, memberWritingClosure: QuickSightClientTypes.CustomInstruction.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Description"].write(value.description, with: QuickSightClientTypes.DataSetSemanticDescription.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DataSetSemanticMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.DataSetSemanticMetadata()
+        value.description = try reader["Description"].readIfPresent(with: QuickSightClientTypes.DataSetSemanticDescription.read(from:))
+        value.customInstructions = try reader["CustomInstructions"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.CustomInstruction.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension QuickSightClientTypes.DataSetStringComparisonFilterCondition {
 
     static func write(value: QuickSightClientTypes.DataSetStringComparisonFilterCondition?, to writer: SmithyJSON.Writer) throws {
@@ -69925,6 +70394,7 @@ extension QuickSightClientTypes.DefaultFilterControlConfiguration {
     static func write(value: QuickSightClientTypes.DefaultFilterControlConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ControlOptions"].write(value.controlOptions, with: QuickSightClientTypes.DefaultFilterControlOptions.write(value:to:))
+        try writer["ControlTitleFormatText"].write(value.controlTitleFormatText, with: QuickSightClientTypes.ControlTitleFormatText.write(value:to:))
         try writer["Title"].write(value.title)
     }
 
@@ -69933,6 +70403,7 @@ extension QuickSightClientTypes.DefaultFilterControlConfiguration {
         var value = QuickSightClientTypes.DefaultFilterControlConfiguration()
         value.title = try reader["Title"].readIfPresent() ?? ""
         value.controlOptions = try reader["ControlOptions"].readIfPresent(with: QuickSightClientTypes.DefaultFilterControlOptions.read(from:))
+        value.controlTitleFormatText = try reader["ControlTitleFormatText"].readIfPresent(with: QuickSightClientTypes.ControlTitleFormatText.read(from:))
         return value
     }
 }
@@ -70983,6 +71454,7 @@ extension QuickSightClientTypes.FilterDateTimePickerControl {
     static func write(value: QuickSightClientTypes.FilterDateTimePickerControl?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["CommitMode"].write(value.commitMode)
+        try writer["ControlTitleFormatText"].write(value.controlTitleFormatText, with: QuickSightClientTypes.ControlTitleFormatText.write(value:to:))
         try writer["DisplayOptions"].write(value.displayOptions, with: QuickSightClientTypes.DateTimePickerControlDisplayOptions.write(value:to:))
         try writer["FilterControlId"].write(value.filterControlId)
         try writer["SourceFilterId"].write(value.sourceFilterId)
@@ -70999,6 +71471,7 @@ extension QuickSightClientTypes.FilterDateTimePickerControl {
         value.displayOptions = try reader["DisplayOptions"].readIfPresent(with: QuickSightClientTypes.DateTimePickerControlDisplayOptions.read(from:))
         value.type = try reader["Type"].readIfPresent()
         value.commitMode = try reader["CommitMode"].readIfPresent()
+        value.controlTitleFormatText = try reader["ControlTitleFormatText"].readIfPresent(with: QuickSightClientTypes.ControlTitleFormatText.read(from:))
         return value
     }
 }
@@ -71010,6 +71483,7 @@ extension QuickSightClientTypes.FilterDropDownControl {
         try writer["CascadingControlConfiguration"].write(value.cascadingControlConfiguration, with: QuickSightClientTypes.CascadingControlConfiguration.write(value:to:))
         try writer["CommitMode"].write(value.commitMode)
         try writer["ControlSortConfigurations"].writeList(value.controlSortConfigurations, memberWritingClosure: QuickSightClientTypes.ControlSortConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ControlTitleFormatText"].write(value.controlTitleFormatText, with: QuickSightClientTypes.ControlTitleFormatText.write(value:to:))
         try writer["DisplayOptions"].write(value.displayOptions, with: QuickSightClientTypes.DropDownControlDisplayOptions.write(value:to:))
         try writer["FilterControlId"].write(value.filterControlId)
         try writer["SelectableValues"].write(value.selectableValues, with: QuickSightClientTypes.FilterSelectableValues.write(value:to:))
@@ -71030,6 +71504,7 @@ extension QuickSightClientTypes.FilterDropDownControl {
         value.cascadingControlConfiguration = try reader["CascadingControlConfiguration"].readIfPresent(with: QuickSightClientTypes.CascadingControlConfiguration.read(from:))
         value.commitMode = try reader["CommitMode"].readIfPresent()
         value.controlSortConfigurations = try reader["ControlSortConfigurations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ControlSortConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.controlTitleFormatText = try reader["ControlTitleFormatText"].readIfPresent(with: QuickSightClientTypes.ControlTitleFormatText.read(from:))
         return value
     }
 }
@@ -71084,6 +71559,7 @@ extension QuickSightClientTypes.FilterListControl {
         guard let value else { return }
         try writer["CascadingControlConfiguration"].write(value.cascadingControlConfiguration, with: QuickSightClientTypes.CascadingControlConfiguration.write(value:to:))
         try writer["ControlSortConfigurations"].writeList(value.controlSortConfigurations, memberWritingClosure: QuickSightClientTypes.ControlSortConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ControlTitleFormatText"].write(value.controlTitleFormatText, with: QuickSightClientTypes.ControlTitleFormatText.write(value:to:))
         try writer["DisplayOptions"].write(value.displayOptions, with: QuickSightClientTypes.ListControlDisplayOptions.write(value:to:))
         try writer["FilterControlId"].write(value.filterControlId)
         try writer["SelectableValues"].write(value.selectableValues, with: QuickSightClientTypes.FilterSelectableValues.write(value:to:))
@@ -71103,6 +71579,7 @@ extension QuickSightClientTypes.FilterListControl {
         value.selectableValues = try reader["SelectableValues"].readIfPresent(with: QuickSightClientTypes.FilterSelectableValues.read(from:))
         value.cascadingControlConfiguration = try reader["CascadingControlConfiguration"].readIfPresent(with: QuickSightClientTypes.CascadingControlConfiguration.read(from:))
         value.controlSortConfigurations = try reader["ControlSortConfigurations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ControlSortConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.controlTitleFormatText = try reader["ControlTitleFormatText"].readIfPresent(with: QuickSightClientTypes.ControlTitleFormatText.read(from:))
         return value
     }
 }
@@ -71167,6 +71644,7 @@ extension QuickSightClientTypes.FilterRelativeDateTimeControl {
     static func write(value: QuickSightClientTypes.FilterRelativeDateTimeControl?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["CommitMode"].write(value.commitMode)
+        try writer["ControlTitleFormatText"].write(value.controlTitleFormatText, with: QuickSightClientTypes.ControlTitleFormatText.write(value:to:))
         try writer["DisplayOptions"].write(value.displayOptions, with: QuickSightClientTypes.RelativeDateTimeControlDisplayOptions.write(value:to:))
         try writer["FilterControlId"].write(value.filterControlId)
         try writer["SourceFilterId"].write(value.sourceFilterId)
@@ -71181,6 +71659,7 @@ extension QuickSightClientTypes.FilterRelativeDateTimeControl {
         value.sourceFilterId = try reader["SourceFilterId"].readIfPresent() ?? ""
         value.displayOptions = try reader["DisplayOptions"].readIfPresent(with: QuickSightClientTypes.RelativeDateTimeControlDisplayOptions.read(from:))
         value.commitMode = try reader["CommitMode"].readIfPresent()
+        value.controlTitleFormatText = try reader["ControlTitleFormatText"].readIfPresent(with: QuickSightClientTypes.ControlTitleFormatText.read(from:))
         return value
     }
 }
@@ -71221,6 +71700,7 @@ extension QuickSightClientTypes.FilterSliderControl {
 
     static func write(value: QuickSightClientTypes.FilterSliderControl?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ControlTitleFormatText"].write(value.controlTitleFormatText, with: QuickSightClientTypes.ControlTitleFormatText.write(value:to:))
         try writer["DisplayOptions"].write(value.displayOptions, with: QuickSightClientTypes.SliderControlDisplayOptions.write(value:to:))
         try writer["FilterControlId"].write(value.filterControlId)
         try writer["MaximumValue"].write(value.maximumValue)
@@ -71242,6 +71722,7 @@ extension QuickSightClientTypes.FilterSliderControl {
         value.maximumValue = try reader["MaximumValue"].readIfPresent() ?? 0
         value.minimumValue = try reader["MinimumValue"].readIfPresent() ?? 0
         value.stepSize = try reader["StepSize"].readIfPresent() ?? 0
+        value.controlTitleFormatText = try reader["ControlTitleFormatText"].readIfPresent(with: QuickSightClientTypes.ControlTitleFormatText.read(from:))
         return value
     }
 }
@@ -71269,6 +71750,7 @@ extension QuickSightClientTypes.FilterTextAreaControl {
 
     static func write(value: QuickSightClientTypes.FilterTextAreaControl?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ControlTitleFormatText"].write(value.controlTitleFormatText, with: QuickSightClientTypes.ControlTitleFormatText.write(value:to:))
         try writer["Delimiter"].write(value.delimiter)
         try writer["DisplayOptions"].write(value.displayOptions, with: QuickSightClientTypes.TextAreaControlDisplayOptions.write(value:to:))
         try writer["FilterControlId"].write(value.filterControlId)
@@ -71284,6 +71766,7 @@ extension QuickSightClientTypes.FilterTextAreaControl {
         value.sourceFilterId = try reader["SourceFilterId"].readIfPresent() ?? ""
         value.delimiter = try reader["Delimiter"].readIfPresent()
         value.displayOptions = try reader["DisplayOptions"].readIfPresent(with: QuickSightClientTypes.TextAreaControlDisplayOptions.read(from:))
+        value.controlTitleFormatText = try reader["ControlTitleFormatText"].readIfPresent(with: QuickSightClientTypes.ControlTitleFormatText.read(from:))
         return value
     }
 }
@@ -71292,6 +71775,7 @@ extension QuickSightClientTypes.FilterTextFieldControl {
 
     static func write(value: QuickSightClientTypes.FilterTextFieldControl?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ControlTitleFormatText"].write(value.controlTitleFormatText, with: QuickSightClientTypes.ControlTitleFormatText.write(value:to:))
         try writer["DisplayOptions"].write(value.displayOptions, with: QuickSightClientTypes.TextFieldControlDisplayOptions.write(value:to:))
         try writer["FilterControlId"].write(value.filterControlId)
         try writer["SourceFilterId"].write(value.sourceFilterId)
@@ -71305,6 +71789,7 @@ extension QuickSightClientTypes.FilterTextFieldControl {
         value.title = try reader["Title"].readIfPresent() ?? ""
         value.sourceFilterId = try reader["SourceFilterId"].readIfPresent() ?? ""
         value.displayOptions = try reader["DisplayOptions"].readIfPresent(with: QuickSightClientTypes.TextFieldControlDisplayOptions.read(from:))
+        value.controlTitleFormatText = try reader["ControlTitleFormatText"].readIfPresent(with: QuickSightClientTypes.ControlTitleFormatText.read(from:))
         return value
     }
 }
@@ -73624,6 +74109,23 @@ extension QuickSightClientTypes.Ingestion {
     }
 }
 
+extension QuickSightClientTypes.InlineCustomInstruction {
+
+    static func write(value: QuickSightClientTypes.InlineCustomInstruction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["InstructionText"].write(value.instructionText)
+        try writer["UploadedDocumentMetadata"].write(value.uploadedDocumentMetadata, with: QuickSightClientTypes.UploadedDocumentMetadata.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.InlineCustomInstruction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.InlineCustomInstruction()
+        value.instructionText = try reader["InstructionText"].readIfPresent() ?? ""
+        value.uploadedDocumentMetadata = try reader["UploadedDocumentMetadata"].readIfPresent(with: QuickSightClientTypes.UploadedDocumentMetadata.read(from:))
+        return value
+    }
+}
+
 extension QuickSightClientTypes.InnerFilter {
 
     static func write(value: QuickSightClientTypes.InnerFilter?, to writer: SmithyJSON.Writer) throws {
@@ -75519,6 +76021,7 @@ extension QuickSightClientTypes.OAuthParameters {
 
     static func write(value: QuickSightClientTypes.OAuthParameters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["IdentityProviderCACertificatesBundleS3Uri"].write(value.identityProviderCACertificatesBundleS3Uri)
         try writer["IdentityProviderResourceUri"].write(value.identityProviderResourceUri)
         try writer["IdentityProviderVpcConnectionProperties"].write(value.identityProviderVpcConnectionProperties, with: QuickSightClientTypes.VpcConnectionProperties.write(value:to:))
         try writer["OAuthScope"].write(value.oAuthScope)
@@ -75532,6 +76035,7 @@ extension QuickSightClientTypes.OAuthParameters {
         value.oAuthScope = try reader["OAuthScope"].readIfPresent()
         value.identityProviderVpcConnectionProperties = try reader["IdentityProviderVpcConnectionProperties"].readIfPresent(with: QuickSightClientTypes.VpcConnectionProperties.read(from:))
         value.identityProviderResourceUri = try reader["IdentityProviderResourceUri"].readIfPresent()
+        value.identityProviderCACertificatesBundleS3Uri = try reader["IdentityProviderCACertificatesBundleS3Uri"].readIfPresent()
         return value
     }
 }
@@ -75720,6 +76224,7 @@ extension QuickSightClientTypes.ParameterDateTimePickerControl {
 
     static func write(value: QuickSightClientTypes.ParameterDateTimePickerControl?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ControlTitleFormatText"].write(value.controlTitleFormatText, with: QuickSightClientTypes.ControlTitleFormatText.write(value:to:))
         try writer["DisplayOptions"].write(value.displayOptions, with: QuickSightClientTypes.DateTimePickerControlDisplayOptions.write(value:to:))
         try writer["ParameterControlId"].write(value.parameterControlId)
         try writer["SourceParameterName"].write(value.sourceParameterName)
@@ -75733,6 +76238,7 @@ extension QuickSightClientTypes.ParameterDateTimePickerControl {
         value.title = try reader["Title"].readIfPresent() ?? ""
         value.sourceParameterName = try reader["SourceParameterName"].readIfPresent() ?? ""
         value.displayOptions = try reader["DisplayOptions"].readIfPresent(with: QuickSightClientTypes.DateTimePickerControlDisplayOptions.read(from:))
+        value.controlTitleFormatText = try reader["ControlTitleFormatText"].readIfPresent(with: QuickSightClientTypes.ControlTitleFormatText.read(from:))
         return value
     }
 }
@@ -75765,6 +76271,7 @@ extension QuickSightClientTypes.ParameterDropDownControl {
         try writer["CascadingControlConfiguration"].write(value.cascadingControlConfiguration, with: QuickSightClientTypes.CascadingControlConfiguration.write(value:to:))
         try writer["CommitMode"].write(value.commitMode)
         try writer["ControlSortConfigurations"].writeList(value.controlSortConfigurations, memberWritingClosure: QuickSightClientTypes.ControlSortConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ControlTitleFormatText"].write(value.controlTitleFormatText, with: QuickSightClientTypes.ControlTitleFormatText.write(value:to:))
         try writer["DisplayOptions"].write(value.displayOptions, with: QuickSightClientTypes.DropDownControlDisplayOptions.write(value:to:))
         try writer["ParameterControlId"].write(value.parameterControlId)
         try writer["SelectableValues"].write(value.selectableValues, with: QuickSightClientTypes.ParameterSelectableValues.write(value:to:))
@@ -75785,6 +76292,7 @@ extension QuickSightClientTypes.ParameterDropDownControl {
         value.cascadingControlConfiguration = try reader["CascadingControlConfiguration"].readIfPresent(with: QuickSightClientTypes.CascadingControlConfiguration.read(from:))
         value.commitMode = try reader["CommitMode"].readIfPresent()
         value.controlSortConfigurations = try reader["ControlSortConfigurations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ControlSortConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.controlTitleFormatText = try reader["ControlTitleFormatText"].readIfPresent(with: QuickSightClientTypes.ControlTitleFormatText.read(from:))
         return value
     }
 }
@@ -75795,6 +76303,7 @@ extension QuickSightClientTypes.ParameterListControl {
         guard let value else { return }
         try writer["CascadingControlConfiguration"].write(value.cascadingControlConfiguration, with: QuickSightClientTypes.CascadingControlConfiguration.write(value:to:))
         try writer["ControlSortConfigurations"].writeList(value.controlSortConfigurations, memberWritingClosure: QuickSightClientTypes.ControlSortConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ControlTitleFormatText"].write(value.controlTitleFormatText, with: QuickSightClientTypes.ControlTitleFormatText.write(value:to:))
         try writer["DisplayOptions"].write(value.displayOptions, with: QuickSightClientTypes.ListControlDisplayOptions.write(value:to:))
         try writer["ParameterControlId"].write(value.parameterControlId)
         try writer["SelectableValues"].write(value.selectableValues, with: QuickSightClientTypes.ParameterSelectableValues.write(value:to:))
@@ -75814,6 +76323,7 @@ extension QuickSightClientTypes.ParameterListControl {
         value.selectableValues = try reader["SelectableValues"].readIfPresent(with: QuickSightClientTypes.ParameterSelectableValues.read(from:))
         value.cascadingControlConfiguration = try reader["CascadingControlConfiguration"].readIfPresent(with: QuickSightClientTypes.CascadingControlConfiguration.read(from:))
         value.controlSortConfigurations = try reader["ControlSortConfigurations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ControlSortConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.controlTitleFormatText = try reader["ControlTitleFormatText"].readIfPresent(with: QuickSightClientTypes.ControlTitleFormatText.read(from:))
         return value
     }
 }
@@ -75860,6 +76370,7 @@ extension QuickSightClientTypes.ParameterSliderControl {
 
     static func write(value: QuickSightClientTypes.ParameterSliderControl?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ControlTitleFormatText"].write(value.controlTitleFormatText, with: QuickSightClientTypes.ControlTitleFormatText.write(value:to:))
         try writer["DisplayOptions"].write(value.displayOptions, with: QuickSightClientTypes.SliderControlDisplayOptions.write(value:to:))
         try writer["MaximumValue"].write(value.maximumValue)
         try writer["MinimumValue"].write(value.minimumValue)
@@ -75879,6 +76390,7 @@ extension QuickSightClientTypes.ParameterSliderControl {
         value.maximumValue = try reader["MaximumValue"].readIfPresent() ?? 0
         value.minimumValue = try reader["MinimumValue"].readIfPresent() ?? 0
         value.stepSize = try reader["StepSize"].readIfPresent() ?? 0
+        value.controlTitleFormatText = try reader["ControlTitleFormatText"].readIfPresent(with: QuickSightClientTypes.ControlTitleFormatText.read(from:))
         return value
     }
 }
@@ -75887,6 +76399,7 @@ extension QuickSightClientTypes.ParameterTextAreaControl {
 
     static func write(value: QuickSightClientTypes.ParameterTextAreaControl?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ControlTitleFormatText"].write(value.controlTitleFormatText, with: QuickSightClientTypes.ControlTitleFormatText.write(value:to:))
         try writer["Delimiter"].write(value.delimiter)
         try writer["DisplayOptions"].write(value.displayOptions, with: QuickSightClientTypes.TextAreaControlDisplayOptions.write(value:to:))
         try writer["ParameterControlId"].write(value.parameterControlId)
@@ -75902,6 +76415,7 @@ extension QuickSightClientTypes.ParameterTextAreaControl {
         value.sourceParameterName = try reader["SourceParameterName"].readIfPresent() ?? ""
         value.delimiter = try reader["Delimiter"].readIfPresent()
         value.displayOptions = try reader["DisplayOptions"].readIfPresent(with: QuickSightClientTypes.TextAreaControlDisplayOptions.read(from:))
+        value.controlTitleFormatText = try reader["ControlTitleFormatText"].readIfPresent(with: QuickSightClientTypes.ControlTitleFormatText.read(from:))
         return value
     }
 }
@@ -75910,6 +76424,7 @@ extension QuickSightClientTypes.ParameterTextFieldControl {
 
     static func write(value: QuickSightClientTypes.ParameterTextFieldControl?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ControlTitleFormatText"].write(value.controlTitleFormatText, with: QuickSightClientTypes.ControlTitleFormatText.write(value:to:))
         try writer["DisplayOptions"].write(value.displayOptions, with: QuickSightClientTypes.TextFieldControlDisplayOptions.write(value:to:))
         try writer["ParameterControlId"].write(value.parameterControlId)
         try writer["SourceParameterName"].write(value.sourceParameterName)
@@ -75923,6 +76438,7 @@ extension QuickSightClientTypes.ParameterTextFieldControl {
         value.title = try reader["Title"].readIfPresent() ?? ""
         value.sourceParameterName = try reader["SourceParameterName"].readIfPresent() ?? ""
         value.displayOptions = try reader["DisplayOptions"].readIfPresent(with: QuickSightClientTypes.TextFieldControlDisplayOptions.read(from:))
+        value.controlTitleFormatText = try reader["ControlTitleFormatText"].readIfPresent(with: QuickSightClientTypes.ControlTitleFormatText.read(from:))
         return value
     }
 }
@@ -78702,6 +79218,7 @@ extension QuickSightClientTypes.SemanticModelConfiguration {
 
     static func write(value: QuickSightClientTypes.SemanticModelConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["SemanticMetadata"].writeList(value.semanticMetadata, memberWritingClosure: QuickSightClientTypes.DataSetSemanticMetadata.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["TableMap"].writeMap(value.tableMap, valueWritingClosure: QuickSightClientTypes.SemanticTable.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 
@@ -78709,6 +79226,7 @@ extension QuickSightClientTypes.SemanticModelConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.SemanticModelConfiguration()
         value.tableMap = try reader["TableMap"].readMapIfPresent(valueReadingClosure: QuickSightClientTypes.SemanticTable.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.semanticMetadata = try reader["SemanticMetadata"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.DataSetSemanticMetadata.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -78720,6 +79238,7 @@ extension QuickSightClientTypes.SemanticTable {
         try writer["Alias"].write(value.alias)
         try writer["DestinationTableId"].write(value.destinationTableId)
         try writer["RowLevelPermissionConfiguration"].write(value.rowLevelPermissionConfiguration, with: QuickSightClientTypes.RowLevelPermissionConfiguration.write(value:to:))
+        try writer["SemanticMetadata"].write(value.semanticMetadata, with: QuickSightClientTypes.TableSemanticMetadata.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SemanticTable {
@@ -78728,6 +79247,7 @@ extension QuickSightClientTypes.SemanticTable {
         value.alias = try reader["Alias"].readIfPresent() ?? ""
         value.destinationTableId = try reader["DestinationTableId"].readIfPresent() ?? ""
         value.rowLevelPermissionConfiguration = try reader["RowLevelPermissionConfiguration"].readIfPresent(with: QuickSightClientTypes.RowLevelPermissionConfiguration.read(from:))
+        value.semanticMetadata = try reader["SemanticMetadata"].readIfPresent(with: QuickSightClientTypes.TableSemanticMetadata.read(from:))
         return value
     }
 }
@@ -78828,6 +79348,23 @@ extension QuickSightClientTypes.ShapeConditionalFormat {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.ShapeConditionalFormat()
         value.backgroundColor = try reader["BackgroundColor"].readIfPresent(with: QuickSightClientTypes.ConditionalFormattingColor.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.SharedColumnSemanticMetadata {
+
+    static func write(value: QuickSightClientTypes.SharedColumnSemanticMetadata?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ColumnNames"].writeList(value.columnNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ColumnProperties"].writeList(value.columnProperties, memberWritingClosure: QuickSightClientTypes.ColumnSemanticProperty.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SharedColumnSemanticMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.SharedColumnSemanticMetadata()
+        value.columnNames = try reader["ColumnNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.columnProperties = try reader["ColumnProperties"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ColumnSemanticProperty.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -80416,6 +80953,21 @@ extension QuickSightClientTypes.TableRowConditionalFormatting {
         var value = QuickSightClientTypes.TableRowConditionalFormatting()
         value.backgroundColor = try reader["BackgroundColor"].readIfPresent(with: QuickSightClientTypes.ConditionalFormattingColor.read(from:))
         value.textColor = try reader["TextColor"].readIfPresent(with: QuickSightClientTypes.ConditionalFormattingColor.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.TableSemanticMetadata {
+
+    static func write(value: QuickSightClientTypes.TableSemanticMetadata?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ColumnMetadata"].writeList(value.columnMetadata, memberWritingClosure: QuickSightClientTypes.SharedColumnSemanticMetadata.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TableSemanticMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.TableSemanticMetadata()
+        value.columnMetadata = try reader["ColumnMetadata"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.SharedColumnSemanticMetadata.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -82322,6 +82874,7 @@ extension QuickSightClientTypes.Typography {
         guard let value else { return }
         try writer["AxisLabelFontConfiguration"].write(value.axisLabelFontConfiguration, with: QuickSightClientTypes.FontConfiguration.write(value:to:))
         try writer["AxisTitleFontConfiguration"].write(value.axisTitleFontConfiguration, with: QuickSightClientTypes.FontConfiguration.write(value:to:))
+        try writer["ControlTitleFontConfiguration"].write(value.controlTitleFontConfiguration, with: QuickSightClientTypes.ControlTitleFontConfiguration.write(value:to:))
         try writer["DataLabelFontConfiguration"].write(value.dataLabelFontConfiguration, with: QuickSightClientTypes.FontConfiguration.write(value:to:))
         try writer["FontFamilies"].writeList(value.fontFamilies, memberWritingClosure: QuickSightClientTypes.Font.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["LegendTitleFontConfiguration"].write(value.legendTitleFontConfiguration, with: QuickSightClientTypes.FontConfiguration.write(value:to:))
@@ -82341,6 +82894,7 @@ extension QuickSightClientTypes.Typography {
         value.dataLabelFontConfiguration = try reader["DataLabelFontConfiguration"].readIfPresent(with: QuickSightClientTypes.FontConfiguration.read(from:))
         value.visualTitleFontConfiguration = try reader["VisualTitleFontConfiguration"].readIfPresent(with: QuickSightClientTypes.VisualTitleFontConfiguration.read(from:))
         value.visualSubtitleFontConfiguration = try reader["VisualSubtitleFontConfiguration"].readIfPresent(with: QuickSightClientTypes.VisualSubtitleFontConfiguration.read(from:))
+        value.controlTitleFontConfiguration = try reader["ControlTitleFontConfiguration"].readIfPresent(with: QuickSightClientTypes.ControlTitleFontConfiguration.read(from:))
         return value
     }
 }
@@ -82483,6 +83037,21 @@ extension QuickSightClientTypes.UntagColumnOperation {
         var value = QuickSightClientTypes.UntagColumnOperation()
         value.columnName = try reader["ColumnName"].readIfPresent() ?? ""
         value.tagNames = try reader["TagNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<QuickSightClientTypes.ColumnTagName>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension QuickSightClientTypes.UploadedDocumentMetadata {
+
+    static func write(value: QuickSightClientTypes.UploadedDocumentMetadata?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.UploadedDocumentMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.UploadedDocumentMetadata()
+        value.name = try reader["Name"].readIfPresent()
         return value
     }
 }

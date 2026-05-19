@@ -15,7 +15,7 @@ import class AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain
 import class ClientRuntime.ClientBuilder
 import class ClientRuntime.DefaultClientPlugin
 import class ClientRuntime.HttpClientConfiguration
-import class ClientRuntime.OrchestratorBuilder
+@_spi(SchemaBasedSerde) import class ClientRuntime.OrchestratorBuilder
 import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
@@ -902,7 +902,7 @@ extension AccountClient {
 
     /// Performs the `GetAccountInformation` operation on the `Account` service.
     ///
-    /// Retrieves information about the specified account including its account name, account ID, and account creation date and time. To use this API, an IAM user or role must have the account:GetAccountInformation IAM permission.
+    /// Retrieves information about the specified account including its account name, account ID, account creation date and time, and account state. To use this API, an IAM user or role must have the account:GetAccountInformation IAM permission.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetAccountInformationInput`)
     ///

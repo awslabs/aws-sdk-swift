@@ -70,9 +70,9 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         errorType: Swift.String? = nil,
@@ -98,9 +98,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         errorType: Swift.String? = nil,
@@ -126,9 +126,9 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { true }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         errorType: Swift.String? = nil,
@@ -154,9 +154,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         errorType: Swift.String? = nil,
@@ -182,9 +182,9 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { true }
     public static var isThrottling: Swift.Bool { true }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         errorType: Swift.String? = nil,
@@ -268,9 +268,9 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         fieldList: [AccountClientTypes.ValidationExceptionField]? = nil,
@@ -366,6 +366,41 @@ public struct GetAccountInformationInput: Swift.Sendable {
     }
 }
 
+extension AccountClientTypes {
+
+    public enum AccountState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case closed
+        case pendingActivation
+        case suspended
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AccountState] {
+            return [
+                .active,
+                .closed,
+                .pendingActivation,
+                .suspended
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .closed: return "CLOSED"
+            case .pendingActivation: return "PENDING_ACTIVATION"
+            case .suspended: return "SUSPENDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct GetAccountInformationOutput: Swift.Sendable {
     /// The date and time the account was created.
     public var accountCreatedDate: Foundation.Date?
@@ -373,21 +408,25 @@ public struct GetAccountInformationOutput: Swift.Sendable {
     public var accountId: Swift.String?
     /// The name of the account.
     public var accountName: Swift.String?
+    /// The state of the account. Each account state represents a specific phase in the account lifecycle. Use this information to manage account access, automate workflows, or trigger actions based on account state changes. Valid values: PENDING_ACTIVATION | ACTIVE | SUSPENDED | CLOSED
+    public var accountState: AccountClientTypes.AccountState?
 
     public init(
         accountCreatedDate: Foundation.Date? = nil,
         accountId: Swift.String? = nil,
-        accountName: Swift.String? = nil
+        accountName: Swift.String? = nil,
+        accountState: AccountClientTypes.AccountState? = nil
     ) {
         self.accountCreatedDate = accountCreatedDate
         self.accountId = accountId
         self.accountName = accountName
+        self.accountState = accountState
     }
 }
 
 extension GetAccountInformationOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetAccountInformationOutput(accountCreatedDate: \(Swift.String(describing: accountCreatedDate)), accountId: \(Swift.String(describing: accountId)), accountName: \"CONTENT_REDACTED\")"}
+        "GetAccountInformationOutput(accountCreatedDate: \(Swift.String(describing: accountCreatedDate)), accountId: \(Swift.String(describing: accountId)), accountState: \(Swift.String(describing: accountState)), accountName: \"CONTENT_REDACTED\")"}
 }
 
 public struct PutAccountNameInput: Swift.Sendable {
@@ -578,9 +617,9 @@ public struct ResourceUnavailableException: ClientRuntime.ModeledError, AWSClien
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         errorType: Swift.String? = nil,
@@ -1267,6 +1306,7 @@ extension GetAccountInformationOutput {
         value.accountCreatedDate = try reader["AccountCreatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.accountId = try reader["AccountId"].readIfPresent()
         value.accountName = try reader["AccountName"].readIfPresent()
+        value.accountState = try reader["AccountState"].readIfPresent()
         return value
     }
 }

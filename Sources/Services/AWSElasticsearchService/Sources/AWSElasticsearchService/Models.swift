@@ -63,9 +63,9 @@ public struct DisabledOperationException: ClientRuntime.ModeledError, AWSClientR
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -87,9 +87,9 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -111,9 +111,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -280,9 +280,9 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -432,9 +432,9 @@ public struct BaseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -456,9 +456,9 @@ public struct InternalException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -480,9 +480,9 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -778,9 +778,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -1208,9 +1208,9 @@ public struct InvalidTypeException: ClientRuntime.ModeledError, AWSClientRuntime
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -1232,14 +1232,38 @@ public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
     ) {
         self.properties.message = message
+    }
+}
+
+extension ElasticsearchClientTypes {
+
+    /// Specifies the automated snapshot pause request options for the domain. Suspending snapshots reduces data protection. You cannot restore your domain to points in time when snapshots are suspended. Use this feature only for short-term operational needs such as migrations or maintenance windows. Maximum suspension duration: 3 days.
+    public struct AutomatedSnapshotPauseRequestOptions: Swift.Sendable {
+        /// Whether to enable or disable automated snapshot pause for the domain.
+        /// This member is required.
+        public var enabled: Swift.Bool?
+        /// The timestamp at which the automated snapshot pause should end. The maximum allowed duration between StartTime and EndTime is 3 days.
+        public var endTime: Foundation.Date?
+        /// The timestamp at which the automated snapshot pause should begin.
+        public var startTime: Foundation.Date?
+
+        public init(
+            enabled: Swift.Bool? = nil,
+            endTime: Foundation.Date? = nil,
+            startTime: Foundation.Date? = nil
+        ) {
+            self.enabled = enabled
+            self.endTime = endTime
+            self.startTime = startTime
+        }
     }
 }
 
@@ -2043,6 +2067,8 @@ public struct CreateElasticsearchDomainInput: Swift.Sendable {
     public var advancedSecurityOptions: ElasticsearchClientTypes.AdvancedSecurityOptionsInput?
     /// Specifies Auto-Tune options.
     public var autoTuneOptions: ElasticsearchClientTypes.AutoTuneOptionsInput?
+    /// Specifies the automated snapshot pause options for the domain. Suspending snapshots reduces data protection. You cannot restore your domain to points in time when snapshots are suspended. Use this feature only for short-term operational needs such as migrations or maintenance windows. Maximum suspension duration: 3 days.
+    public var automatedSnapshotPauseOptions: ElasticsearchClientTypes.AutomatedSnapshotPauseRequestOptions?
     /// Options to specify the Cognito user and identity pools for Kibana authentication. For more information, see [Amazon Cognito Authentication for Kibana](http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-cognito-auth.html).
     public var cognitoOptions: ElasticsearchClientTypes.CognitoOptions?
     /// Specifies the deployment strategy options.
@@ -2076,6 +2102,7 @@ public struct CreateElasticsearchDomainInput: Swift.Sendable {
         advancedOptions: [Swift.String: Swift.String]? = nil,
         advancedSecurityOptions: ElasticsearchClientTypes.AdvancedSecurityOptionsInput? = nil,
         autoTuneOptions: ElasticsearchClientTypes.AutoTuneOptionsInput? = nil,
+        automatedSnapshotPauseOptions: ElasticsearchClientTypes.AutomatedSnapshotPauseRequestOptions? = nil,
         cognitoOptions: ElasticsearchClientTypes.CognitoOptions? = nil,
         deploymentStrategyOptions: ElasticsearchClientTypes.DeploymentStrategyOptions? = nil,
         domainEndpointOptions: ElasticsearchClientTypes.DomainEndpointOptions? = nil,
@@ -2094,6 +2121,7 @@ public struct CreateElasticsearchDomainInput: Swift.Sendable {
         self.advancedOptions = advancedOptions
         self.advancedSecurityOptions = advancedSecurityOptions
         self.autoTuneOptions = autoTuneOptions
+        self.automatedSnapshotPauseOptions = automatedSnapshotPauseOptions
         self.cognitoOptions = cognitoOptions
         self.deploymentStrategyOptions = deploymentStrategyOptions
         self.domainEndpointOptions = domainEndpointOptions
@@ -2107,6 +2135,69 @@ public struct CreateElasticsearchDomainInput: Swift.Sendable {
         self.snapshotOptions = snapshotOptions
         self.tagList = tagList
         self.vpcOptions = vpcOptions
+    }
+}
+
+extension ElasticsearchClientTypes {
+
+    public enum PauseState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case completed
+        case disabled
+        case scheduled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PauseState] {
+            return [
+                .active,
+                .completed,
+                .disabled,
+                .scheduled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "Active"
+            case .completed: return "Completed"
+            case .disabled: return "Disabled"
+            case .scheduled: return "Scheduled"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ElasticsearchClientTypes {
+
+    /// Specifies the automated snapshot pause options for the domain. These options allow you to temporarily pause automated snapshots for a specified time period.
+    public struct AutomatedSnapshotPauseOptions: Swift.Sendable {
+        /// Whether automated snapshot pause is enabled for the domain.
+        /// This member is required.
+        public var enabled: Swift.Bool?
+        /// The timestamp at which the automated snapshot pause ends.
+        public var endTime: Foundation.Date?
+        /// The timestamp at which the automated snapshot pause begins.
+        public var startTime: Foundation.Date?
+        /// The current state of the automated snapshot pause. Valid values are Active, Completed, Scheduled, and Disabled.
+        public var state: ElasticsearchClientTypes.PauseState?
+
+        public init(
+            enabled: Swift.Bool? = nil,
+            endTime: Foundation.Date? = nil,
+            startTime: Foundation.Date? = nil,
+            state: ElasticsearchClientTypes.PauseState? = nil
+        ) {
+            self.enabled = enabled
+            self.endTime = endTime
+            self.startTime = startTime
+            self.state = state
+        }
     }
 }
 
@@ -2437,6 +2528,8 @@ extension ElasticsearchClientTypes {
         public var arn: Swift.String?
         /// The current status of the Elasticsearch domain's Auto-Tune options.
         public var autoTuneOptions: ElasticsearchClientTypes.AutoTuneOptionsOutput?
+        /// The current status of the Elasticsearch domain's automated snapshot pause options.
+        public var automatedSnapshotPauseOptions: ElasticsearchClientTypes.AutomatedSnapshotPauseOptions?
         /// Specifies change details of the domain configuration change.
         public var changeProgressDetails: ElasticsearchClientTypes.ChangeProgressDetails?
         /// The CognitoOptions for the specified domain. For more information, see [Amazon Cognito Authentication for Kibana](http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-cognito-auth.html).
@@ -2492,6 +2585,7 @@ extension ElasticsearchClientTypes {
             advancedSecurityOptions: ElasticsearchClientTypes.AdvancedSecurityOptions? = nil,
             arn: Swift.String? = nil,
             autoTuneOptions: ElasticsearchClientTypes.AutoTuneOptionsOutput? = nil,
+            automatedSnapshotPauseOptions: ElasticsearchClientTypes.AutomatedSnapshotPauseOptions? = nil,
             changeProgressDetails: ElasticsearchClientTypes.ChangeProgressDetails? = nil,
             cognitoOptions: ElasticsearchClientTypes.CognitoOptions? = nil,
             created: Swift.Bool? = nil,
@@ -2521,6 +2615,7 @@ extension ElasticsearchClientTypes {
             self.advancedSecurityOptions = advancedSecurityOptions
             self.arn = arn
             self.autoTuneOptions = autoTuneOptions
+            self.automatedSnapshotPauseOptions = automatedSnapshotPauseOptions
             self.changeProgressDetails = changeProgressDetails
             self.cognitoOptions = cognitoOptions
             self.created = created
@@ -3528,6 +3623,27 @@ public struct DescribeElasticsearchDomainConfigInput: Swift.Sendable {
 
 extension ElasticsearchClientTypes {
 
+    /// The status of automated snapshot pause options for the specified Elasticsearch domain.
+    public struct AutomatedSnapshotPauseOptionsStatus: Swift.Sendable {
+        /// Automated snapshot pause options for the specified Elasticsearch domain.
+        /// This member is required.
+        public var options: ElasticsearchClientTypes.AutomatedSnapshotPauseOptions?
+        /// The current status of the automated snapshot pause options for the specified Elasticsearch domain.
+        /// This member is required.
+        public var status: ElasticsearchClientTypes.OptionStatus?
+
+        public init(
+            options: ElasticsearchClientTypes.AutomatedSnapshotPauseOptions? = nil,
+            status: ElasticsearchClientTypes.OptionStatus? = nil
+        ) {
+            self.options = options
+            self.status = status
+        }
+    }
+}
+
+extension ElasticsearchClientTypes {
+
     /// Specifies the rollback state while disabling Auto-Tune for the domain. Valid values are NO_ROLLBACK, DEFAULT_ROLLBACK.
     public enum RollbackOnDisable: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case defaultRollback
@@ -3877,6 +3993,8 @@ extension ElasticsearchClientTypes {
         public var advancedSecurityOptions: ElasticsearchClientTypes.AdvancedSecurityOptionsStatus?
         /// Specifies AutoTuneOptions for the domain.
         public var autoTuneOptions: ElasticsearchClientTypes.AutoTuneOptionsStatus?
+        /// Specifies AutomatedSnapshotPauseOptions for the domain.
+        public var automatedSnapshotPauseOptions: ElasticsearchClientTypes.AutomatedSnapshotPauseOptionsStatus?
         /// Specifies change details of the domain configuration change.
         public var changeProgressDetails: ElasticsearchClientTypes.ChangeProgressDetails?
         /// The CognitoOptions for the specified domain. For more information, see [Amazon Cognito Authentication for Kibana](http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-cognito-auth.html).
@@ -3909,6 +4027,7 @@ extension ElasticsearchClientTypes {
             advancedOptions: ElasticsearchClientTypes.AdvancedOptionsStatus? = nil,
             advancedSecurityOptions: ElasticsearchClientTypes.AdvancedSecurityOptionsStatus? = nil,
             autoTuneOptions: ElasticsearchClientTypes.AutoTuneOptionsStatus? = nil,
+            automatedSnapshotPauseOptions: ElasticsearchClientTypes.AutomatedSnapshotPauseOptionsStatus? = nil,
             changeProgressDetails: ElasticsearchClientTypes.ChangeProgressDetails? = nil,
             cognitoOptions: ElasticsearchClientTypes.CognitoOptionsStatus? = nil,
             deploymentStrategyOptions: ElasticsearchClientTypes.DeploymentStrategyOptionsStatus? = nil,
@@ -3927,6 +4046,7 @@ extension ElasticsearchClientTypes {
             self.advancedOptions = advancedOptions
             self.advancedSecurityOptions = advancedSecurityOptions
             self.autoTuneOptions = autoTuneOptions
+            self.automatedSnapshotPauseOptions = automatedSnapshotPauseOptions
             self.changeProgressDetails = changeProgressDetails
             self.cognitoOptions = cognitoOptions
             self.deploymentStrategyOptions = deploymentStrategyOptions
@@ -4170,9 +4290,9 @@ public struct InvalidPaginationTokenException: ClientRuntime.ModeledError, AWSCl
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -5539,6 +5659,8 @@ public struct UpdateElasticsearchDomainConfigInput: Swift.Sendable {
     public var advancedSecurityOptions: ElasticsearchClientTypes.AdvancedSecurityOptionsInput?
     /// Specifies Auto-Tune options.
     public var autoTuneOptions: ElasticsearchClientTypes.AutoTuneOptions?
+    /// Specifies the automated snapshot pause options for the domain. Suspending snapshots reduces data protection. You cannot restore your domain to points in time when snapshots are suspended. Use this feature only for short-term operational needs such as migrations or maintenance windows. Maximum suspension duration: 3 days.
+    public var automatedSnapshotPauseOptions: ElasticsearchClientTypes.AutomatedSnapshotPauseRequestOptions?
     /// Options to specify the Cognito user and identity pools for Kibana authentication. For more information, see [Amazon Cognito Authentication for Kibana](http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-cognito-auth.html).
     public var cognitoOptions: ElasticsearchClientTypes.CognitoOptions?
     /// Specifies the deployment strategy options.
@@ -5570,6 +5692,7 @@ public struct UpdateElasticsearchDomainConfigInput: Swift.Sendable {
         advancedOptions: [Swift.String: Swift.String]? = nil,
         advancedSecurityOptions: ElasticsearchClientTypes.AdvancedSecurityOptionsInput? = nil,
         autoTuneOptions: ElasticsearchClientTypes.AutoTuneOptions? = nil,
+        automatedSnapshotPauseOptions: ElasticsearchClientTypes.AutomatedSnapshotPauseRequestOptions? = nil,
         cognitoOptions: ElasticsearchClientTypes.CognitoOptions? = nil,
         deploymentStrategyOptions: ElasticsearchClientTypes.DeploymentStrategyOptions? = nil,
         domainEndpointOptions: ElasticsearchClientTypes.DomainEndpointOptions? = nil,
@@ -5587,6 +5710,7 @@ public struct UpdateElasticsearchDomainConfigInput: Swift.Sendable {
         self.advancedOptions = advancedOptions
         self.advancedSecurityOptions = advancedSecurityOptions
         self.autoTuneOptions = autoTuneOptions
+        self.automatedSnapshotPauseOptions = automatedSnapshotPauseOptions
         self.cognitoOptions = cognitoOptions
         self.deploymentStrategyOptions = deploymentStrategyOptions
         self.domainEndpointOptions = domainEndpointOptions
@@ -6491,6 +6615,7 @@ extension CreateElasticsearchDomainInput {
         try writer["AdvancedOptions"].writeMap(value.advancedOptions, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["AdvancedSecurityOptions"].write(value.advancedSecurityOptions, with: ElasticsearchClientTypes.AdvancedSecurityOptionsInput.write(value:to:))
         try writer["AutoTuneOptions"].write(value.autoTuneOptions, with: ElasticsearchClientTypes.AutoTuneOptionsInput.write(value:to:))
+        try writer["AutomatedSnapshotPauseOptions"].write(value.automatedSnapshotPauseOptions, with: ElasticsearchClientTypes.AutomatedSnapshotPauseRequestOptions.write(value:to:))
         try writer["CognitoOptions"].write(value.cognitoOptions, with: ElasticsearchClientTypes.CognitoOptions.write(value:to:))
         try writer["DeploymentStrategyOptions"].write(value.deploymentStrategyOptions, with: ElasticsearchClientTypes.DeploymentStrategyOptions.write(value:to:))
         try writer["DomainEndpointOptions"].write(value.domainEndpointOptions, with: ElasticsearchClientTypes.DomainEndpointOptions.write(value:to:))
@@ -6627,6 +6752,7 @@ extension UpdateElasticsearchDomainConfigInput {
         try writer["AdvancedOptions"].writeMap(value.advancedOptions, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["AdvancedSecurityOptions"].write(value.advancedSecurityOptions, with: ElasticsearchClientTypes.AdvancedSecurityOptionsInput.write(value:to:))
         try writer["AutoTuneOptions"].write(value.autoTuneOptions, with: ElasticsearchClientTypes.AutoTuneOptions.write(value:to:))
+        try writer["AutomatedSnapshotPauseOptions"].write(value.automatedSnapshotPauseOptions, with: ElasticsearchClientTypes.AutomatedSnapshotPauseRequestOptions.write(value:to:))
         try writer["CognitoOptions"].write(value.cognitoOptions, with: ElasticsearchClientTypes.CognitoOptions.write(value:to:))
         try writer["DeploymentStrategyOptions"].write(value.deploymentStrategyOptions, with: ElasticsearchClientTypes.DeploymentStrategyOptions.write(value:to:))
         try writer["DomainEndpointOptions"].write(value.domainEndpointOptions, with: ElasticsearchClientTypes.DomainEndpointOptions.write(value:to:))
@@ -8404,6 +8530,40 @@ extension ElasticsearchClientTypes.AuthorizedPrincipal {
     }
 }
 
+extension ElasticsearchClientTypes.AutomatedSnapshotPauseOptions {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ElasticsearchClientTypes.AutomatedSnapshotPauseOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticsearchClientTypes.AutomatedSnapshotPauseOptions()
+        value.enabled = try reader["Enabled"].readIfPresent() ?? false
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.state = try reader["State"].readIfPresent()
+        return value
+    }
+}
+
+extension ElasticsearchClientTypes.AutomatedSnapshotPauseOptionsStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ElasticsearchClientTypes.AutomatedSnapshotPauseOptionsStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticsearchClientTypes.AutomatedSnapshotPauseOptionsStatus()
+        value.options = try reader["Options"].readIfPresent(with: ElasticsearchClientTypes.AutomatedSnapshotPauseOptions.read(from:))
+        value.status = try reader["Status"].readIfPresent(with: ElasticsearchClientTypes.OptionStatus.read(from:))
+        return value
+    }
+}
+
+extension ElasticsearchClientTypes.AutomatedSnapshotPauseRequestOptions {
+
+    static func write(value: ElasticsearchClientTypes.AutomatedSnapshotPauseRequestOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Enabled"].write(value.enabled)
+        try writer["EndTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["StartTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+}
+
 extension ElasticsearchClientTypes.AutoTune {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ElasticsearchClientTypes.AutoTune {
@@ -8873,6 +9033,7 @@ extension ElasticsearchClientTypes.ElasticsearchDomainConfig {
         value.changeProgressDetails = try reader["ChangeProgressDetails"].readIfPresent(with: ElasticsearchClientTypes.ChangeProgressDetails.read(from:))
         value.modifyingProperties = try reader["ModifyingProperties"].readListIfPresent(memberReadingClosure: ElasticsearchClientTypes.ModifyingProperties.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.deploymentStrategyOptions = try reader["DeploymentStrategyOptions"].readIfPresent(with: ElasticsearchClientTypes.DeploymentStrategyOptionsStatus.read(from:))
+        value.automatedSnapshotPauseOptions = try reader["AutomatedSnapshotPauseOptions"].readIfPresent(with: ElasticsearchClientTypes.AutomatedSnapshotPauseOptionsStatus.read(from:))
         return value
     }
 }
@@ -8910,6 +9071,7 @@ extension ElasticsearchClientTypes.ElasticsearchDomainStatus {
         value.domainProcessingStatus = try reader["DomainProcessingStatus"].readIfPresent()
         value.modifyingProperties = try reader["ModifyingProperties"].readListIfPresent(memberReadingClosure: ElasticsearchClientTypes.ModifyingProperties.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.deploymentStrategyOptions = try reader["DeploymentStrategyOptions"].readIfPresent(with: ElasticsearchClientTypes.DeploymentStrategyOptions.read(from:))
+        value.automatedSnapshotPauseOptions = try reader["AutomatedSnapshotPauseOptions"].readIfPresent(with: ElasticsearchClientTypes.AutomatedSnapshotPauseOptions.read(from:))
         return value
     }
 }

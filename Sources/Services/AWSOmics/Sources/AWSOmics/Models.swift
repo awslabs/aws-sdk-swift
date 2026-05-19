@@ -110,9 +110,9 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -134,9 +134,9 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { true }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -158,9 +158,9 @@ public struct NotSupportedOperationException: ClientRuntime.ModeledError, AWSCli
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -182,9 +182,9 @@ public struct RequestTimeoutException: ClientRuntime.ModeledError, AWSClientRunt
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -206,9 +206,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -230,9 +230,9 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -254,9 +254,9 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { true }
     public static var isThrottling: Swift.Bool { true }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -278,9 +278,9 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -350,9 +350,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -2269,6 +2269,7 @@ extension OmicsClientTypes {
 
     public enum BatchStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cancelled
+        case creating
         case failed
         case inprogress
         case pending
@@ -2282,6 +2283,7 @@ extension OmicsClientTypes {
         public static var allCases: [BatchStatus] {
             return [
                 .cancelled,
+                .creating,
                 .failed,
                 .inprogress,
                 .pending,
@@ -2301,6 +2303,7 @@ extension OmicsClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .cancelled: return "CANCELLED"
+            case .creating: return "CREATING"
             case .failed: return "FAILED"
             case .inprogress: return "INPROGRESS"
             case .pending: return "PENDING"
@@ -4147,6 +4150,35 @@ extension OmicsClientTypes {
 
 extension OmicsClientTypes {
 
+    public enum NetworkingMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case restricted
+        case vpc
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NetworkingMode] {
+            return [
+                .restricted,
+                .vpc
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .restricted: return "RESTRICTED"
+            case .vpc: return "VPC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OmicsClientTypes {
+
     public enum RunRetentionMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case remove
         case retain
@@ -4211,10 +4243,14 @@ extension OmicsClientTypes {
         public var cacheBehavior: OmicsClientTypes.CacheBehavior?
         /// The identifier of the run cache to associate with the runs.
         public var cacheId: Swift.String?
+        /// Optional configuration name to use for the workflow run.
+        public var configurationName: Swift.String?
         /// The verbosity level for CloudWatch Logs emitted during each run.
         public var logLevel: OmicsClientTypes.RunLogLevel?
         /// An optional user-friendly name applied to each workflow run. Can be overridden per run.
         public var name: Swift.String?
+        /// Optional configuration for run networking behavior. If not specified, this will default to RESTRICTED.
+        public var networkingMode: OmicsClientTypes.NetworkingMode?
         /// The expected AWS account ID of the owner of the output S3 bucket. Can be overridden per run.
         public var outputBucketOwnerId: Swift.String?
         /// The destination S3 URI for workflow outputs. Must begin with s3://. The roleArn must grant write permissions to this bucket. Can be overridden per run.
@@ -4249,8 +4285,10 @@ extension OmicsClientTypes {
         public init(
             cacheBehavior: OmicsClientTypes.CacheBehavior? = nil,
             cacheId: Swift.String? = nil,
+            configurationName: Swift.String? = nil,
             logLevel: OmicsClientTypes.RunLogLevel? = nil,
             name: Swift.String? = nil,
+            networkingMode: OmicsClientTypes.NetworkingMode? = nil,
             outputBucketOwnerId: Swift.String? = nil,
             outputUri: Swift.String? = nil,
             parameters: Smithy.Document? = nil,
@@ -4268,8 +4306,10 @@ extension OmicsClientTypes {
         ) {
             self.cacheBehavior = cacheBehavior
             self.cacheId = cacheId
+            self.configurationName = configurationName
             self.logLevel = logLevel
             self.name = name
+            self.networkingMode = networkingMode
             self.outputBucketOwnerId = outputBucketOwnerId
             self.outputUri = outputUri
             self.parameters = parameters
@@ -5006,7 +5046,7 @@ public struct GetBatchOutput: Swift.Sendable {
     public var processedTime: Foundation.Date?
     /// A summary of run execution states. Run execution counts are eventually consistent and may lag behind actual run states. Final counts are accurate once the batch reaches PROCESSED status. See RunSummary.
     public var runSummary: OmicsClientTypes.RunSummary?
-    /// The current status of the run batch.
+    /// The current status of the run batch. Possible values: CREATING (initial setup), PENDING (ready to submit runs), SUBMITTING (submitting runs), INPROGRESS (runs executing), STOPPING (cancellation in progress), PROCESSED (all runs completed), CANCELLED (batch cancelled), FAILED (batch failed), RUNS_DELETING (deleting runs), RUNS_DELETED (runs deleted).
     public var status: OmicsClientTypes.BatchStatus?
     /// A summary of run submission outcomes. See SubmissionSummary.
     public var submissionSummary: OmicsClientTypes.SubmissionSummary?
@@ -5067,9 +5107,9 @@ public struct RangeNotSatisfiableException: ClientRuntime.ModeledError, AWSClien
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { true }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -6190,35 +6230,6 @@ extension OmicsClientTypes {
         ) {
             self.engineLogStream = engineLogStream
             self.runLogStream = runLogStream
-        }
-    }
-}
-
-extension OmicsClientTypes {
-
-    public enum NetworkingMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case restricted
-        case vpc
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [NetworkingMode] {
-            return [
-                .restricted,
-                .vpc
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .restricted: return "RESTRICTED"
-            case .vpc: return "VPC"
-            case let .sdkUnknown(s): return s
-            }
         }
     }
 }
@@ -9553,7 +9564,7 @@ public struct StartRunBatchOutput: Swift.Sendable {
     public var arn: Swift.String?
     /// The identifier portion of the run batch ARN.
     public var id: Swift.String?
-    /// The initial status of the run batch.
+    /// The initial status of the run batch. Returns CREATING while the batch is being initialized.
     public var status: OmicsClientTypes.BatchStatus?
     /// AWS tags associated with the run batch.
     public var tags: [Swift.String: Swift.String]?
@@ -16677,8 +16688,10 @@ extension OmicsClientTypes.DefaultRunSetting {
         guard let value else { return }
         try writer["cacheBehavior"].write(value.cacheBehavior)
         try writer["cacheId"].write(value.cacheId)
+        try writer["configurationName"].write(value.configurationName)
         try writer["logLevel"].write(value.logLevel)
         try writer["name"].write(value.name)
+        try writer["networkingMode"].write(value.networkingMode)
         try writer["outputBucketOwnerId"].write(value.outputBucketOwnerId)
         try writer["outputUri"].write(value.outputUri)
         try writer["parameters"].write(value.parameters)
@@ -16716,6 +16729,8 @@ extension OmicsClientTypes.DefaultRunSetting {
         value.workflowOwnerId = try reader["workflowOwnerId"].readIfPresent()
         value.outputBucketOwnerId = try reader["outputBucketOwnerId"].readIfPresent()
         value.workflowVersionName = try reader["workflowVersionName"].readIfPresent()
+        value.networkingMode = try reader["networkingMode"].readIfPresent()
+        value.configurationName = try reader["configurationName"].readIfPresent()
         return value
     }
 }

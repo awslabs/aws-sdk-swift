@@ -1594,6 +1594,7 @@ extension DescribeInstanceTypesInput: ClientRuntime.PaginateToken {
         return DescribeInstanceTypesInput(
             dryRun: self.dryRun,
             filters: self.filters,
+            includeUnsupportedInRegion: self.includeUnsupportedInRegion,
             instanceTypes: self.instanceTypes,
             maxResults: self.maxResults,
             nextToken: token
@@ -1639,6 +1640,39 @@ extension PaginatorSequence where OperationStackInput == DescribeInternetGateway
     /// - Returns: `[EC2ClientTypes.InternetGateway]`
     public func internetGateways() async throws -> [EC2ClientTypes.InternetGateway] {
         return try await self.asyncCompactMap { item in item.internetGateways }
+    }
+}
+extension EC2Client {
+    /// Paginate over `[DescribeIpamPoolAllocationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeIpamPoolAllocationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeIpamPoolAllocationsOutput`
+    public func describeIpamPoolAllocationsPaginated(input: DescribeIpamPoolAllocationsInput) -> ClientRuntime.PaginatorSequence<DescribeIpamPoolAllocationsInput, DescribeIpamPoolAllocationsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeIpamPoolAllocationsInput, DescribeIpamPoolAllocationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeIpamPoolAllocations(input:))
+    }
+}
+
+extension DescribeIpamPoolAllocationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeIpamPoolAllocationsInput {
+        return DescribeIpamPoolAllocationsInput(
+            dryRun: self.dryRun,
+            filters: self.filters,
+            ipamPoolAllocationIds: self.ipamPoolAllocationIds,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeIpamPoolAllocationsInput, OperationStackOutput == DescribeIpamPoolAllocationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeIpamPoolAllocationsPaginated`
+    /// to access the nested member `[EC2ClientTypes.IpamPoolAllocation]`
+    /// - Returns: `[EC2ClientTypes.IpamPoolAllocation]`
+    public func ipamPoolAllocations() async throws -> [EC2ClientTypes.IpamPoolAllocation] {
+        return try await self.asyncCompactMap { item in item.ipamPoolAllocations }
     }
 }
 extension EC2Client {

@@ -1,0 +1,8 @@
+{
+    "service": "com.amazonaws.lookoutequipment#AWSLookoutEquipmentFrontendService",
+    "module": "AWSLookoutEquipment",
+    "sdkId": "LookoutEquipment",
+    "internalClient": false,
+    "operations": [],
+    "modelPath": "codegen/sdk-codegen/aws-models/lookoutequipment.json"
+}

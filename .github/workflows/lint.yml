@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout sources
-        uses: actions/checkout@v2
+        uses: actions/checkout@v6
       - name: Lint smithy-aws-swift-codegen
         run: ./gradlew ktlint
 
@@ -27,7 +27,7 @@ jobs:
     runs-on: macos-26
     steps:
       - name: Checkout sources
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           path: aws-sdk-swift
       - name: Checkout smithy-swift with composite action

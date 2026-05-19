@@ -112,6 +112,420 @@ extension DatabaseMigrationClient {
         return try await waiter.waitUntil(options: options, input: input)
     }
 
+    static func extensionPackAssociatedWaiterConfig() throws -> SmithyWaitersAPI.WaiterConfiguration<DescribeExtensionPackAssociationsInput, DescribeExtensionPackAssociationsOutput> {
+        let acceptors: [SmithyWaitersAPI.WaiterConfiguration<DescribeExtensionPackAssociationsInput, DescribeExtensionPackAssociationsOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeExtensionPackAssociationsInput, result: Swift.Result<DescribeExtensionPackAssociationsOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "Requests[].Status"
+                // JMESPath comparator: "allStringEquals"
+                // JMESPath expected value: "SUCCESS"
+                guard case .success(let output) = result else { return false }
+                let requests = output.requests
+                let projection: [Swift.String]? = requests?.compactMap { original in
+                    let status = original.status
+                    return status
+                }
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "SUCCESS") } ?? false)
+            }),
+            .init(state: .failure, matcher: { (input: DescribeExtensionPackAssociationsInput, result: Swift.Result<DescribeExtensionPackAssociationsOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "Requests[].Status"
+                // JMESPath comparator: "anyStringEquals"
+                // JMESPath expected value: "FAILED"
+                guard case .success(let output) = result else { return false }
+                let requests = output.requests
+                let projection: [Swift.String]? = requests?.compactMap { original in
+                    let status = original.status
+                    return status
+                }
+                return projection?.contains(where: { SmithyWaitersAPI.JMESUtils.compare($0, ==, "FAILED") }) ?? false
+            }),
+        ]
+        return try SmithyWaitersAPI.WaiterConfiguration<DescribeExtensionPackAssociationsInput, DescribeExtensionPackAssociationsOutput>(acceptors: acceptors, minDelay: 10.0, maxDelay: 120.0)
+    }
+
+    /// Initiates waiting for the ExtensionPackAssociated event on the describeExtensionPackAssociations operation.
+    /// The operation will be tried and (if necessary) retried until the wait succeeds, fails, or times out.
+    /// Returns a `WaiterOutcome` asynchronously on waiter success, throws an error asynchronously on
+    /// waiter failure or timeout.
+    /// - Parameters:
+    ///   - options: `WaiterOptions` to be used to configure this wait.
+    ///   - input: The `DescribeExtensionPackAssociationsInput` object to be used as a parameter when performing the operation.
+    /// - Returns: A `WaiterOutcome` with the result of the final, successful performance of the operation.
+    /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
+    /// or there is an error not handled by any `Acceptor.`
+    /// `WaiterTimeoutError` if the waiter times out.
+    public func waitUntilExtensionPackAssociated(options: SmithyWaitersAPI.WaiterOptions, input: DescribeExtensionPackAssociationsInput) async throws -> SmithyWaitersAPI.WaiterOutcome<DescribeExtensionPackAssociationsOutput> {
+        let waiter = SmithyWaitersAPI.Waiter(config: try Self.extensionPackAssociatedWaiterConfig(), operation: self.describeExtensionPackAssociations(input:))
+        return try await waiter.waitUntil(options: options, input: input)
+    }
+
+    static func metadataModelAssessedWaiterConfig() throws -> SmithyWaitersAPI.WaiterConfiguration<DescribeMetadataModelAssessmentsInput, DescribeMetadataModelAssessmentsOutput> {
+        let acceptors: [SmithyWaitersAPI.WaiterConfiguration<DescribeMetadataModelAssessmentsInput, DescribeMetadataModelAssessmentsOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeMetadataModelAssessmentsInput, result: Swift.Result<DescribeMetadataModelAssessmentsOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "Requests[].Status"
+                // JMESPath comparator: "allStringEquals"
+                // JMESPath expected value: "SUCCESS"
+                guard case .success(let output) = result else { return false }
+                let requests = output.requests
+                let projection: [Swift.String]? = requests?.compactMap { original in
+                    let status = original.status
+                    return status
+                }
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "SUCCESS") } ?? false)
+            }),
+            .init(state: .failure, matcher: { (input: DescribeMetadataModelAssessmentsInput, result: Swift.Result<DescribeMetadataModelAssessmentsOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "Requests[].Status"
+                // JMESPath comparator: "anyStringEquals"
+                // JMESPath expected value: "FAILED"
+                guard case .success(let output) = result else { return false }
+                let requests = output.requests
+                let projection: [Swift.String]? = requests?.compactMap { original in
+                    let status = original.status
+                    return status
+                }
+                return projection?.contains(where: { SmithyWaitersAPI.JMESUtils.compare($0, ==, "FAILED") }) ?? false
+            }),
+        ]
+        return try SmithyWaitersAPI.WaiterConfiguration<DescribeMetadataModelAssessmentsInput, DescribeMetadataModelAssessmentsOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
+    }
+
+    /// Initiates waiting for the MetadataModelAssessed event on the describeMetadataModelAssessments operation.
+    /// The operation will be tried and (if necessary) retried until the wait succeeds, fails, or times out.
+    /// Returns a `WaiterOutcome` asynchronously on waiter success, throws an error asynchronously on
+    /// waiter failure or timeout.
+    /// - Parameters:
+    ///   - options: `WaiterOptions` to be used to configure this wait.
+    ///   - input: The `DescribeMetadataModelAssessmentsInput` object to be used as a parameter when performing the operation.
+    /// - Returns: A `WaiterOutcome` with the result of the final, successful performance of the operation.
+    /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
+    /// or there is an error not handled by any `Acceptor.`
+    /// `WaiterTimeoutError` if the waiter times out.
+    public func waitUntilMetadataModelAssessed(options: SmithyWaitersAPI.WaiterOptions, input: DescribeMetadataModelAssessmentsInput) async throws -> SmithyWaitersAPI.WaiterOutcome<DescribeMetadataModelAssessmentsOutput> {
+        let waiter = SmithyWaitersAPI.Waiter(config: try Self.metadataModelAssessedWaiterConfig(), operation: self.describeMetadataModelAssessments(input:))
+        return try await waiter.waitUntil(options: options, input: input)
+    }
+
+    static func metadataModelConversionCancelledWaiterConfig() throws -> SmithyWaitersAPI.WaiterConfiguration<DescribeMetadataModelConversionsInput, DescribeMetadataModelConversionsOutput> {
+        let acceptors: [SmithyWaitersAPI.WaiterConfiguration<DescribeMetadataModelConversionsInput, DescribeMetadataModelConversionsOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeMetadataModelConversionsInput, result: Swift.Result<DescribeMetadataModelConversionsOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "Requests[].Status"
+                // JMESPath comparator: "allStringEquals"
+                // JMESPath expected value: "CANCELED"
+                guard case .success(let output) = result else { return false }
+                let requests = output.requests
+                let projection: [Swift.String]? = requests?.compactMap { original in
+                    let status = original.status
+                    return status
+                }
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "CANCELED") } ?? false)
+            }),
+            .init(state: .failure, matcher: { (input: DescribeMetadataModelConversionsInput, result: Swift.Result<DescribeMetadataModelConversionsOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "Requests[].Status"
+                // JMESPath comparator: "anyStringEquals"
+                // JMESPath expected value: "FAILED"
+                guard case .success(let output) = result else { return false }
+                let requests = output.requests
+                let projection: [Swift.String]? = requests?.compactMap { original in
+                    let status = original.status
+                    return status
+                }
+                return projection?.contains(where: { SmithyWaitersAPI.JMESUtils.compare($0, ==, "FAILED") }) ?? false
+            }),
+        ]
+        return try SmithyWaitersAPI.WaiterConfiguration<DescribeMetadataModelConversionsInput, DescribeMetadataModelConversionsOutput>(acceptors: acceptors, minDelay: 10.0, maxDelay: 120.0)
+    }
+
+    /// Initiates waiting for the MetadataModelConversionCancelled event on the describeMetadataModelConversions operation.
+    /// The operation will be tried and (if necessary) retried until the wait succeeds, fails, or times out.
+    /// Returns a `WaiterOutcome` asynchronously on waiter success, throws an error asynchronously on
+    /// waiter failure or timeout.
+    /// - Parameters:
+    ///   - options: `WaiterOptions` to be used to configure this wait.
+    ///   - input: The `DescribeMetadataModelConversionsInput` object to be used as a parameter when performing the operation.
+    /// - Returns: A `WaiterOutcome` with the result of the final, successful performance of the operation.
+    /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
+    /// or there is an error not handled by any `Acceptor.`
+    /// `WaiterTimeoutError` if the waiter times out.
+    public func waitUntilMetadataModelConversionCancelled(options: SmithyWaitersAPI.WaiterOptions, input: DescribeMetadataModelConversionsInput) async throws -> SmithyWaitersAPI.WaiterOutcome<DescribeMetadataModelConversionsOutput> {
+        let waiter = SmithyWaitersAPI.Waiter(config: try Self.metadataModelConversionCancelledWaiterConfig(), operation: self.describeMetadataModelConversions(input:))
+        return try await waiter.waitUntil(options: options, input: input)
+    }
+
+    static func metadataModelConvertedWaiterConfig() throws -> SmithyWaitersAPI.WaiterConfiguration<DescribeMetadataModelConversionsInput, DescribeMetadataModelConversionsOutput> {
+        let acceptors: [SmithyWaitersAPI.WaiterConfiguration<DescribeMetadataModelConversionsInput, DescribeMetadataModelConversionsOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeMetadataModelConversionsInput, result: Swift.Result<DescribeMetadataModelConversionsOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "Requests[].Status"
+                // JMESPath comparator: "allStringEquals"
+                // JMESPath expected value: "SUCCESS"
+                guard case .success(let output) = result else { return false }
+                let requests = output.requests
+                let projection: [Swift.String]? = requests?.compactMap { original in
+                    let status = original.status
+                    return status
+                }
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "SUCCESS") } ?? false)
+            }),
+            .init(state: .failure, matcher: { (input: DescribeMetadataModelConversionsInput, result: Swift.Result<DescribeMetadataModelConversionsOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "Requests[].Status"
+                // JMESPath comparator: "anyStringEquals"
+                // JMESPath expected value: "FAILED"
+                guard case .success(let output) = result else { return false }
+                let requests = output.requests
+                let projection: [Swift.String]? = requests?.compactMap { original in
+                    let status = original.status
+                    return status
+                }
+                return projection?.contains(where: { SmithyWaitersAPI.JMESUtils.compare($0, ==, "FAILED") }) ?? false
+            }),
+        ]
+        return try SmithyWaitersAPI.WaiterConfiguration<DescribeMetadataModelConversionsInput, DescribeMetadataModelConversionsOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
+    }
+
+    /// Initiates waiting for the MetadataModelConverted event on the describeMetadataModelConversions operation.
+    /// The operation will be tried and (if necessary) retried until the wait succeeds, fails, or times out.
+    /// Returns a `WaiterOutcome` asynchronously on waiter success, throws an error asynchronously on
+    /// waiter failure or timeout.
+    /// - Parameters:
+    ///   - options: `WaiterOptions` to be used to configure this wait.
+    ///   - input: The `DescribeMetadataModelConversionsInput` object to be used as a parameter when performing the operation.
+    /// - Returns: A `WaiterOutcome` with the result of the final, successful performance of the operation.
+    /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
+    /// or there is an error not handled by any `Acceptor.`
+    /// `WaiterTimeoutError` if the waiter times out.
+    public func waitUntilMetadataModelConverted(options: SmithyWaitersAPI.WaiterOptions, input: DescribeMetadataModelConversionsInput) async throws -> SmithyWaitersAPI.WaiterOutcome<DescribeMetadataModelConversionsOutput> {
+        let waiter = SmithyWaitersAPI.Waiter(config: try Self.metadataModelConvertedWaiterConfig(), operation: self.describeMetadataModelConversions(input:))
+        return try await waiter.waitUntil(options: options, input: input)
+    }
+
+    static func metadataModelCreatedWaiterConfig() throws -> SmithyWaitersAPI.WaiterConfiguration<DescribeMetadataModelCreationsInput, DescribeMetadataModelCreationsOutput> {
+        let acceptors: [SmithyWaitersAPI.WaiterConfiguration<DescribeMetadataModelCreationsInput, DescribeMetadataModelCreationsOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeMetadataModelCreationsInput, result: Swift.Result<DescribeMetadataModelCreationsOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "Requests[].Status"
+                // JMESPath comparator: "allStringEquals"
+                // JMESPath expected value: "SUCCESS"
+                guard case .success(let output) = result else { return false }
+                let requests = output.requests
+                let projection: [Swift.String]? = requests?.compactMap { original in
+                    let status = original.status
+                    return status
+                }
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "SUCCESS") } ?? false)
+            }),
+            .init(state: .failure, matcher: { (input: DescribeMetadataModelCreationsInput, result: Swift.Result<DescribeMetadataModelCreationsOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "Requests[].Status"
+                // JMESPath comparator: "anyStringEquals"
+                // JMESPath expected value: "FAILED"
+                guard case .success(let output) = result else { return false }
+                let requests = output.requests
+                let projection: [Swift.String]? = requests?.compactMap { original in
+                    let status = original.status
+                    return status
+                }
+                return projection?.contains(where: { SmithyWaitersAPI.JMESUtils.compare($0, ==, "FAILED") }) ?? false
+            }),
+        ]
+        return try SmithyWaitersAPI.WaiterConfiguration<DescribeMetadataModelCreationsInput, DescribeMetadataModelCreationsOutput>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
+    }
+
+    /// Initiates waiting for the MetadataModelCreated event on the describeMetadataModelCreations operation.
+    /// The operation will be tried and (if necessary) retried until the wait succeeds, fails, or times out.
+    /// Returns a `WaiterOutcome` asynchronously on waiter success, throws an error asynchronously on
+    /// waiter failure or timeout.
+    /// - Parameters:
+    ///   - options: `WaiterOptions` to be used to configure this wait.
+    ///   - input: The `DescribeMetadataModelCreationsInput` object to be used as a parameter when performing the operation.
+    /// - Returns: A `WaiterOutcome` with the result of the final, successful performance of the operation.
+    /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
+    /// or there is an error not handled by any `Acceptor.`
+    /// `WaiterTimeoutError` if the waiter times out.
+    public func waitUntilMetadataModelCreated(options: SmithyWaitersAPI.WaiterOptions, input: DescribeMetadataModelCreationsInput) async throws -> SmithyWaitersAPI.WaiterOutcome<DescribeMetadataModelCreationsOutput> {
+        let waiter = SmithyWaitersAPI.Waiter(config: try Self.metadataModelCreatedWaiterConfig(), operation: self.describeMetadataModelCreations(input:))
+        return try await waiter.waitUntil(options: options, input: input)
+    }
+
+    static func metadataModelCreationCancelledWaiterConfig() throws -> SmithyWaitersAPI.WaiterConfiguration<DescribeMetadataModelCreationsInput, DescribeMetadataModelCreationsOutput> {
+        let acceptors: [SmithyWaitersAPI.WaiterConfiguration<DescribeMetadataModelCreationsInput, DescribeMetadataModelCreationsOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeMetadataModelCreationsInput, result: Swift.Result<DescribeMetadataModelCreationsOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "Requests[].Status"
+                // JMESPath comparator: "allStringEquals"
+                // JMESPath expected value: "CANCELED"
+                guard case .success(let output) = result else { return false }
+                let requests = output.requests
+                let projection: [Swift.String]? = requests?.compactMap { original in
+                    let status = original.status
+                    return status
+                }
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "CANCELED") } ?? false)
+            }),
+            .init(state: .failure, matcher: { (input: DescribeMetadataModelCreationsInput, result: Swift.Result<DescribeMetadataModelCreationsOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "Requests[].Status"
+                // JMESPath comparator: "anyStringEquals"
+                // JMESPath expected value: "FAILED"
+                guard case .success(let output) = result else { return false }
+                let requests = output.requests
+                let projection: [Swift.String]? = requests?.compactMap { original in
+                    let status = original.status
+                    return status
+                }
+                return projection?.contains(where: { SmithyWaitersAPI.JMESUtils.compare($0, ==, "FAILED") }) ?? false
+            }),
+        ]
+        return try SmithyWaitersAPI.WaiterConfiguration<DescribeMetadataModelCreationsInput, DescribeMetadataModelCreationsOutput>(acceptors: acceptors, minDelay: 10.0, maxDelay: 120.0)
+    }
+
+    /// Initiates waiting for the MetadataModelCreationCancelled event on the describeMetadataModelCreations operation.
+    /// The operation will be tried and (if necessary) retried until the wait succeeds, fails, or times out.
+    /// Returns a `WaiterOutcome` asynchronously on waiter success, throws an error asynchronously on
+    /// waiter failure or timeout.
+    /// - Parameters:
+    ///   - options: `WaiterOptions` to be used to configure this wait.
+    ///   - input: The `DescribeMetadataModelCreationsInput` object to be used as a parameter when performing the operation.
+    /// - Returns: A `WaiterOutcome` with the result of the final, successful performance of the operation.
+    /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
+    /// or there is an error not handled by any `Acceptor.`
+    /// `WaiterTimeoutError` if the waiter times out.
+    public func waitUntilMetadataModelCreationCancelled(options: SmithyWaitersAPI.WaiterOptions, input: DescribeMetadataModelCreationsInput) async throws -> SmithyWaitersAPI.WaiterOutcome<DescribeMetadataModelCreationsOutput> {
+        let waiter = SmithyWaitersAPI.Waiter(config: try Self.metadataModelCreationCancelledWaiterConfig(), operation: self.describeMetadataModelCreations(input:))
+        return try await waiter.waitUntil(options: options, input: input)
+    }
+
+    static func metadataModelExportedAsScriptWaiterConfig() throws -> SmithyWaitersAPI.WaiterConfiguration<DescribeMetadataModelExportsAsScriptInput, DescribeMetadataModelExportsAsScriptOutput> {
+        let acceptors: [SmithyWaitersAPI.WaiterConfiguration<DescribeMetadataModelExportsAsScriptInput, DescribeMetadataModelExportsAsScriptOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeMetadataModelExportsAsScriptInput, result: Swift.Result<DescribeMetadataModelExportsAsScriptOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "Requests[].Status"
+                // JMESPath comparator: "allStringEquals"
+                // JMESPath expected value: "SUCCESS"
+                guard case .success(let output) = result else { return false }
+                let requests = output.requests
+                let projection: [Swift.String]? = requests?.compactMap { original in
+                    let status = original.status
+                    return status
+                }
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "SUCCESS") } ?? false)
+            }),
+            .init(state: .failure, matcher: { (input: DescribeMetadataModelExportsAsScriptInput, result: Swift.Result<DescribeMetadataModelExportsAsScriptOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "Requests[].Status"
+                // JMESPath comparator: "anyStringEquals"
+                // JMESPath expected value: "FAILED"
+                guard case .success(let output) = result else { return false }
+                let requests = output.requests
+                let projection: [Swift.String]? = requests?.compactMap { original in
+                    let status = original.status
+                    return status
+                }
+                return projection?.contains(where: { SmithyWaitersAPI.JMESUtils.compare($0, ==, "FAILED") }) ?? false
+            }),
+        ]
+        return try SmithyWaitersAPI.WaiterConfiguration<DescribeMetadataModelExportsAsScriptInput, DescribeMetadataModelExportsAsScriptOutput>(acceptors: acceptors, minDelay: 20.0, maxDelay: 120.0)
+    }
+
+    /// Initiates waiting for the MetadataModelExportedAsScript event on the describeMetadataModelExportsAsScript operation.
+    /// The operation will be tried and (if necessary) retried until the wait succeeds, fails, or times out.
+    /// Returns a `WaiterOutcome` asynchronously on waiter success, throws an error asynchronously on
+    /// waiter failure or timeout.
+    /// - Parameters:
+    ///   - options: `WaiterOptions` to be used to configure this wait.
+    ///   - input: The `DescribeMetadataModelExportsAsScriptInput` object to be used as a parameter when performing the operation.
+    /// - Returns: A `WaiterOutcome` with the result of the final, successful performance of the operation.
+    /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
+    /// or there is an error not handled by any `Acceptor.`
+    /// `WaiterTimeoutError` if the waiter times out.
+    public func waitUntilMetadataModelExportedAsScript(options: SmithyWaitersAPI.WaiterOptions, input: DescribeMetadataModelExportsAsScriptInput) async throws -> SmithyWaitersAPI.WaiterOutcome<DescribeMetadataModelExportsAsScriptOutput> {
+        let waiter = SmithyWaitersAPI.Waiter(config: try Self.metadataModelExportedAsScriptWaiterConfig(), operation: self.describeMetadataModelExportsAsScript(input:))
+        return try await waiter.waitUntil(options: options, input: input)
+    }
+
+    static func metadataModelExportedToTargetWaiterConfig() throws -> SmithyWaitersAPI.WaiterConfiguration<DescribeMetadataModelExportsToTargetInput, DescribeMetadataModelExportsToTargetOutput> {
+        let acceptors: [SmithyWaitersAPI.WaiterConfiguration<DescribeMetadataModelExportsToTargetInput, DescribeMetadataModelExportsToTargetOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeMetadataModelExportsToTargetInput, result: Swift.Result<DescribeMetadataModelExportsToTargetOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "Requests[].Status"
+                // JMESPath comparator: "allStringEquals"
+                // JMESPath expected value: "SUCCESS"
+                guard case .success(let output) = result else { return false }
+                let requests = output.requests
+                let projection: [Swift.String]? = requests?.compactMap { original in
+                    let status = original.status
+                    return status
+                }
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "SUCCESS") } ?? false)
+            }),
+            .init(state: .failure, matcher: { (input: DescribeMetadataModelExportsToTargetInput, result: Swift.Result<DescribeMetadataModelExportsToTargetOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "Requests[].Status"
+                // JMESPath comparator: "anyStringEquals"
+                // JMESPath expected value: "FAILED"
+                guard case .success(let output) = result else { return false }
+                let requests = output.requests
+                let projection: [Swift.String]? = requests?.compactMap { original in
+                    let status = original.status
+                    return status
+                }
+                return projection?.contains(where: { SmithyWaitersAPI.JMESUtils.compare($0, ==, "FAILED") }) ?? false
+            }),
+        ]
+        return try SmithyWaitersAPI.WaiterConfiguration<DescribeMetadataModelExportsToTargetInput, DescribeMetadataModelExportsToTargetOutput>(acceptors: acceptors, minDelay: 20.0, maxDelay: 120.0)
+    }
+
+    /// Initiates waiting for the MetadataModelExportedToTarget event on the describeMetadataModelExportsToTarget operation.
+    /// The operation will be tried and (if necessary) retried until the wait succeeds, fails, or times out.
+    /// Returns a `WaiterOutcome` asynchronously on waiter success, throws an error asynchronously on
+    /// waiter failure or timeout.
+    /// - Parameters:
+    ///   - options: `WaiterOptions` to be used to configure this wait.
+    ///   - input: The `DescribeMetadataModelExportsToTargetInput` object to be used as a parameter when performing the operation.
+    /// - Returns: A `WaiterOutcome` with the result of the final, successful performance of the operation.
+    /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
+    /// or there is an error not handled by any `Acceptor.`
+    /// `WaiterTimeoutError` if the waiter times out.
+    public func waitUntilMetadataModelExportedToTarget(options: SmithyWaitersAPI.WaiterOptions, input: DescribeMetadataModelExportsToTargetInput) async throws -> SmithyWaitersAPI.WaiterOutcome<DescribeMetadataModelExportsToTargetOutput> {
+        let waiter = SmithyWaitersAPI.Waiter(config: try Self.metadataModelExportedToTargetWaiterConfig(), operation: self.describeMetadataModelExportsToTarget(input:))
+        return try await waiter.waitUntil(options: options, input: input)
+    }
+
+    static func metadataModelImportedWaiterConfig() throws -> SmithyWaitersAPI.WaiterConfiguration<DescribeMetadataModelImportsInput, DescribeMetadataModelImportsOutput> {
+        let acceptors: [SmithyWaitersAPI.WaiterConfiguration<DescribeMetadataModelImportsInput, DescribeMetadataModelImportsOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeMetadataModelImportsInput, result: Swift.Result<DescribeMetadataModelImportsOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "Requests[].Status"
+                // JMESPath comparator: "allStringEquals"
+                // JMESPath expected value: "SUCCESS"
+                guard case .success(let output) = result else { return false }
+                let requests = output.requests
+                let projection: [Swift.String]? = requests?.compactMap { original in
+                    let status = original.status
+                    return status
+                }
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "SUCCESS") } ?? false)
+            }),
+            .init(state: .failure, matcher: { (input: DescribeMetadataModelImportsInput, result: Swift.Result<DescribeMetadataModelImportsOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "Requests[].Status"
+                // JMESPath comparator: "anyStringEquals"
+                // JMESPath expected value: "FAILED"
+                guard case .success(let output) = result else { return false }
+                let requests = output.requests
+                let projection: [Swift.String]? = requests?.compactMap { original in
+                    let status = original.status
+                    return status
+                }
+                return projection?.contains(where: { SmithyWaitersAPI.JMESUtils.compare($0, ==, "FAILED") }) ?? false
+            }),
+        ]
+        return try SmithyWaitersAPI.WaiterConfiguration<DescribeMetadataModelImportsInput, DescribeMetadataModelImportsOutput>(acceptors: acceptors, minDelay: 60.0, maxDelay: 120.0)
+    }
+
+    /// Initiates waiting for the MetadataModelImported event on the describeMetadataModelImports operation.
+    /// The operation will be tried and (if necessary) retried until the wait succeeds, fails, or times out.
+    /// Returns a `WaiterOutcome` asynchronously on waiter success, throws an error asynchronously on
+    /// waiter failure or timeout.
+    /// - Parameters:
+    ///   - options: `WaiterOptions` to be used to configure this wait.
+    ///   - input: The `DescribeMetadataModelImportsInput` object to be used as a parameter when performing the operation.
+    /// - Returns: A `WaiterOutcome` with the result of the final, successful performance of the operation.
+    /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
+    /// or there is an error not handled by any `Acceptor.`
+    /// `WaiterTimeoutError` if the waiter times out.
+    public func waitUntilMetadataModelImported(options: SmithyWaitersAPI.WaiterOptions, input: DescribeMetadataModelImportsInput) async throws -> SmithyWaitersAPI.WaiterOutcome<DescribeMetadataModelImportsOutput> {
+        let waiter = SmithyWaitersAPI.Waiter(config: try Self.metadataModelImportedWaiterConfig(), operation: self.describeMetadataModelImports(input:))
+        return try await waiter.waitUntil(options: options, input: input)
+    }
+
     static func replicationInstanceAvailableWaiterConfig() throws -> SmithyWaitersAPI.WaiterConfiguration<DescribeReplicationInstancesInput, DescribeReplicationInstancesOutput> {
         let acceptors: [SmithyWaitersAPI.WaiterConfiguration<DescribeReplicationInstancesInput, DescribeReplicationInstancesOutput>.Acceptor] = [
             .init(state: .success, matcher: { (input: DescribeReplicationInstancesInput, result: Swift.Result<DescribeReplicationInstancesOutput, Swift.Error>) -> Bool in

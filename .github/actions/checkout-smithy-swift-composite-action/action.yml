@@ -28,7 +28,7 @@ runs:
       shell: bash
     - name: Checkout staging smithy-swift
       if: ${{ github.repository != 'awslabs/aws-sdk-swift' }}
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
       with:
         repository: ${{ inputs.STAGING_PARTNER_REPO }}
         ref: ${{ env.DEPENDENCY_REPO_SHA }}
@@ -44,7 +44,7 @@ runs:
       shell: bash
     - name: Checkout smithy-swift
       if: ${{ github.repository == 'awslabs/aws-sdk-swift' }}
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
       with:
         repository: smithy-lang/smithy-swift
         ref: ${{ env.DEPENDENCY_REPO_SHA }}

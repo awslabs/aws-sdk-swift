@@ -168,9 +168,9 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -232,9 +232,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -260,9 +260,9 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { true }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -288,9 +288,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -316,9 +316,9 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -344,9 +344,9 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { true }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -372,9 +372,9 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -1030,19 +1030,53 @@ extension ConnectCampaignsV2ClientTypes {
 
 extension ConnectCampaignsV2ClientTypes {
 
+    /// Local TimeZone Detection scope.
+    public enum LocalTimeZoneDetectionScope: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case allAvailable
+        case primaryOnly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LocalTimeZoneDetectionScope] {
+            return [
+                .allAvailable,
+                .primaryOnly
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .allAvailable: return "ALL_AVAILABLE"
+            case .primaryOnly: return "PRIMARY_ONLY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes {
+
     /// Local time zone config
     public struct LocalTimeZoneConfig: Swift.Sendable {
         /// Time Zone Id in the IANA format
         public var defaultTimeZone: Swift.String?
         /// Local TimeZone Detection method list
         public var localTimeZoneDetection: [ConnectCampaignsV2ClientTypes.LocalTimeZoneDetectionType]?
+        /// Local TimeZone Detection scope.
+        public var localTimeZoneDetectionScope: ConnectCampaignsV2ClientTypes.LocalTimeZoneDetectionScope?
 
         public init(
             defaultTimeZone: Swift.String? = nil,
-            localTimeZoneDetection: [ConnectCampaignsV2ClientTypes.LocalTimeZoneDetectionType]? = nil
+            localTimeZoneDetection: [ConnectCampaignsV2ClientTypes.LocalTimeZoneDetectionType]? = nil,
+            localTimeZoneDetectionScope: ConnectCampaignsV2ClientTypes.LocalTimeZoneDetectionScope? = nil
         ) {
             self.defaultTimeZone = defaultTimeZone
             self.localTimeZoneDetection = localTimeZoneDetection
+            self.localTimeZoneDetectionScope = localTimeZoneDetectionScope
         }
     }
 }
@@ -1389,9 +1423,9 @@ public struct InvalidCampaignStateException: ClientRuntime.ModeledError, AWSClie
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -1531,9 +1565,9 @@ public struct InvalidStateException: ClientRuntime.ModeledError, AWSClientRuntim
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -5587,6 +5621,7 @@ extension ConnectCampaignsV2ClientTypes.LocalTimeZoneConfig {
         guard let value else { return }
         try writer["defaultTimeZone"].write(value.defaultTimeZone)
         try writer["localTimeZoneDetection"].writeList(value.localTimeZoneDetection, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ConnectCampaignsV2ClientTypes.LocalTimeZoneDetectionType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["localTimeZoneDetectionScope"].write(value.localTimeZoneDetectionScope)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.LocalTimeZoneConfig {
@@ -5594,6 +5629,7 @@ extension ConnectCampaignsV2ClientTypes.LocalTimeZoneConfig {
         var value = ConnectCampaignsV2ClientTypes.LocalTimeZoneConfig()
         value.defaultTimeZone = try reader["defaultTimeZone"].readIfPresent()
         value.localTimeZoneDetection = try reader["localTimeZoneDetection"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ConnectCampaignsV2ClientTypes.LocalTimeZoneDetectionType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.localTimeZoneDetectionScope = try reader["localTimeZoneDetectionScope"].readIfPresent()
         return value
     }
 }

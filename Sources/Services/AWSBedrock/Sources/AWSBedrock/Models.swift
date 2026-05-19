@@ -46,9 +46,9 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -273,6 +273,675 @@ extension BedrockClientTypes {
 
 extension BedrockClientTypes {
 
+    /// Input data configuration for the advanced prompt optimization job.
+    public struct AdvancedPromptOptimizationInputConfig: Swift.Sendable {
+        /// S3 URI of the input JSONL file.
+        /// This member is required.
+        public var s3Uri: Swift.String?
+
+        public init(
+            s3Uri: Swift.String? = nil
+        ) {
+            self.s3Uri = s3Uri
+        }
+    }
+}
+
+/// An internal server error occurred. Retry your request.
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InternalServerException" }
+    public static var fault: ClientRuntime.ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The number of requests exceeds the limit. Resubmit your request later.
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ThrottlingException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// Input validation failed. Check your request parameters and retry the request.
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ValidationException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// Batch Delete Advanced Prompt Optimization Jobs Request
+public struct BatchDeleteAdvancedPromptOptimizationJobInput: Swift.Sendable {
+    /// List of advanced prompt optimization job identifiers to delete.
+    /// This member is required.
+    public var jobIdentifiers: [Swift.String]?
+
+    public init(
+        jobIdentifiers: [Swift.String]? = nil
+    ) {
+        self.jobIdentifiers = jobIdentifiers
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Status of the advanced prompt optimization job.
+    public enum AdvancedPromptOptimizationJobStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case completed
+        case deleting
+        case failed
+        case inProgress
+        case partiallyCompleted
+        case stopped
+        case stopping
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AdvancedPromptOptimizationJobStatus] {
+            return [
+                .completed,
+                .deleting,
+                .failed,
+                .inProgress,
+                .partiallyCompleted,
+                .stopped,
+                .stopping
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "Completed"
+            case .deleting: return "Deleting"
+            case .failed: return "Failed"
+            case .inProgress: return "InProgress"
+            case .partiallyCompleted: return "PartiallyCompleted"
+            case .stopped: return "Stopped"
+            case .stopping: return "Stopping"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Successfully deleted advanced prompt optimization job.
+    public struct BatchDeleteAdvancedPromptOptimizationJobItem: Swift.Sendable {
+        /// Identifier of the deleted job.
+        /// This member is required.
+        public var jobIdentifier: Swift.String?
+        /// Status of the deleted job.
+        /// This member is required.
+        public var jobStatus: BedrockClientTypes.AdvancedPromptOptimizationJobStatus?
+
+        public init(
+            jobIdentifier: Swift.String? = nil,
+            jobStatus: BedrockClientTypes.AdvancedPromptOptimizationJobStatus? = nil
+        ) {
+            self.jobIdentifier = jobIdentifier
+            self.jobStatus = jobStatus
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Batch deletion error for an advanced prompt optimization job.
+    public struct BatchDeleteAdvancedPromptOptimizationJobError: Swift.Sendable {
+        /// Error code for the deletion failure.
+        /// This member is required.
+        public var code: Swift.String?
+        /// Identifier of the job that failed to delete.
+        /// This member is required.
+        public var jobIdentifier: Swift.String?
+        /// Error message describing the deletion failure.
+        public var message: Swift.String?
+
+        public init(
+            code: Swift.String? = nil,
+            jobIdentifier: Swift.String? = nil,
+            message: Swift.String? = nil
+        ) {
+            self.code = code
+            self.jobIdentifier = jobIdentifier
+            self.message = message
+        }
+    }
+}
+
+/// Batch Delete Advanced Prompt Optimization Jobs Response
+public struct BatchDeleteAdvancedPromptOptimizationJobOutput: Swift.Sendable {
+    /// List of successfully deleted advanced prompt optimization jobs.
+    /// This member is required.
+    public var advancedPromptOptimizationJobs: [BedrockClientTypes.BatchDeleteAdvancedPromptOptimizationJobItem]?
+    /// List of errors encountered during batch deletion.
+    /// This member is required.
+    public var errors: [BedrockClientTypes.BatchDeleteAdvancedPromptOptimizationJobError]?
+
+    public init(
+        advancedPromptOptimizationJobs: [BedrockClientTypes.BatchDeleteAdvancedPromptOptimizationJobItem]? = nil,
+        errors: [BedrockClientTypes.BatchDeleteAdvancedPromptOptimizationJobError]? = nil
+    ) {
+        self.advancedPromptOptimizationJobs = advancedPromptOptimizationJobs
+        self.errors = errors
+    }
+}
+
+/// Error occurred because of a conflict while performing an operation.
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The number of requests exceeds the service quota. Resubmit your request later.
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The request contains more tags than can be associated with a resource (50 tags per resource). The maximum number of tags includes both existing tags and those included in your current request.
+public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+        /// The name of the resource with too many tags.
+        public internal(set) var resourceName: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TooManyTagsException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        resourceName: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.resourceName = resourceName
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Inference configuration for a model.
+    public struct InferenceConfiguration: Swift.Sendable {
+        /// The maximum number of tokens to generate.
+        public var maxTokens: Swift.Int?
+        /// Stop sequences that end generation.
+        public var stopSequences: [Swift.String]?
+        /// The temperature for sampling.
+        public var temperature: Swift.Float?
+        /// The top-p value for nucleus sampling.
+        public var topp: Swift.Float?
+
+        public init(
+            maxTokens: Swift.Int? = nil,
+            stopSequences: [Swift.String]? = nil,
+            temperature: Swift.Float? = nil,
+            topp: Swift.Float? = nil
+        ) {
+            self.maxTokens = maxTokens
+            self.stopSequences = stopSequences
+            self.temperature = temperature
+            self.topp = topp
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Configuration for a model used in advanced prompt optimization.
+    public struct ModelConfiguration: Swift.Sendable {
+        /// Additional model request fields.
+        public var additionalModelRequestFields: [Swift.String: Smithy.Document]?
+        /// Inference configuration for the model.
+        public var inferenceConfig: BedrockClientTypes.InferenceConfiguration?
+        /// The model ID.
+        /// This member is required.
+        public var modelId: Swift.String?
+
+        public init(
+            additionalModelRequestFields: [Swift.String: Smithy.Document]? = nil,
+            inferenceConfig: BedrockClientTypes.InferenceConfiguration? = nil,
+            modelId: Swift.String? = nil
+        ) {
+            self.additionalModelRequestFields = additionalModelRequestFields
+            self.inferenceConfig = inferenceConfig
+            self.modelId = modelId
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Output data configuration for the advanced prompt optimization job.
+    public struct AdvancedPromptOptimizationOutputConfig: Swift.Sendable {
+        /// S3 URI prefix for the output location.
+        /// This member is required.
+        public var s3Uri: Swift.String?
+
+        public init(
+            s3Uri: Swift.String? = nil
+        ) {
+            self.s3Uri = s3Uri
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Definition of the key/value pair for a tag.
+    public struct Tag: Swift.Sendable {
+        /// Key for the tag.
+        /// This member is required.
+        public var key: Swift.String?
+        /// Value for the tag.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.key = key
+            self.value = value
+        }
+    }
+}
+
+/// Create Advanced Prompt Optimization Job Request
+public struct CreateAdvancedPromptOptimizationJobInput: Swift.Sendable {
+    /// Idempotency token for the request.
+    public var clientToken: Swift.String?
+    /// KMS key ARN for encrypting output data.
+    public var encryptionKeyArn: Swift.String?
+    /// Input data configuration for the advanced prompt optimization job.
+    /// This member is required.
+    public var inputConfig: BedrockClientTypes.AdvancedPromptOptimizationInputConfig?
+    /// Description of the advanced prompt optimization job.
+    public var jobDescription: Swift.String?
+    /// Name of the advanced prompt optimization job.
+    /// This member is required.
+    public var jobName: Swift.String?
+    /// Model configurations for advanced prompt optimization.
+    /// This member is required.
+    public var modelConfigurations: [BedrockClientTypes.ModelConfiguration]?
+    /// Output data configuration for the advanced prompt optimization job.
+    /// This member is required.
+    public var outputConfig: BedrockClientTypes.AdvancedPromptOptimizationOutputConfig?
+    /// Tags to associate with the job.
+    public var tags: [BedrockClientTypes.Tag]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        encryptionKeyArn: Swift.String? = nil,
+        inputConfig: BedrockClientTypes.AdvancedPromptOptimizationInputConfig? = nil,
+        jobDescription: Swift.String? = nil,
+        jobName: Swift.String? = nil,
+        modelConfigurations: [BedrockClientTypes.ModelConfiguration]? = nil,
+        outputConfig: BedrockClientTypes.AdvancedPromptOptimizationOutputConfig? = nil,
+        tags: [BedrockClientTypes.Tag]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.encryptionKeyArn = encryptionKeyArn
+        self.inputConfig = inputConfig
+        self.jobDescription = jobDescription
+        self.jobName = jobName
+        self.modelConfigurations = modelConfigurations
+        self.outputConfig = outputConfig
+        self.tags = tags
+    }
+}
+
+/// Create Advanced Prompt Optimization Job Response
+public struct CreateAdvancedPromptOptimizationJobOutput: Swift.Sendable {
+    /// ARN of the created advanced prompt optimization job.
+    /// This member is required.
+    public var jobArn: Swift.String?
+
+    public init(
+        jobArn: Swift.String? = nil
+    ) {
+        self.jobArn = jobArn
+    }
+}
+
+/// Get Advanced Prompt Optimization Job Request
+public struct GetAdvancedPromptOptimizationJobInput: Swift.Sendable {
+    /// ARN or ID of the advanced prompt optimization job.
+    /// This member is required.
+    public var jobIdentifier: Swift.String?
+
+    public init(
+        jobIdentifier: Swift.String? = nil
+    ) {
+        self.jobIdentifier = jobIdentifier
+    }
+}
+
+/// Get Advanced Prompt Optimization Job Response
+public struct GetAdvancedPromptOptimizationJobOutput: Swift.Sendable {
+    /// Creation time of the advanced prompt optimization job.
+    /// This member is required.
+    public var creationTime: Foundation.Date?
+    /// KMS key ARN used for encrypting output data.
+    public var encryptionKeyArn: Swift.String?
+    /// Failure message if the advanced prompt optimization job failed.
+    public var failureMessage: Swift.String?
+    /// Input data configuration for the advanced prompt optimization job.
+    /// This member is required.
+    public var inputConfig: BedrockClientTypes.AdvancedPromptOptimizationInputConfig?
+    /// ARN of the advanced prompt optimization job.
+    /// This member is required.
+    public var jobArn: Swift.String?
+    /// Description of the advanced prompt optimization job.
+    public var jobDescription: Swift.String?
+    /// Name of the advanced prompt optimization job.
+    /// This member is required.
+    public var jobName: Swift.String?
+    /// Status of the advanced prompt optimization job.
+    /// This member is required.
+    public var jobStatus: BedrockClientTypes.AdvancedPromptOptimizationJobStatus?
+    /// Last modified time of the advanced prompt optimization job.
+    public var lastModifiedTime: Foundation.Date?
+    /// Model configurations for advanced prompt optimization.
+    /// This member is required.
+    public var modelConfigurations: [BedrockClientTypes.ModelConfiguration]?
+    /// Output data configuration for the advanced prompt optimization job.
+    /// This member is required.
+    public var outputConfig: BedrockClientTypes.AdvancedPromptOptimizationOutputConfig?
+
+    public init(
+        creationTime: Foundation.Date? = nil,
+        encryptionKeyArn: Swift.String? = nil,
+        failureMessage: Swift.String? = nil,
+        inputConfig: BedrockClientTypes.AdvancedPromptOptimizationInputConfig? = nil,
+        jobArn: Swift.String? = nil,
+        jobDescription: Swift.String? = nil,
+        jobName: Swift.String? = nil,
+        jobStatus: BedrockClientTypes.AdvancedPromptOptimizationJobStatus? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
+        modelConfigurations: [BedrockClientTypes.ModelConfiguration]? = nil,
+        outputConfig: BedrockClientTypes.AdvancedPromptOptimizationOutputConfig? = nil
+    ) {
+        self.creationTime = creationTime
+        self.encryptionKeyArn = encryptionKeyArn
+        self.failureMessage = failureMessage
+        self.inputConfig = inputConfig
+        self.jobArn = jobArn
+        self.jobDescription = jobDescription
+        self.jobName = jobName
+        self.jobStatus = jobStatus
+        self.lastModifiedTime = lastModifiedTime
+        self.modelConfigurations = modelConfigurations
+        self.outputConfig = outputConfig
+    }
+}
+
+extension BedrockClientTypes {
+
+    public enum SortJobsBy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case creationTime
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SortJobsBy] {
+            return [
+                .creationTime
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .creationTime: return "CreationTime"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    public enum SortOrder: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ascending
+        case descending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SortOrder] {
+            return [
+                .ascending,
+                .descending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ascending: return "Ascending"
+            case .descending: return "Descending"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// List Advanced Prompt Optimization Jobs Request
+public struct ListAdvancedPromptOptimizationJobsInput: Swift.Sendable {
+    /// Maximum number of results to return.
+    public var maxResults: Swift.Int?
+    /// Pagination token for the next page of results.
+    public var nextToken: Swift.String?
+    /// Field to sort by in the returned list of jobs.
+    public var sortBy: BedrockClientTypes.SortJobsBy?
+    /// Sort order for the results.
+    public var sortOrder: BedrockClientTypes.SortOrder?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        sortBy: BedrockClientTypes.SortJobsBy? = nil,
+        sortOrder: BedrockClientTypes.SortOrder? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.sortBy = sortBy
+        self.sortOrder = sortOrder
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Summary of an advanced prompt optimization job.
+    public struct AdvancedPromptOptimizationJobSummary: Swift.Sendable {
+        /// Creation time of the advanced prompt optimization job.
+        /// This member is required.
+        public var creationTime: Foundation.Date?
+        /// ARN of the advanced prompt optimization job.
+        /// This member is required.
+        public var jobArn: Swift.String?
+        /// Name of the advanced prompt optimization job.
+        /// This member is required.
+        public var jobName: Swift.String?
+        /// Status of the advanced prompt optimization job.
+        /// This member is required.
+        public var jobStatus: BedrockClientTypes.AdvancedPromptOptimizationJobStatus?
+        /// Last modified time of the advanced prompt optimization job.
+        public var lastModifiedTime: Foundation.Date?
+
+        public init(
+            creationTime: Foundation.Date? = nil,
+            jobArn: Swift.String? = nil,
+            jobName: Swift.String? = nil,
+            jobStatus: BedrockClientTypes.AdvancedPromptOptimizationJobStatus? = nil,
+            lastModifiedTime: Foundation.Date? = nil
+        ) {
+            self.creationTime = creationTime
+            self.jobArn = jobArn
+            self.jobName = jobName
+            self.jobStatus = jobStatus
+            self.lastModifiedTime = lastModifiedTime
+        }
+    }
+}
+
+/// List Advanced Prompt Optimization Jobs Response
+public struct ListAdvancedPromptOptimizationJobsOutput: Swift.Sendable {
+    /// List of advanced prompt optimization job summaries.
+    public var jobSummaries: [BedrockClientTypes.AdvancedPromptOptimizationJobSummary]?
+    /// Pagination token for the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        jobSummaries: [BedrockClientTypes.AdvancedPromptOptimizationJobSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.jobSummaries = jobSummaries
+        self.nextToken = nextToken
+    }
+}
+
+/// Stop Advanced Prompt Optimization Job Request
+public struct StopAdvancedPromptOptimizationJobInput: Swift.Sendable {
+    /// ARN or ID of the advanced prompt optimization job to stop.
+    /// This member is required.
+    public var jobIdentifier: Swift.String?
+
+    public init(
+        jobIdentifier: Swift.String? = nil
+    ) {
+        self.jobIdentifier = jobIdentifier
+    }
+}
+
+/// Stop Advanced Prompt Optimization Job Response
+public struct StopAdvancedPromptOptimizationJobOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+extension BedrockClientTypes {
+
     public enum AgreementStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case available
         case error
@@ -323,98 +992,6 @@ extension BedrockClientTypes {
             self.errorMessage = errorMessage
             self.status = status
         }
-    }
-}
-
-/// An internal server error occurred. Retry your request.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InternalServerException" }
-    public static var fault: ClientRuntime.ErrorFault { .server }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ResourceNotFoundException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// The number of requests exceeds the limit. Resubmit your request later.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ThrottlingException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// Input validation failed. Check your request parameters and retry the request.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ValidationException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
     }
 }
 
@@ -472,79 +1049,6 @@ public struct CancelAutomatedReasoningPolicyBuildWorkflowInput: Swift.Sendable {
 public struct CancelAutomatedReasoningPolicyBuildWorkflowOutput: Swift.Sendable {
 
     public init() { }
-}
-
-/// Error occurred because of a conflict while performing an operation.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ConflictException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// The number of requests exceeds the service quota. Resubmit your request later.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// The request contains more tags than can be associated with a resource (50 tags per resource). The maximum number of tags includes both existing tags and those included in your current request.
-public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-        /// The name of the resource with too many tags.
-        public internal(set) var resourceName: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "TooManyTagsException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        resourceName: Swift.String? = nil
-    ) {
-        self.properties.message = message
-        self.properties.resourceName = resourceName
-    }
 }
 
 extension BedrockClientTypes {
@@ -686,27 +1190,6 @@ extension BedrockClientTypes {
             self.types = types
             self.variables = variables
             self.version = version
-        }
-    }
-}
-
-extension BedrockClientTypes {
-
-    /// Definition of the key/value pair for a tag.
-    public struct Tag: Swift.Sendable {
-        /// Key for the tag.
-        /// This member is required.
-        public var key: Swift.String?
-        /// Value for the tag.
-        /// This member is required.
-        public var value: Swift.String?
-
-        public init(
-            key: Swift.String? = nil,
-            value: Swift.String? = nil
-        ) {
-            self.key = key
-            self.value = value
         }
     }
 }
@@ -985,9 +1468,9 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -4323,9 +4806,9 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -4738,35 +5221,6 @@ extension BedrockClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .creationTime: return "CreationTime"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension BedrockClientTypes {
-
-    public enum SortOrder: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case ascending
-        case descending
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [SortOrder] {
-            return [
-                .ascending,
-                .descending
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .ascending: return "Ascending"
-            case .descending: return "Descending"
             case let .sdkUnknown(s): return s
             }
         }
@@ -7109,32 +7563,6 @@ extension BedrockClientTypes {
             switch self {
             case .automated: return "Automated"
             case .human: return "Human"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension BedrockClientTypes {
-
-    public enum SortJobsBy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case creationTime
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [SortJobsBy] {
-            return [
-                .creationTime
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .creationTime: return "CreationTime"
             case let .sdkUnknown(s): return s
             }
         }
@@ -13764,6 +14192,13 @@ extension GetEvaluationJobOutput: Swift.CustomDebugStringConvertible {
         "GetEvaluationJobOutput(applicationType: \(Swift.String(describing: applicationType)), creationTime: \(Swift.String(describing: creationTime)), customerEncryptionKeyId: \(Swift.String(describing: customerEncryptionKeyId)), evaluationConfig: \(Swift.String(describing: evaluationConfig)), failureMessages: \(Swift.String(describing: failureMessages)), inferenceConfig: \(Swift.String(describing: inferenceConfig)), jobArn: \(Swift.String(describing: jobArn)), jobName: \(Swift.String(describing: jobName)), jobType: \(Swift.String(describing: jobType)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), outputDataConfig: \(Swift.String(describing: outputDataConfig)), roleArn: \(Swift.String(describing: roleArn)), status: \(Swift.String(describing: status)), jobDescription: \"CONTENT_REDACTED\")"}
 }
 
+extension BatchDeleteAdvancedPromptOptimizationJobInput {
+
+    static func urlPathProvider(_ value: BatchDeleteAdvancedPromptOptimizationJobInput) -> Swift.String? {
+        return "/advanced-prompt-optimization-job/batch-delete"
+    }
+}
+
 extension BatchDeleteEvaluationJobInput {
 
     static func urlPathProvider(_ value: BatchDeleteEvaluationJobInput) -> Swift.String? {
@@ -13781,6 +14216,13 @@ extension CancelAutomatedReasoningPolicyBuildWorkflowInput {
             return nil
         }
         return "/automated-reasoning-policies/\(policyArn.urlPercentEncoding())/build-workflows/\(buildWorkflowId.urlPercentEncoding())/cancel"
+    }
+}
+
+extension CreateAdvancedPromptOptimizationJobInput {
+
+    static func urlPathProvider(_ value: CreateAdvancedPromptOptimizationJobInput) -> Swift.String? {
+        return "/advanced-prompt-optimization-jobs"
     }
 }
 
@@ -14134,6 +14576,16 @@ extension ExportAutomatedReasoningPolicyVersionInput {
     }
 }
 
+extension GetAdvancedPromptOptimizationJobInput {
+
+    static func urlPathProvider(_ value: GetAdvancedPromptOptimizationJobInput) -> Swift.String? {
+        guard let jobIdentifier = value.jobIdentifier else {
+            return nil
+        }
+        return "/advanced-prompt-optimization-jobs/\(jobIdentifier.urlPercentEncoding())"
+    }
+}
+
 extension GetAutomatedReasoningPolicyInput {
 
     static func urlPathProvider(_ value: GetAutomatedReasoningPolicyInput) -> Swift.String? {
@@ -14426,6 +14878,37 @@ extension GetUseCaseForModelAccessInput {
 
     static func urlPathProvider(_ value: GetUseCaseForModelAccessInput) -> Swift.String? {
         return "/use-case-for-model-access"
+    }
+}
+
+extension ListAdvancedPromptOptimizationJobsInput {
+
+    static func urlPathProvider(_ value: ListAdvancedPromptOptimizationJobsInput) -> Swift.String? {
+        return "/advanced-prompt-optimization-jobs"
+    }
+}
+
+extension ListAdvancedPromptOptimizationJobsInput {
+
+    static func queryItemProvider(_ value: ListAdvancedPromptOptimizationJobsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let sortOrder = value.sortOrder {
+            let sortOrderQueryItem = Smithy.URIQueryItem(name: "sortOrder".urlPercentEncoding(), value: Swift.String(sortOrder.rawValue).urlPercentEncoding())
+            items.append(sortOrderQueryItem)
+        }
+        if let sortBy = value.sortBy {
+            let sortByQueryItem = Smithy.URIQueryItem(name: "sortBy".urlPercentEncoding(), value: Swift.String(sortBy.rawValue).urlPercentEncoding())
+            items.append(sortByQueryItem)
+        }
+        return items
     }
 }
 
@@ -15250,6 +15733,16 @@ extension StartAutomatedReasoningPolicyTestWorkflowInput {
     }
 }
 
+extension StopAdvancedPromptOptimizationJobInput {
+
+    static func urlPathProvider(_ value: StopAdvancedPromptOptimizationJobInput) -> Swift.String? {
+        guard let jobIdentifier = value.jobIdentifier else {
+            return nil
+        }
+        return "/advanced-prompt-optimization-jobs/\(jobIdentifier.urlPercentEncoding())/stop"
+    }
+}
+
 extension StopEvaluationJobInput {
 
     static func urlPathProvider(_ value: StopEvaluationJobInput) -> Swift.String? {
@@ -15370,11 +15863,34 @@ extension UpdateProvisionedModelThroughputInput {
     }
 }
 
+extension BatchDeleteAdvancedPromptOptimizationJobInput {
+
+    static func write(value: BatchDeleteAdvancedPromptOptimizationJobInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["jobIdentifiers"].writeList(value.jobIdentifiers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension BatchDeleteEvaluationJobInput {
 
     static func write(value: BatchDeleteEvaluationJobInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["jobIdentifiers"].writeList(value.jobIdentifiers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension CreateAdvancedPromptOptimizationJobInput {
+
+    static func write(value: CreateAdvancedPromptOptimizationJobInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["encryptionKeyArn"].write(value.encryptionKeyArn)
+        try writer["inputConfig"].write(value.inputConfig, with: BedrockClientTypes.AdvancedPromptOptimizationInputConfig.write(value:to:))
+        try writer["jobDescription"].write(value.jobDescription)
+        try writer["jobName"].write(value.jobName)
+        try writer["modelConfigurations"].writeList(value.modelConfigurations, memberWritingClosure: BedrockClientTypes.ModelConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["outputConfig"].write(value.outputConfig, with: BedrockClientTypes.AdvancedPromptOptimizationOutputConfig.write(value:to:))
+        try writer["tags"].writeList(value.tags, memberWritingClosure: BedrockClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -15783,6 +16299,19 @@ extension UpdateProvisionedModelThroughputInput {
     }
 }
 
+extension BatchDeleteAdvancedPromptOptimizationJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchDeleteAdvancedPromptOptimizationJobOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchDeleteAdvancedPromptOptimizationJobOutput()
+        value.advancedPromptOptimizationJobs = try reader["advancedPromptOptimizationJobs"].readListIfPresent(memberReadingClosure: BedrockClientTypes.BatchDeleteAdvancedPromptOptimizationJobItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: BedrockClientTypes.BatchDeleteAdvancedPromptOptimizationJobError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension BatchDeleteEvaluationJobOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchDeleteEvaluationJobOutput {
@@ -15800,6 +16329,18 @@ extension CancelAutomatedReasoningPolicyBuildWorkflowOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CancelAutomatedReasoningPolicyBuildWorkflowOutput {
         return CancelAutomatedReasoningPolicyBuildWorkflowOutput()
+    }
+}
+
+extension CreateAdvancedPromptOptimizationJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateAdvancedPromptOptimizationJobOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateAdvancedPromptOptimizationJobOutput()
+        value.jobArn = try reader["jobArn"].readIfPresent() ?? ""
+        return value
     }
 }
 
@@ -16144,6 +16685,28 @@ extension ExportAutomatedReasoningPolicyVersionOutput {
         let reader = responseReader
         var value = ExportAutomatedReasoningPolicyVersionOutput()
         value.policyDefinition = try reader.readIfPresent(with: BedrockClientTypes.AutomatedReasoningPolicyDefinition.read(from:))
+        return value
+    }
+}
+
+extension GetAdvancedPromptOptimizationJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetAdvancedPromptOptimizationJobOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetAdvancedPromptOptimizationJobOutput()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.encryptionKeyArn = try reader["encryptionKeyArn"].readIfPresent()
+        value.failureMessage = try reader["failureMessage"].readIfPresent()
+        value.inputConfig = try reader["inputConfig"].readIfPresent(with: BedrockClientTypes.AdvancedPromptOptimizationInputConfig.read(from:))
+        value.jobArn = try reader["jobArn"].readIfPresent() ?? ""
+        value.jobDescription = try reader["jobDescription"].readIfPresent()
+        value.jobName = try reader["jobName"].readIfPresent() ?? ""
+        value.jobStatus = try reader["jobStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.modelConfigurations = try reader["modelConfigurations"].readListIfPresent(memberReadingClosure: BedrockClientTypes.ModelConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.outputConfig = try reader["outputConfig"].readIfPresent(with: BedrockClientTypes.AdvancedPromptOptimizationOutputConfig.read(from:))
         return value
     }
 }
@@ -16634,6 +17197,19 @@ extension GetUseCaseForModelAccessOutput {
     }
 }
 
+extension ListAdvancedPromptOptimizationJobsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAdvancedPromptOptimizationJobsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAdvancedPromptOptimizationJobsOutput()
+        value.jobSummaries = try reader["jobSummaries"].readListIfPresent(memberReadingClosure: BedrockClientTypes.AdvancedPromptOptimizationJobSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListAutomatedReasoningPoliciesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAutomatedReasoningPoliciesOutput {
@@ -16982,6 +17558,13 @@ extension StartAutomatedReasoningPolicyTestWorkflowOutput {
     }
 }
 
+extension StopAdvancedPromptOptimizationJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopAdvancedPromptOptimizationJobOutput {
+        return StopAdvancedPromptOptimizationJobOutput()
+    }
+}
+
 extension StopEvaluationJobOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopEvaluationJobOutput {
@@ -17106,6 +17689,23 @@ extension UpdateProvisionedModelThroughputOutput {
     }
 }
 
+enum BatchDeleteAdvancedPromptOptimizationJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum BatchDeleteEvaluationJobOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -17137,6 +17737,27 @@ enum CancelAutomatedReasoningPolicyBuildWorkflowOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateAdvancedPromptOptimizationJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "TooManyTagsException": return try TooManyTagsException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -17806,6 +18427,24 @@ enum ExportAutomatedReasoningPolicyVersionOutputError {
     }
 }
 
+enum GetAdvancedPromptOptimizationJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetAutomatedReasoningPolicyOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -18246,6 +18885,23 @@ enum GetUseCaseForModelAccessOutputError {
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListAdvancedPromptOptimizationJobsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -18751,6 +19407,25 @@ enum StartAutomatedReasoningPolicyTestWorkflowOutputError {
     }
 }
 
+enum StopAdvancedPromptOptimizationJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum StopEvaluationJobOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -18993,37 +19668,11 @@ extension AccessDeniedException {
     }
 }
 
-extension ConflictException {
-
-    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
-        let reader = baseError.errorBodyReader
-        var value = ConflictException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension InternalServerException {
 
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ResourceNotFoundException {
-
-    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -19050,6 +19699,32 @@ extension ValidationException {
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ConflictException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
+        let reader = baseError.errorBodyReader
+        var value = ConflictException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ResourceNotFoundException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -19139,6 +19814,50 @@ extension BedrockClientTypes.AccountEnforcedGuardrailOutputConfiguration {
         value.updatedBy = try reader["updatedBy"].readIfPresent()
         value.owner = try reader["owner"].readIfPresent()
         value.modelEnforcement = try reader["modelEnforcement"].readIfPresent(with: BedrockClientTypes.ModelEnforcement.read(from:))
+        return value
+    }
+}
+
+extension BedrockClientTypes.AdvancedPromptOptimizationInputConfig {
+
+    static func write(value: BedrockClientTypes.AdvancedPromptOptimizationInputConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["s3Uri"].write(value.s3Uri)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.AdvancedPromptOptimizationInputConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.AdvancedPromptOptimizationInputConfig()
+        value.s3Uri = try reader["s3Uri"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockClientTypes.AdvancedPromptOptimizationJobSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.AdvancedPromptOptimizationJobSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.AdvancedPromptOptimizationJobSummary()
+        value.jobArn = try reader["jobArn"].readIfPresent() ?? ""
+        value.jobName = try reader["jobName"].readIfPresent() ?? ""
+        value.jobStatus = try reader["jobStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension BedrockClientTypes.AdvancedPromptOptimizationOutputConfig {
+
+    static func write(value: BedrockClientTypes.AdvancedPromptOptimizationOutputConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["s3Uri"].write(value.s3Uri)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.AdvancedPromptOptimizationOutputConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.AdvancedPromptOptimizationOutputConfig()
+        value.s3Uri = try reader["s3Uri"].readIfPresent() ?? ""
         return value
     }
 }
@@ -20467,6 +21186,29 @@ extension BedrockClientTypes.AutomatedReasoningPolicyWorkflowTypeContent {
     }
 }
 
+extension BedrockClientTypes.BatchDeleteAdvancedPromptOptimizationJobError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.BatchDeleteAdvancedPromptOptimizationJobError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.BatchDeleteAdvancedPromptOptimizationJobError()
+        value.jobIdentifier = try reader["jobIdentifier"].readIfPresent() ?? ""
+        value.code = try reader["code"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockClientTypes.BatchDeleteAdvancedPromptOptimizationJobItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.BatchDeleteAdvancedPromptOptimizationJobItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.BatchDeleteAdvancedPromptOptimizationJobItem()
+        value.jobIdentifier = try reader["jobIdentifier"].readIfPresent() ?? ""
+        value.jobStatus = try reader["jobStatus"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension BedrockClientTypes.BatchDeleteEvaluationJobError {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.BatchDeleteEvaluationJobError {
@@ -21752,6 +22494,27 @@ extension BedrockClientTypes.ImportedModelSummary {
     }
 }
 
+extension BedrockClientTypes.InferenceConfiguration {
+
+    static func write(value: BedrockClientTypes.InferenceConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxTokens"].write(value.maxTokens)
+        try writer["stopSequences"].writeList(value.stopSequences, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["temperature"].write(value.temperature)
+        try writer["topP"].write(value.topp)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.InferenceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.InferenceConfiguration()
+        value.maxTokens = try reader["maxTokens"].readIfPresent()
+        value.temperature = try reader["temperature"].readIfPresent()
+        value.topp = try reader["topP"].readIfPresent()
+        value.stopSequences = try reader["stopSequences"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension BedrockClientTypes.InferenceProfileModel {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.InferenceProfileModel {
@@ -22057,6 +22820,25 @@ extension BedrockClientTypes.MetadataConfigurationForReranking {
         var value = BedrockClientTypes.MetadataConfigurationForReranking()
         value.selectionMode = try reader["selectionMode"].readIfPresent() ?? .sdkUnknown("")
         value.selectiveModeConfiguration = try reader["selectiveModeConfiguration"].readIfPresent(with: BedrockClientTypes.RerankingMetadataSelectiveModeConfiguration.read(from:))
+        return value
+    }
+}
+
+extension BedrockClientTypes.ModelConfiguration {
+
+    static func write(value: BedrockClientTypes.ModelConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["additionalModelRequestFields"].writeMap(value.additionalModelRequestFields, valueWritingClosure: SmithyReadWrite.WritingClosures.writeDocument(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["inferenceConfig"].write(value.inferenceConfig, with: BedrockClientTypes.InferenceConfiguration.write(value:to:))
+        try writer["modelId"].write(value.modelId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.ModelConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.ModelConfiguration()
+        value.modelId = try reader["modelId"].readIfPresent() ?? ""
+        value.inferenceConfig = try reader["inferenceConfig"].readIfPresent(with: BedrockClientTypes.InferenceConfiguration.read(from:))
+        value.additionalModelRequestFields = try reader["additionalModelRequestFields"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readDocument(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }

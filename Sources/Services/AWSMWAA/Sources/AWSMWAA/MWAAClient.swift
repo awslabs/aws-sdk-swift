@@ -14,7 +14,7 @@ import class AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain
 import class ClientRuntime.ClientBuilder
 import class ClientRuntime.DefaultClientPlugin
 import class ClientRuntime.HttpClientConfiguration
-import class ClientRuntime.OrchestratorBuilder
+@_spi(SchemaBasedSerde) import class ClientRuntime.OrchestratorBuilder
 import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
@@ -681,7 +681,7 @@ extension MWAAClient {
     ///
     /// Creates an Amazon Managed Workflows for Apache Airflow (Amazon MWAA) environment.
     ///
-    /// - Parameter input: This section contains the Amazon Managed Workflows for Apache Airflow (Amazon MWAA) API reference documentation to create an environment. For more information, see [Get started with Amazon Managed Workflows for Apache Airflow](https://docs.aws.amazon.com/mwaa/latest/userguide/get-started.html). (Type: `CreateEnvironmentInput`)
+    /// - Parameter input: This section contains the Amazon Managed Workflows for Apache Airflow (Amazon MWAA) API reference documentation to create an environment. For more information, refer to [Get started with Amazon Managed Workflows for Apache Airflow](https://docs.aws.amazon.com/mwaa/latest/userguide/get-started.html). (Type: `CreateEnvironmentInput`)
     ///
     /// - Returns: [no documentation found] (Type: `CreateEnvironmentOutput`)
     ///
@@ -689,6 +689,7 @@ extension MWAAClient {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : InternalServerException: An internal error has occurred.
+    /// - `ServiceUnavailableException` : ServiceUnavailableException: The service is currently unavailable.
     /// - `ValidationException` : ValidationException: The provided input is not valid.
     public func createEnvironment(input: CreateEnvironmentInput) async throws -> CreateEnvironmentOutput {
         let context = Smithy.ContextBuilder()
@@ -827,6 +828,7 @@ extension MWAAClient {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : InternalServerException: An internal error has occurred.
     /// - `ResourceNotFoundException` : ResourceNotFoundException: The resource is not available.
+    /// - `ServiceUnavailableException` : ServiceUnavailableException: The service is currently unavailable.
     /// - `ValidationException` : ValidationException: The provided input is not valid.
     public func deleteEnvironment(input: DeleteEnvironmentInput) async throws -> DeleteEnvironmentOutput {
         let context = Smithy.ContextBuilder()
@@ -1376,6 +1378,7 @@ extension MWAAClient {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : InternalServerException: An internal error has occurred.
     /// - `ResourceNotFoundException` : ResourceNotFoundException: The resource is not available.
+    /// - `ServiceUnavailableException` : ServiceUnavailableException: The service is currently unavailable.
     /// - `ValidationException` : ValidationException: The provided input is not valid.
     public func updateEnvironment(input: UpdateEnvironmentInput) async throws -> UpdateEnvironmentOutput {
         let context = Smithy.ContextBuilder()

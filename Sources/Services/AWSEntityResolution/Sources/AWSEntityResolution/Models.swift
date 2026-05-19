@@ -48,9 +48,9 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -71,9 +71,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -94,9 +94,9 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { true }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -117,9 +117,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -140,9 +140,9 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { true }
     public static var isThrottling: Swift.Bool { true }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -163,9 +163,9 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -448,9 +448,9 @@ public struct ExceedsLimitException: ClientRuntime.ModeledError, AWSClientRuntim
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -1271,6 +1271,21 @@ extension EntityResolutionClientTypes {
 
 extension EntityResolutionClientTypes {
 
+    /// An object that contains configuration settings for the matching process in a rule-based matching workflow.
+    public struct MatchingConfig: Swift.Sendable {
+        /// Enables transitive matching for the rule-based matching workflow. When enabled, records that match through different rules are grouped together into the same match group.
+        public var enableTransitiveMatching: Swift.Bool?
+
+        public init(
+            enableTransitiveMatching: Swift.Bool? = nil
+        ) {
+            self.enableTransitiveMatching = enableTransitiveMatching
+        }
+    }
+}
+
+extension EntityResolutionClientTypes {
+
     /// An object that defines the ruleCondition and the ruleName to use in a matching workflow.
     public struct RuleCondition: Swift.Sendable {
         /// A statement that specifies the conditions for a matching rule. If your data is accurate, use an Exact matching function: Exact or ExactManyToMany. If your data has variations in spelling or pronunciation, use a Fuzzy matching function: Cosine, Levenshtein, or Soundex. Use operators if you want to combine (AND), separate (OR), or group matching functions (...). For example: (Cosine(a, 10) AND Exact(b, true)) OR ExactManyToMany(c, d)
@@ -1294,13 +1309,17 @@ extension EntityResolutionClientTypes {
 
     /// The properties of a rule condition that provides the ability to use more complex syntax.
     public struct RuleConditionProperties: Swift.Sendable {
+        /// An object that contains configuration settings for the matching process.
+        public var matchingConfig: EntityResolutionClientTypes.MatchingConfig?
         /// A list of rule objects, each of which have fields ruleName and condition.
         /// This member is required.
         public var rules: [EntityResolutionClientTypes.RuleCondition]?
 
         public init(
+            matchingConfig: EntityResolutionClientTypes.MatchingConfig? = nil,
             rules: [EntityResolutionClientTypes.RuleCondition]? = nil
         ) {
+            self.matchingConfig = matchingConfig
             self.rules = rules
         }
     }
@@ -6164,6 +6183,21 @@ extension EntityResolutionClientTypes.MatchGroup {
     }
 }
 
+extension EntityResolutionClientTypes.MatchingConfig {
+
+    static func write(value: EntityResolutionClientTypes.MatchingConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enableTransitiveMatching"].write(value.enableTransitiveMatching)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.MatchingConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EntityResolutionClientTypes.MatchingConfig()
+        value.enableTransitiveMatching = try reader["enableTransitiveMatching"].readIfPresent()
+        return value
+    }
+}
+
 extension EntityResolutionClientTypes.MatchingWorkflowSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.MatchingWorkflowSummary {
@@ -6451,6 +6485,7 @@ extension EntityResolutionClientTypes.RuleConditionProperties {
 
     static func write(value: EntityResolutionClientTypes.RuleConditionProperties?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["matchingConfig"].write(value.matchingConfig, with: EntityResolutionClientTypes.MatchingConfig.write(value:to:))
         try writer["rules"].writeList(value.rules, memberWritingClosure: EntityResolutionClientTypes.RuleCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
@@ -6458,6 +6493,7 @@ extension EntityResolutionClientTypes.RuleConditionProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EntityResolutionClientTypes.RuleConditionProperties()
         value.rules = try reader["rules"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.RuleCondition.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.matchingConfig = try reader["matchingConfig"].readIfPresent(with: EntityResolutionClientTypes.MatchingConfig.read(from:))
         return value
     }
 }

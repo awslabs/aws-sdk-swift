@@ -55,9 +55,9 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -173,9 +173,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         conflictExceptionType: MediaPackageV2ClientTypes.ConflictExceptionType? = nil,
@@ -198,9 +198,9 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -258,9 +258,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -283,9 +283,9 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -305,6 +305,7 @@ extension MediaPackageV2ClientTypes {
         case cmafContainerTypeWithMssManifest
         case cmafExcludeSegmentDrmMetadataIncompatibleContainerType
         case containerTypeImmutable
+        case customAdTypesInvalidConfiguration
         case dashDvbAttributesWithoutDvbDashProfile
         case decryptSecretFailed
         case describeCertificateFailed
@@ -374,6 +375,7 @@ extension MediaPackageV2ClientTypes {
         case roleArnInvalidFormat
         case roleArnLengthOutOfRange
         case roleArnNotAssumable
+        case scteInManifestsInvalidConfiguration
         case secretArnResourceNotFound
         case secretFromDifferentAccount
         case secretFromDifferentRegion
@@ -407,6 +409,7 @@ extension MediaPackageV2ClientTypes {
                 .cmafContainerTypeWithMssManifest,
                 .cmafExcludeSegmentDrmMetadataIncompatibleContainerType,
                 .containerTypeImmutable,
+                .customAdTypesInvalidConfiguration,
                 .dashDvbAttributesWithoutDvbDashProfile,
                 .decryptSecretFailed,
                 .describeCertificateFailed,
@@ -476,6 +479,7 @@ extension MediaPackageV2ClientTypes {
                 .roleArnInvalidFormat,
                 .roleArnLengthOutOfRange,
                 .roleArnNotAssumable,
+                .scteInManifestsInvalidConfiguration,
                 .secretArnResourceNotFound,
                 .secretFromDifferentAccount,
                 .secretFromDifferentRegion,
@@ -515,6 +519,7 @@ extension MediaPackageV2ClientTypes {
             case .cmafContainerTypeWithMssManifest: return "CMAF_CONTAINER_TYPE_WITH_MSS_MANIFEST"
             case .cmafExcludeSegmentDrmMetadataIncompatibleContainerType: return "CMAF_EXCLUDE_SEGMENT_DRM_METADATA_INCOMPATIBLE_CONTAINER_TYPE"
             case .containerTypeImmutable: return "CONTAINER_TYPE_IMMUTABLE"
+            case .customAdTypesInvalidConfiguration: return "CUSTOM_AD_TYPES_INVALID_CONFIGURATION"
             case .dashDvbAttributesWithoutDvbDashProfile: return "DASH_DVB_ATTRIBUTES_WITHOUT_DVB_DASH_PROFILE"
             case .decryptSecretFailed: return "DECRYPT_SECRET_FAILED"
             case .describeCertificateFailed: return "DESCRIBE_CERTIFICATE_FAILED"
@@ -584,6 +589,7 @@ extension MediaPackageV2ClientTypes {
             case .roleArnInvalidFormat: return "ROLE_ARN_INVALID_FORMAT"
             case .roleArnLengthOutOfRange: return "ROLE_ARN_LENGTH_OUT_OF_RANGE"
             case .roleArnNotAssumable: return "ROLE_ARN_NOT_ASSUMABLE"
+            case .scteInManifestsInvalidConfiguration: return "SCTE_IN_MANIFESTS_INVALID_CONFIGURATION"
             case .secretArnResourceNotFound: return "SECRET_ARN_RESOURCE_NOT_FOUND"
             case .secretFromDifferentAccount: return "SECRET_FROM_DIFFERENT_ACCOUNT"
             case .secretFromDifferentRegion: return "SECRET_FROM_DIFFERENT_REGION"
@@ -625,9 +631,9 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -830,9 +836,9 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -1257,6 +1263,16 @@ extension MediaPackageV2ClientTypes {
 
 extension MediaPackageV2ClientTypes {
 
+    /// The configuration for the DASH availabilityStartTime attribute of the Media Presentation Description (MPD). Use this configuration to set a custom availability start time for your DASH manifest.
+    public enum DashAvailabilityStartTimeConfiguration: Swift.Sendable {
+        /// The fixed availability start time for the DASH manifest, in ISO 8601 date-time format. The value must have hourly granularity, meaning that the minutes, seconds, and fractional seconds must be zero. The value must be on or after 2024-01-01T00:00:00Z and must be at least 14 days before the current time.
+        case fixedavailabilitystarttime(Foundation.Date)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension MediaPackageV2ClientTypes {
+
     /// The base URLs to use for retrieving segments. You can specify multiple locations and indicate the priority and weight for when each should be used, for use in mutli-CDN workflows.
     public struct DashBaseUrl: Swift.Sendable {
         /// For use with DVB-DASH profiles only. The priority of this location for servings segments. The lower the number, the higher the priority.
@@ -1535,6 +1551,35 @@ extension MediaPackageV2ClientTypes {
 
 extension MediaPackageV2ClientTypes {
 
+    public enum ScteInManifests: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case all
+        case matchesFilter
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ScteInManifests] {
+            return [
+                .all,
+                .matchesFilter
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "ALL"
+            case .matchesFilter: return "MATCHES_FILTER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaPackageV2ClientTypes {
+
     /// The SCTE configuration.
     public struct ScteDash: Swift.Sendable {
         /// Choose how ad markers are included in the packaged content. If you include ad markers in the content stream in your upstream encoders, then you need to inform MediaPackage what to do with the ad markers in the output. Value description:
@@ -1543,11 +1588,15 @@ extension MediaPackageV2ClientTypes {
         ///
         /// * XML - The SCTE marker is expressed fully in XML.
         public var adMarkerDash: MediaPackageV2ClientTypes.AdMarkerDash?
+        /// Controls which SCTE-35 events appear in DASH manifests. ALL includes all non-implicit SCTE-35 events. MATCHES_FILTER includes only events whose type matches the configured ScteFilter. If you don't specify a value, the default is ALL.
+        public var scteInManifests: MediaPackageV2ClientTypes.ScteInManifests?
 
         public init(
-            adMarkerDash: MediaPackageV2ClientTypes.AdMarkerDash? = nil
+            adMarkerDash: MediaPackageV2ClientTypes.AdMarkerDash? = nil,
+            scteInManifests: MediaPackageV2ClientTypes.ScteInManifests? = nil
         ) {
             self.adMarkerDash = adMarkerDash
+            self.scteInManifests = scteInManifests
         }
     }
 }
@@ -1640,6 +1689,35 @@ extension MediaPackageV2ClientTypes {
 
 extension MediaPackageV2ClientTypes {
 
+    public enum UriPathType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case leaf
+        case root
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UriPathType] {
+            return [
+                .leaf,
+                .root
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .leaf: return "LEAF"
+            case .root: return "ROOT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaPackageV2ClientTypes {
+
     public enum DashUtcTimingMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case httpHead
         case httpIso
@@ -1696,6 +1774,8 @@ extension MediaPackageV2ClientTypes {
 
     /// Create a DASH manifest configuration.
     public struct CreateDashManifestConfiguration: Swift.Sendable {
+        /// The configuration for the DASH availabilityStartTime attribute of the Media Presentation Description (MPD). If you don't specify a value, MediaPackage uses the default availability start time of 2024-01-01T00:00:00Z.
+        public var availabilityStartTimeConfiguration: MediaPackageV2ClientTypes.DashAvailabilityStartTimeConfiguration?
         /// The base URLs to use for retrieving segments.
         public var baseUrls: [MediaPackageV2ClientTypes.DashBaseUrl]?
         /// The layout of the DASH manifest that MediaPackage produces. STANDARD indicates a default manifest, which is compacted. NONE indicates a full manifest. For information about compactness, see [DASH manifest compactness](https://docs.aws.amazon.com/mediapackage/latest/userguide/compacted.html) in the Elemental MediaPackage v2 User Guide.
@@ -1731,10 +1811,13 @@ extension MediaPackageV2ClientTypes {
         public var subtitleConfiguration: MediaPackageV2ClientTypes.DashSubtitleConfiguration?
         /// The amount of time (in seconds) that the player should be from the end of the manifest.
         public var suggestedPresentationDelaySeconds: Swift.Int?
+        /// The type of path to use in manifest URIs. LEAF uses leaf-relative paths (for example, index_1.mpd). ROOT uses root-relative paths that include the full path from root (for example, /out/v1/channel-group/channel/endpoint/index_1.mpd). If you don't specify a value, the default is LEAF.
+        public var uriPathType: MediaPackageV2ClientTypes.UriPathType?
         /// Determines the type of UTC timing included in the DASH Media Presentation Description (MPD).
         public var utcTiming: MediaPackageV2ClientTypes.DashUtcTiming?
 
         public init(
+            availabilityStartTimeConfiguration: MediaPackageV2ClientTypes.DashAvailabilityStartTimeConfiguration? = nil,
             baseUrls: [MediaPackageV2ClientTypes.DashBaseUrl]? = nil,
             compactness: MediaPackageV2ClientTypes.DashCompactness? = nil,
             drmSignaling: MediaPackageV2ClientTypes.DashDrmSignaling? = nil,
@@ -1751,8 +1834,10 @@ extension MediaPackageV2ClientTypes {
             segmentTemplateFormat: MediaPackageV2ClientTypes.DashSegmentTemplateFormat? = nil,
             subtitleConfiguration: MediaPackageV2ClientTypes.DashSubtitleConfiguration? = nil,
             suggestedPresentationDelaySeconds: Swift.Int? = nil,
+            uriPathType: MediaPackageV2ClientTypes.UriPathType? = nil,
             utcTiming: MediaPackageV2ClientTypes.DashUtcTiming? = nil
         ) {
+            self.availabilityStartTimeConfiguration = availabilityStartTimeConfiguration
             self.baseUrls = baseUrls
             self.compactness = compactness
             self.drmSignaling = drmSignaling
@@ -1769,6 +1854,7 @@ extension MediaPackageV2ClientTypes {
             self.segmentTemplateFormat = segmentTemplateFormat
             self.subtitleConfiguration = subtitleConfiguration
             self.suggestedPresentationDelaySeconds = suggestedPresentationDelaySeconds
+            self.uriPathType = uriPathType
             self.utcTiming = utcTiming
         }
     }
@@ -1842,11 +1928,15 @@ extension MediaPackageV2ClientTypes {
         ///
         /// * DATERANGE - Insert EXT-X-DATERANGE tags to signal ad and program transition events in TS and CMAF manifests. If you use DATERANGE, you must set a programDateTimeIntervalSeconds value of 1 or higher. To learn more about DATERANGE, see [SCTE-35 Ad Marker EXT-X-DATERANGE](http://docs.aws.amazon.com/mediapackage/latest/ug/scte-35-ad-marker-ext-x-daterange.html).
         public var adMarkerHls: MediaPackageV2ClientTypes.AdMarkerHls?
+        /// Controls which SCTE-35 events appear in HLS manifests. ALL includes all non-implicit SCTE-35 events. MATCHES_FILTER includes only events whose type matches the configured ScteFilter. If you don't specify a value, the default is ALL.
+        public var scteInManifests: MediaPackageV2ClientTypes.ScteInManifests?
 
         public init(
-            adMarkerHls: MediaPackageV2ClientTypes.AdMarkerHls? = nil
+            adMarkerHls: MediaPackageV2ClientTypes.AdMarkerHls? = nil,
+            scteInManifests: MediaPackageV2ClientTypes.ScteInManifests? = nil
         ) {
             self.adMarkerHls = adMarkerHls
+            self.scteInManifests = scteInManifests
         }
     }
 }
@@ -1890,6 +1980,8 @@ extension MediaPackageV2ClientTypes {
         public var scteHls: MediaPackageV2ClientTypes.ScteHls?
         /// To insert an EXT-X-START tag in your HLS playlist, specify a StartTag configuration object with a valid TimeOffset. When you do, you can also optionally specify whether to include a PRECISE value in the EXT-X-START tag.
         public var startTag: MediaPackageV2ClientTypes.StartTag?
+        /// The type of path to use in manifest URIs. LEAF uses leaf-relative paths (for example, index_1.m3u8). ROOT uses root-relative paths that include the full path from root (for example, /out/v1/channel-group/channel/endpoint/index_1.m3u8). If you don't specify a value, the default is LEAF.
+        public var uriPathType: MediaPackageV2ClientTypes.UriPathType?
         /// When enabled, MediaPackage URL-encodes the query string for API requests for HLS child manifests to comply with Amazon Web Services Signature Version 4 (SigV4) signature signing protocol. For more information, see [Amazon Web Services Signature Version 4 for API requests](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_sigv.html) in Identity and Access Management User Guide.
         public var urlEncodeChildManifest: Swift.Bool?
 
@@ -1901,6 +1993,7 @@ extension MediaPackageV2ClientTypes {
             programDateTimeIntervalSeconds: Swift.Int? = nil,
             scteHls: MediaPackageV2ClientTypes.ScteHls? = nil,
             startTag: MediaPackageV2ClientTypes.StartTag? = nil,
+            uriPathType: MediaPackageV2ClientTypes.UriPathType? = nil,
             urlEncodeChildManifest: Swift.Bool? = nil
         ) {
             self.childManifestName = childManifestName
@@ -1910,6 +2003,7 @@ extension MediaPackageV2ClientTypes {
             self.programDateTimeIntervalSeconds = programDateTimeIntervalSeconds
             self.scteHls = scteHls
             self.startTag = startTag
+            self.uriPathType = uriPathType
             self.urlEncodeChildManifest = urlEncodeChildManifest
         }
     }
@@ -1934,6 +2028,8 @@ extension MediaPackageV2ClientTypes {
         public var scteHls: MediaPackageV2ClientTypes.ScteHls?
         /// To insert an EXT-X-START tag in your HLS playlist, specify a StartTag configuration object with a valid TimeOffset. When you do, you can also optionally specify whether to include a PRECISE value in the EXT-X-START tag.
         public var startTag: MediaPackageV2ClientTypes.StartTag?
+        /// The type of path to use in manifest URIs. LEAF uses leaf-relative paths (for example, index_1.m3u8). ROOT uses root-relative paths that include the full path from root (for example, /out/v1/channel-group/channel/endpoint/index_1.m3u8). If you don't specify a value, the default is LEAF.
+        public var uriPathType: MediaPackageV2ClientTypes.UriPathType?
         /// When enabled, MediaPackage URL-encodes the query string for API requests for LL-HLS child manifests to comply with Amazon Web Services Signature Version 4 (SigV4) signature signing protocol. For more information, see [Amazon Web Services Signature Version 4 for API requests](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_sigv.html) in Identity and Access Management User Guide.
         public var urlEncodeChildManifest: Swift.Bool?
 
@@ -1945,6 +2041,7 @@ extension MediaPackageV2ClientTypes {
             programDateTimeIntervalSeconds: Swift.Int? = nil,
             scteHls: MediaPackageV2ClientTypes.ScteHls? = nil,
             startTag: MediaPackageV2ClientTypes.StartTag? = nil,
+            uriPathType: MediaPackageV2ClientTypes.UriPathType? = nil,
             urlEncodeChildManifest: Swift.Bool? = nil
         ) {
             self.childManifestName = childManifestName
@@ -1954,6 +2051,7 @@ extension MediaPackageV2ClientTypes {
             self.programDateTimeIntervalSeconds = programDateTimeIntervalSeconds
             self.scteHls = scteHls
             self.startTag = startTag
+            self.uriPathType = uriPathType
             self.urlEncodeChildManifest = urlEncodeChildManifest
         }
     }
@@ -2389,29 +2487,21 @@ extension MediaPackageV2ClientTypes {
 
 extension MediaPackageV2ClientTypes {
 
-    public enum ScteFilter: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case `break`
-        case distributorAdvertisement
-        case distributorOverlayPlacementOpportunity
-        case distributorPlacementOpportunity
+    public enum CustomAdType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case alternateContentOpportunity
+        case chapter
+        case network
         case program
-        case providerAdvertisement
-        case providerOverlayPlacementOpportunity
-        case providerPlacementOpportunity
-        case spliceInsert
+        case unscheduledEvent
         case sdkUnknown(Swift.String)
 
-        public static var allCases: [ScteFilter] {
+        public static var allCases: [CustomAdType] {
             return [
-                .break,
-                .distributorAdvertisement,
-                .distributorOverlayPlacementOpportunity,
-                .distributorPlacementOpportunity,
+                .alternateContentOpportunity,
+                .chapter,
+                .network,
                 .program,
-                .providerAdvertisement,
-                .providerOverlayPlacementOpportunity,
-                .providerPlacementOpportunity,
-                .spliceInsert
+                .unscheduledEvent
             ]
         }
 
@@ -2422,15 +2512,85 @@ extension MediaPackageV2ClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .alternateContentOpportunity: return "ALTERNATE_CONTENT_OPPORTUNITY"
+            case .chapter: return "CHAPTER"
+            case .network: return "NETWORK"
+            case .program: return "PROGRAM"
+            case .unscheduledEvent: return "UNSCHEDULED_EVENT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaPackageV2ClientTypes {
+
+    public enum ScteFilter: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case alternateContentOpportunity
+        case `break`
+        case chapter
+        case distributorAdvertisement
+        case distributorAdBlock
+        case distributorOverlayPlacementOpportunity
+        case distributorPlacementOpportunity
+        case distributorPromo
+        case network
+        case program
+        case providerAdvertisement
+        case providerAdBlock
+        case providerOverlayPlacementOpportunity
+        case providerPlacementOpportunity
+        case providerPromo
+        case spliceInsert
+        case unscheduledEvent
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ScteFilter] {
+            return [
+                .alternateContentOpportunity,
+                .break,
+                .chapter,
+                .distributorAdvertisement,
+                .distributorAdBlock,
+                .distributorOverlayPlacementOpportunity,
+                .distributorPlacementOpportunity,
+                .distributorPromo,
+                .network,
+                .program,
+                .providerAdvertisement,
+                .providerAdBlock,
+                .providerOverlayPlacementOpportunity,
+                .providerPlacementOpportunity,
+                .providerPromo,
+                .spliceInsert,
+                .unscheduledEvent
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .alternateContentOpportunity: return "ALTERNATE_CONTENT_OPPORTUNITY"
             case .break: return "BREAK"
+            case .chapter: return "CHAPTER"
             case .distributorAdvertisement: return "DISTRIBUTOR_ADVERTISEMENT"
+            case .distributorAdBlock: return "DISTRIBUTOR_AD_BLOCK"
             case .distributorOverlayPlacementOpportunity: return "DISTRIBUTOR_OVERLAY_PLACEMENT_OPPORTUNITY"
             case .distributorPlacementOpportunity: return "DISTRIBUTOR_PLACEMENT_OPPORTUNITY"
+            case .distributorPromo: return "DISTRIBUTOR_PROMO"
+            case .network: return "NETWORK"
             case .program: return "PROGRAM"
             case .providerAdvertisement: return "PROVIDER_ADVERTISEMENT"
+            case .providerAdBlock: return "PROVIDER_AD_BLOCK"
             case .providerOverlayPlacementOpportunity: return "PROVIDER_OVERLAY_PLACEMENT_OPPORTUNITY"
             case .providerPlacementOpportunity: return "PROVIDER_PLACEMENT_OPPORTUNITY"
+            case .providerPromo: return "PROVIDER_PROMO"
             case .spliceInsert: return "SPLICE_INSERT"
+            case .unscheduledEvent: return "UNSCHEDULED_EVENT"
             case let .sdkUnknown(s): return s
             }
         }
@@ -2441,12 +2601,14 @@ extension MediaPackageV2ClientTypes {
 
     public enum ScteInSegments: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case all
+        case matchesFilter
         case `none`
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ScteInSegments] {
             return [
                 .all,
+                .matchesFilter,
                 .none
             ]
         }
@@ -2459,6 +2621,7 @@ extension MediaPackageV2ClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .all: return "ALL"
+            case .matchesFilter: return "MATCHES_FILTER"
             case .none: return "NONE"
             case let .sdkUnknown(s): return s
             }
@@ -2470,6 +2633,8 @@ extension MediaPackageV2ClientTypes {
 
     /// The SCTE configuration.
     public struct Scte: Swift.Sendable {
+        /// A list of additional non-Ad SCTE-35 event types to treat as advertisements. When configured, events matching these types produce ad markers (such as SCTE35-OUT and SCTE35-IN in HLS DATERANGE tags) in manifests. Valid values: PROGRAM | CHAPTER | UNSCHEDULED_EVENT | ALTERNATE_CONTENT_OPPORTUNITY | NETWORK If you don't specify any values, the default is empty (only default ad types are used).
+        public var customAdTypes: [MediaPackageV2ClientTypes.CustomAdType]?
         /// The SCTE-35 message types that you want to be treated as ad markers in the output.
         public var scteFilter: [MediaPackageV2ClientTypes.ScteFilter]?
         /// Controls whether SCTE-35 messages are included in segment files.
@@ -2478,14 +2643,18 @@ extension MediaPackageV2ClientTypes {
         ///
         /// * All – SCTE-35 messages are embedded in segment data
         ///
+        /// * MatchesFilter – SCTE-35 messages which match the ScteFilter are embedded in segment data
         ///
-        /// For DASH manifests, when set to All, an InbandEventStream tag signals that SCTE messages are present in segments. This setting works independently of manifest ad markers.
+        ///
+        /// For DASH manifests, when set to All or MatchesFilter, an InbandEventStream tag signals that SCTE messages are present in segments. This setting works independently of manifest ad markers.
         public var scteInSegments: MediaPackageV2ClientTypes.ScteInSegments?
 
         public init(
+            customAdTypes: [MediaPackageV2ClientTypes.CustomAdType]? = nil,
             scteFilter: [MediaPackageV2ClientTypes.ScteFilter]? = nil,
             scteInSegments: MediaPackageV2ClientTypes.ScteInSegments? = nil
         ) {
+            self.customAdTypes = customAdTypes
             self.scteFilter = scteFilter
             self.scteInSegments = scteInSegments
         }
@@ -2531,6 +2700,35 @@ extension MediaPackageV2ClientTypes {
     }
 }
 
+extension MediaPackageV2ClientTypes {
+
+    public enum UriSeparator: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case hyphen
+        case underscore
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UriSeparator] {
+            return [
+                .hyphen,
+                .underscore
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .hyphen: return "HYPHEN"
+            case .underscore: return "UNDERSCORE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct CreateOriginEndpointInput: Swift.Sendable {
     /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
     /// This member is required.
@@ -2565,6 +2763,8 @@ public struct CreateOriginEndpointInput: Swift.Sendable {
     /// A comma-separated list of tag key:value pairs that you define. For example: "Key1": "Value1",
     ///     "Key2": "Value2"
     public var tags: [Swift.String: Swift.String]?
+    /// The separator character to use in generated URIs for this origin endpoint. This setting applies to all manifest types on the endpoint. If you don't specify a value, the default is UNDERSCORE.
+    public var uriSeparator: MediaPackageV2ClientTypes.UriSeparator?
 
     public init(
         channelGroupName: Swift.String? = nil,
@@ -2580,7 +2780,8 @@ public struct CreateOriginEndpointInput: Swift.Sendable {
         originEndpointName: Swift.String? = nil,
         segment: MediaPackageV2ClientTypes.Segment? = nil,
         startoverWindowSeconds: Swift.Int? = nil,
-        tags: [Swift.String: Swift.String]? = nil
+        tags: [Swift.String: Swift.String]? = nil,
+        uriSeparator: MediaPackageV2ClientTypes.UriSeparator? = nil
     ) {
         self.channelGroupName = channelGroupName
         self.channelName = channelName
@@ -2596,6 +2797,7 @@ public struct CreateOriginEndpointInput: Swift.Sendable {
         self.segment = segment
         self.startoverWindowSeconds = startoverWindowSeconds
         self.tags = tags
+        self.uriSeparator = uriSeparator
     }
 }
 
@@ -2603,6 +2805,8 @@ extension MediaPackageV2ClientTypes {
 
     /// Retrieve the DASH manifest configuration.
     public struct GetDashManifestConfiguration: Swift.Sendable {
+        /// The configuration for the DASH availabilityStartTime attribute of the Media Presentation Description (MPD).
+        public var availabilityStartTimeConfiguration: MediaPackageV2ClientTypes.DashAvailabilityStartTimeConfiguration?
         /// The base URL to use for retrieving segments.
         public var baseUrls: [MediaPackageV2ClientTypes.DashBaseUrl]?
         /// The layout of the DASH manifest that MediaPackage produces. STANDARD indicates a default manifest, which is compacted. NONE indicates a full manifest.
@@ -2638,6 +2842,8 @@ extension MediaPackageV2ClientTypes {
         public var subtitleConfiguration: MediaPackageV2ClientTypes.DashSubtitleConfiguration?
         /// The amount of time (in seconds) that the player should be from the end of the manifest.
         public var suggestedPresentationDelaySeconds: Swift.Int?
+        /// The type of path used in manifest URIs. LEAF indicates leaf-relative paths. ROOT indicates root-relative paths that include the full path from root.
+        public var uriPathType: MediaPackageV2ClientTypes.UriPathType?
         /// The egress domain URL for stream delivery from MediaPackage.
         /// This member is required.
         public var url: Swift.String?
@@ -2645,6 +2851,7 @@ extension MediaPackageV2ClientTypes {
         public var utcTiming: MediaPackageV2ClientTypes.DashUtcTiming?
 
         public init(
+            availabilityStartTimeConfiguration: MediaPackageV2ClientTypes.DashAvailabilityStartTimeConfiguration? = nil,
             baseUrls: [MediaPackageV2ClientTypes.DashBaseUrl]? = nil,
             compactness: MediaPackageV2ClientTypes.DashCompactness? = nil,
             drmSignaling: MediaPackageV2ClientTypes.DashDrmSignaling? = nil,
@@ -2661,9 +2868,11 @@ extension MediaPackageV2ClientTypes {
             segmentTemplateFormat: MediaPackageV2ClientTypes.DashSegmentTemplateFormat? = nil,
             subtitleConfiguration: MediaPackageV2ClientTypes.DashSubtitleConfiguration? = nil,
             suggestedPresentationDelaySeconds: Swift.Int? = nil,
+            uriPathType: MediaPackageV2ClientTypes.UriPathType? = nil,
             url: Swift.String? = nil,
             utcTiming: MediaPackageV2ClientTypes.DashUtcTiming? = nil
         ) {
+            self.availabilityStartTimeConfiguration = availabilityStartTimeConfiguration
             self.baseUrls = baseUrls
             self.compactness = compactness
             self.drmSignaling = drmSignaling
@@ -2680,6 +2889,7 @@ extension MediaPackageV2ClientTypes {
             self.segmentTemplateFormat = segmentTemplateFormat
             self.subtitleConfiguration = subtitleConfiguration
             self.suggestedPresentationDelaySeconds = suggestedPresentationDelaySeconds
+            self.uriPathType = uriPathType
             self.url = url
             self.utcTiming = utcTiming
         }
@@ -2705,6 +2915,8 @@ extension MediaPackageV2ClientTypes {
         public var scteHls: MediaPackageV2ClientTypes.ScteHls?
         /// To insert an EXT-X-START tag in your HLS playlist, specify a StartTag configuration object with a valid TimeOffset. When you do, you can also optionally specify whether to include a PRECISE value in the EXT-X-START tag.
         public var startTag: MediaPackageV2ClientTypes.StartTag?
+        /// The type of path used in manifest URIs. LEAF indicates leaf-relative paths. ROOT indicates root-relative paths that include the full path from root.
+        public var uriPathType: MediaPackageV2ClientTypes.UriPathType?
         /// The egress domain URL for stream delivery from MediaPackage.
         /// This member is required.
         public var url: Swift.String?
@@ -2719,6 +2931,7 @@ extension MediaPackageV2ClientTypes {
             programDateTimeIntervalSeconds: Swift.Int? = nil,
             scteHls: MediaPackageV2ClientTypes.ScteHls? = nil,
             startTag: MediaPackageV2ClientTypes.StartTag? = nil,
+            uriPathType: MediaPackageV2ClientTypes.UriPathType? = nil,
             url: Swift.String? = nil,
             urlEncodeChildManifest: Swift.Bool? = nil
         ) {
@@ -2729,6 +2942,7 @@ extension MediaPackageV2ClientTypes {
             self.programDateTimeIntervalSeconds = programDateTimeIntervalSeconds
             self.scteHls = scteHls
             self.startTag = startTag
+            self.uriPathType = uriPathType
             self.url = url
             self.urlEncodeChildManifest = urlEncodeChildManifest
         }
@@ -2754,6 +2968,8 @@ extension MediaPackageV2ClientTypes {
         public var scteHls: MediaPackageV2ClientTypes.ScteHls?
         /// To insert an EXT-X-START tag in your HLS playlist, specify a StartTag configuration object with a valid TimeOffset. When you do, you can also optionally specify whether to include a PRECISE value in the EXT-X-START tag.
         public var startTag: MediaPackageV2ClientTypes.StartTag?
+        /// The type of path used in manifest URIs. LEAF indicates leaf-relative paths. ROOT indicates root-relative paths that include the full path from root.
+        public var uriPathType: MediaPackageV2ClientTypes.UriPathType?
         /// The egress domain URL for stream delivery from MediaPackage.
         /// This member is required.
         public var url: Swift.String?
@@ -2768,6 +2984,7 @@ extension MediaPackageV2ClientTypes {
             programDateTimeIntervalSeconds: Swift.Int? = nil,
             scteHls: MediaPackageV2ClientTypes.ScteHls? = nil,
             startTag: MediaPackageV2ClientTypes.StartTag? = nil,
+            uriPathType: MediaPackageV2ClientTypes.UriPathType? = nil,
             url: Swift.String? = nil,
             urlEncodeChildManifest: Swift.Bool? = nil
         ) {
@@ -2778,6 +2995,7 @@ extension MediaPackageV2ClientTypes {
             self.programDateTimeIntervalSeconds = programDateTimeIntervalSeconds
             self.scteHls = scteHls
             self.startTag = startTag
+            self.uriPathType = uriPathType
             self.url = url
             self.urlEncodeChildManifest = urlEncodeChildManifest
         }
@@ -2860,6 +3078,8 @@ public struct CreateOriginEndpointOutput: Swift.Sendable {
     public var startoverWindowSeconds: Swift.Int?
     /// The comma-separated list of tag key:value pairs assigned to the origin endpoint.
     public var tags: [Swift.String: Swift.String]?
+    /// The separator character used in generated URIs for this origin endpoint.
+    public var uriSeparator: MediaPackageV2ClientTypes.UriSeparator?
 
     public init(
         arn: Swift.String? = nil,
@@ -2878,7 +3098,8 @@ public struct CreateOriginEndpointOutput: Swift.Sendable {
         originEndpointName: Swift.String? = nil,
         segment: MediaPackageV2ClientTypes.Segment? = nil,
         startoverWindowSeconds: Swift.Int? = nil,
-        tags: [Swift.String: Swift.String]? = nil
+        tags: [Swift.String: Swift.String]? = nil,
+        uriSeparator: MediaPackageV2ClientTypes.UriSeparator? = nil
     ) {
         self.arn = arn
         self.channelGroupName = channelGroupName
@@ -2897,6 +3118,7 @@ public struct CreateOriginEndpointOutput: Swift.Sendable {
         self.segment = segment
         self.startoverWindowSeconds = startoverWindowSeconds
         self.tags = tags
+        self.uriSeparator = uriSeparator
     }
 }
 
@@ -2994,6 +3216,8 @@ public struct GetOriginEndpointOutput: Swift.Sendable {
     public var startoverWindowSeconds: Swift.Int?
     /// The comma-separated list of tag key:value pairs assigned to the origin endpoint.
     public var tags: [Swift.String: Swift.String]?
+    /// The separator character used in generated URIs for this origin endpoint.
+    public var uriSeparator: MediaPackageV2ClientTypes.UriSeparator?
 
     public init(
         arn: Swift.String? = nil,
@@ -3013,7 +3237,8 @@ public struct GetOriginEndpointOutput: Swift.Sendable {
         resetAt: Foundation.Date? = nil,
         segment: MediaPackageV2ClientTypes.Segment? = nil,
         startoverWindowSeconds: Swift.Int? = nil,
-        tags: [Swift.String: Swift.String]? = nil
+        tags: [Swift.String: Swift.String]? = nil,
+        uriSeparator: MediaPackageV2ClientTypes.UriSeparator? = nil
     ) {
         self.arn = arn
         self.channelGroupName = channelGroupName
@@ -3033,6 +3258,7 @@ public struct GetOriginEndpointOutput: Swift.Sendable {
         self.segment = segment
         self.startoverWindowSeconds = startoverWindowSeconds
         self.tags = tags
+        self.uriSeparator = uriSeparator
     }
 }
 
@@ -3184,6 +3410,8 @@ extension MediaPackageV2ClientTypes {
         /// The name that describes the origin endpoint. The name is the primary identifier for the origin endpoint, and and must be unique for your account in the AWS Region and channel.
         /// This member is required.
         public var originEndpointName: Swift.String?
+        /// The separator character used in generated URIs for this origin endpoint.
+        public var uriSeparator: MediaPackageV2ClientTypes.UriSeparator?
 
         public init(
             arn: Swift.String? = nil,
@@ -3198,7 +3426,8 @@ extension MediaPackageV2ClientTypes {
             lowLatencyHlsManifests: [MediaPackageV2ClientTypes.ListLowLatencyHlsManifestConfiguration]? = nil,
             modifiedAt: Foundation.Date? = nil,
             mssManifests: [MediaPackageV2ClientTypes.ListMssManifestConfiguration]? = nil,
-            originEndpointName: Swift.String? = nil
+            originEndpointName: Swift.String? = nil,
+            uriSeparator: MediaPackageV2ClientTypes.UriSeparator? = nil
         ) {
             self.arn = arn
             self.channelGroupName = channelGroupName
@@ -3213,6 +3442,7 @@ extension MediaPackageV2ClientTypes {
             self.modifiedAt = modifiedAt
             self.mssManifests = mssManifests
             self.originEndpointName = originEndpointName
+            self.uriSeparator = uriSeparator
         }
     }
 }
@@ -3433,6 +3663,8 @@ public struct UpdateOriginEndpointInput: Swift.Sendable {
     public var segment: MediaPackageV2ClientTypes.Segment?
     /// The size of the window (in seconds) to create a window of the live stream that's available for on-demand viewing. Viewers can start-over or catch-up on content that falls within the window. The maximum startover window is 1,209,600 seconds (14 days).
     public var startoverWindowSeconds: Swift.Int?
+    /// The separator character to use in generated URIs for this origin endpoint. This setting applies to all manifest types on the endpoint. If you don't specify a value in the update request, the current value is preserved.
+    public var uriSeparator: MediaPackageV2ClientTypes.UriSeparator?
 
     public init(
         channelGroupName: Swift.String? = nil,
@@ -3447,7 +3679,8 @@ public struct UpdateOriginEndpointInput: Swift.Sendable {
         mssManifests: [MediaPackageV2ClientTypes.CreateMssManifestConfiguration]? = nil,
         originEndpointName: Swift.String? = nil,
         segment: MediaPackageV2ClientTypes.Segment? = nil,
-        startoverWindowSeconds: Swift.Int? = nil
+        startoverWindowSeconds: Swift.Int? = nil,
+        uriSeparator: MediaPackageV2ClientTypes.UriSeparator? = nil
     ) {
         self.channelGroupName = channelGroupName
         self.channelName = channelName
@@ -3462,6 +3695,7 @@ public struct UpdateOriginEndpointInput: Swift.Sendable {
         self.originEndpointName = originEndpointName
         self.segment = segment
         self.startoverWindowSeconds = startoverWindowSeconds
+        self.uriSeparator = uriSeparator
     }
 }
 
@@ -3508,6 +3742,8 @@ public struct UpdateOriginEndpointOutput: Swift.Sendable {
     public var startoverWindowSeconds: Swift.Int?
     /// The comma-separated list of tag key:value pairs assigned to the origin endpoint.
     public var tags: [Swift.String: Swift.String]?
+    /// The separator character used in generated URIs for this origin endpoint.
+    public var uriSeparator: MediaPackageV2ClientTypes.UriSeparator?
 
     public init(
         arn: Swift.String? = nil,
@@ -3526,7 +3762,8 @@ public struct UpdateOriginEndpointOutput: Swift.Sendable {
         originEndpointName: Swift.String? = nil,
         segment: MediaPackageV2ClientTypes.Segment? = nil,
         startoverWindowSeconds: Swift.Int? = nil,
-        tags: [Swift.String: Swift.String]? = nil
+        tags: [Swift.String: Swift.String]? = nil,
+        uriSeparator: MediaPackageV2ClientTypes.UriSeparator? = nil
     ) {
         self.arn = arn
         self.channelGroupName = channelGroupName
@@ -3545,6 +3782,7 @@ public struct UpdateOriginEndpointOutput: Swift.Sendable {
         self.segment = segment
         self.startoverWindowSeconds = startoverWindowSeconds
         self.tags = tags
+        self.uriSeparator = uriSeparator
     }
 }
 
@@ -5134,6 +5372,7 @@ extension CreateOriginEndpointInput {
         try writer["Segment"].write(value.segment, with: MediaPackageV2ClientTypes.Segment.write(value:to:))
         try writer["StartoverWindowSeconds"].write(value.startoverWindowSeconds)
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["UriSeparator"].write(value.uriSeparator)
     }
 }
 
@@ -5193,6 +5432,7 @@ extension UpdateOriginEndpointInput {
         try writer["MssManifests"].writeList(value.mssManifests, memberWritingClosure: MediaPackageV2ClientTypes.CreateMssManifestConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Segment"].write(value.segment, with: MediaPackageV2ClientTypes.Segment.write(value:to:))
         try writer["StartoverWindowSeconds"].write(value.startoverWindowSeconds)
+        try writer["UriSeparator"].write(value.uriSeparator)
     }
 }
 
@@ -5295,6 +5535,7 @@ extension CreateOriginEndpointOutput {
         value.segment = try reader["Segment"].readIfPresent(with: MediaPackageV2ClientTypes.Segment.read(from:))
         value.startoverWindowSeconds = try reader["StartoverWindowSeconds"].readIfPresent()
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.uriSeparator = try reader["UriSeparator"].readIfPresent()
         return value
     }
 }
@@ -5442,6 +5683,7 @@ extension GetOriginEndpointOutput {
         value.segment = try reader["Segment"].readIfPresent(with: MediaPackageV2ClientTypes.Segment.read(from:))
         value.startoverWindowSeconds = try reader["StartoverWindowSeconds"].readIfPresent()
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.uriSeparator = try reader["UriSeparator"].readIfPresent()
         return value
     }
 }
@@ -5651,6 +5893,7 @@ extension UpdateOriginEndpointOutput {
         value.segment = try reader["Segment"].readIfPresent(with: MediaPackageV2ClientTypes.Segment.read(from:))
         value.startoverWindowSeconds = try reader["StartoverWindowSeconds"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.uriSeparator = try reader["UriSeparator"].readIfPresent()
         return value
     }
 }
@@ -6343,6 +6586,7 @@ extension MediaPackageV2ClientTypes.CreateDashManifestConfiguration {
 
     static func write(value: MediaPackageV2ClientTypes.CreateDashManifestConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AvailabilityStartTimeConfiguration"].write(value.availabilityStartTimeConfiguration, with: MediaPackageV2ClientTypes.DashAvailabilityStartTimeConfiguration.write(value:to:))
         try writer["BaseUrls"].writeList(value.baseUrls, memberWritingClosure: MediaPackageV2ClientTypes.DashBaseUrl.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Compactness"].write(value.compactness)
         try writer["DrmSignaling"].write(value.drmSignaling)
@@ -6359,6 +6603,7 @@ extension MediaPackageV2ClientTypes.CreateDashManifestConfiguration {
         try writer["SegmentTemplateFormat"].write(value.segmentTemplateFormat)
         try writer["SubtitleConfiguration"].write(value.subtitleConfiguration, with: MediaPackageV2ClientTypes.DashSubtitleConfiguration.write(value:to:))
         try writer["SuggestedPresentationDelaySeconds"].write(value.suggestedPresentationDelaySeconds)
+        try writer["UriPathType"].write(value.uriPathType)
         try writer["UtcTiming"].write(value.utcTiming, with: MediaPackageV2ClientTypes.DashUtcTiming.write(value:to:))
     }
 }
@@ -6374,6 +6619,7 @@ extension MediaPackageV2ClientTypes.CreateHlsManifestConfiguration {
         try writer["ProgramDateTimeIntervalSeconds"].write(value.programDateTimeIntervalSeconds)
         try writer["ScteHls"].write(value.scteHls, with: MediaPackageV2ClientTypes.ScteHls.write(value:to:))
         try writer["StartTag"].write(value.startTag, with: MediaPackageV2ClientTypes.StartTag.write(value:to:))
+        try writer["UriPathType"].write(value.uriPathType)
         try writer["UrlEncodeChildManifest"].write(value.urlEncodeChildManifest)
     }
 }
@@ -6389,6 +6635,7 @@ extension MediaPackageV2ClientTypes.CreateLowLatencyHlsManifestConfiguration {
         try writer["ProgramDateTimeIntervalSeconds"].write(value.programDateTimeIntervalSeconds)
         try writer["ScteHls"].write(value.scteHls, with: MediaPackageV2ClientTypes.ScteHls.write(value:to:))
         try writer["StartTag"].write(value.startTag, with: MediaPackageV2ClientTypes.StartTag.write(value:to:))
+        try writer["UriPathType"].write(value.uriPathType)
         try writer["UrlEncodeChildManifest"].write(value.urlEncodeChildManifest)
     }
 }
@@ -6401,6 +6648,30 @@ extension MediaPackageV2ClientTypes.CreateMssManifestConfiguration {
         try writer["ManifestLayout"].write(value.manifestLayout)
         try writer["ManifestName"].write(value.manifestName)
         try writer["ManifestWindowSeconds"].write(value.manifestWindowSeconds)
+    }
+}
+
+extension MediaPackageV2ClientTypes.DashAvailabilityStartTimeConfiguration {
+
+    static func write(value: MediaPackageV2ClientTypes.DashAvailabilityStartTimeConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .fixedavailabilitystarttime(fixedavailabilitystarttime):
+                try writer["FixedAvailabilityStartTime"].writeTimestamp(fixedavailabilitystarttime, format: SmithyTimestamps.TimestampFormat.dateTime)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.DashAvailabilityStartTimeConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "FixedAvailabilityStartTime":
+                return .fixedavailabilitystarttime(try reader["FixedAvailabilityStartTime"].readTimestamp(format: SmithyTimestamps.TimestampFormat.dateTime))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
@@ -6685,6 +6956,8 @@ extension MediaPackageV2ClientTypes.GetDashManifestConfiguration {
         value.dvbSettings = try reader["DvbSettings"].readIfPresent(with: MediaPackageV2ClientTypes.DashDvbSettings.read(from:))
         value.compactness = try reader["Compactness"].readIfPresent()
         value.subtitleConfiguration = try reader["SubtitleConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.DashSubtitleConfiguration.read(from:))
+        value.uriPathType = try reader["UriPathType"].readIfPresent()
+        value.availabilityStartTimeConfiguration = try reader["AvailabilityStartTimeConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.DashAvailabilityStartTimeConfiguration.read(from:))
         return value
     }
 }
@@ -6703,6 +6976,7 @@ extension MediaPackageV2ClientTypes.GetHlsManifestConfiguration {
         value.filterConfiguration = try reader["FilterConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.FilterConfiguration.read(from:))
         value.startTag = try reader["StartTag"].readIfPresent(with: MediaPackageV2ClientTypes.StartTag.read(from:))
         value.urlEncodeChildManifest = try reader["UrlEncodeChildManifest"].readIfPresent()
+        value.uriPathType = try reader["UriPathType"].readIfPresent()
         return value
     }
 }
@@ -6721,6 +6995,7 @@ extension MediaPackageV2ClientTypes.GetLowLatencyHlsManifestConfiguration {
         value.filterConfiguration = try reader["FilterConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.FilterConfiguration.read(from:))
         value.startTag = try reader["StartTag"].readIfPresent(with: MediaPackageV2ClientTypes.StartTag.read(from:))
         value.urlEncodeChildManifest = try reader["UrlEncodeChildManifest"].readIfPresent()
+        value.uriPathType = try reader["UriPathType"].readIfPresent()
         return value
     }
 }
@@ -6935,6 +7210,7 @@ extension MediaPackageV2ClientTypes.OriginEndpointListConfiguration {
         value.dashManifests = try reader["DashManifests"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.ListDashManifestConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.mssManifests = try reader["MssManifests"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.ListMssManifestConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.forceEndpointErrorConfiguration = try reader["ForceEndpointErrorConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.ForceEndpointErrorConfiguration.read(from:))
+        value.uriSeparator = try reader["UriSeparator"].readIfPresent()
         return value
     }
 }
@@ -6975,6 +7251,7 @@ extension MediaPackageV2ClientTypes.Scte {
 
     static func write(value: MediaPackageV2ClientTypes.Scte?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["CustomAdTypes"].writeList(value.customAdTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaPackageV2ClientTypes.CustomAdType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ScteFilter"].writeList(value.scteFilter, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaPackageV2ClientTypes.ScteFilter>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ScteInSegments"].write(value.scteInSegments)
     }
@@ -6984,6 +7261,7 @@ extension MediaPackageV2ClientTypes.Scte {
         var value = MediaPackageV2ClientTypes.Scte()
         value.scteFilter = try reader["ScteFilter"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaPackageV2ClientTypes.ScteFilter>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.scteInSegments = try reader["ScteInSegments"].readIfPresent()
+        value.customAdTypes = try reader["CustomAdTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaPackageV2ClientTypes.CustomAdType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -6993,12 +7271,14 @@ extension MediaPackageV2ClientTypes.ScteDash {
     static func write(value: MediaPackageV2ClientTypes.ScteDash?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AdMarkerDash"].write(value.adMarkerDash)
+        try writer["ScteInManifests"].write(value.scteInManifests)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.ScteDash {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaPackageV2ClientTypes.ScteDash()
         value.adMarkerDash = try reader["AdMarkerDash"].readIfPresent()
+        value.scteInManifests = try reader["ScteInManifests"].readIfPresent()
         return value
     }
 }
@@ -7008,12 +7288,14 @@ extension MediaPackageV2ClientTypes.ScteHls {
     static func write(value: MediaPackageV2ClientTypes.ScteHls?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AdMarkerHls"].write(value.adMarkerHls)
+        try writer["ScteInManifests"].write(value.scteInManifests)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.ScteHls {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaPackageV2ClientTypes.ScteHls()
         value.adMarkerHls = try reader["AdMarkerHls"].readIfPresent()
+        value.scteInManifests = try reader["ScteInManifests"].readIfPresent()
         return value
     }
 }

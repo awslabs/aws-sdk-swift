@@ -15,7 +15,7 @@ import class AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain
 import class ClientRuntime.ClientBuilder
 import class ClientRuntime.DefaultClientPlugin
 import class ClientRuntime.HttpClientConfiguration
-import class ClientRuntime.OrchestratorBuilder
+@_spi(SchemaBasedSerde) import class ClientRuntime.OrchestratorBuilder
 import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
@@ -614,7 +614,7 @@ extension SecurityAgentClient {
 extension SecurityAgentClient {
     /// Performs the `AddArtifact` operation on the `SecurityAgent` service.
     ///
-    /// Adds an Artifact for the given agent space
+    /// Uploads an artifact to an agent space. Artifacts provide additional context for security testing, such as architecture diagrams, API specifications, or configuration files.
     ///
     /// - Parameter input: [no documentation found] (Type: `AddArtifactInput`)
     ///
@@ -623,11 +623,11 @@ extension SecurityAgentClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Request denied due to insufficient permissions
-    /// - `InternalServerException` : Unexpected server error occurred
-    /// - `ResourceNotFoundException` : Specified resource was not found
-    /// - `ThrottlingException` : Request denied due to throttling
-    /// - `ValidationException` : A standard error for input validation failures. This should be thrown by services when a member of the input structure falls outside of the modeled or documented constraints.
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of your request.
+    /// - `ResourceNotFoundException` : The specified resource was not found. Verify that the resource identifier is correct and that the resource exists in the specified agent space or account.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func addArtifact(input: AddArtifactInput) async throws -> AddArtifactOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -684,13 +684,76 @@ extension SecurityAgentClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `BatchDeleteCodeReviews` operation on the `SecurityAgent` service.
+    ///
+    /// Deletes one or more code reviews from an agent space.
+    ///
+    /// - Parameter input: Input for deleting multiple code reviews. (Type: `BatchDeleteCodeReviewsInput`)
+    ///
+    /// - Returns: Output for the BatchDeleteCodeReviews operation. (Type: `BatchDeleteCodeReviewsOutput`)
+    public func batchDeleteCodeReviews(input: BatchDeleteCodeReviewsInput) async throws -> BatchDeleteCodeReviewsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "batchDeleteCodeReviews")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "securityagent")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<BatchDeleteCodeReviewsInput, BatchDeleteCodeReviewsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchDeleteCodeReviewsInput, BatchDeleteCodeReviewsOutput>(BatchDeleteCodeReviewsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchDeleteCodeReviewsInput, BatchDeleteCodeReviewsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchDeleteCodeReviewsInput, BatchDeleteCodeReviewsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<BatchDeleteCodeReviewsInput, BatchDeleteCodeReviewsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchDeleteCodeReviewsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDeleteCodeReviewsInput, BatchDeleteCodeReviewsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchDeleteCodeReviewsOutput>(BatchDeleteCodeReviewsOutput.httpOutput(from:), BatchDeleteCodeReviewsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDeleteCodeReviewsInput, BatchDeleteCodeReviewsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<BatchDeleteCodeReviewsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchDeleteCodeReviewsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchDeleteCodeReviewsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchDeleteCodeReviewsInput, BatchDeleteCodeReviewsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchDeleteCodeReviewsInput, BatchDeleteCodeReviewsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchDeleteCodeReviewsInput, BatchDeleteCodeReviewsOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchDeleteCodeReviews")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `BatchDeletePentests` operation on the `SecurityAgent` service.
     ///
-    /// Deletes multiple pentests in a single request
+    /// Deletes one or more pentests from an agent space.
     ///
-    /// - Parameter input: Input for deleting multiple pentests (Type: `BatchDeletePentestsInput`)
+    /// - Parameter input: Input for deleting multiple pentests. (Type: `BatchDeletePentestsInput`)
     ///
-    /// - Returns: Output for the BatchDeletePentests operation (Type: `BatchDeletePentestsOutput`)
+    /// - Returns: Output for the BatchDeletePentests operation. (Type: `BatchDeletePentestsOutput`)
     public func batchDeletePentests(input: BatchDeletePentestsInput) async throws -> BatchDeletePentestsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -749,11 +812,11 @@ extension SecurityAgentClient {
 
     /// Performs the `BatchGetAgentSpaces` operation on the `SecurityAgent` service.
     ///
-    /// Retrieves multiple agent spaces in a single request
+    /// Retrieves information about one or more agent spaces.
     ///
-    /// - Parameter input: Input for batch retrieving agent spaces (Type: `BatchGetAgentSpacesInput`)
+    /// - Parameter input: Input for batch retrieving agent spaces. (Type: `BatchGetAgentSpacesInput`)
     ///
-    /// - Returns: Output for the BatchGetAgentSpaces operation (Type: `BatchGetAgentSpacesOutput`)
+    /// - Returns: Output for the BatchGetAgentSpaces operation. (Type: `BatchGetAgentSpacesOutput`)
     public func batchGetAgentSpaces(input: BatchGetAgentSpacesInput) async throws -> BatchGetAgentSpacesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -812,7 +875,7 @@ extension SecurityAgentClient {
 
     /// Performs the `BatchGetArtifactMetadata` operation on the `SecurityAgent` service.
     ///
-    /// Retrieve the list of artifact metadata for the given agent space
+    /// Retrieves metadata for one or more artifacts in an agent space.
     ///
     /// - Parameter input: [no documentation found] (Type: `BatchGetArtifactMetadataInput`)
     ///
@@ -821,11 +884,11 @@ extension SecurityAgentClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Request denied due to insufficient permissions
-    /// - `InternalServerException` : Unexpected server error occurred
-    /// - `ResourceNotFoundException` : Specified resource was not found
-    /// - `ThrottlingException` : Request denied due to throttling
-    /// - `ValidationException` : A standard error for input validation failures. This should be thrown by services when a member of the input structure falls outside of the modeled or documented constraints.
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of your request.
+    /// - `ResourceNotFoundException` : The specified resource was not found. Verify that the resource identifier is correct and that the resource exists in the specified agent space or account.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func batchGetArtifactMetadata(input: BatchGetArtifactMetadataInput) async throws -> BatchGetArtifactMetadataOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -882,13 +945,202 @@ extension SecurityAgentClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `BatchGetCodeReviewJobTasks` operation on the `SecurityAgent` service.
+    ///
+    /// Retrieves information about one or more tasks within a code review job.
+    ///
+    /// - Parameter input: Input for retrieving multiple tasks associated with a code review job. (Type: `BatchGetCodeReviewJobTasksInput`)
+    ///
+    /// - Returns: Output for the BatchGetCodeReviewJobTasks operation. (Type: `BatchGetCodeReviewJobTasksOutput`)
+    public func batchGetCodeReviewJobTasks(input: BatchGetCodeReviewJobTasksInput) async throws -> BatchGetCodeReviewJobTasksOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "batchGetCodeReviewJobTasks")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "securityagent")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<BatchGetCodeReviewJobTasksInput, BatchGetCodeReviewJobTasksOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchGetCodeReviewJobTasksInput, BatchGetCodeReviewJobTasksOutput>(BatchGetCodeReviewJobTasksInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchGetCodeReviewJobTasksInput, BatchGetCodeReviewJobTasksOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetCodeReviewJobTasksInput, BatchGetCodeReviewJobTasksOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<BatchGetCodeReviewJobTasksInput, BatchGetCodeReviewJobTasksOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchGetCodeReviewJobTasksInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetCodeReviewJobTasksInput, BatchGetCodeReviewJobTasksOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetCodeReviewJobTasksOutput>(BatchGetCodeReviewJobTasksOutput.httpOutput(from:), BatchGetCodeReviewJobTasksOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetCodeReviewJobTasksInput, BatchGetCodeReviewJobTasksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetCodeReviewJobTasksOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetCodeReviewJobTasksOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetCodeReviewJobTasksOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetCodeReviewJobTasksInput, BatchGetCodeReviewJobTasksOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetCodeReviewJobTasksInput, BatchGetCodeReviewJobTasksOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetCodeReviewJobTasksInput, BatchGetCodeReviewJobTasksOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchGetCodeReviewJobTasks")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `BatchGetCodeReviewJobs` operation on the `SecurityAgent` service.
+    ///
+    /// Retrieves information about one or more code review jobs in an agent space.
+    ///
+    /// - Parameter input: Input for BatchGetCodeReviewJobs operation. (Type: `BatchGetCodeReviewJobsInput`)
+    ///
+    /// - Returns: Output for the BatchGetCodeReviewJobs operation. (Type: `BatchGetCodeReviewJobsOutput`)
+    public func batchGetCodeReviewJobs(input: BatchGetCodeReviewJobsInput) async throws -> BatchGetCodeReviewJobsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "batchGetCodeReviewJobs")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "securityagent")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<BatchGetCodeReviewJobsInput, BatchGetCodeReviewJobsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchGetCodeReviewJobsInput, BatchGetCodeReviewJobsOutput>(BatchGetCodeReviewJobsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchGetCodeReviewJobsInput, BatchGetCodeReviewJobsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetCodeReviewJobsInput, BatchGetCodeReviewJobsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<BatchGetCodeReviewJobsInput, BatchGetCodeReviewJobsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchGetCodeReviewJobsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetCodeReviewJobsInput, BatchGetCodeReviewJobsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetCodeReviewJobsOutput>(BatchGetCodeReviewJobsOutput.httpOutput(from:), BatchGetCodeReviewJobsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetCodeReviewJobsInput, BatchGetCodeReviewJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetCodeReviewJobsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetCodeReviewJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetCodeReviewJobsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetCodeReviewJobsInput, BatchGetCodeReviewJobsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetCodeReviewJobsInput, BatchGetCodeReviewJobsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetCodeReviewJobsInput, BatchGetCodeReviewJobsOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchGetCodeReviewJobs")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `BatchGetCodeReviews` operation on the `SecurityAgent` service.
+    ///
+    /// Retrieves information about one or more code reviews in an agent space.
+    ///
+    /// - Parameter input: Input for retrieving multiple code reviews by their IDs. (Type: `BatchGetCodeReviewsInput`)
+    ///
+    /// - Returns: Output for the BatchGetCodeReviews operation. (Type: `BatchGetCodeReviewsOutput`)
+    public func batchGetCodeReviews(input: BatchGetCodeReviewsInput) async throws -> BatchGetCodeReviewsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "batchGetCodeReviews")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "securityagent")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<BatchGetCodeReviewsInput, BatchGetCodeReviewsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchGetCodeReviewsInput, BatchGetCodeReviewsOutput>(BatchGetCodeReviewsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchGetCodeReviewsInput, BatchGetCodeReviewsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetCodeReviewsInput, BatchGetCodeReviewsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<BatchGetCodeReviewsInput, BatchGetCodeReviewsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchGetCodeReviewsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetCodeReviewsInput, BatchGetCodeReviewsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetCodeReviewsOutput>(BatchGetCodeReviewsOutput.httpOutput(from:), BatchGetCodeReviewsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetCodeReviewsInput, BatchGetCodeReviewsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetCodeReviewsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetCodeReviewsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetCodeReviewsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetCodeReviewsInput, BatchGetCodeReviewsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetCodeReviewsInput, BatchGetCodeReviewsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetCodeReviewsInput, BatchGetCodeReviewsOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchGetCodeReviews")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `BatchGetFindings` operation on the `SecurityAgent` service.
     ///
-    /// Retrieves multiple findings in a single request
+    /// Retrieves information about one or more security findings in an agent space.
     ///
-    /// - Parameter input: Input for BatchGetFindings operation (Type: `BatchGetFindingsInput`)
+    /// - Parameter input: Input for BatchGetFindings operation. (Type: `BatchGetFindingsInput`)
     ///
-    /// - Returns: Output for the BatchGetFindings operation (Type: `BatchGetFindingsOutput`)
+    /// - Returns: Output for the BatchGetFindings operation. (Type: `BatchGetFindingsOutput`)
     public func batchGetFindings(input: BatchGetFindingsInput) async throws -> BatchGetFindingsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -947,11 +1199,11 @@ extension SecurityAgentClient {
 
     /// Performs the `BatchGetPentestJobTasks` operation on the `SecurityAgent` service.
     ///
-    /// Retrieves multiple tasks for a pentest job in a single request
+    /// Retrieves information about one or more tasks within a pentest job.
     ///
-    /// - Parameter input: Input for retrieving multiple tasks by their IDs for a pentest job (Type: `BatchGetPentestJobTasksInput`)
+    /// - Parameter input: Input for retrieving multiple tasks associated with a pentest job. (Type: `BatchGetPentestJobTasksInput`)
     ///
-    /// - Returns: Output for the BatchGetPentestJobTasks operation (Type: `BatchGetPentestJobTasksOutput`)
+    /// - Returns: Output for the BatchGetPentestJobTasks operation. (Type: `BatchGetPentestJobTasksOutput`)
     public func batchGetPentestJobTasks(input: BatchGetPentestJobTasksInput) async throws -> BatchGetPentestJobTasksOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1010,11 +1262,11 @@ extension SecurityAgentClient {
 
     /// Performs the `BatchGetPentestJobs` operation on the `SecurityAgent` service.
     ///
-    /// Retrieves multiple pentest jobs in a single request
+    /// Retrieves information about one or more pentest jobs in an agent space.
     ///
-    /// - Parameter input: Input for BatchGetPentestJobs operation (Type: `BatchGetPentestJobsInput`)
+    /// - Parameter input: Input for BatchGetPentestJobs operation. (Type: `BatchGetPentestJobsInput`)
     ///
-    /// - Returns: Output for the BatchGetPentestJobs operation (Type: `BatchGetPentestJobsOutput`)
+    /// - Returns: Output for the BatchGetPentestJobs operation. (Type: `BatchGetPentestJobsOutput`)
     public func batchGetPentestJobs(input: BatchGetPentestJobsInput) async throws -> BatchGetPentestJobsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1073,11 +1325,11 @@ extension SecurityAgentClient {
 
     /// Performs the `BatchGetPentests` operation on the `SecurityAgent` service.
     ///
-    /// Retrieves multiple pentests in a single request
+    /// Retrieves information about one or more pentests in an agent space.
     ///
-    /// - Parameter input: Input for retrieving multiple pentests by their IDs (Type: `BatchGetPentestsInput`)
+    /// - Parameter input: Input for retrieving multiple pentests by their IDs. (Type: `BatchGetPentestsInput`)
     ///
-    /// - Returns: Output for the BatchGetPentests operation (Type: `BatchGetPentestsOutput`)
+    /// - Returns: Output for the BatchGetPentests operation. (Type: `BatchGetPentestsOutput`)
     public func batchGetPentests(input: BatchGetPentestsInput) async throws -> BatchGetPentestsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1136,11 +1388,11 @@ extension SecurityAgentClient {
 
     /// Performs the `BatchGetTargetDomains` operation on the `SecurityAgent` service.
     ///
-    /// Retrieves multiple target domains in a single request
+    /// Retrieves information about one or more target domains.
     ///
-    /// - Parameter input: Input for batch retrieving target domains (Type: `BatchGetTargetDomainsInput`)
+    /// - Parameter input: Input for batch retrieving target domains. (Type: `BatchGetTargetDomainsInput`)
     ///
-    /// - Returns: Output for the BatchGetTargetDomains operation (Type: `BatchGetTargetDomainsOutput`)
+    /// - Returns: Output for the BatchGetTargetDomains operation. (Type: `BatchGetTargetDomainsOutput`)
     public func batchGetTargetDomains(input: BatchGetTargetDomainsInput) async throws -> BatchGetTargetDomainsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1199,11 +1451,11 @@ extension SecurityAgentClient {
 
     /// Performs the `CreateAgentSpace` operation on the `SecurityAgent` service.
     ///
-    /// Creates an agent space record
+    /// Creates a new agent space. An agent space is a dedicated workspace for securing a specific application.
     ///
-    /// - Parameter input: Input for creating a new agent space (Type: `CreateAgentSpaceInput`)
+    /// - Parameter input: Input for creating a new agent space. (Type: `CreateAgentSpaceInput`)
     ///
-    /// - Returns: Output for the CreateAgentSpace operation (Type: `CreateAgentSpaceOutput`)
+    /// - Returns: Output for the CreateAgentSpace operation. (Type: `CreateAgentSpaceOutput`)
     public func createAgentSpace(input: CreateAgentSpaceInput) async throws -> CreateAgentSpaceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1262,7 +1514,7 @@ extension SecurityAgentClient {
 
     /// Performs the `CreateApplication` operation on the `SecurityAgent` service.
     ///
-    /// Creates a new application
+    /// Creates a new application. An application is the top-level organizational unit that supports IAM Identity Center integration.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateApplicationInput`)
     ///
@@ -1323,9 +1575,72 @@ extension SecurityAgentClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreateCodeReview` operation on the `SecurityAgent` service.
+    ///
+    /// Creates a new code review configuration in an agent space. A code review defines the parameters for automated security-focused code analysis.
+    ///
+    /// - Parameter input: Input for creating a new code review. (Type: `CreateCodeReviewInput`)
+    ///
+    /// - Returns: Output for the CreateCodeReview operation. (Type: `CreateCodeReviewOutput`)
+    public func createCodeReview(input: CreateCodeReviewInput) async throws -> CreateCodeReviewOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createCodeReview")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "securityagent")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateCodeReviewInput, CreateCodeReviewOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateCodeReviewInput, CreateCodeReviewOutput>(CreateCodeReviewInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateCodeReviewInput, CreateCodeReviewOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateCodeReviewInput, CreateCodeReviewOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateCodeReviewInput, CreateCodeReviewOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateCodeReviewInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCodeReviewInput, CreateCodeReviewOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCodeReviewOutput>(CreateCodeReviewOutput.httpOutput(from:), CreateCodeReviewOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCodeReviewInput, CreateCodeReviewOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateCodeReviewOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateCodeReviewOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateCodeReviewOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateCodeReviewInput, CreateCodeReviewOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateCodeReviewInput, CreateCodeReviewOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateCodeReviewInput, CreateCodeReviewOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateCodeReview")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateIntegration` operation on the `SecurityAgent` service.
     ///
-    /// Creates the Integration of the Security Agent App with an external Provider
+    /// Creates a new integration with a third-party provider, such as GitHub, for code review and remediation.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateIntegrationInput`)
     ///
@@ -1334,12 +1649,12 @@ extension SecurityAgentClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Request denied due to insufficient permissions
-    /// - `ConflictException` : Request conflicts with current resource state
-    /// - `InternalServerException` : Unexpected server error occurred
-    /// - `ResourceNotFoundException` : Specified resource was not found
-    /// - `ThrottlingException` : Request denied due to throttling
-    /// - `ValidationException` : A standard error for input validation failures. This should be thrown by services when a member of the input structure falls outside of the modeled or documented constraints.
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the resource.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of your request.
+    /// - `ResourceNotFoundException` : The specified resource was not found. Verify that the resource identifier is correct and that the resource exists in the specified agent space or account.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func createIntegration(input: CreateIntegrationInput) async throws -> CreateIntegrationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1398,11 +1713,11 @@ extension SecurityAgentClient {
 
     /// Performs the `CreateMembership` operation on the `SecurityAgent` service.
     ///
-    /// Adds a single member to an agent space with specified role
+    /// Creates a new membership, granting a user access to an agent space within an application.
     ///
-    /// - Parameter input: Request structure for adding a single member to an agent space (Type: `CreateMembershipInput`)
+    /// - Parameter input: Request structure for adding a single member to an agent space. (Type: `CreateMembershipInput`)
     ///
-    /// - Returns: Response structure for adding a single member to an agent space (Type: `CreateMembershipOutput`)
+    /// - Returns: Response structure for adding a single member to an agent space. (Type: `CreateMembershipOutput`)
     public func createMembership(input: CreateMembershipInput) async throws -> CreateMembershipOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1461,11 +1776,11 @@ extension SecurityAgentClient {
 
     /// Performs the `CreatePentest` operation on the `SecurityAgent` service.
     ///
-    /// Creates a new pentest configuration
+    /// Creates a new pentest configuration in an agent space. A pentest defines the security test parameters, including target assets, risk type exclusions, and logging configuration.
     ///
-    /// - Parameter input: Input for creating a new pentest (Type: `CreatePentestInput`)
+    /// - Parameter input: Input for creating a new pentest. (Type: `CreatePentestInput`)
     ///
-    /// - Returns: Output for the CreatePentest operation (Type: `CreatePentestOutput`)
+    /// - Returns: Output for the CreatePentest operation. (Type: `CreatePentestOutput`)
     public func createPentest(input: CreatePentestInput) async throws -> CreatePentestOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1524,11 +1839,11 @@ extension SecurityAgentClient {
 
     /// Performs the `CreateTargetDomain` operation on the `SecurityAgent` service.
     ///
-    /// Creates a target domain record
+    /// Creates a new target domain for penetration testing. A target domain is a web domain that must be registered and verified before it can be tested.
     ///
-    /// - Parameter input: Input for creating a new target domain (Type: `CreateTargetDomainInput`)
+    /// - Parameter input: Input for creating a new target domain. (Type: `CreateTargetDomainInput`)
     ///
-    /// - Returns: Output for the CreateTargetDomain operation (Type: `CreateTargetDomainOutput`)
+    /// - Returns: Output for the CreateTargetDomain operation. (Type: `CreateTargetDomainOutput`)
     public func createTargetDomain(input: CreateTargetDomainInput) async throws -> CreateTargetDomainOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1587,11 +1902,11 @@ extension SecurityAgentClient {
 
     /// Performs the `DeleteAgentSpace` operation on the `SecurityAgent` service.
     ///
-    /// Deletes an agent space record
+    /// Deletes an agent space and all of its associated resources, including pentests, findings, and artifacts.
     ///
-    /// - Parameter input: Input for deleting an agent space (Type: `DeleteAgentSpaceInput`)
+    /// - Parameter input: Input for deleting an agent space. (Type: `DeleteAgentSpaceInput`)
     ///
-    /// - Returns: Output for the DeleteAgentSpace operation (Type: `DeleteAgentSpaceOutput`)
+    /// - Returns: Output for the DeleteAgentSpace operation. (Type: `DeleteAgentSpaceOutput`)
     public func deleteAgentSpace(input: DeleteAgentSpaceInput) async throws -> DeleteAgentSpaceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1650,7 +1965,7 @@ extension SecurityAgentClient {
 
     /// Performs the `DeleteApplication` operation on the `SecurityAgent` service.
     ///
-    /// Deletes an application
+    /// Deletes an application and its associated configuration, including IAM Identity Center settings.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteApplicationInput`)
     ///
@@ -1713,7 +2028,7 @@ extension SecurityAgentClient {
 
     /// Performs the `DeleteArtifact` operation on the `SecurityAgent` service.
     ///
-    /// Delete an Artifact from the given agent space
+    /// Deletes an artifact from an agent space.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteArtifactInput`)
     ///
@@ -1722,11 +2037,11 @@ extension SecurityAgentClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Request denied due to insufficient permissions
-    /// - `InternalServerException` : Unexpected server error occurred
-    /// - `ResourceNotFoundException` : Specified resource was not found
-    /// - `ThrottlingException` : Request denied due to throttling
-    /// - `ValidationException` : A standard error for input validation failures. This should be thrown by services when a member of the input structure falls outside of the modeled or documented constraints.
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of your request.
+    /// - `ResourceNotFoundException` : The specified resource was not found. Verify that the resource identifier is correct and that the resource exists in the specified agent space or account.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func deleteArtifact(input: DeleteArtifactInput) async throws -> DeleteArtifactOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1785,7 +2100,7 @@ extension SecurityAgentClient {
 
     /// Performs the `DeleteIntegration` operation on the `SecurityAgent` service.
     ///
-    /// Deletes the Integration of the Security Agent App with an external Provider
+    /// Deletes an integration with a third-party provider.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteIntegrationInput`)
     ///
@@ -1794,12 +2109,12 @@ extension SecurityAgentClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Request denied due to insufficient permissions
-    /// - `ConflictException` : Request conflicts with current resource state
-    /// - `InternalServerException` : Unexpected server error occurred
-    /// - `ResourceNotFoundException` : Specified resource was not found
-    /// - `ThrottlingException` : Request denied due to throttling
-    /// - `ValidationException` : A standard error for input validation failures. This should be thrown by services when a member of the input structure falls outside of the modeled or documented constraints.
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the resource.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of your request.
+    /// - `ResourceNotFoundException` : The specified resource was not found. Verify that the resource identifier is correct and that the resource exists in the specified agent space or account.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func deleteIntegration(input: DeleteIntegrationInput) async throws -> DeleteIntegrationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1858,11 +2173,11 @@ extension SecurityAgentClient {
 
     /// Performs the `DeleteMembership` operation on the `SecurityAgent` service.
     ///
-    /// Removes a single member associated to an agent space
+    /// Deletes a membership, revoking a user's access to an agent space.
     ///
-    /// - Parameter input: Request structure for removing a single member from an agent space (Type: `DeleteMembershipInput`)
+    /// - Parameter input: Request structure for removing a single member from an agent space. (Type: `DeleteMembershipInput`)
     ///
-    /// - Returns: Response structure for removing a single member from an agent space (Type: `DeleteMembershipOutput`)
+    /// - Returns: Response structure for removing a single member from an agent space. (Type: `DeleteMembershipOutput`)
     public func deleteMembership(input: DeleteMembershipInput) async throws -> DeleteMembershipOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1921,11 +2236,11 @@ extension SecurityAgentClient {
 
     /// Performs the `DeleteTargetDomain` operation on the `SecurityAgent` service.
     ///
-    /// Deletes a target domain record
+    /// Deletes a target domain registration. After deletion, the domain can no longer be used for penetration testing.
     ///
-    /// - Parameter input: Input for deleting a target domain (Type: `DeleteTargetDomainInput`)
+    /// - Parameter input: Input for deleting a target domain. (Type: `DeleteTargetDomainInput`)
     ///
-    /// - Returns: Output for the DeleteTargetDomain operation (Type: `DeleteTargetDomainOutput`)
+    /// - Returns: Output for the DeleteTargetDomain operation. (Type: `DeleteTargetDomainOutput`)
     public func deleteTargetDomain(input: DeleteTargetDomainInput) async throws -> DeleteTargetDomainOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1984,7 +2299,7 @@ extension SecurityAgentClient {
 
     /// Performs the `GetApplication` operation on the `SecurityAgent` service.
     ///
-    /// Retrieves application details by application ID
+    /// Retrieves information about an application.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetApplicationInput`)
     ///
@@ -2047,7 +2362,7 @@ extension SecurityAgentClient {
 
     /// Performs the `GetArtifact` operation on the `SecurityAgent` service.
     ///
-    /// Retrieve an Artifact for the given agent space
+    /// Retrieves an artifact from an agent space.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetArtifactInput`)
     ///
@@ -2056,11 +2371,11 @@ extension SecurityAgentClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Request denied due to insufficient permissions
-    /// - `InternalServerException` : Unexpected server error occurred
-    /// - `ResourceNotFoundException` : Specified resource was not found
-    /// - `ThrottlingException` : Request denied due to throttling
-    /// - `ValidationException` : A standard error for input validation failures. This should be thrown by services when a member of the input structure falls outside of the modeled or documented constraints.
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of your request.
+    /// - `ResourceNotFoundException` : The specified resource was not found. Verify that the resource identifier is correct and that the resource exists in the specified agent space or account.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func getArtifact(input: GetArtifactInput) async throws -> GetArtifactOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2119,7 +2434,7 @@ extension SecurityAgentClient {
 
     /// Performs the `GetIntegration` operation on the `SecurityAgent` service.
     ///
-    /// Gets Integration metadata from the provided id
+    /// Retrieves information about an integration.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetIntegrationInput`)
     ///
@@ -2128,11 +2443,11 @@ extension SecurityAgentClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Request denied due to insufficient permissions
-    /// - `InternalServerException` : Unexpected server error occurred
-    /// - `ResourceNotFoundException` : Specified resource was not found
-    /// - `ThrottlingException` : Request denied due to throttling
-    /// - `ValidationException` : A standard error for input validation failures. This should be thrown by services when a member of the input structure falls outside of the modeled or documented constraints.
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of your request.
+    /// - `ResourceNotFoundException` : The specified resource was not found. Verify that the resource identifier is correct and that the resource exists in the specified agent space or account.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func getIntegration(input: GetIntegrationInput) async throws -> GetIntegrationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2191,7 +2506,7 @@ extension SecurityAgentClient {
 
     /// Performs the `InitiateProviderRegistration` operation on the `SecurityAgent` service.
     ///
-    /// Initiates the registration of Security Agent App for an external Provider
+    /// Initiates the OAuth registration flow with a third-party provider. Returns a redirect URL and CSRF state token for completing the authorization.
     ///
     /// - Parameter input: [no documentation found] (Type: `InitiateProviderRegistrationInput`)
     ///
@@ -2200,12 +2515,12 @@ extension SecurityAgentClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Request denied due to insufficient permissions
-    /// - `ConflictException` : Request conflicts with current resource state
-    /// - `InternalServerException` : Unexpected server error occurred
-    /// - `ResourceNotFoundException` : Specified resource was not found
-    /// - `ThrottlingException` : Request denied due to throttling
-    /// - `ValidationException` : A standard error for input validation failures. This should be thrown by services when a member of the input structure falls outside of the modeled or documented constraints.
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the resource.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of your request.
+    /// - `ResourceNotFoundException` : The specified resource was not found. Verify that the resource identifier is correct and that the resource exists in the specified agent space or account.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func initiateProviderRegistration(input: InitiateProviderRegistrationInput) async throws -> InitiateProviderRegistrationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2264,11 +2579,11 @@ extension SecurityAgentClient {
 
     /// Performs the `ListAgentSpaces` operation on the `SecurityAgent` service.
     ///
-    /// Lists agent spaces
+    /// Returns a paginated list of agent space summaries in your account.
     ///
-    /// - Parameter input: Input for listing agent spaces (Type: `ListAgentSpacesInput`)
+    /// - Parameter input: Input for listing agent spaces. (Type: `ListAgentSpacesInput`)
     ///
-    /// - Returns: Output for the ListAgentSpaces operation (Type: `ListAgentSpacesOutput`)
+    /// - Returns: Output for the ListAgentSpaces operation. (Type: `ListAgentSpacesOutput`)
     public func listAgentSpaces(input: ListAgentSpacesInput) async throws -> ListAgentSpacesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2327,7 +2642,7 @@ extension SecurityAgentClient {
 
     /// Performs the `ListApplications` operation on the `SecurityAgent` service.
     ///
-    /// Lists all applications in the account
+    /// Returns a paginated list of application summaries in your account.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListApplicationsInput`)
     ///
@@ -2390,7 +2705,7 @@ extension SecurityAgentClient {
 
     /// Performs the `ListArtifacts` operation on the `SecurityAgent` service.
     ///
-    /// Lists the artifacts for the associated agent space
+    /// Returns a paginated list of artifact summaries for the specified agent space.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListArtifactsInput`)
     ///
@@ -2399,11 +2714,11 @@ extension SecurityAgentClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Request denied due to insufficient permissions
-    /// - `InternalServerException` : Unexpected server error occurred
-    /// - `ResourceNotFoundException` : Specified resource was not found
-    /// - `ThrottlingException` : Request denied due to throttling
-    /// - `ValidationException` : A standard error for input validation failures. This should be thrown by services when a member of the input structure falls outside of the modeled or documented constraints.
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of your request.
+    /// - `ResourceNotFoundException` : The specified resource was not found. Verify that the resource identifier is correct and that the resource exists in the specified agent space or account.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func listArtifacts(input: ListArtifactsInput) async throws -> ListArtifactsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2460,13 +2775,202 @@ extension SecurityAgentClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListCodeReviewJobTasks` operation on the `SecurityAgent` service.
+    ///
+    /// Returns a paginated list of task summaries for the specified code review job, optionally filtered by step name or category.
+    ///
+    /// - Parameter input: Input for listing tasks associated with a code review job. (Type: `ListCodeReviewJobTasksInput`)
+    ///
+    /// - Returns: Output for the ListCodeReviewJobTasks operation. (Type: `ListCodeReviewJobTasksOutput`)
+    public func listCodeReviewJobTasks(input: ListCodeReviewJobTasksInput) async throws -> ListCodeReviewJobTasksOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listCodeReviewJobTasks")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "securityagent")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListCodeReviewJobTasksInput, ListCodeReviewJobTasksOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListCodeReviewJobTasksInput, ListCodeReviewJobTasksOutput>(ListCodeReviewJobTasksInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListCodeReviewJobTasksInput, ListCodeReviewJobTasksOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListCodeReviewJobTasksInput, ListCodeReviewJobTasksOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListCodeReviewJobTasksInput, ListCodeReviewJobTasksOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListCodeReviewJobTasksInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCodeReviewJobTasksInput, ListCodeReviewJobTasksOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCodeReviewJobTasksOutput>(ListCodeReviewJobTasksOutput.httpOutput(from:), ListCodeReviewJobTasksOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCodeReviewJobTasksInput, ListCodeReviewJobTasksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListCodeReviewJobTasksOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListCodeReviewJobTasksOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCodeReviewJobTasksOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCodeReviewJobTasksInput, ListCodeReviewJobTasksOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListCodeReviewJobTasksInput, ListCodeReviewJobTasksOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListCodeReviewJobTasksInput, ListCodeReviewJobTasksOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListCodeReviewJobTasks")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListCodeReviewJobsForCodeReview` operation on the `SecurityAgent` service.
+    ///
+    /// Returns a paginated list of code review job summaries for the specified code review configuration.
+    ///
+    /// - Parameter input: Input for ListCodeReviewJobsForCodeReview operation. (Type: `ListCodeReviewJobsForCodeReviewInput`)
+    ///
+    /// - Returns: Output for the ListCodeReviewJobsForCodeReview operation. (Type: `ListCodeReviewJobsForCodeReviewOutput`)
+    public func listCodeReviewJobsForCodeReview(input: ListCodeReviewJobsForCodeReviewInput) async throws -> ListCodeReviewJobsForCodeReviewOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listCodeReviewJobsForCodeReview")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "securityagent")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListCodeReviewJobsForCodeReviewInput, ListCodeReviewJobsForCodeReviewOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListCodeReviewJobsForCodeReviewInput, ListCodeReviewJobsForCodeReviewOutput>(ListCodeReviewJobsForCodeReviewInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListCodeReviewJobsForCodeReviewInput, ListCodeReviewJobsForCodeReviewOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListCodeReviewJobsForCodeReviewInput, ListCodeReviewJobsForCodeReviewOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListCodeReviewJobsForCodeReviewInput, ListCodeReviewJobsForCodeReviewOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListCodeReviewJobsForCodeReviewInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCodeReviewJobsForCodeReviewInput, ListCodeReviewJobsForCodeReviewOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCodeReviewJobsForCodeReviewOutput>(ListCodeReviewJobsForCodeReviewOutput.httpOutput(from:), ListCodeReviewJobsForCodeReviewOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCodeReviewJobsForCodeReviewInput, ListCodeReviewJobsForCodeReviewOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListCodeReviewJobsForCodeReviewOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListCodeReviewJobsForCodeReviewOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCodeReviewJobsForCodeReviewOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCodeReviewJobsForCodeReviewInput, ListCodeReviewJobsForCodeReviewOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListCodeReviewJobsForCodeReviewInput, ListCodeReviewJobsForCodeReviewOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListCodeReviewJobsForCodeReviewInput, ListCodeReviewJobsForCodeReviewOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListCodeReviewJobsForCodeReview")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListCodeReviews` operation on the `SecurityAgent` service.
+    ///
+    /// Returns a paginated list of code review summaries for the specified agent space.
+    ///
+    /// - Parameter input: Input for listing code reviews with optional filtering. (Type: `ListCodeReviewsInput`)
+    ///
+    /// - Returns: Output for the ListCodeReviews operation. (Type: `ListCodeReviewsOutput`)
+    public func listCodeReviews(input: ListCodeReviewsInput) async throws -> ListCodeReviewsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listCodeReviews")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "securityagent")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListCodeReviewsInput, ListCodeReviewsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListCodeReviewsInput, ListCodeReviewsOutput>(ListCodeReviewsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListCodeReviewsInput, ListCodeReviewsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListCodeReviewsInput, ListCodeReviewsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListCodeReviewsInput, ListCodeReviewsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListCodeReviewsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCodeReviewsInput, ListCodeReviewsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCodeReviewsOutput>(ListCodeReviewsOutput.httpOutput(from:), ListCodeReviewsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCodeReviewsInput, ListCodeReviewsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListCodeReviewsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListCodeReviewsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCodeReviewsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCodeReviewsInput, ListCodeReviewsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListCodeReviewsInput, ListCodeReviewsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListCodeReviewsInput, ListCodeReviewsOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListCodeReviews")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListDiscoveredEndpoints` operation on the `SecurityAgent` service.
     ///
-    /// Lists discovered endpoints associated with a pentest job with optional URI prefix filtering
+    /// Returns a paginated list of endpoints discovered during a pentest job execution.
     ///
-    /// - Parameter input: Input for ListDiscoveredEndpoints operation (Type: `ListDiscoveredEndpointsInput`)
+    /// - Parameter input: Input for ListDiscoveredEndpoints operation. (Type: `ListDiscoveredEndpointsInput`)
     ///
-    /// - Returns: Output for the ListDiscoveredEndpoints operation (Type: `ListDiscoveredEndpointsOutput`)
+    /// - Returns: Output for the ListDiscoveredEndpoints operation. (Type: `ListDiscoveredEndpointsOutput`)
     public func listDiscoveredEndpoints(input: ListDiscoveredEndpointsInput) async throws -> ListDiscoveredEndpointsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2525,11 +3029,11 @@ extension SecurityAgentClient {
 
     /// Performs the `ListFindings` operation on the `SecurityAgent` service.
     ///
-    /// Lists findings with filtering and pagination support. When filters are applied, the actual number of results returned may be less than the specified limit
+    /// Lists the security findings for a pentest job.
     ///
-    /// - Parameter input: Input for ListFindings operation with filtering support (Type: `ListFindingsInput`)
+    /// - Parameter input: Input for ListFindings operation with filtering support. (Type: `ListFindingsInput`)
     ///
-    /// - Returns: Output for the ListFindings operation (Type: `ListFindingsOutput`)
+    /// - Returns: Output for the ListFindings operation. (Type: `ListFindingsOutput`)
     public func listFindings(input: ListFindingsInput) async throws -> ListFindingsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2588,7 +3092,7 @@ extension SecurityAgentClient {
 
     /// Performs the `ListIntegratedResources` operation on the `SecurityAgent` service.
     ///
-    /// Lists the integrated resources for an agent space
+    /// Lists the integrated resources for an agent space, optionally filtered by integration or resource type.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListIntegratedResourcesInput`)
     ///
@@ -2597,11 +3101,11 @@ extension SecurityAgentClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Request denied due to insufficient permissions
-    /// - `InternalServerException` : Unexpected server error occurred
-    /// - `ResourceNotFoundException` : Specified resource was not found
-    /// - `ThrottlingException` : Request denied due to throttling
-    /// - `ValidationException` : A standard error for input validation failures. This should be thrown by services when a member of the input structure falls outside of the modeled or documented constraints.
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of your request.
+    /// - `ResourceNotFoundException` : The specified resource was not found. Verify that the resource identifier is correct and that the resource exists in the specified agent space or account.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func listIntegratedResources(input: ListIntegratedResourcesInput) async throws -> ListIntegratedResourcesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2660,7 +3164,7 @@ extension SecurityAgentClient {
 
     /// Performs the `ListIntegrations` operation on the `SecurityAgent` service.
     ///
-    /// Retrieves the Integrations associated with the user's account
+    /// Lists the integrations in your account, optionally filtered by provider or provider type.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListIntegrationsInput`)
     ///
@@ -2669,10 +3173,11 @@ extension SecurityAgentClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Request denied due to insufficient permissions
-    /// - `InternalServerException` : Unexpected server error occurred
-    /// - `ResourceNotFoundException` : Specified resource was not found
-    /// - `ThrottlingException` : Request denied due to throttling
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of your request.
+    /// - `ResourceNotFoundException` : The specified resource was not found. Verify that the resource identifier is correct and that the resource exists in the specified agent space or account.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func listIntegrations(input: ListIntegrationsInput) async throws -> ListIntegrationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2731,11 +3236,11 @@ extension SecurityAgentClient {
 
     /// Performs the `ListMemberships` operation on the `SecurityAgent` service.
     ///
-    /// Lists all members associated to an agent space with pagination support
+    /// Returns a paginated list of membership summaries for the specified agent space within an application.
     ///
-    /// - Parameter input: Request structure for listing agent space members (Type: `ListMembershipsInput`)
+    /// - Parameter input: Request structure for listing agent space members. (Type: `ListMembershipsInput`)
     ///
-    /// - Returns: Response structure for listing members associated to an agent space (Type: `ListMembershipsOutput`)
+    /// - Returns: Response structure for listing members associated to an agent space. (Type: `ListMembershipsOutput`)
     public func listMemberships(input: ListMembershipsInput) async throws -> ListMembershipsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2794,11 +3299,11 @@ extension SecurityAgentClient {
 
     /// Performs the `ListPentestJobTasks` operation on the `SecurityAgent` service.
     ///
-    /// Lists tasks associated with a specific pentest job
+    /// Returns a paginated list of task summaries for the specified pentest job, optionally filtered by step name or category.
     ///
-    /// - Parameter input: Input for listing tasks associated with a specific pentest job (Type: `ListPentestJobTasksInput`)
+    /// - Parameter input: Input for listing tasks associated with a pentest job. (Type: `ListPentestJobTasksInput`)
     ///
-    /// - Returns: Output for the ListPentestJobTasks operation (Type: `ListPentestJobTasksOutput`)
+    /// - Returns: Output for the ListPentestJobTasks operation. (Type: `ListPentestJobTasksOutput`)
     public func listPentestJobTasks(input: ListPentestJobTasksInput) async throws -> ListPentestJobTasksOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2857,11 +3362,11 @@ extension SecurityAgentClient {
 
     /// Performs the `ListPentestJobsForPentest` operation on the `SecurityAgent` service.
     ///
-    /// Lists pentest jobs associated with a pentest
+    /// Returns a paginated list of pentest job summaries for the specified pentest configuration.
     ///
-    /// - Parameter input: Input for ListPentestJobsForPentest operation (Type: `ListPentestJobsForPentestInput`)
+    /// - Parameter input: Input for ListPentestJobsForPentest operation. (Type: `ListPentestJobsForPentestInput`)
     ///
-    /// - Returns: Output for the ListPentestJobsForPentest operation (Type: `ListPentestJobsForPentestOutput`)
+    /// - Returns: Output for the ListPentestJobsForPentest operation. (Type: `ListPentestJobsForPentestOutput`)
     public func listPentestJobsForPentest(input: ListPentestJobsForPentestInput) async throws -> ListPentestJobsForPentestOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2920,11 +3425,11 @@ extension SecurityAgentClient {
 
     /// Performs the `ListPentests` operation on the `SecurityAgent` service.
     ///
-    /// Lists pentests with optional filtering by status
+    /// Returns a paginated list of pentest summaries for the specified agent space.
     ///
-    /// - Parameter input: Input for listing pentests with optional filtering (Type: `ListPentestsInput`)
+    /// - Parameter input: Input for listing pentests with optional filtering. (Type: `ListPentestsInput`)
     ///
-    /// - Returns: Output for the ListPentests operation (Type: `ListPentestsOutput`)
+    /// - Returns: Output for the ListPentests operation. (Type: `ListPentestsOutput`)
     public func listPentests(input: ListPentestsInput) async throws -> ListPentestsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2983,11 +3488,11 @@ extension SecurityAgentClient {
 
     /// Performs the `ListTagsForResource` operation on the `SecurityAgent` service.
     ///
-    /// Lists tags for a Security Agent resource
+    /// Returns the tags associated with the specified resource.
     ///
-    /// - Parameter input: Input for ListTagsForResource operation (Type: `ListTagsForResourceInput`)
+    /// - Parameter input: Input for ListTagsForResource operation. (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: Output for ListTagsForResource operation (Type: `ListTagsForResourceOutput`)
+    /// - Returns: Output for ListTagsForResource operation. (Type: `ListTagsForResourceOutput`)
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3043,11 +3548,11 @@ extension SecurityAgentClient {
 
     /// Performs the `ListTargetDomains` operation on the `SecurityAgent` service.
     ///
-    /// Lists target domains
+    /// Returns a paginated list of target domain summaries in your account.
     ///
-    /// - Parameter input: Input for listing target domains (Type: `ListTargetDomainsInput`)
+    /// - Parameter input: Input for listing target domains. (Type: `ListTargetDomainsInput`)
     ///
-    /// - Returns: Output for the ListTargetDomains operation (Type: `ListTargetDomainsOutput`)
+    /// - Returns: Output for the ListTargetDomains operation. (Type: `ListTargetDomainsOutput`)
     public func listTargetDomains(input: ListTargetDomainsInput) async throws -> ListTargetDomainsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3106,11 +3611,11 @@ extension SecurityAgentClient {
 
     /// Performs the `StartCodeRemediation` operation on the `SecurityAgent` service.
     ///
-    /// Starts code remediation for the specified findings
+    /// Initiates code remediation for one or more security findings. This creates pull requests in integrated repositories to fix the identified vulnerabilities.
     ///
-    /// - Parameter input: Input for the StartCodeRemediation operation (Type: `StartCodeRemediationInput`)
+    /// - Parameter input: Input for the StartCodeRemediation operation. (Type: `StartCodeRemediationInput`)
     ///
-    /// - Returns: Output for the StartCodeRemediation operation (Type: `StartCodeRemediationOutput`)
+    /// - Returns: Output for the StartCodeRemediation operation. (Type: `StartCodeRemediationOutput`)
     public func startCodeRemediation(input: StartCodeRemediationInput) async throws -> StartCodeRemediationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3167,13 +3672,76 @@ extension SecurityAgentClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `StartCodeReviewJob` operation on the `SecurityAgent` service.
+    ///
+    /// Starts a new code review job for a code review configuration. The job executes the security-focused code analysis defined in the code review.
+    ///
+    /// - Parameter input: Input for starting the execution of a code review. (Type: `StartCodeReviewJobInput`)
+    ///
+    /// - Returns: Output for the StartCodeReviewJob operation. (Type: `StartCodeReviewJobOutput`)
+    public func startCodeReviewJob(input: StartCodeReviewJobInput) async throws -> StartCodeReviewJobOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startCodeReviewJob")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "securityagent")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<StartCodeReviewJobInput, StartCodeReviewJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartCodeReviewJobInput, StartCodeReviewJobOutput>(StartCodeReviewJobInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartCodeReviewJobInput, StartCodeReviewJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartCodeReviewJobInput, StartCodeReviewJobOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StartCodeReviewJobInput, StartCodeReviewJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartCodeReviewJobInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartCodeReviewJobInput, StartCodeReviewJobOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartCodeReviewJobOutput>(StartCodeReviewJobOutput.httpOutput(from:), StartCodeReviewJobOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartCodeReviewJobInput, StartCodeReviewJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<StartCodeReviewJobOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartCodeReviewJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartCodeReviewJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartCodeReviewJobInput, StartCodeReviewJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartCodeReviewJobInput, StartCodeReviewJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartCodeReviewJobInput, StartCodeReviewJobOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartCodeReviewJob")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `StartPentestJob` operation on the `SecurityAgent` service.
     ///
-    /// Initiates the execution of a pentest
+    /// Starts a new pentest job for a pentest configuration. The job executes the security tests defined in the pentest.
     ///
-    /// - Parameter input: Input for starting the execution of a pentest (Type: `StartPentestJobInput`)
+    /// - Parameter input: Input for starting the execution of a pentest. (Type: `StartPentestJobInput`)
     ///
-    /// - Returns: Output for the StartPentestJob operation (Type: `StartPentestJobOutput`)
+    /// - Returns: Output for the StartPentestJob operation. (Type: `StartPentestJobOutput`)
     public func startPentestJob(input: StartPentestJobInput) async throws -> StartPentestJobOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3230,13 +3798,76 @@ extension SecurityAgentClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `StopCodeReviewJob` operation on the `SecurityAgent` service.
+    ///
+    /// Stops a running code review job. The job transitions to a stopping state and then to stopped after cleanup completes.
+    ///
+    /// - Parameter input: Input for stopping the execution of a code review job. (Type: `StopCodeReviewJobInput`)
+    ///
+    /// - Returns: Output for the StopCodeReviewJob operation. (Type: `StopCodeReviewJobOutput`)
+    public func stopCodeReviewJob(input: StopCodeReviewJobInput) async throws -> StopCodeReviewJobOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "stopCodeReviewJob")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "securityagent")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<StopCodeReviewJobInput, StopCodeReviewJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StopCodeReviewJobInput, StopCodeReviewJobOutput>(StopCodeReviewJobInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopCodeReviewJobInput, StopCodeReviewJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopCodeReviewJobInput, StopCodeReviewJobOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StopCodeReviewJobInput, StopCodeReviewJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopCodeReviewJobInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopCodeReviewJobInput, StopCodeReviewJobOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StopCodeReviewJobOutput>(StopCodeReviewJobOutput.httpOutput(from:), StopCodeReviewJobOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopCodeReviewJobInput, StopCodeReviewJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<StopCodeReviewJobOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopCodeReviewJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopCodeReviewJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopCodeReviewJobInput, StopCodeReviewJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopCodeReviewJobInput, StopCodeReviewJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopCodeReviewJobInput, StopCodeReviewJobOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StopCodeReviewJob")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `StopPentestJob` operation on the `SecurityAgent` service.
     ///
-    /// Stops the execution of a running pentest
+    /// Stops a running pentest job. The job transitions to a stopping state and then to stopped after cleanup completes.
     ///
-    /// - Parameter input: Input for stopping the execution of a pentest (Type: `StopPentestJobInput`)
+    /// - Parameter input: Input for stopping the execution of a pentest. (Type: `StopPentestJobInput`)
     ///
-    /// - Returns: Output for the StopPentestJob operation (Type: `StopPentestJobOutput`)
+    /// - Returns: Output for the StopPentestJob operation. (Type: `StopPentestJobOutput`)
     public func stopPentestJob(input: StopPentestJobInput) async throws -> StopPentestJobOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3295,11 +3926,11 @@ extension SecurityAgentClient {
 
     /// Performs the `TagResource` operation on the `SecurityAgent` service.
     ///
-    /// Adds tags to a Security Agent resource
+    /// Adds tags to a resource.
     ///
-    /// - Parameter input: Input for TagResource operation (Type: `TagResourceInput`)
+    /// - Parameter input: Input for TagResource operation. (Type: `TagResourceInput`)
     ///
-    /// - Returns: Output for TagResource operation (Type: `TagResourceOutput`)
+    /// - Returns: Output for TagResource operation. (Type: `TagResourceOutput`)
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3358,11 +3989,11 @@ extension SecurityAgentClient {
 
     /// Performs the `UntagResource` operation on the `SecurityAgent` service.
     ///
-    /// Removes tags from a Security Agent resource
+    /// Removes tags from a resource.
     ///
-    /// - Parameter input: Input for UntagResource operation (Type: `UntagResourceInput`)
+    /// - Parameter input: Input for UntagResource operation. (Type: `UntagResourceInput`)
     ///
-    /// - Returns: Output for UntagResource operation (Type: `UntagResourceOutput`)
+    /// - Returns: Output for UntagResource operation. (Type: `UntagResourceOutput`)
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -3419,11 +4050,11 @@ extension SecurityAgentClient {
 
     /// Performs the `UpdateAgentSpace` operation on the `SecurityAgent` service.
     ///
-    /// Updates an agent space record
+    /// Updates the configuration of an existing agent space, including its name, description, AWS resources, target domains, and code review settings.
     ///
-    /// - Parameter input: Input for updating an agent space (Type: `UpdateAgentSpaceInput`)
+    /// - Parameter input: Input for updating an agent space. (Type: `UpdateAgentSpaceInput`)
     ///
-    /// - Returns: Output for the UpdateAgentSpace operation (Type: `UpdateAgentSpaceOutput`)
+    /// - Returns: Output for the UpdateAgentSpace operation. (Type: `UpdateAgentSpaceOutput`)
     public func updateAgentSpace(input: UpdateAgentSpaceInput) async throws -> UpdateAgentSpaceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3482,7 +4113,7 @@ extension SecurityAgentClient {
 
     /// Performs the `UpdateApplication` operation on the `SecurityAgent` service.
     ///
-    /// Updates application configuration
+    /// Updates the configuration of an existing application, including the IAM role and default KMS key.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateApplicationInput`)
     ///
@@ -3543,13 +4174,76 @@ extension SecurityAgentClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `UpdateCodeReview` operation on the `SecurityAgent` service.
+    ///
+    /// Updates an existing code review configuration.
+    ///
+    /// - Parameter input: Input for updating an existing code review. (Type: `UpdateCodeReviewInput`)
+    ///
+    /// - Returns: Output for the UpdateCodeReview operation. (Type: `UpdateCodeReviewOutput`)
+    public func updateCodeReview(input: UpdateCodeReviewInput) async throws -> UpdateCodeReviewOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateCodeReview")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "securityagent")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateCodeReviewInput, UpdateCodeReviewOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateCodeReviewInput, UpdateCodeReviewOutput>(UpdateCodeReviewInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateCodeReviewInput, UpdateCodeReviewOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateCodeReviewInput, UpdateCodeReviewOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateCodeReviewInput, UpdateCodeReviewOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateCodeReviewInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCodeReviewInput, UpdateCodeReviewOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCodeReviewOutput>(UpdateCodeReviewOutput.httpOutput(from:), UpdateCodeReviewOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCodeReviewInput, UpdateCodeReviewOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCodeReviewOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateCodeReviewOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateCodeReviewOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateCodeReviewInput, UpdateCodeReviewOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateCodeReviewInput, UpdateCodeReviewOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateCodeReviewInput, UpdateCodeReviewOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateCodeReview")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `UpdateFinding` operation on the `SecurityAgent` service.
     ///
-    /// Updates an existing security finding with new details or status
+    /// Updates the status or risk level of a security finding.
     ///
-    /// - Parameter input: Input for updating an existing security finding (Type: `UpdateFindingInput`)
+    /// - Parameter input: Input for updating an existing security finding. (Type: `UpdateFindingInput`)
     ///
-    /// - Returns: Output for the UpdateFinding operation (Type: `UpdateFindingOutput`)
+    /// - Returns: Output for the UpdateFinding operation. (Type: `UpdateFindingOutput`)
     public func updateFinding(input: UpdateFindingInput) async throws -> UpdateFindingOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3608,7 +4302,7 @@ extension SecurityAgentClient {
 
     /// Performs the `UpdateIntegratedResources` operation on the `SecurityAgent` service.
     ///
-    /// Updates the integrated resources for an agent space
+    /// Updates the integrated resources for an agent space, including their capabilities.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateIntegratedResourcesInput`)
     ///
@@ -3617,12 +4311,12 @@ extension SecurityAgentClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Request denied due to insufficient permissions
-    /// - `ConflictException` : Request conflicts with current resource state
-    /// - `InternalServerException` : Unexpected server error occurred
-    /// - `ResourceNotFoundException` : Specified resource was not found
-    /// - `ThrottlingException` : Request denied due to throttling
-    /// - `ValidationException` : A standard error for input validation failures. This should be thrown by services when a member of the input structure falls outside of the modeled or documented constraints.
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the resource.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of your request.
+    /// - `ResourceNotFoundException` : The specified resource was not found. Verify that the resource identifier is correct and that the resource exists in the specified agent space or account.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func updateIntegratedResources(input: UpdateIntegratedResourcesInput) async throws -> UpdateIntegratedResourcesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3681,11 +4375,11 @@ extension SecurityAgentClient {
 
     /// Performs the `UpdatePentest` operation on the `SecurityAgent` service.
     ///
-    /// Updates an existing pentest with new configuration or settings
+    /// Updates an existing pentest configuration.
     ///
-    /// - Parameter input: Input for updating an existing pentest (Type: `UpdatePentestInput`)
+    /// - Parameter input: Input for updating an existing pentest. (Type: `UpdatePentestInput`)
     ///
-    /// - Returns: Output for the UpdatePentest operation (Type: `UpdatePentestOutput`)
+    /// - Returns: Output for the UpdatePentest operation. (Type: `UpdatePentestOutput`)
     public func updatePentest(input: UpdatePentestInput) async throws -> UpdatePentestOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3744,11 +4438,11 @@ extension SecurityAgentClient {
 
     /// Performs the `UpdateTargetDomain` operation on the `SecurityAgent` service.
     ///
-    /// Updates a target domain record
+    /// Updates the verification method for a target domain.
     ///
-    /// - Parameter input: Input for updating a target domain (Type: `UpdateTargetDomainInput`)
+    /// - Parameter input: Input for updating a target domain. (Type: `UpdateTargetDomainInput`)
     ///
-    /// - Returns: Output for the UpdateTargetDomain operation (Type: `UpdateTargetDomainOutput`)
+    /// - Returns: Output for the UpdateTargetDomain operation. (Type: `UpdateTargetDomainOutput`)
     public func updateTargetDomain(input: UpdateTargetDomainInput) async throws -> UpdateTargetDomainOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3807,11 +4501,11 @@ extension SecurityAgentClient {
 
     /// Performs the `VerifyTargetDomain` operation on the `SecurityAgent` service.
     ///
-    /// Verifies ownership for a registered target domain
+    /// Initiates verification of a target domain. This checks whether the domain ownership verification token has been properly configured.
     ///
-    /// - Parameter input: Input for verifying ownership for a registered target domain in an agent space (Type: `VerifyTargetDomainInput`)
+    /// - Parameter input: Input for verifying ownership for a registered target domain in an agent space. (Type: `VerifyTargetDomainInput`)
     ///
-    /// - Returns: Output for verifying ownership for a registered target domain in an agent space (Type: `VerifyTargetDomainOutput`)
+    /// - Returns: Output for verifying ownership for a registered target domain in an agent space. (Type: `VerifyTargetDomainOutput`)
     public func verifyTargetDomain(input: VerifyTargetDomainInput) async throws -> VerifyTargetDomainOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
