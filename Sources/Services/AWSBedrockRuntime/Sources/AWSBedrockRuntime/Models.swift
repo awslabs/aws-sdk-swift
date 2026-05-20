@@ -4884,6 +4884,8 @@ public struct InvokeModelInput: Swift.Sendable {
     public var modelId: Swift.String?
     /// Model performance settings for the request.
     public var performanceConfigLatency: BedrockRuntimeClientTypes.PerformanceConfigLatency?
+    /// Key-value pairs that you can use to filter invocation logs.
+    public var requestMetadata: Swift.String?
     /// Specifies the processing tier type used for serving the request.
     public var serviceTier: BedrockRuntimeClientTypes.ServiceTierType?
     /// Specifies whether to enable or disable the Bedrock trace. If enabled, you can see the full Bedrock trace.
@@ -4897,6 +4899,7 @@ public struct InvokeModelInput: Swift.Sendable {
         guardrailVersion: Swift.String? = nil,
         modelId: Swift.String? = nil,
         performanceConfigLatency: BedrockRuntimeClientTypes.PerformanceConfigLatency? = nil,
+        requestMetadata: Swift.String? = nil,
         serviceTier: BedrockRuntimeClientTypes.ServiceTierType? = nil,
         trace: BedrockRuntimeClientTypes.Trace? = nil
     ) {
@@ -4907,6 +4910,7 @@ public struct InvokeModelInput: Swift.Sendable {
         self.guardrailVersion = guardrailVersion
         self.modelId = modelId
         self.performanceConfigLatency = performanceConfigLatency
+        self.requestMetadata = requestMetadata
         self.serviceTier = serviceTier
         self.trace = trace
     }
@@ -4914,7 +4918,7 @@ public struct InvokeModelInput: Swift.Sendable {
 
 extension InvokeModelInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "InvokeModelInput(accept: \(Swift.String(describing: accept)), contentType: \(Swift.String(describing: contentType)), guardrailIdentifier: \(Swift.String(describing: guardrailIdentifier)), guardrailVersion: \(Swift.String(describing: guardrailVersion)), modelId: \(Swift.String(describing: modelId)), performanceConfigLatency: \(Swift.String(describing: performanceConfigLatency)), serviceTier: \(Swift.String(describing: serviceTier)), trace: \(Swift.String(describing: trace)), body: \"CONTENT_REDACTED\")"}
+        "InvokeModelInput(accept: \(Swift.String(describing: accept)), contentType: \(Swift.String(describing: contentType)), guardrailIdentifier: \(Swift.String(describing: guardrailIdentifier)), guardrailVersion: \(Swift.String(describing: guardrailVersion)), modelId: \(Swift.String(describing: modelId)), performanceConfigLatency: \(Swift.String(describing: performanceConfigLatency)), serviceTier: \(Swift.String(describing: serviceTier)), trace: \(Swift.String(describing: trace)), body: \"CONTENT_REDACTED\", requestMetadata: \"CONTENT_REDACTED\")"}
 }
 
 public struct InvokeModelOutput: Swift.Sendable {
@@ -5070,6 +5074,8 @@ public struct InvokeModelWithResponseStreamInput: Swift.Sendable {
     public var modelId: Swift.String?
     /// Model performance settings for the request.
     public var performanceConfigLatency: BedrockRuntimeClientTypes.PerformanceConfigLatency?
+    /// Key-value pairs that you can use to filter invocation logs.
+    public var requestMetadata: Swift.String?
     /// Specifies the processing tier type used for serving the request.
     public var serviceTier: BedrockRuntimeClientTypes.ServiceTierType?
     /// Specifies whether to enable or disable the Bedrock trace. If enabled, you can see the full Bedrock trace.
@@ -5083,6 +5089,7 @@ public struct InvokeModelWithResponseStreamInput: Swift.Sendable {
         guardrailVersion: Swift.String? = nil,
         modelId: Swift.String? = nil,
         performanceConfigLatency: BedrockRuntimeClientTypes.PerformanceConfigLatency? = nil,
+        requestMetadata: Swift.String? = nil,
         serviceTier: BedrockRuntimeClientTypes.ServiceTierType? = nil,
         trace: BedrockRuntimeClientTypes.Trace? = nil
     ) {
@@ -5093,6 +5100,7 @@ public struct InvokeModelWithResponseStreamInput: Swift.Sendable {
         self.guardrailVersion = guardrailVersion
         self.modelId = modelId
         self.performanceConfigLatency = performanceConfigLatency
+        self.requestMetadata = requestMetadata
         self.serviceTier = serviceTier
         self.trace = trace
     }
@@ -5100,7 +5108,7 @@ public struct InvokeModelWithResponseStreamInput: Swift.Sendable {
 
 extension InvokeModelWithResponseStreamInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "InvokeModelWithResponseStreamInput(accept: \(Swift.String(describing: accept)), contentType: \(Swift.String(describing: contentType)), guardrailIdentifier: \(Swift.String(describing: guardrailIdentifier)), guardrailVersion: \(Swift.String(describing: guardrailVersion)), modelId: \(Swift.String(describing: modelId)), performanceConfigLatency: \(Swift.String(describing: performanceConfigLatency)), serviceTier: \(Swift.String(describing: serviceTier)), trace: \(Swift.String(describing: trace)), body: \"CONTENT_REDACTED\")"}
+        "InvokeModelWithResponseStreamInput(accept: \(Swift.String(describing: accept)), contentType: \(Swift.String(describing: contentType)), guardrailIdentifier: \(Swift.String(describing: guardrailIdentifier)), guardrailVersion: \(Swift.String(describing: guardrailVersion)), modelId: \(Swift.String(describing: modelId)), performanceConfigLatency: \(Swift.String(describing: performanceConfigLatency)), serviceTier: \(Swift.String(describing: serviceTier)), trace: \(Swift.String(describing: trace)), body: \"CONTENT_REDACTED\", requestMetadata: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockRuntimeClientTypes {
@@ -5337,6 +5345,9 @@ extension InvokeModelInput {
         if let performanceConfigLatency = value.performanceConfigLatency {
             items.add(SmithyHTTPAPI.Header(name: "X-Amzn-Bedrock-PerformanceConfig-Latency", value: Swift.String(performanceConfigLatency.rawValue)))
         }
+        if let requestMetadata = value.requestMetadata {
+            items.add(SmithyHTTPAPI.Header(name: "X-Amzn-Bedrock-Request-Metadata", value: Swift.String(requestMetadata)))
+        }
         if let serviceTier = value.serviceTier {
             items.add(SmithyHTTPAPI.Header(name: "X-Amzn-Bedrock-Service-Tier", value: Swift.String(serviceTier.rawValue)))
         }
@@ -5385,6 +5396,9 @@ extension InvokeModelWithResponseStreamInput {
         }
         if let performanceConfigLatency = value.performanceConfigLatency {
             items.add(SmithyHTTPAPI.Header(name: "X-Amzn-Bedrock-PerformanceConfig-Latency", value: Swift.String(performanceConfigLatency.rawValue)))
+        }
+        if let requestMetadata = value.requestMetadata {
+            items.add(SmithyHTTPAPI.Header(name: "X-Amzn-Bedrock-Request-Metadata", value: Swift.String(requestMetadata)))
         }
         if let serviceTier = value.serviceTier {
             items.add(SmithyHTTPAPI.Header(name: "X-Amzn-Bedrock-Service-Tier", value: Swift.String(serviceTier.rawValue)))

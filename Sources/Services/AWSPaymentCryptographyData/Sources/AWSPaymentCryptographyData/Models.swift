@@ -243,16 +243,52 @@ extension PaymentCryptographyDataClientTypes {
 
 extension PaymentCryptographyDataClientTypes {
 
+    public enum RandomKeyMaxLength: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case bytes16
+        case bytes24
+        case bytes8
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RandomKeyMaxLength] {
+            return [
+                .bytes16,
+                .bytes24,
+                .bytes8
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .bytes16: return "BYTES_16"
+            case .bytes24: return "BYTES_24"
+            case .bytes8: return "BYTES_8"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PaymentCryptographyDataClientTypes {
+
     /// Parameter information for generating a KEK validation request during node-to-node initialization.
     public struct KekValidationRequest: Swift.Sendable {
         /// The key derivation algorithm to use for generating a KEK validation request.
         /// This member is required.
         public var deriveKeyAlgorithm: PaymentCryptographyDataClientTypes.SymmetricKeyAlgorithm?
+        /// The maximum length of the random key to generate for a KEK validation request.
+        public var randomKeyMaxLength: PaymentCryptographyDataClientTypes.RandomKeyMaxLength?
 
         public init(
-            deriveKeyAlgorithm: PaymentCryptographyDataClientTypes.SymmetricKeyAlgorithm? = nil
+            deriveKeyAlgorithm: PaymentCryptographyDataClientTypes.SymmetricKeyAlgorithm? = nil,
+            randomKeyMaxLength: PaymentCryptographyDataClientTypes.RandomKeyMaxLength? = nil
         ) {
             self.deriveKeyAlgorithm = deriveKeyAlgorithm
+            self.randomKeyMaxLength = randomKeyMaxLength
         }
     }
 }
@@ -261,7 +297,7 @@ extension PaymentCryptographyDataClientTypes {
 
     /// Parameter information for generating a KEK validation response during node-to-node initialization.
     public struct KekValidationResponse: Swift.Sendable {
-        /// The random key for generating a KEK validation response.
+        /// The random key send value received from the initiating node to generate a KEK validation response.
         /// This member is required.
         public var randomKeySend: Swift.String?
 
@@ -1698,7 +1734,7 @@ extension PaymentCryptographyDataClientTypes {
 }
 
 public struct GenerateAs2805KekValidationInput: Swift.Sendable {
-    /// Parameter information for generating a random key for KEK validation to perform node-to-node initialization.
+    /// Defines whether to generate a KEK validation request or KEK validation response for node-to-node initialization.
     /// This member is required.
     public var kekValidationType: PaymentCryptographyDataClientTypes.As2805KekValidationType?
     /// The keyARN of sending KEK that Amazon Web Services Payment Cryptography uses for node-to-node initialization
@@ -1749,6 +1785,233 @@ public struct GenerateAs2805KekValidationOutput: Swift.Sendable {
 extension GenerateAs2805KekValidationOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "GenerateAs2805KekValidationOutput(keyArn: \(Swift.String(describing: keyArn)), keyCheckValue: \(Swift.String(describing: keyCheckValue)), randomKeyReceive: \"CONTENT_REDACTED\", randomKeySend: \"CONTENT_REDACTED\")"}
+}
+
+extension PaymentCryptographyDataClientTypes {
+
+    /// Parameters to derive session key for an Amex payment card.
+    public struct SessionKeyAmex: Swift.Sendable {
+        /// A number that identifies and differentiates payment cards with the same Primary Account Number (PAN).
+        /// This member is required.
+        public var panSequenceNumber: Swift.String?
+        /// The Primary Account Number (PAN) of the cardholder. A PAN is a unique identifier for a payment credit or debit card and associates the card to a specific account holder.
+        /// This member is required.
+        public var primaryAccountNumber: Swift.String?
+
+        public init(
+            panSequenceNumber: Swift.String? = nil,
+            primaryAccountNumber: Swift.String? = nil
+        ) {
+            self.panSequenceNumber = panSequenceNumber
+            self.primaryAccountNumber = primaryAccountNumber
+        }
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.SessionKeyAmex: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SessionKeyAmex(panSequenceNumber: \(Swift.String(describing: panSequenceNumber)), primaryAccountNumber: \"CONTENT_REDACTED\")"}
+}
+
+extension PaymentCryptographyDataClientTypes {
+
+    /// Parameters to derive session key for an Emv2000 payment card for ARQC verification.
+    public struct SessionKeyEmv2000: Swift.Sendable {
+        /// The transaction counter that is provided by the terminal during transaction processing.
+        /// This member is required.
+        public var applicationTransactionCounter: Swift.String?
+        /// A number that identifies and differentiates payment cards with the same Primary Account Number (PAN).
+        /// This member is required.
+        public var panSequenceNumber: Swift.String?
+        /// The Primary Account Number (PAN) of the cardholder. A PAN is a unique identifier for a payment credit or debit card and associates the card to a specific account holder.
+        /// This member is required.
+        public var primaryAccountNumber: Swift.String?
+
+        public init(
+            applicationTransactionCounter: Swift.String? = nil,
+            panSequenceNumber: Swift.String? = nil,
+            primaryAccountNumber: Swift.String? = nil
+        ) {
+            self.applicationTransactionCounter = applicationTransactionCounter
+            self.panSequenceNumber = panSequenceNumber
+            self.primaryAccountNumber = primaryAccountNumber
+        }
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.SessionKeyEmv2000: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SessionKeyEmv2000(applicationTransactionCounter: \(Swift.String(describing: applicationTransactionCounter)), panSequenceNumber: \(Swift.String(describing: panSequenceNumber)), primaryAccountNumber: \"CONTENT_REDACTED\")"}
+}
+
+extension PaymentCryptographyDataClientTypes {
+
+    /// Parameters to derive session key for an Emv common payment card for ARQC verification.
+    public struct SessionKeyEmvCommon: Swift.Sendable {
+        /// The transaction counter that is provided by the terminal during transaction processing.
+        /// This member is required.
+        public var applicationTransactionCounter: Swift.String?
+        /// A number that identifies and differentiates payment cards with the same Primary Account Number (PAN).
+        /// This member is required.
+        public var panSequenceNumber: Swift.String?
+        /// The Primary Account Number (PAN) of the cardholder. A PAN is a unique identifier for a payment credit or debit card and associates the card to a specific account holder.
+        /// This member is required.
+        public var primaryAccountNumber: Swift.String?
+
+        public init(
+            applicationTransactionCounter: Swift.String? = nil,
+            panSequenceNumber: Swift.String? = nil,
+            primaryAccountNumber: Swift.String? = nil
+        ) {
+            self.applicationTransactionCounter = applicationTransactionCounter
+            self.panSequenceNumber = panSequenceNumber
+            self.primaryAccountNumber = primaryAccountNumber
+        }
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.SessionKeyEmvCommon: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SessionKeyEmvCommon(applicationTransactionCounter: \(Swift.String(describing: applicationTransactionCounter)), panSequenceNumber: \(Swift.String(describing: panSequenceNumber)), primaryAccountNumber: \"CONTENT_REDACTED\")"}
+}
+
+extension PaymentCryptographyDataClientTypes {
+
+    /// Parameters to derive session key for Mastercard payment card for ARQC verification.
+    public struct SessionKeyMastercard: Swift.Sendable {
+        /// The transaction counter that is provided by the terminal during transaction processing.
+        /// This member is required.
+        public var applicationTransactionCounter: Swift.String?
+        /// A number that identifies and differentiates payment cards with the same Primary Account Number (PAN).
+        /// This member is required.
+        public var panSequenceNumber: Swift.String?
+        /// The Primary Account Number (PAN) of the cardholder. A PAN is a unique identifier for a payment credit or debit card and associates the card to a specific account holder.
+        /// This member is required.
+        public var primaryAccountNumber: Swift.String?
+        /// A random number generated by the issuer.
+        /// This member is required.
+        public var unpredictableNumber: Swift.String?
+
+        public init(
+            applicationTransactionCounter: Swift.String? = nil,
+            panSequenceNumber: Swift.String? = nil,
+            primaryAccountNumber: Swift.String? = nil,
+            unpredictableNumber: Swift.String? = nil
+        ) {
+            self.applicationTransactionCounter = applicationTransactionCounter
+            self.panSequenceNumber = panSequenceNumber
+            self.primaryAccountNumber = primaryAccountNumber
+            self.unpredictableNumber = unpredictableNumber
+        }
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.SessionKeyMastercard: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SessionKeyMastercard(applicationTransactionCounter: \(Swift.String(describing: applicationTransactionCounter)), panSequenceNumber: \(Swift.String(describing: panSequenceNumber)), unpredictableNumber: \(Swift.String(describing: unpredictableNumber)), primaryAccountNumber: \"CONTENT_REDACTED\")"}
+}
+
+extension PaymentCryptographyDataClientTypes {
+
+    /// Parameters to derive session key for Visa payment card for ARQC verification.
+    public struct SessionKeyVisa: Swift.Sendable {
+        /// A number that identifies and differentiates payment cards with the same Primary Account Number (PAN).
+        /// This member is required.
+        public var panSequenceNumber: Swift.String?
+        /// The Primary Account Number (PAN) of the cardholder. A PAN is a unique identifier for a payment credit or debit card and associates the card to a specific account holder.
+        /// This member is required.
+        public var primaryAccountNumber: Swift.String?
+
+        public init(
+            panSequenceNumber: Swift.String? = nil,
+            primaryAccountNumber: Swift.String? = nil
+        ) {
+            self.panSequenceNumber = panSequenceNumber
+            self.primaryAccountNumber = primaryAccountNumber
+        }
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.SessionKeyVisa: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SessionKeyVisa(panSequenceNumber: \(Swift.String(describing: panSequenceNumber)), primaryAccountNumber: \"CONTENT_REDACTED\")"}
+}
+
+extension PaymentCryptographyDataClientTypes {
+
+    /// Parameters to derive a session key for Authorization Response Cryptogram (ARQC) verification.
+    public enum SessionKeyDerivation: Swift.Sendable {
+        /// Parameters to derive session key for an Emv common payment card for ARQC verification.
+        case emvcommon(PaymentCryptographyDataClientTypes.SessionKeyEmvCommon)
+        /// Parameters to derive session key for a Mastercard payment card for ARQC verification.
+        case mastercard(PaymentCryptographyDataClientTypes.SessionKeyMastercard)
+        /// Parameters to derive session key for an Emv2000 payment card for ARQC verification.
+        case emv2000(PaymentCryptographyDataClientTypes.SessionKeyEmv2000)
+        /// Parameters to derive session key for an Amex payment card for ARQC verification.
+        case amex(PaymentCryptographyDataClientTypes.SessionKeyAmex)
+        /// Parameters to derive session key for a Visa payment cardfor ARQC verification.
+        case visa(PaymentCryptographyDataClientTypes.SessionKeyVisa)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct GenerateAuthRequestCryptogramInput: Swift.Sendable {
+    /// The keyARN of the IMK-AC (TR31_E0_EMV_MKEY_APP_CRYPTOGRAMS) that Amazon Web Services Payment Cryptography uses to generate the ARQC.
+    /// This member is required.
+    public var keyIdentifier: Swift.String?
+    /// The method to use when deriving the major encryption key for ARQC generation within Amazon Web Services Payment Cryptography.
+    /// This member is required.
+    public var majorKeyDerivationMode: PaymentCryptographyDataClientTypes.MajorKeyDerivationMode?
+    /// The attributes and values to use for deriving a session key for ARQC generation within Amazon Web Services Payment Cryptography.
+    /// This member is required.
+    public var sessionKeyDerivationAttributes: PaymentCryptographyDataClientTypes.SessionKeyDerivation?
+    /// The transaction data that Amazon Web Services Payment Cryptography uses for ARQC generation. The same transaction data is used for ARQC verification by the issuer using [VerifyAuthRequestCryptogram].
+    /// This member is required.
+    public var transactionData: Swift.String?
+
+    public init(
+        keyIdentifier: Swift.String? = nil,
+        majorKeyDerivationMode: PaymentCryptographyDataClientTypes.MajorKeyDerivationMode? = nil,
+        sessionKeyDerivationAttributes: PaymentCryptographyDataClientTypes.SessionKeyDerivation? = nil,
+        transactionData: Swift.String? = nil
+    ) {
+        self.keyIdentifier = keyIdentifier
+        self.majorKeyDerivationMode = majorKeyDerivationMode
+        self.sessionKeyDerivationAttributes = sessionKeyDerivationAttributes
+        self.transactionData = transactionData
+    }
+}
+
+extension GenerateAuthRequestCryptogramInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GenerateAuthRequestCryptogramInput(keyIdentifier: \(Swift.String(describing: keyIdentifier)), majorKeyDerivationMode: \(Swift.String(describing: majorKeyDerivationMode)), sessionKeyDerivationAttributes: \(Swift.String(describing: sessionKeyDerivationAttributes)), transactionData: \"CONTENT_REDACTED\")"}
+}
+
+public struct GenerateAuthRequestCryptogramOutput: Swift.Sendable {
+    /// The Authorization Request Cryptogram (ARQC) generated by Amazon Web Services Payment Cryptography using the specified key and transaction data.
+    /// This member is required.
+    public var authRequestCryptogram: Swift.String?
+    /// The keyARN of the IMK-AC that Amazon Web Services Payment Cryptography uses for ARQC generation.
+    /// This member is required.
+    public var keyArn: Swift.String?
+    /// The key check value (KCV) of the encryption key. The KCV is used to check if all parties holding a given key have the same key or to detect that a key has changed. Amazon Web Services Payment Cryptography computes the KCV according to the CMAC specification.
+    /// This member is required.
+    public var keyCheckValue: Swift.String?
+
+    public init(
+        authRequestCryptogram: Swift.String? = nil,
+        keyArn: Swift.String? = nil,
+        keyCheckValue: Swift.String? = nil
+    ) {
+        self.authRequestCryptogram = authRequestCryptogram
+        self.keyArn = keyArn
+        self.keyCheckValue = keyCheckValue
+    }
+}
+
+extension GenerateAuthRequestCryptogramOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GenerateAuthRequestCryptogramOutput(keyArn: \(Swift.String(describing: keyArn)), keyCheckValue: \(Swift.String(describing: keyCheckValue)), authRequestCryptogram: \"CONTENT_REDACTED\")"}
 }
 
 public struct GenerateCardValidationDataInput: Swift.Sendable {
@@ -3069,174 +3332,6 @@ public struct VerificationFailedException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-extension PaymentCryptographyDataClientTypes {
-
-    /// Parameters to derive session key for an Amex payment card.
-    public struct SessionKeyAmex: Swift.Sendable {
-        /// A number that identifies and differentiates payment cards with the same Primary Account Number (PAN).
-        /// This member is required.
-        public var panSequenceNumber: Swift.String?
-        /// The Primary Account Number (PAN) of the cardholder. A PAN is a unique identifier for a payment credit or debit card and associates the card to a specific account holder.
-        /// This member is required.
-        public var primaryAccountNumber: Swift.String?
-
-        public init(
-            panSequenceNumber: Swift.String? = nil,
-            primaryAccountNumber: Swift.String? = nil
-        ) {
-            self.panSequenceNumber = panSequenceNumber
-            self.primaryAccountNumber = primaryAccountNumber
-        }
-    }
-}
-
-extension PaymentCryptographyDataClientTypes.SessionKeyAmex: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "SessionKeyAmex(panSequenceNumber: \(Swift.String(describing: panSequenceNumber)), primaryAccountNumber: \"CONTENT_REDACTED\")"}
-}
-
-extension PaymentCryptographyDataClientTypes {
-
-    /// Parameters to derive session key for an Emv2000 payment card for ARQC verification.
-    public struct SessionKeyEmv2000: Swift.Sendable {
-        /// The transaction counter that is provided by the terminal during transaction processing.
-        /// This member is required.
-        public var applicationTransactionCounter: Swift.String?
-        /// A number that identifies and differentiates payment cards with the same Primary Account Number (PAN).
-        /// This member is required.
-        public var panSequenceNumber: Swift.String?
-        /// The Primary Account Number (PAN) of the cardholder. A PAN is a unique identifier for a payment credit or debit card and associates the card to a specific account holder.
-        /// This member is required.
-        public var primaryAccountNumber: Swift.String?
-
-        public init(
-            applicationTransactionCounter: Swift.String? = nil,
-            panSequenceNumber: Swift.String? = nil,
-            primaryAccountNumber: Swift.String? = nil
-        ) {
-            self.applicationTransactionCounter = applicationTransactionCounter
-            self.panSequenceNumber = panSequenceNumber
-            self.primaryAccountNumber = primaryAccountNumber
-        }
-    }
-}
-
-extension PaymentCryptographyDataClientTypes.SessionKeyEmv2000: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "SessionKeyEmv2000(applicationTransactionCounter: \(Swift.String(describing: applicationTransactionCounter)), panSequenceNumber: \(Swift.String(describing: panSequenceNumber)), primaryAccountNumber: \"CONTENT_REDACTED\")"}
-}
-
-extension PaymentCryptographyDataClientTypes {
-
-    /// Parameters to derive session key for an Emv common payment card for ARQC verification.
-    public struct SessionKeyEmvCommon: Swift.Sendable {
-        /// The transaction counter that is provided by the terminal during transaction processing.
-        /// This member is required.
-        public var applicationTransactionCounter: Swift.String?
-        /// A number that identifies and differentiates payment cards with the same Primary Account Number (PAN).
-        /// This member is required.
-        public var panSequenceNumber: Swift.String?
-        /// The Primary Account Number (PAN) of the cardholder. A PAN is a unique identifier for a payment credit or debit card and associates the card to a specific account holder.
-        /// This member is required.
-        public var primaryAccountNumber: Swift.String?
-
-        public init(
-            applicationTransactionCounter: Swift.String? = nil,
-            panSequenceNumber: Swift.String? = nil,
-            primaryAccountNumber: Swift.String? = nil
-        ) {
-            self.applicationTransactionCounter = applicationTransactionCounter
-            self.panSequenceNumber = panSequenceNumber
-            self.primaryAccountNumber = primaryAccountNumber
-        }
-    }
-}
-
-extension PaymentCryptographyDataClientTypes.SessionKeyEmvCommon: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "SessionKeyEmvCommon(applicationTransactionCounter: \(Swift.String(describing: applicationTransactionCounter)), panSequenceNumber: \(Swift.String(describing: panSequenceNumber)), primaryAccountNumber: \"CONTENT_REDACTED\")"}
-}
-
-extension PaymentCryptographyDataClientTypes {
-
-    /// Parameters to derive session key for Mastercard payment card for ARQC verification.
-    public struct SessionKeyMastercard: Swift.Sendable {
-        /// The transaction counter that is provided by the terminal during transaction processing.
-        /// This member is required.
-        public var applicationTransactionCounter: Swift.String?
-        /// A number that identifies and differentiates payment cards with the same Primary Account Number (PAN).
-        /// This member is required.
-        public var panSequenceNumber: Swift.String?
-        /// The Primary Account Number (PAN) of the cardholder. A PAN is a unique identifier for a payment credit or debit card and associates the card to a specific account holder.
-        /// This member is required.
-        public var primaryAccountNumber: Swift.String?
-        /// A random number generated by the issuer.
-        /// This member is required.
-        public var unpredictableNumber: Swift.String?
-
-        public init(
-            applicationTransactionCounter: Swift.String? = nil,
-            panSequenceNumber: Swift.String? = nil,
-            primaryAccountNumber: Swift.String? = nil,
-            unpredictableNumber: Swift.String? = nil
-        ) {
-            self.applicationTransactionCounter = applicationTransactionCounter
-            self.panSequenceNumber = panSequenceNumber
-            self.primaryAccountNumber = primaryAccountNumber
-            self.unpredictableNumber = unpredictableNumber
-        }
-    }
-}
-
-extension PaymentCryptographyDataClientTypes.SessionKeyMastercard: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "SessionKeyMastercard(applicationTransactionCounter: \(Swift.String(describing: applicationTransactionCounter)), panSequenceNumber: \(Swift.String(describing: panSequenceNumber)), unpredictableNumber: \(Swift.String(describing: unpredictableNumber)), primaryAccountNumber: \"CONTENT_REDACTED\")"}
-}
-
-extension PaymentCryptographyDataClientTypes {
-
-    /// Parameters to derive session key for Visa payment card for ARQC verification.
-    public struct SessionKeyVisa: Swift.Sendable {
-        /// A number that identifies and differentiates payment cards with the same Primary Account Number (PAN).
-        /// This member is required.
-        public var panSequenceNumber: Swift.String?
-        /// The Primary Account Number (PAN) of the cardholder. A PAN is a unique identifier for a payment credit or debit card and associates the card to a specific account holder.
-        /// This member is required.
-        public var primaryAccountNumber: Swift.String?
-
-        public init(
-            panSequenceNumber: Swift.String? = nil,
-            primaryAccountNumber: Swift.String? = nil
-        ) {
-            self.panSequenceNumber = panSequenceNumber
-            self.primaryAccountNumber = primaryAccountNumber
-        }
-    }
-}
-
-extension PaymentCryptographyDataClientTypes.SessionKeyVisa: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "SessionKeyVisa(panSequenceNumber: \(Swift.String(describing: panSequenceNumber)), primaryAccountNumber: \"CONTENT_REDACTED\")"}
-}
-
-extension PaymentCryptographyDataClientTypes {
-
-    /// Parameters to derive a session key for Authorization Response Cryptogram (ARQC) verification.
-    public enum SessionKeyDerivation: Swift.Sendable {
-        /// Parameters to derive session key for an Emv common payment card for ARQC verification.
-        case emvcommon(PaymentCryptographyDataClientTypes.SessionKeyEmvCommon)
-        /// Parameters to derive session key for a Mastercard payment card for ARQC verification.
-        case mastercard(PaymentCryptographyDataClientTypes.SessionKeyMastercard)
-        /// Parameters to derive session key for an Emv2000 payment card for ARQC verification.
-        case emv2000(PaymentCryptographyDataClientTypes.SessionKeyEmv2000)
-        /// Parameters to derive session key for an Amex payment card for ARQC verification.
-        case amex(PaymentCryptographyDataClientTypes.SessionKeyAmex)
-        /// Parameters to derive session key for a Visa payment cardfor ARQC verification.
-        case visa(PaymentCryptographyDataClientTypes.SessionKeyVisa)
-        case sdkUnknown(Swift.String)
-    }
-}
-
 public struct VerifyAuthRequestCryptogramInput: Swift.Sendable {
     /// The auth request cryptogram imported into Amazon Web Services Payment Cryptography for ARQC verification using a major encryption key and transaction data.
     /// This member is required.
@@ -3551,6 +3646,13 @@ extension GenerateAs2805KekValidationInput {
     }
 }
 
+extension GenerateAuthRequestCryptogramInput {
+
+    static func urlPathProvider(_ value: GenerateAuthRequestCryptogramInput) -> Swift.String? {
+        return "/cryptogram/generate"
+    }
+}
+
 extension GenerateCardValidationDataInput {
 
     static func urlPathProvider(_ value: GenerateCardValidationDataInput) -> Swift.String? {
@@ -3658,6 +3760,17 @@ extension GenerateAs2805KekValidationInput {
         try writer["KekValidationType"].write(value.kekValidationType, with: PaymentCryptographyDataClientTypes.As2805KekValidationType.write(value:to:))
         try writer["KeyIdentifier"].write(value.keyIdentifier)
         try writer["RandomKeySendVariantMask"].write(value.randomKeySendVariantMask)
+    }
+}
+
+extension GenerateAuthRequestCryptogramInput {
+
+    static func write(value: GenerateAuthRequestCryptogramInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["KeyIdentifier"].write(value.keyIdentifier)
+        try writer["MajorKeyDerivationMode"].write(value.majorKeyDerivationMode)
+        try writer["SessionKeyDerivationAttributes"].write(value.sessionKeyDerivationAttributes, with: PaymentCryptographyDataClientTypes.SessionKeyDerivation.write(value:to:))
+        try writer["TransactionData"].write(value.transactionData)
     }
 }
 
@@ -3842,6 +3955,20 @@ extension GenerateAs2805KekValidationOutput {
         value.keyCheckValue = try reader["KeyCheckValue"].readIfPresent() ?? ""
         value.randomKeyReceive = try reader["RandomKeyReceive"].readIfPresent() ?? ""
         value.randomKeySend = try reader["RandomKeySend"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension GenerateAuthRequestCryptogramOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GenerateAuthRequestCryptogramOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GenerateAuthRequestCryptogramOutput()
+        value.authRequestCryptogram = try reader["AuthRequestCryptogram"].readIfPresent() ?? ""
+        value.keyArn = try reader["KeyArn"].readIfPresent() ?? ""
+        value.keyCheckValue = try reader["KeyCheckValue"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4043,6 +4170,24 @@ enum EncryptDataOutputError {
 }
 
 enum GenerateAs2805KekValidationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GenerateAuthRequestCryptogramOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -4777,6 +4922,7 @@ extension PaymentCryptographyDataClientTypes.KekValidationRequest {
     static func write(value: PaymentCryptographyDataClientTypes.KekValidationRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["DeriveKeyAlgorithm"].write(value.deriveKeyAlgorithm)
+        try writer["RandomKeyMaxLength"].write(value.randomKeyMaxLength)
     }
 }
 

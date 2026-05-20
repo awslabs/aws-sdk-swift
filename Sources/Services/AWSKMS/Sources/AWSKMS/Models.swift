@@ -1210,19 +1210,27 @@ public struct InvalidGrantTokenException: ClientRuntime.ModeledError, AWSClientR
 
 extension KMSClientTypes {
 
-    /// Use this structure to allow [cryptographic operations](https://docs.aws.amazon.com/kms/latest/developerguide/kms-cryptography.html#cryptographic-operations) in the grant only when the operation request includes the specified [encryption context](https://docs.aws.amazon.com/kms/latest/developerguide/encrypt_context.html). KMS applies the grant constraints only to cryptographic operations that support an encryption context, that is, all cryptographic operations with a symmetric KMS key. Grant constraints are not applied to operations that do not support an encryption context, such as cryptographic operations with asymmetric KMS keys and management operations, such as [DescribeKey] or [RetireGrant]. In a cryptographic operation, the encryption context in the decryption operation must be an exact, case-sensitive match for the keys and values in the encryption context of the encryption operation. Only the order of the pairs can vary. However, in a grant constraint, the key in each key-value pair is not case sensitive, but the value is case sensitive. To avoid confusion, do not use multiple encryption context pairs that differ only by case. To require a fully case-sensitive encryption context, use the kms:EncryptionContext: and kms:EncryptionContextKeys conditions in an IAM or key policy. For details, see [kms:EncryptionContext:context-key](https://docs.aws.amazon.com/kms/latest/developerguide/conditions-kms.html#conditions-kms-encryption-context) in the Key Management Service Developer Guide .
+    /// Use this structure to allow [cryptographic operations](https://docs.aws.amazon.com/kms/latest/developerguide/kms-cryptography.html#cryptographic-operations) in the grant only when the operation request meets the specified constraints. KMS supports the following grant constraints:
+    ///
+    /// * EncryptionContextEquals and EncryptionContextSubset — These encryption context constraints apply only to cryptographic operations that support an encryption context, that is, all cryptographic operations with a symmetric KMS key. Encryption context grant constraints are not applied to operations that do not support an encryption context, such as cryptographic operations with asymmetric KMS keys and management operations, such as [DescribeKey] or [RetireGrant]. In a cryptographic operation, the encryption context in the decryption operation must be an exact, case-sensitive match for the keys and values in the encryption context of the encryption operation. Only the order of the pairs can vary. However, in a grant constraint, the key in each key-value pair is not case sensitive, but the value is case sensitive. To avoid confusion, do not use multiple encryption context pairs that differ only by case. To require a fully case-sensitive encryption context, use the kms:EncryptionContext: and kms:EncryptionContextKeys conditions in an IAM or key policy. For details, see [kms:EncryptionContext:context-key](https://docs.aws.amazon.com/kms/latest/developerguide/conditions-kms.html#conditions-kms-encryption-context) in the Key Management Service Developer Guide .
+    ///
+    /// * SourceArn — This grant constraint allows the permissions in the grant only when the request is made on behalf of a specific Amazon Web Services resource, identified by its [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html). This is effectively the same as having the [aws:SourceArn](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html#condition-keys-sourcearn) global condition key in the grant. The SourceArn constraint is supported on grants for all types of KMS keys and can also be applied to the [DescribeKey] operation when specified in the request. However, it does not apply to [RetireGrant] operation.
     public struct GrantConstraints: Swift.Sendable {
         /// A list of key-value pairs that must match the encryption context in the [cryptographic operation](https://docs.aws.amazon.com/kms/latest/developerguide/kms-cryptography.html#cryptographic-operations) request. The grant allows the operation only when the encryption context in the request is the same as the encryption context specified in this constraint.
         public var encryptionContextEquals: [Swift.String: Swift.String]?
         /// A list of key-value pairs that must be included in the encryption context of the [cryptographic operation](https://docs.aws.amazon.com/kms/latest/developerguide/kms-cryptography.html#cryptographic-operations) request. The grant allows the cryptographic operation only when the encryption context in the request includes the key-value pairs specified in this constraint, although it can include additional key-value pairs.
         public var encryptionContextSubset: [Swift.String: Swift.String]?
+        /// The [ Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of an Amazon Web Services resource on behalf of which the request is made. This is effectively the same as having the [aws:SourceArn](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html#condition-keys-sourcearn) global condition key in the grant. The SourceArn constraint ensures that the principal can use the KMS key only when the request is made on behalf of the specified resource.
+        public var sourceArn: Swift.String?
 
         public init(
             encryptionContextEquals: [Swift.String: Swift.String]? = nil,
-            encryptionContextSubset: [Swift.String: Swift.String]? = nil
+            encryptionContextSubset: [Swift.String: Swift.String]? = nil,
+            sourceArn: Swift.String? = nil
         ) {
             self.encryptionContextEquals = encryptionContextEquals
             self.encryptionContextSubset = encryptionContextSubset
+            self.sourceArn = sourceArn
         }
     }
 }
@@ -1302,15 +1310,23 @@ extension KMSClientTypes {
 }
 
 public struct CreateGrantInput: Swift.Sendable {
-    /// Specifies a grant constraint. Do not include confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output. KMS supports the EncryptionContextEquals and EncryptionContextSubset grant constraints, which allow the permissions in the grant only when the encryption context in the request matches (EncryptionContextEquals) or includes (EncryptionContextSubset) the encryption context specified in the constraint. The encryption context grant constraints are supported only on [grant operations](https://docs.aws.amazon.com/kms/latest/developerguide/grants.html#terms-grant-operations) that include an EncryptionContext parameter, such as cryptographic operations on symmetric encryption KMS keys. Grants with grant constraints can include the [DescribeKey] and [RetireGrant] operations, but the constraint doesn't apply to these operations. If a grant with a grant constraint includes the CreateGrant operation, the constraint requires that any grants created with the CreateGrant permission have an equally strict or stricter encryption context constraint. You cannot use an encryption context grant constraint for cryptographic operations with asymmetric KMS keys or HMAC KMS keys. Operations with these keys don't support an encryption context. Each constraint value can include up to 8 encryption context pairs. The encryption context value in each constraint cannot exceed 384 characters. For information about grant constraints, see [Using grant constraints](https://docs.aws.amazon.com/kms/latest/developerguide/create-grant-overview.html#grant-constraints) in the Key Management Service Developer Guide. For more information about encryption context, see [Encryption context](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context) in the Key Management Service Developer Guide .
+    /// Specifies a grant constraint. Do not include confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output. KMS supports the following grant constraints.
+    ///
+    /// * EncryptionContextEquals and EncryptionContextSubset — These encryption context grant constraints allow the permissions in the grant only when the encryption context in the request matches (EncryptionContextEquals) or includes (EncryptionContextSubset) the encryption context specified in the constraint. Encryption context grant constraints are supported only on [grant operations](https://docs.aws.amazon.com/kms/latest/developerguide/grants.html#terms-grant-operations) that include an EncryptionContext parameter, such as cryptographic operations on symmetric encryption KMS keys. You cannot use an encryption context grant constraint for cryptographic operations with asymmetric KMS keys or HMAC KMS keys. Operations with these keys don't support an encryption context. Grants with encryption context grant constraints can include the [DescribeKey] and [RetireGrant] operations, but the constraint doesn't apply to these operations. If a grant with an encryption context grant constraint includes the CreateGrant operation, the constraint requires that any grants created with the CreateGrant permission have an equally strict or stricter encryption context constraint. Each constraint value can include up to 8 encryption context pairs. The encryption context value in each constraint cannot exceed 384 characters. For more information about encryption context, see [Encryption context](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context) in the Key Management Service Developer Guide .
+    ///
+    /// * SourceArn — This grant constraint allows the permissions in the grant only when the request is made on behalf of a specific Amazon Web Services resource, identified by its [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html). This is effectively the same as having the [aws:SourceArn](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html#condition-keys-sourcearn) global condition key in the grant. The SourceArn constraint is supported on grants for all types of KMS keys and can also be applied to the [DescribeKey] operation when specified in the request. However, it does not apply to [RetireGrant] operation.
+    ///
+    ///
+    /// For information about grant constraints, see [Using grant constraints](https://docs.aws.amazon.com/kms/latest/developerguide/create-grant-overview.html#grant-constraints) in the Key Management Service Developer Guide.
     public var constraints: KMSClientTypes.GrantConstraints?
     /// Checks if your request will succeed. DryRun is an optional parameter. To learn more about how to use this parameter, see [Testing your permissions](https://docs.aws.amazon.com/kms/latest/developerguide/testing-permissions.html) in the Key Management Service Developer Guide.
     public var dryRun: Swift.Bool?
     /// A list of grant tokens. Use a grant token when your permission to call this operation comes from a new grant that has not yet achieved eventual consistency. For more information, see [Grant token](https://docs.aws.amazon.com/kms/latest/developerguide/grants.html#grant_token) and [Using a grant token](https://docs.aws.amazon.com/kms/latest/developerguide/using-grant-token.html) in the Key Management Service Developer Guide.
     public var grantTokens: [Swift.String]?
-    /// The identity that gets the permissions specified in the grant. To specify the grantee principal, use the Amazon Resource Name (ARN) of an Amazon Web Services principal. Valid principals include Amazon Web Services accounts, IAM users, IAM roles, federated users, and assumed role users. For help with the ARN syntax for a principal, see [IAM ARNs](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns) in the Identity and Access Management User Guide .
-    /// This member is required.
+    /// The identity that gets the permissions specified in the grant. To specify the grantee principal, use the Amazon Resource Name (ARN) of an Amazon Web Services principal. Valid principals include Amazon Web Services accounts, IAM users, IAM roles, federated users, and assumed role users. For help with the ARN syntax for a principal, see [IAM ARNs](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns) in the Identity and Access Management User Guide . You must specify either GranteePrincipal or GranteeServicePrincipal, but not both.
     public var granteePrincipal: Swift.String?
+    /// The Amazon Web Services [service principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html#principal-services) that gets the permissions specified in the grant. When you specify a GranteeServicePrincipal, you must also specify a SourceArn grant constraint. In addition, you must specify either a RetiringPrincipal or a RetiringServicePrincipal. You must specify either GranteePrincipal or GranteeServicePrincipal, but not both.
+    public var granteeServicePrincipal: Swift.String?
     /// Identifies the KMS key for the grant. The grant gives principals permission to use this KMS key. Specify the key ID or key ARN of the KMS key. To specify a KMS key in a different Amazon Web Services account, you must use the key ARN. For example:
     ///
     /// * Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
@@ -1326,27 +1342,33 @@ public struct CreateGrantInput: Swift.Sendable {
     /// A list of operations that the grant permits. This list must include only operations that are permitted in a grant. Also, the operation must be supported on the KMS key. For example, you cannot create a grant for a symmetric encryption KMS key that allows the [Sign] operation, or a grant for an asymmetric KMS key that allows the [GenerateDataKey] operation. If you try, KMS returns a ValidationError exception. For details, see [Grant operations](https://docs.aws.amazon.com/kms/latest/developerguide/grants.html#terms-grant-operations) in the Key Management Service Developer Guide.
     /// This member is required.
     public var operations: [KMSClientTypes.GrantOperation]?
-    /// The principal that has permission to use the [RetireGrant] operation to retire the grant. To specify the principal, use the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of an Amazon Web Services principal. Valid principals include Amazon Web Services accounts, IAM users, IAM roles, federated users, and assumed role users. For help with the ARN syntax for a principal, see [IAM ARNs](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns) in the Identity and Access Management User Guide . The grant determines the retiring principal. Other principals might have permission to retire the grant or revoke the grant. For details, see [RevokeGrant] and [Retiring and revoking grants](https://docs.aws.amazon.com/kms/latest/developerguide/grant-delete.html) in the Key Management Service Developer Guide.
+    /// The principal that has permission to use the [RetireGrant] operation to retire the grant. To specify the principal, use the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of an Amazon Web Services principal. Valid principals include Amazon Web Services accounts, IAM users, IAM roles, federated users, and assumed role users. For help with the ARN syntax for a principal, see [IAM ARNs](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns) in the Identity and Access Management User Guide . The grant determines the retiring principal. Other principals might have permission to retire the grant or revoke the grant. For details, see [RevokeGrant] and [Retiring and revoking grants](https://docs.aws.amazon.com/kms/latest/developerguide/grant-delete.html) in the Key Management Service Developer Guide. You can specify either RetiringPrincipal or RetiringServicePrincipal, but not both.
     public var retiringPrincipal: Swift.String?
+    /// The Amazon Web Services [service principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html#principal-services) that has permission to use the [RetireGrant] operation to retire the grant. You can specify either RetiringPrincipal or RetiringServicePrincipal, but not both.
+    public var retiringServicePrincipal: Swift.String?
 
     public init(
         constraints: KMSClientTypes.GrantConstraints? = nil,
         dryRun: Swift.Bool? = nil,
         grantTokens: [Swift.String]? = nil,
         granteePrincipal: Swift.String? = nil,
+        granteeServicePrincipal: Swift.String? = nil,
         keyId: Swift.String? = nil,
         name: Swift.String? = nil,
         operations: [KMSClientTypes.GrantOperation]? = nil,
-        retiringPrincipal: Swift.String? = nil
+        retiringPrincipal: Swift.String? = nil,
+        retiringServicePrincipal: Swift.String? = nil
     ) {
         self.constraints = constraints
         self.dryRun = dryRun
         self.grantTokens = grantTokens
         self.granteePrincipal = granteePrincipal
+        self.granteeServicePrincipal = granteeServicePrincipal
         self.keyId = keyId
         self.name = name
         self.operations = operations
         self.retiringPrincipal = retiringPrincipal
+        self.retiringServicePrincipal = retiringServicePrincipal
     }
 }
 
@@ -4020,14 +4042,16 @@ extension KMSClientTypes {
 
     /// Contains information about a grant.
     public struct GrantListEntry: Swift.Sendable {
-        /// A list of key-value pairs that must be present in the encryption context of certain subsequent operations that the grant allows.
+        /// The constraints on the grant, such as encryption context pairs or a SourceArn, that restrict the subsequent operations the grant allows.
         public var constraints: KMSClientTypes.GrantConstraints?
         /// The date and time when the grant was created.
         public var creationDate: Foundation.Date?
         /// The unique identifier for the grant.
         public var grantId: Swift.String?
-        /// The identity that gets the permissions in the grant. The GranteePrincipal field in the ListGrants response usually contains the user or role designated as the grantee principal in the grant. However, when the grantee principal in the grant is an Amazon Web Services service, the GranteePrincipal field contains the [service principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html#principal-services), which might represent several different grantee principals.
+        /// The identity that gets the permissions in the grant. When a grant is created with the GranteePrincipal field, the ListGrants response usually contains the user or role designated as the grantee principal in the grant. However, if the grantee principal is an Amazon Web Services service, the GranteePrincipal field contains an Amazon Web Services [service principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html#principal-services), which might correspond to several different grantee principals, such as an IAM user, IAM role, or Amazon Web Services account.
         public var granteePrincipal: Swift.String?
+        /// The Amazon Web Services [service principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html#principal-services) that gets the permissions in the grant.
+        public var granteeServicePrincipal: Swift.String?
         /// The Amazon Web Services account under which the grant was issued.
         public var issuingAccount: Swift.String?
         /// The unique identifier for the KMS key to which the grant applies.
@@ -4038,27 +4062,33 @@ extension KMSClientTypes {
         public var operations: [KMSClientTypes.GrantOperation]?
         /// The principal that can retire the grant.
         public var retiringPrincipal: Swift.String?
+        /// The Amazon Web Services [service principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html#principal-services) that can retire the grant.
+        public var retiringServicePrincipal: Swift.String?
 
         public init(
             constraints: KMSClientTypes.GrantConstraints? = nil,
             creationDate: Foundation.Date? = nil,
             grantId: Swift.String? = nil,
             granteePrincipal: Swift.String? = nil,
+            granteeServicePrincipal: Swift.String? = nil,
             issuingAccount: Swift.String? = nil,
             keyId: Swift.String? = nil,
             name: Swift.String? = nil,
             operations: [KMSClientTypes.GrantOperation]? = nil,
-            retiringPrincipal: Swift.String? = nil
+            retiringPrincipal: Swift.String? = nil,
+            retiringServicePrincipal: Swift.String? = nil
         ) {
             self.constraints = constraints
             self.creationDate = creationDate
             self.grantId = grantId
             self.granteePrincipal = granteePrincipal
+            self.granteeServicePrincipal = granteeServicePrincipal
             self.issuingAccount = issuingAccount
             self.keyId = keyId
             self.name = name
             self.operations = operations
             self.retiringPrincipal = retiringPrincipal
+            self.retiringServicePrincipal = retiringServicePrincipal
         }
     }
 }
@@ -4440,8 +4470,10 @@ public struct ListAliasesOutput: Swift.Sendable {
 public struct ListGrantsInput: Swift.Sendable {
     /// Returns only the grant with the specified grant ID. The grant ID uniquely identifies the grant.
     public var grantId: Swift.String?
-    /// Returns only grants where the specified principal is the grantee principal for the grant.
+    /// Returns only grants where the specified principal is the grantee principal for the grant. You can specify either GranteePrincipal or GranteeServicePrincipal, but not both.
     public var granteePrincipal: Swift.String?
+    /// Returns only grants where the specified Amazon Web Services service principal is the grantee service principal for the grant. This filter is only usable by callers in a service principal. You can specify either GranteePrincipal or GranteeServicePrincipal, but not both.
+    public var granteeServicePrincipal: Swift.String?
     /// Returns only grants for the specified KMS key. This parameter is required. Specify the key ID or key ARN of the KMS key. To specify a KMS key in a different Amazon Web Services account, you must use the key ARN. For example:
     ///
     /// * Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
@@ -4460,12 +4492,14 @@ public struct ListGrantsInput: Swift.Sendable {
     public init(
         grantId: Swift.String? = nil,
         granteePrincipal: Swift.String? = nil,
+        granteeServicePrincipal: Swift.String? = nil,
         keyId: Swift.String? = nil,
         limit: Swift.Int? = nil,
         marker: Swift.String? = nil
     ) {
         self.grantId = grantId
         self.granteePrincipal = granteePrincipal
+        self.granteeServicePrincipal = granteeServicePrincipal
         self.keyId = keyId
         self.limit = limit
         self.marker = marker
@@ -4748,18 +4782,21 @@ public struct ListRetirableGrantsInput: Swift.Sendable {
     public var limit: Swift.Int?
     /// Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the truncated response you just received.
     public var marker: Swift.String?
-    /// The retiring principal for which to list grants. Enter a principal in your Amazon Web Services account. To specify the retiring principal, use the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of an Amazon Web Services principal. Valid principals include Amazon Web Services accounts, IAM users, IAM roles, federated users, and assumed role users. For help with the ARN syntax for a principal, see [IAM ARNs](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns) in the Identity and Access Management User Guide .
-    /// This member is required.
+    /// The retiring principal for which to list grants. Enter a principal in your Amazon Web Services account. To specify the retiring principal, use the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of an Amazon Web Services principal. Valid principals include Amazon Web Services accounts, IAM users, IAM roles, federated users, and assumed role users. For help with the ARN syntax for a principal, see [IAM ARNs](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns) in the Identity and Access Management User Guide . You must specify either RetiringPrincipal or RetiringServicePrincipal, but not both.
     public var retiringPrincipal: Swift.String?
+    /// The retiring service principal for which to list grants. This filter is only usable by callers in a service principal. You must specify either RetiringPrincipal or RetiringServicePrincipal, but not both.
+    public var retiringServicePrincipal: Swift.String?
 
     public init(
         limit: Swift.Int? = nil,
         marker: Swift.String? = nil,
-        retiringPrincipal: Swift.String? = nil
+        retiringPrincipal: Swift.String? = nil,
+        retiringServicePrincipal: Swift.String? = nil
     ) {
         self.limit = limit
         self.marker = marker
         self.retiringPrincipal = retiringPrincipal
+        self.retiringServicePrincipal = retiringServicePrincipal
     }
 }
 

@@ -3585,7 +3585,7 @@ public struct CreateDomainInput: Swift.Sendable {
     public var domainName: Swift.String?
     /// The process of matching duplicate profiles. If Matching = true, Amazon Connect Customer Profiles starts a weekly batch process called Identity Resolution Job. If you do not specify a date and time for Identity Resolution Job to run, by default it runs every Saturday at 12AM UTC to detect duplicate profiles in your domains. After the Identity Resolution Job completes, use the [GetMatches](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_GetMatches.html) API to return and review the results. Or, if you have configured ExportingConfig in the MatchingRequest, you can download the results from S3.
     public var matching: CustomerProfilesClientTypes.MatchingRequest?
-    /// The process of matching duplicate profiles using the Rule-Based matching. If RuleBasedMatching = true, Amazon Connect Customer Profiles will start to match and merge your profiles according to your configuration in the RuleBasedMatchingRequest. You can use the ListRuleBasedMatches and GetSimilarProfiles API to return and review the results. Also, if you have configured ExportingConfig in the RuleBasedMatchingRequest, you can download the results from S3.
+    /// The process of matching duplicate profiles using the Rule-Based matching. If RuleBasedMatching = true, Connect Customer Customer Profiles will start to match and merge your profiles according to your configuration in the RuleBasedMatchingRequest. You can use the ListRuleBasedMatches and GetSimilarProfiles API to return and review the results. Also, if you have configured ExportingConfig in the RuleBasedMatchingRequest, you can download the results from S3.
     public var ruleBasedMatching: CustomerProfilesClientTypes.RuleBasedMatchingRequest?
     /// The tags used to organize, track, or control access for this resource.
     public var tags: [Swift.String: Swift.String]?
@@ -3765,7 +3765,7 @@ public struct CreateDomainOutput: Swift.Sendable {
     public var lastUpdatedAt: Foundation.Date?
     /// The process of matching duplicate profiles. If Matching = true, Amazon Connect Customer Profiles starts a weekly batch process called Identity Resolution Job. If you do not specify a date and time for Identity Resolution Job to run, by default it runs every Saturday at 12AM UTC to detect duplicate profiles in your domains. After the Identity Resolution Job completes, use the [GetMatches](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_GetMatches.html) API to return and review the results. Or, if you have configured ExportingConfig in the MatchingRequest, you can download the results from S3.
     public var matching: CustomerProfilesClientTypes.MatchingResponse?
-    /// The process of matching duplicate profiles using the Rule-Based matching. If RuleBasedMatching = true, Amazon Connect Customer Profiles will start to match and merge your profiles according to your configuration in the RuleBasedMatchingRequest. You can use the ListRuleBasedMatches and GetSimilarProfiles API to return and review the results. Also, if you have configured ExportingConfig in the RuleBasedMatchingRequest, you can download the results from S3.
+    /// The process of matching duplicate profiles using the Rule-Based matching. If RuleBasedMatching = true, Connect Customer Customer Profiles will start to match and merge your profiles according to your configuration in the RuleBasedMatchingRequest. You can use the ListRuleBasedMatches and GetSimilarProfiles API to return and review the results. Also, if you have configured ExportingConfig in the RuleBasedMatchingRequest, you can download the results from S3.
     public var ruleBasedMatching: CustomerProfilesClientTypes.RuleBasedMatchingResponse?
     /// The tags used to organize, track, or control access for this resource.
     public var tags: [Swift.String: Swift.String]?
@@ -4535,20 +4535,24 @@ extension CustomerProfilesClientTypes {
     public struct RecommenderConfig: Swift.Sendable {
         /// Configuration settings for how the recommender processes and uses events.
         public var eventsConfig: CustomerProfilesClientTypes.EventsConfig?
-        /// A map of dataset type to a list of column names to train on. The column names must be a subset of the columns defined in the recommender schema. If not specified, all columns in the schema are used for training. The following columns are always included and do not need to be specified: Item.Id, ItemList[].Id, EventTimestamp, EventType, and EventValue.
+        /// A map of dataset type to a list of column names to exclude from training. The _webAnalytics and _catalogItem keys are supported. The column names must be valid columns defined in the recommender schema. All columns in the schema except the listed columns will be used for training. The following columns are mandatory and cannot be excluded: Item.Id, EventTimestamp, and EventType for _webAnalytics; Id for _catalogItem. Mutually exclusive with IncludedColumns — both cannot be specified in the same request.
+        public var excludedColumns: [Swift.String: [Swift.String]]?
+        /// A map of dataset type to a list of column names to train on. The _webAnalytics and _catalogItem keys are supported. The column names must be a subset of the columns defined in the recommender schema. If not specified, all columns in the schema are used for training. The following columns are always included in training and do not need to be specified: Item.Id, EventTimestamp, and EventType for _webAnalytics; Id for _catalogItem. Mutually exclusive with ExcludedColumns — both cannot be specified in the same request.
         public var includedColumns: [Swift.String: [Swift.String]]?
         /// Configuration settings for how the recommender handles inference requests.
         public var inferenceConfig: CustomerProfilesClientTypes.InferenceConfig?
-        /// How often the recommender should retrain its model with new data.
+        /// How often the recommender should retrain its model with new data. If set to 0, automatic retraining will not be enabled.
         public var trainingFrequency: Swift.Int?
 
         public init(
             eventsConfig: CustomerProfilesClientTypes.EventsConfig? = nil,
+            excludedColumns: [Swift.String: [Swift.String]]? = nil,
             includedColumns: [Swift.String: [Swift.String]]? = nil,
             inferenceConfig: CustomerProfilesClientTypes.InferenceConfig? = nil,
             trainingFrequency: Swift.Int? = nil
         ) {
             self.eventsConfig = eventsConfig
+            self.excludedColumns = excludedColumns
             self.includedColumns = includedColumns
             self.inferenceConfig = inferenceConfig
             self.trainingFrequency = trainingFrequency
@@ -4768,7 +4772,7 @@ public struct CreateRecommenderSchemaInput: Swift.Sendable {
     /// The unique name of the domain.
     /// This member is required.
     public var domainName: Swift.String?
-    /// A map of dataset type to column definitions that specifies which data columns to include in the schema. Currently only the _webAnalytics key is supported.
+    /// A map of dataset type to column definitions that specifies which data columns to include in the schema. The _webAnalytics and _catalogItem keys are supported.
     /// This member is required.
     public var fields: [Swift.String: [CustomerProfilesClientTypes.RecommenderSchemaField]]?
     /// The name of the recommender schema. The name must be unique within the domain.
@@ -5530,7 +5534,7 @@ public struct CreateSegmentSnapshotInput: Swift.Sendable {
     /// The format in which the segment will be exported.
     /// This member is required.
     public var dataFormat: CustomerProfilesClientTypes.DataFormat?
-    /// The destination to which the segment will be exported. This field must be provided if the request is not submitted from the Amazon Connect Admin Website.
+    /// The destination to which the segment will be exported. This field must be provided if the request is not submitted from the Connect Customer Admin Website.
     public var destinationUri: Swift.String?
     /// The unique name of the domain.
     /// This member is required.
@@ -6516,7 +6520,7 @@ public struct GetDomainOutput: Swift.Sendable {
     public var lastUpdatedAt: Foundation.Date?
     /// The process of matching duplicate profiles. If Matching = true, Amazon Connect Customer Profiles starts a weekly batch process called Identity Resolution Job. If you do not specify a date and time for Identity Resolution Job to run, by default it runs every Saturday at 12AM UTC to detect duplicate profiles in your domains. After the Identity Resolution Job completes, use the [GetMatches](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_GetMatches.html) API to return and review the results. Or, if you have configured ExportingConfig in the MatchingRequest, you can download the results from S3.
     public var matching: CustomerProfilesClientTypes.MatchingResponse?
-    /// The process of matching duplicate profiles using the Rule-Based matching. If RuleBasedMatching = true, Amazon Connect Customer Profiles will start to match and merge your profiles according to your configuration in the RuleBasedMatchingRequest. You can use the ListRuleBasedMatches and GetSimilarProfiles API to return and review the results. Also, if you have configured ExportingConfig in the RuleBasedMatchingRequest, you can download the results from S3.
+    /// The process of matching duplicate profiles using the Rule-Based matching. If RuleBasedMatching = true, Connect Customer Customer Profiles will start to match and merge your profiles according to your configuration in the RuleBasedMatchingRequest. You can use the ListRuleBasedMatches and GetSimilarProfiles API to return and review the results. Also, if you have configured ExportingConfig in the RuleBasedMatchingRequest, you can download the results from S3.
     public var ruleBasedMatching: CustomerProfilesClientTypes.RuleBasedMatchingResponse?
     /// Usage-specific statistics about the domain.
     public var stats: CustomerProfilesClientTypes.DomainStats?
@@ -8509,7 +8513,7 @@ public struct GetSegmentSnapshotOutput: Swift.Sendable {
     /// The format in which the segment will be exported.
     /// This member is required.
     public var dataFormat: CustomerProfilesClientTypes.DataFormat?
-    /// The destination to which the segment will be exported. This field must be provided if the request is not submitted from the Amazon Connect Admin Website.
+    /// The destination to which the segment will be exported. This field must be provided if the request is not submitted from the Connect Customer Admin Website.
     public var destinationUri: Swift.String?
     /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the exported segment.
     public var encryptionKey: Swift.String?
@@ -11659,7 +11663,7 @@ public struct UpdateDomainInput: Swift.Sendable {
     public var domainName: Swift.String?
     /// The process of matching duplicate profiles. If Matching = true, Amazon Connect Customer Profiles starts a weekly batch process called Identity Resolution Job. If you do not specify a date and time for Identity Resolution Job to run, by default it runs every Saturday at 12AM UTC to detect duplicate profiles in your domains. After the Identity Resolution Job completes, use the [GetMatches](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_GetMatches.html) API to return and review the results. Or, if you have configured ExportingConfig in the MatchingRequest, you can download the results from S3.
     public var matching: CustomerProfilesClientTypes.MatchingRequest?
-    /// The process of matching duplicate profiles using the rule-Based matching. If RuleBasedMatching = true, Amazon Connect Customer Profiles will start to match and merge your profiles according to your configuration in the RuleBasedMatchingRequest. You can use the ListRuleBasedMatches and GetSimilarProfiles API to return and review the results. Also, if you have configured ExportingConfig in the RuleBasedMatchingRequest, you can download the results from S3.
+    /// The process of matching duplicate profiles using the rule-Based matching. If RuleBasedMatching = true, Connect Customer Customer Profiles will start to match and merge your profiles according to your configuration in the RuleBasedMatchingRequest. You can use the ListRuleBasedMatches and GetSimilarProfiles API to return and review the results. Also, if you have configured ExportingConfig in the RuleBasedMatchingRequest, you can download the results from S3.
     public var ruleBasedMatching: CustomerProfilesClientTypes.RuleBasedMatchingRequest?
     /// The tags used to organize, track, or control access for this resource.
     public var tags: [Swift.String: Swift.String]?
@@ -11705,7 +11709,7 @@ public struct UpdateDomainOutput: Swift.Sendable {
     public var lastUpdatedAt: Foundation.Date?
     /// The process of matching duplicate profiles. If Matching = true, Amazon Connect Customer Profiles starts a weekly batch process called Identity Resolution Job. If you do not specify a date and time for Identity Resolution Job to run, by default it runs every Saturday at 12AM UTC to detect duplicate profiles in your domains. After the Identity Resolution Job completes, use the [GetMatches](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_GetMatches.html) API to return and review the results. Or, if you have configured ExportingConfig in the MatchingRequest, you can download the results from S3.
     public var matching: CustomerProfilesClientTypes.MatchingResponse?
-    /// The process of matching duplicate profiles using the rule-Based matching. If RuleBasedMatching = true, Amazon Connect Customer Profiles will start to match and merge your profiles according to your configuration in the RuleBasedMatchingRequest. You can use the ListRuleBasedMatches and GetSimilarProfiles API to return and review the results. Also, if you have configured ExportingConfig in the RuleBasedMatchingRequest, you can download the results from S3.
+    /// The process of matching duplicate profiles using the rule-Based matching. If RuleBasedMatching = true, Connect Customer Customer Profiles will start to match and merge your profiles according to your configuration in the RuleBasedMatchingRequest. You can use the ListRuleBasedMatches and GetSimilarProfiles API to return and review the results. Also, if you have configured ExportingConfig in the RuleBasedMatchingRequest, you can download the results from S3.
     public var ruleBasedMatching: CustomerProfilesClientTypes.RuleBasedMatchingResponse?
     /// The tags used to organize, track, or control access for this resource.
     public var tags: [Swift.String: Swift.String]?
@@ -19424,6 +19428,7 @@ extension CustomerProfilesClientTypes.RecommenderConfig {
     static func write(value: CustomerProfilesClientTypes.RecommenderConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["EventsConfig"].write(value.eventsConfig, with: CustomerProfilesClientTypes.EventsConfig.write(value:to:))
+        try writer["ExcludedColumns"].writeMap(value.excludedColumns, valueWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["IncludedColumns"].writeMap(value.includedColumns, valueWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["InferenceConfig"].write(value.inferenceConfig, with: CustomerProfilesClientTypes.InferenceConfig.write(value:to:))
         try writer["TrainingFrequency"].write(value.trainingFrequency)
@@ -19436,6 +19441,7 @@ extension CustomerProfilesClientTypes.RecommenderConfig {
         value.trainingFrequency = try reader["TrainingFrequency"].readIfPresent()
         value.inferenceConfig = try reader["InferenceConfig"].readIfPresent(with: CustomerProfilesClientTypes.InferenceConfig.read(from:))
         value.includedColumns = try reader["IncludedColumns"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.excludedColumns = try reader["ExcludedColumns"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
