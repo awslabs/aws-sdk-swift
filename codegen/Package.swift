@@ -63,13 +63,11 @@ private var protocolTestTargets: [Target] {
     struct ProtocolTest {
         let name: String
         let sourcePath: String
-        let testPath: String?
         let buildOnly: Bool
 
-        init(name: String, sourcePath: String, testPath: String? = nil, buildOnly: Bool = false) {
+        init(name: String, sourcePath: String, buildOnly: Bool = false) {
             self.name = name
             self.sourcePath = sourcePath
-            self.testPath = testPath
             self.buildOnly = buildOnly
         }
 
@@ -98,7 +96,6 @@ private var protocolTestTargets: [Target] {
         .init(name: "AwsQueryExtras", sourcePath: "\(baseDirLocal)/AwsQueryExtras"),
         .init(name: "EventStream", sourcePath: "\(baseDirLocal)/EventStream", buildOnly: true),
         .init(name: "RPCEventStream", sourcePath: "\(baseDirLocal)/RPCEventStream", buildOnly: true),
-        .init(name: "Waiters", sourcePath: "\(baseDirLocal)/Waiters", testPath: "../codegen/protocol-test-codegen-local/Tests"),
         .init(name: "StringArrayEndpointParam", sourcePath: "\(baseDirLocal)/StringArrayEndpointParam"),
         .init(name: "RPCV2CBORTestSDK", sourcePath: "\(baseDir)/smithy-rpcv2-cbor"),
         .init(name: "RPCV2CBORTestQueryCompatSDK", sourcePath: "\(baseDir)/smithy-rpcv2-cbor-query-compat"),
@@ -140,10 +137,9 @@ private var protocolTestTargets: [Target] {
             dependencies: [
                 .smithyTestUtils,
                 .smithyStreams,
-                .smithyWaitersAPI,
                 .byNameItem(name: protocolTest.name, condition: nil)
             ],
-            path: "\(protocolTest.testPath ?? protocolTest.sourcePath)/swift-codegen/Tests/\(protocolTest.name)Tests"
+            path: "\(protocolTest.sourcePath)/swift-codegen/Tests/\(protocolTest.name)Tests"
         )
         return [target, testTarget].compactMap { $0 }
     }
