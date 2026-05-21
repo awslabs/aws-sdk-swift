@@ -19,23 +19,23 @@ class AWSRetryConfigTests: XCTestCase {
     // MARK: - Retry mode
 
     func test_retryMode_resolvesAConfigValue() throws {
-        let subject = AWSRetryConfig.retryMode(configValue: .adaptive, profileName: nil, fileBasedConfig: fileBasedConfig)
+        let subject = try AWSRetryConfig.retryMode(configValue: .adaptive, profileName: nil, fileBasedConfig: fileBasedConfig)
         XCTAssertEqual(subject, .adaptive)
     }
 
     func test_retryMode_resolvesDefaultProfile() throws {
-        let subject = AWSRetryConfig.retryMode(configValue: nil, profileName: nil, fileBasedConfig: fileBasedConfig)
+        let subject = try AWSRetryConfig.retryMode(configValue: nil, profileName: nil, fileBasedConfig: fileBasedConfig)
         XCTAssertEqual(subject, .adaptive)
     }
 
     func test_retryMode_resolvesSpecifiedProfile() throws {
-        let subject = AWSRetryConfig.retryMode(configValue: nil, profileName: "retry-config-test", fileBasedConfig: fileBasedConfig)
+        let subject = try AWSRetryConfig.retryMode(configValue: nil, profileName: "retry-config-test", fileBasedConfig: fileBasedConfig)
         XCTAssertEqual(subject, .legacy)
     }
 
-    func test_retryMode_defaultsToLegacy() throws {
-        let subject = AWSRetryConfig.retryMode(configValue: nil, profileName: "no-such-profile", fileBasedConfig: fileBasedConfig)
-        XCTAssertEqual(subject, .legacy)
+    func test_retryMode_defaultsToStandard() throws {
+        let subject = try AWSRetryConfig.retryMode(configValue: nil, profileName: "no-such-profile", fileBasedConfig: fileBasedConfig)
+        XCTAssertEqual(subject, .standard)
     }
 
     // MARK: - Max attempts
