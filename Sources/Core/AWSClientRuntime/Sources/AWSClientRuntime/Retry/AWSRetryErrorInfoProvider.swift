@@ -41,6 +41,11 @@ public enum AWSRetryErrorInfoProvider: RetryErrorInfoProvider {
         "RequestTimeoutException",
     ]
 
+    // "IDPCommunicationError" is retryable only for STS clients.
+    private static let stsOnlyTransientErrorCodes = [
+        "IDPCommunicationError",
+    ]
+
     // CRT error codes that should be treated as transient errors.
     private static let transientCRTErrorCodes: [Int32] = [
         2058, // httpConnectionClosed
@@ -53,6 +58,36 @@ public enum AWSRetryErrorInfoProvider: RetryErrorInfoProvider {
 
     // HTTP status codes should be treated as timeouts.
     private static let timeoutStatusCodes = [408, 504]
+
+    public static func errorInfoProvider(sdkID: String) -> (Error) -> RetryErrorInfo? {
+        let isDynamoDB = sdkID == "DynamoDB" || sdkID == "DynamoDB Streams"
+        let isSTS = sdkID == "STS"
+        return { error in
+            if isSTS, isSTSOnlyTransient(error) {
+                return applyRetryAfterHeader(
+                    info: RetryErrorInfo(errorType: .transient, retryAfterHint: nil, isTimeout: false),
+                    error: error
+                )
+            }
+            guard var info = errorInfo(for: error) else { return nil }
+            if isDynamoDB && info.errorType != .throttling {
+                info.backoffMultiplier = 0.025
+            }
+            return info
+        }
+    }
+
+    private static func isSTSOnlyTransient(_ error: Error) -> Bool {
+        if let serviceError = error as? ServiceError, let code = serviceError.typeName,
+           stsOnlyTransientErrorCodes.contains(code) {
+            return true
+        }
+        if let modeledError = error as? ModeledError,
+           stsOnlyTransientErrorCodes.contains(type(of: modeledError).typeName) {
+            return true
+        }
+        return false
+    }
 
     public static func errorInfo(for error: Error) -> RetryErrorInfo? {
 
@@ -68,35 +103,57 @@ public enum AWSRetryErrorInfoProvider: RetryErrorInfoProvider {
         // Handle certain CRT errors as transient errors
         if case CommonRunTimeError.crtError(let crtError) = error {
             if transientCRTErrorCodes.contains(crtError.code) {
-                return RetryErrorInfo(errorType: .transient, retryAfterHint: nil, isTimeout: isTimeout)
+                return applyRetryAfterHeader(
+                    info: RetryErrorInfo(errorType: .transient, retryAfterHint: nil, isTimeout: isTimeout),
+                    error: error
+                )
             }
         }
 
         if let serviceError = error as? ServiceError, let code = serviceError.typeName {
             // Handle the throttling error codes as errors of retry type "throttling".
             if throttlingErrorCodes.contains(code) {
-                return RetryErrorInfo(errorType: .throttling, retryAfterHint: nil, isTimeout: false)
+                return applyRetryAfterHeader(
+                    info: RetryErrorInfo(errorType: .throttling, retryAfterHint: nil, isTimeout: false),
+                    error: error
+                )
             }
             // Handle the transient error codes as errors of retry type "transient".
             if transientErrorCodes.contains(code) {
-                return RetryErrorInfo(errorType: .transient, retryAfterHint: nil, isTimeout: isTimeout)
+                return applyRetryAfterHeader(
+                    info: RetryErrorInfo(errorType: .transient, retryAfterHint: nil, isTimeout: isTimeout),
+                    error: error
+                )
             }
         }
 
         if let httpError = error as? HTTPError {
             // Handle the transient and timeout HTTP status codes as errors of retry type "transient".
             if (transientStatusCodes + timeoutStatusCodes).contains(httpError.httpResponse.statusCode.rawValue) {
-                return RetryErrorInfo(errorType: .transient, retryAfterHint: nil, isTimeout: isTimeout)
+                return applyRetryAfterHeader(
+                    info: RetryErrorInfo(errorType: .transient, retryAfterHint: nil, isTimeout: isTimeout),
+                    error: error
+                )
             }
-        }
-
-        if let modeledError = error as? ModeledError, type(of: modeledError).typeName == "IDPCommunicationError" {
-
-            // Handle a modeled IDPCommunicationError (comes from STS) as an error of retry type "transient".
-            return RetryErrorInfo(errorType: .transient, retryAfterHint: nil, isTimeout: isTimeout)
         }
 
         // If custom AWS error matching fails, use the default error info provider to finish matching.
         return DefaultRetryErrorInfoProvider.errorInfo(for: error)
+    }
+
+    /// Parses `x-amz-retry-after` header (milliseconds) and applies it as retryAfterHint.
+    private static func applyRetryAfterHeader(info: RetryErrorInfo, error: Error) -> RetryErrorInfo {
+        guard let httpError = error as? HTTPError,
+              let headerValue = httpError.httpResponse.headers.value(for: "x-amz-retry-after"),
+              let millis = Int(headerValue), millis >= 0 else {
+            return info
+        }
+        let seconds = TimeInterval(millis) / 1000.0
+        return RetryErrorInfo(
+            errorType: info.errorType,
+            retryAfterHint: seconds,
+            isTimeout: info.isTimeout,
+            backoffMultiplier: info.backoffMultiplier
+        )
     }
 }

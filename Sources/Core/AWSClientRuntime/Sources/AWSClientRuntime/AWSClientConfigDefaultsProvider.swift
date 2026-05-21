@@ -97,7 +97,7 @@ public class AWSClientConfigDefaultsProvider: ClientConfigDefaultsProvider {
         if let retryMode = retryMode {
             resolvedRetryMode = retryMode
         } else {
-            resolvedRetryMode = AWSRetryConfig.retryMode(
+            resolvedRetryMode = try AWSRetryConfig.retryMode(
                 configValue: nil,
                 profileName: nil,
                 fileBasedConfig: fileBasedConfig
@@ -125,15 +125,29 @@ public class AWSClientConfigDefaultsProvider: ClientConfigDefaultsProvider {
         _ retryMode: AWSRetryMode? = nil,
         _ maxAttempts: Int? = nil
     ) throws -> RetryStrategyOptions {
-        let resolvedMaxAttempts = try self.maxAttempts(maxAttempts)
+        try retryStrategyOptions(retryMode, maxAttempts, sdkID: nil)
+    }
+
+    public static func retryStrategyOptions(
+        _ retryMode: AWSRetryMode? = nil,
+        _ maxAttempts: Int? = nil,
+        sdkID: String?
+    ) throws -> RetryStrategyOptions {
+        var resolvedMaxAttempts = try self.maxAttempts(maxAttempts)
+        let resolvedRetryMode = try self.retryMode(retryMode)
 
         let resolvedRateLimitingMode: RetryStrategyOptions.RateLimitingMode
 
-        switch try self.retryMode(retryMode) {
+        switch resolvedRetryMode {
         case .legacy, .standard:
             resolvedRateLimitingMode = .standard
         case .adaptive:
             resolvedRateLimitingMode = .adaptive
+        }
+
+        if maxAttempts == nil, resolvedRetryMode != .legacy,
+           let sdkID, Self.isDynamoDB(sdkID: sdkID) {
+            resolvedMaxAttempts = max(resolvedMaxAttempts, 4)
         }
 
         return RetryStrategyOptions(
@@ -141,6 +155,10 @@ public class AWSClientConfigDefaultsProvider: ClientConfigDefaultsProvider {
             maxRetriesBase: resolvedMaxAttempts - 1,
             rateLimitingMode: resolvedRateLimitingMode
         )
+    }
+
+    static func isDynamoDB(sdkID: String) -> Bool {
+        sdkID == "DynamoDB" || sdkID == "DynamoDB Streams"
     }
 
     public static func configuredEndpoint(

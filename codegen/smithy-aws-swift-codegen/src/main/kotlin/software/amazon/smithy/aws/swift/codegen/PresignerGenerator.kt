@@ -77,7 +77,11 @@ class PresignerGenerator : SwiftIntegration {
         val serviceShape = ctx.model.expectShape<ServiceShape>(ctx.settings.service)
         val protocolGenerator = ctx.protocolGenerator?.let { it } ?: run { return }
         val protocolGeneratorContext = ctx.toProtocolGenerationContext(serviceShape, delegator)?.let { it } ?: run { return }
-        val operationMiddleware = protocolGenerator.operationMiddleware
+        // Presigned requests do not execute, so retry strategy is not needed; removing also
+        // avoids the codegen template's `self.retryStrategy` reference, which is unavailable
+        // in the Input extension where presigner code is rendered.
+        val operationMiddleware = protocolGenerator.operationMiddleware.clone()
+        operationMiddleware.removeMiddleware(op, "RetryMiddleware")
 
         val httpBindingResolver =
             protocolGenerator.getProtocolHttpBindingResolver(
