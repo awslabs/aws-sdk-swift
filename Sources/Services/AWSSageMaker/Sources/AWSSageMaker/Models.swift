@@ -20110,6 +20110,36 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    /// Indicates whether a home EFS file system is created for the domain.
+    public enum HomeEfsFileSystemCreation: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HomeEfsFileSystemCreation] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "Disabled"
+            case .enabled: return "Enabled"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     public enum TagPropagation: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
@@ -20159,6 +20189,8 @@ public struct CreateDomainInput: Swift.Sendable {
     public var domainName: Swift.String?
     /// A collection of Domain settings.
     public var domainSettings: SageMakerClientTypes.DomainSettings?
+    /// Indicates whether to create a home EFS file system for the domain. Defaults to Enabled. Set to Disabled to skip EFS creation and reduce domain creation time. You can enable EFS later by calling UpdateDomain.
+    public var homeEfsFileSystemCreation: SageMakerClientTypes.HomeEfsFileSystemCreation?
     /// Use KmsKeyId.
     @available(*, deprecated, message: "This property is deprecated, use KmsKeyId instead.")
     public var homeEfsFileSystemKmsKeyId: Swift.String?
@@ -20181,6 +20213,7 @@ public struct CreateDomainInput: Swift.Sendable {
         defaultUserSettings: SageMakerClientTypes.UserSettings? = nil,
         domainName: Swift.String? = nil,
         domainSettings: SageMakerClientTypes.DomainSettings? = nil,
+        homeEfsFileSystemCreation: SageMakerClientTypes.HomeEfsFileSystemCreation? = nil,
         homeEfsFileSystemKmsKeyId: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
         subnetIds: [Swift.String]? = nil,
@@ -20195,6 +20228,7 @@ public struct CreateDomainInput: Swift.Sendable {
         self.defaultUserSettings = defaultUserSettings
         self.domainName = domainName
         self.domainSettings = domainSettings
+        self.homeEfsFileSystemCreation = homeEfsFileSystemCreation
         self.homeEfsFileSystemKmsKeyId = homeEfsFileSystemKmsKeyId
         self.kmsKeyId = kmsKeyId
         self.subnetIds = subnetIds
@@ -28055,7 +28089,7 @@ public struct CreateNotebookInstanceInput: Swift.Sendable {
     /// The name of the new notebook instance.
     /// This member is required.
     public var notebookInstanceName: Swift.String?
-    /// The platform identifier of the notebook instance runtime environment. The default value is notebook-al2-v2.
+    /// The platform identifier of the notebook instance runtime environment. The default value is notebook-al2023-v1.
     public var platformIdentifier: Swift.String?
     /// When you send any requests to Amazon Web Services resources from the notebook instance, SageMaker AI assumes this role to perform tasks on your behalf. You must grant this role necessary permissions so SageMaker AI can perform these tasks. The policy must allow the SageMaker AI service principal (sagemaker.amazonaws.com) permissions to assume this role. For more information, see [SageMaker AI Roles](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html). To be able to pass this role to SageMaker AI, the caller of this API must have the iam:PassRole permission.
     /// This member is required.
@@ -34883,6 +34917,8 @@ public struct DescribeDomainOutput: Swift.Sendable {
     public var domainSettings: SageMakerClientTypes.DomainSettings?
     /// The failure reason.
     public var failureReason: Swift.String?
+    /// Indicates whether a home EFS file system is created for the domain.
+    public var homeEfsFileSystemCreation: SageMakerClientTypes.HomeEfsFileSystemCreation?
     /// The ID of the Amazon Elastic File System managed by this Domain.
     public var homeEfsFileSystemId: Swift.String?
     /// Use KmsKeyId.
@@ -34921,6 +34957,7 @@ public struct DescribeDomainOutput: Swift.Sendable {
         domainName: Swift.String? = nil,
         domainSettings: SageMakerClientTypes.DomainSettings? = nil,
         failureReason: Swift.String? = nil,
+        homeEfsFileSystemCreation: SageMakerClientTypes.HomeEfsFileSystemCreation? = nil,
         homeEfsFileSystemId: Swift.String? = nil,
         homeEfsFileSystemKmsKeyId: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
@@ -34945,6 +34982,7 @@ public struct DescribeDomainOutput: Swift.Sendable {
         self.domainName = domainName
         self.domainSettings = domainSettings
         self.failureReason = failureReason
+        self.homeEfsFileSystemCreation = homeEfsFileSystemCreation
         self.homeEfsFileSystemId = homeEfsFileSystemId
         self.homeEfsFileSystemKmsKeyId = homeEfsFileSystemKmsKeyId
         self.kmsKeyId = kmsKeyId
@@ -58696,6 +58734,8 @@ public struct UpdateDomainInput: Swift.Sendable {
     public var domainId: Swift.String?
     /// A collection of DomainSettings configuration values to update.
     public var domainSettingsForUpdate: SageMakerClientTypes.DomainSettingsForUpdate?
+    /// Indicates whether to create a home EFS file system for the domain. You can change from Disabled to Enabled to provision EFS on demand, but you cannot change from Enabled to Disabled.
+    public var homeEfsFileSystemCreation: SageMakerClientTypes.HomeEfsFileSystemCreation?
     /// The VPC subnets that Studio uses for communication. If removing subnets, ensure there are no apps in the InService, Pending, or Deleting state.
     public var subnetIds: [Swift.String]?
     /// Indicates whether custom tag propagation is supported for the domain. Defaults to DISABLED.
@@ -58710,6 +58750,7 @@ public struct UpdateDomainInput: Swift.Sendable {
         defaultUserSettings: SageMakerClientTypes.UserSettings? = nil,
         domainId: Swift.String? = nil,
         domainSettingsForUpdate: SageMakerClientTypes.DomainSettingsForUpdate? = nil,
+        homeEfsFileSystemCreation: SageMakerClientTypes.HomeEfsFileSystemCreation? = nil,
         subnetIds: [Swift.String]? = nil,
         tagPropagation: SageMakerClientTypes.TagPropagation? = nil,
         vpcId: Swift.String? = nil
@@ -58720,6 +58761,7 @@ public struct UpdateDomainInput: Swift.Sendable {
         self.defaultUserSettings = defaultUserSettings
         self.domainId = domainId
         self.domainSettingsForUpdate = domainSettingsForUpdate
+        self.homeEfsFileSystemCreation = homeEfsFileSystemCreation
         self.subnetIds = subnetIds
         self.tagPropagation = tagPropagation
         self.vpcId = vpcId

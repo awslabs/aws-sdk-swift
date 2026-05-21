@@ -4057,15 +4057,23 @@ extension CleanRoomsClientTypes {
         /// The abilities granted to the collaboration member. These determine what actions the member can perform within the collaboration. The following values are currently not supported: CAN_QUERY and CAN_RUN_JOB. Set the value of memberAbilities to [] to allow a member to contribute data. Set the value of memberAbilities to [CAN_RECEIVE_RESULTS] to allow a member to contribute data and receive results.
         /// This member is required.
         public var memberAbilities: [CleanRoomsClientTypes.MemberAbility]?
+        /// The ML member abilities for a collaboration member.
+        public var mlMemberAbilities: CleanRoomsClientTypes.MLMemberAbilities?
+        /// An object representing the collaboration member's payment responsibilities set by the collaboration creator.
+        public var paymentConfiguration: CleanRoomsClientTypes.PaymentConfiguration?
 
         public init(
             accountId: Swift.String? = nil,
             displayName: Swift.String? = nil,
-            memberAbilities: [CleanRoomsClientTypes.MemberAbility]? = nil
+            memberAbilities: [CleanRoomsClientTypes.MemberAbility]? = nil,
+            mlMemberAbilities: CleanRoomsClientTypes.MLMemberAbilities? = nil,
+            paymentConfiguration: CleanRoomsClientTypes.PaymentConfiguration? = nil
         ) {
             self.accountId = accountId
             self.displayName = displayName
             self.memberAbilities = memberAbilities
+            self.mlMemberAbilities = mlMemberAbilities
+            self.paymentConfiguration = paymentConfiguration
         }
     }
 }
@@ -4153,16 +4161,28 @@ extension CleanRoomsClientTypes {
 
     public enum ChangeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case addMember
+        case addPayerCandidate
         case editAutoApprovedChangeTypes
+        case grantCanReceiveInferenceOutput
+        case grantCanReceiveModelOutput
         case grantReceiveResultsAbility
+        case removePayerCandidate
+        case revokeCanReceiveInferenceOutput
+        case revokeCanReceiveModelOutput
         case revokeReceiveResultsAbility
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ChangeType] {
             return [
                 .addMember,
+                .addPayerCandidate,
                 .editAutoApprovedChangeTypes,
+                .grantCanReceiveInferenceOutput,
+                .grantCanReceiveModelOutput,
                 .grantReceiveResultsAbility,
+                .removePayerCandidate,
+                .revokeCanReceiveInferenceOutput,
+                .revokeCanReceiveModelOutput,
                 .revokeReceiveResultsAbility
             ]
         }
@@ -4175,8 +4195,14 @@ extension CleanRoomsClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .addMember: return "ADD_MEMBER"
+            case .addPayerCandidate: return "ADD_PAYER_CANDIDATE"
             case .editAutoApprovedChangeTypes: return "EDIT_AUTO_APPROVED_CHANGE_TYPES"
+            case .grantCanReceiveInferenceOutput: return "GRANT_CAN_RECEIVE_INFERENCE_OUTPUT"
+            case .grantCanReceiveModelOutput: return "GRANT_CAN_RECEIVE_MODEL_OUTPUT"
             case .grantReceiveResultsAbility: return "GRANT_RECEIVE_RESULTS_ABILITY"
+            case .removePayerCandidate: return "REMOVE_PAYER_CANDIDATE"
+            case .revokeCanReceiveInferenceOutput: return "REVOKE_CAN_RECEIVE_INFERENCE_OUTPUT"
+            case .revokeCanReceiveModelOutput: return "REVOKE_CAN_RECEIVE_MODEL_OUTPUT"
             case .revokeReceiveResultsAbility: return "REVOKE_RECEIVE_RESULTS_ABILITY"
             case let .sdkUnknown(s): return s
             }
@@ -9131,6 +9157,8 @@ extension CleanRoomsClientTypes {
         /// The identifier for a protected job instance.
         /// This member is required.
         public var id: Swift.String?
+        /// The account ID of the member that pays for the job compute costs.
+        public var jobComputePayerAccountId: Swift.String?
         /// The job parameters for the protected job.
         public var jobParameters: CleanRoomsClientTypes.ProtectedJobParameters?
         /// The ARN of the membership.
@@ -9154,6 +9182,7 @@ extension CleanRoomsClientTypes {
             createTime: Foundation.Date? = nil,
             error: CleanRoomsClientTypes.ProtectedJobError? = nil,
             id: Swift.String? = nil,
+            jobComputePayerAccountId: Swift.String? = nil,
             jobParameters: CleanRoomsClientTypes.ProtectedJobParameters? = nil,
             membershipArn: Swift.String? = nil,
             membershipId: Swift.String? = nil,
@@ -9166,6 +9195,7 @@ extension CleanRoomsClientTypes {
             self.createTime = createTime
             self.error = error
             self.id = id
+            self.jobComputePayerAccountId = jobComputePayerAccountId
             self.jobParameters = jobParameters
             self.membershipArn = membershipArn
             self.membershipId = membershipId
@@ -9624,6 +9654,8 @@ extension CleanRoomsClientTypes {
         /// The identifier for the membership.
         /// This member is required.
         public var membershipId: Swift.String?
+        /// The account ID of the member that pays for the query compute costs.
+        public var queryComputePayerAccountId: Swift.String?
         /// The result of the protected query.
         public var result: CleanRoomsClientTypes.ProtectedQueryResult?
         /// Contains any details needed to write the query results.
@@ -9644,6 +9676,7 @@ extension CleanRoomsClientTypes {
             id: Swift.String? = nil,
             membershipArn: Swift.String? = nil,
             membershipId: Swift.String? = nil,
+            queryComputePayerAccountId: Swift.String? = nil,
             result: CleanRoomsClientTypes.ProtectedQueryResult? = nil,
             resultConfiguration: CleanRoomsClientTypes.ProtectedQueryResultConfiguration? = nil,
             sqlParameters: CleanRoomsClientTypes.ProtectedQuerySQLParameters? = nil,
@@ -9657,6 +9690,7 @@ extension CleanRoomsClientTypes {
             self.id = id
             self.membershipArn = membershipArn
             self.membershipId = membershipId
+            self.queryComputePayerAccountId = queryComputePayerAccountId
             self.result = result
             self.resultConfiguration = resultConfiguration
             self.sqlParameters = sqlParameters
@@ -9668,7 +9702,7 @@ extension CleanRoomsClientTypes {
 
 extension CleanRoomsClientTypes.ProtectedQuery: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ProtectedQuery(computeConfiguration: \(Swift.String(describing: computeConfiguration)), createTime: \(Swift.String(describing: createTime)), differentialPrivacy: \(Swift.String(describing: differentialPrivacy)), error: \(Swift.String(describing: error)), id: \(Swift.String(describing: id)), membershipArn: \(Swift.String(describing: membershipArn)), membershipId: \(Swift.String(describing: membershipId)), result: \(Swift.String(describing: result)), resultConfiguration: \(Swift.String(describing: resultConfiguration)), statistics: \(Swift.String(describing: statistics)), status: \(Swift.String(describing: status)), sqlParameters: \"CONTENT_REDACTED\")"}
+        "ProtectedQuery(computeConfiguration: \(Swift.String(describing: computeConfiguration)), createTime: \(Swift.String(describing: createTime)), differentialPrivacy: \(Swift.String(describing: differentialPrivacy)), error: \(Swift.String(describing: error)), id: \(Swift.String(describing: id)), membershipArn: \(Swift.String(describing: membershipArn)), membershipId: \(Swift.String(describing: membershipId)), queryComputePayerAccountId: \(Swift.String(describing: queryComputePayerAccountId)), result: \(Swift.String(describing: result)), resultConfiguration: \(Swift.String(describing: resultConfiguration)), statistics: \(Swift.String(describing: statistics)), status: \(Swift.String(describing: status)), sqlParameters: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetProtectedQueryOutput: Swift.Sendable {
@@ -10009,6 +10043,8 @@ extension CleanRoomsClientTypes {
         /// The ID of the protected job.
         /// This member is required.
         public var id: Swift.String?
+        /// The account ID of the member that pays for the job compute costs.
+        public var jobComputePayerAccountId: Swift.String?
         /// The unique ARN for the membership that initiated the protected job.
         /// This member is required.
         public var membershipArn: Swift.String?
@@ -10025,6 +10061,7 @@ extension CleanRoomsClientTypes {
         public init(
             createTime: Foundation.Date? = nil,
             id: Swift.String? = nil,
+            jobComputePayerAccountId: Swift.String? = nil,
             membershipArn: Swift.String? = nil,
             membershipId: Swift.String? = nil,
             receiverConfigurations: [CleanRoomsClientTypes.ProtectedJobReceiverConfiguration]? = [],
@@ -10032,6 +10069,7 @@ extension CleanRoomsClientTypes {
         ) {
             self.createTime = createTime
             self.id = id
+            self.jobComputePayerAccountId = jobComputePayerAccountId
             self.membershipArn = membershipArn
             self.membershipId = membershipId
             self.receiverConfigurations = receiverConfigurations
@@ -10141,6 +10179,8 @@ extension CleanRoomsClientTypes {
         /// The unique ID for the membership that initiated the protected query.
         /// This member is required.
         public var membershipId: Swift.String?
+        /// The account ID of the member that pays for the query compute costs.
+        public var queryComputePayerAccountId: Swift.String?
         /// The receiver configuration.
         /// This member is required.
         public var receiverConfigurations: [CleanRoomsClientTypes.ReceiverConfiguration]?
@@ -10153,6 +10193,7 @@ extension CleanRoomsClientTypes {
             id: Swift.String? = nil,
             membershipArn: Swift.String? = nil,
             membershipId: Swift.String? = nil,
+            queryComputePayerAccountId: Swift.String? = nil,
             receiverConfigurations: [CleanRoomsClientTypes.ReceiverConfiguration]? = [],
             status: CleanRoomsClientTypes.ProtectedQueryStatus? = nil
         ) {
@@ -10160,6 +10201,7 @@ extension CleanRoomsClientTypes {
             self.id = id
             self.membershipArn = membershipArn
             self.membershipId = membershipId
+            self.queryComputePayerAccountId = queryComputePayerAccountId
             self.receiverConfigurations = receiverConfigurations
             self.status = status
         }
@@ -10360,6 +10402,8 @@ extension CleanRoomsClientTypes {
 public struct StartProtectedJobInput: Swift.Sendable {
     /// The compute configuration for the protected job.
     public var computeConfiguration: CleanRoomsClientTypes.ProtectedJobComputeConfiguration?
+    /// The account ID of the member that pays for the job compute costs.
+    public var jobComputePayerAccountId: Swift.String?
     /// The job parameters.
     /// This member is required.
     public var jobParameters: CleanRoomsClientTypes.ProtectedJobParameters?
@@ -10374,12 +10418,14 @@ public struct StartProtectedJobInput: Swift.Sendable {
 
     public init(
         computeConfiguration: CleanRoomsClientTypes.ProtectedJobComputeConfiguration? = nil,
+        jobComputePayerAccountId: Swift.String? = nil,
         jobParameters: CleanRoomsClientTypes.ProtectedJobParameters? = nil,
         membershipIdentifier: Swift.String? = nil,
         resultConfiguration: CleanRoomsClientTypes.ProtectedJobResultConfigurationInput? = nil,
         type: CleanRoomsClientTypes.ProtectedJobType? = nil
     ) {
         self.computeConfiguration = computeConfiguration
+        self.jobComputePayerAccountId = jobComputePayerAccountId
         self.jobParameters = jobParameters
         self.membershipIdentifier = membershipIdentifier
         self.resultConfiguration = resultConfiguration
@@ -10431,6 +10477,8 @@ public struct StartProtectedQueryInput: Swift.Sendable {
     /// A unique identifier for the membership to run this query against. Currently accepts a membership ID.
     /// This member is required.
     public var membershipIdentifier: Swift.String?
+    /// The account ID of the member that pays for the query compute costs.
+    public var queryComputePayerAccountId: Swift.String?
     /// The details needed to write the query results.
     public var resultConfiguration: CleanRoomsClientTypes.ProtectedQueryResultConfiguration?
     /// The protected SQL query parameters.
@@ -10443,12 +10491,14 @@ public struct StartProtectedQueryInput: Swift.Sendable {
     public init(
         computeConfiguration: CleanRoomsClientTypes.ComputeConfiguration? = nil,
         membershipIdentifier: Swift.String? = nil,
+        queryComputePayerAccountId: Swift.String? = nil,
         resultConfiguration: CleanRoomsClientTypes.ProtectedQueryResultConfiguration? = nil,
         sqlParameters: CleanRoomsClientTypes.ProtectedQuerySQLParameters? = nil,
         type: CleanRoomsClientTypes.ProtectedQueryType? = nil
     ) {
         self.computeConfiguration = computeConfiguration
         self.membershipIdentifier = membershipIdentifier
+        self.queryComputePayerAccountId = queryComputePayerAccountId
         self.resultConfiguration = resultConfiguration
         self.sqlParameters = sqlParameters
         self.type = type
@@ -10457,7 +10507,7 @@ public struct StartProtectedQueryInput: Swift.Sendable {
 
 extension StartProtectedQueryInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "StartProtectedQueryInput(computeConfiguration: \(Swift.String(describing: computeConfiguration)), membershipIdentifier: \(Swift.String(describing: membershipIdentifier)), resultConfiguration: \(Swift.String(describing: resultConfiguration)), type: \(Swift.String(describing: type)), sqlParameters: \"CONTENT_REDACTED\")"}
+        "StartProtectedQueryInput(computeConfiguration: \(Swift.String(describing: computeConfiguration)), membershipIdentifier: \(Swift.String(describing: membershipIdentifier)), queryComputePayerAccountId: \(Swift.String(describing: queryComputePayerAccountId)), resultConfiguration: \(Swift.String(describing: resultConfiguration)), type: \(Swift.String(describing: type)), sqlParameters: \"CONTENT_REDACTED\")"}
 }
 
 public struct StartProtectedQueryOutput: Swift.Sendable {
@@ -10472,6 +10522,29 @@ public struct StartProtectedQueryOutput: Swift.Sendable {
     }
 }
 
+extension CleanRoomsClientTypes {
+
+    /// An object representing the payment responsibilities to update for the membership.
+    public struct UpdateMembershipPaymentConfiguration: Swift.Sendable {
+        /// An object representing the payment responsibilities accepted by the collaboration member for query and job compute costs.
+        public var jobCompute: CleanRoomsClientTypes.MembershipJobComputePaymentConfig?
+        /// An object representing the collaboration member's machine learning payment responsibilities set by the collaboration creator.
+        public var machineLearning: CleanRoomsClientTypes.MembershipMLPaymentConfig?
+        /// An object representing the payment responsibilities accepted by the collaboration member for query compute costs.
+        public var queryCompute: CleanRoomsClientTypes.MembershipQueryComputePaymentConfig?
+
+        public init(
+            jobCompute: CleanRoomsClientTypes.MembershipJobComputePaymentConfig? = nil,
+            machineLearning: CleanRoomsClientTypes.MembershipMLPaymentConfig? = nil,
+            queryCompute: CleanRoomsClientTypes.MembershipQueryComputePaymentConfig? = nil
+        ) {
+            self.jobCompute = jobCompute
+            self.machineLearning = machineLearning
+            self.queryCompute = queryCompute
+        }
+    }
+}
+
 public struct UpdateMembershipInput: Swift.Sendable {
     /// The default job result configuration.
     public var defaultJobResultConfiguration: CleanRoomsClientTypes.MembershipProtectedJobResultConfiguration?
@@ -10482,6 +10555,8 @@ public struct UpdateMembershipInput: Swift.Sendable {
     /// The unique identifier of the membership.
     /// This member is required.
     public var membershipIdentifier: Swift.String?
+    /// The payment configuration to update for the membership.
+    public var membershipPaymentConfiguration: CleanRoomsClientTypes.UpdateMembershipPaymentConfiguration?
     /// An indicator as to whether query logging has been enabled or disabled for the membership. When ENABLED, Clean Rooms logs details about queries run within this collaboration and those logs can be viewed in Amazon CloudWatch Logs. The default value is DISABLED.
     public var queryLogStatus: CleanRoomsClientTypes.MembershipQueryLogStatus?
 
@@ -10490,12 +10565,14 @@ public struct UpdateMembershipInput: Swift.Sendable {
         defaultResultConfiguration: CleanRoomsClientTypes.MembershipProtectedQueryResultConfiguration? = nil,
         jobLogStatus: CleanRoomsClientTypes.MembershipJobLogStatus? = nil,
         membershipIdentifier: Swift.String? = nil,
+        membershipPaymentConfiguration: CleanRoomsClientTypes.UpdateMembershipPaymentConfiguration? = nil,
         queryLogStatus: CleanRoomsClientTypes.MembershipQueryLogStatus? = nil
     ) {
         self.defaultJobResultConfiguration = defaultJobResultConfiguration
         self.defaultResultConfiguration = defaultResultConfiguration
         self.jobLogStatus = jobLogStatus
         self.membershipIdentifier = membershipIdentifier
+        self.membershipPaymentConfiguration = membershipPaymentConfiguration
         self.queryLogStatus = queryLogStatus
     }
 }
@@ -12597,6 +12674,7 @@ extension StartProtectedJobInput {
     static func write(value: StartProtectedJobInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["computeConfiguration"].write(value.computeConfiguration, with: CleanRoomsClientTypes.ProtectedJobComputeConfiguration.write(value:to:))
+        try writer["jobComputePayerAccountId"].write(value.jobComputePayerAccountId)
         try writer["jobParameters"].write(value.jobParameters, with: CleanRoomsClientTypes.ProtectedJobParameters.write(value:to:))
         try writer["resultConfiguration"].write(value.resultConfiguration, with: CleanRoomsClientTypes.ProtectedJobResultConfigurationInput.write(value:to:))
         try writer["type"].write(value.type)
@@ -12608,6 +12686,7 @@ extension StartProtectedQueryInput {
     static func write(value: StartProtectedQueryInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["computeConfiguration"].write(value.computeConfiguration, with: CleanRoomsClientTypes.ComputeConfiguration.write(value:to:))
+        try writer["queryComputePayerAccountId"].write(value.queryComputePayerAccountId)
         try writer["resultConfiguration"].write(value.resultConfiguration, with: CleanRoomsClientTypes.ProtectedQueryResultConfiguration.write(value:to:))
         try writer["sqlParameters"].write(value.sqlParameters, with: CleanRoomsClientTypes.ProtectedQuerySQLParameters.write(value:to:))
         try writer["type"].write(value.type)
@@ -12721,6 +12800,7 @@ extension UpdateMembershipInput {
         try writer["defaultJobResultConfiguration"].write(value.defaultJobResultConfiguration, with: CleanRoomsClientTypes.MembershipProtectedJobResultConfiguration.write(value:to:))
         try writer["defaultResultConfiguration"].write(value.defaultResultConfiguration, with: CleanRoomsClientTypes.MembershipProtectedQueryResultConfiguration.write(value:to:))
         try writer["jobLogStatus"].write(value.jobLogStatus)
+        try writer["membershipPaymentConfiguration"].write(value.membershipPaymentConfiguration, with: CleanRoomsClientTypes.UpdateMembershipPaymentConfiguration.write(value:to:))
         try writer["queryLogStatus"].write(value.queryLogStatus)
     }
 }
@@ -17197,6 +17277,8 @@ extension CleanRoomsClientTypes.MemberChangeSpecification {
         try writer["accountId"].write(value.accountId)
         try writer["displayName"].write(value.displayName)
         try writer["memberAbilities"].writeList(value.memberAbilities, memberWritingClosure: SmithyReadWrite.WritingClosureBox<CleanRoomsClientTypes.MemberAbility>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["mlMemberAbilities"].write(value.mlMemberAbilities, with: CleanRoomsClientTypes.MLMemberAbilities.write(value:to:))
+        try writer["paymentConfiguration"].write(value.paymentConfiguration, with: CleanRoomsClientTypes.PaymentConfiguration.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.MemberChangeSpecification {
@@ -17204,6 +17286,8 @@ extension CleanRoomsClientTypes.MemberChangeSpecification {
         var value = CleanRoomsClientTypes.MemberChangeSpecification()
         value.accountId = try reader["accountId"].readIfPresent() ?? ""
         value.memberAbilities = try reader["memberAbilities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CleanRoomsClientTypes.MemberAbility>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.mlMemberAbilities = try reader["mlMemberAbilities"].readIfPresent(with: CleanRoomsClientTypes.MLMemberAbilities.read(from:))
+        value.paymentConfiguration = try reader["paymentConfiguration"].readIfPresent(with: CleanRoomsClientTypes.PaymentConfiguration.read(from:))
         value.displayName = try reader["displayName"].readIfPresent()
         return value
     }
@@ -17749,6 +17833,7 @@ extension CleanRoomsClientTypes.ProtectedJob {
         value.result = try reader["result"].readIfPresent(with: CleanRoomsClientTypes.ProtectedJobResult.read(from:))
         value.error = try reader["error"].readIfPresent(with: CleanRoomsClientTypes.ProtectedJobError.read(from:))
         value.computeConfiguration = try reader["computeConfiguration"].readIfPresent(with: CleanRoomsClientTypes.ProtectedJobComputeConfiguration.read(from:))
+        value.jobComputePayerAccountId = try reader["jobComputePayerAccountId"].readIfPresent()
         return value
     }
 }
@@ -18001,6 +18086,7 @@ extension CleanRoomsClientTypes.ProtectedJobSummary {
         value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.receiverConfigurations = try reader["receiverConfigurations"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.ProtectedJobReceiverConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.jobComputePayerAccountId = try reader["jobComputePayerAccountId"].readIfPresent()
         return value
     }
 }
@@ -18041,6 +18127,7 @@ extension CleanRoomsClientTypes.ProtectedQuery {
         value.error = try reader["error"].readIfPresent(with: CleanRoomsClientTypes.ProtectedQueryError.read(from:))
         value.differentialPrivacy = try reader["differentialPrivacy"].readIfPresent(with: CleanRoomsClientTypes.DifferentialPrivacyParameters.read(from:))
         value.computeConfiguration = try reader["computeConfiguration"].readIfPresent(with: CleanRoomsClientTypes.ComputeConfiguration.read(from:))
+        value.queryComputePayerAccountId = try reader["queryComputePayerAccountId"].readIfPresent()
         return value
     }
 }
@@ -18282,6 +18369,7 @@ extension CleanRoomsClientTypes.ProtectedQuerySummary {
         value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.receiverConfigurations = try reader["receiverConfigurations"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.ReceiverConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.queryComputePayerAccountId = try reader["queryComputePayerAccountId"].readIfPresent()
         return value
     }
 }
@@ -18599,6 +18687,16 @@ extension CleanRoomsClientTypes.TableReference {
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension CleanRoomsClientTypes.UpdateMembershipPaymentConfiguration {
+
+    static func write(value: CleanRoomsClientTypes.UpdateMembershipPaymentConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["jobCompute"].write(value.jobCompute, with: CleanRoomsClientTypes.MembershipJobComputePaymentConfig.write(value:to:))
+        try writer["machineLearning"].write(value.machineLearning, with: CleanRoomsClientTypes.MembershipMLPaymentConfig.write(value:to:))
+        try writer["queryCompute"].write(value.queryCompute, with: CleanRoomsClientTypes.MembershipQueryComputePaymentConfig.write(value:to:))
     }
 }
 

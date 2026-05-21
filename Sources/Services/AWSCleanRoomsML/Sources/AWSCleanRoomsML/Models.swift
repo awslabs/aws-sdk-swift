@@ -3081,6 +3081,25 @@ public struct ListCollaborationMLInputChannelsInput: Swift.Sendable {
 
 extension CleanRoomsMLClientTypes {
 
+    /// Specifies which member accounts are responsible for paying for compute and synthetic data generation costs in a Clean Rooms ML collaboration.
+    public struct PayerConfiguration: Swift.Sendable {
+        /// The account ID of the member that is responsible for paying compute costs.
+        public var computePayerAccountId: Swift.String?
+        /// The account ID of the member that is responsible for paying synthetic data generation costs.
+        public var syntheticDataPayerAccountId: Swift.String?
+
+        public init(
+            computePayerAccountId: Swift.String? = nil,
+            syntheticDataPayerAccountId: Swift.String? = nil
+        ) {
+            self.computePayerAccountId = computePayerAccountId
+            self.syntheticDataPayerAccountId = syntheticDataPayerAccountId
+        }
+    }
+}
+
+extension CleanRoomsMLClientTypes {
+
     public enum MLInputChannelStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case createFailed
@@ -3153,6 +3172,8 @@ extension CleanRoomsMLClientTypes {
         /// The name of the ML input channel.
         /// This member is required.
         public var name: Swift.String?
+        /// The payer configuration for the ML input channel.
+        public var payerConfiguration: CleanRoomsMLClientTypes.PayerConfiguration?
         /// The status of the ML input channel.
         /// This member is required.
         public var status: CleanRoomsMLClientTypes.MLInputChannelStatus?
@@ -3169,6 +3190,7 @@ extension CleanRoomsMLClientTypes {
             membershipIdentifier: Swift.String? = nil,
             mlInputChannelArn: Swift.String? = nil,
             name: Swift.String? = nil,
+            payerConfiguration: CleanRoomsMLClientTypes.PayerConfiguration? = nil,
             status: CleanRoomsMLClientTypes.MLInputChannelStatus? = nil,
             updateTime: Foundation.Date? = nil
         ) {
@@ -3180,6 +3202,7 @@ extension CleanRoomsMLClientTypes {
             self.membershipIdentifier = membershipIdentifier
             self.mlInputChannelArn = mlInputChannelArn
             self.name = name
+            self.payerConfiguration = payerConfiguration
             self.status = status
             self.updateTime = updateTime
         }
@@ -3579,6 +3602,8 @@ extension CleanRoomsMLClientTypes {
         public var metricsStatus: CleanRoomsMLClientTypes.MetricsStatus?
         /// Details about the metrics status for trained model inference job.
         public var metricsStatusDetails: Swift.String?
+        /// The account ID of the member that is responsible for paying for model inference costs.
+        public var mlModelInferencePayerAccountId: Swift.String?
         /// The name of the trained model inference job.
         /// This member is required.
         public var name: Swift.String?
@@ -3611,6 +3636,7 @@ extension CleanRoomsMLClientTypes {
             membershipIdentifier: Swift.String? = nil,
             metricsStatus: CleanRoomsMLClientTypes.MetricsStatus? = nil,
             metricsStatusDetails: Swift.String? = nil,
+            mlModelInferencePayerAccountId: Swift.String? = nil,
             name: Swift.String? = nil,
             outputConfiguration: CleanRoomsMLClientTypes.InferenceOutputConfiguration? = nil,
             status: CleanRoomsMLClientTypes.TrainedModelInferenceJobStatus? = nil,
@@ -3629,6 +3655,7 @@ extension CleanRoomsMLClientTypes {
             self.membershipIdentifier = membershipIdentifier
             self.metricsStatus = metricsStatus
             self.metricsStatusDetails = metricsStatusDetails
+            self.mlModelInferencePayerAccountId = mlModelInferencePayerAccountId
             self.name = name
             self.outputConfiguration = outputConfiguration
             self.status = status
@@ -3780,6 +3807,8 @@ extension CleanRoomsMLClientTypes {
         /// The membership ID of the member that created the trained model.
         /// This member is required.
         public var membershipIdentifier: Swift.String?
+        /// The account ID of the member that is responsible for paying for model training costs.
+        public var mlModelTrainingPayerAccountId: Swift.String?
         /// The name of the trained model.
         /// This member is required.
         public var name: Swift.String?
@@ -3803,6 +3832,7 @@ extension CleanRoomsMLClientTypes {
             description: Swift.String? = nil,
             incrementalTrainingDataChannels: [CleanRoomsMLClientTypes.IncrementalTrainingDataChannelOutput]? = nil,
             membershipIdentifier: Swift.String? = nil,
+            mlModelTrainingPayerAccountId: Swift.String? = nil,
             name: Swift.String? = nil,
             status: CleanRoomsMLClientTypes.TrainedModelStatus? = nil,
             trainedModelArn: Swift.String? = nil,
@@ -3816,6 +3846,7 @@ extension CleanRoomsMLClientTypes {
             self.description = description
             self.incrementalTrainingDataChannels = incrementalTrainingDataChannels
             self.membershipIdentifier = membershipIdentifier
+            self.mlModelTrainingPayerAccountId = mlModelTrainingPayerAccountId
             self.name = name
             self.status = status
             self.trainedModelArn = trainedModelArn
@@ -4076,6 +4107,8 @@ public struct CreateMLInputChannelInput: Swift.Sendable {
     /// The name of the ML input channel.
     /// This member is required.
     public var name: Swift.String?
+    /// The payer configuration for the ML input channel. Determines which member account pays for compute and synthetic data costs.
+    public var payerConfiguration: CleanRoomsMLClientTypes.PayerConfiguration?
     /// The number of days that the data in the ML input channel is retained.
     /// This member is required.
     public var retentionInDays: Swift.Int?
@@ -4103,6 +4136,7 @@ public struct CreateMLInputChannelInput: Swift.Sendable {
         kmsKeyArn: Swift.String? = nil,
         membershipIdentifier: Swift.String? = nil,
         name: Swift.String? = nil,
+        payerConfiguration: CleanRoomsMLClientTypes.PayerConfiguration? = nil,
         retentionInDays: Swift.Int? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
@@ -4112,6 +4146,7 @@ public struct CreateMLInputChannelInput: Swift.Sendable {
         self.kmsKeyArn = kmsKeyArn
         self.membershipIdentifier = membershipIdentifier
         self.name = name
+        self.payerConfiguration = payerConfiguration
         self.retentionInDays = retentionInDays
         self.tags = tags
     }
@@ -4394,6 +4429,8 @@ public struct GetCollaborationMLInputChannelOutput: Swift.Sendable {
     public var name: Swift.String?
     /// The number of records in the ML input channel.
     public var numberOfRecords: Swift.Int?
+    /// The payer configuration for the ML input channel.
+    public var payerConfiguration: CleanRoomsMLClientTypes.PayerConfiguration?
     /// Returns the privacy budgets that control access to this Clean Rooms ML input channel. Use these budgets to monitor and limit resource consumption over specified time periods.
     public var privacyBudgets: CleanRoomsMLClientTypes.PrivacyBudgets?
     /// The number of days to retain the data for the ML input channel.
@@ -4420,6 +4457,7 @@ public struct GetCollaborationMLInputChannelOutput: Swift.Sendable {
         mlInputChannelArn: Swift.String? = nil,
         name: Swift.String? = nil,
         numberOfRecords: Swift.Int? = nil,
+        payerConfiguration: CleanRoomsMLClientTypes.PayerConfiguration? = nil,
         privacyBudgets: CleanRoomsMLClientTypes.PrivacyBudgets? = nil,
         retentionInDays: Swift.Int? = nil,
         status: CleanRoomsMLClientTypes.MLInputChannelStatus? = nil,
@@ -4436,6 +4474,7 @@ public struct GetCollaborationMLInputChannelOutput: Swift.Sendable {
         self.mlInputChannelArn = mlInputChannelArn
         self.name = name
         self.numberOfRecords = numberOfRecords
+        self.payerConfiguration = payerConfiguration
         self.privacyBudgets = privacyBudgets
         self.retentionInDays = retentionInDays
         self.status = status
@@ -4492,6 +4531,8 @@ public struct GetMLInputChannelOutput: Swift.Sendable {
     public var numberOfFiles: Swift.Double?
     /// The number of records in the ML input channel.
     public var numberOfRecords: Swift.Int?
+    /// The payer configuration for the ML input channel.
+    public var payerConfiguration: CleanRoomsMLClientTypes.PayerConfiguration?
     /// Returns the privacy budgets that control access to this Clean Rooms ML input channel. Use these budgets to monitor and limit resource consumption over specified time periods.
     public var privacyBudgets: CleanRoomsMLClientTypes.PrivacyBudgets?
     /// The ID of the protected query that was used to create the ML input channel.
@@ -4540,6 +4581,7 @@ public struct GetMLInputChannelOutput: Swift.Sendable {
         name: Swift.String? = nil,
         numberOfFiles: Swift.Double? = nil,
         numberOfRecords: Swift.Int? = nil,
+        payerConfiguration: CleanRoomsMLClientTypes.PayerConfiguration? = nil,
         privacyBudgets: CleanRoomsMLClientTypes.PrivacyBudgets? = nil,
         protectedQueryIdentifier: Swift.String? = nil,
         retentionInDays: Swift.Int? = nil,
@@ -4561,6 +4603,7 @@ public struct GetMLInputChannelOutput: Swift.Sendable {
         self.name = name
         self.numberOfFiles = numberOfFiles
         self.numberOfRecords = numberOfRecords
+        self.payerConfiguration = payerConfiguration
         self.privacyBudgets = privacyBudgets
         self.protectedQueryIdentifier = protectedQueryIdentifier
         self.retentionInDays = retentionInDays
@@ -4617,6 +4660,8 @@ extension CleanRoomsMLClientTypes {
         /// The name of the ML input channel.
         /// This member is required.
         public var name: Swift.String?
+        /// The payer configuration for the ML input channel.
+        public var payerConfiguration: CleanRoomsMLClientTypes.PayerConfiguration?
         /// The ID of the protected query that was used to create the ML input channel.
         public var protectedQueryIdentifier: Swift.String?
         /// The status of the ML input channel.
@@ -4634,6 +4679,7 @@ extension CleanRoomsMLClientTypes {
             membershipIdentifier: Swift.String? = nil,
             mlInputChannelArn: Swift.String? = nil,
             name: Swift.String? = nil,
+            payerConfiguration: CleanRoomsMLClientTypes.PayerConfiguration? = nil,
             protectedQueryIdentifier: Swift.String? = nil,
             status: CleanRoomsMLClientTypes.MLInputChannelStatus? = nil,
             updateTime: Foundation.Date? = nil
@@ -4645,6 +4691,7 @@ extension CleanRoomsMLClientTypes {
             self.membershipIdentifier = membershipIdentifier
             self.mlInputChannelArn = mlInputChannelArn
             self.name = name
+            self.payerConfiguration = payerConfiguration
             self.protectedQueryIdentifier = protectedQueryIdentifier
             self.status = status
             self.updateTime = updateTime
@@ -5346,6 +5393,8 @@ public struct CreateTrainedModelInput: Swift.Sendable {
     /// The membership ID of the member that is creating the trained model.
     /// This member is required.
     public var membershipIdentifier: Swift.String?
+    /// The account ID of the member that is responsible for paying for model training costs.
+    public var mlModelTrainingPayerAccountId: Swift.String?
     /// The name of the trained model.
     /// This member is required.
     public var name: Swift.String?
@@ -5388,6 +5437,7 @@ public struct CreateTrainedModelInput: Swift.Sendable {
         incrementalTrainingDataChannels: [CleanRoomsMLClientTypes.IncrementalTrainingDataChannel]? = nil,
         kmsKeyArn: Swift.String? = nil,
         membershipIdentifier: Swift.String? = nil,
+        mlModelTrainingPayerAccountId: Swift.String? = nil,
         name: Swift.String? = nil,
         resourceConfig: CleanRoomsMLClientTypes.ResourceConfig? = nil,
         stoppingCondition: CleanRoomsMLClientTypes.StoppingCondition? = nil,
@@ -5402,6 +5452,7 @@ public struct CreateTrainedModelInput: Swift.Sendable {
         self.incrementalTrainingDataChannels = incrementalTrainingDataChannels
         self.kmsKeyArn = kmsKeyArn
         self.membershipIdentifier = membershipIdentifier
+        self.mlModelTrainingPayerAccountId = mlModelTrainingPayerAccountId
         self.name = name
         self.resourceConfig = resourceConfig
         self.stoppingCondition = stoppingCondition
@@ -5496,6 +5547,8 @@ public struct GetCollaborationTrainedModelOutput: Swift.Sendable {
     public var metricsStatus: CleanRoomsMLClientTypes.MetricsStatus?
     /// Details about the status information for the model metrics.
     public var metricsStatusDetails: Swift.String?
+    /// The account ID of the member that is responsible for paying for model training costs.
+    public var mlModelTrainingPayerAccountId: Swift.String?
     /// The name of the trained model.
     /// This member is required.
     public var name: Swift.String?
@@ -5533,6 +5586,7 @@ public struct GetCollaborationTrainedModelOutput: Swift.Sendable {
         membershipIdentifier: Swift.String? = nil,
         metricsStatus: CleanRoomsMLClientTypes.MetricsStatus? = nil,
         metricsStatusDetails: Swift.String? = nil,
+        mlModelTrainingPayerAccountId: Swift.String? = nil,
         name: Swift.String? = nil,
         resourceConfig: CleanRoomsMLClientTypes.ResourceConfig? = nil,
         status: CleanRoomsMLClientTypes.TrainedModelStatus? = nil,
@@ -5555,6 +5609,7 @@ public struct GetCollaborationTrainedModelOutput: Swift.Sendable {
         self.membershipIdentifier = membershipIdentifier
         self.metricsStatus = metricsStatus
         self.metricsStatusDetails = metricsStatusDetails
+        self.mlModelTrainingPayerAccountId = mlModelTrainingPayerAccountId
         self.name = name
         self.resourceConfig = resourceConfig
         self.status = status
@@ -5623,6 +5678,8 @@ public struct GetTrainedModelOutput: Swift.Sendable {
     public var metricsStatus: CleanRoomsMLClientTypes.MetricsStatus?
     /// Details about the metrics status for the trained model.
     public var metricsStatusDetails: Swift.String?
+    /// The account ID of the member that is responsible for paying for model training costs.
+    public var mlModelTrainingPayerAccountId: Swift.String?
     /// The name of the trained model.
     /// This member is required.
     public var name: Swift.String?
@@ -5679,6 +5736,7 @@ public struct GetTrainedModelOutput: Swift.Sendable {
         membershipIdentifier: Swift.String? = nil,
         metricsStatus: CleanRoomsMLClientTypes.MetricsStatus? = nil,
         metricsStatusDetails: Swift.String? = nil,
+        mlModelTrainingPayerAccountId: Swift.String? = nil,
         name: Swift.String? = nil,
         resourceConfig: CleanRoomsMLClientTypes.ResourceConfig? = nil,
         status: CleanRoomsMLClientTypes.TrainedModelStatus? = nil,
@@ -5705,6 +5763,7 @@ public struct GetTrainedModelOutput: Swift.Sendable {
         self.membershipIdentifier = membershipIdentifier
         self.metricsStatus = metricsStatus
         self.metricsStatusDetails = metricsStatusDetails
+        self.mlModelTrainingPayerAccountId = mlModelTrainingPayerAccountId
         self.name = name
         self.resourceConfig = resourceConfig
         self.status = status
@@ -5759,6 +5818,8 @@ extension CleanRoomsMLClientTypes {
         /// The membership ID of the member that created the trained model.
         /// This member is required.
         public var membershipIdentifier: Swift.String?
+        /// The account ID of the member that is responsible for paying for model training costs.
+        public var mlModelTrainingPayerAccountId: Swift.String?
         /// The name of the trained model.
         /// This member is required.
         public var name: Swift.String?
@@ -5781,6 +5842,7 @@ extension CleanRoomsMLClientTypes {
             description: Swift.String? = nil,
             incrementalTrainingDataChannels: [CleanRoomsMLClientTypes.IncrementalTrainingDataChannelOutput]? = nil,
             membershipIdentifier: Swift.String? = nil,
+            mlModelTrainingPayerAccountId: Swift.String? = nil,
             name: Swift.String? = nil,
             status: CleanRoomsMLClientTypes.TrainedModelStatus? = nil,
             trainedModelArn: Swift.String? = nil,
@@ -5793,6 +5855,7 @@ extension CleanRoomsMLClientTypes {
             self.description = description
             self.incrementalTrainingDataChannels = incrementalTrainingDataChannels
             self.membershipIdentifier = membershipIdentifier
+            self.mlModelTrainingPayerAccountId = mlModelTrainingPayerAccountId
             self.name = name
             self.status = status
             self.trainedModelArn = trainedModelArn
@@ -6318,6 +6381,8 @@ public struct GetTrainedModelInferenceJobOutput: Swift.Sendable {
     public var metricsStatus: CleanRoomsMLClientTypes.MetricsStatus?
     /// Details about the metrics status for the trained model inference job.
     public var metricsStatusDetails: Swift.String?
+    /// The account ID of the member that is responsible for paying for model inference costs.
+    public var mlModelInferencePayerAccountId: Swift.String?
     /// The name of the trained model inference job.
     /// This member is required.
     public var name: Swift.String?
@@ -6374,6 +6439,7 @@ public struct GetTrainedModelInferenceJobOutput: Swift.Sendable {
         membershipIdentifier: Swift.String? = nil,
         metricsStatus: CleanRoomsMLClientTypes.MetricsStatus? = nil,
         metricsStatusDetails: Swift.String? = nil,
+        mlModelInferencePayerAccountId: Swift.String? = nil,
         name: Swift.String? = nil,
         outputConfiguration: CleanRoomsMLClientTypes.InferenceOutputConfiguration? = nil,
         resourceConfig: CleanRoomsMLClientTypes.InferenceResourceConfig? = nil,
@@ -6398,6 +6464,7 @@ public struct GetTrainedModelInferenceJobOutput: Swift.Sendable {
         self.membershipIdentifier = membershipIdentifier
         self.metricsStatus = metricsStatus
         self.metricsStatusDetails = metricsStatusDetails
+        self.mlModelInferencePayerAccountId = mlModelInferencePayerAccountId
         self.name = name
         self.outputConfiguration = outputConfiguration
         self.resourceConfig = resourceConfig
@@ -6464,6 +6531,8 @@ extension CleanRoomsMLClientTypes {
         public var metricsStatus: CleanRoomsMLClientTypes.MetricsStatus?
         /// Details about the metrics status for the trained model inference job.
         public var metricsStatusDetails: Swift.String?
+        /// The account ID of the member that is responsible for paying for model inference costs.
+        public var mlModelInferencePayerAccountId: Swift.String?
         /// The name of the trained model inference job.
         /// This member is required.
         public var name: Swift.String?
@@ -6495,6 +6564,7 @@ extension CleanRoomsMLClientTypes {
             membershipIdentifier: Swift.String? = nil,
             metricsStatus: CleanRoomsMLClientTypes.MetricsStatus? = nil,
             metricsStatusDetails: Swift.String? = nil,
+            mlModelInferencePayerAccountId: Swift.String? = nil,
             name: Swift.String? = nil,
             outputConfiguration: CleanRoomsMLClientTypes.InferenceOutputConfiguration? = nil,
             status: CleanRoomsMLClientTypes.TrainedModelInferenceJobStatus? = nil,
@@ -6512,6 +6582,7 @@ extension CleanRoomsMLClientTypes {
             self.membershipIdentifier = membershipIdentifier
             self.metricsStatus = metricsStatus
             self.metricsStatusDetails = metricsStatusDetails
+            self.mlModelInferencePayerAccountId = mlModelInferencePayerAccountId
             self.name = name
             self.outputConfiguration = outputConfiguration
             self.status = status
@@ -6556,6 +6627,8 @@ public struct StartTrainedModelInferenceJobInput: Swift.Sendable {
     /// The membership ID of the membership that contains the trained model inference job.
     /// This member is required.
     public var membershipIdentifier: Swift.String?
+    /// The account ID of the member that is responsible for paying for model inference costs.
+    public var mlModelInferencePayerAccountId: Swift.String?
     /// The name of the trained model inference job.
     /// This member is required.
     public var name: Swift.String?
@@ -6595,6 +6668,7 @@ public struct StartTrainedModelInferenceJobInput: Swift.Sendable {
         environment: [Swift.String: Swift.String]? = nil,
         kmsKeyArn: Swift.String? = nil,
         membershipIdentifier: Swift.String? = nil,
+        mlModelInferencePayerAccountId: Swift.String? = nil,
         name: Swift.String? = nil,
         outputConfiguration: CleanRoomsMLClientTypes.InferenceOutputConfiguration? = nil,
         resourceConfig: CleanRoomsMLClientTypes.InferenceResourceConfig? = nil,
@@ -6609,6 +6683,7 @@ public struct StartTrainedModelInferenceJobInput: Swift.Sendable {
         self.environment = environment
         self.kmsKeyArn = kmsKeyArn
         self.membershipIdentifier = membershipIdentifier
+        self.mlModelInferencePayerAccountId = mlModelInferencePayerAccountId
         self.name = name
         self.outputConfiguration = outputConfiguration
         self.resourceConfig = resourceConfig
@@ -8067,6 +8142,7 @@ extension CreateMLInputChannelInput {
         try writer["inputChannel"].write(value.inputChannel, with: CleanRoomsMLClientTypes.InputChannel.write(value:to:))
         try writer["kmsKeyArn"].write(value.kmsKeyArn)
         try writer["name"].write(value.name)
+        try writer["payerConfiguration"].write(value.payerConfiguration, with: CleanRoomsMLClientTypes.PayerConfiguration.write(value:to:))
         try writer["retentionInDays"].write(value.retentionInDays)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
@@ -8083,6 +8159,7 @@ extension CreateTrainedModelInput {
         try writer["hyperparameters"].writeMap(value.hyperparameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["incrementalTrainingDataChannels"].writeList(value.incrementalTrainingDataChannels, memberWritingClosure: CleanRoomsMLClientTypes.IncrementalTrainingDataChannel.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["kmsKeyArn"].write(value.kmsKeyArn)
+        try writer["mlModelTrainingPayerAccountId"].write(value.mlModelTrainingPayerAccountId)
         try writer["name"].write(value.name)
         try writer["resourceConfig"].write(value.resourceConfig, with: CleanRoomsMLClientTypes.ResourceConfig.write(value:to:))
         try writer["stoppingCondition"].write(value.stoppingCondition, with: CleanRoomsMLClientTypes.StoppingCondition.write(value:to:))
@@ -8167,6 +8244,7 @@ extension StartTrainedModelInferenceJobInput {
         try writer["description"].write(value.description)
         try writer["environment"].writeMap(value.environment, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["kmsKeyArn"].write(value.kmsKeyArn)
+        try writer["mlModelInferencePayerAccountId"].write(value.mlModelInferencePayerAccountId)
         try writer["name"].write(value.name)
         try writer["outputConfiguration"].write(value.outputConfiguration, with: CleanRoomsMLClientTypes.InferenceOutputConfiguration.write(value:to:))
         try writer["resourceConfig"].write(value.resourceConfig, with: CleanRoomsMLClientTypes.InferenceResourceConfig.write(value:to:))
@@ -8452,6 +8530,7 @@ extension GetCollaborationMLInputChannelOutput {
         value.mlInputChannelArn = try reader["mlInputChannelArn"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent() ?? ""
         value.numberOfRecords = try reader["numberOfRecords"].readIfPresent()
+        value.payerConfiguration = try reader["payerConfiguration"].readIfPresent(with: CleanRoomsMLClientTypes.PayerConfiguration.read(from:))
         value.privacyBudgets = try reader["privacyBudgets"].readIfPresent(with: CleanRoomsMLClientTypes.PrivacyBudgets.read(from:))
         value.retentionInDays = try reader["retentionInDays"].readIfPresent() ?? 0
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
@@ -8480,6 +8559,7 @@ extension GetCollaborationTrainedModelOutput {
         value.membershipIdentifier = try reader["membershipIdentifier"].readIfPresent() ?? ""
         value.metricsStatus = try reader["metricsStatus"].readIfPresent()
         value.metricsStatusDetails = try reader["metricsStatusDetails"].readIfPresent()
+        value.mlModelTrainingPayerAccountId = try reader["mlModelTrainingPayerAccountId"].readIfPresent()
         value.name = try reader["name"].readIfPresent() ?? ""
         value.resourceConfig = try reader["resourceConfig"].readIfPresent(with: CleanRoomsMLClientTypes.ResourceConfig.read(from:))
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
@@ -8607,6 +8687,7 @@ extension GetMLInputChannelOutput {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.numberOfFiles = try reader["numberOfFiles"].readIfPresent()
         value.numberOfRecords = try reader["numberOfRecords"].readIfPresent()
+        value.payerConfiguration = try reader["payerConfiguration"].readIfPresent(with: CleanRoomsMLClientTypes.PayerConfiguration.read(from:))
         value.privacyBudgets = try reader["privacyBudgets"].readIfPresent(with: CleanRoomsMLClientTypes.PrivacyBudgets.read(from:))
         value.protectedQueryIdentifier = try reader["protectedQueryIdentifier"].readIfPresent()
         value.retentionInDays = try reader["retentionInDays"].readIfPresent() ?? 0
@@ -8641,6 +8722,7 @@ extension GetTrainedModelOutput {
         value.membershipIdentifier = try reader["membershipIdentifier"].readIfPresent() ?? ""
         value.metricsStatus = try reader["metricsStatus"].readIfPresent()
         value.metricsStatusDetails = try reader["metricsStatusDetails"].readIfPresent()
+        value.mlModelTrainingPayerAccountId = try reader["mlModelTrainingPayerAccountId"].readIfPresent()
         value.name = try reader["name"].readIfPresent() ?? ""
         value.resourceConfig = try reader["resourceConfig"].readIfPresent(with: CleanRoomsMLClientTypes.ResourceConfig.read(from:))
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
@@ -8676,6 +8758,7 @@ extension GetTrainedModelInferenceJobOutput {
         value.membershipIdentifier = try reader["membershipIdentifier"].readIfPresent() ?? ""
         value.metricsStatus = try reader["metricsStatus"].readIfPresent()
         value.metricsStatusDetails = try reader["metricsStatusDetails"].readIfPresent()
+        value.mlModelInferencePayerAccountId = try reader["mlModelInferencePayerAccountId"].readIfPresent()
         value.name = try reader["name"].readIfPresent() ?? ""
         value.outputConfiguration = try reader["outputConfiguration"].readIfPresent(with: CleanRoomsMLClientTypes.InferenceOutputConfiguration.read(from:))
         value.resourceConfig = try reader["resourceConfig"].readIfPresent(with: CleanRoomsMLClientTypes.InferenceResourceConfig.read(from:))
@@ -10289,6 +10372,7 @@ extension CleanRoomsMLClientTypes.CollaborationMLInputChannelSummary {
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.creatorAccountId = try reader["creatorAccountId"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
+        value.payerConfiguration = try reader["payerConfiguration"].readIfPresent(with: CleanRoomsMLClientTypes.PayerConfiguration.read(from:))
         return value
     }
 }
@@ -10333,6 +10417,7 @@ extension CleanRoomsMLClientTypes.CollaborationTrainedModelInferenceJobSummary {
         value.metricsStatusDetails = try reader["metricsStatusDetails"].readIfPresent()
         value.logsStatus = try reader["logsStatus"].readIfPresent()
         value.logsStatusDetails = try reader["logsStatusDetails"].readIfPresent()
+        value.mlModelInferencePayerAccountId = try reader["mlModelInferencePayerAccountId"].readIfPresent()
         value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.creatorAccountId = try reader["creatorAccountId"].readIfPresent() ?? ""
@@ -10357,6 +10442,7 @@ extension CleanRoomsMLClientTypes.CollaborationTrainedModelSummary {
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.configuredModelAlgorithmAssociationArn = try reader["configuredModelAlgorithmAssociationArn"].readIfPresent() ?? ""
         value.creatorAccountId = try reader["creatorAccountId"].readIfPresent() ?? ""
+        value.mlModelTrainingPayerAccountId = try reader["mlModelTrainingPayerAccountId"].readIfPresent()
         return value
     }
 }
@@ -10844,6 +10930,7 @@ extension CleanRoomsMLClientTypes.MLInputChannelSummary {
         value.mlInputChannelArn = try reader["mlInputChannelArn"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.description = try reader["description"].readIfPresent()
+        value.payerConfiguration = try reader["payerConfiguration"].readIfPresent(with: CleanRoomsMLClientTypes.PayerConfiguration.read(from:))
         return value
     }
 }
@@ -10907,6 +10994,23 @@ extension CleanRoomsMLClientTypes.ModelTrainingDataChannel {
         value.mlInputChannelArn = try reader["mlInputChannelArn"].readIfPresent() ?? ""
         value.channelName = try reader["channelName"].readIfPresent() ?? ""
         value.s3DataDistributionType = try reader["s3DataDistributionType"].readIfPresent() ?? CleanRoomsMLClientTypes.S3DataDistributionType.fullyReplicated
+        return value
+    }
+}
+
+extension CleanRoomsMLClientTypes.PayerConfiguration {
+
+    static func write(value: CleanRoomsMLClientTypes.PayerConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["computePayerAccountId"].write(value.computePayerAccountId)
+        try writer["syntheticDataPayerAccountId"].write(value.syntheticDataPayerAccountId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsMLClientTypes.PayerConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsMLClientTypes.PayerConfiguration()
+        value.computePayerAccountId = try reader["computePayerAccountId"].readIfPresent()
+        value.syntheticDataPayerAccountId = try reader["syntheticDataPayerAccountId"].readIfPresent()
         return value
     }
 }
@@ -11218,6 +11322,7 @@ extension CleanRoomsMLClientTypes.TrainedModelInferenceJobSummary {
         value.metricsStatusDetails = try reader["metricsStatusDetails"].readIfPresent()
         value.logsStatus = try reader["logsStatus"].readIfPresent()
         value.logsStatusDetails = try reader["logsStatusDetails"].readIfPresent()
+        value.mlModelInferencePayerAccountId = try reader["mlModelInferencePayerAccountId"].readIfPresent()
         value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
@@ -11276,6 +11381,7 @@ extension CleanRoomsMLClientTypes.TrainedModelSummary {
         value.collaborationIdentifier = try reader["collaborationIdentifier"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.configuredModelAlgorithmAssociationArn = try reader["configuredModelAlgorithmAssociationArn"].readIfPresent() ?? ""
+        value.mlModelTrainingPayerAccountId = try reader["mlModelTrainingPayerAccountId"].readIfPresent()
         return value
     }
 }
