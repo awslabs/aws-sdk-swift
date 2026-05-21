@@ -92,6 +92,7 @@ extension ListGrantsInput: ClientRuntime.PaginateToken {
         return ListGrantsInput(
             grantId: self.grantId,
             granteePrincipal: self.granteePrincipal,
+            granteeServicePrincipal: self.granteeServicePrincipal,
             keyId: self.keyId,
             limit: self.limit,
             marker: token
@@ -249,7 +250,8 @@ extension ListRetirableGrantsInput: ClientRuntime.PaginateToken {
         return ListRetirableGrantsInput(
             limit: self.limit,
             marker: token,
-            retiringPrincipal: self.retiringPrincipal
+            retiringPrincipal: self.retiringPrincipal,
+            retiringServicePrincipal: self.retiringServicePrincipal
         )}
 }
 
