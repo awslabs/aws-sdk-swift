@@ -46,3 +46,4 @@ This library is licensed under the Apache 2.0 License.
 ## Security
 
 Please refer to our [security policy](https://github.com/awslabs/aws-sdk-swift/security/policy).
+
