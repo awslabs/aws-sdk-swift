@@ -120,6 +120,40 @@ extension ListAvailableResourceMetricsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension PIClient {
+    /// Paginate over `[ListPerformanceAnalysisReportRecommendationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListPerformanceAnalysisReportRecommendationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPerformanceAnalysisReportRecommendationsOutput`
+    public func listPerformanceAnalysisReportRecommendationsPaginated(input: ListPerformanceAnalysisReportRecommendationsInput) -> ClientRuntime.PaginatorSequence<ListPerformanceAnalysisReportRecommendationsInput, ListPerformanceAnalysisReportRecommendationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListPerformanceAnalysisReportRecommendationsInput, ListPerformanceAnalysisReportRecommendationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPerformanceAnalysisReportRecommendations(input:))
+    }
+}
+
+extension ListPerformanceAnalysisReportRecommendationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListPerformanceAnalysisReportRecommendationsInput {
+        return ListPerformanceAnalysisReportRecommendationsInput(
+            analysisReportId: self.analysisReportId,
+            identifier: self.identifier,
+            maxResults: self.maxResults,
+            nextToken: token,
+            recommendationIds: self.recommendationIds,
+            serviceType: self.serviceType
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListPerformanceAnalysisReportRecommendationsInput, OperationStackOutput == ListPerformanceAnalysisReportRecommendationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listPerformanceAnalysisReportRecommendationsPaginated`
+    /// to access the nested member `[PIClientTypes.Recommendation]`
+    /// - Returns: `[PIClientTypes.Recommendation]`
+    public func recommendations() async throws -> [PIClientTypes.Recommendation] {
+        return try await self.asyncCompactMap { item in item.recommendations }
+    }
+}
+extension PIClient {
     /// Paginate over `[ListPerformanceAnalysisReportsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

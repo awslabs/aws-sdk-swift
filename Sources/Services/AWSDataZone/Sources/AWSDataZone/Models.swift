@@ -5273,6 +5273,31 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes {
 
+    /// The VPC connection properties used when creating a connection.
+    public struct VpcPropertiesInput: Swift.Sendable {
+        /// The security group ID of the VPC connection. Must match the pattern ^sg-[a-z0-9]+$. Maximum length of 32.
+        public var securityGroupId: Swift.String?
+        /// The subnet IDs of the VPC connection. You can specify between 1 and 16 subnet IDs.
+        /// This member is required.
+        public var subnetIds: [Swift.String]?
+        /// The identifier of the VPC. Must match the pattern ^vpc-[a-z0-9]+$. Maximum length of 32.
+        /// This member is required.
+        public var vpcId: Swift.String?
+
+        public init(
+            securityGroupId: Swift.String? = nil,
+            subnetIds: [Swift.String]? = nil,
+            vpcId: Swift.String? = nil
+        ) {
+            self.securityGroupId = securityGroupId
+            self.subnetIds = subnetIds
+            self.vpcId = vpcId
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
     /// The Amazon MWAA properties.
     public struct WorkflowsMwaaPropertiesInput: Swift.Sendable {
         /// The MWAA environment name.
@@ -5325,6 +5350,8 @@ extension DataZoneClientTypes {
         case workflowsserverlessproperties(DataZoneClientTypes.WorkflowsServerlessPropertiesInput)
         /// The lakehouse properties of a connection.
         case lakehouseproperties(DataZoneClientTypes.LakehousePropertiesInput)
+        /// The VPC properties of a connection.
+        case vpcproperties(DataZoneClientTypes.VpcPropertiesInput)
         case sdkUnknown(Swift.String)
     }
 }
@@ -5779,6 +5806,40 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes {
 
+    /// The VPC connection properties returned in responses.
+    public struct VpcPropertiesOutput: Swift.Sendable {
+        /// The Amazon Web Services Glue connection names associated with the VPC connection.
+        public var glueConnectionNames: [Swift.String]?
+        /// The security group ID of the VPC connection.
+        public var securityGroupId: Swift.String?
+        /// The status of the VPC connection.
+        /// This member is required.
+        public var status: DataZoneClientTypes.ConnectionStatus?
+        /// The subnet IDs of the VPC connection.
+        /// This member is required.
+        public var subnetIds: [Swift.String]?
+        /// The identifier of the VPC.
+        /// This member is required.
+        public var vpcId: Swift.String?
+
+        public init(
+            glueConnectionNames: [Swift.String]? = nil,
+            securityGroupId: Swift.String? = nil,
+            status: DataZoneClientTypes.ConnectionStatus? = nil,
+            subnetIds: [Swift.String]? = nil,
+            vpcId: Swift.String? = nil
+        ) {
+            self.glueConnectionNames = glueConnectionNames
+            self.securityGroupId = securityGroupId
+            self.status = status
+            self.subnetIds = subnetIds
+            self.vpcId = vpcId
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
     /// The Amazon MWAA properties.
     public struct WorkflowsMwaaPropertiesOutput: Swift.Sendable {
         /// The MWAA environment name.
@@ -5831,6 +5892,8 @@ extension DataZoneClientTypes {
         case workflowsserverlessproperties(DataZoneClientTypes.WorkflowsServerlessPropertiesOutput)
         /// The lakehouse properties of a connection.
         case lakehouseproperties(DataZoneClientTypes.LakehousePropertiesOutput)
+        /// The VPC properties of a connection.
+        case vpcproperties(DataZoneClientTypes.VpcPropertiesOutput)
         case sdkUnknown(Swift.String)
     }
 }
@@ -6027,6 +6090,29 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes {
 
+    /// The VPC connection properties used when updating a connection.
+    public struct VpcPropertiesPatch: Swift.Sendable {
+        /// The security group ID of the VPC connection.
+        public var securityGroupId: Swift.String?
+        /// The subnet IDs of the VPC connection.
+        public var subnetIds: [Swift.String]?
+        /// The identifier of the VPC.
+        public var vpcId: Swift.String?
+
+        public init(
+            securityGroupId: Swift.String? = nil,
+            subnetIds: [Swift.String]? = nil,
+            vpcId: Swift.String? = nil
+        ) {
+            self.securityGroupId = securityGroupId
+            self.subnetIds = subnetIds
+            self.vpcId = vpcId
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
     /// The connection properties patch.
     public enum ConnectionPropertiesPatch: Swift.Sendable {
         /// The Amazon Athena properties of a connection properties patch.
@@ -6047,6 +6133,8 @@ extension DataZoneClientTypes {
         case mlflowproperties(DataZoneClientTypes.MlflowPropertiesPatch)
         /// The lakehouse properties of a connection properties patch.
         case lakehouseproperties(DataZoneClientTypes.LakehousePropertiesPatch)
+        /// The VPC properties of a connection properties patch.
+        case vpcproperties(DataZoneClientTypes.VpcPropertiesPatch)
         case sdkUnknown(Swift.String)
     }
 }
@@ -6104,6 +6192,7 @@ extension DataZoneClientTypes {
         case sqlserver
         case teradata
         case vertica
+        case vpc
         case workflowsMwaa
         case sdkUnknown(Swift.String)
 
@@ -6130,6 +6219,7 @@ extension DataZoneClientTypes {
                 .sqlserver,
                 .teradata,
                 .vertica,
+                .vpc,
                 .workflowsMwaa
             ]
         }
@@ -6162,6 +6252,7 @@ extension DataZoneClientTypes {
             case .sqlserver: return "SQLSERVER"
             case .teradata: return "TERADATA"
             case .vertica: return "VERTICA"
+            case .vpc: return "VPC"
             case .workflowsMwaa: return "WORKFLOWS_MWAA"
             case let .sdkUnknown(s): return s
             }
@@ -38347,6 +38438,8 @@ extension DataZoneClientTypes.ConnectionPropertiesInput {
                 try writer["sparkEmrProperties"].write(sparkemrproperties, with: DataZoneClientTypes.SparkEmrPropertiesInput.write(value:to:))
             case let .sparkglueproperties(sparkglueproperties):
                 try writer["sparkGlueProperties"].write(sparkglueproperties, with: DataZoneClientTypes.SparkGluePropertiesInput.write(value:to:))
+            case let .vpcproperties(vpcproperties):
+                try writer["vpcProperties"].write(vpcproperties, with: DataZoneClientTypes.VpcPropertiesInput.write(value:to:))
             case let .workflowsmwaaproperties(workflowsmwaaproperties):
                 try writer["workflowsMwaaProperties"].write(workflowsmwaaproperties, with: DataZoneClientTypes.WorkflowsMwaaPropertiesInput.write(value:to:))
             case let .workflowsserverlessproperties(workflowsserverlessproperties):
@@ -38389,6 +38482,8 @@ extension DataZoneClientTypes.ConnectionPropertiesOutput {
                 return .workflowsserverlessproperties(try reader["workflowsServerlessProperties"].read(with: DataZoneClientTypes.WorkflowsServerlessPropertiesOutput.read(from:)))
             case "lakehouseProperties":
                 return .lakehouseproperties(try reader["lakehouseProperties"].read(with: DataZoneClientTypes.LakehousePropertiesOutput.read(from:)))
+            case "vpcProperties":
+                return .vpcproperties(try reader["vpcProperties"].read(with: DataZoneClientTypes.VpcPropertiesOutput.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -38418,6 +38513,8 @@ extension DataZoneClientTypes.ConnectionPropertiesPatch {
                 try writer["s3Properties"].write(s3properties, with: DataZoneClientTypes.S3PropertiesPatch.write(value:to:))
             case let .sparkemrproperties(sparkemrproperties):
                 try writer["sparkEmrProperties"].write(sparkemrproperties, with: DataZoneClientTypes.SparkEmrPropertiesPatch.write(value:to:))
+            case let .vpcproperties(vpcproperties):
+                try writer["vpcProperties"].write(vpcproperties, with: DataZoneClientTypes.VpcPropertiesPatch.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -42713,6 +42810,40 @@ extension DataZoneClientTypes.UserProfileSummary {
         value.status = try reader["status"].readIfPresent()
         value.details = try reader["details"].readIfPresent(with: DataZoneClientTypes.UserProfileDetails.read(from:))
         return value
+    }
+}
+
+extension DataZoneClientTypes.VpcPropertiesInput {
+
+    static func write(value: DataZoneClientTypes.VpcPropertiesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["securityGroupId"].write(value.securityGroupId)
+        try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["vpcId"].write(value.vpcId)
+    }
+}
+
+extension DataZoneClientTypes.VpcPropertiesOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.VpcPropertiesOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.VpcPropertiesOutput()
+        value.vpcId = try reader["vpcId"].readIfPresent() ?? ""
+        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.securityGroupId = try reader["securityGroupId"].readIfPresent()
+        value.glueConnectionNames = try reader["glueConnectionNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DataZoneClientTypes.VpcPropertiesPatch {
+
+    static func write(value: DataZoneClientTypes.VpcPropertiesPatch?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["securityGroupId"].write(value.securityGroupId)
+        try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["vpcId"].write(value.vpcId)
     }
 }
 

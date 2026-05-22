@@ -6761,6 +6761,171 @@ public struct ListSpansInput: Swift.Sendable {
 
 extension QConnectClientTypes {
 
+    /// The outcome of a guardrail assessment.
+    public enum GuardrailAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case blocked
+        case masked
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GuardrailAction] {
+            return [
+                .blocked,
+                .masked,
+                .none
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .blocked: return "BLOCKED"
+            case .masked: return "MASKED"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QConnectClientTypes {
+
+    /// Classification of a guardrail policy.
+    public enum GuardrailPolicyType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case contentFilter
+        case contextualGrounding
+        case sensitiveInformationPii
+        case sensitiveInformationRegex
+        case topic
+        case word
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GuardrailPolicyType] {
+            return [
+                .contentFilter,
+                .contextualGrounding,
+                .sensitiveInformationPii,
+                .sensitiveInformationRegex,
+                .topic,
+                .word
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .contentFilter: return "CONTENT_FILTER"
+            case .contextualGrounding: return "CONTEXTUAL_GROUNDING"
+            case .sensitiveInformationPii: return "SENSITIVE_INFORMATION_PII"
+            case .sensitiveInformationRegex: return "SENSITIVE_INFORMATION_REGEX"
+            case .topic: return "TOPIC"
+            case .word: return "WORD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QConnectClientTypes {
+
+    /// Per-policy guardrail assessment result. Captures which policy triggered, its outcome, and a policy-specific detail string.
+    public struct GuardrailPolicyResult: Swift.Sendable {
+        /// Outcome of this specific policy.
+        /// This member is required.
+        public var action: QConnectClientTypes.GuardrailAction?
+        /// Policy-specific detail.
+        public var details: Swift.String?
+        /// The type of guardrail policy that was evaluated.
+        /// This member is required.
+        public var policyType: QConnectClientTypes.GuardrailPolicyType?
+
+        public init(
+            action: QConnectClientTypes.GuardrailAction? = nil,
+            details: Swift.String? = nil,
+            policyType: QConnectClientTypes.GuardrailPolicyType? = nil
+        ) {
+            self.action = action
+            self.details = details
+            self.policyType = policyType
+        }
+    }
+}
+
+extension QConnectClientTypes {
+
+    /// Content source for a guardrail assessment.
+    public enum GuardrailSource: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case input
+        case output
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GuardrailSource] {
+            return [
+                .input,
+                .output
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .input: return "INPUT"
+            case .output: return "OUTPUT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QConnectClientTypes {
+
+    /// Result of a single guardrail assessment, covering either the input (customer/user message) or the output (LLM response) of a Bedrock Converse call.
+    public struct SpanGuardrailAssessment: Swift.Sendable {
+        /// Outcome of the guardrail assessment.
+        /// This member is required.
+        public var action: QConnectClientTypes.GuardrailAction?
+        /// Unique AI Guardrail identifier.
+        /// This member is required.
+        public var guardrailId: Swift.String?
+        /// Customer-defined display name of the AI Guardrail resource.
+        /// This member is required.
+        public var guardrailName: Swift.String?
+        /// Per-policy assessment results. Absent or empty when action is NONE.
+        public var policies: [QConnectClientTypes.GuardrailPolicyResult]?
+        /// Content source the guardrail was evaluated against.
+        /// This member is required.
+        public var source: QConnectClientTypes.GuardrailSource?
+
+        public init(
+            action: QConnectClientTypes.GuardrailAction? = nil,
+            guardrailId: Swift.String? = nil,
+            guardrailName: Swift.String? = nil,
+            policies: [QConnectClientTypes.GuardrailPolicyResult]? = nil,
+            source: QConnectClientTypes.GuardrailSource? = nil
+        ) {
+            self.action = action
+            self.guardrailId = guardrailId
+            self.guardrailName = guardrailName
+            self.policies = policies
+            self.source = source
+        }
+    }
+}
+
+extension QConnectClientTypes {
+
     /// Model reasoning and it's internal decision making process
     public struct SpanReasoningValue: Swift.Sendable {
         /// The reasoning text content
@@ -12998,6 +13163,8 @@ extension QConnectClientTypes {
         public var contactId: Swift.String?
         /// Error classification if span failed (e.g., throttle, timeout)
         public var errorType: Swift.String?
+        /// Guardrail assessments for the inference span. Absent on other span types and when no AI Guardrail is attached to the AI Agent.
+        public var guardrailAssessments: [QConnectClientTypes.SpanGuardrailAssessment]?
         /// Amazon Connect contact identifier
         public var initialContactId: Swift.String?
         /// Input message collection sent to LLM
@@ -13058,6 +13225,7 @@ extension QConnectClientTypes {
             cacheWriteInputTokens: Swift.Int? = nil,
             contactId: Swift.String? = nil,
             errorType: Swift.String? = nil,
+            guardrailAssessments: [QConnectClientTypes.SpanGuardrailAssessment]? = nil,
             initialContactId: Swift.String? = nil,
             inputMessages: [QConnectClientTypes.SpanMessage]? = nil,
             instanceArn: Swift.String? = nil,
@@ -13094,6 +13262,7 @@ extension QConnectClientTypes {
             self.cacheWriteInputTokens = cacheWriteInputTokens
             self.contactId = contactId
             self.errorType = errorType
+            self.guardrailAssessments = guardrailAssessments
             self.initialContactId = initialContactId
             self.inputMessages = inputMessages
             self.instanceArn = instanceArn
@@ -19769,6 +19938,18 @@ extension QConnectClientTypes.GuardrailPiiEntityConfig {
     }
 }
 
+extension QConnectClientTypes.GuardrailPolicyResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.GuardrailPolicyResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.GuardrailPolicyResult()
+        value.policyType = try reader["policyType"].readIfPresent() ?? .sdkUnknown("")
+        value.action = try reader["action"].readIfPresent() ?? .sdkUnknown("")
+        value.details = try reader["details"].readIfPresent()
+        return value
+    }
+}
+
 extension QConnectClientTypes.GuardrailRegexConfig {
 
     static func write(value: QConnectClientTypes.GuardrailRegexConfig?, to writer: SmithyJSON.Writer) throws {
@@ -21374,6 +21555,7 @@ extension QConnectClientTypes.SpanAttributes {
         value.promptName = try reader["promptName"].readIfPresent()
         value.promptVersion = try reader["promptVersion"].readIfPresent()
         value.timeToFirstTokenMs = try reader["timeToFirstTokenMs"].readIfPresent()
+        value.guardrailAssessments = try reader["guardrailAssessments"].readListIfPresent(memberReadingClosure: QConnectClientTypes.SpanGuardrailAssessment.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -21387,6 +21569,20 @@ extension QConnectClientTypes.SpanCitation {
         value.title = try reader["title"].readIfPresent()
         value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent()
         value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent()
+        return value
+    }
+}
+
+extension QConnectClientTypes.SpanGuardrailAssessment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.SpanGuardrailAssessment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.SpanGuardrailAssessment()
+        value.guardrailId = try reader["guardrailId"].readIfPresent() ?? ""
+        value.guardrailName = try reader["guardrailName"].readIfPresent() ?? ""
+        value.source = try reader["source"].readIfPresent() ?? .sdkUnknown("")
+        value.action = try reader["action"].readIfPresent() ?? .sdkUnknown("")
+        value.policies = try reader["policies"].readListIfPresent(memberReadingClosure: QConnectClientTypes.GuardrailPolicyResult.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

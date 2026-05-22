@@ -733,6 +733,7 @@ extension InvoicingClient {
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateInvoiceUnitInput, CreateInvoiceUnitOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateInvoiceUnitInput, CreateInvoiceUnitOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateInvoiceUnitInput, CreateInvoiceUnitOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateInvoiceUnitInput, CreateInvoiceUnitOutput>(clientLogMode: config.clientLogMode))
@@ -891,6 +892,7 @@ extension InvoicingClient {
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<DeleteInvoiceUnitInput, DeleteInvoiceUnitOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteInvoiceUnitInput, DeleteInvoiceUnitOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteInvoiceUnitInput, DeleteInvoiceUnitOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteInvoiceUnitInput, DeleteInvoiceUnitOutput>(clientLogMode: config.clientLogMode))
@@ -970,6 +972,7 @@ extension InvoicingClient {
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<DeleteProcurementPortalPreferenceInput, DeleteProcurementPortalPreferenceOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteProcurementPortalPreferenceInput, DeleteProcurementPortalPreferenceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteProcurementPortalPreferenceInput, DeleteProcurementPortalPreferenceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProcurementPortalPreferenceInput, DeleteProcurementPortalPreferenceOutput>(clientLogMode: config.clientLogMode))
@@ -1598,6 +1601,7 @@ extension InvoicingClient {
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<PutProcurementPortalPreferenceInput, PutProcurementPortalPreferenceOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutProcurementPortalPreferenceInput, PutProcurementPortalPreferenceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutProcurementPortalPreferenceInput, PutProcurementPortalPreferenceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutProcurementPortalPreferenceInput, PutProcurementPortalPreferenceOutput>(clientLogMode: config.clientLogMode))
@@ -1833,6 +1837,7 @@ extension InvoicingClient {
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<UpdateInvoiceUnitInput, UpdateInvoiceUnitOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateInvoiceUnitInput, UpdateInvoiceUnitOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateInvoiceUnitInput, UpdateInvoiceUnitOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateInvoiceUnitInput, UpdateInvoiceUnitOutput>(clientLogMode: config.clientLogMode))
@@ -1913,6 +1918,7 @@ extension InvoicingClient {
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<UpdateProcurementPortalPreferenceStatusInput, UpdateProcurementPortalPreferenceStatusOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateProcurementPortalPreferenceStatusInput, UpdateProcurementPortalPreferenceStatusOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProcurementPortalPreferenceStatusInput, UpdateProcurementPortalPreferenceStatusOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateProcurementPortalPreferenceStatusInput, UpdateProcurementPortalPreferenceStatusOutput>(clientLogMode: config.clientLogMode))
