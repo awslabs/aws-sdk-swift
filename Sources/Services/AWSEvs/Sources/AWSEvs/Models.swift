@@ -1718,6 +1718,39 @@ public struct DisassociateEipFromVlanOutput: Swift.Sendable {
     }
 }
 
+public struct GetDepotUrlInput: Swift.Sendable {
+    /// The unique ID of the Amazon EVS environment to get the depot URL for.
+    /// This member is required.
+    public var environmentId: Swift.String?
+    /// Revokes the current authentication token and returns a new depot URL with a new token. Previously issued depot URLs will stop working within 5 minutes of rotation.
+    public var rotate: Swift.Bool?
+
+    public init(
+        environmentId: Swift.String? = nil,
+        rotate: Swift.Bool? = nil
+    ) {
+        self.environmentId = environmentId
+        self.rotate = rotate
+    }
+}
+
+public struct GetDepotUrlOutput: Swift.Sendable {
+    /// The URL for accessing the Amazon EVS Custom Addon depot. This URL includes the authentication token as a path component.
+    /// This member is required.
+    public var depotUrl: Swift.String?
+    /// The authentication token for depot access. This token is included in the depot URL and is used to authenticate requests.
+    /// This member is required.
+    public var token: Swift.String?
+
+    public init(
+        depotUrl: Swift.String? = nil,
+        token: Swift.String? = nil
+    ) {
+        self.depotUrl = depotUrl
+        self.token = token
+    }
+}
+
 public struct GetEnvironmentInput: Swift.Sendable {
     /// A unique ID for the environment.
     /// This member is required.
