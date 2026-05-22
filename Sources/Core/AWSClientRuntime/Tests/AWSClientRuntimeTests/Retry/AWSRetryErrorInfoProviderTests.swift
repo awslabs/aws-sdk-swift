@@ -63,10 +63,12 @@ class AWSRetryErrorInfoProviderTests: XCTestCase {
         }
     }
 
-    func test_modeledIDPCommunicationError_returnsTransientError() {
+    func test_modeledIDPCommunicationError_returnsTransientError_onlyForSTS() {
         let error = ModeledIDPCommunicationError()
-        let errorInfo = AWSRetryErrorInfoProvider.errorInfo(for: error)
-        XCTAssertEqual(errorInfo?.errorType, .transient)
+        let stsProvider = AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "STS")
+        XCTAssertEqual(stsProvider(error)?.errorType, .transient)
+        let nonStsProvider = AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "S3")
+        XCTAssertNil(nonStsProvider(error))
     }
 
     func test_crtErrors_returnsTransientErrorsForCRTErrorCodes() {
