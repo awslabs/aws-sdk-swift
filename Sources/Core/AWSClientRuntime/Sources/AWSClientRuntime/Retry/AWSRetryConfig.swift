@@ -26,7 +26,9 @@ public enum AWSRetryConfig {
         if let configValue { return configValue }
         if let raw = ProcessInfo.processInfo.environment["AWS_RETRY_MODE"] {
             guard let mode = AWSRetryMode(rawValue: raw) else {
-                throw ClientError.invalidValue("Invalid AWS_RETRY_MODE: \"\(raw)\". Expected one of: legacy, standard, adaptive.")
+                throw ClientError.invalidValue(
+                    "Invalid AWS_RETRY_MODE: \"\(raw)\". Expected one of: legacy, standard, adaptive."
+                )
             }
             return mode
         }
@@ -35,7 +37,9 @@ public enum AWSRetryConfig {
         let key = FileBasedConfigurationKey(rawValue: "retry_mode")
         if let raw = fileBasedConfig.section(for: sectionName)?.string(for: key) {
             guard let mode = AWSRetryMode(rawValue: raw) else {
-                throw ClientError.invalidValue("Invalid retry_mode in config file: \"\(raw)\". Expected one of: legacy, standard, adaptive.")
+                throw ClientError.invalidValue(
+                    "Invalid retry_mode in config file: \"\(raw)\". Expected one of: legacy, standard, adaptive."
+                )
             }
             return mode
         }
