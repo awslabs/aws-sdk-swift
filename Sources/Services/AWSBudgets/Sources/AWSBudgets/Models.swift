@@ -432,7 +432,7 @@ extension BudgetsClientTypes {
         /// This specifies if the action needs manual or automatic approval.
         /// This member is required.
         public var approvalModel: BudgetsClientTypes.ApprovalModel?
-        /// A string that represents the budget name. The ":" and "\" characters, and the "/action/" substring, aren't allowed.
+        /// A string that represents the budget name. The ":" and "\" characters, and the "/action/" substring, aren't allowed. Budget names are validated for content. Names that contain phone numbers, URLs, or email addresses combined with certain terms may be rejected.
         /// This member is required.
         public var budgetName: Swift.String?
         /// Where you specify all of the type-specific parameters.
@@ -1594,7 +1594,7 @@ public struct CreateBudgetActionInput: Swift.Sendable {
     /// This specifies if the action needs manual or automatic approval.
     /// This member is required.
     public var approvalModel: BudgetsClientTypes.ApprovalModel?
-    /// A string that represents the budget name. The ":" and "\" characters, and the "/action/" substring, aren't allowed.
+    /// A string that represents the budget name. The ":" and "\" characters, and the "/action/" substring, aren't allowed. Budget names are validated for content. Names that contain phone numbers, URLs, or email addresses combined with certain terms may be rejected.
     /// This member is required.
     public var budgetName: Swift.String?
     /// Specifies all of the type-specific parameters.
@@ -1644,7 +1644,7 @@ public struct CreateBudgetActionOutput: Swift.Sendable {
     /// A system-generated universally unique identifier (UUID) for the action.
     /// This member is required.
     public var actionId: Swift.String?
-    /// A string that represents the budget name. The ":" and "\" characters, and the "/action/" substring, aren't allowed.
+    /// A string that represents the budget name. The ":" and "\" characters, and the "/action/" substring, aren't allowed. Budget names are validated for content. Names that contain phone numbers, URLs, or email addresses combined with certain terms may be rejected.
     /// This member is required.
     public var budgetName: Swift.String?
 
@@ -1782,7 +1782,7 @@ public struct DeleteBudgetActionInput: Swift.Sendable {
     /// A system-generated universally unique identifier (UUID) for the action.
     /// This member is required.
     public var actionId: Swift.String?
-    /// A string that represents the budget name. The ":" and "\" characters, and the "/action/" substring, aren't allowed.
+    /// A string that represents the budget name. The ":" and "\" characters, and the "/action/" substring, aren't allowed. Budget names are validated for content. Names that contain phone numbers, URLs, or email addresses combined with certain terms may be rejected.
     /// This member is required.
     public var budgetName: Swift.String?
 
@@ -1804,7 +1804,7 @@ public struct DeleteBudgetActionOutput: Swift.Sendable {
     /// A budget action resource.
     /// This member is required.
     public var action: BudgetsClientTypes.Action?
-    /// A string that represents the budget name. The ":" and "\" characters, and the "/action/" substring, aren't allowed.
+    /// A string that represents the budget name. The ":" and "\" characters, and the "/action/" substring, aren't allowed. Budget names are validated for content. Names that contain phone numbers, URLs, or email addresses combined with certain terms may be rejected.
     /// This member is required.
     public var budgetName: Swift.String?
 
@@ -1911,7 +1911,7 @@ public struct DescribeBudgetActionInput: Swift.Sendable {
     /// A system-generated universally unique identifier (UUID) for the action.
     /// This member is required.
     public var actionId: Swift.String?
-    /// A string that represents the budget name. The ":" and "\" characters, and the "/action/" substring, aren't allowed.
+    /// A string that represents the budget name. The ":" and "\" characters, and the "/action/" substring, aren't allowed. Budget names are validated for content. Names that contain phone numbers, URLs, or email addresses combined with certain terms may be rejected.
     /// This member is required.
     public var budgetName: Swift.String?
 
@@ -1933,7 +1933,7 @@ public struct DescribeBudgetActionOutput: Swift.Sendable {
     /// A budget action resource.
     /// This member is required.
     public var action: BudgetsClientTypes.Action?
-    /// A string that represents the budget name. The ":" and "\" characters, and the "/action/" substring, aren't allowed.
+    /// A string that represents the budget name. The ":" and "\" characters, and the "/action/" substring, aren't allowed. Budget names are validated for content. Names that contain phone numbers, URLs, or email addresses combined with certain terms may be rejected.
     /// This member is required.
     public var budgetName: Swift.String?
 
@@ -1979,7 +1979,7 @@ public struct DescribeBudgetActionHistoriesInput: Swift.Sendable {
     /// A system-generated universally unique identifier (UUID) for the action.
     /// This member is required.
     public var actionId: Swift.String?
-    /// A string that represents the budget name. The ":" and "\" characters, and the "/action/" substring, aren't allowed.
+    /// A string that represents the budget name. The ":" and "\" characters, and the "/action/" substring, aren't allowed. Budget names are validated for content. Names that contain phone numbers, URLs, or email addresses combined with certain terms may be rejected.
     /// This member is required.
     public var budgetName: Swift.String?
     /// An integer that represents how many entries a paginated response contains. The maximum is 100.
@@ -2062,7 +2062,7 @@ public struct DescribeBudgetActionsForBudgetInput: Swift.Sendable {
     /// The account ID of the user. It's a 12-digit number.
     /// This member is required.
     public var accountId: Swift.String?
-    /// A string that represents the budget name. The ":" and "\" characters, and the "/action/" substring, aren't allowed.
+    /// A string that represents the budget name. The ":" and "\" characters, and the "/action/" substring, aren't allowed. Budget names are validated for content. Names that contain phone numbers, URLs, or email addresses combined with certain terms may be rejected.
     /// This member is required.
     public var budgetName: Swift.String?
     /// An integer that represents how many entries a paginated response contains. The maximum is 100.
@@ -2147,7 +2147,7 @@ extension BudgetsClientTypes {
 
     /// The budget name and associated notifications for an account.
     public struct BudgetNotificationsForAccount: Swift.Sendable {
-        /// A string that represents the budget name. The ":" and "\" characters, and the "/action/" substring, aren't allowed.
+        /// A string that represents the budget name. The ":" and "\" characters, and the "/action/" substring, aren't allowed. Budget names are validated for content. Names that contain phone numbers, URLs, or email addresses combined with certain terms may be rejected.
         public var budgetName: Swift.String?
         /// A list of notifications.
         public var notifications: [BudgetsClientTypes.Notification]?
@@ -2181,7 +2181,7 @@ public struct DescribeBudgetPerformanceHistoryInput: Swift.Sendable {
     /// The account ID of the user. It's a 12-digit number.
     /// This member is required.
     public var accountId: Swift.String?
-    /// A string that represents the budget name. The ":" and "\" characters, and the "/action/" substring, aren't allowed.
+    /// A string that represents the budget name. The ":" and "\" characters, and the "/action/" substring, aren't allowed. Budget names are validated for content. Names that contain phone numbers, URLs, or email addresses combined with certain terms may be rejected.
     /// This member is required.
     public var budgetName: Swift.String?
     /// An integer that represents how many entries a paginated response contains. The maximum is 100.
@@ -2385,7 +2385,7 @@ public struct ExecuteBudgetActionInput: Swift.Sendable {
     /// A system-generated universally unique identifier (UUID) for the action.
     /// This member is required.
     public var actionId: Swift.String?
-    /// A string that represents the budget name. The ":" and "\" characters, and the "/action/" substring, aren't allowed.
+    /// A string that represents the budget name. The ":" and "\" characters, and the "/action/" substring, aren't allowed. Budget names are validated for content. Names that contain phone numbers, URLs, or email addresses combined with certain terms may be rejected.
     /// This member is required.
     public var budgetName: Swift.String?
     /// The type of execution.
@@ -2412,7 +2412,7 @@ public struct ExecuteBudgetActionOutput: Swift.Sendable {
     /// A system-generated universally unique identifier (UUID) for the action.
     /// This member is required.
     public var actionId: Swift.String?
-    /// A string that represents the budget name. The ":" and "\" characters, and the "/action/" substring, aren't allowed.
+    /// A string that represents the budget name. The ":" and "\" characters, and the "/action/" substring, aren't allowed. Budget names are validated for content. Names that contain phone numbers, URLs, or email addresses combined with certain terms may be rejected.
     /// This member is required.
     public var budgetName: Swift.String?
     /// The type of execution.
@@ -2516,7 +2516,7 @@ public struct UpdateBudgetActionInput: Swift.Sendable {
     public var actionThreshold: BudgetsClientTypes.ActionThreshold?
     /// This specifies if the action needs manual or automatic approval.
     public var approvalModel: BudgetsClientTypes.ApprovalModel?
-    /// A string that represents the budget name. The ":" and "\" characters, and the "/action/" substring, aren't allowed.
+    /// A string that represents the budget name. The ":" and "\" characters, and the "/action/" substring, aren't allowed. Budget names are validated for content. Names that contain phone numbers, URLs, or email addresses combined with certain terms may be rejected.
     /// This member is required.
     public var budgetName: Swift.String?
     /// Specifies all of the type-specific parameters.
@@ -2555,7 +2555,7 @@ public struct UpdateBudgetActionOutput: Swift.Sendable {
     /// The account ID of the user. It's a 12-digit number.
     /// This member is required.
     public var accountId: Swift.String?
-    /// A string that represents the budget name. The ":" and "\" characters, and the "/action/" substring, aren't allowed.
+    /// A string that represents the budget name. The ":" and "\" characters, and the "/action/" substring, aren't allowed. Budget names are validated for content. Names that contain phone numbers, URLs, or email addresses combined with certain terms may be rejected.
     /// This member is required.
     public var budgetName: Swift.String?
     /// The updated action resource information.
@@ -2696,7 +2696,7 @@ extension BudgetsClientTypes {
         public var billingViewArn: Swift.String?
         /// The total amount of cost, usage, RI utilization, RI coverage, Savings Plans utilization, or Savings Plans coverage that you want to track with your budget. BudgetLimit is required for cost or usage budgets, but optional for RI or Savings Plans utilization or coverage budgets. RI and Savings Plans utilization or coverage budgets default to 100. This is the only valid value for RI or Savings Plans utilization or coverage budgets. You can't use BudgetLimit with PlannedBudgetLimits for CreateBudget and UpdateBudget actions.
         public var budgetLimit: BudgetsClientTypes.Spend?
-        /// The name of a budget. The name must be unique within an account. The : and \ characters, and the "/action/" substring, aren't allowed in BudgetName.
+        /// The name of a budget. The name must be unique within an account. The : and \ characters, and the "/action/" substring, aren't allowed in BudgetName. Budget names are validated for content. Names that contain phone numbers, URLs, or email addresses combined with certain terms may be rejected.
         /// This member is required.
         public var budgetName: Swift.String?
         /// Specifies whether this budget tracks costs, usage, RI utilization, RI coverage, Savings Plans utilization, or Savings Plans coverage.
@@ -2778,7 +2778,7 @@ extension BudgetsClientTypes {
     public struct BudgetPerformanceHistory: Swift.Sendable {
         /// The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN is used to specify which particular billing view you want to interact with or retrieve information from when making API calls related to Amazon Web Services Billing and Cost Management features. The BillingViewArn can be retrieved by calling the ListBillingViews API.
         public var billingViewArn: Swift.String?
-        /// A string that represents the budget name. The ":" and "\" characters, and the "/action/" substring, aren't allowed.
+        /// A string that represents the budget name. The ":" and "\" characters, and the "/action/" substring, aren't allowed. Budget names are validated for content. Names that contain phone numbers, URLs, or email addresses combined with certain terms may be rejected.
         public var budgetName: Swift.String?
         /// The type of a budget. It must be one of the following types: COST, USAGE, RI_UTILIZATION, RI_COVERAGE, SAVINGS_PLANS_UTILIZATION, or SAVINGS_PLANS_COVERAGE.
         public var budgetType: BudgetsClientTypes.BudgetType?
