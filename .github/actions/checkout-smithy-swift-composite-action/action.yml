@@ -14,26 +14,31 @@ runs:
       if: ${{ github.repository != 'awslabs/aws-sdk-swift' }}
       run: |
         mkdir -p ~/.ssh
-        echo "${{ inputs.STAGING_PARTNER_REPO_PRIVATE_DEPLOY_KEY }}" > ~/.ssh/id_rsa
+        echo "${INPUTS_STAGING_PARTNER_REPO_PRIVATE_DEPLOY_KEY}" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
         ssh-keyscan github.com >> ~/.ssh/known_hosts
       shell: bash
+      env:
+        INPUTS_STAGING_PARTNER_REPO_PRIVATE_DEPLOY_KEY: ${{ inputs.STAGING_PARTNER_REPO_PRIVATE_DEPLOY_KEY }}
     - name: Select staging smithy-swift branch
       if: ${{ github.repository != 'awslabs/aws-sdk-swift' }}
       run: |
         cd aws-sdk-swift
         ORIGINAL_REPO_HEAD_REF="$GITHUB_HEAD_REF" \
-        DEPENDENCY_REPO_URL="git@github.com:${{ inputs.STAGING_PARTNER_REPO }}.git" \
+        DEPENDENCY_REPO_URL="git@github.com:${INPUTS_STAGING_PARTNER_REPO}.git" \
         ./scripts/ci_steps/select_dependency_branch.sh
       shell: bash
+      env:
+        INPUTS_STAGING_PARTNER_REPO: ${{ inputs.STAGING_PARTNER_REPO }}
     - name: Checkout staging smithy-swift
       if: ${{ github.repository != 'awslabs/aws-sdk-swift' }}
-      uses: actions/checkout@v6
+      uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       with:
         repository: ${{ inputs.STAGING_PARTNER_REPO }}
         ref: ${{ env.DEPENDENCY_REPO_SHA }}
         path: smithy-swift
         ssh-key: ${{ inputs.STAGING_PARTNER_REPO_PRIVATE_DEPLOY_KEY }}
+        persist-credentials: false
     - name: Select smithy-swift branch
       if: ${{ github.repository == 'awslabs/aws-sdk-swift' }}
       run: |
@@ -44,8 +49,9 @@ runs:
       shell: bash
     - name: Checkout smithy-swift
       if: ${{ github.repository == 'awslabs/aws-sdk-swift' }}
-      uses: actions/checkout@v6
+      uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       with:
         repository: smithy-lang/smithy-swift
         ref: ${{ env.DEPENDENCY_REPO_SHA }}
         path: smithy-swift
+        persist-credentials: false

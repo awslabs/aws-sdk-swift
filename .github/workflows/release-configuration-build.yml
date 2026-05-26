@@ -24,22 +24,25 @@ jobs:
       DEVELOPER_DIR: /Applications/Xcode_26.4.app/Contents/Developer
     steps:
       - name: Checkout aws-sdk-swift
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
       - name: Select smithy-swift branch
         run: |
           ORIGINAL_REPO_HEAD_REF="${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}" \
           DEPENDENCY_REPO_URL="https://github.com/smithy-lang/smithy-swift.git" \
           ./scripts/ci_steps/select_dependency_branch.sh
       - name: Checkout smithy-swift
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           repository: smithy-lang/smithy-swift
           ref: ${{ env.DEPENDENCY_REPO_SHA }}
           path: smithy-swift
+          persist-credentials: false
       - name: Move smithy-swift into place
         run: mv smithy-swift ..
       - name: Setup Java
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5.2.0
         with:
           distribution: corretto
           java-version: 17
