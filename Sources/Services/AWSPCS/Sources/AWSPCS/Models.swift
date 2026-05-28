@@ -504,12 +504,16 @@ extension PCSClientTypes {
 
     /// Additional options related to the Slurm scheduler.
     public struct ComputeNodeGroupSlurmConfigurationRequest: Swift.Sendable {
+        /// The time (in seconds) before an idle node is scaled down. If not specified, the cluster-level setting applies. This overrides the cluster-level scaleDownIdleTimeInSeconds setting. A value of -1 removes the override and applies the cluster-level setting to this compute node group. Requires Slurm version 25.11 or later.
+        public var scaleDownIdleTimeInSeconds: Swift.Int?
         /// Additional Slurm-specific configuration that directly maps to Slurm settings.
         public var slurmCustomSettings: [PCSClientTypes.SlurmCustomSetting]?
 
         public init(
+            scaleDownIdleTimeInSeconds: Swift.Int? = nil,
             slurmCustomSettings: [PCSClientTypes.SlurmCustomSetting]? = nil
         ) {
+            self.scaleDownIdleTimeInSeconds = scaleDownIdleTimeInSeconds
             self.slurmCustomSettings = slurmCustomSettings
         }
     }
@@ -672,12 +676,16 @@ extension PCSClientTypes {
 
     /// Additional options related to the Slurm scheduler.
     public struct ComputeNodeGroupSlurmConfiguration: Swift.Sendable {
+        /// The time (in seconds) before an idle node is scaled down. If not specified, the cluster-level setting applies. This overrides the cluster-level scaleDownIdleTimeInSeconds setting. A value of -1 removes the override and applies the cluster-level setting to this compute node group. Requires Slurm version 25.11 or later.
+        public var scaleDownIdleTimeInSeconds: Swift.Int?
         /// Additional Slurm-specific configuration that directly maps to Slurm settings.
         public var slurmCustomSettings: [PCSClientTypes.SlurmCustomSetting]?
 
         public init(
+            scaleDownIdleTimeInSeconds: Swift.Int? = nil,
             slurmCustomSettings: [PCSClientTypes.SlurmCustomSetting]? = nil
         ) {
+            self.scaleDownIdleTimeInSeconds = scaleDownIdleTimeInSeconds
             self.slurmCustomSettings = slurmCustomSettings
         }
     }
@@ -981,12 +989,16 @@ extension PCSClientTypes {
 
     /// Additional options related to the Slurm scheduler.
     public struct UpdateComputeNodeGroupSlurmConfigurationRequest: Swift.Sendable {
+        /// The time (in seconds) before an idle node is scaled down. If not specified, the cluster-level setting applies. This overrides the cluster-level scaleDownIdleTimeInSeconds setting. A value of -1 removes the override and applies the cluster-level setting to this compute node group. Requires Slurm version 25.11 or later.
+        public var scaleDownIdleTimeInSeconds: Swift.Int?
         /// Additional Slurm-specific configuration that directly maps to Slurm settings.
         public var slurmCustomSettings: [PCSClientTypes.SlurmCustomSetting]?
 
         public init(
+            scaleDownIdleTimeInSeconds: Swift.Int? = nil,
             slurmCustomSettings: [PCSClientTypes.SlurmCustomSetting]? = nil
         ) {
+            self.scaleDownIdleTimeInSeconds = scaleDownIdleTimeInSeconds
             self.slurmCustomSettings = slurmCustomSettings
         }
     }

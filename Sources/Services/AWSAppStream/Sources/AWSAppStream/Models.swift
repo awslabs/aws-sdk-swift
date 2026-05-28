@@ -2597,13 +2597,15 @@ extension AppStreamClientTypes {
         case completed
         case exporting
         case failed
+        case timedOut
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ExportImageTaskState] {
             return [
                 .completed,
                 .exporting,
-                .failed
+                .failed,
+                .timedOut
             ]
         }
 
@@ -2617,6 +2619,7 @@ extension AppStreamClientTypes {
             case .completed: return "COMPLETED"
             case .exporting: return "EXPORTING"
             case .failed: return "FAILED"
+            case .timedOut: return "TIMED_OUT"
             case let .sdkUnknown(s): return s
             }
         }
@@ -3986,18 +3989,18 @@ public struct CreateImportedImageInput: Swift.Sendable {
     /// When set to true, performs validation checks without actually creating the imported image. Use this to verify your configuration before executing the actual import operation.
     public var dryRun: Swift.Bool?
     /// The ARN of the IAM role that allows WorkSpaces Applications to access your AMI. The role must have permissions to modify image attributes and describe images, with a trust relationship allowing appstream.amazonaws.com to assume the role.
-    /// This member is required.
     public var iamRoleArn: Swift.String?
     /// A unique name for the imported image. The name must be between 1 and 100 characters and can contain letters, numbers, underscores, periods, and hyphens.
     /// This member is required.
     public var name: Swift.String?
     /// Configuration for runtime validation of the imported image. When specified, WorkSpaces Applications provisions an instance to test streaming functionality, which helps ensure the image is suitable for use.
     public var runtimeValidationConfig: AppStreamClientTypes.RuntimeValidationConfig?
-    /// The ID of the EC2 AMI to import. The AMI must meet specific requirements including Windows Server 2022 Full Base, UEFI boot mode, TPM 2.0 support, and proper drivers.
-    /// This member is required.
+    /// The ID of the EC2 AMI to import.
     public var sourceAmiId: Swift.String?
     /// The tags to apply to the imported image. Tags help you organize and manage your WorkSpaces Applications resources.
     public var tags: [Swift.String: Swift.String]?
+    /// The ID of the Workspaces Image to import.
+    public var workspaceImageId: Swift.String?
 
     public init(
         agentSoftwareVersion: AppStreamClientTypes.AgentSoftwareVersion? = nil,
@@ -4009,7 +4012,8 @@ public struct CreateImportedImageInput: Swift.Sendable {
         name: Swift.String? = nil,
         runtimeValidationConfig: AppStreamClientTypes.RuntimeValidationConfig? = nil,
         sourceAmiId: Swift.String? = nil,
-        tags: [Swift.String: Swift.String]? = nil
+        tags: [Swift.String: Swift.String]? = nil,
+        workspaceImageId: Swift.String? = nil
     ) {
         self.agentSoftwareVersion = agentSoftwareVersion
         self.appCatalogConfig = appCatalogConfig
@@ -4021,6 +4025,7 @@ public struct CreateImportedImageInput: Swift.Sendable {
         self.runtimeValidationConfig = runtimeValidationConfig
         self.sourceAmiId = sourceAmiId
         self.tags = tags
+        self.workspaceImageId = workspaceImageId
     }
 }
 
@@ -4105,12 +4110,14 @@ extension AppStreamClientTypes {
 
     /// The image type is the type of AppStream image resource.
     public enum ImageType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case byol
         case custom
         case native
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ImageType] {
             return [
+                .byol,
                 .custom,
                 .native
             ]
@@ -4123,6 +4130,7 @@ extension AppStreamClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .byol: return "BYOL"
             case .custom: return "CUSTOM"
             case .native: return "NATIVE"
             case let .sdkUnknown(s): return s

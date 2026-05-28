@@ -3526,12 +3526,14 @@ extension BedrockRuntimeClientTypes {
 
     public enum ConversationRole: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case assistant
+        case system
         case user
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ConversationRole] {
             return [
                 .assistant,
+                .system,
                 .user
             ]
         }
@@ -3544,6 +3546,7 @@ extension BedrockRuntimeClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .assistant: return "assistant"
+            case .system: return "system"
             case .user: return "user"
             case let .sdkUnknown(s): return s
             }
