@@ -63,6 +63,7 @@ public enum AWSRetryErrorInfoProvider: RetryErrorInfoProvider {
         let isDynamoDB = sdkID == "DynamoDB" || sdkID == "DynamoDB Streams"
         let isSTS = sdkID == "STS"
         return { error in
+            // Always runs; not gated.
             if isSTS, isSTSOnlyTransient(error) {
                 return applyRetryAfterHeader(
                     info: RetryErrorInfo(errorType: .transient, retryAfterHint: nil, isTimeout: false),
@@ -70,7 +71,8 @@ public enum AWSRetryErrorInfoProvider: RetryErrorInfoProvider {
                 )
             }
             guard var info = errorInfo(for: error) else { return nil }
-            if isDynamoDB && info.errorType != .throttling {
+            if AWSRetryFeatures.isNewRetries2026Enabled,
+               isDynamoDB, info.errorType != .throttling {
                 info.backoffMultiplier = 0.025
             }
             return info
@@ -143,6 +145,7 @@ public enum AWSRetryErrorInfoProvider: RetryErrorInfoProvider {
 
     /// Parses `x-amz-retry-after` header (milliseconds) and applies it as retryAfterHint.
     private static func applyRetryAfterHeader(info: RetryErrorInfo, error: Error) -> RetryErrorInfo {
+        guard AWSRetryFeatures.isNewRetries2026Enabled else { return info }
         guard let httpError = error as? HTTPError,
               let headerValue = httpError.httpResponse.headers.value(for: "x-amz-retry-after"),
               let millis = Int(headerValue), millis >= 0 else {

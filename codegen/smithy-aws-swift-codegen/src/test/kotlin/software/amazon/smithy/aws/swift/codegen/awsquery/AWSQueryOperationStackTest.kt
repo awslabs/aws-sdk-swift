@@ -46,7 +46,6 @@ class AWSQueryOperationStackTest {
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<NoInputAndOutputInput, NoInputAndOutputOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         builder.retryStrategy(self.retryStrategy)
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Query Protocol"))
-        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<NoInputAndOutputInput, NoInputAndOutputOutput>(serviceID: serviceName, version: QueryProtocolClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "QueryProtocol")

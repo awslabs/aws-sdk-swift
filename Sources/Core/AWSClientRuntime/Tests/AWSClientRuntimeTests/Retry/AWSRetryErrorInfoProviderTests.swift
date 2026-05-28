@@ -12,8 +12,18 @@ import ClientRuntime
 import enum AwsCommonRuntimeKit.CommonRunTimeError
 import struct AwsCommonRuntimeKit.CRTError
 @testable import AWSClientRuntime
+@_spi(Testing) import AWSClientRuntime
 
 class AWSRetryErrorInfoProviderTests: XCTestCase {
+
+    override func setUp() {
+        // Default-on; per-test overrides verify the gate-off path.
+        AWSRetryFeatures.testingOverride = true
+    }
+
+    override func tearDown() {
+        AWSRetryFeatures.testingOverride = nil
+    }
 
     // MARK: - Code-based error classification
 
@@ -141,6 +151,24 @@ class AWSRetryErrorInfoProviderTests: XCTestCase {
 
     func test_errorInfoProvider_nonDynamoDB_noBackoffMultiplier() throws {
         let provider = AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "S3")
+        let error = try TestHTTPError(statusCode: 500)
+        let errorInfo = provider(error)
+        XCTAssertNil(errorInfo?.backoffMultiplier)
+    }
+
+    // MARK: - Gate off
+
+    func test_retryAfterHeader_ignoredWhenNewRetries2026Disabled() throws {
+        AWSRetryFeatures.testingOverride = false
+        let errorInfo = try AWSRetryErrorInfoProvider.errorInfo(
+            for: TestHTTPError(statusCode: 500, headers: ["x-amz-retry-after": "1500"])
+        )
+        XCTAssertNil(errorInfo?.retryAfterHint)
+    }
+
+    func test_dynamoDB_noBackoffMultiplierWhenNewRetries2026Disabled() throws {
+        AWSRetryFeatures.testingOverride = false
+        let provider = AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "DynamoDB")
         let error = try TestHTTPError(statusCode: 500)
         let errorInfo = provider(error)
         XCTAssertNil(errorInfo?.backoffMultiplier)

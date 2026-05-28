@@ -11,12 +11,9 @@ import enum Smithy.ClientError
 
 public enum AWSRetryConfig {
 
-    /// Determines the retry mode to be used from the given config.  If none can be determined, `legacy` will be used as a default.
-    /// - Parameters:
-    ///   - configValue: The retry mode passed at client construction, or `nil` if none was passed.
-    ///   - profileName: The profile name passed at client construction.  If `nil` is passed, the SDK will resolve the profile to be used.
-    ///   - fileBasedConfig: The file-based config from which to load configuration, if needed.
-    /// - Returns: The retry mode that was resolved.
+    /// Determines the retry mode to be used from the given config.
+    ///
+    /// Default is `legacy`; flips to `standard` when `AWS_NEW_RETRIES_2026=true`.
     /// - Throws: `ClientError.invalidValue` if `AWS_RETRY_MODE` or the `retry_mode` config field is set but unparseable.
     static func retryMode(
         configValue: AWSRetryMode?,
@@ -43,7 +40,7 @@ public enum AWSRetryConfig {
             }
             return mode
         }
-        return .standard
+        return AWSRetryFeatures.isNewRetries2026Enabled ? .standard : .legacy
     }
 
     /// Determines the max attempts (for retry purposes) to be used from the given config.  If none can be determined, `3` will be used as a default.

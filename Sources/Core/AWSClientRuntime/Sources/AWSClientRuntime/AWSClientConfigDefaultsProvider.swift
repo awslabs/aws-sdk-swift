@@ -145,7 +145,9 @@ public class AWSClientConfigDefaultsProvider: ClientConfigDefaultsProvider {
             resolvedRateLimitingMode = .adaptive
         }
 
-        if maxAttempts == nil, resolvedRetryMode != .legacy,
+        let useNewRetries2026 = AWSRetryFeatures.isNewRetries2026Enabled
+
+        if useNewRetries2026, maxAttempts == nil, resolvedRetryMode != .legacy,
            let sdkID, Self.isDynamoDB(sdkID: sdkID) {
             resolvedMaxAttempts = max(resolvedMaxAttempts, 4)
         }
@@ -153,7 +155,8 @@ public class AWSClientConfigDefaultsProvider: ClientConfigDefaultsProvider {
         return RetryStrategyOptions(
             backoffStrategy: ExponentialBackoffStrategy(),
             maxRetriesBase: resolvedMaxAttempts - 1,
-            rateLimitingMode: resolvedRateLimitingMode
+            rateLimitingMode: resolvedRateLimitingMode,
+            useNewRetries2026: useNewRetries2026
         )
     }
 

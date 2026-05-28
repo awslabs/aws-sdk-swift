@@ -7,12 +7,13 @@
 
 import struct Foundation.TimeInterval
 import class Smithy.Context
-import SmithyHTTPAPI
 import struct SmithyRetries.ExponentialBackoffStrategy
 import struct SmithyRetriesAPI.RetryErrorInfo
 
-/// Returns a backoff delay even when the retry token bucket is empty,
-/// so long-polling operations can keep retrying past quota exhaustion.
+/// Backoff delay for long-polling operations when the retry token bucket is empty.
+/// Codegen wires this provider only into operations bearing the `aws.api#longPoll`
+/// trait, or in the hardcoded fallback list (see AWSRetryCustomizationIntegration).
+/// Returns `nil` when `AWS_NEW_RETRIES_2026` is unset.
 public enum LongPollingBackoffProvider {
 
     public static func backoffDelay(
@@ -20,11 +21,7 @@ public enum LongPollingBackoffProvider {
         errorInfo: RetryErrorInfo,
         attemptCount: Int
     ) async -> TimeInterval? {
-        let serviceName = context.getServiceName()
-        let operationName = context.getOperation() ?? ""
-        guard LongPollingOperations.isLongPolling(serviceName: serviceName, operationName: operationName) else {
-            return nil
-        }
+        guard AWSRetryFeatures.isNewRetries2026Enabled else { return nil }
         let multiplier: TimeInterval
         if errorInfo.errorType == .throttling {
             multiplier = 1.0
