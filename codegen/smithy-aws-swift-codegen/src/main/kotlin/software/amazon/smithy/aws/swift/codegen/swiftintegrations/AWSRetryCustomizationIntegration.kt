@@ -32,32 +32,38 @@ class AWSRetryCustomizationIntegration : SwiftIntegration {
                 retryErrorInfoProviderExpressionFactory = { _ ->
                     "AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: \"$sdkId\")"
                 },
-                longPollingBackoffExpression = if (isLongPolling) {
-                    "AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:)"
-                } else {
-                    null
-                },
-                additionalImportSymbols = if (isLongPolling) {
-                    listOf(AWSClientRuntimeTypes.Core.LongPollingBackoffProvider)
-                } else {
-                    emptyList()
-                },
+                longPollingBackoffExpression =
+                    if (isLongPolling) {
+                        "AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:)"
+                    } else {
+                        null
+                    },
+                additionalImportSymbols =
+                    if (isLongPolling) {
+                        listOf(AWSClientRuntimeTypes.Core.LongPollingBackoffProvider)
+                    } else {
+                        emptyList()
+                    },
             ),
         )
     }
 
-    private fun isLongPollingOperation(operation: OperationShape, sdkId: String): Boolean {
+    private fun isLongPollingOperation(
+        operation: OperationShape,
+        sdkId: String,
+    ): Boolean {
         if (operation.hasTrait(LongPollTrait::class.java)) return true
         return hardcodedLongPollingOperations.contains(sdkId to operation.id.name)
     }
 
     companion object {
         // Hardcoded until aws-models annotate these operations with `aws.api#longPoll`.
-        private val hardcodedLongPollingOperations = setOf(
-            "SQS" to "ReceiveMessage",
-            "SFN" to "GetActivityTask",
-            "SWF" to "PollForActivityTask",
-            "SWF" to "PollForDecisionTask",
-        )
+        private val hardcodedLongPollingOperations =
+            setOf(
+                "SQS" to "ReceiveMessage",
+                "SFN" to "GetActivityTask",
+                "SWF" to "PollForActivityTask",
+                "SWF" to "PollForDecisionTask",
+            )
     }
 }

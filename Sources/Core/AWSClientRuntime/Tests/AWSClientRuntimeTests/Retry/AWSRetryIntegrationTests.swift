@@ -16,6 +16,7 @@ import SmithyTestUtil
 @testable import SmithyRetries
 @testable import ClientRuntime
 @testable import AWSClientRuntime
+@_spi(Testing) import AWSClientRuntime
 
 // This test class reproduces the "Standard Mode" test cases defined in "Retry Behavior 2.0"
 // It is essentially a copy of the class of the same name in smithy-swift, but this one
@@ -29,6 +30,14 @@ final class RetryIntegrationTests: XCTestCase {
 
     private var builder: OrchestratorBuilder<TestInput, TestOutputResponse, HTTPRequest, HTTPResponse>!
     private var quota: RetryQuota { get async { await subject.quotaRepository.quota(partitionID: partitionID) } }
+
+    override func setUp() {
+        AWSRetryFeatures.testingOverride = true
+    }
+
+    override func tearDown() {
+        AWSRetryFeatures.testingOverride = nil
+    }
 
     private func setUp(availableCapacity: Int, maxCapacity: Int, maxRetriesBase: Int, maxBackoff: TimeInterval) async {
         // Setup the HTTP context, used by the retry middleware
@@ -45,8 +54,15 @@ final class RetryIntegrationTests: XCTestCase {
         var backoffStrategy = ExponentialBackoffStrategy(options: backoffStrategyOptions)
         backoffStrategy.random = { 1.0 }
 
-        // Create a retry strategy with custom backoff strategy & custom max retries & custom capacity
-        let retryStrategyOptions = RetryStrategyOptions(backoffStrategy: backoffStrategy, maxRetriesBase: maxRetriesBase, availableCapacity: availableCapacity, maxCapacity: maxCapacity)
+        // Create a retry strategy with custom backoff strategy & custom max retries & custom capacity.
+        // Opt-in to retry-2.1 so the SEP-derived expected values below match.
+        let retryStrategyOptions = RetryStrategyOptions(
+            backoffStrategy: backoffStrategy,
+            maxRetriesBase: maxRetriesBase,
+            availableCapacity: availableCapacity,
+            maxCapacity: maxCapacity,
+            useNewRetries2026: true
+        )
         subject = DefaultRetryStrategy(options: retryStrategyOptions)
         // Replace the retry strategy's sleeper with a mock, to allow tests to run without delay and for us to
         // check the delay time
@@ -244,7 +260,13 @@ final class RetryIntegrationTests: XCTestCase {
         var backoffStrategy = ExponentialBackoffStrategy(options: backoffStrategyOptions)
         backoffStrategy.random = { 1.0 }
 
-        let retryStrategyOptions = RetryStrategyOptions(backoffStrategy: backoffStrategy, maxRetriesBase: maxRetriesBase, availableCapacity: availableCapacity, maxCapacity: maxCapacity)
+        let retryStrategyOptions = RetryStrategyOptions(
+            backoffStrategy: backoffStrategy,
+            maxRetriesBase: maxRetriesBase,
+            availableCapacity: availableCapacity,
+            maxCapacity: maxCapacity,
+            useNewRetries2026: true
+        )
         subject = DefaultRetryStrategy(options: retryStrategyOptions)
         subject.sleeper = { self.next.actualDelay = ($0 != 0.0) ? $0 : nil }
 
