@@ -501,8 +501,6 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSIvschat](/sdk-for-swift/latest/api/awsivschat/documentation/awsivschat)
 
-[AWSJMES](/sdk-for-swift/latest/api/awsjmes/documentation/awsjmes)
-
 [AWSKMS](/sdk-for-swift/latest/api/awskms/documentation/awskms)
 
 [AWSKafka](/sdk-for-swift/latest/api/awskafka/documentation/awskafka)
