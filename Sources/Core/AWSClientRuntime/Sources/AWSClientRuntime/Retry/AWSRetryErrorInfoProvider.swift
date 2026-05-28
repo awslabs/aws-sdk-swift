@@ -63,7 +63,6 @@ public enum AWSRetryErrorInfoProvider: RetryErrorInfoProvider {
         let isDynamoDB = sdkID == "DynamoDB" || sdkID == "DynamoDB Streams"
         let isSTS = sdkID == "STS"
         return { error in
-            // Always runs; not gated.
             if isSTS, isSTSOnlyTransient(error) {
                 return applyRetryAfterHeader(
                     info: RetryErrorInfo(errorType: .transient, retryAfterHint: nil, isTimeout: false),
@@ -140,7 +139,8 @@ public enum AWSRetryErrorInfoProvider: RetryErrorInfoProvider {
         }
 
         // If custom AWS error matching fails, use the default error info provider to finish matching.
-        return DefaultRetryErrorInfoProvider.errorInfo(for: error)
+        guard let info = DefaultRetryErrorInfoProvider.errorInfo(for: error) else { return nil }
+        return applyRetryAfterHeader(info: info, error: error)
     }
 
     /// Parses `x-amz-retry-after` header (milliseconds) and applies it as retryAfterHint.

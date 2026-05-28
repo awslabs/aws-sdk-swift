@@ -23,6 +23,8 @@ public enum AWSRetryFeatures {
     }()
 
     /// Tests must reset to `nil` (e.g. in `tearDown`) so the next test
-    /// starts from the env-var-derived default.
-    @_spi(Testing) public static var testingOverride: Bool?
+    /// starts from the env-var-derived default.  XCTest runs tests serially,
+    /// so the unsynchronized access here is safe in the single test-process
+    /// model.  Do not read or write outside of test setup/teardown.
+    @_spi(Testing) public nonisolated(unsafe) static var testingOverride: Bool?
 }
