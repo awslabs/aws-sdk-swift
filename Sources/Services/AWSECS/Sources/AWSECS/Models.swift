@@ -4101,11 +4101,13 @@ extension ECSClientTypes {
 
     public enum PlatformDeviceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case gpu
+        case neuronDevice
         case sdkUnknown(Swift.String)
 
         public static var allCases: [PlatformDeviceType] {
             return [
-                .gpu
+                .gpu,
+                .neuronDevice
             ]
         }
 
@@ -4117,6 +4119,7 @@ extension ECSClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .gpu: return "GPU"
+            case .neuronDevice: return "NEURON_DEVICE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -4125,12 +4128,12 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
-    /// The devices that are available on the container instance. The only supported device type is a GPU.
+    /// The devices that are available on the container instance. The supported device types are GPUs and Neuron devices.
     public struct PlatformDevice: Swift.Sendable {
-        /// The ID for the GPUs on the container instance. The available GPU IDs can also be obtained on the container instance in the /var/lib/ecs/gpu/nvidia_gpu_info.json file.
+        /// The ID for the GPU or Neuron device on the container instance. For GPUs, the available GPU IDs can also be obtained on the container instance in the /var/lib/ecs/gpu/nvidia_gpu_info.json file. For Neuron devices, the ID corresponds to the device index (for example, 0 for /dev/neuron0).
         /// This member is required.
         public var id: Swift.String?
-        /// The type of device that's available on the container instance. The only supported value is GPU.
+        /// The type of device that's available on the container instance. The supported values are GPU and NEURON_DEVICE.
         /// This member is required.
         public var type: ECSClientTypes.PlatformDeviceType?
 
@@ -4156,7 +4159,7 @@ public struct RegisterContainerInstanceInput: Swift.Sendable {
     public var instanceIdentityDocument: Swift.String?
     /// The instance identity document signature for the EC2 instance to register. This signature can be found by running the following command from the instance: curl http://169.254.169.254/latest/dynamic/instance-identity/signature/
     public var instanceIdentityDocumentSignature: Swift.String?
-    /// The devices that are available on the container instance. The only supported device type is a GPU.
+    /// The devices that are available on the container instance. The supported device types are GPUs and Neuron devices.
     public var platformDevices: [ECSClientTypes.PlatformDevice]?
     /// The metadata that you apply to the container instance to help you categorize and organize them. Each tag consists of a key and an optional value. You define both. The following basic restrictions apply to tags:
     ///
@@ -7096,12 +7099,14 @@ extension ECSClientTypes {
     public enum ResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case gpu
         case inferenceAccelerator
+        case neuronDevice
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ResourceType] {
             return [
                 .gpu,
-                .inferenceAccelerator
+                .inferenceAccelerator,
+                .neuronDevice
             ]
         }
 
@@ -7114,6 +7119,7 @@ extension ECSClientTypes {
             switch self {
             case .gpu: return "GPU"
             case .inferenceAccelerator: return "InferenceAccelerator"
+            case .neuronDevice: return "NeuronDevice"
             case let .sdkUnknown(s): return s
             }
         }
@@ -7122,12 +7128,12 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
-    /// The type and amount of a resource to assign to a container. The supported resource types are GPUs and Elastic Inference accelerators. For more information, see [Working with GPUs on Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-gpu.html) or [Working with Amazon Elastic Inference on Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-inference.html) in the Amazon Elastic Container Service Developer Guide
+    /// The type and amount of a resource to assign to a container. The supported resource types are GPUs, Neuron devices, and Elastic Inference accelerators. For more information, see [Working with GPUs on Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-gpu.html) or [Working with Amazon Elastic Inference on Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-inference.html) in the Amazon Elastic Container Service Developer Guide
     public struct ResourceRequirement: Swift.Sendable {
         /// The type of resource to assign to a container.
         /// This member is required.
         public var type: ECSClientTypes.ResourceType?
-        /// The value for the specified resource type. When the type is GPU, the value is the number of physical GPUs the Amazon ECS container agent reserves for the container. The number of GPUs that's reserved for all containers in a task can't exceed the number of available GPUs on the container instance that the task is launched on. When the type is InferenceAccelerator, the value matches the deviceName for an [InferenceAccelerator](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_InferenceAccelerator.html) specified in a task definition.
+        /// The value for the specified resource type. When the type is GPU, the value is the number of physical GPUs the Amazon ECS container agent reserves for the container. The number of GPUs that's reserved for all containers in a task can't exceed the number of available GPUs on the container instance that the task is launched on. You can also specify ALL to allocate all available GPUs on the instance to the container. When the type is NeuronDevice, the value must be ALL. This allocates all available Neuron devices on the instance to the container. Only one container in a task can specify NeuronDevice resources. This resource type is only supported on Managed Instances. When the type is InferenceAccelerator, the value matches the deviceName for an [InferenceAccelerator](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_InferenceAccelerator.html) specified in a task definition.
         /// This member is required.
         public var value: Swift.String?
 
@@ -7278,7 +7284,7 @@ extension ECSClientTypes {
         public var readonlyRootFilesystem: Swift.Bool?
         /// The private repository authentication credentials to use.
         public var repositoryCredentials: ECSClientTypes.RepositoryCredentials?
-        /// The type and amount of a resource to assign to a container. The only supported resource is a GPU.
+        /// The type and amount of a resource to assign to a container. The supported resources are GPUs and Neuron devices.
         public var resourceRequirements: [ECSClientTypes.ResourceRequirement]?
         /// The restart policy for a container. When you set up a restart policy, Amazon ECS can restart the container without needing to replace the task. For more information, see [Restart individual containers in Amazon ECS tasks with container restart policies](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/container-restart-policy.html) in the Amazon Elastic Container Service Developer Guide.
         public var restartPolicy: ECSClientTypes.ContainerRestartPolicy?
@@ -13366,6 +13372,8 @@ extension ECSClientTypes {
         public var networkBindings: [ECSClientTypes.NetworkBinding]?
         /// The network interfaces associated with the container.
         public var networkInterfaces: [ECSClientTypes.NetworkInterface]?
+        /// The IDs of each Neuron device assigned to the container.
+        public var neuronDeviceIds: [Swift.String]?
         /// A short (1024 max characters) human-readable string to provide additional details about a running or stopped container.
         public var reason: Swift.String?
         /// The ID of the Docker container.
@@ -13388,6 +13396,7 @@ extension ECSClientTypes {
             name: Swift.String? = nil,
             networkBindings: [ECSClientTypes.NetworkBinding]? = nil,
             networkInterfaces: [ECSClientTypes.NetworkInterface]? = nil,
+            neuronDeviceIds: [Swift.String]? = nil,
             reason: Swift.String? = nil,
             runtimeId: Swift.String? = nil,
             taskArn: Swift.String? = nil
@@ -13406,6 +13415,7 @@ extension ECSClientTypes {
             self.name = name
             self.networkBindings = networkBindings
             self.networkInterfaces = networkInterfaces
+            self.neuronDeviceIds = neuronDeviceIds
             self.reason = reason
             self.runtimeId = runtimeId
             self.taskArn = taskArn
@@ -13450,7 +13460,7 @@ extension ECSClientTypes {
         public var memoryReservation: Swift.Int?
         /// The name of the container that receives the override. This parameter is required if any override is specified.
         public var name: Swift.String?
-        /// The type and amount of a resource to assign to a container, instead of the default value from the task definition. The only supported resource is a GPU.
+        /// The type and amount of a resource to assign to a container, instead of the default value from the task definition. The supported resources are GPUs and Neuron devices.
         public var resourceRequirements: [ECSClientTypes.ResourceRequirement]?
 
         public init(

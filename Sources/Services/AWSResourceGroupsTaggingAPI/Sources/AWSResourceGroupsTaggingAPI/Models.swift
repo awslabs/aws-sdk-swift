@@ -21,16 +21,20 @@ extension ResourceGroupsTaggingAPIClientTypes {
         public var complianceStatus: Swift.Bool?
         /// These are keys defined in the effective policy that are on the resource with either incorrect case treatment or noncompliant values.
         public var keysWithNoncompliantValues: [Swift.String]?
+        /// These tag keys are defined as required in the report_required_tag_for block of the effective tag policy, but are missing from the resource.
+        public var missingTagKeys: [Swift.String]?
         /// These tag keys on the resource are noncompliant with the effective tag policy.
         public var noncompliantKeys: [Swift.String]?
 
         public init(
             complianceStatus: Swift.Bool? = nil,
             keysWithNoncompliantValues: [Swift.String]? = nil,
+            missingTagKeys: [Swift.String]? = nil,
             noncompliantKeys: [Swift.String]? = nil
         ) {
             self.complianceStatus = complianceStatus
             self.keysWithNoncompliantValues = keysWithNoncompliantValues
+            self.missingTagKeys = missingTagKeys
             self.noncompliantKeys = noncompliantKeys
         }
     }
