@@ -32,11 +32,6 @@ rm -rf Sources/Core/AWSSDKIdentity/InternalClients/*
 # Move generated Swift code into place in the Sources/ dir
 ./gradlew -p codegen/sdk-codegen stageSdks
 
-# AWSJMES is a smithy-codegen test fixture, not a real SDK. Removing keeps it
-# out of Package.swift so SCP build_model can register a JMES custom model
-# without target-name collision.
-rm -rf Sources/Services/AWSJMES Tests/Services/AWSJMESTests
-
 # Regenerate the package manifest and doc index, with args passed into this script
 cd AWSSDKSwiftCLI
 unset AWS_SWIFT_SDK_USE_LOCAL_DEPS
