@@ -156,8 +156,6 @@ class AWSRetryErrorInfoProviderTests: XCTestCase {
         XCTAssertNil(errorInfo?.backoffMultiplier)
     }
 
-    // MARK: - Gate off
-
     func test_retryAfterHeader_ignoredWhenNewRetries2026Disabled() throws {
         AWSRetryFeatures.testingOverride = false
         let errorInfo = try AWSRetryErrorInfoProvider.errorInfo(
