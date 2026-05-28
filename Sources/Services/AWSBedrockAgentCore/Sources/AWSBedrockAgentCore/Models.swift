@@ -1180,6 +1180,7 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes {
 
+    /// The comparison operator used to filter CloudWatch Logs entries.
     public enum CloudWatchLogsFilterOperator: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case contains
         case equals
@@ -3218,6 +3219,7 @@ public struct DeleteBatchEvaluationInput: Swift.Sendable {
 
 extension BedrockAgentCoreClientTypes {
 
+    /// The lifecycle status of a batch evaluation job.
     public enum BatchEvaluationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case completed
         case completedWithErrors
@@ -3299,6 +3301,7 @@ public struct DeleteRecommendationInput: Swift.Sendable {
 
 extension BedrockAgentCoreClientTypes {
 
+    /// The lifecycle status of a recommendation.
     public enum RecommendationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case completed
         case deleting
@@ -3450,7 +3453,7 @@ extension BedrockAgentCoreClientTypes {
     public struct EvaluationReferenceInput: Swift.Sendable {
         /// A list of assertion statements for session-level evaluation. Each assertion describes an expected behavior or outcome the agent should demonstrate during the session.
         public var assertions: [BedrockAgentCoreClientTypes.EvaluationContent]?
-        /// The contextual information associated with an evaluation, including span context details that identify the specific traces and sessions being evaluated within the agent's execution flow.
+        /// The span context that identifies which session or trace this reference input applies to, used for correlating ground truth with agent output.
         /// This member is required.
         public var context: BedrockAgentCoreClientTypes.Context?
         /// The expected response for trace-level evaluation. Built-in evaluators that support this field compare the agent's actual response against this value for assessment. Custom evaluators can access it through the {expected_response} placeholder in their instructions.
@@ -3797,7 +3800,7 @@ extension BedrockAgentCoreClientTypes {
 
     /// Configuration for the data source used in evaluation.
     public enum DataSourceConfig: Swift.Sendable {
-        /// Pull session spans from CloudWatch
+        /// Configuration for pulling agent session traces from CloudWatch Logs.
         case cloudwatchlogs(BedrockAgentCoreClientTypes.CloudWatchLogsSource)
         case sdkUnknown(Swift.String)
     }
@@ -4353,6 +4356,7 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes {
 
+    /// The type of recommendation to generate.
     public enum RecommendationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case systemPromptRecommendation
         case toolDescriptionRecommendation
@@ -4673,7 +4677,7 @@ extension BedrockAgentCoreClientTypes {
     public struct InlineGroundTruth: Swift.Sendable {
         /// Assertions for evaluation, reuses common model EvaluationContentList.
         public var assertions: [BedrockAgentCoreClientTypes.EvaluationContent]?
-        /// expectedTrajectory for evaluation, reuses common model EvaluationExpectedTrajectory
+        /// The expected tool call sequence for trajectory evaluation.
         public var expectedTrajectory: BedrockAgentCoreClientTypes.EvaluationExpectedTrajectory?
         /// A list of per-turn ground truth data, each containing an input prompt and expected response.
         public var turns: [BedrockAgentCoreClientTypes.GroundTruthTurn]?
@@ -4694,7 +4698,7 @@ extension BedrockAgentCoreClientTypes {
 
     /// Where to pull ground truth from.
     public enum GroundTruthSource: Swift.Sendable {
-        /// Provide ground truth inline
+        /// Inline ground truth data provided directly in the request.
         case inline(BedrockAgentCoreClientTypes.InlineGroundTruth)
         case sdkUnknown(Swift.String)
     }
@@ -6268,8 +6272,47 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes {
 
+    public enum HarnessBedrockApiFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Use the Chat Completions API format.
+        case chatCompletions
+        /// Use the Bedrock Converse Stream API format.
+        case converseStream
+        /// Use the Responses API format.
+        case responses
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HarnessBedrockApiFormat] {
+            return [
+                .chatCompletions,
+                .converseStream,
+                .responses
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .chatCompletions: return "chat_completions"
+            case .converseStream: return "converse_stream"
+            case .responses: return "responses"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
     /// Configuration for an Amazon Bedrock model provider.
     public struct HarnessBedrockModelConfig: Swift.Sendable {
+        /// Provider-specific parameters passed through to the model provider unchanged.
+        public var additionalParams: Smithy.Document?
+        /// The API format to use when calling the Bedrock provider.
+        public var apiFormat: BedrockAgentCoreClientTypes.HarnessBedrockApiFormat?
         /// The maximum number of tokens to allow in the generated response per iteration.
         public var maxTokens: Swift.Int?
         /// The Bedrock model ID.
@@ -6281,11 +6324,15 @@ extension BedrockAgentCoreClientTypes {
         public var topp: Swift.Float?
 
         public init(
+            additionalParams: Smithy.Document? = nil,
+            apiFormat: BedrockAgentCoreClientTypes.HarnessBedrockApiFormat? = nil,
             maxTokens: Swift.Int? = nil,
             modelId: Swift.String? = nil,
             temperature: Swift.Float? = nil,
             topp: Swift.Float? = nil
         ) {
+            self.additionalParams = additionalParams
+            self.apiFormat = apiFormat
             self.maxTokens = maxTokens
             self.modelId = modelId
             self.temperature = temperature
@@ -6333,8 +6380,88 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes {
 
+    /// Configuration for a LiteLLM model provider, enabling connection to third-party model providers.
+    public struct HarnessLiteLlmModelConfig: Swift.Sendable {
+        /// Provider-specific parameters passed through to the model provider unchanged.
+        public var additionalParams: Smithy.Document?
+        /// The base URL for the model provider's API endpoint.
+        public var apiBase: Swift.String?
+        /// The ARN of the API key in AgentCore Identity for authenticating with the model provider.
+        public var apiKeyArn: Swift.String?
+        /// The maximum number of tokens to allow in the generated response per iteration.
+        public var maxTokens: Swift.Int?
+        /// The LiteLLM model identifier (e.g., "anthropic/claude-3-sonnet").
+        /// This member is required.
+        public var modelId: Swift.String?
+        /// The temperature to set when calling the model.
+        public var temperature: Swift.Float?
+        /// The topP set when calling the model.
+        public var topp: Swift.Float?
+
+        public init(
+            additionalParams: Smithy.Document? = nil,
+            apiBase: Swift.String? = nil,
+            apiKeyArn: Swift.String? = nil,
+            maxTokens: Swift.Int? = nil,
+            modelId: Swift.String? = nil,
+            temperature: Swift.Float? = nil,
+            topp: Swift.Float? = nil
+        ) {
+            self.additionalParams = additionalParams
+            self.apiBase = apiBase
+            self.apiKeyArn = apiKeyArn
+            self.maxTokens = maxTokens
+            self.modelId = modelId
+            self.temperature = temperature
+            self.topp = topp
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.HarnessLiteLlmModelConfig: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "HarnessLiteLlmModelConfig(additionalParams: \(Swift.String(describing: additionalParams)), apiKeyArn: \(Swift.String(describing: apiKeyArn)), maxTokens: \(Swift.String(describing: maxTokens)), modelId: \(Swift.String(describing: modelId)), temperature: \(Swift.String(describing: temperature)), topp: \(Swift.String(describing: topp)), apiBase: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    public enum HarnessOpenAiApiFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Use the Chat Completions API format.
+        case chatCompletions
+        /// Use the Responses API format.
+        case responses
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HarnessOpenAiApiFormat] {
+            return [
+                .chatCompletions,
+                .responses
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .chatCompletions: return "chat_completions"
+            case .responses: return "responses"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
     /// Configuration for an OpenAI model provider. Requires an API key stored in AgentCore Identity.
     public struct HarnessOpenAiModelConfig: Swift.Sendable {
+        /// Provider-specific parameters passed through to the model provider unchanged.
+        public var additionalParams: Smithy.Document?
+        /// The API format to use when calling the OpenAI provider.
+        public var apiFormat: BedrockAgentCoreClientTypes.HarnessOpenAiApiFormat?
         /// The ARN of your OpenAI API key on AgentCore Identity.
         /// This member is required.
         public var apiKeyArn: Swift.String?
@@ -6349,12 +6476,16 @@ extension BedrockAgentCoreClientTypes {
         public var topp: Swift.Float?
 
         public init(
+            additionalParams: Smithy.Document? = nil,
+            apiFormat: BedrockAgentCoreClientTypes.HarnessOpenAiApiFormat? = nil,
             apiKeyArn: Swift.String? = nil,
             maxTokens: Swift.Int? = nil,
             modelId: Swift.String? = nil,
             temperature: Swift.Float? = nil,
             topp: Swift.Float? = nil
         ) {
+            self.additionalParams = additionalParams
+            self.apiFormat = apiFormat
             self.apiKeyArn = apiKeyArn
             self.maxTokens = maxTokens
             self.modelId = modelId
@@ -6374,7 +6505,69 @@ extension BedrockAgentCoreClientTypes {
         case openaimodelconfig(BedrockAgentCoreClientTypes.HarnessOpenAiModelConfig)
         /// Configuration for a Google Gemini model.
         case geminimodelconfig(BedrockAgentCoreClientTypes.HarnessGeminiModelConfig)
+        /// The LiteLLM model configuration for connecting to third-party model providers.
+        case litellmmodelconfig(BedrockAgentCoreClientTypes.HarnessLiteLlmModelConfig)
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Authentication configuration for accessing a private git repository.
+    public struct HarnessSkillGitAuth: Swift.Sendable {
+        /// The ARN of the credential in AgentCore Identity containing the password or personal access token.
+        /// This member is required.
+        public var credentialArn: Swift.String?
+        /// Username for authentication. Defaults to 'oauth2' if not specified.
+        public var username: Swift.String?
+
+        public init(
+            credentialArn: Swift.String? = nil,
+            username: Swift.String? = nil
+        ) {
+            self.credentialArn = credentialArn
+            self.username = username
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// A git repository source for a skill.
+    public struct HarnessSkillGitSource: Swift.Sendable {
+        /// Authentication configuration for private repositories.
+        public var auth: BedrockAgentCoreClientTypes.HarnessSkillGitAuth?
+        /// Subdirectory within the repository containing the skill.
+        public var path: Swift.String?
+        /// The HTTPS URL of the git repository.
+        /// This member is required.
+        public var url: Swift.String?
+
+        public init(
+            auth: BedrockAgentCoreClientTypes.HarnessSkillGitAuth? = nil,
+            path: Swift.String? = nil,
+            url: Swift.String? = nil
+        ) {
+            self.auth = auth
+            self.path = path
+            self.url = url
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// An S3 source for a skill.
+    public struct HarnessSkillS3Source: Swift.Sendable {
+        /// The S3 URI pointing to the skill directory (e.g., s3://bucket/skills/my-skill/).
+        /// This member is required.
+        public var uri: Swift.String?
+
+        public init(
+            uri: Swift.String? = nil
+        ) {
+            self.uri = uri
+        }
     }
 }
 
@@ -6384,6 +6577,10 @@ extension BedrockAgentCoreClientTypes {
     public enum HarnessSkill: Swift.Sendable {
         /// The filesystem path to the skill definition.
         case path(Swift.String)
+        /// An S3 source containing the skill.
+        case s3(BedrockAgentCoreClientTypes.HarnessSkillS3Source)
+        /// A git repository containing the skill.
+        case git(BedrockAgentCoreClientTypes.HarnessSkillGitSource)
         case sdkUnknown(Swift.String)
     }
 }
@@ -6691,6 +6888,8 @@ public struct InvokeHarnessInput: Swift.Sendable {
     /// The session ID for the invocation. Use the same session ID across requests to continue a conversation.
     /// This member is required.
     public var runtimeSessionId: Swift.String?
+    /// An identifier for the end user making the request. This value is passed through to the runtime container.
+    public var runtimeUserId: Swift.String?
     /// The skills available to the agent for this invocation. If specified, overrides the harness default.
     public var skills: [BedrockAgentCoreClientTypes.HarnessSkill]?
     /// The system prompt to use for this invocation. If specified, overrides the harness default.
@@ -6709,6 +6908,7 @@ public struct InvokeHarnessInput: Swift.Sendable {
         messages: [BedrockAgentCoreClientTypes.HarnessMessage]? = nil,
         model: BedrockAgentCoreClientTypes.HarnessModelConfiguration? = nil,
         runtimeSessionId: Swift.String? = nil,
+        runtimeUserId: Swift.String? = nil,
         skills: [BedrockAgentCoreClientTypes.HarnessSkill]? = nil,
         systemPrompt: [BedrockAgentCoreClientTypes.HarnessSystemContentBlock]? = nil,
         timeoutSeconds: Swift.Int? = nil,
@@ -6722,6 +6922,7 @@ public struct InvokeHarnessInput: Swift.Sendable {
         self.messages = messages
         self.model = model
         self.runtimeSessionId = runtimeSessionId
+        self.runtimeUserId = runtimeUserId
         self.skills = skills
         self.systemPrompt = systemPrompt
         self.timeoutSeconds = timeoutSeconds
@@ -10908,6 +11109,9 @@ extension InvokeHarnessInput {
         if let runtimeSessionId = value.runtimeSessionId {
             items.add(SmithyHTTPAPI.Header(name: "X-Amzn-Bedrock-AgentCore-Runtime-Session-Id", value: Swift.String(runtimeSessionId)))
         }
+        if let runtimeUserId = value.runtimeUserId {
+            items.add(SmithyHTTPAPI.Header(name: "X-Amzn-Bedrock-AgentCore-Runtime-User-Id", value: Swift.String(runtimeUserId)))
+        }
         return items
     }
 }
@@ -13607,6 +13811,7 @@ enum InvokeHarnessOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "RuntimeClientError": return try RuntimeClientError.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -15689,6 +15894,8 @@ extension BedrockAgentCoreClientTypes.HarnessBedrockModelConfig {
 
     static func write(value: BedrockAgentCoreClientTypes.HarnessBedrockModelConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["additionalParams"].write(value.additionalParams)
+        try writer["apiFormat"].write(value.apiFormat)
         try writer["maxTokens"].write(value.maxTokens)
         try writer["modelId"].write(value.modelId)
         try writer["temperature"].write(value.temperature)
@@ -15822,6 +16029,20 @@ extension BedrockAgentCoreClientTypes.HarnessInlineFunctionConfig {
     }
 }
 
+extension BedrockAgentCoreClientTypes.HarnessLiteLlmModelConfig {
+
+    static func write(value: BedrockAgentCoreClientTypes.HarnessLiteLlmModelConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["additionalParams"].write(value.additionalParams)
+        try writer["apiBase"].write(value.apiBase)
+        try writer["apiKeyArn"].write(value.apiKeyArn)
+        try writer["maxTokens"].write(value.maxTokens)
+        try writer["modelId"].write(value.modelId)
+        try writer["temperature"].write(value.temperature)
+        try writer["topP"].write(value.topp)
+    }
+}
+
 extension BedrockAgentCoreClientTypes.HarnessMessage {
 
     static func write(value: BedrockAgentCoreClientTypes.HarnessMessage?, to writer: SmithyJSON.Writer) throws {
@@ -15871,6 +16092,8 @@ extension BedrockAgentCoreClientTypes.HarnessModelConfiguration {
                 try writer["bedrockModelConfig"].write(bedrockmodelconfig, with: BedrockAgentCoreClientTypes.HarnessBedrockModelConfig.write(value:to:))
             case let .geminimodelconfig(geminimodelconfig):
                 try writer["geminiModelConfig"].write(geminimodelconfig, with: BedrockAgentCoreClientTypes.HarnessGeminiModelConfig.write(value:to:))
+            case let .litellmmodelconfig(litellmmodelconfig):
+                try writer["liteLlmModelConfig"].write(litellmmodelconfig, with: BedrockAgentCoreClientTypes.HarnessLiteLlmModelConfig.write(value:to:))
             case let .openaimodelconfig(openaimodelconfig):
                 try writer["openAiModelConfig"].write(openaimodelconfig, with: BedrockAgentCoreClientTypes.HarnessOpenAiModelConfig.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
@@ -15883,6 +16106,8 @@ extension BedrockAgentCoreClientTypes.HarnessOpenAiModelConfig {
 
     static func write(value: BedrockAgentCoreClientTypes.HarnessOpenAiModelConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["additionalParams"].write(value.additionalParams)
+        try writer["apiFormat"].write(value.apiFormat)
         try writer["apiKeyArn"].write(value.apiKeyArn)
         try writer["maxTokens"].write(value.maxTokens)
         try writer["modelId"].write(value.modelId)
@@ -15947,11 +16172,42 @@ extension BedrockAgentCoreClientTypes.HarnessSkill {
     static func write(value: BedrockAgentCoreClientTypes.HarnessSkill?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .git(git):
+                try writer["git"].write(git, with: BedrockAgentCoreClientTypes.HarnessSkillGitSource.write(value:to:))
             case let .path(path):
                 try writer["path"].write(path)
+            case let .s3(s3):
+                try writer["s3"].write(s3, with: BedrockAgentCoreClientTypes.HarnessSkillS3Source.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.HarnessSkillGitAuth {
+
+    static func write(value: BedrockAgentCoreClientTypes.HarnessSkillGitAuth?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["credentialArn"].write(value.credentialArn)
+        try writer["username"].write(value.username)
+    }
+}
+
+extension BedrockAgentCoreClientTypes.HarnessSkillGitSource {
+
+    static func write(value: BedrockAgentCoreClientTypes.HarnessSkillGitSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["auth"].write(value.auth, with: BedrockAgentCoreClientTypes.HarnessSkillGitAuth.write(value:to:))
+        try writer["path"].write(value.path)
+        try writer["url"].write(value.url)
+    }
+}
+
+extension BedrockAgentCoreClientTypes.HarnessSkillS3Source {
+
+    static func write(value: BedrockAgentCoreClientTypes.HarnessSkillS3Source?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["uri"].write(value.uri)
     }
 }
 

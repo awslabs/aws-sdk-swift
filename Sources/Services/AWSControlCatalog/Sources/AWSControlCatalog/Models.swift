@@ -384,6 +384,67 @@ extension ControlCatalogClientTypes {
 
 extension ControlCatalogClientTypes {
 
+    public enum ParameterRequirementSummary: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `none`
+        case `optional`
+        case `required`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ParameterRequirementSummary] {
+            return [
+                .none,
+                .optional,
+                .required
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .none: return "NONE"
+            case .optional: return "OPTIONAL"
+            case .required: return "REQUIRED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ControlCatalogClientTypes {
+
+    public enum ControlParameterRequirement: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `optional`
+        case `required`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ControlParameterRequirement] {
+            return [
+                .optional,
+                .required
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .optional: return "OPTIONAL"
+            case .required: return "REQUIRED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ControlCatalogClientTypes {
+
     /// Five types of control parameters are supported.
     ///
     /// * AllowedRegions: List of Amazon Web Services Regions exempted from the control. Each string is expected to be an Amazon Web Services Region code. This parameter is mandatory for the OU Region deny control, CT.MULTISERVICE.PV.1. Example: ["us-east-1","us-west-2"]
@@ -399,11 +460,15 @@ extension ControlCatalogClientTypes {
         /// The parameter name. This name is the parameter key when you call [EnableControl](https://docs.aws.amazon.com/controltower/latest/APIReference/API_EnableControl.html) or [UpdateEnabledControl](https://docs.aws.amazon.com/controltower/latest/APIReference/API_UpdateEnabledControl.html).
         /// This member is required.
         public var name: Swift.String?
+        /// Indicates whether the parameter is required or optional when you enable the control.
+        public var requirement: ControlCatalogClientTypes.ControlParameterRequirement?
 
         public init(
-            name: Swift.String? = nil
+            name: Swift.String? = nil,
+            requirement: ControlCatalogClientTypes.ControlParameterRequirement? = nil
         ) {
             self.name = name
+            self.requirement = requirement
         }
     }
 }
@@ -506,13 +571,17 @@ public struct GetControlOutput: Swift.Sendable {
     /// A description of what the control does.
     /// This member is required.
     public var description: Swift.String?
-    /// A list of Amazon Web Services resource types that are governed by this control. This information helps you understand which controls can govern certain types of resources, and conversely, which resources are affected when the control is implemented. The resources are represented as Amazon Web Services CloudFormation resource types. If GovernedResources cannot be represented by available CloudFormation resource types, it’s returned as an empty list.
+    /// A list of providers whose resources are governed by this control. For example, a value of AWS indicates that the control governs Amazon Web Services resources.
+    public var governedProviders: [Swift.String]?
+    /// A list of resource types that are governed by this control. This information helps you understand which controls can govern certain types of resources, and conversely, which resources are affected when the control is implemented. For Amazon Web Services controls, the resources are represented as CloudFormation resource types. For non-Amazon Web Services controls, the resources are represented in a provider-specific format. If GovernedResources cannot be represented by available resource types, it’s returned as an empty list.
     public var governedResources: [Swift.String]?
     /// Returns information about the control, as an ImplementationDetails object that shows the underlying implementation type for a control.
     public var implementation: ControlCatalogClientTypes.ImplementationDetails?
     /// The display name of the control.
     /// This member is required.
     public var name: Swift.String?
+    /// A summary that indicates whether the control requires parameters, accepts optional parameters, or does not support parameters. Use this field to determine whether you need to supply parameter values when you enable the control.
+    public var parameterRequirementSummary: ControlCatalogClientTypes.ParameterRequirementSummary?
     /// Returns an array of ControlParameter objects that specify the parameters a control supports. An empty list is returned for controls that don’t support parameters.
     public var parameters: [ControlCatalogClientTypes.ControlParameter]?
     /// Returns information about the control, including the scope of the control, if enabled, and the Regions in which the control is available for deployment. For more information about scope, see [Global services](https://docs.aws.amazon.com/whitepapers/latest/aws-fault-isolation-boundaries/global-services.html). If you are applying controls through an Amazon Web Services Control Tower landing zone environment, remember that the values returned in the RegionConfiguration API operation are not related to the governed Regions in your landing zone. For example, if you are governing Regions A,B,and C while the control is available in Regions A, B, C, and D, you'd see a response with DeployableRegions of A, B, C, and D for a control with REGIONAL scope, even though you may not intend to deploy the control in Region D, because you do not govern it through your landing zone.
@@ -527,9 +596,11 @@ public struct GetControlOutput: Swift.Sendable {
         behavior: ControlCatalogClientTypes.ControlBehavior? = nil,
         createTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
+        governedProviders: [Swift.String]? = nil,
         governedResources: [Swift.String]? = nil,
         implementation: ControlCatalogClientTypes.ImplementationDetails? = nil,
         name: Swift.String? = nil,
+        parameterRequirementSummary: ControlCatalogClientTypes.ParameterRequirementSummary? = nil,
         parameters: [ControlCatalogClientTypes.ControlParameter]? = nil,
         regionConfiguration: ControlCatalogClientTypes.RegionConfiguration? = nil,
         severity: ControlCatalogClientTypes.ControlSeverity? = nil
@@ -539,9 +610,11 @@ public struct GetControlOutput: Swift.Sendable {
         self.behavior = behavior
         self.createTime = createTime
         self.description = description
+        self.governedProviders = governedProviders
         self.governedResources = governedResources
         self.implementation = implementation
         self.name = name
+        self.parameterRequirementSummary = parameterRequirementSummary
         self.parameters = parameters
         self.regionConfiguration = regionConfiguration
         self.severity = severity
@@ -571,12 +644,16 @@ extension ControlCatalogClientTypes {
 
     /// A structure that defines filtering criteria for the ListControls operation. You can use this filter to narrow down the list of controls based on their implementation details.
     public struct ControlFilter: Swift.Sendable {
+        /// A filter that narrows the results to controls that govern a specific provider's resources.
+        public var governedProviders: [Swift.String]?
         /// A filter that narrows the results to controls with specific implementation types or identifiers. This field allows you to find controls that are implemented by specific Amazon Web Services services or with specific service identifiers.
         public var implementations: ControlCatalogClientTypes.ImplementationFilter?
 
         public init(
+            governedProviders: [Swift.String]? = nil,
             implementations: ControlCatalogClientTypes.ImplementationFilter? = nil
         ) {
+            self.governedProviders = governedProviders
             self.implementations = implementations
         }
     }
@@ -637,13 +714,17 @@ extension ControlCatalogClientTypes {
         /// A description of the control, as it may appear in the console. Describes the functionality of the control.
         /// This member is required.
         public var description: Swift.String?
-        /// A list of Amazon Web Services resource types that are governed by this control. This information helps you understand which controls can govern certain types of resources, and conversely, which resources are affected when the control is implemented. The resources are represented as Amazon Web Services CloudFormation resource types. If GovernedResources cannot be represented by available CloudFormation resource types, it’s returned as an empty list.
+        /// A list of providers whose resources are governed by this control. For example, a value of AWS indicates that the control governs Amazon Web Services resources.
+        public var governedProviders: [Swift.String]?
+        /// A list of resource types that are governed by this control. This information helps you understand which controls can govern certain types of resources, and conversely, which resources are affected when the control is implemented. For Amazon Web Services controls, the resources are represented as CloudFormation resource types. For non-Amazon Web Services controls, the resources are represented in a provider-specific format. If GovernedResources cannot be represented by available resource types, it’s returned as an empty list.
         public var governedResources: [Swift.String]?
         /// An object of type ImplementationSummary that describes how the control is implemented.
         public var implementation: ControlCatalogClientTypes.ImplementationSummary?
         /// The display name of the control.
         /// This member is required.
         public var name: Swift.String?
+        /// A summary that indicates whether the control requires parameters, accepts optional parameters, or does not support parameters. Use this field to determine whether you need to supply parameter values when you enable the control.
+        public var parameterRequirementSummary: ControlCatalogClientTypes.ParameterRequirementSummary?
         /// An enumerated type, with the following possible values:
         public var severity: ControlCatalogClientTypes.ControlSeverity?
 
@@ -653,9 +734,11 @@ extension ControlCatalogClientTypes {
             behavior: ControlCatalogClientTypes.ControlBehavior? = nil,
             createTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
+            governedProviders: [Swift.String]? = nil,
             governedResources: [Swift.String]? = nil,
             implementation: ControlCatalogClientTypes.ImplementationSummary? = nil,
             name: Swift.String? = nil,
+            parameterRequirementSummary: ControlCatalogClientTypes.ParameterRequirementSummary? = nil,
             severity: ControlCatalogClientTypes.ControlSeverity? = nil
         ) {
             self.aliases = aliases
@@ -663,9 +746,11 @@ extension ControlCatalogClientTypes {
             self.behavior = behavior
             self.createTime = createTime
             self.description = description
+            self.governedProviders = governedProviders
             self.governedResources = governedResources
             self.implementation = implementation
             self.name = name
+            self.parameterRequirementSummary = parameterRequirementSummary
             self.severity = severity
         }
     }
@@ -1237,9 +1322,11 @@ extension GetControlOutput {
         value.behavior = try reader["Behavior"].readIfPresent() ?? .sdkUnknown("")
         value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.description = try reader["Description"].readIfPresent() ?? ""
+        value.governedProviders = try reader["GovernedProviders"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.governedResources = try reader["GovernedResources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.implementation = try reader["Implementation"].readIfPresent(with: ControlCatalogClientTypes.ImplementationDetails.read(from:))
         value.name = try reader["Name"].readIfPresent() ?? ""
+        value.parameterRequirementSummary = try reader["ParameterRequirementSummary"].readIfPresent()
         value.parameters = try reader["Parameters"].readListIfPresent(memberReadingClosure: ControlCatalogClientTypes.ControlParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.regionConfiguration = try reader["RegionConfiguration"].readIfPresent(with: ControlCatalogClientTypes.RegionConfiguration.read(from:))
         value.severity = try reader["Severity"].readIfPresent()
@@ -1540,6 +1627,7 @@ extension ControlCatalogClientTypes.ControlFilter {
 
     static func write(value: ControlCatalogClientTypes.ControlFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["GovernedProviders"].writeList(value.governedProviders, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Implementations"].write(value.implementations, with: ControlCatalogClientTypes.ImplementationFilter.write(value:to:))
     }
 }
@@ -1572,6 +1660,7 @@ extension ControlCatalogClientTypes.ControlParameter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ControlCatalogClientTypes.ControlParameter()
         value.name = try reader["Name"].readIfPresent() ?? ""
+        value.requirement = try reader["Requirement"].readIfPresent()
         return value
     }
 }
@@ -1587,9 +1676,11 @@ extension ControlCatalogClientTypes.ControlSummary {
         value.description = try reader["Description"].readIfPresent() ?? ""
         value.behavior = try reader["Behavior"].readIfPresent()
         value.severity = try reader["Severity"].readIfPresent()
+        value.parameterRequirementSummary = try reader["ParameterRequirementSummary"].readIfPresent()
         value.implementation = try reader["Implementation"].readIfPresent(with: ControlCatalogClientTypes.ImplementationSummary.read(from:))
         value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.governedResources = try reader["GovernedResources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.governedProviders = try reader["GovernedProviders"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

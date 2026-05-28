@@ -2035,6 +2035,7 @@ extension AppStreamClient {
     /// - `DryRunOperationException` : The exception that is thrown when a dry run operation is requested. This indicates that the validation checks have been performed successfully, but no actual resources were created or modified.
     /// - `IncompatibleImageException` : The image can't be updated because it's not compatible for updates.
     /// - `InvalidAccountStatusException` : The resource cannot be created because your AWS account is suspended. For assistance, contact AWS Support.
+    /// - `InvalidParameterCombinationException` : Indicates an incorrect combination of parameters, or a missing parameter.
     /// - `InvalidRoleException` : The specified role is invalid.
     /// - `LimitExceededException` : The requested limit exceeds the permitted limit for an account.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
