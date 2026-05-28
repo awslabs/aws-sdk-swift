@@ -2109,6 +2109,25 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// Maps an audio selector in the channel to a feed input on the associated Elemental Inference feed.
+    public struct AudioFeedInput: Swift.Sendable {
+        /// The name of the audio selector in the channel that will be sent to the Elemental Inference feed input.
+        public var audioSelectorName: Swift.String?
+        /// The name of the feed input on the Elemental Inference feed that will receive the audio from the specified audio selector.
+        public var feedInput: Swift.String?
+
+        public init(
+            audioSelectorName: Swift.String? = nil,
+            feedInput: Swift.String? = nil
+        ) {
+            self.audioSelectorName = audioSelectorName
+            self.feedInput = feedInput
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// Audio Hls Rendition Selection
     public struct AudioHlsRenditionSelection: Swift.Sendable {
         /// Specifies the GROUP-ID in the #EXT-X-MEDIA tag of the target HLS audio rendition.
@@ -3852,6 +3871,55 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// Controls how MediaLive synchronizes Elemental Inference generated subtitles with video output. video_aligned_captions - MediaLive delays video to ensure captions are synchronized with audio and video. no_video_delay - MediaLive does not delay video for caption alignment. Captions output timing is adjusted to align with video as captions become available.
+    public enum CaptionSynchronizationMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case noVideoDelay
+        case videoAlignedCaptions
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CaptionSynchronizationMode] {
+            return [
+                .noVideoDelay,
+                .videoAlignedCaptions
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .noVideoDelay: return "NO_VIDEO_DELAY"
+            case .videoAlignedCaptions: return "VIDEO_ALIGNED_CAPTIONS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// Smart Subtitle Source Settings
+    public struct SmartSubtitleSourceSettings: Swift.Sendable {
+        /// Controls whether MediaLive delays video to synchronize captions with audio and video output.
+        public var captionSynchronizationMode: MediaLiveClientTypes.CaptionSynchronizationMode?
+        /// The name of the Elemental Inference feed output that supplies subtitle input into this caption selector.
+        public var inferenceFeedOutput: Swift.String?
+
+        public init(
+            captionSynchronizationMode: MediaLiveClientTypes.CaptionSynchronizationMode? = nil,
+            inferenceFeedOutput: Swift.String? = nil
+        ) {
+            self.captionSynchronizationMode = captionSynchronizationMode
+            self.inferenceFeedOutput = inferenceFeedOutput
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// Caption Rectangle
     public struct CaptionRectangle: Swift.Sendable {
         /// See the description in leftOffset. For height, specify the entire height of the rectangle as a percentage of the underlying frame height. For example, "80" means the rectangle height is 80% of the underlying frame height. The topOffset and rectangleHeight must add up to 100% or less. This field corresponds to tts:extent - Y in the TTML standard.
@@ -3916,6 +3984,8 @@ extension MediaLiveClientTypes {
         public var scte20SourceSettings: MediaLiveClientTypes.Scte20SourceSettings?
         /// Scte27 Source Settings
         public var scte27SourceSettings: MediaLiveClientTypes.Scte27SourceSettings?
+        /// Smart Subtitle Source Settings
+        public var smartSubtitleSourceSettings: MediaLiveClientTypes.SmartSubtitleSourceSettings?
         /// Teletext Source Settings
         public var teletextSourceSettings: MediaLiveClientTypes.TeletextSourceSettings?
 
@@ -3926,6 +3996,7 @@ extension MediaLiveClientTypes {
             embeddedSourceSettings: MediaLiveClientTypes.EmbeddedSourceSettings? = nil,
             scte20SourceSettings: MediaLiveClientTypes.Scte20SourceSettings? = nil,
             scte27SourceSettings: MediaLiveClientTypes.Scte27SourceSettings? = nil,
+            smartSubtitleSourceSettings: MediaLiveClientTypes.SmartSubtitleSourceSettings? = nil,
             teletextSourceSettings: MediaLiveClientTypes.TeletextSourceSettings? = nil
         ) {
             self.ancillarySourceSettings = ancillarySourceSettings
@@ -3934,6 +4005,7 @@ extension MediaLiveClientTypes {
             self.embeddedSourceSettings = embeddedSourceSettings
             self.scte20SourceSettings = scte20SourceSettings
             self.scte27SourceSettings = scte27SourceSettings
+            self.smartSubtitleSourceSettings = smartSubtitleSourceSettings
             self.teletextSourceSettings = teletextSourceSettings
         }
     }
@@ -4426,12 +4498,16 @@ extension MediaLiveClientTypes {
 
     /// Configures Elemental Inference features in a channel.
     public struct DescribeInferenceSettings: Swift.Sendable {
+        /// A list of audio feed inputs that map audio selectors in the channel to feed inputs on the associated Elemental Inference feed.
+        public var audioFeedInputs: [MediaLiveClientTypes.AudioFeedInput]?
         /// The ARN of the feed resource that is associated with this channel. The feed is a resource in the Elemental Inference service.
         public var feedArn: Swift.String?
 
         public init(
+            audioFeedInputs: [MediaLiveClientTypes.AudioFeedInput]? = nil,
             feedArn: Swift.String? = nil
         ) {
+            self.audioFeedInputs = audioFeedInputs
             self.feedArn = feedArn
         }
     }
@@ -21075,12 +21151,16 @@ extension MediaLiveClientTypes {
 
     /// Configures Elemental Inference features in a channel.
     public struct InferenceSettings: Swift.Sendable {
+        /// A list of audio feed inputs that map audio selectors in the channel to feed inputs on the associated Elemental Inference feed.
+        public var audioFeedInputs: [MediaLiveClientTypes.AudioFeedInput]?
         /// The ARN of the feed resource that is associated with this channel. The feed is a resource in the Elemental Inference service.
         public var feedArn: Swift.String?
 
         public init(
+            audioFeedInputs: [MediaLiveClientTypes.AudioFeedInput]? = nil,
             feedArn: Swift.String? = nil
         ) {
+            self.audioFeedInputs = audioFeedInputs
             self.feedArn = feedArn
         }
     }
@@ -35351,6 +35431,23 @@ extension MediaLiveClientTypes.AudioDolbyEDecode {
     }
 }
 
+extension MediaLiveClientTypes.AudioFeedInput {
+
+    static func write(value: MediaLiveClientTypes.AudioFeedInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["audioSelectorName"].write(value.audioSelectorName)
+        try writer["feedInput"].write(value.feedInput)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.AudioFeedInput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.AudioFeedInput()
+        value.audioSelectorName = try reader["audioSelectorName"].readIfPresent()
+        value.feedInput = try reader["feedInput"].readIfPresent()
+        return value
+    }
+}
+
 extension MediaLiveClientTypes.AudioHlsRenditionSelection {
 
     static func write(value: MediaLiveClientTypes.AudioHlsRenditionSelection?, to writer: SmithyJSON.Writer) throws {
@@ -35987,6 +36084,7 @@ extension MediaLiveClientTypes.CaptionSelectorSettings {
         try writer["embeddedSourceSettings"].write(value.embeddedSourceSettings, with: MediaLiveClientTypes.EmbeddedSourceSettings.write(value:to:))
         try writer["scte20SourceSettings"].write(value.scte20SourceSettings, with: MediaLiveClientTypes.Scte20SourceSettings.write(value:to:))
         try writer["scte27SourceSettings"].write(value.scte27SourceSettings, with: MediaLiveClientTypes.Scte27SourceSettings.write(value:to:))
+        try writer["smartSubtitleSourceSettings"].write(value.smartSubtitleSourceSettings, with: MediaLiveClientTypes.SmartSubtitleSourceSettings.write(value:to:))
         try writer["teletextSourceSettings"].write(value.teletextSourceSettings, with: MediaLiveClientTypes.TeletextSourceSettings.write(value:to:))
     }
 
@@ -36000,6 +36098,7 @@ extension MediaLiveClientTypes.CaptionSelectorSettings {
         value.scte20SourceSettings = try reader["scte20SourceSettings"].readIfPresent(with: MediaLiveClientTypes.Scte20SourceSettings.read(from:))
         value.scte27SourceSettings = try reader["scte27SourceSettings"].readIfPresent(with: MediaLiveClientTypes.Scte27SourceSettings.read(from:))
         value.teletextSourceSettings = try reader["teletextSourceSettings"].readIfPresent(with: MediaLiveClientTypes.TeletextSourceSettings.read(from:))
+        value.smartSubtitleSourceSettings = try reader["smartSubtitleSourceSettings"].readIfPresent(with: MediaLiveClientTypes.SmartSubtitleSourceSettings.read(from:))
         return value
     }
 }
@@ -36403,6 +36502,7 @@ extension MediaLiveClientTypes.DescribeInferenceSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.DescribeInferenceSettings()
         value.feedArn = try reader["feedArn"].readIfPresent()
+        value.audioFeedInputs = try reader["audioFeedInputs"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.AudioFeedInput.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -37833,6 +37933,7 @@ extension MediaLiveClientTypes.InferenceSettings {
 
     static func write(value: MediaLiveClientTypes.InferenceSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["audioFeedInputs"].writeList(value.audioFeedInputs, memberWritingClosure: MediaLiveClientTypes.AudioFeedInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["feedArn"].write(value.feedArn)
     }
 }
@@ -40643,6 +40744,23 @@ extension MediaLiveClientTypes.SignalMapSummary {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.SmartSubtitleSourceSettings {
+
+    static func write(value: MediaLiveClientTypes.SmartSubtitleSourceSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["captionSynchronizationMode"].write(value.captionSynchronizationMode)
+        try writer["inferenceFeedOutput"].write(value.inferenceFeedOutput)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.SmartSubtitleSourceSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.SmartSubtitleSourceSettings()
+        value.captionSynchronizationMode = try reader["captionSynchronizationMode"].readIfPresent()
+        value.inferenceFeedOutput = try reader["inferenceFeedOutput"].readIfPresent()
         return value
     }
 }

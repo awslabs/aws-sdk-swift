@@ -626,7 +626,7 @@ extension OrganizationsClient {
     /// * Approve all features request (ENABLE_ALL_FEATURES)
     ///
     ///
-    /// For more information, see [Responding to invitations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_accept-decline-invite.html) and [Enabling all features](https://docs.aws.amazon.com/organizations/latest/userguide/manage-begin-all-features-standard-migration.html#manage-approve-all-features-invite) in the Organizations User Guide.
+    /// For more information, see [Responding to invitations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_accept-decline-invite.html) and [Enabling all features](https://docs.aws.amazon.com/organizations/latest/userguide/manage-begin-all-features-standard-migration.html#manage-approve-all-features-invite) in the Organizations User Guide. When a handshake is accepted, Organizations logs membership events in CloudTrail, available only in the management account's event history. If the account was standalone and joined a new organization, an AccountJoinedOrganization event is logged with joinedMethod:Invited and joinedTime fields. If the account departed one organization and joined another, both an AccountDepartedOrganization event with departedMethod:Left and departedTime and an AccountJoinedOrganization event with joinedMethod:Invited and joinedTime are logged in their respective management accounts.
     ///
     /// - Parameter input: [no documentation found] (Type: `AcceptHandshakeInput`)
     ///
@@ -773,7 +773,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -1051,7 +1053,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -1209,7 +1213,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -1357,6 +1363,9 @@ extension OrganizationsClient {
     ///
     /// * If the Amazon Web Services account you attempt to close is linked to an Amazon Web Services GovCloud (US) account, the CloseAccount request will close both accounts. To learn important pre-closure details, see [ Closing an Amazon Web Services GovCloud (US) account](https://docs.aws.amazon.com/govcloud-us/latest/UserGuide/Closing-govcloud-account.html) in the Amazon Web Services GovCloud User Guide.
     ///
+    ///
+    /// After the permanent termination of the account after the 90-day waiting period, Organizations logs a membership event in CloudTrail. The event is an AccountDepartedOrganization event with departedMethod:Cleaned and departedTime. This event is available only in the management account's event history.
+    ///
     /// - Parameter input: [no documentation found] (Type: `CloseAccountInput`)
     ///
     /// - Returns: [no documentation found] (Type: `CloseAccountOutput`)
@@ -1474,7 +1483,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -1613,7 +1624,7 @@ extension OrganizationsClient {
     /// * Check the CloudTrail log for the CreateAccountResult event. For information on using CloudTrail with Organizations, see [Logging and monitoring in Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_security_incident-response.html#orgs_cloudtrail-integration) in the Organizations User Guide.
     ///
     ///
-    /// The user who calls the API to create an account must have the organizations:CreateAccount permission. If you enabled all features in the organization, Organizations creates the required service-linked role named AWSServiceRoleForOrganizations. For more information, see [Organizations and service-linked roles](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html#orgs_integrate_services-using_slrs) in the Organizations User Guide. If the request includes tags, then the requester must have the organizations:TagResource permission. Organizations preconfigures the new member account with a role (named OrganizationAccountAccessRole by default) that grants users in the management account administrator permissions in the new member account. Principals in the management account can assume the role. Organizations clones the company name and address information for the new account from the organization's management account. You can only call this operation from the management account. For more information about creating accounts, see [Creating a member account in your organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_create.html) in the Organizations User Guide.
+    /// Additionally, the AccountJoinedOrganization event is logged in CloudTrail and is available only in the management account's event history. This event includes joinedMethod:Created and joinedTime fields to provide context on how and when the account joined the organization. The user who calls the API to create an account must have the organizations:CreateAccount permission. If you enabled all features in the organization, Organizations creates the required service-linked role named AWSServiceRoleForOrganizations. For more information, see [Organizations and service-linked roles](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html#orgs_integrate_services-using_slrs) in the Organizations User Guide. If the request includes tags, then the requester must have the organizations:TagResource permission. Organizations preconfigures the new member account with a role (named OrganizationAccountAccessRole by default) that grants users in the management account administrator permissions in the new member account. Principals in the management account can assume the role. Organizations clones the company name and address information for the new account from the organization's management account. You can only call this operation from the management account. For more information about creating accounts, see [Creating a member account in your organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_create.html) in the Organizations User Guide.
     ///
     /// * When you create an account in an organization using the Organizations console, API, or CLI commands, the information required for the account to operate as a standalone account, such as a payment method is not automatically collected. If you must remove an account from your organization later, you can do so only after you provide the missing information. For more information, see [Considerations before removing an account from an organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_account-before-remove.html) in the Organizations User Guide.
     ///
@@ -1741,7 +1752,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -1898,7 +1911,7 @@ extension OrganizationsClient {
     /// * Check the CloudTrail log for the CreateAccountResult event. For information on using CloudTrail with Organizations, see [Logging and monitoring in Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_security_incident-response.html) in the Organizations User Guide.
     ///
     ///
-    /// When you call the CreateGovCloudAccount action, you create two accounts: a standalone account in the Amazon Web Services GovCloud (US) Region and an associated account in the commercial Region for billing and support purposes. The account in the commercial Region is automatically a member of the organization whose credentials made the request. Both accounts are associated with the same email address. A role is created in the new account in the commercial Region that allows the management account in the organization in the commercial Region to assume it. An Amazon Web Services GovCloud (US) account is then created and associated with the commercial account that you just created. A role is also created in the new Amazon Web Services GovCloud (US) account that can be assumed by the Amazon Web Services GovCloud (US) account that is associated with the management account of the commercial organization. For more information and to view a diagram that explains how account access works, see [Organizations](https://docs.aws.amazon.com/govcloud-us/latest/UserGuide/govcloud-organizations.html) in the Amazon Web Services GovCloud User Guide. For more information about creating accounts, see [Creating a member account in your organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_create.html) in the Organizations User Guide.
+    /// Additionally, the AccountJoinedOrganization event is logged in CloudTrail and is available only in the management account's event history only for the linked commercial account. This event includes joinedMethod:Created and joinedTime fields to provide context on how and when the account joined the organization. When you call the CreateGovCloudAccount action, you create two accounts: a standalone account in the Amazon Web Services GovCloud (US) Region and an associated account in the commercial Region for billing and support purposes. The account in the commercial Region is automatically a member of the organization whose credentials made the request. Both accounts are associated with the same email address. A role is created in the new account in the commercial Region that allows the management account in the organization in the commercial Region to assume it. An Amazon Web Services GovCloud (US) account is then created and associated with the commercial account that you just created. A role is also created in the new Amazon Web Services GovCloud (US) account that can be assumed by the Amazon Web Services GovCloud (US) account that is associated with the management account of the commercial organization. For more information and to view a diagram that explains how account access works, see [Organizations](https://docs.aws.amazon.com/govcloud-us/latest/UserGuide/govcloud-organizations.html) in the Amazon Web Services GovCloud User Guide. For more information about creating accounts, see [Creating a member account in your organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_create.html) in the Organizations User Guide.
     ///
     /// * When you create an account in an organization using the Organizations console, API, or CLI commands, the information required for the account to operate as a standalone account is not automatically collected. This includes a payment method and signing the end user license agreement (EULA). If you must remove an account from your organization later, you can do so only after you provide the missing information. For more information, see [Considerations before removing an account from an organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_account-before-remove.html) in the Organizations User Guide.
     ///
@@ -2026,7 +2039,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -2158,7 +2173,7 @@ extension OrganizationsClient {
 
     /// Performs the `CreateOrganization` operation on the `Organizations` service.
     ///
-    /// Creates an Amazon Web Services organization. The account whose user is calling the CreateOrganization operation automatically becomes the [management account](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account) of the new organization. This operation must be called using credentials from the account that is to become the new organization's management account. The principal must also have the relevant IAM permissions. By default (or if you set the FeatureSet parameter to ALL), the new organization is created with all features enabled and service control policies automatically enabled in the root. If you instead choose to create the organization supporting only the consolidated billing features by setting the FeatureSet parameter to CONSOLIDATED_BILLING, no policy types are enabled by default and you can't use organization policies.
+    /// Creates an Amazon Web Services organization. The account whose user is calling the CreateOrganization operation automatically becomes the [management account](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account) of the new organization. This operation must be called using credentials from the account that is to become the new organization's management account. The principal must also have the relevant IAM permissions. By default (or if you set the FeatureSet parameter to ALL), the new organization is created with all features enabled and service control policies automatically enabled in the root. If you instead choose to create the organization supporting only the consolidated billing features by setting the FeatureSet parameter to CONSOLIDATED_BILLING, no policy types are enabled by default and you can't use organization policies. The AccountJoinedOrganization event is logged in CloudTrail and is available only in the management account's event history. This event includes joinedMethod:Invited and joinedTime fields to provide context on how and when the account joined the organization.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateOrganizationInput`)
     ///
@@ -2275,7 +2290,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -2523,7 +2540,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -2772,7 +2791,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -2928,7 +2949,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -3059,7 +3082,7 @@ extension OrganizationsClient {
 
     /// Performs the `DeleteOrganization` operation on the `Organizations` service.
     ///
-    /// Deletes the organization. You can delete an organization only by using credentials from the management account. The organization must be empty of member accounts.
+    /// Deletes the organization. You can delete an organization only by using credentials from the management account. The organization must be empty of member accounts. When an organization is deleted, Organizations logs a membership event in CloudTrail. The event is an AccountDepartedOrganization event with departedMethod:Left and departedTime. This event is available only in the management account's event history.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteOrganizationInput`)
     ///
@@ -3175,7 +3198,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -3327,7 +3352,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -3480,7 +3507,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -3908,7 +3937,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -4060,7 +4091,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -4211,7 +4244,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -4459,7 +4494,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -4612,7 +4649,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -4840,7 +4879,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -4991,7 +5032,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -5318,7 +5361,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -5567,7 +5612,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -5828,7 +5875,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -6076,7 +6125,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -6327,7 +6378,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -6602,7 +6655,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -6849,7 +6904,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -7131,7 +7188,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -7406,7 +7465,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -7538,7 +7599,7 @@ extension OrganizationsClient {
 
     /// Performs the `LeaveOrganization` operation on the `Organizations` service.
     ///
-    /// Removes a member account from its parent organization. This version of the operation is performed by the account that wants to leave. To remove a member account as a user in the management account, use [RemoveAccountFromOrganization] instead. You can only call from operation from a member account.
+    /// Removes a member account from its parent organization. This version of the operation is performed by the account that wants to leave. To remove a member account as a user in the management account, use [RemoveAccountFromOrganization] instead. You can only call from operation from a member account. When an account leaves an organization, Organizations logs a membership event in CloudTrail. The event is an AccountDepartedOrganization event with departedMethod:Left and departedTime. This event is available only in the management account's event history.
     ///
     /// * The management account in an organization with all features enabled can set service control policies (SCPs) that can restrict what administrators of member accounts can do. This includes preventing them from successfully calling LeaveOrganization and leaving the organization.
     ///
@@ -7676,7 +7737,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -7923,7 +7986,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -8074,7 +8139,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -8224,7 +8291,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -8472,7 +8541,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -8623,7 +8694,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -8774,7 +8847,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -9021,7 +9096,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -9270,7 +9347,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -9519,7 +9598,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -9670,7 +9751,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -9821,7 +9904,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -10067,7 +10152,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -10219,7 +10306,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -10466,7 +10555,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -10618,7 +10709,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -10768,7 +10861,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -10919,7 +11014,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -11071,7 +11168,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -11232,7 +11331,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -11383,7 +11484,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -11539,7 +11642,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -11787,7 +11892,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -12037,7 +12144,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -12169,7 +12278,7 @@ extension OrganizationsClient {
 
     /// Performs the `RemoveAccountFromOrganization` operation on the `Organizations` service.
     ///
-    /// Removes the specified account from the organization. The removed account becomes a standalone account that isn't a member of any organization. It's no longer subject to any policies and is responsible for its own bill payments. The organization's management account is no longer charged for any expenses accrued by the member account after it's removed from the organization. You can only call this operation from the management account. Member accounts can remove themselves with [LeaveOrganization] instead.
+    /// Removes the specified account from the organization. The removed account becomes a standalone account that isn't a member of any organization. It's no longer subject to any policies and is responsible for its own bill payments. The organization's management account is no longer charged for any expenses accrued by the member account after it's removed from the organization. You can only call this operation from the management account. Member accounts can remove themselves with [LeaveOrganization] instead. When an account is removed from an organization, Organizations logs a membership event in CloudTrail. The event is an AccountDepartedOrganization event with departedMethod:Removed and departedTime. This event is available only in the management account's event history.
     ///
     /// * You can remove an account from your organization only if the account is configured with the information required to operate as a standalone account. When you create an account in an organization using the Organizations console, API, or CLI commands, the information required of standalone accounts is not automatically collected. For more information, see [Considerations before removing an account from an organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_account-before-remove.html) in the Organizations User Guide.
     ///
@@ -12292,7 +12401,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -12551,7 +12662,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -12799,7 +12912,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -13061,7 +13176,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -13214,7 +13331,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -13463,7 +13582,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -13713,7 +13834,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///

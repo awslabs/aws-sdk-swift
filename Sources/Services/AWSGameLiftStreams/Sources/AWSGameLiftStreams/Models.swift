@@ -593,7 +593,7 @@ extension GameLiftStreamsClientTypes {
 public struct CreateApplicationInput: Swift.Sendable {
     /// An Amazon S3 URI to a bucket where you would like Amazon GameLift Streams to save application logs. Required if you specify one or more ApplicationLogPaths. The log bucket must have permissions that give Amazon GameLift Streams access to write the log files. For more information, see [Application log bucket permission policy](https://docs.aws.amazon.com/gameliftstreams/latest/developerguide/applications.html#application-bucket-permission-template) in the Amazon GameLift Streams Developer Guide.
     public var applicationLogOutputUri: Swift.String?
-    /// Locations of log files that your content generates during a stream session. Enter path values that are relative to the ApplicationSourceUri location. You can specify up to 10 log paths. Amazon GameLift Streams uploads designated log files to the Amazon S3 bucket that you specify in ApplicationLogOutputUri at the end of a stream session. To retrieve stored log files, call [GetStreamSession](https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_GetStreamSession.html) and get the LogFileLocationUri.
+    /// Locations of log files that your content generates during a stream session. Enter path values that are relative to the ApplicationSourceUri location, or relative to the user's home directory when using a supported path variable. You can specify up to 10 log paths. Each individual log file cannot exceed 50 MB in size. Each path can be a directory or an exact file path. When you specify a directory, Amazon GameLift Streams collects only files with the following extensions: .txt, .log, and .utrace. To collect files with other extensions, specify the exact file path. The copy operation is not performed recursively in subfolders. The following path variables are recognized when they appear as the first component of a path: %USERPROFILE% (Windows and Proton), $HOME or ~ (Linux). Use a path variable when your application writes logs outside of the application directory. Amazon GameLift Streams uploads designated log files to the Amazon S3 bucket that you specify in ApplicationLogOutputUri at the end of a stream session. To retrieve stored log files, call [GetStreamSession](https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_GetStreamSession.html) and get the LogFileLocationUri.
     public var applicationLogPaths: [Swift.String]?
     /// The location of the content that you want to stream. Enter an Amazon S3 URI to a bucket that contains your game or other application. The location can have a multi-level prefix structure, but it must include all the files needed to run the content. Amazon GameLift Streams copies everything under the specified location. This value is immutable. To designate a different content location, create a new application. The Amazon S3 bucket and the Amazon GameLift Streams application must be in the same Amazon Web Services Region.
     /// This member is required.
@@ -1012,7 +1012,7 @@ public struct ListApplicationsOutput: Swift.Sendable {
 public struct UpdateApplicationInput: Swift.Sendable {
     /// An Amazon S3 URI to a bucket where you would like Amazon GameLift Streams to save application logs. Required if you specify one or more ApplicationLogPaths. The log bucket must have permissions that give Amazon GameLift Streams access to write the log files. For more information, see [Application log bucket permission policy](https://docs.aws.amazon.com/gameliftstreams/latest/developerguide/applications.html#application-bucket-permission-template) in the Amazon GameLift Streams Developer Guide.
     public var applicationLogOutputUri: Swift.String?
-    /// Locations of log files that your content generates during a stream session. Enter path values that are relative to the ApplicationSourceUri location. You can specify up to 10 log paths. Amazon GameLift Streams uploads designated log files to the Amazon S3 bucket that you specify in ApplicationLogOutputUri at the end of a stream session. To retrieve stored log files, call [GetStreamSession](https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_GetStreamSession.html) and get the LogFileLocationUri.
+    /// Locations of log files that your content generates during a stream session. Enter path values that are relative to the ApplicationSourceUri location, or relative to the user's home directory when using a supported path variable. You can specify up to 10 log paths. Each individual log file cannot exceed 50 MB in size. Each path can be a directory or an exact file path. When you specify a directory, Amazon GameLift Streams collects only files with the following extensions: .txt, .log, and .utrace. To collect files with other extensions, specify the exact file path. The copy operation is not performed recursively in subfolders. The following path variables are recognized when they appear as the first component of a path: %USERPROFILE% (Windows and Proton), $HOME or ~ (Linux). Use a path variable when your application writes logs outside of the application directory. Amazon GameLift Streams uploads designated log files to the Amazon S3 bucket that you specify in ApplicationLogOutputUri at the end of a stream session. To retrieve stored log files, call [GetStreamSession](https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_GetStreamSession.html) and get the LogFileLocationUri.
     public var applicationLogPaths: [Swift.String]?
     /// A human-readable label for the application.
     public var description: Swift.String?
@@ -1244,7 +1244,7 @@ public struct CreateStreamGroupInput: Swift.Sendable {
     public var locationConfigurations: [GameLiftStreamsClientTypes.LocationConfiguration]?
     /// The target stream quality for sessions that are hosted in this stream group. Set a stream class that is appropriate to the type of content that you're streaming. Stream class determines the type of computing resources Amazon GameLift Streams uses and impacts the cost of streaming. The following options are available: A stream class can be one of the following:
     ///
-    /// * gen6n_pro_win2022 (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA L4 Tensor Core GPU.
+    /// * gen6n_pro_win2022 (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Powered by NVIDIA L4 Tensor Core GPUs.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -1257,7 +1257,7 @@ public struct CreateStreamGroupInput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen6n_pro (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Uses dedicated NVIDIA L4 Tensor Core GPU.
+    /// * gen6n_pro (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Powered by NVIDIA L4 Tensor Core GPUs.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -1270,7 +1270,7 @@ public struct CreateStreamGroupInput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen6n_ultra_win2022 (NVIDIA, ultra) Supports applications with high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA L4 Tensor Core GPU.
+    /// * gen6n_ultra_win2022 (NVIDIA, ultra) Supports applications with high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Powered by NVIDIA L4 Tensor Core GPUs.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -1283,7 +1283,7 @@ public struct CreateStreamGroupInput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen6n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Uses dedicated NVIDIA L4 Tensor Core GPU.
+    /// * gen6n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Powered by NVIDIA L4 Tensor Core GPUs.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -1296,7 +1296,7 @@ public struct CreateStreamGroupInput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen6n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.
+    /// * gen6n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Powered by NVIDIA L4 Tensor Core GPUs.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -1309,7 +1309,7 @@ public struct CreateStreamGroupInput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen6n_medium (NVIDIA, medium) Supports applications with moderate 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.
+    /// * gen6n_medium (NVIDIA, medium) Supports applications with moderate 3D scene complexity. Powered by NVIDIA L4 Tensor Core GPUs.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -1322,7 +1322,7 @@ public struct CreateStreamGroupInput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen6n_small (NVIDIA, small) Supports applications with lightweight 3D scene complexity and low CPU usage. Uses NVIDIA L4 Tensor Core GPU.
+    /// * gen6n_small (NVIDIA, small) Supports applications with lightweight 3D scene complexity and low CPU usage. Powered by NVIDIA L4 Tensor Core GPUs.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -1335,7 +1335,7 @@ public struct CreateStreamGroupInput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen6n_medium_win2022 (NVIDIA, medium) Supports applications with low 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.
+    /// * gen6n_medium_win2022 (NVIDIA, medium) Supports applications with low 3D scene complexity. Powered by NVIDIA L4 Tensor Core GPUs.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -1348,7 +1348,7 @@ public struct CreateStreamGroupInput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen6n_small_win2022 (NVIDIA, small) Supports applications with low 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.
+    /// * gen6n_small_win2022 (NVIDIA, small) Supports applications with low 3D scene complexity. Powered by NVIDIA L4 Tensor Core GPUs.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -1361,7 +1361,33 @@ public struct CreateStreamGroupInput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen5n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA A10G Tensor Core GPU.
+    /// * gen6e_pro_win2022 (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Powered by NVIDIA L40S Tensor Core GPUs.
+    ///
+    /// * Reference resolution: 1080p
+    ///
+    /// * Reference frame rate: 60 fps
+    ///
+    /// * Workload specifications: 16 vCPUs, 128 GB RAM, 48 GB VRAM
+    ///
+    /// * Tenancy: Supports 1 concurrent stream session
+    ///
+    ///
+    ///
+    ///
+    /// * gen6e_pro (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Powered by NVIDIA L40S Tensor Core GPUs.
+    ///
+    /// * Reference resolution: 1080p
+    ///
+    /// * Reference frame rate: 60 fps
+    ///
+    /// * Workload specifications: 16 vCPUs, 128 GB RAM, 48 GB VRAM
+    ///
+    /// * Tenancy: Supports 1 concurrent stream session
+    ///
+    ///
+    ///
+    ///
+    /// * gen5n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Powered by NVIDIA A10G Tensor Core GPUs.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -1374,7 +1400,7 @@ public struct CreateStreamGroupInput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen5n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA A10G Tensor Core GPU.
+    /// * gen5n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Powered by NVIDIA A10G Tensor Core GPUs.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -1387,7 +1413,7 @@ public struct CreateStreamGroupInput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen5n_ultra (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Uses dedicated NVIDIA A10G Tensor Core GPU.
+    /// * gen5n_ultra (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Powered by NVIDIA A10G Tensor Core GPUs.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -1400,7 +1426,7 @@ public struct CreateStreamGroupInput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen4n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA T4 Tensor Core GPU.
+    /// * gen4n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Powered by NVIDIA T4 Tensor Core GPUs.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -1413,7 +1439,7 @@ public struct CreateStreamGroupInput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen4n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA T4 Tensor Core GPU.
+    /// * gen4n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Powered by NVIDIA T4 Tensor Core GPUs.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -1426,7 +1452,7 @@ public struct CreateStreamGroupInput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen4n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Uses dedicated NVIDIA T4 Tensor Core GPU.
+    /// * gen4n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Powered by NVIDIA T4 Tensor Core GPUs.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -1601,7 +1627,7 @@ public struct CreateStreamGroupOutput: Swift.Sendable {
     public var statusReason: GameLiftStreamsClientTypes.StreamGroupStatusReason?
     /// The target stream quality for the stream group. A stream class can be one of the following:
     ///
-    /// * gen6n_pro_win2022 (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA L4 Tensor Core GPU.
+    /// * gen6n_pro_win2022 (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Powered by NVIDIA L4 Tensor Core GPUs.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -1614,7 +1640,7 @@ public struct CreateStreamGroupOutput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen6n_pro (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Uses dedicated NVIDIA L4 Tensor Core GPU.
+    /// * gen6n_pro (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Powered by NVIDIA L4 Tensor Core GPUs.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -1627,7 +1653,7 @@ public struct CreateStreamGroupOutput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen6n_ultra_win2022 (NVIDIA, ultra) Supports applications with high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA L4 Tensor Core GPU.
+    /// * gen6n_ultra_win2022 (NVIDIA, ultra) Supports applications with high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Powered by NVIDIA L4 Tensor Core GPUs.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -1640,7 +1666,7 @@ public struct CreateStreamGroupOutput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen6n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Uses dedicated NVIDIA L4 Tensor Core GPU.
+    /// * gen6n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Powered by NVIDIA L4 Tensor Core GPUs.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -1653,7 +1679,7 @@ public struct CreateStreamGroupOutput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen6n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.
+    /// * gen6n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Powered by NVIDIA L4 Tensor Core GPUs.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -1666,7 +1692,7 @@ public struct CreateStreamGroupOutput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen6n_medium (NVIDIA, medium) Supports applications with moderate 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.
+    /// * gen6n_medium (NVIDIA, medium) Supports applications with moderate 3D scene complexity. Powered by NVIDIA L4 Tensor Core GPUs.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -1679,7 +1705,7 @@ public struct CreateStreamGroupOutput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen6n_small (NVIDIA, small) Supports applications with lightweight 3D scene complexity and low CPU usage. Uses NVIDIA L4 Tensor Core GPU.
+    /// * gen6n_small (NVIDIA, small) Supports applications with lightweight 3D scene complexity and low CPU usage. Powered by NVIDIA L4 Tensor Core GPUs.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -1692,7 +1718,7 @@ public struct CreateStreamGroupOutput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen6n_medium_win2022 (NVIDIA, medium) Supports applications with low 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.
+    /// * gen6n_medium_win2022 (NVIDIA, medium) Supports applications with low 3D scene complexity. Powered by NVIDIA L4 Tensor Core GPUs.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -1705,7 +1731,7 @@ public struct CreateStreamGroupOutput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen6n_small_win2022 (NVIDIA, small) Supports applications with low 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.
+    /// * gen6n_small_win2022 (NVIDIA, small) Supports applications with low 3D scene complexity. Powered by NVIDIA L4 Tensor Core GPUs.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -1718,7 +1744,33 @@ public struct CreateStreamGroupOutput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen5n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA A10G Tensor Core GPU.
+    /// * gen6e_pro_win2022 (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Powered by NVIDIA L40S Tensor Core GPUs.
+    ///
+    /// * Reference resolution: 1080p
+    ///
+    /// * Reference frame rate: 60 fps
+    ///
+    /// * Workload specifications: 16 vCPUs, 128 GB RAM, 48 GB VRAM
+    ///
+    /// * Tenancy: Supports 1 concurrent stream session
+    ///
+    ///
+    ///
+    ///
+    /// * gen6e_pro (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Powered by NVIDIA L40S Tensor Core GPUs.
+    ///
+    /// * Reference resolution: 1080p
+    ///
+    /// * Reference frame rate: 60 fps
+    ///
+    /// * Workload specifications: 16 vCPUs, 128 GB RAM, 48 GB VRAM
+    ///
+    /// * Tenancy: Supports 1 concurrent stream session
+    ///
+    ///
+    ///
+    ///
+    /// * gen5n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Powered by NVIDIA A10G Tensor Core GPUs.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -1731,7 +1783,7 @@ public struct CreateStreamGroupOutput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen5n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA A10G Tensor Core GPU.
+    /// * gen5n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Powered by NVIDIA A10G Tensor Core GPUs.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -1744,7 +1796,7 @@ public struct CreateStreamGroupOutput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen5n_ultra (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Uses dedicated NVIDIA A10G Tensor Core GPU.
+    /// * gen5n_ultra (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Powered by NVIDIA A10G Tensor Core GPUs.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -1757,7 +1809,7 @@ public struct CreateStreamGroupOutput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen4n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA T4 Tensor Core GPU.
+    /// * gen4n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Powered by NVIDIA T4 Tensor Core GPUs.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -1770,7 +1822,7 @@ public struct CreateStreamGroupOutput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen4n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA T4 Tensor Core GPU.
+    /// * gen4n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Powered by NVIDIA T4 Tensor Core GPUs.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -1783,7 +1835,7 @@ public struct CreateStreamGroupOutput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen4n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Uses dedicated NVIDIA T4 Tensor Core GPU.
+    /// * gen4n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Powered by NVIDIA T4 Tensor Core GPUs.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -2767,7 +2819,7 @@ public struct GetStreamGroupOutput: Swift.Sendable {
     public var statusReason: GameLiftStreamsClientTypes.StreamGroupStatusReason?
     /// The target stream quality for the stream group. A stream class can be one of the following:
     ///
-    /// * gen6n_pro_win2022 (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA L4 Tensor Core GPU.
+    /// * gen6n_pro_win2022 (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Powered by NVIDIA L4 Tensor Core GPUs.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -2780,7 +2832,7 @@ public struct GetStreamGroupOutput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen6n_pro (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Uses dedicated NVIDIA L4 Tensor Core GPU.
+    /// * gen6n_pro (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Powered by NVIDIA L4 Tensor Core GPUs.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -2793,7 +2845,7 @@ public struct GetStreamGroupOutput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen6n_ultra_win2022 (NVIDIA, ultra) Supports applications with high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA L4 Tensor Core GPU.
+    /// * gen6n_ultra_win2022 (NVIDIA, ultra) Supports applications with high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Powered by NVIDIA L4 Tensor Core GPUs.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -2806,7 +2858,7 @@ public struct GetStreamGroupOutput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen6n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Uses dedicated NVIDIA L4 Tensor Core GPU.
+    /// * gen6n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Powered by NVIDIA L4 Tensor Core GPUs.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -2819,7 +2871,7 @@ public struct GetStreamGroupOutput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen6n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.
+    /// * gen6n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Powered by NVIDIA L4 Tensor Core GPUs.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -2832,7 +2884,7 @@ public struct GetStreamGroupOutput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen6n_medium (NVIDIA, medium) Supports applications with moderate 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.
+    /// * gen6n_medium (NVIDIA, medium) Supports applications with moderate 3D scene complexity. Powered by NVIDIA L4 Tensor Core GPUs.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -2845,7 +2897,7 @@ public struct GetStreamGroupOutput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen6n_small (NVIDIA, small) Supports applications with lightweight 3D scene complexity and low CPU usage. Uses NVIDIA L4 Tensor Core GPU.
+    /// * gen6n_small (NVIDIA, small) Supports applications with lightweight 3D scene complexity and low CPU usage. Powered by NVIDIA L4 Tensor Core GPUs.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -2858,7 +2910,7 @@ public struct GetStreamGroupOutput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen6n_medium_win2022 (NVIDIA, medium) Supports applications with low 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.
+    /// * gen6n_medium_win2022 (NVIDIA, medium) Supports applications with low 3D scene complexity. Powered by NVIDIA L4 Tensor Core GPUs.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -2871,7 +2923,7 @@ public struct GetStreamGroupOutput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen6n_small_win2022 (NVIDIA, small) Supports applications with low 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.
+    /// * gen6n_small_win2022 (NVIDIA, small) Supports applications with low 3D scene complexity. Powered by NVIDIA L4 Tensor Core GPUs.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -2884,7 +2936,33 @@ public struct GetStreamGroupOutput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen5n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA A10G Tensor Core GPU.
+    /// * gen6e_pro_win2022 (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Powered by NVIDIA L40S Tensor Core GPUs.
+    ///
+    /// * Reference resolution: 1080p
+    ///
+    /// * Reference frame rate: 60 fps
+    ///
+    /// * Workload specifications: 16 vCPUs, 128 GB RAM, 48 GB VRAM
+    ///
+    /// * Tenancy: Supports 1 concurrent stream session
+    ///
+    ///
+    ///
+    ///
+    /// * gen6e_pro (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Powered by NVIDIA L40S Tensor Core GPUs.
+    ///
+    /// * Reference resolution: 1080p
+    ///
+    /// * Reference frame rate: 60 fps
+    ///
+    /// * Workload specifications: 16 vCPUs, 128 GB RAM, 48 GB VRAM
+    ///
+    /// * Tenancy: Supports 1 concurrent stream session
+    ///
+    ///
+    ///
+    ///
+    /// * gen5n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Powered by NVIDIA A10G Tensor Core GPUs.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -2897,7 +2975,7 @@ public struct GetStreamGroupOutput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen5n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA A10G Tensor Core GPU.
+    /// * gen5n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Powered by NVIDIA A10G Tensor Core GPUs.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -2910,7 +2988,7 @@ public struct GetStreamGroupOutput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen5n_ultra (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Uses dedicated NVIDIA A10G Tensor Core GPU.
+    /// * gen5n_ultra (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Powered by NVIDIA A10G Tensor Core GPUs.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -2923,7 +3001,7 @@ public struct GetStreamGroupOutput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen4n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA T4 Tensor Core GPU.
+    /// * gen4n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Powered by NVIDIA T4 Tensor Core GPUs.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -2936,7 +3014,7 @@ public struct GetStreamGroupOutput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen4n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA T4 Tensor Core GPU.
+    /// * gen4n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Powered by NVIDIA T4 Tensor Core GPUs.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -2949,7 +3027,7 @@ public struct GetStreamGroupOutput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen4n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Uses dedicated NVIDIA T4 Tensor Core GPU.
+    /// * gen4n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Powered by NVIDIA T4 Tensor Core GPUs.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -3041,7 +3119,7 @@ extension GameLiftStreamsClientTypes {
         public var status: GameLiftStreamsClientTypes.StreamGroupStatus?
         /// The target stream quality for the stream group. A stream class can be one of the following:
         ///
-        /// * gen6n_pro_win2022 (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA L4 Tensor Core GPU.
+        /// * gen6n_pro_win2022 (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Powered by NVIDIA L4 Tensor Core GPUs.
         ///
         /// * Reference resolution: 1080p
         ///
@@ -3054,7 +3132,7 @@ extension GameLiftStreamsClientTypes {
         ///
         ///
         ///
-        /// * gen6n_pro (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Uses dedicated NVIDIA L4 Tensor Core GPU.
+        /// * gen6n_pro (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Powered by NVIDIA L4 Tensor Core GPUs.
         ///
         /// * Reference resolution: 1080p
         ///
@@ -3067,7 +3145,7 @@ extension GameLiftStreamsClientTypes {
         ///
         ///
         ///
-        /// * gen6n_ultra_win2022 (NVIDIA, ultra) Supports applications with high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA L4 Tensor Core GPU.
+        /// * gen6n_ultra_win2022 (NVIDIA, ultra) Supports applications with high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Powered by NVIDIA L4 Tensor Core GPUs.
         ///
         /// * Reference resolution: 1080p
         ///
@@ -3080,7 +3158,7 @@ extension GameLiftStreamsClientTypes {
         ///
         ///
         ///
-        /// * gen6n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Uses dedicated NVIDIA L4 Tensor Core GPU.
+        /// * gen6n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Powered by NVIDIA L4 Tensor Core GPUs.
         ///
         /// * Reference resolution: 1080p
         ///
@@ -3093,7 +3171,7 @@ extension GameLiftStreamsClientTypes {
         ///
         ///
         ///
-        /// * gen6n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.
+        /// * gen6n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Powered by NVIDIA L4 Tensor Core GPUs.
         ///
         /// * Reference resolution: 1080p
         ///
@@ -3106,7 +3184,7 @@ extension GameLiftStreamsClientTypes {
         ///
         ///
         ///
-        /// * gen6n_medium (NVIDIA, medium) Supports applications with moderate 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.
+        /// * gen6n_medium (NVIDIA, medium) Supports applications with moderate 3D scene complexity. Powered by NVIDIA L4 Tensor Core GPUs.
         ///
         /// * Reference resolution: 1080p
         ///
@@ -3119,7 +3197,7 @@ extension GameLiftStreamsClientTypes {
         ///
         ///
         ///
-        /// * gen6n_small (NVIDIA, small) Supports applications with lightweight 3D scene complexity and low CPU usage. Uses NVIDIA L4 Tensor Core GPU.
+        /// * gen6n_small (NVIDIA, small) Supports applications with lightweight 3D scene complexity and low CPU usage. Powered by NVIDIA L4 Tensor Core GPUs.
         ///
         /// * Reference resolution: 1080p
         ///
@@ -3132,7 +3210,7 @@ extension GameLiftStreamsClientTypes {
         ///
         ///
         ///
-        /// * gen6n_medium_win2022 (NVIDIA, medium) Supports applications with low 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.
+        /// * gen6n_medium_win2022 (NVIDIA, medium) Supports applications with low 3D scene complexity. Powered by NVIDIA L4 Tensor Core GPUs.
         ///
         /// * Reference resolution: 1080p
         ///
@@ -3145,7 +3223,7 @@ extension GameLiftStreamsClientTypes {
         ///
         ///
         ///
-        /// * gen6n_small_win2022 (NVIDIA, small) Supports applications with low 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.
+        /// * gen6n_small_win2022 (NVIDIA, small) Supports applications with low 3D scene complexity. Powered by NVIDIA L4 Tensor Core GPUs.
         ///
         /// * Reference resolution: 1080p
         ///
@@ -3158,7 +3236,33 @@ extension GameLiftStreamsClientTypes {
         ///
         ///
         ///
-        /// * gen5n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA A10G Tensor Core GPU.
+        /// * gen6e_pro_win2022 (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Powered by NVIDIA L40S Tensor Core GPUs.
+        ///
+        /// * Reference resolution: 1080p
+        ///
+        /// * Reference frame rate: 60 fps
+        ///
+        /// * Workload specifications: 16 vCPUs, 128 GB RAM, 48 GB VRAM
+        ///
+        /// * Tenancy: Supports 1 concurrent stream session
+        ///
+        ///
+        ///
+        ///
+        /// * gen6e_pro (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Powered by NVIDIA L40S Tensor Core GPUs.
+        ///
+        /// * Reference resolution: 1080p
+        ///
+        /// * Reference frame rate: 60 fps
+        ///
+        /// * Workload specifications: 16 vCPUs, 128 GB RAM, 48 GB VRAM
+        ///
+        /// * Tenancy: Supports 1 concurrent stream session
+        ///
+        ///
+        ///
+        ///
+        /// * gen5n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Powered by NVIDIA A10G Tensor Core GPUs.
         ///
         /// * Reference resolution: 1080p
         ///
@@ -3171,7 +3275,7 @@ extension GameLiftStreamsClientTypes {
         ///
         ///
         ///
-        /// * gen5n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA A10G Tensor Core GPU.
+        /// * gen5n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Powered by NVIDIA A10G Tensor Core GPUs.
         ///
         /// * Reference resolution: 1080p
         ///
@@ -3184,7 +3288,7 @@ extension GameLiftStreamsClientTypes {
         ///
         ///
         ///
-        /// * gen5n_ultra (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Uses dedicated NVIDIA A10G Tensor Core GPU.
+        /// * gen5n_ultra (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Powered by NVIDIA A10G Tensor Core GPUs.
         ///
         /// * Reference resolution: 1080p
         ///
@@ -3197,7 +3301,7 @@ extension GameLiftStreamsClientTypes {
         ///
         ///
         ///
-        /// * gen4n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA T4 Tensor Core GPU.
+        /// * gen4n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Powered by NVIDIA T4 Tensor Core GPUs.
         ///
         /// * Reference resolution: 1080p
         ///
@@ -3210,7 +3314,7 @@ extension GameLiftStreamsClientTypes {
         ///
         ///
         ///
-        /// * gen4n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA T4 Tensor Core GPU.
+        /// * gen4n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Powered by NVIDIA T4 Tensor Core GPUs.
         ///
         /// * Reference resolution: 1080p
         ///
@@ -3223,7 +3327,7 @@ extension GameLiftStreamsClientTypes {
         ///
         ///
         ///
-        /// * gen4n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Uses dedicated NVIDIA T4 Tensor Core GPU.
+        /// * gen4n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Powered by NVIDIA T4 Tensor Core GPUs.
         ///
         /// * Reference resolution: 1080p
         ///
@@ -3349,7 +3453,7 @@ public struct UpdateStreamGroupOutput: Swift.Sendable {
     public var statusReason: GameLiftStreamsClientTypes.StreamGroupStatusReason?
     /// The target stream quality for the stream group. A stream class can be one of the following:
     ///
-    /// * gen6n_pro_win2022 (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA L4 Tensor Core GPU.
+    /// * gen6n_pro_win2022 (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Powered by NVIDIA L4 Tensor Core GPUs.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -3362,7 +3466,7 @@ public struct UpdateStreamGroupOutput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen6n_pro (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Uses dedicated NVIDIA L4 Tensor Core GPU.
+    /// * gen6n_pro (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Powered by NVIDIA L4 Tensor Core GPUs.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -3375,7 +3479,7 @@ public struct UpdateStreamGroupOutput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen6n_ultra_win2022 (NVIDIA, ultra) Supports applications with high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA L4 Tensor Core GPU.
+    /// * gen6n_ultra_win2022 (NVIDIA, ultra) Supports applications with high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Powered by NVIDIA L4 Tensor Core GPUs.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -3388,7 +3492,7 @@ public struct UpdateStreamGroupOutput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen6n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Uses dedicated NVIDIA L4 Tensor Core GPU.
+    /// * gen6n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Powered by NVIDIA L4 Tensor Core GPUs.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -3401,7 +3505,7 @@ public struct UpdateStreamGroupOutput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen6n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.
+    /// * gen6n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Powered by NVIDIA L4 Tensor Core GPUs.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -3414,7 +3518,7 @@ public struct UpdateStreamGroupOutput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen6n_medium (NVIDIA, medium) Supports applications with moderate 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.
+    /// * gen6n_medium (NVIDIA, medium) Supports applications with moderate 3D scene complexity. Powered by NVIDIA L4 Tensor Core GPUs.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -3427,7 +3531,7 @@ public struct UpdateStreamGroupOutput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen6n_small (NVIDIA, small) Supports applications with lightweight 3D scene complexity and low CPU usage. Uses NVIDIA L4 Tensor Core GPU.
+    /// * gen6n_small (NVIDIA, small) Supports applications with lightweight 3D scene complexity and low CPU usage. Powered by NVIDIA L4 Tensor Core GPUs.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -3440,7 +3544,7 @@ public struct UpdateStreamGroupOutput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen6n_medium_win2022 (NVIDIA, medium) Supports applications with low 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.
+    /// * gen6n_medium_win2022 (NVIDIA, medium) Supports applications with low 3D scene complexity. Powered by NVIDIA L4 Tensor Core GPUs.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -3453,7 +3557,7 @@ public struct UpdateStreamGroupOutput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen6n_small_win2022 (NVIDIA, small) Supports applications with low 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.
+    /// * gen6n_small_win2022 (NVIDIA, small) Supports applications with low 3D scene complexity. Powered by NVIDIA L4 Tensor Core GPUs.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -3466,7 +3570,33 @@ public struct UpdateStreamGroupOutput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen5n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA A10G Tensor Core GPU.
+    /// * gen6e_pro_win2022 (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Powered by NVIDIA L40S Tensor Core GPUs.
+    ///
+    /// * Reference resolution: 1080p
+    ///
+    /// * Reference frame rate: 60 fps
+    ///
+    /// * Workload specifications: 16 vCPUs, 128 GB RAM, 48 GB VRAM
+    ///
+    /// * Tenancy: Supports 1 concurrent stream session
+    ///
+    ///
+    ///
+    ///
+    /// * gen6e_pro (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Powered by NVIDIA L40S Tensor Core GPUs.
+    ///
+    /// * Reference resolution: 1080p
+    ///
+    /// * Reference frame rate: 60 fps
+    ///
+    /// * Workload specifications: 16 vCPUs, 128 GB RAM, 48 GB VRAM
+    ///
+    /// * Tenancy: Supports 1 concurrent stream session
+    ///
+    ///
+    ///
+    ///
+    /// * gen5n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Powered by NVIDIA A10G Tensor Core GPUs.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -3479,7 +3609,7 @@ public struct UpdateStreamGroupOutput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen5n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA A10G Tensor Core GPU.
+    /// * gen5n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Powered by NVIDIA A10G Tensor Core GPUs.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -3492,7 +3622,7 @@ public struct UpdateStreamGroupOutput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen5n_ultra (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Uses dedicated NVIDIA A10G Tensor Core GPU.
+    /// * gen5n_ultra (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Powered by NVIDIA A10G Tensor Core GPUs.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -3505,7 +3635,7 @@ public struct UpdateStreamGroupOutput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen4n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA T4 Tensor Core GPU.
+    /// * gen4n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Powered by NVIDIA T4 Tensor Core GPUs.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -3518,7 +3648,7 @@ public struct UpdateStreamGroupOutput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen4n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA T4 Tensor Core GPU.
+    /// * gen4n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Powered by NVIDIA T4 Tensor Core GPUs.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -3531,7 +3661,7 @@ public struct UpdateStreamGroupOutput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen4n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Uses dedicated NVIDIA T4 Tensor Core GPU.
+    /// * gen4n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Powered by NVIDIA T4 Tensor Core GPUs.
     ///
     /// * Reference resolution: 1080p
     ///

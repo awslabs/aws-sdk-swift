@@ -121,14 +121,18 @@ extension PIClientTypes {
     public struct Recommendation: Swift.Sendable {
         /// The recommendation details to help resolve the performance issue. For example, Investigate the following SQLs that contributed to 100% of the total DBLoad during that time period: sql-id
         public var recommendationDescription: Swift.String?
+        /// Detailed information about the recommendation, including steps to resolve the performance issue.
+        public var recommendationDetails: Swift.String?
         /// The unique identifier for the recommendation.
         public var recommendationId: Swift.String?
 
         public init(
             recommendationDescription: Swift.String? = nil,
+            recommendationDetails: Swift.String? = nil,
             recommendationId: Swift.String? = nil
         ) {
             self.recommendationDescription = recommendationDescription
+            self.recommendationDetails = recommendationDetails
             self.recommendationId = recommendationId
         }
     }
@@ -386,7 +390,6 @@ public struct NotAuthorizedException: ClientRuntime.ModeledError, AWSClientRunti
 
 public struct CreatePerformanceAnalysisReportInput: Swift.Sendable {
     /// The end time defined for the analysis report.
-    /// This member is required.
     public var endTime: Foundation.Date?
     /// An immutable, Amazon Web Services Region-unique identifier for a data source. Performance Insights gathers metrics from this data source. To use an Amazon RDS instance as a data source, you specify its DbiResourceId value. For example, specify db-ADECBTYHKTSAUMUZQYPDS2GW4A.
     /// This member is required.
@@ -1495,6 +1498,55 @@ public struct ListAvailableResourceMetricsOutput: Swift.Sendable {
     ) {
         self.metrics = metrics
         self.nextToken = nextToken
+    }
+}
+
+public struct ListPerformanceAnalysisReportRecommendationsInput: Swift.Sendable {
+    /// A unique identifier of the created analysis report. For example, report-12345678901234567
+    /// This member is required.
+    public var analysisReportId: Swift.String?
+    /// An immutable identifier for a data source that is unique for an Amazon Web Services Region. Performance Insights gathers metrics from this data source. In the console, the identifier is shown as ResourceID. When you call DescribeDBInstances, the identifier is returned as DbiResourceId. To use a DB instance as a data source, specify its DbiResourceId value. For example, specify db-ABCDEFGHIJKLMNOPQRSTU1VW2X.
+    /// This member is required.
+    public var identifier: Swift.String?
+    /// The maximum number of items to return in the response. If more items exist than the specified MaxResults value, a pagination token is included in the response so that the remaining results can be retrieved.
+    public var maxResults: Swift.Int?
+    /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the token, up to the value specified by MaxResults.
+    public var nextToken: Swift.String?
+    /// A list of recommendation identifiers to filter the results.
+    public var recommendationIds: [Swift.String]?
+    /// The Amazon Web Services service for which Performance Insights returns metrics. Valid value is RDS.
+    /// This member is required.
+    public var serviceType: PIClientTypes.ServiceType?
+
+    public init(
+        analysisReportId: Swift.String? = nil,
+        identifier: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        recommendationIds: [Swift.String]? = nil,
+        serviceType: PIClientTypes.ServiceType? = nil
+    ) {
+        self.analysisReportId = analysisReportId
+        self.identifier = identifier
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.recommendationIds = recommendationIds
+        self.serviceType = serviceType
+    }
+}
+
+public struct ListPerformanceAnalysisReportRecommendationsOutput: Swift.Sendable {
+    /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the token, up to the value specified by MaxResults.
+    public var nextToken: Swift.String?
+    /// The list of recommendations for the analysis report.
+    public var recommendations: [PIClientTypes.Recommendation]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        recommendations: [PIClientTypes.Recommendation]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.recommendations = recommendations
     }
 }
 

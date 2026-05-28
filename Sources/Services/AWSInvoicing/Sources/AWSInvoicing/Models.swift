@@ -725,6 +725,8 @@ extension InvoicingClientTypes {
 }
 
 public struct CreateInvoiceUnitInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure idempotency of the request.
+    public var clientToken: Swift.String?
     /// The invoice unit's description. This can be changed at a later time.
     public var description: Swift.String?
     /// The Amazon Web Services account ID chosen to be the receiver of an invoice unit. All invoices generated for that invoice unit will be sent to this account ID.
@@ -742,6 +744,7 @@ public struct CreateInvoiceUnitInput: Swift.Sendable {
     public var taxInheritanceDisabled: Swift.Bool?
 
     public init(
+        clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
         invoiceReceiver: Swift.String? = nil,
         name: Swift.String? = nil,
@@ -749,6 +752,7 @@ public struct CreateInvoiceUnitInput: Swift.Sendable {
         rule: InvoicingClientTypes.InvoiceUnitRule? = nil,
         taxInheritanceDisabled: Swift.Bool? = false
     ) {
+        self.clientToken = clientToken
         self.description = description
         self.invoiceReceiver = invoiceReceiver
         self.name = name
@@ -1219,13 +1223,17 @@ extension InvoicingClientTypes {
 }
 
 public struct DeleteInvoiceUnitInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure idempotency of the request.
+    public var clientToken: Swift.String?
     /// The ARN to identify an invoice unit. This information can't be modified or deleted.
     /// This member is required.
     public var invoiceUnitArn: Swift.String?
 
     public init(
+        clientToken: Swift.String? = nil,
         invoiceUnitArn: Swift.String? = nil
     ) {
+        self.clientToken = clientToken
         self.invoiceUnitArn = invoiceUnitArn
     }
 }
@@ -1242,13 +1250,17 @@ public struct DeleteInvoiceUnitOutput: Swift.Sendable {
 }
 
 public struct DeleteProcurementPortalPreferenceInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure idempotency of the request.
+    public var clientToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the procurement portal preference to delete.
     /// This member is required.
     public var procurementPortalPreferenceArn: Swift.String?
 
     public init(
+        clientToken: Swift.String? = nil,
         procurementPortalPreferenceArn: Swift.String? = nil
     ) {
+        self.clientToken = clientToken
         self.procurementPortalPreferenceArn = procurementPortalPreferenceArn
     }
 }
@@ -2095,7 +2107,7 @@ public struct ListInvoiceSummariesInput: Swift.Sendable {
     public var filter: InvoicingClientTypes.InvoiceSummariesFilter?
     /// The maximum number of invoice summaries a paginated response can contain.
     public var maxResults: Swift.Int?
-    /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
+    /// The token for the next set of results. (You received this token from a previous call.)
     public var nextToken: Swift.String?
     /// The option to retrieve details for a specific invoice by providing its unique ID. Alternatively, access information for all invoices linked to the account by providing an account ID.
     /// This member is required.
@@ -2118,7 +2130,7 @@ public struct ListInvoiceSummariesOutput: Swift.Sendable {
     /// List of key (summary level) invoice details without line item details.
     /// This member is required.
     public var invoiceSummaries: [InvoicingClientTypes.InvoiceSummary]?
-    /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
+    /// The token to use to retrieve the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
 
     public init(
@@ -2313,6 +2325,8 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 }
 
 public struct PutProcurementPortalPreferenceInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure idempotency of the request.
+    public var clientToken: Swift.String?
     /// Updated list of contact information for portal administrators and technical contacts.
     /// This member is required.
     public var contacts: [InvoicingClientTypes.Contact]?
@@ -2337,6 +2351,7 @@ public struct PutProcurementPortalPreferenceInput: Swift.Sendable {
     public var testEnvPreference: InvoicingClientTypes.TestEnvPreferenceInput?
 
     public init(
+        clientToken: Swift.String? = nil,
         contacts: [InvoicingClientTypes.Contact]? = nil,
         einvoiceDeliveryEnabled: Swift.Bool? = nil,
         einvoiceDeliveryPreference: InvoicingClientTypes.EinvoiceDeliveryPreference? = nil,
@@ -2347,6 +2362,7 @@ public struct PutProcurementPortalPreferenceInput: Swift.Sendable {
         selector: InvoicingClientTypes.ProcurementPortalPreferenceSelector? = nil,
         testEnvPreference: InvoicingClientTypes.TestEnvPreferenceInput? = nil
     ) {
+        self.clientToken = clientToken
         self.contacts = contacts
         self.einvoiceDeliveryEnabled = einvoiceDeliveryEnabled
         self.einvoiceDeliveryPreference = einvoiceDeliveryPreference
@@ -2416,6 +2432,8 @@ public struct UntagResourceOutput: Swift.Sendable {
 }
 
 public struct UpdateInvoiceUnitInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure idempotency of the request.
+    public var clientToken: Swift.String?
     /// The assigned description for an invoice unit. This information can't be modified or deleted.
     public var description: Swift.String?
     /// The ARN to identify an invoice unit. This information can't be modified or deleted.
@@ -2427,11 +2445,13 @@ public struct UpdateInvoiceUnitInput: Swift.Sendable {
     public var taxInheritanceDisabled: Swift.Bool?
 
     public init(
+        clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
         invoiceUnitArn: Swift.String? = nil,
         rule: InvoicingClientTypes.InvoiceUnitRule? = nil,
         taxInheritanceDisabled: Swift.Bool? = false
     ) {
+        self.clientToken = clientToken
         self.description = description
         self.invoiceUnitArn = invoiceUnitArn
         self.rule = rule
@@ -2451,6 +2471,8 @@ public struct UpdateInvoiceUnitOutput: Swift.Sendable {
 }
 
 public struct UpdateProcurementPortalPreferenceStatusInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure idempotency of the request.
+    public var clientToken: Swift.String?
     /// The updated status of the e-invoice delivery preference.
     public var einvoiceDeliveryPreferenceStatus: InvoicingClientTypes.ProcurementPortalPreferenceStatus?
     /// The reason for the e-invoice delivery preference status update, providing context for the change.
@@ -2464,12 +2486,14 @@ public struct UpdateProcurementPortalPreferenceStatusInput: Swift.Sendable {
     public var purchaseOrderRetrievalPreferenceStatusReason: Swift.String?
 
     public init(
+        clientToken: Swift.String? = nil,
         einvoiceDeliveryPreferenceStatus: InvoicingClientTypes.ProcurementPortalPreferenceStatus? = nil,
         einvoiceDeliveryPreferenceStatusReason: Swift.String? = nil,
         procurementPortalPreferenceArn: Swift.String? = nil,
         purchaseOrderRetrievalPreferenceStatus: InvoicingClientTypes.ProcurementPortalPreferenceStatus? = nil,
         purchaseOrderRetrievalPreferenceStatusReason: Swift.String? = nil
     ) {
+        self.clientToken = clientToken
         self.einvoiceDeliveryPreferenceStatus = einvoiceDeliveryPreferenceStatus
         self.einvoiceDeliveryPreferenceStatusReason = einvoiceDeliveryPreferenceStatusReason
         self.procurementPortalPreferenceArn = procurementPortalPreferenceArn

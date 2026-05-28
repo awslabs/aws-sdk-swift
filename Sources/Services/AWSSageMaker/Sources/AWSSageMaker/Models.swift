@@ -3365,6 +3365,7 @@ extension SageMakerClientTypes {
         case mlP5e48xlarge
         case mlP548xlarge
         case mlP54xlarge
+        case mlP6B20048xlarge
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AIRecommendationInstanceType] {
@@ -3407,7 +3408,8 @@ extension SageMakerClientTypes {
                 .mlP5en48xlarge,
                 .mlP5e48xlarge,
                 .mlP548xlarge,
-                .mlP54xlarge
+                .mlP54xlarge,
+                .mlP6B20048xlarge
             ]
         }
 
@@ -3457,6 +3459,7 @@ extension SageMakerClientTypes {
             case .mlP5e48xlarge: return "ml.p5e.48xlarge"
             case .mlP548xlarge: return "ml.p5.48xlarge"
             case .mlP54xlarge: return "ml.p5.4xlarge"
+            case .mlP6B20048xlarge: return "ml.p6-b200.48xlarge"
             case let .sdkUnknown(s): return s
             }
         }
@@ -13567,6 +13570,36 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    /// The deletion policy for the Amazon FSx for Lustre file system used in the shared environment of restricted instance groups (RIG).
+    public enum ClusterFSxLustreDeletionPolicy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case deleteIfNotUsed
+        case keep
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ClusterFSxLustreDeletionPolicy] {
+            return [
+                .deleteIfNotUsed,
+                .keep
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .deleteIfNotUsed: return "DeleteIfNotUsed"
+            case .keep: return "Keep"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     /// Defines the configuration for attaching an Amazon FSx for OpenZFS file system to instances in a SageMaker HyperPod cluster instance group.
     public struct ClusterFsxOpenZfsConfig: Swift.Sendable {
         /// The DNS name of the Amazon FSx for OpenZFS file system.
@@ -14886,6 +14919,86 @@ extension SageMakerClientTypes {
             self.threadsPerCore = threadsPerCore
             self.trainingPlanArn = trainingPlanArn
             self.trainingPlanStatus = trainingPlanStatus
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The shared environment configuration for the restricted instance groups (RIG).
+    public struct ClusterSharedEnvironmentConfig: Swift.Sendable {
+        /// Configuration settings for an Amazon FSx for Lustre file system in the shared environment.
+        /// This member is required.
+        public var fSxLustreConfig: SageMakerClientTypes.FSxLustreConfig?
+        /// The deletion policy for the Amazon FSx for Lustre file system in the shared environment.
+        /// This member is required.
+        public var fSxLustreDeletionPolicy: SageMakerClientTypes.ClusterFSxLustreDeletionPolicy?
+
+        public init(
+            fSxLustreConfig: SageMakerClientTypes.FSxLustreConfig? = nil,
+            fSxLustreDeletionPolicy: SageMakerClientTypes.ClusterFSxLustreDeletionPolicy? = nil
+        ) {
+            self.fSxLustreConfig = fSxLustreConfig
+            self.fSxLustreDeletionPolicy = fSxLustreDeletionPolicy
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The configuration for the restricted instance groups (RIG) in the SageMaker HyperPod cluster.
+    public struct ClusterRestrictedInstanceGroupsConfig: Swift.Sendable {
+        /// The shared environment configuration for the restricted instance groups (RIG).
+        /// This member is required.
+        public var sharedEnvironmentConfig: SageMakerClientTypes.ClusterSharedEnvironmentConfig?
+
+        public init(
+            sharedEnvironmentConfig: SageMakerClientTypes.ClusterSharedEnvironmentConfig? = nil
+        ) {
+            self.sharedEnvironmentConfig = sharedEnvironmentConfig
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The shared environment configuration details for the restricted instance groups (RIG).
+    public struct ClusterSharedEnvironmentConfigDetails: Swift.Sendable {
+        /// The current Amazon FSx for Lustre file system configuration in the shared environment.
+        public var currentFSxLustreConfig: SageMakerClientTypes.FSxLustreConfig?
+        /// The current deletion policy for the Amazon FSx for Lustre file system in the shared environment.
+        public var currentFSxLustreDeletionPolicy: SageMakerClientTypes.ClusterFSxLustreDeletionPolicy?
+        /// The desired Amazon FSx for Lustre file system configuration in the shared environment.
+        public var desiredFSxLustreConfig: SageMakerClientTypes.FSxLustreConfig?
+        /// The desired deletion policy for the Amazon FSx for Lustre file system in the shared environment.
+        public var desiredFSxLustreDeletionPolicy: SageMakerClientTypes.ClusterFSxLustreDeletionPolicy?
+
+        public init(
+            currentFSxLustreConfig: SageMakerClientTypes.FSxLustreConfig? = nil,
+            currentFSxLustreDeletionPolicy: SageMakerClientTypes.ClusterFSxLustreDeletionPolicy? = nil,
+            desiredFSxLustreConfig: SageMakerClientTypes.FSxLustreConfig? = nil,
+            desiredFSxLustreDeletionPolicy: SageMakerClientTypes.ClusterFSxLustreDeletionPolicy? = nil
+        ) {
+            self.currentFSxLustreConfig = currentFSxLustreConfig
+            self.currentFSxLustreDeletionPolicy = currentFSxLustreDeletionPolicy
+            self.desiredFSxLustreConfig = desiredFSxLustreConfig
+            self.desiredFSxLustreDeletionPolicy = desiredFSxLustreDeletionPolicy
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The output configuration for the restricted instance groups (RIG) in the SageMaker HyperPod cluster.
+    public struct ClusterRestrictedInstanceGroupsConfigOutput: Swift.Sendable {
+        /// The shared environment configuration details for the restricted instance groups (RIG).
+        /// This member is required.
+        public var sharedEnvironmentConfig: SageMakerClientTypes.ClusterSharedEnvironmentConfigDetails?
+
+        public init(
+            sharedEnvironmentConfig: SageMakerClientTypes.ClusterSharedEnvironmentConfigDetails? = nil
+        ) {
+            self.sharedEnvironmentConfig = sharedEnvironmentConfig
         }
     }
 }
@@ -17398,6 +17511,8 @@ public struct CreateClusterInput: Swift.Sendable {
     public var orchestrator: SageMakerClientTypes.ClusterOrchestrator?
     /// The specialized instance groups for training models like Amazon Nova to be created in the SageMaker HyperPod cluster.
     public var restrictedInstanceGroups: [SageMakerClientTypes.ClusterRestrictedInstanceGroupSpecification]?
+    /// The configuration for the restricted instance groups (RIG) in the SageMaker HyperPod cluster.
+    public var restrictedInstanceGroupsConfig: SageMakerClientTypes.ClusterRestrictedInstanceGroupsConfig?
     /// Custom tags for managing the SageMaker HyperPod cluster as an Amazon Web Services resource. You can add tags to your cluster in the same way you add them in other Amazon Web Services services that support tagging. To learn more about tagging Amazon Web Services resources in general, see [Tagging Amazon Web Services Resources User Guide](https://docs.aws.amazon.com/tag-editor/latest/userguide/tagging.html).
     public var tags: [SageMakerClientTypes.Tag]?
     /// The configuration for managed tier checkpointing on the HyperPod cluster. When enabled, this feature uses a multi-tier storage approach for storing model checkpoints, providing faster checkpoint operations and improved fault tolerance across cluster nodes.
@@ -17427,6 +17542,7 @@ public struct CreateClusterInput: Swift.Sendable {
         nodeRecovery: SageMakerClientTypes.ClusterNodeRecovery? = nil,
         orchestrator: SageMakerClientTypes.ClusterOrchestrator? = nil,
         restrictedInstanceGroups: [SageMakerClientTypes.ClusterRestrictedInstanceGroupSpecification]? = nil,
+        restrictedInstanceGroupsConfig: SageMakerClientTypes.ClusterRestrictedInstanceGroupsConfig? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil,
         tieredStorageConfig: SageMakerClientTypes.ClusterTieredStorageConfig? = nil,
         vpcConfig: SageMakerClientTypes.VpcConfig? = nil
@@ -17439,6 +17555,7 @@ public struct CreateClusterInput: Swift.Sendable {
         self.nodeRecovery = nodeRecovery
         self.orchestrator = orchestrator
         self.restrictedInstanceGroups = restrictedInstanceGroups
+        self.restrictedInstanceGroupsConfig = restrictedInstanceGroupsConfig
         self.tags = tags
         self.tieredStorageConfig = tieredStorageConfig
         self.vpcConfig = vpcConfig
@@ -34059,6 +34176,8 @@ public struct DescribeClusterOutput: Swift.Sendable {
     public var orchestrator: SageMakerClientTypes.ClusterOrchestrator?
     /// The specialized instance groups for training models like Amazon Nova to be created in the SageMaker HyperPod cluster.
     public var restrictedInstanceGroups: [SageMakerClientTypes.ClusterRestrictedInstanceGroupDetails]?
+    /// The configuration for the restricted instance groups (RIG) in the SageMaker HyperPod cluster.
+    public var restrictedInstanceGroupsConfig: SageMakerClientTypes.ClusterRestrictedInstanceGroupsConfigOutput?
     /// The current configuration for managed tier checkpointing on the HyperPod cluster. For example, this shows whether the feature is enabled and the percentage of cluster memory allocated for checkpoint storage.
     public var tieredStorageConfig: SageMakerClientTypes.ClusterTieredStorageConfig?
     /// Specifies an Amazon Virtual Private Cloud (VPC) that your SageMaker jobs, hosted models, and compute resources have access to. You can control access to and from your resources by configuring a VPC. For more information, see [Give SageMaker Access to Resources in your Amazon VPC](https://docs.aws.amazon.com/sagemaker/latest/dg/infrastructure-give-access.html).
@@ -34077,6 +34196,7 @@ public struct DescribeClusterOutput: Swift.Sendable {
         nodeRecovery: SageMakerClientTypes.ClusterNodeRecovery? = nil,
         orchestrator: SageMakerClientTypes.ClusterOrchestrator? = nil,
         restrictedInstanceGroups: [SageMakerClientTypes.ClusterRestrictedInstanceGroupDetails]? = nil,
+        restrictedInstanceGroupsConfig: SageMakerClientTypes.ClusterRestrictedInstanceGroupsConfigOutput? = nil,
         tieredStorageConfig: SageMakerClientTypes.ClusterTieredStorageConfig? = nil,
         vpcConfig: SageMakerClientTypes.VpcConfig? = nil
     ) {
@@ -34092,6 +34212,7 @@ public struct DescribeClusterOutput: Swift.Sendable {
         self.nodeRecovery = nodeRecovery
         self.orchestrator = orchestrator
         self.restrictedInstanceGroups = restrictedInstanceGroups
+        self.restrictedInstanceGroupsConfig = restrictedInstanceGroupsConfig
         self.tieredStorageConfig = tieredStorageConfig
         self.vpcConfig = vpcConfig
     }
@@ -42351,6 +42472,8 @@ extension SageMakerClientTypes {
     public struct ReservedCapacitySummary: Swift.Sendable {
         /// The availability zone for the reserved capacity.
         public var availabilityZone: Swift.String?
+        /// The Availability Zone ID of the reserved capacity.
+        public var availabilityZoneId: Swift.String?
         /// The number of whole hours in the total duration for this reserved capacity.
         public var durationHours: Swift.Int?
         /// The additional minutes beyond whole hours in the total duration for this reserved capacity.
@@ -42380,6 +42503,7 @@ extension SageMakerClientTypes {
 
         public init(
             availabilityZone: Swift.String? = nil,
+            availabilityZoneId: Swift.String? = nil,
             durationHours: Swift.Int? = nil,
             durationMinutes: Swift.Int? = nil,
             endTime: Foundation.Date? = nil,
@@ -42393,6 +42517,7 @@ extension SageMakerClientTypes {
             ultraServerType: Swift.String? = nil
         ) {
             self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
             self.durationHours = durationHours
             self.durationMinutes = durationMinutes
             self.endTime = endTime
@@ -58402,6 +58527,8 @@ public struct UpdateClusterInput: Swift.Sendable {
     public var orchestrator: SageMakerClientTypes.ClusterOrchestrator?
     /// The specialized instance groups for training models like Amazon Nova to be created in the SageMaker HyperPod cluster.
     public var restrictedInstanceGroups: [SageMakerClientTypes.ClusterRestrictedInstanceGroupSpecification]?
+    /// The configuration for the restricted instance groups (RIG) in the SageMaker HyperPod cluster.
+    public var restrictedInstanceGroupsConfig: SageMakerClientTypes.ClusterRestrictedInstanceGroupsConfig?
     /// Updates the configuration for managed tier checkpointing on the HyperPod cluster. For example, you can enable or disable the feature and modify the percentage of cluster memory allocated for checkpoint storage.
     public var tieredStorageConfig: SageMakerClientTypes.ClusterTieredStorageConfig?
 
@@ -58415,6 +58542,7 @@ public struct UpdateClusterInput: Swift.Sendable {
         nodeRecovery: SageMakerClientTypes.ClusterNodeRecovery? = nil,
         orchestrator: SageMakerClientTypes.ClusterOrchestrator? = nil,
         restrictedInstanceGroups: [SageMakerClientTypes.ClusterRestrictedInstanceGroupSpecification]? = nil,
+        restrictedInstanceGroupsConfig: SageMakerClientTypes.ClusterRestrictedInstanceGroupsConfig? = nil,
         tieredStorageConfig: SageMakerClientTypes.ClusterTieredStorageConfig? = nil
     ) {
         self.autoScaling = autoScaling
@@ -58426,6 +58554,7 @@ public struct UpdateClusterInput: Swift.Sendable {
         self.nodeRecovery = nodeRecovery
         self.orchestrator = orchestrator
         self.restrictedInstanceGroups = restrictedInstanceGroups
+        self.restrictedInstanceGroupsConfig = restrictedInstanceGroupsConfig
         self.tieredStorageConfig = tieredStorageConfig
     }
 }

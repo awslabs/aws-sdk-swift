@@ -1294,6 +1294,82 @@ extension PIClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListPerformanceAnalysisReportRecommendations` operation on the `PI` service.
+    ///
+    /// Retrieves recommendations for a performance analysis report.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListPerformanceAnalysisReportRecommendationsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListPerformanceAnalysisReportRecommendationsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceError` : The request failed due to an unknown error.
+    /// - `InvalidArgumentException` : One of the arguments provided is invalid for this request.
+    /// - `NotAuthorizedException` : The user is not authorized to perform this request.
+    public func listPerformanceAnalysisReportRecommendations(input: ListPerformanceAnalysisReportRecommendationsInput) async throws -> ListPerformanceAnalysisReportRecommendationsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PIClient.listPerformanceAnalysisReportRecommendationsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listPerformanceAnalysisReportRecommendations")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "pi")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListPerformanceAnalysisReportRecommendationsInput, ListPerformanceAnalysisReportRecommendationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPerformanceAnalysisReportRecommendationsInput, ListPerformanceAnalysisReportRecommendationsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPerformanceAnalysisReportRecommendationsInput, ListPerformanceAnalysisReportRecommendationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListPerformanceAnalysisReportRecommendationsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("PI", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListPerformanceAnalysisReportRecommendationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListPerformanceAnalysisReportRecommendationsInput, ListPerformanceAnalysisReportRecommendationsOutput>(overrides: ["X-Amz-Target": "PerformanceInsightsv20180227.ListPerformanceAnalysisReportRecommendations"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListPerformanceAnalysisReportRecommendationsInput, ListPerformanceAnalysisReportRecommendationsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListPerformanceAnalysisReportRecommendationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListPerformanceAnalysisReportRecommendationsInput, ListPerformanceAnalysisReportRecommendationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListPerformanceAnalysisReportRecommendationsInput, ListPerformanceAnalysisReportRecommendationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListPerformanceAnalysisReportRecommendationsInput, ListPerformanceAnalysisReportRecommendationsOutput>(serviceID: serviceName, version: PIClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PI")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListPerformanceAnalysisReportRecommendations")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListPerformanceAnalysisReports` operation on the `PI` service.
     ///
     /// Lists all the analysis reports created for the DB instance. The reports are sorted based on the start time of each report.
