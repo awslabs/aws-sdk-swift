@@ -54,8 +54,7 @@ final class RetryIntegrationTests: XCTestCase {
         var backoffStrategy = ExponentialBackoffStrategy(options: backoffStrategyOptions)
         backoffStrategy.random = { 1.0 }
 
-        // Create a retry strategy with custom backoff strategy & custom max retries & custom capacity.
-        // Opt-in to retry-2.1 so the SEP-derived expected values below match.
+        // Opt in so the new-mode expected values below match.
         let retryStrategyOptions = RetryStrategyOptions(
             backoffStrategy: backoffStrategy,
             maxRetriesBase: maxRetriesBase,
