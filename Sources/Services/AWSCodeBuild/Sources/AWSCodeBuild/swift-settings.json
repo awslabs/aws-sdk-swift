@@ -1,0 +1,8 @@
+{
+    "service": "com.amazonaws.codebuild#CodeBuild_20161006",
+    "module": "AWSCodeBuild",
+    "sdkId": "CodeBuild",
+    "internalClient": false,
+    "operations": [],
+    "modelPath": "codegen/sdk-codegen/aws-models/codebuild.json"
+}

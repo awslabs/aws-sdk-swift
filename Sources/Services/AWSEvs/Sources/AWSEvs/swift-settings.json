@@ -1,0 +1,8 @@
+{
+    "service": "com.amazonaws.evs#AmazonElasticVMwareService",
+    "module": "AWSEvs",
+    "sdkId": "evs",
+    "internalClient": false,
+    "operations": [],
+    "modelPath": "codegen/sdk-codegen/aws-models/evs.json"
+}

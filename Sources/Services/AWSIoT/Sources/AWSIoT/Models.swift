@@ -301,9 +301,9 @@ public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRun
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -325,9 +325,9 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -349,9 +349,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -373,9 +373,9 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -397,9 +397,9 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -421,9 +421,9 @@ public struct TransferAlreadyCompletedException: ClientRuntime.ModeledError, AWS
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -445,9 +445,9 @@ public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntim
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -800,7 +800,7 @@ extension IoTClientTypes {
 
     /// Configuration settings for batching.
     public struct BatchConfig: Swift.Sendable {
-        /// Whether to allow batching messages from different MQTT topics into a single HTTP request. By default, only messages from the same topic are batched together. The default value is false.
+        /// Whether to allow batching messages from different MQTT topics into a single HTTP request. By default, only messages from the same topic are batched together. The default value is false. When batchAcrossTopics is enabled, the error payload format changes: the topic field moves from the top level to inside each entry in the payloadsWithMetadata array, since each message in the batch may originate from a different topic. Messages are always batched within the scope of the same account, rule name, target HTTP endpoint URL, and billing group. Messages that differ in any of these attributes are never combined into the same batch, regardless of the batchAcrossTopics setting.
         public var batchAcrossTopics: Swift.Bool
         /// The maximum amount of time (in milliseconds) that an outgoing call waits for other calls with which it batches messages of the same type. The higher the setting, the longer the latency of the batched HTTP Action will be.
         public var maxBatchOpenMs: Swift.Int?
@@ -2419,9 +2419,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -2444,9 +2444,9 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -2467,9 +2467,9 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -2490,9 +2490,9 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -2633,9 +2633,9 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -2736,9 +2736,9 @@ public struct VersionConflictException: ClientRuntime.ModeledError, AWSClientRun
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -4100,9 +4100,9 @@ public struct InvalidStateTransitionException: ClientRuntime.ModeledError, AWSCl
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -4163,9 +4163,9 @@ public struct ConflictingResourceUpdateException: ClientRuntime.ModeledError, AW
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -4187,9 +4187,9 @@ public struct InternalException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -4232,9 +4232,9 @@ public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -5105,9 +5105,9 @@ public struct CertificateValidationException: ClientRuntime.ModeledError, AWSCli
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -5324,9 +5324,9 @@ public struct InvalidQueryException: ClientRuntime.ModeledError, AWSClientRuntim
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -5431,9 +5431,9 @@ public struct IndexNotReadyException: ClientRuntime.ModeledError, AWSClientRunti
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -5454,9 +5454,9 @@ public struct InvalidAggregationException: ClientRuntime.ModeledError, AWSClient
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -7219,9 +7219,9 @@ public struct MalformedPolicyException: ClientRuntime.ModeledError, AWSClientRun
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -7289,9 +7289,9 @@ public struct VersionsLimitExceededException: ClientRuntime.ModeledError, AWSCli
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -8016,9 +8016,9 @@ public struct SqlParseException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -8344,9 +8344,9 @@ public struct DeleteConflictException: ClientRuntime.ModeledError, AWSClientRunt
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -8406,9 +8406,9 @@ public struct CertificateStateException: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -12831,6 +12831,47 @@ extension IoTClientTypes {
 
 extension IoTClientTypes {
 
+    public enum FleetIndexingApi: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case getThingConnectivityData
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FleetIndexingApi] {
+            return [
+                .getThingConnectivityData
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .getThingConnectivityData: return "GET_THING_CONNECTIVITY_DATA"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IoTClientTypes {
+
+    /// Provides connectivity filter selections for the fleet indexing configuration.
+    public struct ConnectivityFilter: Swift.Sendable {
+        /// A list of fleet indexing APIs for which to enable socket information retrieval. Currently, the only supported value is GET_THING_CONNECTIVITY_DATA.
+        public var includeSocketInformation: [IoTClientTypes.FleetIndexingApi]?
+
+        public init(
+            includeSocketInformation: [IoTClientTypes.FleetIndexingApi]? = nil
+        ) {
+            self.includeSocketInformation = includeSocketInformation
+        }
+    }
+}
+
+extension IoTClientTypes {
+
     public enum TargetFieldOrder: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case latlon
         case lonlat
@@ -12885,15 +12926,19 @@ extension IoTClientTypes {
     ///
     /// * If you store geolocation data in a named shadow, set namedShadowIndexingMode to be ON, add the shadow name in namedShadowNames filter, and specify your geolocation data in geoLocations filter. For more information, see [Managing fleet indexing](https://docs.aws.amazon.com/iot/latest/developerguide/managing-fleet-index.html).
     public struct IndexingFilter: Swift.Sendable {
+        /// Provides additional connectivity filter selections for the fleet indexing configuration.
+        public var connectivity: IoTClientTypes.ConnectivityFilter?
         /// The list of geolocation targets that you select to index. The default maximum number of geolocation targets for indexing is 1. To increase the limit, see [Amazon Web Services IoT Device Management Quotas](https://docs.aws.amazon.com/general/latest/gr/iot_device_management.html#fleet-indexing-limits) in the Amazon Web Services General Reference.
         public var geoLocations: [IoTClientTypes.GeoLocationTarget]?
         /// The shadow names that you select to index. The default maximum number of shadow names for indexing is 10. To increase the limit, see [Amazon Web Services IoT Device Management Quotas](https://docs.aws.amazon.com/general/latest/gr/iot_device_management.html#fleet-indexing-limits) in the Amazon Web Services General Reference.
         public var namedShadowNames: [Swift.String]?
 
         public init(
+            connectivity: IoTClientTypes.ConnectivityFilter? = nil,
             geoLocations: [IoTClientTypes.GeoLocationTarget]? = nil,
             namedShadowNames: [Swift.String]? = nil
         ) {
+            self.connectivity = connectivity
             self.geoLocations = geoLocations
             self.namedShadowNames = namedShadowNames
         }
@@ -13665,25 +13710,30 @@ public struct GetStatisticsOutput: Swift.Sendable {
 }
 
 public struct GetThingConnectivityDataInput: Swift.Sendable {
+    /// Specifies if socket information (sourcePort, targetPort, sourceIp, targetIp, vpcEndpointId) should be included in the GetThingConnectivityData response. Set to true to include socket information. Set to false to omit socket information. By default, this is set to false.
+    public var includeSocketInformation: Swift.Bool?
     /// The name of your IoT thing.
     /// This member is required.
     public var thingName: Swift.String?
 
     public init(
+        includeSocketInformation: Swift.Bool? = nil,
         thingName: Swift.String? = nil
     ) {
+        self.includeSocketInformation = includeSocketInformation
         self.thingName = thingName
     }
 }
 
 extension GetThingConnectivityDataInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetThingConnectivityDataInput(thingName: \"CONTENT_REDACTED\")"}
+        "GetThingConnectivityDataInput(includeSocketInformation: \(Swift.String(describing: includeSocketInformation)), thingName: \"CONTENT_REDACTED\")"}
 }
 
 extension IoTClientTypes {
 
     public enum DisconnectReasonValue: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case apiInitiatedDisconnect
         case authError
         case clientError
         case clientInitiatedDisconnect
@@ -13702,6 +13752,7 @@ extension IoTClientTypes {
 
         public static var allCases: [DisconnectReasonValue] {
             return [
+                .apiInitiatedDisconnect,
                 .authError,
                 .clientError,
                 .clientInitiatedDisconnect,
@@ -13726,6 +13777,7 @@ extension IoTClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .apiInitiatedDisconnect: return "API_INITIATED_DISCONNECT"
             case .authError: return "AUTH_ERROR"
             case .clientError: return "CLIENT_ERROR"
             case .clientInitiatedDisconnect: return "CLIENT_INITIATED_DISCONNECT"
@@ -13747,31 +13799,67 @@ extension IoTClientTypes {
 }
 
 public struct GetThingConnectivityDataOutput: Swift.Sendable {
+    /// Indicates whether the client is using a clean session. Returns true for clean sessions.
+    public var cleanSession: Swift.Bool?
+    /// The unique identifier of the MQTT client.
+    public var clientId: Swift.String?
     /// A Boolean that indicates the connectivity status.
     public var connected: Swift.Bool?
-    /// The reason why the client is disconnecting.
+    /// The reason why the client is disconnecting. When you enable or update the indexing configuration, this value might be UNKNOWN for devices that have never connected or have been disconnected for more than an hour.
     public var disconnectReason: IoTClientTypes.DisconnectReasonValue?
+    /// The keep-alive interval in seconds that the client specified when establishing the connection.
+    public var keepAliveDuration: Swift.Int?
+    /// The session expiry interval in seconds for the MQTT client connection. This value indicates how long the session will remain active after the client disconnects.
+    public var sessionExpiry: Swift.Int?
+    /// The IP address of the client that initiated the connection.
+    public var sourceIp: Swift.String?
+    /// The client's source port.
+    public var sourcePort: Swift.Int?
+    /// The IP address of the Amazon Web Services IoT Core endpoint that the client connected to.
+    public var targetIp: Swift.String?
+    /// The port number of the Amazon Web Services IoT Core endpoint that the client connected to.
+    public var targetPort: Swift.Int?
     /// The name of your IoT thing.
     public var thingName: Swift.String?
-    /// The timestamp of when the event occurred.
+    /// The timestamp of when the event occurred. When you enable or update the indexing configuration, this value might be the Unix epoch time (0) for devices that have never connected or have been disconnected for more than an hour.
     public var timestamp: Foundation.Date?
+    /// The ID of the VPC endpoint. Present for clients connected to Amazon Web Services IoT Core via a VPC endpoint.
+    public var vpcEndpointId: Swift.String?
 
     public init(
+        cleanSession: Swift.Bool? = nil,
+        clientId: Swift.String? = nil,
         connected: Swift.Bool? = nil,
         disconnectReason: IoTClientTypes.DisconnectReasonValue? = nil,
+        keepAliveDuration: Swift.Int? = nil,
+        sessionExpiry: Swift.Int? = nil,
+        sourceIp: Swift.String? = nil,
+        sourcePort: Swift.Int? = nil,
+        targetIp: Swift.String? = nil,
+        targetPort: Swift.Int? = nil,
         thingName: Swift.String? = nil,
-        timestamp: Foundation.Date? = nil
+        timestamp: Foundation.Date? = nil,
+        vpcEndpointId: Swift.String? = nil
     ) {
+        self.cleanSession = cleanSession
+        self.clientId = clientId
         self.connected = connected
         self.disconnectReason = disconnectReason
+        self.keepAliveDuration = keepAliveDuration
+        self.sessionExpiry = sessionExpiry
+        self.sourceIp = sourceIp
+        self.sourcePort = sourcePort
+        self.targetIp = targetIp
+        self.targetPort = targetPort
         self.thingName = thingName
         self.timestamp = timestamp
+        self.vpcEndpointId = vpcEndpointId
     }
 }
 
 extension GetThingConnectivityDataOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetThingConnectivityDataOutput(connected: \(Swift.String(describing: connected)), disconnectReason: \(Swift.String(describing: disconnectReason)), timestamp: \(Swift.String(describing: timestamp)), thingName: \"CONTENT_REDACTED\")"}
+        "GetThingConnectivityDataOutput(cleanSession: \(Swift.String(describing: cleanSession)), clientId: \(Swift.String(describing: clientId)), connected: \(Swift.String(describing: connected)), disconnectReason: \(Swift.String(describing: disconnectReason)), keepAliveDuration: \(Swift.String(describing: keepAliveDuration)), sessionExpiry: \(Swift.String(describing: sessionExpiry)), timestamp: \(Swift.String(describing: timestamp)), sourceIp: \"CONTENT_REDACTED\", sourcePort: \"CONTENT_REDACTED\", targetIp: \"CONTENT_REDACTED\", targetPort: \"CONTENT_REDACTED\", thingName: \"CONTENT_REDACTED\", vpcEndpointId: \"CONTENT_REDACTED\")"}
 }
 
 /// The input for the GetTopicRule operation.
@@ -13882,9 +13970,9 @@ public struct NotConfiguredException: ClientRuntime.ModeledError, AWSClientRunti
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -17879,9 +17967,9 @@ public struct RegistrationCodeValidationException: ClientRuntime.ModeledError, A
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -17956,9 +18044,9 @@ public struct CertificateConflictException: ClientRuntime.ModeledError, AWSClien
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -18053,9 +18141,9 @@ public struct ResourceRegistrationFailureException: ClientRuntime.ModeledError, 
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -18249,20 +18337,36 @@ extension IoTClientTypes {
 
     /// The connectivity status of the thing.
     public struct ThingConnectivity: Swift.Sendable {
+        /// Indicates whether the client is using a clean session. Returns true for clean sessions.
+        public var cleanSession: Swift.Bool?
+        /// The unique identifier of the MQTT client.
+        public var clientId: Swift.String?
         /// True if the thing is connected to the Amazon Web Services IoT Core service; false if it is not connected.
         public var connected: Swift.Bool?
-        /// The reason why the client is disconnected. If the thing has been disconnected for approximately an hour, the disconnectReason value might be missing.
+        /// The reason why the client is disconnected. When you enable or update the indexing configuration, this value might be missing for devices that have never connected or have been disconnected for more than an hour.
         public var disconnectReason: Swift.String?
-        /// The epoch time (in milliseconds) when the thing last connected or disconnected. If the thing has been disconnected for approximately an hour, the time value might be missing.
+        /// The keep-alive interval in seconds that the client specified when establishing the connection.
+        public var keepAliveDuration: Swift.Int?
+        /// The session expiry interval in seconds for the MQTT client connection. This value indicates how long the session will remain active after the client disconnects.
+        public var sessionExpiry: Swift.Int?
+        /// The epoch time (in milliseconds) when the thing last connected or disconnected. If the thing has been disconnected for approximately an hour, the time value might be missing. When you enable or update the indexing configuration, this value might be 0 (the Unix epoch time) for devices that have never connected or have been disconnected for more than an hour.
         public var timestamp: Swift.Int?
 
         public init(
+            cleanSession: Swift.Bool? = nil,
+            clientId: Swift.String? = nil,
             connected: Swift.Bool? = nil,
             disconnectReason: Swift.String? = nil,
+            keepAliveDuration: Swift.Int? = nil,
+            sessionExpiry: Swift.Int? = nil,
             timestamp: Swift.Int? = nil
         ) {
+            self.cleanSession = cleanSession
+            self.clientId = clientId
             self.connected = connected
             self.disconnectReason = disconnectReason
+            self.keepAliveDuration = keepAliveDuration
+            self.sessionExpiry = sessionExpiry
             self.timestamp = timestamp
         }
     }
@@ -18460,9 +18564,9 @@ public struct TaskAlreadyExistsException: ClientRuntime.ModeledError, AWSClientR
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -18715,9 +18819,9 @@ public struct InvalidResponseException: ClientRuntime.ModeledError, AWSClientRun
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -18855,9 +18959,9 @@ public struct TransferConflictException: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -25320,6 +25424,14 @@ extension GetStatisticsInput {
     }
 }
 
+extension GetThingConnectivityDataInput {
+
+    static func write(value: GetThingConnectivityDataInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["includeSocketInformation"].write(value.includeSocketInformation)
+    }
+}
+
 extension ListAuditFindingsInput {
 
     static func write(value: ListAuditFindingsInput?, to writer: SmithyJSON.Writer) throws {
@@ -27656,10 +27768,19 @@ extension GetThingConnectivityDataOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetThingConnectivityDataOutput()
+        value.cleanSession = try reader["cleanSession"].readIfPresent()
+        value.clientId = try reader["clientId"].readIfPresent()
         value.connected = try reader["connected"].readIfPresent()
         value.disconnectReason = try reader["disconnectReason"].readIfPresent()
+        value.keepAliveDuration = try reader["keepAliveDuration"].readIfPresent()
+        value.sessionExpiry = try reader["sessionExpiry"].readIfPresent()
+        value.sourceIp = try reader["sourceIp"].readIfPresent()
+        value.sourcePort = try reader["sourcePort"].readIfPresent()
+        value.targetIp = try reader["targetIp"].readIfPresent()
+        value.targetPort = try reader["targetPort"].readIfPresent()
         value.thingName = try reader["thingName"].readIfPresent()
         value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.vpcEndpointId = try reader["vpcEndpointId"].readIfPresent()
         return value
     }
 }
@@ -35658,6 +35779,21 @@ extension IoTClientTypes.ConfigurationDetails {
     }
 }
 
+extension IoTClientTypes.ConnectivityFilter {
+
+    static func write(value: IoTClientTypes.ConnectivityFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["includeSocketInformation"].writeList(value.includeSocketInformation, memberWritingClosure: SmithyReadWrite.WritingClosureBox<IoTClientTypes.FleetIndexingApi>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.ConnectivityFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTClientTypes.ConnectivityFilter()
+        value.includeSocketInformation = try reader["includeSocketInformation"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<IoTClientTypes.FleetIndexingApi>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension IoTClientTypes.CustomCodeSigning {
 
     static func write(value: IoTClientTypes.CustomCodeSigning?, to writer: SmithyJSON.Writer) throws {
@@ -36143,6 +36279,7 @@ extension IoTClientTypes.IndexingFilter {
 
     static func write(value: IoTClientTypes.IndexingFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["connectivity"].write(value.connectivity, with: IoTClientTypes.ConnectivityFilter.write(value:to:))
         try writer["geoLocations"].writeList(value.geoLocations, memberWritingClosure: IoTClientTypes.GeoLocationTarget.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["namedShadowNames"].writeList(value.namedShadowNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
@@ -36152,6 +36289,7 @@ extension IoTClientTypes.IndexingFilter {
         var value = IoTClientTypes.IndexingFilter()
         value.namedShadowNames = try reader["namedShadowNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.geoLocations = try reader["geoLocations"].readListIfPresent(memberReadingClosure: IoTClientTypes.GeoLocationTarget.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.connectivity = try reader["connectivity"].readIfPresent(with: IoTClientTypes.ConnectivityFilter.read(from:))
         return value
     }
 }
@@ -37844,6 +37982,10 @@ extension IoTClientTypes.ThingConnectivity {
         value.connected = try reader["connected"].readIfPresent()
         value.timestamp = try reader["timestamp"].readIfPresent()
         value.disconnectReason = try reader["disconnectReason"].readIfPresent()
+        value.keepAliveDuration = try reader["keepAliveDuration"].readIfPresent()
+        value.cleanSession = try reader["cleanSession"].readIfPresent()
+        value.sessionExpiry = try reader["sessionExpiry"].readIfPresent()
+        value.clientId = try reader["clientId"].readIfPresent()
         return value
     }
 }

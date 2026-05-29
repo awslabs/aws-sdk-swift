@@ -843,6 +843,35 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
+    public enum NdiOutputTimecodeSource: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case embeddedTimecode
+        case utcSystemTime
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NdiOutputTimecodeSource] {
+            return [
+                .embeddedTimecode,
+                .utcSystemTime
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .embeddedTimecode: return "EMBEDDED_TIMECODE"
+            case .utcSystemTime: return "UTC_SYSTEM_TIME"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
     public enum OutputStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
@@ -1010,6 +1039,12 @@ extension MediaConnectClientTypes {
         public var minLatency: Swift.Int?
         /// The name of the output. This value must be unique within the current flow.
         public var name: Swift.String?
+        /// Controls how MediaConnect generates timecodes for NDI output frames. If you don't specify this field, MediaConnect uses EMBEDDED_TIMECODE.
+        ///
+        /// * EMBEDDED_TIMECODE (default) - Preserves timecodes from the input transport stream. The timecodes must be embedded in the video stream as SEI timing messages. If no embedded timecode is detected, MediaConnect uses the UTC system time instead.
+        ///
+        /// * UTC_SYSTEM_TIME - Generates timecodes based on the system clock time when each frame is sent.
+        public var ndiOutputTimecodeSource: MediaConnectClientTypes.NdiOutputTimecodeSource?
         /// A suffix for the name of the NDI® sender that the flow creates. If a custom name isn't specified, MediaConnect uses the output name.
         public var ndiProgramName: Swift.String?
         /// A quality setting for the NDI Speed HQ encoder.
@@ -1046,6 +1081,7 @@ extension MediaConnectClientTypes {
             mediaStreamOutputConfigurations: [MediaConnectClientTypes.MediaStreamOutputConfigurationRequest]? = nil,
             minLatency: Swift.Int? = nil,
             name: Swift.String? = nil,
+            ndiOutputTimecodeSource: MediaConnectClientTypes.NdiOutputTimecodeSource? = nil,
             ndiProgramName: Swift.String? = nil,
             ndiSpeedHqQuality: Swift.Int? = nil,
             outputStatus: MediaConnectClientTypes.OutputStatus? = nil,
@@ -1068,6 +1104,7 @@ extension MediaConnectClientTypes {
             self.mediaStreamOutputConfigurations = mediaStreamOutputConfigurations
             self.minLatency = minLatency
             self.name = name
+            self.ndiOutputTimecodeSource = ndiOutputTimecodeSource
             self.ndiProgramName = ndiProgramName
             self.ndiSpeedHqQuality = ndiSpeedHqQuality
             self.outputStatus = outputStatus
@@ -2483,6 +2520,12 @@ extension MediaConnectClientTypes {
         public var maxSyncBuffer: Swift.Int?
         /// The minimum latency in milliseconds for SRT-based streams. In streams that use the SRT protocol, this value that you set on your MediaConnect source or output represents the minimal potential latency of that connection. The latency of the stream is set to the highest number between the sender’s minimum latency and the receiver’s minimum latency.
         public var minLatency: Swift.Int?
+        /// The timecode source for NDI output frames. For NDI outputs, this field is always present and defaults to EMBEDDED_TIMECODE.
+        ///
+        /// * EMBEDDED_TIMECODE - Preserves timecodes from the input transport stream. The timecodes must be embedded in the video stream as SEI timing messages. If no embedded timecode is detected, MediaConnect uses the UTC system time instead.
+        ///
+        /// * UTC_SYSTEM_TIME - Generates timecodes based on the system clock time when each frame is sent.
+        public var ndiOutputTimecodeSource: MediaConnectClientTypes.NdiOutputTimecodeSource?
         /// A suffix for the name of the NDI® sender that the flow creates. If a custom name isn't specified, MediaConnect uses the output name.
         public var ndiProgramName: Swift.String?
         /// The settings for the NDI source. This includes the exact name of the upstream NDI sender that you want to connect to your source.
@@ -2513,6 +2556,7 @@ extension MediaConnectClientTypes {
             maxLatency: Swift.Int? = nil,
             maxSyncBuffer: Swift.Int? = nil,
             minLatency: Swift.Int? = nil,
+            ndiOutputTimecodeSource: MediaConnectClientTypes.NdiOutputTimecodeSource? = nil,
             ndiProgramName: Swift.String? = nil,
             ndiSourceSettings: MediaConnectClientTypes.NdiSourceSettings? = nil,
             ndiSpeedHqQuality: Swift.Int? = nil,
@@ -2530,6 +2574,7 @@ extension MediaConnectClientTypes {
             self.maxLatency = maxLatency
             self.maxSyncBuffer = maxSyncBuffer
             self.minLatency = minLatency
+            self.ndiOutputTimecodeSource = ndiOutputTimecodeSource
             self.ndiProgramName = ndiProgramName
             self.ndiSourceSettings = ndiSourceSettings
             self.ndiSpeedHqQuality = ndiSpeedHqQuality
@@ -3256,9 +3301,9 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -3280,9 +3325,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { true }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -3304,9 +3349,9 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -3328,9 +3373,9 @@ public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClien
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { true }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -3352,9 +3397,9 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -3376,9 +3421,9 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { true }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -3400,9 +3445,9 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { true }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -3536,9 +3581,9 @@ public struct AddFlowOutputs420Exception: ClientRuntime.ModeledError, AWSClientR
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -6061,9 +6106,9 @@ public struct CreateBridge420Exception: ClientRuntime.ModeledError, AWSClientRun
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -6653,9 +6698,9 @@ public struct CreateFlow420Exception: ClientRuntime.ModeledError, AWSClientRunti
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -7034,9 +7079,9 @@ public struct CreateGateway420Exception: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -7130,9 +7175,9 @@ public struct RouterInputServiceQuotaExceededException: ClientRuntime.ModeledErr
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -7222,9 +7267,9 @@ public struct RouterNetworkInterfaceServiceQuotaExceededException: ClientRuntime
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -7287,9 +7332,9 @@ public struct RouterOutputServiceQuotaExceededException: ClientRuntime.ModeledEr
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -7900,9 +7945,9 @@ public struct GrantFlowEntitlements420Exception: ClientRuntime.ModeledError, AWS
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -8426,6 +8471,12 @@ public struct UpdateFlowOutputInput: Swift.Sendable {
     public var mediaStreamOutputConfigurations: [MediaConnectClientTypes.MediaStreamOutputConfigurationRequest]?
     /// The minimum latency in milliseconds for SRT-based streams. In streams that use the SRT protocol, this value that you set on your MediaConnect source or output represents the minimal potential latency of that connection. The latency of the stream is set to the highest number between the sender’s minimum latency and the receiver’s minimum latency.
     public var minLatency: Swift.Int?
+    /// Controls how MediaConnect generates timecodes for NDI output frames. If you don't specify this field, MediaConnect leaves the value unchanged.
+    ///
+    /// * EMBEDDED_TIMECODE - Preserves timecodes from the input transport stream. The timecodes must be embedded in the video stream as SEI timing messages. If no embedded timecode is detected, MediaConnect uses the UTC system time instead.
+    ///
+    /// * UTC_SYSTEM_TIME - Generates timecodes based on the system clock time when each frame is sent.
+    public var ndiOutputTimecodeSource: MediaConnectClientTypes.NdiOutputTimecodeSource?
     /// A suffix for the name of the NDI® sender that the flow creates. If a custom name isn't specified, MediaConnect uses the output name.
     public var ndiProgramName: Swift.String?
     /// A quality setting for the NDI Speed HQ encoder.
@@ -8465,6 +8516,7 @@ public struct UpdateFlowOutputInput: Swift.Sendable {
         maxLatency: Swift.Int? = nil,
         mediaStreamOutputConfigurations: [MediaConnectClientTypes.MediaStreamOutputConfigurationRequest]? = nil,
         minLatency: Swift.Int? = nil,
+        ndiOutputTimecodeSource: MediaConnectClientTypes.NdiOutputTimecodeSource? = nil,
         ndiProgramName: Swift.String? = nil,
         ndiSpeedHqQuality: Swift.Int? = nil,
         outputArn: Swift.String? = nil,
@@ -8488,6 +8540,7 @@ public struct UpdateFlowOutputInput: Swift.Sendable {
         self.maxLatency = maxLatency
         self.mediaStreamOutputConfigurations = mediaStreamOutputConfigurations
         self.minLatency = minLatency
+        self.ndiOutputTimecodeSource = ndiOutputTimecodeSource
         self.ndiProgramName = ndiProgramName
         self.ndiSpeedHqQuality = ndiSpeedHqQuality
         self.outputArn = outputArn
@@ -11340,6 +11393,7 @@ extension UpdateFlowOutputInput {
         try writer["maxLatency"].write(value.maxLatency)
         try writer["mediaStreamOutputConfigurations"].writeList(value.mediaStreamOutputConfigurations, memberWritingClosure: MediaConnectClientTypes.MediaStreamOutputConfigurationRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["minLatency"].write(value.minLatency)
+        try writer["ndiOutputTimecodeSource"].write(value.ndiOutputTimecodeSource)
         try writer["ndiProgramName"].write(value.ndiProgramName)
         try writer["ndiSpeedHqQuality"].write(value.ndiSpeedHqQuality)
         try writer["outputStatus"].write(value.outputStatus)
@@ -14326,6 +14380,7 @@ extension MediaConnectClientTypes.AddOutputRequest {
         try writer["mediaStreamOutputConfigurations"].writeList(value.mediaStreamOutputConfigurations, memberWritingClosure: MediaConnectClientTypes.MediaStreamOutputConfigurationRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["minLatency"].write(value.minLatency)
         try writer["name"].write(value.name)
+        try writer["ndiOutputTimecodeSource"].write(value.ndiOutputTimecodeSource)
         try writer["ndiProgramName"].write(value.ndiProgramName)
         try writer["ndiSpeedHqQuality"].write(value.ndiSpeedHqQuality)
         try writer["outputStatus"].write(value.outputStatus)
@@ -16649,6 +16704,7 @@ extension MediaConnectClientTypes.Transport {
         value.ndiSpeedHqQuality = try reader["ndiSpeedHqQuality"].readIfPresent()
         value.ndiProgramName = try reader["ndiProgramName"].readIfPresent()
         value.ndiSourceSettings = try reader["ndiSourceSettings"].readIfPresent(with: MediaConnectClientTypes.NdiSourceSettings.read(from:))
+        value.ndiOutputTimecodeSource = try reader["ndiOutputTimecodeSource"].readIfPresent()
         return value
     }
 }

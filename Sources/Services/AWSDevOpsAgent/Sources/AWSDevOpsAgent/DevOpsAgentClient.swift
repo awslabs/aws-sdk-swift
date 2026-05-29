@@ -15,7 +15,7 @@ import class AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain
 import class ClientRuntime.ClientBuilder
 import class ClientRuntime.DefaultClientPlugin
 import class ClientRuntime.HttpClientConfiguration
-import class ClientRuntime.OrchestratorBuilder
+@_spi(SchemaBasedSerde) import class ClientRuntime.OrchestratorBuilder
 import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
@@ -633,7 +633,7 @@ extension DevOpsAgentClient {
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     /// - `ServiceQuotaExceededException` : The request would exceed the service quota limit.
     /// - `ThrottlingException` : The request was throttled due to too many requests. Please slow down and try again.
-    /// - `ValidationException` : A standard error for input validation failures. This should be thrown by services when a member of the input structure falls outside of the modeled or documented constraints.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func associateService(input: AssociateServiceInput) async throws -> AssociateServiceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -709,7 +709,7 @@ extension DevOpsAgentClient {
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     /// - `ServiceQuotaExceededException` : The request would exceed the service quota limit.
     /// - `ThrottlingException` : The request was throttled due to too many requests. Please slow down and try again.
-    /// - `ValidationException` : A standard error for input validation failures. This should be thrown by services when a member of the input structure falls outside of the modeled or documented constraints.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func createAgentSpace(input: CreateAgentSpaceInput) async throws -> CreateAgentSpaceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -786,7 +786,7 @@ extension DevOpsAgentClient {
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     /// - `ServiceQuotaExceededException` : The request would exceed the service quota limit.
     /// - `ThrottlingException` : The request was throttled due to too many requests. Please slow down and try again.
-    /// - `ValidationException` : A standard error for input validation failures. This should be thrown by services when a member of the input structure falls outside of the modeled or documented constraints.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func createBacklogTask(input: CreateBacklogTaskInput) async throws -> CreateBacklogTaskOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -863,7 +863,7 @@ extension DevOpsAgentClient {
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     /// - `ServiceQuotaExceededException` : The request would exceed the service quota limit.
     /// - `ThrottlingException` : The request was throttled due to too many requests. Please slow down and try again.
-    /// - `ValidationException` : A standard error for input validation failures. This should be thrown by services when a member of the input structure falls outside of the modeled or documented constraints.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func createChat(input: CreateChatInput) async throws -> CreateChatOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -937,7 +937,7 @@ extension DevOpsAgentClient {
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     /// - `ServiceQuotaExceededException` : The request would exceed the service quota limit.
     /// - `ThrottlingException` : The request was throttled due to too many requests. Please slow down and try again.
-    /// - `ValidationException` : A standard error for input validation failures. This should be thrown by services when a member of the input structure falls outside of the modeled or documented constraints.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func createPrivateConnection(input: CreatePrivateConnectionInput) async throws -> CreatePrivateConnectionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1013,7 +1013,7 @@ extension DevOpsAgentClient {
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     /// - `ServiceQuotaExceededException` : The request would exceed the service quota limit.
     /// - `ThrottlingException` : The request was throttled due to too many requests. Please slow down and try again.
-    /// - `ValidationException` : A standard error for input validation failures. This should be thrown by services when a member of the input structure falls outside of the modeled or documented constraints.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func deleteAgentSpace(input: DeleteAgentSpaceInput) async throws -> DeleteAgentSpaceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1086,7 +1086,7 @@ extension DevOpsAgentClient {
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     /// - `ServiceQuotaExceededException` : The request would exceed the service quota limit.
     /// - `ThrottlingException` : The request was throttled due to too many requests. Please slow down and try again.
-    /// - `ValidationException` : A standard error for input validation failures. This should be thrown by services when a member of the input structure falls outside of the modeled or documented constraints.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func deletePrivateConnection(input: DeletePrivateConnectionInput) async throws -> DeletePrivateConnectionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1159,7 +1159,7 @@ extension DevOpsAgentClient {
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     /// - `ServiceQuotaExceededException` : The request would exceed the service quota limit.
     /// - `ThrottlingException` : The request was throttled due to too many requests. Please slow down and try again.
-    /// - `ValidationException` : A standard error for input validation failures. This should be thrown by services when a member of the input structure falls outside of the modeled or documented constraints.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func deregisterService(input: DeregisterServiceInput) async throws -> DeregisterServiceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1232,7 +1232,7 @@ extension DevOpsAgentClient {
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     /// - `ServiceQuotaExceededException` : The request would exceed the service quota limit.
     /// - `ThrottlingException` : The request was throttled due to too many requests. Please slow down and try again.
-    /// - `ValidationException` : A standard error for input validation failures. This should be thrown by services when a member of the input structure falls outside of the modeled or documented constraints.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func describePrivateConnection(input: DescribePrivateConnectionInput) async throws -> DescribePrivateConnectionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -1306,7 +1306,7 @@ extension DevOpsAgentClient {
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     /// - `ServiceQuotaExceededException` : The request would exceed the service quota limit.
     /// - `ThrottlingException` : The request was throttled due to too many requests. Please slow down and try again.
-    /// - `ValidationException` : A standard error for input validation failures. This should be thrown by services when a member of the input structure falls outside of the modeled or documented constraints.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func disableOperatorApp(input: DisableOperatorAppInput) async throws -> DisableOperatorAppOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1380,7 +1380,7 @@ extension DevOpsAgentClient {
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     /// - `ServiceQuotaExceededException` : The request would exceed the service quota limit.
     /// - `ThrottlingException` : The request was throttled due to too many requests. Please slow down and try again.
-    /// - `ValidationException` : A standard error for input validation failures. This should be thrown by services when a member of the input structure falls outside of the modeled or documented constraints.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func disassociateService(input: DisassociateServiceInput) async throws -> DisassociateServiceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1454,7 +1454,7 @@ extension DevOpsAgentClient {
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     /// - `ServiceQuotaExceededException` : The request would exceed the service quota limit.
     /// - `ThrottlingException` : The request was throttled due to too many requests. Please slow down and try again.
-    /// - `ValidationException` : A standard error for input validation failures. This should be thrown by services when a member of the input structure falls outside of the modeled or documented constraints.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func enableOperatorApp(input: EnableOperatorAppInput) async throws -> EnableOperatorAppOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1530,7 +1530,7 @@ extension DevOpsAgentClient {
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     /// - `ServiceQuotaExceededException` : The request would exceed the service quota limit.
     /// - `ThrottlingException` : The request was throttled due to too many requests. Please slow down and try again.
-    /// - `ValidationException` : A standard error for input validation failures. This should be thrown by services when a member of the input structure falls outside of the modeled or documented constraints.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func getAccountUsage(input: GetAccountUsageInput) async throws -> GetAccountUsageOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -1603,7 +1603,7 @@ extension DevOpsAgentClient {
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     /// - `ServiceQuotaExceededException` : The request would exceed the service quota limit.
     /// - `ThrottlingException` : The request was throttled due to too many requests. Please slow down and try again.
-    /// - `ValidationException` : A standard error for input validation failures. This should be thrown by services when a member of the input structure falls outside of the modeled or documented constraints.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func getAgentSpace(input: GetAgentSpaceInput) async throws -> GetAgentSpaceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -1676,7 +1676,7 @@ extension DevOpsAgentClient {
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     /// - `ServiceQuotaExceededException` : The request would exceed the service quota limit.
     /// - `ThrottlingException` : The request was throttled due to too many requests. Please slow down and try again.
-    /// - `ValidationException` : A standard error for input validation failures. This should be thrown by services when a member of the input structure falls outside of the modeled or documented constraints.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func getAssociation(input: GetAssociationInput) async throws -> GetAssociationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -1749,7 +1749,7 @@ extension DevOpsAgentClient {
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     /// - `ServiceQuotaExceededException` : The request would exceed the service quota limit.
     /// - `ThrottlingException` : The request was throttled due to too many requests. Please slow down and try again.
-    /// - `ValidationException` : A standard error for input validation failures. This should be thrown by services when a member of the input structure falls outside of the modeled or documented constraints.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func getBacklogTask(input: GetBacklogTaskInput) async throws -> GetBacklogTaskOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -1822,7 +1822,7 @@ extension DevOpsAgentClient {
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     /// - `ServiceQuotaExceededException` : The request would exceed the service quota limit.
     /// - `ThrottlingException` : The request was throttled due to too many requests. Please slow down and try again.
-    /// - `ValidationException` : A standard error for input validation failures. This should be thrown by services when a member of the input structure falls outside of the modeled or documented constraints.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func getOperatorApp(input: GetOperatorAppInput) async throws -> GetOperatorAppOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -1895,7 +1895,7 @@ extension DevOpsAgentClient {
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     /// - `ServiceQuotaExceededException` : The request would exceed the service quota limit.
     /// - `ThrottlingException` : The request was throttled due to too many requests. Please slow down and try again.
-    /// - `ValidationException` : A standard error for input validation failures. This should be thrown by services when a member of the input structure falls outside of the modeled or documented constraints.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func getRecommendation(input: GetRecommendationInput) async throws -> GetRecommendationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -1969,7 +1969,7 @@ extension DevOpsAgentClient {
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     /// - `ServiceQuotaExceededException` : The request would exceed the service quota limit.
     /// - `ThrottlingException` : The request was throttled due to too many requests. Please slow down and try again.
-    /// - `ValidationException` : A standard error for input validation failures. This should be thrown by services when a member of the input structure falls outside of the modeled or documented constraints.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func getService(input: GetServiceInput) async throws -> GetServiceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -2042,7 +2042,7 @@ extension DevOpsAgentClient {
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     /// - `ServiceQuotaExceededException` : The request would exceed the service quota limit.
     /// - `ThrottlingException` : The request was throttled due to too many requests. Please slow down and try again.
-    /// - `ValidationException` : A standard error for input validation failures. This should be thrown by services when a member of the input structure falls outside of the modeled or documented constraints.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func listAgentSpaces(input: ListAgentSpacesInput) async throws -> ListAgentSpacesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2116,7 +2116,7 @@ extension DevOpsAgentClient {
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     /// - `ServiceQuotaExceededException` : The request would exceed the service quota limit.
     /// - `ThrottlingException` : The request was throttled due to too many requests. Please slow down and try again.
-    /// - `ValidationException` : A standard error for input validation failures. This should be thrown by services when a member of the input structure falls outside of the modeled or documented constraints.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func listAssociations(input: ListAssociationsInput) async throws -> ListAssociationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2190,7 +2190,7 @@ extension DevOpsAgentClient {
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     /// - `ServiceQuotaExceededException` : The request would exceed the service quota limit.
     /// - `ThrottlingException` : The request was throttled due to too many requests. Please slow down and try again.
-    /// - `ValidationException` : A standard error for input validation failures. This should be thrown by services when a member of the input structure falls outside of the modeled or documented constraints.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func listBacklogTasks(input: ListBacklogTasksInput) async throws -> ListBacklogTasksOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2266,7 +2266,7 @@ extension DevOpsAgentClient {
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     /// - `ServiceQuotaExceededException` : The request would exceed the service quota limit.
     /// - `ThrottlingException` : The request was throttled due to too many requests. Please slow down and try again.
-    /// - `ValidationException` : A standard error for input validation failures. This should be thrown by services when a member of the input structure falls outside of the modeled or documented constraints.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func listChats(input: ListChatsInput) async throws -> ListChatsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -2340,7 +2340,7 @@ extension DevOpsAgentClient {
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     /// - `ServiceQuotaExceededException` : The request would exceed the service quota limit.
     /// - `ThrottlingException` : The request was throttled due to too many requests. Please slow down and try again.
-    /// - `ValidationException` : A standard error for input validation failures. This should be thrown by services when a member of the input structure falls outside of the modeled or documented constraints.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func listExecutions(input: ListExecutionsInput) async throws -> ListExecutionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2416,7 +2416,7 @@ extension DevOpsAgentClient {
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     /// - `ServiceQuotaExceededException` : The request would exceed the service quota limit.
     /// - `ThrottlingException` : The request was throttled due to too many requests. Please slow down and try again.
-    /// - `ValidationException` : A standard error for input validation failures. This should be thrown by services when a member of the input structure falls outside of the modeled or documented constraints.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func listGoals(input: ListGoalsInput) async throws -> ListGoalsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2492,7 +2492,7 @@ extension DevOpsAgentClient {
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     /// - `ServiceQuotaExceededException` : The request would exceed the service quota limit.
     /// - `ThrottlingException` : The request was throttled due to too many requests. Please slow down and try again.
-    /// - `ValidationException` : A standard error for input validation failures. This should be thrown by services when a member of the input structure falls outside of the modeled or documented constraints.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func listJournalRecords(input: ListJournalRecordsInput) async throws -> ListJournalRecordsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2568,7 +2568,7 @@ extension DevOpsAgentClient {
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     /// - `ServiceQuotaExceededException` : The request would exceed the service quota limit.
     /// - `ThrottlingException` : The request was throttled due to too many requests. Please slow down and try again.
-    /// - `ValidationException` : A standard error for input validation failures. This should be thrown by services when a member of the input structure falls outside of the modeled or documented constraints.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func listPendingMessages(input: ListPendingMessagesInput) async throws -> ListPendingMessagesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2644,7 +2644,7 @@ extension DevOpsAgentClient {
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     /// - `ServiceQuotaExceededException` : The request would exceed the service quota limit.
     /// - `ThrottlingException` : The request was throttled due to too many requests. Please slow down and try again.
-    /// - `ValidationException` : A standard error for input validation failures. This should be thrown by services when a member of the input structure falls outside of the modeled or documented constraints.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func listPrivateConnections(input: ListPrivateConnectionsInput) async throws -> ListPrivateConnectionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -2717,7 +2717,7 @@ extension DevOpsAgentClient {
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     /// - `ServiceQuotaExceededException` : The request would exceed the service quota limit.
     /// - `ThrottlingException` : The request was throttled due to too many requests. Please slow down and try again.
-    /// - `ValidationException` : A standard error for input validation failures. This should be thrown by services when a member of the input structure falls outside of the modeled or documented constraints.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func listRecommendations(input: ListRecommendationsInput) async throws -> ListRecommendationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2793,7 +2793,7 @@ extension DevOpsAgentClient {
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     /// - `ServiceQuotaExceededException` : The request would exceed the service quota limit.
     /// - `ThrottlingException` : The request was throttled due to too many requests. Please slow down and try again.
-    /// - `ValidationException` : A standard error for input validation failures. This should be thrown by services when a member of the input structure falls outside of the modeled or documented constraints.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func listServices(input: ListServicesInput) async throws -> ListServicesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2867,7 +2867,7 @@ extension DevOpsAgentClient {
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     /// - `ServiceQuotaExceededException` : The request would exceed the service quota limit.
     /// - `ThrottlingException` : The request was throttled due to too many requests. Please slow down and try again.
-    /// - `ValidationException` : A standard error for input validation failures. This should be thrown by services when a member of the input structure falls outside of the modeled or documented constraints.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -2940,7 +2940,7 @@ extension DevOpsAgentClient {
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     /// - `ServiceQuotaExceededException` : The request would exceed the service quota limit.
     /// - `ThrottlingException` : The request was throttled due to too many requests. Please slow down and try again.
-    /// - `ValidationException` : A standard error for input validation failures. This should be thrown by services when a member of the input structure falls outside of the modeled or documented constraints.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func listWebhooks(input: ListWebhooksInput) async throws -> ListWebhooksOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3013,7 +3013,7 @@ extension DevOpsAgentClient {
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     /// - `ServiceQuotaExceededException` : The request would exceed the service quota limit.
     /// - `ThrottlingException` : The request was throttled due to too many requests. Please slow down and try again.
-    /// - `ValidationException` : A standard error for input validation failures. This should be thrown by services when a member of the input structure falls outside of the modeled or documented constraints.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func registerService(input: RegisterServiceInput) async throws -> RegisterServiceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3089,7 +3089,7 @@ extension DevOpsAgentClient {
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     /// - `ServiceQuotaExceededException` : The request would exceed the service quota limit.
     /// - `ThrottlingException` : The request was throttled due to too many requests. Please slow down and try again.
-    /// - `ValidationException` : A standard error for input validation failures. This should be thrown by services when a member of the input structure falls outside of the modeled or documented constraints.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func sendMessage(input: SendMessageInput) async throws -> SendMessageOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3165,7 +3165,7 @@ extension DevOpsAgentClient {
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     /// - `ServiceQuotaExceededException` : The request would exceed the service quota limit.
     /// - `ThrottlingException` : The request was throttled due to too many requests. Please slow down and try again.
-    /// - `ValidationException` : A standard error for input validation failures. This should be thrown by services when a member of the input structure falls outside of the modeled or documented constraints.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3241,7 +3241,7 @@ extension DevOpsAgentClient {
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     /// - `ServiceQuotaExceededException` : The request would exceed the service quota limit.
     /// - `ThrottlingException` : The request was throttled due to too many requests. Please slow down and try again.
-    /// - `ValidationException` : A standard error for input validation failures. This should be thrown by services when a member of the input structure falls outside of the modeled or documented constraints.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -3315,7 +3315,7 @@ extension DevOpsAgentClient {
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     /// - `ServiceQuotaExceededException` : The request would exceed the service quota limit.
     /// - `ThrottlingException` : The request was throttled due to too many requests. Please slow down and try again.
-    /// - `ValidationException` : A standard error for input validation failures. This should be thrown by services when a member of the input structure falls outside of the modeled or documented constraints.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func updateAgentSpace(input: UpdateAgentSpaceInput) async throws -> UpdateAgentSpaceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .patch)
@@ -3391,7 +3391,7 @@ extension DevOpsAgentClient {
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     /// - `ServiceQuotaExceededException` : The request would exceed the service quota limit.
     /// - `ThrottlingException` : The request was throttled due to too many requests. Please slow down and try again.
-    /// - `ValidationException` : A standard error for input validation failures. This should be thrown by services when a member of the input structure falls outside of the modeled or documented constraints.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func updateAssociation(input: UpdateAssociationInput) async throws -> UpdateAssociationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .patch)
@@ -3467,7 +3467,7 @@ extension DevOpsAgentClient {
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     /// - `ServiceQuotaExceededException` : The request would exceed the service quota limit.
     /// - `ThrottlingException` : The request was throttled due to too many requests. Please slow down and try again.
-    /// - `ValidationException` : A standard error for input validation failures. This should be thrown by services when a member of the input structure falls outside of the modeled or documented constraints.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func updateBacklogTask(input: UpdateBacklogTaskInput) async throws -> UpdateBacklogTaskOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .patch)
@@ -3544,7 +3544,7 @@ extension DevOpsAgentClient {
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     /// - `ServiceQuotaExceededException` : The request would exceed the service quota limit.
     /// - `ThrottlingException` : The request was throttled due to too many requests. Please slow down and try again.
-    /// - `ValidationException` : A standard error for input validation failures. This should be thrown by services when a member of the input structure falls outside of the modeled or documented constraints.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func updateGoal(input: UpdateGoalInput) async throws -> UpdateGoalOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .patch)
@@ -3621,7 +3621,7 @@ extension DevOpsAgentClient {
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     /// - `ServiceQuotaExceededException` : The request would exceed the service quota limit.
     /// - `ThrottlingException` : The request was throttled due to too many requests. Please slow down and try again.
-    /// - `ValidationException` : A standard error for input validation failures. This should be thrown by services when a member of the input structure falls outside of the modeled or documented constraints.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func updateOperatorAppIdpConfig(input: UpdateOperatorAppIdpConfigInput) async throws -> UpdateOperatorAppIdpConfigOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .patch)
@@ -3644,7 +3644,7 @@ extension DevOpsAgentClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateOperatorAppIdpConfigInput, UpdateOperatorAppIdpConfigOutput>(UpdateOperatorAppIdpConfigInput.urlPathProvider(_:)))
-        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateOperatorAppIdpConfigInput, UpdateOperatorAppIdpConfigOutput>())
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateOperatorAppIdpConfigInput, UpdateOperatorAppIdpConfigOutput>(hostPrefix: "cp."))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateOperatorAppIdpConfigInput, UpdateOperatorAppIdpConfigOutput>(contentType: "application/json"))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateOperatorAppIdpConfigInput, UpdateOperatorAppIdpConfigOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateOperatorAppIdpConfigInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateOperatorAppIdpConfigInput, UpdateOperatorAppIdpConfigOutput>())
@@ -3697,7 +3697,7 @@ extension DevOpsAgentClient {
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     /// - `ServiceQuotaExceededException` : The request would exceed the service quota limit.
     /// - `ThrottlingException` : The request was throttled due to too many requests. Please slow down and try again.
-    /// - `ValidationException` : A standard error for input validation failures. This should be thrown by services when a member of the input structure falls outside of the modeled or documented constraints.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func updatePrivateConnectionCertificate(input: UpdatePrivateConnectionCertificateInput) async throws -> UpdatePrivateConnectionCertificateOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3773,7 +3773,7 @@ extension DevOpsAgentClient {
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     /// - `ServiceQuotaExceededException` : The request would exceed the service quota limit.
     /// - `ThrottlingException` : The request was throttled due to too many requests. Please slow down and try again.
-    /// - `ValidationException` : A standard error for input validation failures. This should be thrown by services when a member of the input structure falls outside of the modeled or documented constraints.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func updateRecommendation(input: UpdateRecommendationInput) async throws -> UpdateRecommendationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .patch)
@@ -3850,7 +3850,7 @@ extension DevOpsAgentClient {
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     /// - `ServiceQuotaExceededException` : The request would exceed the service quota limit.
     /// - `ThrottlingException` : The request was throttled due to too many requests. Please slow down and try again.
-    /// - `ValidationException` : A standard error for input validation failures. This should be thrown by services when a member of the input structure falls outside of the modeled or documented constraints.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func validateAwsAssociations(input: ValidateAwsAssociationsInput) async throws -> ValidateAwsAssociationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)

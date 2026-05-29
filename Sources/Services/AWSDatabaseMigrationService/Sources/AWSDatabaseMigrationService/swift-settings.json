@@ -1,0 +1,8 @@
+{
+    "service": "com.amazonaws.databasemigrationservice#AmazonDMSv20160101",
+    "module": "AWSDatabaseMigrationService",
+    "sdkId": "Database Migration Service",
+    "internalClient": false,
+    "operations": [],
+    "modelPath": "codegen/sdk-codegen/aws-models/database-migration-service.json"
+}

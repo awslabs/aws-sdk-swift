@@ -62,9 +62,9 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -90,9 +90,9 @@ public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClien
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -193,9 +193,9 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -1899,9 +1899,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -2024,6 +2024,26 @@ extension GuardDutyClientTypes {
         ) {
             self.compatibleContainerInstances = compatibleContainerInstances
             self.coveredContainerInstances = coveredContainerInstances
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains information about the time range within the continuous backup in Amazon Web Services Backup to scan for a point-in-time recovery resource.
+    public struct ContinuousScanDetails: Swift.Sendable {
+        /// The timestamp representing the end of the time range to scan.
+        /// This member is required.
+        public var endTime: Foundation.Date?
+        /// The timestamp representing the start of the time range to scan. Reserved for internal use.
+        public var startTime: Foundation.Date?
+
+        public init(
+            endTime: Foundation.Date? = nil,
+            startTime: Foundation.Date? = nil
+        ) {
+            self.endTime = endTime
+            self.startTime = startTime
         }
     }
 }
@@ -5376,9 +5396,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -7347,7 +7367,11 @@ extension GuardDutyClientTypes {
         case maliciousDomain
         case maliciousFile
         case maliciousIp
+        case maliciousPackage
         case maliciousProcess
+        case misconfiguration
+        case reachability
+        case sensitiveData
         case suspiciousNetwork
         case suspiciousProcess
         case suspiciousUserAgent
@@ -7355,6 +7379,7 @@ extension GuardDutyClientTypes {
         case unusualApiForAccount
         case unusualAsnForAccount
         case unusualAsnForUser
+        case vulnerability
         case sdkUnknown(Swift.String)
 
         public static var allCases: [IndicatorType] {
@@ -7368,14 +7393,19 @@ extension GuardDutyClientTypes {
                 .maliciousDomain,
                 .maliciousFile,
                 .maliciousIp,
+                .maliciousPackage,
                 .maliciousProcess,
+                .misconfiguration,
+                .reachability,
+                .sensitiveData,
                 .suspiciousNetwork,
                 .suspiciousProcess,
                 .suspiciousUserAgent,
                 .torIp,
                 .unusualApiForAccount,
                 .unusualAsnForAccount,
-                .unusualAsnForUser
+                .unusualAsnForUser,
+                .vulnerability
             ]
         }
 
@@ -7395,7 +7425,11 @@ extension GuardDutyClientTypes {
             case .maliciousDomain: return "MALICIOUS_DOMAIN"
             case .maliciousFile: return "MALICIOUS_FILE"
             case .maliciousIp: return "MALICIOUS_IP"
+            case .maliciousPackage: return "MALICIOUS_PACKAGE"
             case .maliciousProcess: return "MALICIOUS_PROCESS"
+            case .misconfiguration: return "MISCONFIGURATION"
+            case .reachability: return "REACHABILITY"
+            case .sensitiveData: return "SENSITIVE_DATA"
             case .suspiciousNetwork: return "SUSPICIOUS_NETWORK"
             case .suspiciousProcess: return "SUSPICIOUS_PROCESS"
             case .suspiciousUserAgent: return "SUSPICIOUS_USER_AGENT"
@@ -7403,6 +7437,7 @@ extension GuardDutyClientTypes {
             case .unusualApiForAccount: return "UNUSUAL_API_FOR_ACCOUNT"
             case .unusualAsnForAccount: return "UNUSUAL_ASN_FOR_ACCOUNT"
             case .unusualAsnForUser: return "UNUSUAL_ASN_FOR_USER"
+            case .vulnerability: return "VULNERABILITY"
             case let .sdkUnknown(s): return s
             }
         }
@@ -10368,6 +10403,7 @@ extension GuardDutyClientTypes {
         case ec2Instance
         case ec2RecoveryPoint
         case s3Bucket
+        case s3PointInTimeRecovery
         case s3RecoveryPoint
         case sdkUnknown(Swift.String)
 
@@ -10380,6 +10416,7 @@ extension GuardDutyClientTypes {
                 .ec2Instance,
                 .ec2RecoveryPoint,
                 .s3Bucket,
+                .s3PointInTimeRecovery,
                 .s3RecoveryPoint
             ]
         }
@@ -10398,9 +10435,30 @@ extension GuardDutyClientTypes {
             case .ec2Instance: return "EC2_INSTANCE"
             case .ec2RecoveryPoint: return "EC2_RECOVERY_POINT"
             case .s3Bucket: return "S3_BUCKET"
+            case .s3PointInTimeRecovery: return "S3_POINT_IN_TIME_RECOVERY"
             case .s3RecoveryPoint: return "S3_RECOVERY_POINT"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains information about the time range within the continuous backup in Amazon Web Services Backup that was scanned for a point-in-time recovery resource.
+    public struct ScanConfigurationContinuousScanDetails: Swift.Sendable {
+        /// The timestamp representing the end of the time range that was scanned.
+        /// This member is required.
+        public var endTime: Foundation.Date?
+        /// The timestamp representing the start of the time range that was scanned.
+        public var startTime: Foundation.Date?
+
+        public init(
+            endTime: Foundation.Date? = nil,
+            startTime: Foundation.Date? = nil
+        ) {
+            self.endTime = endTime
+            self.startTime = startTime
         }
     }
 }
@@ -10411,11 +10469,15 @@ extension GuardDutyClientTypes {
     public struct ScanConfigurationRecoveryPoint: Swift.Sendable {
         /// The name of the Amazon Web Services Backup vault that contains the recovery point for the scanned.
         public var backupVaultName: Swift.String?
+        /// The time range within the continuous backup in Amazon Web Services Backup that was scanned for a point-in-time recovery resource.
+        public var continuousScanDetails: GuardDutyClientTypes.ScanConfigurationContinuousScanDetails?
 
         public init(
-            backupVaultName: Swift.String? = nil
+            backupVaultName: Swift.String? = nil,
+            continuousScanDetails: GuardDutyClientTypes.ScanConfigurationContinuousScanDetails? = nil
         ) {
             self.backupVaultName = backupVaultName
+            self.continuousScanDetails = continuousScanDetails
         }
     }
 }
@@ -12812,11 +12874,15 @@ extension GuardDutyClientTypes {
         /// The name of the Amazon Web Services Backup vault that contains the name of the recovery point to be scanned.
         /// This member is required.
         public var backupVaultName: Swift.String?
+        /// Contains information about the time range within the continuous backup in Amazon Web Services Backup to scan.
+        public var continuousScanDetails: GuardDutyClientTypes.ContinuousScanDetails?
 
         public init(
-            backupVaultName: Swift.String? = nil
+            backupVaultName: Swift.String? = nil,
+            continuousScanDetails: GuardDutyClientTypes.ContinuousScanDetails? = nil
         ) {
             self.backupVaultName = backupVaultName
+            self.continuousScanDetails = continuousScanDetails
         }
     }
 }
@@ -19311,6 +19377,15 @@ extension GuardDutyClientTypes.ContainerInstanceDetails {
     }
 }
 
+extension GuardDutyClientTypes.ContinuousScanDetails {
+
+    static func write(value: GuardDutyClientTypes.ContinuousScanDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["endTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["startTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+}
+
 extension GuardDutyClientTypes.Country {
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Country {
@@ -21137,6 +21212,7 @@ extension GuardDutyClientTypes.RecoveryPoint {
     static func write(value: GuardDutyClientTypes.RecoveryPoint?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["backupVaultName"].write(value.backupVaultName)
+        try writer["continuousScanDetails"].write(value.continuousScanDetails, with: GuardDutyClientTypes.ContinuousScanDetails.write(value:to:))
     }
 }
 
@@ -21485,12 +21561,24 @@ extension GuardDutyClientTypes.ScanConfiguration {
     }
 }
 
+extension GuardDutyClientTypes.ScanConfigurationContinuousScanDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ScanConfigurationContinuousScanDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.ScanConfigurationContinuousScanDetails()
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
 extension GuardDutyClientTypes.ScanConfigurationRecoveryPoint {
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ScanConfigurationRecoveryPoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.ScanConfigurationRecoveryPoint()
         value.backupVaultName = try reader["backupVaultName"].readIfPresent()
+        value.continuousScanDetails = try reader["continuousScanDetails"].readIfPresent(with: GuardDutyClientTypes.ScanConfigurationContinuousScanDetails.read(from:))
         return value
     }
 }

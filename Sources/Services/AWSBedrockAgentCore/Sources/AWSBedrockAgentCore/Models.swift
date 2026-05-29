@@ -392,9 +392,9 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -431,9 +431,9 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -454,9 +454,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -477,9 +477,9 @@ public struct RuntimeClientError: ClientRuntime.ModeledError, AWSClientRuntime.A
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -500,9 +500,9 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -523,9 +523,9 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -609,9 +609,9 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         fieldList: [BedrockAgentCoreClientTypes.ValidationExceptionField]? = nil,
@@ -661,6 +661,30 @@ public struct GetAgentCardOutput: Swift.Sendable {
         self.agentCard = agentCard
         self.runtimeSessionId = runtimeSessionId
         self.statusCode = statusCode
+    }
+}
+
+/// The exception that occurs when there is a retryable conflict performing an operation. This is a temporary condition that may resolve itself with retries. We recommend implementing exponential backoff retry logic in your application.
+public struct RetryableConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "RetryableConflictException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { true }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
     }
 }
 
@@ -1026,9 +1050,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -1049,9 +1073,9 @@ public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntim
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -1156,6 +1180,7 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes {
 
+    /// The comparison operator used to filter CloudWatch Logs entries.
     public enum CloudWatchLogsFilterOperator: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case contains
         case equals
@@ -3194,6 +3219,7 @@ public struct DeleteBatchEvaluationInput: Swift.Sendable {
 
 extension BedrockAgentCoreClientTypes {
 
+    /// The lifecycle status of a batch evaluation job.
     public enum BatchEvaluationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case completed
         case completedWithErrors
@@ -3275,6 +3301,7 @@ public struct DeleteRecommendationInput: Swift.Sendable {
 
 extension BedrockAgentCoreClientTypes {
 
+    /// The lifecycle status of a recommendation.
     public enum RecommendationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case completed
         case deleting
@@ -3340,9 +3367,9 @@ public struct DuplicateIdException: ClientRuntime.ModeledError, AWSClientRuntime
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -3426,7 +3453,7 @@ extension BedrockAgentCoreClientTypes {
     public struct EvaluationReferenceInput: Swift.Sendable {
         /// A list of assertion statements for session-level evaluation. Each assertion describes an expected behavior or outcome the agent should demonstrate during the session.
         public var assertions: [BedrockAgentCoreClientTypes.EvaluationContent]?
-        /// The contextual information associated with an evaluation, including span context details that identify the specific traces and sessions being evaluated within the agent's execution flow.
+        /// The span context that identifies which session or trace this reference input applies to, used for correlating ground truth with agent output.
         /// This member is required.
         public var context: BedrockAgentCoreClientTypes.Context?
         /// The expected response for trace-level evaluation. Built-in evaluators that support this field compare the agent's actual response against this value for assessment. Custom evaluators can access it through the {expected_response} placeholder in their instructions.
@@ -3771,9 +3798,9 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes {
 
-    /// Where to pull session spans from
+    /// Configuration for the data source used in evaluation.
     public enum DataSourceConfig: Swift.Sendable {
-        /// Pull session spans from CloudWatch
+        /// Configuration for pulling agent session traces from CloudWatch Logs.
         case cloudwatchlogs(BedrockAgentCoreClientTypes.CloudWatchLogsSource)
         case sdkUnknown(Swift.String)
     }
@@ -3858,7 +3885,7 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes {
 
-    /// An evaluator to run against sessions
+    /// An evaluator to run against sessions.
     public struct Evaluator: Swift.Sendable {
         /// The unique identifier of the evaluator. Can reference built-in evaluators (e.g., Builtin.Helpfulness) or custom evaluators.
         /// This member is required.
@@ -3874,7 +3901,7 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes {
 
-    /// CloudWatch Logs destination for batch evaluation results
+    /// CloudWatch Logs destination for batch evaluation results.
     public struct CloudWatchOutputConfig: Swift.Sendable {
         /// The name of the CloudWatch log group where evaluation results will be written.
         /// This member is required.
@@ -3895,7 +3922,7 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes {
 
-    /// Output destination configuration
+    /// Output destination configuration.
     public enum OutputConfig: Swift.Sendable {
         /// The CloudWatch Logs configuration for writing evaluation results.
         case cloudwatchconfig(BedrockAgentCoreClientTypes.CloudWatchOutputConfig)
@@ -4329,6 +4356,7 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes {
 
+    /// The type of recommendation to generate.
     public enum RecommendationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case systemPromptRecommendation
         case toolDescriptionRecommendation
@@ -4459,7 +4487,7 @@ public struct ListBatchEvaluationsInput: Swift.Sendable {
 
 extension BedrockAgentCoreClientTypes {
 
-    /// Summary representation for list responses
+    /// Summary representation for list responses.
     public struct BatchEvaluationSummary: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the batch evaluation.
         /// This member is required.
@@ -4647,9 +4675,9 @@ extension BedrockAgentCoreClientTypes {
 
     /// Inline ground truth data containing assertions, expected trajectories, and per-turn expected responses.
     public struct InlineGroundTruth: Swift.Sendable {
-        /// assertions for evaluation, reuses common model EvaluationContentList
+        /// Assertions for evaluation, reuses common model EvaluationContentList.
         public var assertions: [BedrockAgentCoreClientTypes.EvaluationContent]?
-        /// expectedTrajectory for evaluation, reuses common model EvaluationExpectedTrajectory
+        /// The expected tool call sequence for trajectory evaluation.
         public var expectedTrajectory: BedrockAgentCoreClientTypes.EvaluationExpectedTrajectory?
         /// A list of per-turn ground truth data, each containing an input prompt and expected response.
         public var turns: [BedrockAgentCoreClientTypes.GroundTruthTurn]?
@@ -4668,9 +4696,9 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes {
 
-    /// Where to pull ground truth from
+    /// Where to pull ground truth from.
     public enum GroundTruthSource: Swift.Sendable {
-        /// Provide ground truth inline
+        /// Inline ground truth data provided directly in the request.
         case inline(BedrockAgentCoreClientTypes.InlineGroundTruth)
         case sdkUnknown(Swift.String)
     }
@@ -5214,13 +5242,13 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes {
 
-    /// Coinbase CDP token request parameters
+    /// Coinbase CDP token request parameters.
     public struct CoinbaseCdpTokenRequestInput: Swift.Sendable {
-        /// Set to true for wallet write operations (requires walletSecret configured)
+        /// Set to true for wallet write operations (requires walletSecret configured).
         public var includeWalletAuthToken: Swift.Bool
-        /// Request body JSON - used to generate wallet auth JWT
+        /// Request body JSON — used to generate wallet auth JWT.
         public var requestBody: Swift.String?
-        /// Optional - defaults to "api.cdp.coinbase.com"
+        /// The host for the payment API request. Defaults to "api.cdp.coinbase.com".
         public var requestHost: Swift.String?
         /// The HTTP method for the payment API request.
         /// This member is required.
@@ -5247,14 +5275,14 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes {
 
-    /// StripePrivy token request parameters
+    /// Stripe Privy token request parameters.
     public struct StripePrivyTokenRequestInput: Swift.Sendable {
-        /// Set to true to generate privy-authorization-signature
+        /// Set to true to generate privy-authorization-signature.
         public var includeAuthorizationSignature: Swift.Bool
-        /// Request body JSON for the Privy API call
+        /// Request body JSON for the Privy API call.
         /// This member is required.
         public var requestBody: Swift.String?
-        /// Optional - defaults to "api.privy.io"
+        /// The host for the Privy API request. Defaults to "api.privy.io".
         public var requestHost: Swift.String?
         /// The path of the Stripe Privy API request.
         /// This member is required.
@@ -5281,24 +5309,24 @@ extension BedrockAgentCoreClientTypes.StripePrivyTokenRequestInput: Swift.Custom
 
 extension BedrockAgentCoreClientTypes {
 
-    /// VENDOR-SPECIFIC TOKEN REQUEST CONFIGURATION - Input
+    /// Vendor-specific token request configuration.
     public enum PaymentTokenRequestInput: Swift.Sendable {
-        /// Coinbase CDP token request parameters
+        /// The Coinbase CDP token request.
         case coinbasecdptokenrequest(BedrockAgentCoreClientTypes.CoinbaseCdpTokenRequestInput)
-        /// StripePrivy token request parameters
+        /// The Stripe Privy token request.
         case stripeprivytokenrequest(BedrockAgentCoreClientTypes.StripePrivyTokenRequestInput)
         case sdkUnknown(Swift.String)
     }
 }
 
 public struct GetResourcePaymentTokenInput: Swift.Sendable {
-    /// Vendor-specific token request input Contains all request parameters in a type-safe, vendor-specific structure
+    /// Vendor-specific token request input. Contains all request parameters in a type-safe, vendor-specific structure.
     /// This member is required.
     public var paymentTokenRequest: BedrockAgentCoreClientTypes.PaymentTokenRequestInput?
-    /// Name of the payment credential provider to use
+    /// Name of the payment credential provider to use.
     /// This member is required.
     public var resourceCredentialProviderName: Swift.String?
-    /// Workload access token for authorization. Named workloadIdentityToken for consistency with APIKey and OAuth2CredentialProvider.
+    /// Workload access token for authorization.
     /// This member is required.
     public var workloadIdentityToken: Swift.String?
 
@@ -5320,12 +5348,12 @@ extension GetResourcePaymentTokenInput: Swift.CustomDebugStringConvertible {
 
 extension BedrockAgentCoreClientTypes {
 
-    /// Coinbase CDP token response
+    /// Coinbase CDP token response.
     public struct CoinbaseCdpTokenResponseOutput: Swift.Sendable {
-        /// Bearer Token for Authorization header
+        /// Bearer Token for Authorization header.
         /// This member is required.
         public var bearerToken: Swift.String?
-        /// Wallet Auth Token for X-Wallet-Auth header
+        /// Wallet Auth Token for X-Wallet-Auth header.
         public var walletAuthToken: Swift.String?
 
         public init(
@@ -5345,17 +5373,17 @@ extension BedrockAgentCoreClientTypes.CoinbaseCdpTokenResponseOutput: Swift.Cust
 
 extension BedrockAgentCoreClientTypes {
 
-    /// StripePrivy token response containing appId, basicAuthToken, and optionally authorizationSignature
+    /// Stripe Privy token response containing appId, basicAuthToken, and optionally authorizationSignature.
     public struct StripePrivyTokenResponseOutput: Swift.Sendable {
-        /// The Privy app ID for the privy-app-id header
+        /// The Privy app ID for the privy-app-id header.
         /// This member is required.
         public var appId: Swift.String?
-        /// Base64-encoded ECDSA P-256 authorization signature (only present when includeAuthorizationSignature is true)
+        /// Base64-encoded ECDSA P-256 authorization signature (only present when includeAuthorizationSignature is true).
         public var authorizationSignature: Swift.String?
-        /// Base64-encoded Basic Auth token (appId:appSecret) for the Authorization header
+        /// Base64-encoded Basic Auth token (appId:appSecret) for the Authorization header.
         /// This member is required.
         public var basicAuthToken: Swift.String?
-        /// Unix timestamp in milliseconds when the authorization signature expires. Set as privy-request-expiry header.
+        /// Unix timestamp in milliseconds when the authorization signature expires.
         public var requestExpiry: Swift.Int?
 
         public init(
@@ -5379,18 +5407,18 @@ extension BedrockAgentCoreClientTypes.StripePrivyTokenResponseOutput: Swift.Cust
 
 extension BedrockAgentCoreClientTypes {
 
-    /// VENDOR-SPECIFIC TOKEN RESPONSE CONFIGURATION - Output
+    /// Vendor-specific token response configuration.
     public enum PaymentTokenResponseOutput: Swift.Sendable {
-        /// Coinbase CDP token response
+        /// The Coinbase CDP token response.
         case coinbasecdptokenresponse(BedrockAgentCoreClientTypes.CoinbaseCdpTokenResponseOutput)
-        /// StripePrivy token response containing appId, basicAuthToken, and optionally authorizationSignature
+        /// The Stripe Privy token response.
         case stripeprivytokenresponse(BedrockAgentCoreClientTypes.StripePrivyTokenResponseOutput)
         case sdkUnknown(Swift.String)
     }
 }
 
 public struct GetResourcePaymentTokenOutput: Swift.Sendable {
-    /// Vendor-specific token response output Contains all response data in a type-safe, vendor-specific structure
+    /// Vendor-specific token response output. Contains all response data in a type-safe, vendor-specific structure.
     /// This member is required.
     public var paymentTokenResponse: BedrockAgentCoreClientTypes.PaymentTokenResponseOutput?
 
@@ -6244,8 +6272,47 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes {
 
+    public enum HarnessBedrockApiFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Use the Chat Completions API format.
+        case chatCompletions
+        /// Use the Bedrock Converse Stream API format.
+        case converseStream
+        /// Use the Responses API format.
+        case responses
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HarnessBedrockApiFormat] {
+            return [
+                .chatCompletions,
+                .converseStream,
+                .responses
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .chatCompletions: return "chat_completions"
+            case .converseStream: return "converse_stream"
+            case .responses: return "responses"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
     /// Configuration for an Amazon Bedrock model provider.
     public struct HarnessBedrockModelConfig: Swift.Sendable {
+        /// Provider-specific parameters passed through to the model provider unchanged.
+        public var additionalParams: Smithy.Document?
+        /// The API format to use when calling the Bedrock provider.
+        public var apiFormat: BedrockAgentCoreClientTypes.HarnessBedrockApiFormat?
         /// The maximum number of tokens to allow in the generated response per iteration.
         public var maxTokens: Swift.Int?
         /// The Bedrock model ID.
@@ -6257,11 +6324,15 @@ extension BedrockAgentCoreClientTypes {
         public var topp: Swift.Float?
 
         public init(
+            additionalParams: Smithy.Document? = nil,
+            apiFormat: BedrockAgentCoreClientTypes.HarnessBedrockApiFormat? = nil,
             maxTokens: Swift.Int? = nil,
             modelId: Swift.String? = nil,
             temperature: Swift.Float? = nil,
             topp: Swift.Float? = nil
         ) {
+            self.additionalParams = additionalParams
+            self.apiFormat = apiFormat
             self.maxTokens = maxTokens
             self.modelId = modelId
             self.temperature = temperature
@@ -6309,8 +6380,88 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes {
 
+    /// Configuration for a LiteLLM model provider, enabling connection to third-party model providers.
+    public struct HarnessLiteLlmModelConfig: Swift.Sendable {
+        /// Provider-specific parameters passed through to the model provider unchanged.
+        public var additionalParams: Smithy.Document?
+        /// The base URL for the model provider's API endpoint.
+        public var apiBase: Swift.String?
+        /// The ARN of the API key in AgentCore Identity for authenticating with the model provider.
+        public var apiKeyArn: Swift.String?
+        /// The maximum number of tokens to allow in the generated response per iteration.
+        public var maxTokens: Swift.Int?
+        /// The LiteLLM model identifier (e.g., "anthropic/claude-3-sonnet").
+        /// This member is required.
+        public var modelId: Swift.String?
+        /// The temperature to set when calling the model.
+        public var temperature: Swift.Float?
+        /// The topP set when calling the model.
+        public var topp: Swift.Float?
+
+        public init(
+            additionalParams: Smithy.Document? = nil,
+            apiBase: Swift.String? = nil,
+            apiKeyArn: Swift.String? = nil,
+            maxTokens: Swift.Int? = nil,
+            modelId: Swift.String? = nil,
+            temperature: Swift.Float? = nil,
+            topp: Swift.Float? = nil
+        ) {
+            self.additionalParams = additionalParams
+            self.apiBase = apiBase
+            self.apiKeyArn = apiKeyArn
+            self.maxTokens = maxTokens
+            self.modelId = modelId
+            self.temperature = temperature
+            self.topp = topp
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.HarnessLiteLlmModelConfig: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "HarnessLiteLlmModelConfig(additionalParams: \(Swift.String(describing: additionalParams)), apiKeyArn: \(Swift.String(describing: apiKeyArn)), maxTokens: \(Swift.String(describing: maxTokens)), modelId: \(Swift.String(describing: modelId)), temperature: \(Swift.String(describing: temperature)), topp: \(Swift.String(describing: topp)), apiBase: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    public enum HarnessOpenAiApiFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Use the Chat Completions API format.
+        case chatCompletions
+        /// Use the Responses API format.
+        case responses
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HarnessOpenAiApiFormat] {
+            return [
+                .chatCompletions,
+                .responses
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .chatCompletions: return "chat_completions"
+            case .responses: return "responses"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
     /// Configuration for an OpenAI model provider. Requires an API key stored in AgentCore Identity.
     public struct HarnessOpenAiModelConfig: Swift.Sendable {
+        /// Provider-specific parameters passed through to the model provider unchanged.
+        public var additionalParams: Smithy.Document?
+        /// The API format to use when calling the OpenAI provider.
+        public var apiFormat: BedrockAgentCoreClientTypes.HarnessOpenAiApiFormat?
         /// The ARN of your OpenAI API key on AgentCore Identity.
         /// This member is required.
         public var apiKeyArn: Swift.String?
@@ -6325,12 +6476,16 @@ extension BedrockAgentCoreClientTypes {
         public var topp: Swift.Float?
 
         public init(
+            additionalParams: Smithy.Document? = nil,
+            apiFormat: BedrockAgentCoreClientTypes.HarnessOpenAiApiFormat? = nil,
             apiKeyArn: Swift.String? = nil,
             maxTokens: Swift.Int? = nil,
             modelId: Swift.String? = nil,
             temperature: Swift.Float? = nil,
             topp: Swift.Float? = nil
         ) {
+            self.additionalParams = additionalParams
+            self.apiFormat = apiFormat
             self.apiKeyArn = apiKeyArn
             self.maxTokens = maxTokens
             self.modelId = modelId
@@ -6350,7 +6505,69 @@ extension BedrockAgentCoreClientTypes {
         case openaimodelconfig(BedrockAgentCoreClientTypes.HarnessOpenAiModelConfig)
         /// Configuration for a Google Gemini model.
         case geminimodelconfig(BedrockAgentCoreClientTypes.HarnessGeminiModelConfig)
+        /// The LiteLLM model configuration for connecting to third-party model providers.
+        case litellmmodelconfig(BedrockAgentCoreClientTypes.HarnessLiteLlmModelConfig)
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Authentication configuration for accessing a private git repository.
+    public struct HarnessSkillGitAuth: Swift.Sendable {
+        /// The ARN of the credential in AgentCore Identity containing the password or personal access token.
+        /// This member is required.
+        public var credentialArn: Swift.String?
+        /// Username for authentication. Defaults to 'oauth2' if not specified.
+        public var username: Swift.String?
+
+        public init(
+            credentialArn: Swift.String? = nil,
+            username: Swift.String? = nil
+        ) {
+            self.credentialArn = credentialArn
+            self.username = username
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// A git repository source for a skill.
+    public struct HarnessSkillGitSource: Swift.Sendable {
+        /// Authentication configuration for private repositories.
+        public var auth: BedrockAgentCoreClientTypes.HarnessSkillGitAuth?
+        /// Subdirectory within the repository containing the skill.
+        public var path: Swift.String?
+        /// The HTTPS URL of the git repository.
+        /// This member is required.
+        public var url: Swift.String?
+
+        public init(
+            auth: BedrockAgentCoreClientTypes.HarnessSkillGitAuth? = nil,
+            path: Swift.String? = nil,
+            url: Swift.String? = nil
+        ) {
+            self.auth = auth
+            self.path = path
+            self.url = url
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// An S3 source for a skill.
+    public struct HarnessSkillS3Source: Swift.Sendable {
+        /// The S3 URI pointing to the skill directory (e.g., s3://bucket/skills/my-skill/).
+        /// This member is required.
+        public var uri: Swift.String?
+
+        public init(
+            uri: Swift.String? = nil
+        ) {
+            self.uri = uri
+        }
     }
 }
 
@@ -6360,6 +6577,10 @@ extension BedrockAgentCoreClientTypes {
     public enum HarnessSkill: Swift.Sendable {
         /// The filesystem path to the skill definition.
         case path(Swift.String)
+        /// An S3 source containing the skill.
+        case s3(BedrockAgentCoreClientTypes.HarnessSkillS3Source)
+        /// A git repository containing the skill.
+        case git(BedrockAgentCoreClientTypes.HarnessSkillGitSource)
         case sdkUnknown(Swift.String)
     }
 }
@@ -6667,6 +6888,8 @@ public struct InvokeHarnessInput: Swift.Sendable {
     /// The session ID for the invocation. Use the same session ID across requests to continue a conversation.
     /// This member is required.
     public var runtimeSessionId: Swift.String?
+    /// An identifier for the end user making the request. This value is passed through to the runtime container.
+    public var runtimeUserId: Swift.String?
     /// The skills available to the agent for this invocation. If specified, overrides the harness default.
     public var skills: [BedrockAgentCoreClientTypes.HarnessSkill]?
     /// The system prompt to use for this invocation. If specified, overrides the harness default.
@@ -6685,6 +6908,7 @@ public struct InvokeHarnessInput: Swift.Sendable {
         messages: [BedrockAgentCoreClientTypes.HarnessMessage]? = nil,
         model: BedrockAgentCoreClientTypes.HarnessModelConfiguration? = nil,
         runtimeSessionId: Swift.String? = nil,
+        runtimeUserId: Swift.String? = nil,
         skills: [BedrockAgentCoreClientTypes.HarnessSkill]? = nil,
         systemPrompt: [BedrockAgentCoreClientTypes.HarnessSystemContentBlock]? = nil,
         timeoutSeconds: Swift.Int? = nil,
@@ -6698,6 +6922,7 @@ public struct InvokeHarnessInput: Swift.Sendable {
         self.messages = messages
         self.model = model
         self.runtimeSessionId = runtimeSessionId
+        self.runtimeUserId = runtimeUserId
         self.skills = skills
         self.systemPrompt = systemPrompt
         self.timeoutSeconds = timeoutSeconds
@@ -7100,9 +7325,9 @@ public struct ServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWS
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -7124,9 +7349,9 @@ public struct ThrottledException: ClientRuntime.ModeledError, AWSClientRuntime.A
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -7434,33 +7659,9 @@ public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntim
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// The exception that occurs when there is a retryable conflict performing an operation. This is a temporary condition that may resolve itself with retries. We recommend implementing exponential backoff retry logic in your application.
-public struct RetryableConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "RetryableConflictException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { true }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -8336,9 +8537,9 @@ public struct ListMemoryRecordsInput: Swift.Sendable {
     public var memoryStrategyId: Swift.String?
     /// A list of metadata filter expressions to scope the returned memory records.
     public var metadataFilters: [BedrockAgentCoreClientTypes.MemoryMetadataFilterExpression]?
-    /// The namespace prefix to filter memory records by. Returns all memory records in namespaces that start with the provided prefix.
+    /// The namespace prefix to filter memory records by. Returns all memory records in namespaces that start with the provided prefix. Either namespace or namespacePath is required.
     public var namespace: Swift.String?
-    /// Use namespacePath for hierarchical retrievals. Return all memory records where namespace falls under the same parent hierarchy.
+    /// Use namespacePath for hierarchical retrievals. Return all memory records where namespace falls under the same parent hierarchy. Either namespace or namespacePath is required.
     public var namespacePath: Swift.String?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     public var nextToken: Swift.String?
@@ -8574,9 +8775,9 @@ public struct RetrieveMemoryRecordsInput: Swift.Sendable {
     /// The identifier of the AgentCore Memory resource from which to retrieve memory records.
     /// This member is required.
     public var memoryId: Swift.String?
-    /// The namespace prefix to filter memory records by. Searches for memory records in namespaces that start with the provided prefix.
+    /// The namespace prefix to filter memory records by. Searches for memory records in namespaces that start with the provided prefix. Either namespace or namespacePath is required.
     public var namespace: Swift.String?
-    /// Use namespacePath for hierarchical retrievals. Return all memory records where namespace falls under the same parent hierarchy.
+    /// Use namespacePath for hierarchical retrievals. Return all memory records where namespace falls under the same parent hierarchy. Either namespace or namespacePath is required.
     public var namespacePath: Swift.String?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     public var nextToken: Swift.String?
@@ -8689,9 +8890,9 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes {
 
-    /// LinkedAccount using an email address.
+    /// Linked account using an email address.
     public struct LinkedAccountEmail: Swift.Sendable {
-        /// The email address used for linkedAccount. Must be a valid email format.
+        /// The email address used for the linked account. Must be a valid email format.
         /// This member is required.
         public var emailAddress: Swift.String?
 
@@ -8711,16 +8912,16 @@ extension BedrockAgentCoreClientTypes.LinkedAccountEmail: Swift.CustomDebugStrin
 
 extension BedrockAgentCoreClientTypes {
 
-    /// OAuth2 authentication information for third-party providers. Supports Google, Apple, X, Telegram, and GitHub providers.
+    /// OAuth2 authentication information for third-party providers.
     public struct OAuth2Authentication: Swift.Sendable {
-        /// The email address from the OAuth2 provider (optional).
+        /// The email address from the OAuth2 provider.
         public var emailAddress: Swift.String?
-        /// The user's name from the OAuth2 provider (optional).
+        /// The user's name from the OAuth2 provider.
         public var name: Swift.String?
         /// The subject (sub) claim from the OAuth2 provider. Uniquely identifies the user at the provider.
         /// This member is required.
         public var sub: Swift.String?
-        /// The username from the OAuth2 provider (optional).
+        /// The username from the OAuth2 provider.
         public var username: Swift.String?
 
         public init(
@@ -8747,15 +8948,15 @@ extension BedrockAgentCoreClientTypes {
 
     /// Authentication method using OAuth2 providers. Supports Google, Apple, X, Telegram, and GitHub providers.
     public enum LinkedAccountOAuth2: Swift.Sendable {
-        /// Google OAuth2 authentication
+        /// Google OAuth2 authentication.
         case google(BedrockAgentCoreClientTypes.OAuth2Authentication)
-        /// Apple OAuth2 authentication
+        /// Apple OAuth2 authentication.
         case apple(BedrockAgentCoreClientTypes.OAuth2Authentication)
-        /// X (formerly Twitter) OAuth2 authentication
+        /// X (formerly Twitter) OAuth2 authentication.
         case x(BedrockAgentCoreClientTypes.OAuth2Authentication)
-        /// Telegram OAuth2 authentication
+        /// Telegram OAuth2 authentication.
         case telegram(BedrockAgentCoreClientTypes.OAuth2Authentication)
-        /// GitHub OAuth2 authentication
+        /// GitHub OAuth2 authentication.
         case github(BedrockAgentCoreClientTypes.OAuth2Authentication)
         case sdkUnknown(Swift.String)
     }
@@ -8763,9 +8964,9 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes {
 
-    /// LinkedAccount using a phone number in E.164 format.
+    /// Linked account using a phone number in E.164 format.
     public struct LinkedAccountSms: Swift.Sendable {
-        /// The phone number in E.164 format (e.g., +1234567890). Must be a valid E.164 formatted phone number starting with + and containing 1-15 digits.
+        /// The phone number in E.164 format (e.g., +1234567890).
         /// This member is required.
         public var phoneNumber: Swift.String?
 
@@ -8785,15 +8986,15 @@ extension BedrockAgentCoreClientTypes.LinkedAccountSms: Swift.CustomDebugStringC
 
 extension BedrockAgentCoreClientTypes {
 
-    /// Represents different linkedAccounts that can be linked to an embedded wallet. This union supports multiple linkedAccount approaches: email, SMS, JWT, and OAuth2.
+    /// Represents different linked accounts that can be linked to an embedded wallet. Supports email, SMS, JWT, and OAuth2 approaches.
     public enum LinkedAccount: Swift.Sendable {
-        /// Email-based linkedAccount
+        /// Email-based linked account.
         case email(BedrockAgentCoreClientTypes.LinkedAccountEmail)
-        /// SMS-based linkedAccount using phone number
+        /// SMS-based linked account using phone number.
         case sms(BedrockAgentCoreClientTypes.LinkedAccountSms)
-        /// Developer JWT linkedAccount with key ID and subject
+        /// Developer JWT linked account with key ID and subject.
         case developerjwt(BedrockAgentCoreClientTypes.LinkedAccountDeveloperJwt)
-        /// OAuth2 provider linkedAccount (Google, Apple, X, Telegram, GitHub)
+        /// OAuth2 provider linked account (Google, Apple, X, Telegram, GitHub).
         case oauth2(BedrockAgentCoreClientTypes.LinkedAccountOAuth2)
         case sdkUnknown(Swift.String)
     }
@@ -8801,7 +9002,7 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes {
 
-    /// Supported blockchain networks for crypto wallets
+    /// Supported blockchain networks for crypto wallets.
     public enum CryptoWalletNetwork: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case ethereum
         case solana
@@ -8831,15 +9032,15 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes {
 
-    /// Embedded Crypto wallet instrument details
+    /// Embedded crypto wallet instrument details.
     public struct EmbeddedCryptoWallet: Swift.Sendable {
-        /// List of linkedAccounts linked to this wallet. Each linkedAccount represents a way the end user can authenticate to this wallet. Can be empty when adding a new linkedAccount to an existing wallet.
+        /// List of linked accounts linked to this wallet. Each represents a way the end user can authenticate to this wallet.
         /// This member is required.
         public var linkedAccounts: [BedrockAgentCoreClientTypes.LinkedAccount]?
-        /// The blockchain network for this embedded crypto wallet. Supported networks: ETHEREUM, SOLANA
+        /// The blockchain network for this embedded crypto wallet. Supported networks: ETHEREUM, SOLANA.
         /// This member is required.
         public var network: BedrockAgentCoreClientTypes.CryptoWalletNetwork?
-        /// URL for the end user to complete a provider-specific action (e.g., wallet linking, onboarding). Returned by the payment connector during instrument creation.
+        /// URL for the end user to complete a provider-specific action such as wallet linking or onboarding.
         public var redirectUrl: Swift.String?
         /// The wallet address on the specified blockchain network.
         public var walletAddress: Swift.String?
@@ -8865,9 +9066,9 @@ extension BedrockAgentCoreClientTypes.EmbeddedCryptoWallet: Swift.CustomDebugStr
 
 extension BedrockAgentCoreClientTypes {
 
-    /// Details specific to the instrument type
+    /// Details specific to the instrument type.
     public enum PaymentInstrumentDetails: Swift.Sendable {
-        /// Embedded crypto wallet managed directly by end user
+        /// Embedded crypto wallet managed directly by end user.
         case embeddedcryptowallet(BedrockAgentCoreClientTypes.EmbeddedCryptoWallet)
         case sdkUnknown(Swift.String)
     }
@@ -8875,7 +9076,7 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes {
 
-    /// The type of payment instrument
+    /// The type of payment instrument.
     public enum PaymentInstrumentType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case embeddedCryptoWallet
         case sdkUnknown(Swift.String)
@@ -8900,11 +9101,11 @@ extension BedrockAgentCoreClientTypes {
     }
 }
 
-/// Request structure for creating a payment instrument
+/// Request structure for creating a payment instrument.
 public struct CreatePaymentInstrumentInput: Swift.Sendable {
     /// The agent name associated with this request, used for observability.
     public var agentName: Swift.String?
-    /// Idempotency token to ensure request uniqueness.
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
     public var clientToken: Swift.String?
     /// The ID of the payment connector to use for this instrument.
     /// This member is required.
@@ -8942,7 +9143,7 @@ public struct CreatePaymentInstrumentInput: Swift.Sendable {
 
 extension BedrockAgentCoreClientTypes {
 
-    /// The status of a payment instrument
+    /// The status of a payment instrument.
     public enum PaymentInstrumentStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case deleted
@@ -8978,7 +9179,7 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes {
 
-    /// Represents a payment instrument
+    /// Represents a payment instrument.
     public struct PaymentInstrument: Swift.Sendable {
         /// The timestamp when this payment instrument was created.
         /// This member is required.
@@ -9032,9 +9233,9 @@ extension BedrockAgentCoreClientTypes {
     }
 }
 
-/// Response structure for creating a payment instrument
+/// Response structure for creating a payment instrument.
 public struct CreatePaymentInstrumentOutput: Swift.Sendable {
-    /// Represents a payment instrument
+    /// The created payment instrument.
     /// This member is required.
     public var paymentInstrument: BedrockAgentCoreClientTypes.PaymentInstrument?
 
@@ -9045,7 +9246,7 @@ public struct CreatePaymentInstrumentOutput: Swift.Sendable {
     }
 }
 
-/// Request structure for deleting a payment instrument All fields are required and must match the instrument owner's identifiers for authorization to succeed.
+/// Request structure for deleting a payment instrument.
 public struct DeletePaymentInstrumentInput: Swift.Sendable {
     /// The payment connector ID. Must match the instrument's paymentConnectorId.
     /// This member is required.
@@ -9072,7 +9273,7 @@ public struct DeletePaymentInstrumentInput: Swift.Sendable {
     }
 }
 
-/// Response structure for deleting a payment instrument Returns the deletion status with HTTP 200 OK status code on successful soft deletion.
+/// Response structure for deleting a payment instrument.
 public struct DeletePaymentInstrumentOutput: Swift.Sendable {
     /// The status of the instrument after deletion. Always DELETED for successful soft delete.
     /// This member is required.
@@ -9085,7 +9286,7 @@ public struct DeletePaymentInstrumentOutput: Swift.Sendable {
     }
 }
 
-/// Request structure for getting a payment instrument
+/// Request structure for getting a payment instrument.
 public struct GetPaymentInstrumentInput: Swift.Sendable {
     /// The agent name associated with this request, used for observability.
     public var agentName: Swift.String?
@@ -9115,9 +9316,9 @@ public struct GetPaymentInstrumentInput: Swift.Sendable {
     }
 }
 
-/// Response structure for getting a payment instrument
+/// Response structure for getting a payment instrument.
 public struct GetPaymentInstrumentOutput: Swift.Sendable {
-    /// Represents a payment instrument
+    /// The payment instrument details.
     /// This member is required.
     public var paymentInstrument: BedrockAgentCoreClientTypes.PaymentInstrument?
 
@@ -9199,11 +9400,11 @@ extension BedrockAgentCoreClientTypes {
     }
 }
 
-/// Request structure for getting payment instrument balance
+/// Request structure for getting payment instrument balance.
 public struct GetPaymentInstrumentBalanceInput: Swift.Sendable {
     /// The agent name associated with this request, used for observability.
     public var agentName: Swift.String?
-    /// The specific blockchain chain to query balance on. Required because balances are chain-specific — the same wallet address may hold different token balances on different chains.
+    /// The specific blockchain chain to query balance on. Required because balances are chain-specific.
     /// This member is required.
     public var chain: BedrockAgentCoreClientTypes.BlockchainChainId?
     /// The ID of the payment connector associated with this instrument.
@@ -9215,7 +9416,7 @@ public struct GetPaymentInstrumentBalanceInput: Swift.Sendable {
     /// The ARN of the payment manager that owns this payment instrument.
     /// This member is required.
     public var paymentManagerArn: Swift.String?
-    /// The token to query balance for. Required to specify which supported token's balance to return.
+    /// The token to query balance for. Only tokens supported for X402 payments are returned.
     /// This member is required.
     public var token: BedrockAgentCoreClientTypes.InstrumentBalanceToken?
     /// The user ID associated with this payment instrument.
@@ -9242,7 +9443,7 @@ public struct GetPaymentInstrumentBalanceInput: Swift.Sendable {
 
 extension BedrockAgentCoreClientTypes {
 
-    /// A single token balance entry
+    /// A single token balance entry.
     public struct TokenBalance: Swift.Sendable {
         /// Raw balance in the smallest denomination (e.g., USDC base units where 1 USDC = 1000000).
         /// This member is required.
@@ -9276,7 +9477,7 @@ extension BedrockAgentCoreClientTypes {
     }
 }
 
-/// Response structure for getting payment instrument balance
+/// Response structure for getting payment instrument balance.
 public struct GetPaymentInstrumentBalanceOutput: Swift.Sendable {
     /// The ID of the payment instrument.
     /// This member is required.
@@ -9294,7 +9495,7 @@ public struct GetPaymentInstrumentBalanceOutput: Swift.Sendable {
     }
 }
 
-/// Request structure for listing payment instruments
+/// Request structure for listing payment instruments.
 public struct ListPaymentInstrumentsInput: Swift.Sendable {
     /// The agent name associated with this request, used for observability.
     public var agentName: Swift.String?
@@ -9329,7 +9530,7 @@ public struct ListPaymentInstrumentsInput: Swift.Sendable {
 
 extension BedrockAgentCoreClientTypes {
 
-    /// Summary of a payment instrument for list operations
+    /// Summary of a payment instrument for list operations.
     public struct PaymentInstrumentSummary: Swift.Sendable {
         /// The timestamp when this payment instrument was created.
         /// This member is required.
@@ -9378,7 +9579,7 @@ extension BedrockAgentCoreClientTypes {
     }
 }
 
-/// Response structure for listing payment instruments
+/// Response structure for listing payment instruments.
 public struct ListPaymentInstrumentsOutput: Swift.Sendable {
     /// Token for pagination to retrieve the next set of results.
     public var nextToken: Swift.String?
@@ -9397,7 +9598,7 @@ public struct ListPaymentInstrumentsOutput: Swift.Sendable {
 
 extension BedrockAgentCoreClientTypes {
 
-    /// Supported currency codes
+    /// Supported currency codes.
     public enum Currency: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case usd
         case sdkUnknown(Swift.String)
@@ -9424,9 +9625,9 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes {
 
-    /// Money amount with currency
+    /// Represents a monetary amount with a currency.
     public struct Amount: Swift.Sendable {
-        /// The currency code for this amount.
+        /// The currency code for the amount.
         /// This member is required.
         public var currency: BedrockAgentCoreClientTypes.Currency?
         /// The numeric value of the amount.
@@ -9445,9 +9646,9 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes {
 
-    /// Session spending limits
+    /// The spending limits configuration for a payment session.
     public struct SessionLimits: Swift.Sendable {
-        /// The maximum amount that can be spent in this session.
+        /// The maximum amount that can be spent in the session.
         /// This member is required.
         public var maxSpendAmount: BedrockAgentCoreClientTypes.Amount?
 
@@ -9459,11 +9660,11 @@ extension BedrockAgentCoreClientTypes {
     }
 }
 
-/// Request structure for creating a payment session
+/// Request structure for creating a payment session.
 public struct CreatePaymentSessionInput: Swift.Sendable {
     /// The agent name associated with this request, used for observability.
     public var agentName: Swift.String?
-    /// Idempotency token to ensure request uniqueness.
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
     public var clientToken: Swift.String?
     /// The session expiry time in minutes. Must be between 15 and 480 minutes.
     /// This member is required.
@@ -9495,9 +9696,9 @@ public struct CreatePaymentSessionInput: Swift.Sendable {
 
 extension BedrockAgentCoreClientTypes {
 
-    /// Available session limits. Currently only budget is supported.
+    /// The available spending limits for a payment session.
     public struct AvailableLimits: Swift.Sendable {
-        /// The available spend amount for this session.
+        /// The remaining available amount that can be spent.
         public var availableSpendAmount: BedrockAgentCoreClientTypes.Amount?
         /// The timestamp when the available limits were last updated.
         public var updatedAt: Foundation.Date?
@@ -9514,28 +9715,28 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes {
 
-    /// Payment manager session
+    /// A payment session for managing payment transactions.
     public struct PaymentSession: Swift.Sendable {
-        /// The available limits for this session after accounting for processed payments.
+        /// The current available spending limits.
         public var availableLimits: BedrockAgentCoreClientTypes.AvailableLimits?
-        /// The timestamp when this payment session was created.
+        /// The timestamp when the session was created.
         /// This member is required.
         public var createdAt: Foundation.Date?
         /// The session expiry time in minutes.
         /// This member is required.
         public var expiryTimeInMinutes: Swift.Int?
-        /// The spending limits for this session.
+        /// The spending limits for the payment session.
         public var limits: BedrockAgentCoreClientTypes.SessionLimits?
         /// The ARN of the payment manager that owns this session.
         /// This member is required.
         public var paymentManagerArn: Swift.String?
-        /// The unique identifier for this payment session.
+        /// The unique identifier of the payment session.
         /// This member is required.
         public var paymentSessionId: Swift.String?
-        /// The timestamp when this payment session was last updated.
+        /// The timestamp when the session was last updated.
         /// This member is required.
         public var updatedAt: Foundation.Date?
-        /// The user ID associated with this payment session.
+        /// The user ID associated with this session.
         /// This member is required.
         public var userId: Swift.String?
 
@@ -9561,9 +9762,9 @@ extension BedrockAgentCoreClientTypes {
     }
 }
 
-/// Response structure for creating a payment session
+/// Response structure for creating a payment session.
 public struct CreatePaymentSessionOutput: Swift.Sendable {
-    /// Payment manager session
+    /// The created payment session.
     /// This member is required.
     public var paymentSession: BedrockAgentCoreClientTypes.PaymentSession?
 
@@ -9574,7 +9775,7 @@ public struct CreatePaymentSessionOutput: Swift.Sendable {
     }
 }
 
-/// Request structure for deleting a payment session All fields are required and must match the session owner's identifiers for authorization to succeed.
+/// Request structure for deleting a payment session.
 public struct DeletePaymentSessionInput: Swift.Sendable {
     /// The payment manager ARN. Must match the session's paymentManagerArn.
     /// This member is required.
@@ -9598,7 +9799,7 @@ public struct DeletePaymentSessionInput: Swift.Sendable {
 
 extension BedrockAgentCoreClientTypes {
 
-    /// The status of a payment session
+    /// The status of a payment session.
     public enum PaymentSessionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case deleted
@@ -9629,7 +9830,7 @@ extension BedrockAgentCoreClientTypes {
     }
 }
 
-/// Response structure for deleting a payment session Returns the deletion status with HTTP 200 status code on successful deletion.
+/// Response structure for deleting a payment session.
 public struct DeletePaymentSessionOutput: Swift.Sendable {
     /// The status of the deletion. Always DELETED for successful hard delete.
     /// This member is required.
@@ -9642,7 +9843,7 @@ public struct DeletePaymentSessionOutput: Swift.Sendable {
     }
 }
 
-/// Request structure for getting a payment session
+/// Request structure for getting a payment session.
 public struct GetPaymentSessionInput: Swift.Sendable {
     /// The agent name associated with this request, used for observability.
     public var agentName: Swift.String?
@@ -9668,9 +9869,9 @@ public struct GetPaymentSessionInput: Swift.Sendable {
     }
 }
 
-/// Response structure for getting a payment session
+/// Response structure for getting a payment session.
 public struct GetPaymentSessionOutput: Swift.Sendable {
-    /// Payment manager session
+    /// The payment session details.
     /// This member is required.
     public var paymentSession: BedrockAgentCoreClientTypes.PaymentSession?
 
@@ -9681,7 +9882,7 @@ public struct GetPaymentSessionOutput: Swift.Sendable {
     }
 }
 
-/// Request structure for listing payment sessions
+/// Request structure for listing payment sessions.
 public struct ListPaymentSessionsInput: Swift.Sendable {
     /// The agent name associated with this request, used for observability.
     public var agentName: Swift.String?
@@ -9712,9 +9913,9 @@ public struct ListPaymentSessionsInput: Swift.Sendable {
 
 extension BedrockAgentCoreClientTypes {
 
-    /// Summary of a payment session for list operations
+    /// Summary information about a payment session.
     public struct PaymentSessionSummary: Swift.Sendable {
-        /// The timestamp when this payment session was created.
+        /// The timestamp when the session was created.
         /// This member is required.
         public var createdAt: Foundation.Date?
         /// The session expiry time in minutes.
@@ -9723,13 +9924,13 @@ extension BedrockAgentCoreClientTypes {
         /// The ARN of the payment manager that owns this session.
         /// This member is required.
         public var paymentManagerArn: Swift.String?
-        /// The unique identifier for this payment session.
+        /// The unique identifier of the payment session.
         /// This member is required.
         public var paymentSessionId: Swift.String?
-        /// The timestamp when this payment session was last updated.
+        /// The timestamp when the session was last updated.
         /// This member is required.
         public var updatedAt: Foundation.Date?
-        /// The user ID associated with this payment session.
+        /// The user ID associated with this session.
         /// This member is required.
         public var userId: Swift.String?
 
@@ -9751,7 +9952,7 @@ extension BedrockAgentCoreClientTypes {
     }
 }
 
-/// Response structure for listing payment sessions
+/// Response structure for listing payment sessions.
 public struct ListPaymentSessionsOutput: Swift.Sendable {
     /// Token for pagination to retrieve the next set of results.
     public var nextToken: Swift.String?
@@ -9770,12 +9971,12 @@ public struct ListPaymentSessionsOutput: Swift.Sendable {
 
 extension BedrockAgentCoreClientTypes {
 
-    /// X402 payment requirement input
+    /// The input for a crypto X402 payment.
     public struct CryptoX402PaymentInput: Swift.Sendable {
-        /// This can hold any JSON-like object
+        /// The X402 payment payload.
         /// This member is required.
         public var payload: Smithy.Document?
-        /// The X402 protocol version (e.g., "v1", "v2")
+        /// The version of the X402 protocol.
         /// This member is required.
         public var version: Swift.String?
 
@@ -9796,9 +9997,9 @@ extension BedrockAgentCoreClientTypes.CryptoX402PaymentInput: Swift.CustomDebugS
 
 extension BedrockAgentCoreClientTypes {
 
-    /// Payment request details union
+    /// The payment input details, which vary by payment type.
     public enum PaymentInput: Swift.Sendable {
-        /// X402 payment requirement input
+        /// Input for a crypto X402 payment.
         case cryptox402(BedrockAgentCoreClientTypes.CryptoX402PaymentInput)
         case sdkUnknown(Swift.String)
     }
@@ -9806,7 +10007,7 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes {
 
-    /// Payment type enum
+    /// Payment type enum.
     public enum PaymentType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cryptoX402
         case sdkUnknown(Swift.String)
@@ -9831,25 +10032,25 @@ extension BedrockAgentCoreClientTypes {
     }
 }
 
-/// Request structure for processing a payment
+/// Request structure for processing a payment.
 public struct ProcessPaymentInput: Swift.Sendable {
     /// The agent name associated with this request, used for observability.
     public var agentName: Swift.String?
-    /// Idempotency token to ensure request uniqueness.
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
     public var clientToken: Swift.String?
     /// The payment input details specific to the payment type.
     /// This member is required.
     public var paymentInput: BedrockAgentCoreClientTypes.PaymentInput?
-    /// The ID of the payment instrument to use for this transaction.
+    /// The ID of the payment instrument to use.
     /// This member is required.
     public var paymentInstrumentId: Swift.String?
-    /// The ARN of the payment manager handling this payment.
+    /// The ARN of the payment manager.
     /// This member is required.
     public var paymentManagerArn: Swift.String?
-    /// The ID of the payment session for this transaction.
+    /// The ID of the payment session.
     /// This member is required.
     public var paymentSessionId: Swift.String?
-    /// The type of payment being processed.
+    /// The type of payment to process.
     /// This member is required.
     public var paymentType: BedrockAgentCoreClientTypes.PaymentType?
     /// The user ID associated with this payment.
@@ -9878,12 +10079,12 @@ public struct ProcessPaymentInput: Swift.Sendable {
 
 extension BedrockAgentCoreClientTypes {
 
-    /// X402 payment requirement output
+    /// The output from a crypto X402 payment.
     public struct CryptoX402PaymentOutput: Swift.Sendable {
-        /// This can hold any JSON-like object
+        /// The X402 payment response payload.
         /// This member is required.
         public var payload: Smithy.Document?
-        /// The X402 protocol version (e.g., "1", "2")
+        /// The version of the X402 protocol.
         /// This member is required.
         public var version: Swift.String?
 
@@ -9904,9 +10105,9 @@ extension BedrockAgentCoreClientTypes.CryptoX402PaymentOutput: Swift.CustomDebug
 
 extension BedrockAgentCoreClientTypes {
 
-    /// Payment response payload union. We will support versioning by introducing other model in this union
+    /// The payment output details, which vary by payment type.
     public enum PaymentOutput: Swift.Sendable {
-        /// X402 payment requirement output
+        /// Output from a crypto X402 payment.
         case cryptox402(BedrockAgentCoreClientTypes.CryptoX402PaymentOutput)
         case sdkUnknown(Swift.String)
     }
@@ -9914,7 +10115,7 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes {
 
-    /// Transaction status enum
+    /// Transaction status enum.
     public enum PaymentStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case proofGenerated
         case sdkUnknown(Swift.String)
@@ -9939,30 +10140,30 @@ extension BedrockAgentCoreClientTypes {
     }
 }
 
-/// Response structure for processing a payment
+/// Response structure for processing a payment.
 public struct ProcessPaymentOutput: Swift.Sendable {
     /// The timestamp when the payment was created.
     /// This member is required.
     public var createdAt: Foundation.Date?
-    /// The ID of the payment instrument used for this transaction.
+    /// The ID of the payment instrument used.
     /// This member is required.
     public var paymentInstrumentId: Swift.String?
-    /// The ARN of the payment manager that processed this payment.
+    /// The ARN of the payment manager.
     /// This member is required.
     public var paymentManagerArn: Swift.String?
     /// The payment output details specific to the payment type.
     /// This member is required.
     public var paymentOutput: BedrockAgentCoreClientTypes.PaymentOutput?
-    /// The ID of the payment session for this transaction.
+    /// The ID of the payment session used.
     /// This member is required.
     public var paymentSessionId: Swift.String?
-    /// The type of payment that was processed.
+    /// The type of payment processed.
     /// This member is required.
     public var paymentType: BedrockAgentCoreClientTypes.PaymentType?
-    /// The unique ID of the processed payment transaction.
+    /// The unique identifier of the processed payment.
     /// This member is required.
     public var processPaymentId: Swift.String?
-    /// The status of the payment transaction.
+    /// The status of the payment.
     /// This member is required.
     public var status: BedrockAgentCoreClientTypes.PaymentStatus?
     /// The timestamp when the payment was last updated.
@@ -10907,6 +11108,9 @@ extension InvokeHarnessInput {
         var items = SmithyHTTPAPI.Headers()
         if let runtimeSessionId = value.runtimeSessionId {
             items.add(SmithyHTTPAPI.Header(name: "X-Amzn-Bedrock-AgentCore-Runtime-Session-Id", value: Swift.String(runtimeSessionId)))
+        }
+        if let runtimeUserId = value.runtimeUserId {
+            items.add(SmithyHTTPAPI.Header(name: "X-Amzn-Bedrock-AgentCore-Runtime-User-Id", value: Swift.String(runtimeUserId)))
         }
         return items
     }
@@ -13527,6 +13731,7 @@ enum InvokeAgentRuntimeOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "RetryableConflictException": return try RetryableConflictException.makeError(baseError: baseError)
             case "RuntimeClientError": return try RuntimeClientError.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -13606,6 +13811,7 @@ enum InvokeHarnessOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "RuntimeClientError": return try RuntimeClientError.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -14082,6 +14288,7 @@ enum StopRuntimeSessionOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "RetryableConflictException": return try RetryableConflictException.makeError(baseError: baseError)
             case "RuntimeClientError": return try RuntimeClientError.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -15687,6 +15894,8 @@ extension BedrockAgentCoreClientTypes.HarnessBedrockModelConfig {
 
     static func write(value: BedrockAgentCoreClientTypes.HarnessBedrockModelConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["additionalParams"].write(value.additionalParams)
+        try writer["apiFormat"].write(value.apiFormat)
         try writer["maxTokens"].write(value.maxTokens)
         try writer["modelId"].write(value.modelId)
         try writer["temperature"].write(value.temperature)
@@ -15820,6 +16029,20 @@ extension BedrockAgentCoreClientTypes.HarnessInlineFunctionConfig {
     }
 }
 
+extension BedrockAgentCoreClientTypes.HarnessLiteLlmModelConfig {
+
+    static func write(value: BedrockAgentCoreClientTypes.HarnessLiteLlmModelConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["additionalParams"].write(value.additionalParams)
+        try writer["apiBase"].write(value.apiBase)
+        try writer["apiKeyArn"].write(value.apiKeyArn)
+        try writer["maxTokens"].write(value.maxTokens)
+        try writer["modelId"].write(value.modelId)
+        try writer["temperature"].write(value.temperature)
+        try writer["topP"].write(value.topp)
+    }
+}
+
 extension BedrockAgentCoreClientTypes.HarnessMessage {
 
     static func write(value: BedrockAgentCoreClientTypes.HarnessMessage?, to writer: SmithyJSON.Writer) throws {
@@ -15869,6 +16092,8 @@ extension BedrockAgentCoreClientTypes.HarnessModelConfiguration {
                 try writer["bedrockModelConfig"].write(bedrockmodelconfig, with: BedrockAgentCoreClientTypes.HarnessBedrockModelConfig.write(value:to:))
             case let .geminimodelconfig(geminimodelconfig):
                 try writer["geminiModelConfig"].write(geminimodelconfig, with: BedrockAgentCoreClientTypes.HarnessGeminiModelConfig.write(value:to:))
+            case let .litellmmodelconfig(litellmmodelconfig):
+                try writer["liteLlmModelConfig"].write(litellmmodelconfig, with: BedrockAgentCoreClientTypes.HarnessLiteLlmModelConfig.write(value:to:))
             case let .openaimodelconfig(openaimodelconfig):
                 try writer["openAiModelConfig"].write(openaimodelconfig, with: BedrockAgentCoreClientTypes.HarnessOpenAiModelConfig.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
@@ -15881,6 +16106,8 @@ extension BedrockAgentCoreClientTypes.HarnessOpenAiModelConfig {
 
     static func write(value: BedrockAgentCoreClientTypes.HarnessOpenAiModelConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["additionalParams"].write(value.additionalParams)
+        try writer["apiFormat"].write(value.apiFormat)
         try writer["apiKeyArn"].write(value.apiKeyArn)
         try writer["maxTokens"].write(value.maxTokens)
         try writer["modelId"].write(value.modelId)
@@ -15945,11 +16172,42 @@ extension BedrockAgentCoreClientTypes.HarnessSkill {
     static func write(value: BedrockAgentCoreClientTypes.HarnessSkill?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .git(git):
+                try writer["git"].write(git, with: BedrockAgentCoreClientTypes.HarnessSkillGitSource.write(value:to:))
             case let .path(path):
                 try writer["path"].write(path)
+            case let .s3(s3):
+                try writer["s3"].write(s3, with: BedrockAgentCoreClientTypes.HarnessSkillS3Source.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.HarnessSkillGitAuth {
+
+    static func write(value: BedrockAgentCoreClientTypes.HarnessSkillGitAuth?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["credentialArn"].write(value.credentialArn)
+        try writer["username"].write(value.username)
+    }
+}
+
+extension BedrockAgentCoreClientTypes.HarnessSkillGitSource {
+
+    static func write(value: BedrockAgentCoreClientTypes.HarnessSkillGitSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["auth"].write(value.auth, with: BedrockAgentCoreClientTypes.HarnessSkillGitAuth.write(value:to:))
+        try writer["path"].write(value.path)
+        try writer["url"].write(value.url)
+    }
+}
+
+extension BedrockAgentCoreClientTypes.HarnessSkillS3Source {
+
+    static func write(value: BedrockAgentCoreClientTypes.HarnessSkillS3Source?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["uri"].write(value.uri)
     }
 }
 

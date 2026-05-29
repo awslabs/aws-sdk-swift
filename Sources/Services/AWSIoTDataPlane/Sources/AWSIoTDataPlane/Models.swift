@@ -13,6 +13,7 @@ import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Reader
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum ClientRuntime.ErrorFault
+import enum Smithy.ClientError
 import enum SmithyReadWrite.ReaderError
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.ReadingClosures
 import protocol AWSClientRuntime.AWSServiceError
@@ -50,9 +51,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -73,9 +74,9 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -97,9 +98,9 @@ public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRun
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -121,9 +122,9 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -145,9 +146,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -169,9 +170,9 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -181,12 +182,12 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 public struct DeleteConnectionInput: Swift.Sendable {
-    /// Specifies whether to remove the client's session state when disconnecting. Set to TRUE to delete all session information, including subscriptions and queued messages. Set to FALSE to preserve the session state. By default, this is set to FALSE (preserves the session state).
+    /// Specifies whether to remove the client's persistent session state when disconnecting. Set to TRUE to delete all session information, including subscriptions and queued messages. Set to FALSE to preserve the session state for [persistent sessions](https://docs.aws.amazon.com/iot/latest/developerguide/mqtt.html#mqtt-persistent-sessions). For clean sessions this parameter will be ignored. By default, this is set to FALSE (preserves the session state).
     public var cleanSession: Swift.Bool?
-    /// The unique identifier of the MQTT client to disconnect. The client ID can't start with a dollar sign ($).
+    /// The unique identifier of the MQTT client to disconnect. The client ID can't start with a dollar sign ($). MQTT client IDs must be URL encoded (percent-encoded) when they contain characters that are not valid in HTTP requests, such as spaces, forward slashes (/), and UTF-8 characters.
     /// This member is required.
     public var clientId: Swift.String?
-    /// Controls if Amazon Web Services IoT Core publishes the client's Last Will and Testament (LWT) message upon disconnection. Set to TRUE to prevent publishing the LWT message. Set to FALSE to allow publishing. By default, this is set to FALSE (allows publishing the LWT message).
+    /// Controls if Amazon Web Services IoT Core publishes the client's Last Will and Testament (LWT) message upon disconnection. Set to TRUE to prevent publishing the LWT message. Set to FALSE to ensure that LWT is published. By default, this is set to FALSE (LWT message is published).
     public var preventWillMessage: Swift.Bool?
 
     public init(
@@ -213,9 +214,9 @@ public struct MethodNotAllowedException: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -237,9 +238,9 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -261,9 +262,9 @@ public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntim
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -285,9 +286,9 @@ public struct UnsupportedDocumentEncodingException: ClientRuntime.ModeledError, 
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -323,6 +324,109 @@ public struct DeleteThingShadowOutput: Swift.Sendable {
         payload: Foundation.Data? = nil
     ) {
         self.payload = payload
+    }
+}
+
+/// The delivery confirmation was not received from the client within the specified timeout period.
+public struct GatewayTimeoutException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The message for the exception.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "GatewayTimeoutException" }
+    public static var fault: ClientRuntime.ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct GetConnectionInput: Swift.Sendable {
+    /// The unique identifier of the MQTT client to retrieve connection information. The client ID can't start with a dollar sign ($). MQTT client IDs must be URL encoded (percent-encoded) when they contain characters that are not valid in HTTP requests, such as spaces, forward slashes (/), and UTF-8 characters.
+    /// This member is required.
+    public var clientId: Swift.String?
+    /// Specifies if socket information (sourcePort, targetPort, sourceIp, targetIp) should be included in the GetConnection response. Set to TRUE to include socket information. Set to FALSE to omit socket information. By default, this is set to FALSE. See the [developer guide](https://docs.aws.amazon.com/iot/latest/developerguide/mqtt.html#mqtt-client-disconnect) for how to authorize this parameter.
+    public var includeSocketInformation: Swift.Bool?
+
+    public init(
+        clientId: Swift.String? = nil,
+        includeSocketInformation: Swift.Bool? = false
+    ) {
+        self.clientId = clientId
+        self.includeSocketInformation = includeSocketInformation
+    }
+}
+
+public struct GetConnectionOutput: Swift.Sendable {
+    /// Indicates whether the client is using a clean session. Returns true for clean sessions or false for persistent sessions.
+    public var cleanSession: Swift.Bool
+    /// The unique identifier of the MQTT client. This is the same client ID that was used when the client established the connection.
+    public var clientId: Swift.String?
+    /// The connection state of the client. Returns true if the client is currently connected, or false if the client is not connected.
+    public var connected: Swift.Bool
+    /// Unix timestamp (in milliseconds) indicating when the client connected. Present only when connected is true.
+    public var connectedSince: Swift.Int
+    /// The reason for the last disconnection, if the client is currently disconnected. See the [developer guide](https://docs.aws.amazon.com/iot/latest/developerguide/life-cycle-events.html#connect-disconnect) for valid disconnect reasons.
+    public var disconnectReason: Swift.String?
+    /// Unix timestamp (in milliseconds) indicating when the client disconnected. Present only when connected is false. This information is available for 30 minutes after the client disconnects.
+    public var disconnectedSince: Swift.Int
+    /// The keep-alive interval in seconds that the client specified when establishing the connection.
+    public var keepAliveDuration: Swift.Int
+    /// The session expiry interval in seconds for the MQTT client connection. This is configured by the user. This value indicates how long the session will remain active after the client disconnects.
+    public var sessionExpiry: Swift.Int
+    /// The IP address of the client that initiated the connection.
+    public var sourceIp: Swift.String?
+    /// The client's source port.
+    public var sourcePort: Swift.Int
+    /// The IP address of the Amazon Web Services IoT Core endpoint that the client connected to. For clients connected to VPC endpoints, this is the private IP address of the network interface the client is connected to.
+    public var targetIp: Swift.String?
+    /// The port number of the Amazon Web Services IoT Core endpoint that the client connected to.
+    public var targetPort: Swift.Int
+    /// The name of the thing associated with the principal of the MQTT client, if applicable.
+    public var thingName: Swift.String?
+    /// The ID of the VPC endpoint. Present for clients connected to IoT Core via a [VPC endpoint](https://docs.aws.amazon.com/iot/latest/developerguide/IoTCore-VPC.html).
+    public var vpcEndpointId: Swift.String?
+
+    public init(
+        cleanSession: Swift.Bool = false,
+        clientId: Swift.String? = nil,
+        connected: Swift.Bool = false,
+        connectedSince: Swift.Int = 0,
+        disconnectReason: Swift.String? = nil,
+        disconnectedSince: Swift.Int = 0,
+        keepAliveDuration: Swift.Int = 0,
+        sessionExpiry: Swift.Int = 0,
+        sourceIp: Swift.String? = nil,
+        sourcePort: Swift.Int = 0,
+        targetIp: Swift.String? = nil,
+        targetPort: Swift.Int = 0,
+        thingName: Swift.String? = nil,
+        vpcEndpointId: Swift.String? = nil
+    ) {
+        self.cleanSession = cleanSession
+        self.clientId = clientId
+        self.connected = connected
+        self.connectedSince = connectedSince
+        self.disconnectReason = disconnectReason
+        self.disconnectedSince = disconnectedSince
+        self.keepAliveDuration = keepAliveDuration
+        self.sessionExpiry = sessionExpiry
+        self.sourceIp = sourceIp
+        self.sourcePort = sourcePort
+        self.targetIp = targetIp
+        self.targetPort = targetPort
+        self.thingName = thingName
+        self.vpcEndpointId = vpcEndpointId
     }
 }
 
@@ -492,6 +596,62 @@ public struct ListRetainedMessagesOutput: Swift.Sendable {
     }
 }
 
+public struct ListSubscriptionsInput: Swift.Sendable {
+    /// The unique identifier of the MQTT client to list subscriptions for. The client ID can't start with a dollar sign ($). MQTT client IDs must be URL encoded (percent-encoded) when they contain characters that are not valid in HTTP requests, such as spaces, forward slashes (/), and UTF-8 characters.
+    /// This member is required.
+    public var clientId: Swift.String?
+    /// The maximum number of subscriptions to return in a single request. By default, this is set to 20.
+    public var maxResults: Swift.Int?
+    /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        clientId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.clientId = clientId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension IoTDataPlaneClientTypes {
+
+    /// Contains information about a subscription for an MQTT client, including the topic filter and Quality of Service (QoS) level.
+    public struct SubscriptionSummary: Swift.Sendable {
+        /// The Quality of Service (QoS) level for the subscription. Valid values are 0 (at most once) and 1 (at least once).
+        /// This member is required.
+        public var qos: Swift.Int
+        /// The topic filter pattern that the client is subscribed to. May include MQTT wildcards such as + (single-level) and # (multi-level).
+        /// This member is required.
+        public var topicFilter: Swift.String?
+
+        public init(
+            qos: Swift.Int = 0,
+            topicFilter: Swift.String? = nil
+        ) {
+            self.qos = qos
+            self.topicFilter = topicFilter
+        }
+    }
+}
+
+public struct ListSubscriptionsOutput: Swift.Sendable {
+    /// The token to use to get the next set of results, or null if there are no additional results.
+    public var nextToken: Swift.String?
+    /// A list of topic filters and their associated Quality of Service (QoS) levels that the client is subscribed to.
+    public var subscriptions: [IoTDataPlaneClientTypes.SubscriptionSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        subscriptions: [IoTDataPlaneClientTypes.SubscriptionSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.subscriptions = subscriptions
+    }
+}
+
 extension IoTDataPlaneClientTypes {
 
     public enum PayloadFormatIndicator: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -583,14 +743,79 @@ public struct RequestEntityTooLargeException: ClientRuntime.ModeledError, AWSCli
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
     ) {
         self.properties.message = message
+    }
+}
+
+public struct SendDirectMessageInput: Swift.Sendable {
+    /// The unique identifier of the MQTT client to send the message to. Client IDs must not exceed 128 characters and can't start with a dollar sign ($). MQTT client IDs must be URL encoded (percent-encoded) when they contain characters that are not valid in HTTP requests, such as spaces, forward slashes (/), and UTF-8 characters. For more information, see [Amazon Web Services IoT Core message broker and protocol limits and quotas](https://docs.aws.amazon.com/general/latest/gr/iot-core.html#message-broker-limits).
+    /// This member is required.
+    public var clientId: Swift.String?
+    /// A Boolean value that specifies whether to wait for delivery confirmation from the receiving client. When set to true, the API delivers the message at QoS 1 and waits for the client to send a delivery confirmation (PUBACK) before returning a successful response. If delivery confirmation is not received within the specified timeout period, the API returns HTTP 504. When set to false, the API delivers the message at QoS 0 and returns after Amazon Web Services IoT Core attempts to deliver the message. Valid values: true | false Default value: false
+    public var confirmation: Swift.Bool?
+    /// The MQTT5 content type property forwarded to the receiving client (for example, application/json).
+    public var contentType: Swift.String?
+    /// The base64-encoded binary data used by the sender of the request message to identify which request the response message is for when it's received. correlationData is an HTTP header value in the API.
+    public var correlationData: Swift.String?
+    /// The message body. MQTT accepts text, binary, and empty (null) message payloads.
+    public var payload: Foundation.Data?
+    /// An Enum string value that indicates whether the payload is formatted as UTF-8. payloadFormatIndicator is an HTTP header value in the API.
+    public var payloadFormatIndicator: IoTDataPlaneClientTypes.PayloadFormatIndicator?
+    /// A UTF-8 encoded string that's used as the topic name for a response message. The response topic describes the topic which the receiver should publish to as part of the request-response flow. The topic must not contain wildcard characters. For more information, see [Amazon Web Services IoT Core message broker and protocol limits and quotas](https://docs.aws.amazon.com/general/latest/gr/iot-core.html#message-broker-limits).
+    public var responseTopic: Swift.String?
+    /// An integer that represents the maximum time, in seconds, to wait for a delivery confirmation (PUBACK) from the receiving client after the message has been delivered. This parameter is only used when confirmation is set to true. If confirmation is false, this parameter is ignored. The total API response time may be higher than this value due to internal processing. Set your HTTP client timeout to a value greater than this parameter. Valid range: 1 to 15 seconds. Default value: 5 seconds.
+    public var timeout: Swift.Int?
+    /// The topic of the outbound MQTT Publish message to the receiving client. For more information, see [Amazon Web Services IoT Core message broker and protocol limits and quotas](https://docs.aws.amazon.com/general/latest/gr/iot-core.html#message-broker-limits).
+    /// This member is required.
+    public var topic: Swift.String?
+    /// A JSON string that contains an array of JSON objects. If you don't use Amazon Web Services SDK or CLI, you must encode the JSON string to base64 format before adding it to the HTTP header. userProperties is an HTTP header value in the API. For MQTT 3.1.1 clients, user properties are silently dropped. The following example userProperties parameter is a JSON string which represents two User Properties. Note that it needs to be base64-encoded: [{"deviceName": "alpha"}, {"deviceCnt": "45"}]
+    public var userProperties: Swift.String?
+
+    public init(
+        clientId: Swift.String? = nil,
+        confirmation: Swift.Bool? = false,
+        contentType: Swift.String? = nil,
+        correlationData: Swift.String? = nil,
+        payload: Foundation.Data? = nil,
+        payloadFormatIndicator: IoTDataPlaneClientTypes.PayloadFormatIndicator? = nil,
+        responseTopic: Swift.String? = nil,
+        timeout: Swift.Int? = 0,
+        topic: Swift.String? = nil,
+        userProperties: Swift.String? = nil
+    ) {
+        self.clientId = clientId
+        self.confirmation = confirmation
+        self.contentType = contentType
+        self.correlationData = correlationData
+        self.payload = payload
+        self.payloadFormatIndicator = payloadFormatIndicator
+        self.responseTopic = responseTopic
+        self.timeout = timeout
+        self.topic = topic
+        self.userProperties = userProperties
+    }
+}
+
+/// The output from the SendDirectMessage operation.
+public struct SendDirectMessageOutput: Swift.Sendable {
+    /// The status message indicating the result of the operation.
+    public var message: Swift.String?
+    /// A unique identifier for the request. Include this value when contacting Amazon Web Services Support for troubleshooting.
+    public var traceId: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        traceId: Swift.String? = nil
+    ) {
+        self.message = message
+        self.traceId = traceId
     }
 }
 
@@ -671,6 +896,28 @@ extension DeleteThingShadowInput {
         if let shadowName = value.shadowName {
             let shadowNameQueryItem = Smithy.URIQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(shadowName).urlPercentEncoding())
             items.append(shadowNameQueryItem)
+        }
+        return items
+    }
+}
+
+extension GetConnectionInput {
+
+    static func urlPathProvider(_ value: GetConnectionInput) -> Swift.String? {
+        guard let clientId = value.clientId else {
+            return nil
+        }
+        return "/connections/\(clientId.urlPercentEncoding())"
+    }
+}
+
+extension GetConnectionInput {
+
+    static func queryItemProvider(_ value: GetConnectionInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let includeSocketInformation = value.includeSocketInformation {
+            let includeSocketInformationQueryItem = Smithy.URIQueryItem(name: "includeSocketInformation".urlPercentEncoding(), value: Swift.String(includeSocketInformation).urlPercentEncoding())
+            items.append(includeSocketInformationQueryItem)
         }
         return items
     }
@@ -757,6 +1004,32 @@ extension ListRetainedMessagesInput {
     }
 }
 
+extension ListSubscriptionsInput {
+
+    static func urlPathProvider(_ value: ListSubscriptionsInput) -> Swift.String? {
+        guard let clientId = value.clientId else {
+            return nil
+        }
+        return "/connections/\(clientId.urlPercentEncoding())/subscriptions"
+    }
+}
+
+extension ListSubscriptionsInput {
+
+    static func queryItemProvider(_ value: ListSubscriptionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
 extension PublishInput {
 
     static func urlPathProvider(_ value: PublishInput) -> Swift.String? {
@@ -816,6 +1089,67 @@ extension PublishInput {
     }
 }
 
+extension SendDirectMessageInput {
+
+    static func urlPathProvider(_ value: SendDirectMessageInput) -> Swift.String? {
+        guard let clientId = value.clientId else {
+            return nil
+        }
+        return "/connections/\(clientId.urlPercentEncoding())/messages"
+    }
+}
+
+extension SendDirectMessageInput {
+
+    static func headerProvider(_ value: SendDirectMessageInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let correlationData = value.correlationData {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-mqtt5-correlation-data", value: Swift.String(correlationData)))
+        }
+        if let payloadFormatIndicator = value.payloadFormatIndicator {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-mqtt5-payload-format-indicator", value: Swift.String(payloadFormatIndicator.rawValue)))
+        }
+        if let userProperties = value.userProperties {
+            do {
+                let base64EncodedValue = try userProperties.base64EncodedString()
+                items.add(SmithyHTTPAPI.Header(name: "x-amz-mqtt5-user-properties", value: Swift.String(base64EncodedValue)))
+            } catch {
+            }
+        }
+        return items
+    }
+}
+
+extension SendDirectMessageInput {
+
+    static func queryItemProvider(_ value: SendDirectMessageInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let topic = value.topic else {
+            let message = "Creating a URL Query Item failed. topic is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let topicQueryItem = Smithy.URIQueryItem(name: "topic".urlPercentEncoding(), value: Swift.String(topic).urlPercentEncoding())
+        items.append(topicQueryItem)
+        if let responseTopic = value.responseTopic {
+            let responseTopicQueryItem = Smithy.URIQueryItem(name: "responseTopic".urlPercentEncoding(), value: Swift.String(responseTopic).urlPercentEncoding())
+            items.append(responseTopicQueryItem)
+        }
+        if let confirmation = value.confirmation {
+            let confirmationQueryItem = Smithy.URIQueryItem(name: "confirmation".urlPercentEncoding(), value: Swift.String(confirmation).urlPercentEncoding())
+            items.append(confirmationQueryItem)
+        }
+        if let contentType = value.contentType {
+            let contentTypeQueryItem = Smithy.URIQueryItem(name: "contentType".urlPercentEncoding(), value: Swift.String(contentType).urlPercentEncoding())
+            items.append(contentTypeQueryItem)
+        }
+        if let timeout = value.timeout {
+            let timeoutQueryItem = Smithy.URIQueryItem(name: "timeout".urlPercentEncoding(), value: Swift.String(timeout).urlPercentEncoding())
+            items.append(timeoutQueryItem)
+        }
+        return items
+    }
+}
+
 extension UpdateThingShadowInput {
 
     static func urlPathProvider(_ value: UpdateThingShadowInput) -> Swift.String? {
@@ -841,6 +1175,14 @@ extension UpdateThingShadowInput {
 extension PublishInput {
 
     static func write(value: PublishInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["payload"].write(value.payload)
+    }
+}
+
+extension SendDirectMessageInput {
+
+    static func write(value: SendDirectMessageInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["payload"].write(value.payload)
     }
@@ -873,6 +1215,31 @@ extension DeleteThingShadowOutput {
         case .noStream:
             value.payload = nil
         }
+        return value
+    }
+}
+
+extension GetConnectionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetConnectionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetConnectionOutput()
+        value.cleanSession = try reader["cleanSession"].readIfPresent() ?? false
+        value.clientId = try reader["clientId"].readIfPresent()
+        value.connected = try reader["connected"].readIfPresent() ?? false
+        value.connectedSince = try reader["connectedSince"].readIfPresent() ?? 0
+        value.disconnectReason = try reader["disconnectReason"].readIfPresent()
+        value.disconnectedSince = try reader["disconnectedSince"].readIfPresent() ?? 0
+        value.keepAliveDuration = try reader["keepAliveDuration"].readIfPresent() ?? 0
+        value.sessionExpiry = try reader["sessionExpiry"].readIfPresent() ?? 0
+        value.sourceIp = try reader["sourceIp"].readIfPresent()
+        value.sourcePort = try reader["sourcePort"].readIfPresent() ?? 0
+        value.targetIp = try reader["targetIp"].readIfPresent()
+        value.targetPort = try reader["targetPort"].readIfPresent() ?? 0
+        value.thingName = try reader["thingName"].readIfPresent()
+        value.vpcEndpointId = try reader["vpcEndpointId"].readIfPresent()
         return value
     }
 }
@@ -936,10 +1303,36 @@ extension ListRetainedMessagesOutput {
     }
 }
 
+extension ListSubscriptionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListSubscriptionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListSubscriptionsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.subscriptions = try reader["subscriptions"].readListIfPresent(memberReadingClosure: IoTDataPlaneClientTypes.SubscriptionSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension PublishOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PublishOutput {
         return PublishOutput()
+    }
+}
+
+extension SendDirectMessageOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SendDirectMessageOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = SendDirectMessageOutput()
+        value.message = try reader["message"].readIfPresent()
+        value.traceId = try reader["traceId"].readIfPresent()
+        return value
     }
 }
 
@@ -993,6 +1386,24 @@ enum DeleteThingShadowOutputError {
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "UnsupportedDocumentEncodingException": return try UnsupportedDocumentEncodingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetConnectionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -1078,6 +1489,24 @@ enum ListRetainedMessagesOutputError {
     }
 }
 
+enum ListSubscriptionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum PublishOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -1089,6 +1518,27 @@ enum PublishOutputError {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "MethodNotAllowedException": return try MethodNotAllowedException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum SendDirectMessageOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "GatewayTimeoutException": return try GatewayTimeoutException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "RequestEntityTooLargeException": return try RequestEntityTooLargeException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -1235,11 +1685,11 @@ extension UnsupportedDocumentEncodingException {
     }
 }
 
-extension ConflictException {
+extension GatewayTimeoutException {
 
-    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> GatewayTimeoutException {
         let reader = baseError.errorBodyReader
-        var value = ConflictException()
+        var value = GatewayTimeoutException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -1261,6 +1711,19 @@ extension RequestEntityTooLargeException {
     }
 }
 
+extension ConflictException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
+        let reader = baseError.errorBodyReader
+        var value = ConflictException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension IoTDataPlaneClientTypes.RetainedMessageSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTDataPlaneClientTypes.RetainedMessageSummary {
@@ -1270,6 +1733,17 @@ extension IoTDataPlaneClientTypes.RetainedMessageSummary {
         value.payloadSize = try reader["payloadSize"].readIfPresent() ?? 0
         value.qos = try reader["qos"].readIfPresent() ?? 0
         value.lastModifiedTime = try reader["lastModifiedTime"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension IoTDataPlaneClientTypes.SubscriptionSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTDataPlaneClientTypes.SubscriptionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTDataPlaneClientTypes.SubscriptionSummary()
+        value.topicFilter = try reader["topicFilter"].readIfPresent() ?? ""
+        value.qos = try reader["qos"].readIfPresent() ?? 0
         return value
     }
 }

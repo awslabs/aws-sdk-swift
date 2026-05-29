@@ -15,7 +15,7 @@ import class AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain
 import class ClientRuntime.ClientBuilder
 import class ClientRuntime.DefaultClientPlugin
 import class ClientRuntime.HttpClientConfiguration
-import class ClientRuntime.OrchestratorBuilder
+@_spi(SchemaBasedSerde) import class ClientRuntime.OrchestratorBuilder
 import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
@@ -618,7 +618,7 @@ extension BedrockClient {
 extension BedrockClient {
     /// Performs the `BatchDeleteAdvancedPromptOptimizationJob` operation on the `Bedrock` service.
     ///
-    /// Batch delete the specified advanced prompt optimization jobs.
+    /// Deletes one or more advanced prompt optimization jobs.
     ///
     /// - Parameter input: Batch Delete Advanced Prompt Optimization Jobs Request (Type: `BatchDeleteAdvancedPromptOptimizationJobInput`)
     ///
@@ -834,7 +834,7 @@ extension BedrockClient {
 
     /// Performs the `CreateAdvancedPromptOptimizationJob` operation on the `Bedrock` service.
     ///
-    /// Creates an asynchronous batch job for advanced prompt optimization.
+    /// Creates an advanced prompt optimization job. The job optimizes your prompt templates for specific models using your evaluation dataset and criteria.
     ///
     /// - Parameter input: Create Advanced Prompt Optimization Job Request (Type: `CreateAdvancedPromptOptimizationJobInput`)
     ///
@@ -1141,7 +1141,14 @@ extension BedrockClient {
 
     /// Performs the `CreateCustomModel` operation on the `Bedrock` service.
     ///
-    /// Creates a new custom model in Amazon Bedrock. After the model is active, you can use it for inference. To use the model for inference, you must purchase Provisioned Throughput for it. You can't use On-demand inference with these custom models. For more information about Provisioned Throughput, see [Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/prov-throughput.html). The model appears in ListCustomModels with a customizationType of imported. To track the status of the new model, you use the GetCustomModel API operation. The model can be in the following states:
+    /// Creates a new custom model in Amazon Bedrock. After the model is active, you can use it for inference. You can provide the model data source in one of the following ways:
+    ///
+    /// * customModelDataSource — Specify a SageMaker AI model package ARN. Amazon Bedrock resolves the model package to retrieve the model artifacts. This is the preferred method for new SageMaker AI training outputs.
+    ///
+    /// * modelSourceConfig — Specify an Amazon S3 URI pointing to the Amazon-managed Amazon S3 bucket containing your model artifacts.
+    ///
+    ///
+    /// To use the model for inference, you must purchase Provisioned Throughput for it. You can't use On-demand inference with these custom models. For more information about Provisioned Throughput, see [Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/prov-throughput.html). The model appears in ListCustomModels with a customizationType of imported. To track the status of the new model, you use the GetCustomModel API operation. The model can be in the following states:
     ///
     /// * Creating - Initial state during validation and registration
     ///
@@ -3457,7 +3464,7 @@ extension BedrockClient {
 
     /// Performs the `GetAdvancedPromptOptimizationJob` operation on the `Bedrock` service.
     ///
-    /// Retrieves the details and status of an advanced prompt optimization job.
+    /// Gets information about an advanced prompt optimization job.
     ///
     /// - Parameter input: Get Advanced Prompt Optimization Job Request (Type: `GetAdvancedPromptOptimizationJobInput`)
     ///
@@ -5282,7 +5289,7 @@ extension BedrockClient {
 
     /// Performs the `ListAdvancedPromptOptimizationJobs` operation on the `Bedrock` service.
     ///
-    /// Lists all advanced prompt optimization jobs for the account.
+    /// Lists the advanced prompt optimization jobs in your account.
     ///
     /// - Parameter input: List Advanced Prompt Optimization Jobs Request (Type: `ListAdvancedPromptOptimizationJobsInput`)
     ///
@@ -7359,7 +7366,7 @@ extension BedrockClient {
 
     /// Performs the `StopAdvancedPromptOptimizationJob` operation on the `Bedrock` service.
     ///
-    /// Stops an in-progress advanced prompt optimization job.
+    /// Stops an advanced prompt optimization job that is in progress.
     ///
     /// - Parameter input: Stop Advanced Prompt Optimization Job Request (Type: `StopAdvancedPromptOptimizationJobInput`)
     ///

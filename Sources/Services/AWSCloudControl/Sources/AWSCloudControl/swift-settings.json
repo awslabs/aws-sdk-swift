@@ -1,0 +1,8 @@
+{
+    "service": "com.amazonaws.cloudcontrol#CloudApiService",
+    "module": "AWSCloudControl",
+    "sdkId": "CloudControl",
+    "internalClient": false,
+    "operations": [],
+    "modelPath": "codegen/sdk-codegen/aws-models/cloudcontrol.json"
+}

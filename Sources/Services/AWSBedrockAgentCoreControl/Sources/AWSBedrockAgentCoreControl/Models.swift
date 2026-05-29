@@ -79,9 +79,9 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -338,9 +338,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -361,9 +361,9 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -384,9 +384,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -407,9 +407,9 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -430,9 +430,9 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -516,9 +516,9 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         fieldList: [BedrockAgentCoreControlClientTypes.ValidationExceptionField]? = nil,
@@ -528,6 +528,165 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         self.properties.fieldList = fieldList
         self.properties.message = message
         self.properties.reason = reason
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Inline examples provided directly in the request body.
+    public struct InlineExamplesSource: Swift.Sendable {
+        /// Examples to add. Each example is assigned an auto-generated UUID.
+        /// This member is required.
+        public var examples: [Smithy.Document]?
+
+        public init(
+            examples: [Smithy.Document]? = nil
+        ) {
+            self.examples = examples
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.InlineExamplesSource: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "InlineExamplesSource(examples: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// S3 location of a JSONL file containing dataset examples.
+    public struct S3Source: Swift.Sendable {
+        /// S3 URI of the JSONL file (e.g. s3://my-bucket/path/to/examples.jsonl).
+        /// This member is required.
+        public var s3Uri: Swift.String?
+
+        public init(
+            s3Uri: Swift.String? = nil
+        ) {
+            self.s3Uri = s3Uri
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Source of examples to add to the dataset.
+    public enum DataSourceType: Swift.Sendable {
+        /// Inline examples provided directly in the request body.
+        case inlineexamples(BedrockAgentCoreControlClientTypes.InlineExamplesSource)
+        /// S3 URI pointing to a JSONL file in the customer's bucket. The service reads this file using the caller's FAS credentials.
+        case s3source(BedrockAgentCoreControlClientTypes.S3Source)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct AddDatasetExamplesInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+    public var clientToken: Swift.String?
+    /// The unique identifier of the dataset to add examples to.
+    /// This member is required.
+    public var datasetId: Swift.String?
+    /// Source of examples to add. Provide either inline examples or an S3 URI pointing to a JSONL file.
+    /// This member is required.
+    public var source: BedrockAgentCoreControlClientTypes.DataSourceType?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        datasetId: Swift.String? = nil,
+        source: BedrockAgentCoreControlClientTypes.DataSourceType? = nil
+    ) {
+        self.clientToken = clientToken
+        self.datasetId = datasetId
+        self.source = source
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Dataset lifecycle / operation status. Two-column status model: DatasetStatus tracks lifecycle state independently from DraftStatus which tracks publish synchronization. IN-FLIGHT states (busy — all writes blocked): CREATING — CreateDataset async ingestion in progress. UPDATING — Example mutation (Add/Update/Delete) or CreateDatasetVersion in progress. DELETING — Full or version-specific delete in progress. TERMINAL states (stable — operations allowed per guards below): ACTIVE — Dataset is stable. failureReason cleared. CREATE_FAILED — Initial ingestion failed. DRAFT record exists but has no examples. failureReason populated. UPDATE_FAILED — Last example mutation or CreateDatasetVersion failed. DRAFT may be partially modified. failureReason populated. DELETE_FAILED — Delete failed after retries. Dataset/S3 may be in inconsistent state. Sev-2 ticket filed (full-delete only). failureReason populated. State transitions: CreateDataset → CREATING → ACTIVE (draftStatus=MODIFIED) | CREATE_FAILED Add/Update/DeleteDatasetExamples → UPDATING → ACTIVE (draftStatus=MODIFIED) | UPDATE_FAILED CreateDatasetVersion → UPDATING → ACTIVE (draftStatus=UNMODIFIED) | UPDATE_FAILED DeleteDataset (version-specific) → DELETING → ACTIVE (draftStatus unchanged) | DELETE_FAILED DeleteDataset (full) → DELETING → (record deleted) | DELETE_FAILED [auto Sev-2] Operation guards (ConflictException codes): GetDataset / ListDatasetExamples: — Allowed for all statuses (no guard) UpdateDataset, AddDatasetExamples, DeleteDatasetExamples: — DATASET_NOT_READY if status in {CREATING, UPDATING, DELETING} — DATASET_IN_FAILED_STATE if status == DELETE_FAILED UpdateDatasetExamples: — DATASET_NOT_READY if status in {CREATING, UPDATING, DELETING} — DATASET_IN_FAILED_STATE if status in {CREATE_FAILED, DELETE_FAILED} CreateDatasetVersion: — DATASET_NOT_READY if status in {CREATING, UPDATING, DELETING} — DATASET_IN_FAILED_STATE if status in {CREATE_FAILED, DELETE_FAILED} DeleteDataset: — DATASET_NOT_READY if status in {CREATING, UPDATING, DELETING}
+    public enum DatasetStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Dataset is stable. All operations are allowed per per-operation guards. failureReason is cleared.
+        case active
+        /// Initial ingestion failed. DRAFT record exists but contains no examples. failureReason is populated. AddDatasetExamples and DeleteDatasetExamples allowed. UpdateDatasetExamples and CreateDatasetVersion blocked (no examples exist).
+        case createFailed
+        /// CreateDataset async ingestion in progress. All writes are blocked. Poll GetDataset until status resolves to ACTIVE or CREATE_FAILED.
+        case creating
+        /// Delete failed after retries. Dataset record/S3 may be in inconsistent state. failureReason is populated. Only DeleteDataset (retry) is allowed.
+        case deleteFailed
+        /// Full or version-specific delete is in progress. Read operations (GetDataset, ListDatasetExamples) are still allowed.
+        case deleting
+        /// Last example mutation or CreateDatasetVersion failed. DRAFT may be partially modified. failureReason is populated. All example mutations and CreateDatasetVersion allowed for retry.
+        case updateFailed
+        /// An async example mutation or CreateDatasetVersion is in progress. All writes are blocked. Poll GetDataset until status resolves.
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DatasetStatus] {
+            return [
+                .active,
+                .createFailed,
+                .creating,
+                .deleteFailed,
+                .deleting,
+                .updateFailed,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .createFailed: return "CREATE_FAILED"
+            case .creating: return "CREATING"
+            case .deleteFailed: return "DELETE_FAILED"
+            case .deleting: return "DELETING"
+            case .updateFailed: return "UPDATE_FAILED"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct AddDatasetExamplesOutput: Swift.Sendable {
+    /// The number of examples added.
+    /// This member is required.
+    public var addedCount: Swift.Int?
+    /// The Amazon Resource Name (ARN) of the dataset.
+    /// This member is required.
+    public var datasetArn: Swift.String?
+    /// The unique identifier of the dataset.
+    /// This member is required.
+    public var datasetId: Swift.String?
+    /// IDs of all added examples (auto-generated UUIDs).
+    /// This member is required.
+    public var exampleIds: [Swift.String]?
+    /// The current status of the dataset.
+    /// This member is required.
+    public var status: BedrockAgentCoreControlClientTypes.DatasetStatus?
+    /// The timestamp when the examples were added.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        addedCount: Swift.Int? = nil,
+        datasetArn: Swift.String? = nil,
+        datasetId: Swift.String? = nil,
+        exampleIds: [Swift.String]? = nil,
+        status: BedrockAgentCoreControlClientTypes.DatasetStatus? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.addedCount = addedCount
+        self.datasetArn = datasetArn
+        self.datasetId = datasetId
+        self.exampleIds = exampleIds
+        self.status = status
+        self.updatedAt = updatedAt
     }
 }
 
@@ -2232,9 +2391,9 @@ public struct DecryptionFailure: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -2256,9 +2415,9 @@ public struct EncryptionFailure: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -2279,9 +2438,9 @@ public struct ResourceLimitExceededException: ClientRuntime.ModeledError, AWSCli
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -2302,9 +2461,9 @@ public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntim
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -4164,6 +4323,8 @@ extension BedrockAgentCoreControlClientTypes {
         /// The name of the configuration bundle.
         /// This member is required.
         public var bundleName: Swift.String?
+        /// The timestamp when the configuration bundle was created.
+        public var createdAt: Foundation.Date?
         /// The description of the configuration bundle.
         public var description: Swift.String?
 
@@ -4171,11 +4332,13 @@ extension BedrockAgentCoreControlClientTypes {
             bundleArn: Swift.String? = nil,
             bundleId: Swift.String? = nil,
             bundleName: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
             description: Swift.String? = nil
         ) {
             self.bundleArn = bundleArn
             self.bundleId = bundleId
             self.bundleName = bundleName
+            self.createdAt = createdAt
             self.description = description
         }
     }
@@ -4183,7 +4346,7 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes.ConfigurationBundleSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ConfigurationBundleSummary(bundleArn: \(Swift.String(describing: bundleArn)), bundleId: \(Swift.String(describing: bundleId)), bundleName: \(Swift.String(describing: bundleName)), description: \"CONTENT_REDACTED\")"}
+        "ConfigurationBundleSummary(bundleArn: \(Swift.String(describing: bundleArn)), bundleId: \(Swift.String(describing: bundleId)), bundleName: \(Swift.String(describing: bundleName)), createdAt: \(Swift.String(describing: createdAt)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListConfigurationBundlesOutput: Swift.Sendable {
@@ -4373,6 +4536,708 @@ public struct UpdateConfigurationBundleOutput: Swift.Sendable {
         self.bundleId = bundleId
         self.updatedAt = updatedAt
         self.versionId = versionId
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Format of a customer-provided source file. JSONL (JSON Lines, one object per line) is the service's native ingestion and storage format — it can be streamed line-by-line without loading the entire file into memory, which is important as the row-count cap is extended. JSON array ([{...},{...}]) is intentionally not supported at launch: it cannot be streamed (requires loading the full file into memory to parse), and all major eval frameworks (LangSmith, Ragas, DeepEval, Arize Phoenix) export as JSONL or CSV — not JSON arrays. Customers with JSON array files can Versioned schema type for dataset examples. Each value identifies both the source format and the version of that format's schema. Schema definitions (required/optional fields) are stored as constants in SchemaRegistry. The schemaType on a Dataset is immutable after creation. When a framework changes its format, a new version is added (e.g., RAGAS_V2) without breaking existing datasets using the old version. Content is always stored as-is.
+    public enum DatasetSchemaType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// AgentCore predefined evaluation schema, version 1. Dataset with pre-written inputs per conversation turn. Required: input. Optional: expectedResponse, assertions, expectedTrajectory.
+        case agentcoreEvaluationPredefinedV1
+        /// AgentCore simulated evaluation schema, version 1. Dataset for synthetic data generation. Each example is a Scenario that a simulator uses to generate full conversations. Required: input. Optional: name (→exampleId), actor_profile, max_turns, assertions.
+        case agentcoreEvaluationSimulatedV1
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DatasetSchemaType] {
+            return [
+                .agentcoreEvaluationPredefinedV1,
+                .agentcoreEvaluationSimulatedV1
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .agentcoreEvaluationPredefinedV1: return "AGENTCORE_EVALUATION_PREDEFINED_V1"
+            case .agentcoreEvaluationSimulatedV1: return "AGENTCORE_EVALUATION_SIMULATED_V1"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateDatasetInput: Swift.Sendable {
+    /// Optional idempotency token.
+    public var clientToken: Swift.String?
+    /// Human-readable name for the dataset. Unique within the account (case-insensitive). Immutable after creation.
+    /// This member is required.
+    public var datasetName: Swift.String?
+    /// A description of the dataset.
+    public var description: Swift.String?
+    /// Optional AWS KMS key ARN for SSE-KMS on service S3 writes.
+    public var kmsKeyArn: Swift.String?
+    /// Versioned schema type governing the structure of examples. Immutable after creation.
+    /// This member is required.
+    public var schemaType: BedrockAgentCoreControlClientTypes.DatasetSchemaType?
+    /// Source of initial examples. Provide either inline examples or an S3 URI pointing to a JSONL file.
+    /// This member is required.
+    public var source: BedrockAgentCoreControlClientTypes.DataSourceType?
+    /// A map of tag keys and values to assign to the dataset.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        datasetName: Swift.String? = nil,
+        description: Swift.String? = nil,
+        kmsKeyArn: Swift.String? = nil,
+        schemaType: BedrockAgentCoreControlClientTypes.DatasetSchemaType? = nil,
+        source: BedrockAgentCoreControlClientTypes.DataSourceType? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.datasetName = datasetName
+        self.description = description
+        self.kmsKeyArn = kmsKeyArn
+        self.schemaType = schemaType
+        self.source = source
+        self.tags = tags
+    }
+}
+
+public struct CreateDatasetOutput: Swift.Sendable {
+    /// The timestamp when the dataset was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The Amazon Resource Name (ARN) of the created dataset.
+    /// This member is required.
+    public var datasetArn: Swift.String?
+    /// The unique identifier of the created dataset.
+    /// This member is required.
+    public var datasetId: Swift.String?
+    /// Always CREATING immediately after this call. Poll GetDataset until status == ACTIVE (draftStatus=MODIFIED) or CREATE_FAILED.
+    /// This member is required.
+    public var status: BedrockAgentCoreControlClientTypes.DatasetStatus?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        datasetArn: Swift.String? = nil,
+        datasetId: Swift.String? = nil,
+        status: BedrockAgentCoreControlClientTypes.DatasetStatus? = nil
+    ) {
+        self.createdAt = createdAt
+        self.datasetArn = datasetArn
+        self.datasetId = datasetId
+        self.status = status
+    }
+}
+
+public struct CreateDatasetVersionInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+    public var clientToken: Swift.String?
+    /// The unique identifier of the dataset to publish a version for.
+    /// This member is required.
+    public var datasetId: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        datasetId: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.datasetId = datasetId
+    }
+}
+
+public struct CreateDatasetVersionOutput: Swift.Sendable {
+    /// The timestamp when the version creation was initiated.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The Amazon Resource Name (ARN) of the dataset.
+    /// This member is required.
+    public var datasetArn: Swift.String?
+    /// The unique identifier of the dataset.
+    /// This member is required.
+    public var datasetId: Swift.String?
+    /// The version being created.
+    /// This member is required.
+    public var datasetVersion: Swift.String?
+    /// Always UPDATING immediately after this call. Poll GetDataset until status == ACTIVE (draftStatus=UNMODIFIED) or UPDATE_FAILED.
+    /// This member is required.
+    public var status: BedrockAgentCoreControlClientTypes.DatasetStatus?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        datasetArn: Swift.String? = nil,
+        datasetId: Swift.String? = nil,
+        datasetVersion: Swift.String? = nil,
+        status: BedrockAgentCoreControlClientTypes.DatasetStatus? = nil
+    ) {
+        self.createdAt = createdAt
+        self.datasetArn = datasetArn
+        self.datasetId = datasetId
+        self.datasetVersion = datasetVersion
+        self.status = status
+    }
+}
+
+public struct DeleteDatasetInput: Swift.Sendable {
+    /// The unique identifier of the dataset to delete.
+    /// This member is required.
+    public var datasetId: Swift.String?
+    /// Optional version to delete. Use "DRAFT" or omit to delete the draft. Returns ResourceNotFoundException if the specified version does not exist.
+    public var datasetVersion: Swift.String?
+
+    public init(
+        datasetId: Swift.String? = nil,
+        datasetVersion: Swift.String? = nil
+    ) {
+        self.datasetId = datasetId
+        self.datasetVersion = datasetVersion
+    }
+}
+
+public struct DeleteDatasetOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the dataset.
+    /// This member is required.
+    public var datasetArn: Swift.String?
+    /// The unique identifier of the dataset.
+    /// This member is required.
+    public var datasetId: Swift.String?
+    /// The version deleted.
+    /// This member is required.
+    public var datasetVersion: Swift.String?
+    /// The current status of the dataset after the delete request.
+    /// This member is required.
+    public var status: BedrockAgentCoreControlClientTypes.DatasetStatus?
+    /// The timestamp when the delete was initiated.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        datasetArn: Swift.String? = nil,
+        datasetId: Swift.String? = nil,
+        datasetVersion: Swift.String? = nil,
+        status: BedrockAgentCoreControlClientTypes.DatasetStatus? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.datasetArn = datasetArn
+        self.datasetId = datasetId
+        self.datasetVersion = datasetVersion
+        self.status = status
+        self.updatedAt = updatedAt
+    }
+}
+
+public struct DeleteDatasetExamplesInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+    public var clientToken: Swift.String?
+    /// The unique identifier of the dataset.
+    /// This member is required.
+    public var datasetId: Swift.String?
+    /// The IDs of the examples to delete.
+    /// This member is required.
+    public var exampleIds: [Swift.String]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        datasetId: Swift.String? = nil,
+        exampleIds: [Swift.String]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.datasetId = datasetId
+        self.exampleIds = exampleIds
+    }
+}
+
+public struct DeleteDatasetExamplesOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the dataset.
+    /// This member is required.
+    public var datasetArn: Swift.String?
+    /// The unique identifier of the dataset.
+    /// This member is required.
+    public var datasetId: Swift.String?
+    /// The number of examples deleted.
+    /// This member is required.
+    public var deletedCount: Swift.Int?
+    /// The current status of the dataset.
+    /// This member is required.
+    public var status: BedrockAgentCoreControlClientTypes.DatasetStatus?
+    /// The timestamp when the examples were deleted.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        datasetArn: Swift.String? = nil,
+        datasetId: Swift.String? = nil,
+        deletedCount: Swift.Int? = nil,
+        status: BedrockAgentCoreControlClientTypes.DatasetStatus? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.datasetArn = datasetArn
+        self.datasetId = datasetId
+        self.deletedCount = deletedCount
+        self.status = status
+        self.updatedAt = updatedAt
+    }
+}
+
+public struct GetDatasetInput: Swift.Sendable {
+    /// The unique identifier of the dataset to retrieve.
+    /// This member is required.
+    public var datasetId: Swift.String?
+    /// Version to retrieve: "DRAFT" or a version number. Defaults to DRAFT if absent.
+    public var datasetVersion: Swift.String?
+
+    public init(
+        datasetId: Swift.String? = nil,
+        datasetVersion: Swift.String? = nil
+    ) {
+        self.datasetId = datasetId
+        self.datasetVersion = datasetVersion
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Publish synchronization state of the DRAFT working copy. Tracks whether the current DRAFT content has been published as a version. Only authoritative when DatasetStatus == ACTIVE. Not meaningful during in-flight or failed states. Transitions: CreateDataset succeeds → MODIFIED (DRAFT has content with no published version yet) Add/Update/DeleteExamples succeed → MODIFIED (DRAFT differs from last published version) CreateDatasetVersion succeeds → UNMODIFIED (DRAFT matches the version just published)
+    public enum DraftStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// DRAFT has changes not yet reflected in any published version, or no versions have been published yet.
+        case modified
+        /// DRAFT content matches the latest published version exactly. Any example mutation transitions draftStatus back to MODIFIED.
+        case unmodified
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DraftStatus] {
+            return [
+                .modified,
+                .unmodified
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .modified: return "MODIFIED"
+            case .unmodified: return "UNMODIFIED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetDatasetOutput: Swift.Sendable {
+    /// The timestamp when the dataset was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The Amazon Resource Name (ARN) of the dataset.
+    /// This member is required.
+    public var datasetArn: Swift.String?
+    /// The unique identifier of the dataset.
+    /// This member is required.
+    public var datasetId: Swift.String?
+    /// The name of the dataset.
+    /// This member is required.
+    public var datasetName: Swift.String?
+    /// The resolved version: "DRAFT" (default) or the requested version number.
+    /// This member is required.
+    public var datasetVersion: Swift.String?
+    /// The description of the dataset.
+    public var description: Swift.String?
+    /// Presigned S3 URL to download the consolidated dataset.jsonl file for the resolved version (DRAFT or published). TTL: 5 minutes. Omitted if the file does not yet exist (e.g. during CREATING) or on presign failure.
+    public var downloadUrl: Swift.String?
+    /// Expiry timestamp for downloadUrl.
+    public var downloadUrlExpiresAt: Foundation.Date?
+    /// Publish synchronization state. Only authoritative when status == ACTIVE. MODIFIED — DRAFT has unpublished changes (or no published versions yet). UNMODIFIED — DRAFT matches the latest published version exactly.
+    public var draftStatus: BedrockAgentCoreControlClientTypes.DraftStatus?
+    /// Example count for DRAFT.
+    /// This member is required.
+    public var exampleCount: Swift.Int?
+    /// Populated when status is CREATE_FAILED, UPDATE_FAILED, or DELETE_FAILED.
+    public var failureReason: Swift.String?
+    /// AWS KMS key ARN used for SSE-KMS on service S3 writes, if configured.
+    public var kmsKeyArn: Swift.String?
+    /// The schema type declared at create time. Immutable after creation.
+    /// This member is required.
+    public var schemaType: BedrockAgentCoreControlClientTypes.DatasetSchemaType?
+    /// The current status of the dataset.
+    /// This member is required.
+    public var status: BedrockAgentCoreControlClientTypes.DatasetStatus?
+    /// The tags associated with the dataset.
+    public var tags: [Swift.String: Swift.String]?
+    /// The timestamp when the dataset was last updated.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        datasetArn: Swift.String? = nil,
+        datasetId: Swift.String? = nil,
+        datasetName: Swift.String? = nil,
+        datasetVersion: Swift.String? = nil,
+        description: Swift.String? = nil,
+        downloadUrl: Swift.String? = nil,
+        downloadUrlExpiresAt: Foundation.Date? = nil,
+        draftStatus: BedrockAgentCoreControlClientTypes.DraftStatus? = nil,
+        exampleCount: Swift.Int? = nil,
+        failureReason: Swift.String? = nil,
+        kmsKeyArn: Swift.String? = nil,
+        schemaType: BedrockAgentCoreControlClientTypes.DatasetSchemaType? = nil,
+        status: BedrockAgentCoreControlClientTypes.DatasetStatus? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.createdAt = createdAt
+        self.datasetArn = datasetArn
+        self.datasetId = datasetId
+        self.datasetName = datasetName
+        self.datasetVersion = datasetVersion
+        self.description = description
+        self.downloadUrl = downloadUrl
+        self.downloadUrlExpiresAt = downloadUrlExpiresAt
+        self.draftStatus = draftStatus
+        self.exampleCount = exampleCount
+        self.failureReason = failureReason
+        self.kmsKeyArn = kmsKeyArn
+        self.schemaType = schemaType
+        self.status = status
+        self.tags = tags
+        self.updatedAt = updatedAt
+    }
+}
+
+extension GetDatasetOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetDatasetOutput(createdAt: \(Swift.String(describing: createdAt)), datasetArn: \(Swift.String(describing: datasetArn)), datasetId: \(Swift.String(describing: datasetId)), datasetName: \(Swift.String(describing: datasetName)), datasetVersion: \(Swift.String(describing: datasetVersion)), description: \(Swift.String(describing: description)), downloadUrlExpiresAt: \(Swift.String(describing: downloadUrlExpiresAt)), draftStatus: \(Swift.String(describing: draftStatus)), exampleCount: \(Swift.String(describing: exampleCount)), failureReason: \(Swift.String(describing: failureReason)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), schemaType: \(Swift.String(describing: schemaType)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), updatedAt: \(Swift.String(describing: updatedAt)), downloadUrl: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListDatasetExamplesInput: Swift.Sendable {
+    /// The unique identifier of the dataset.
+    /// This member is required.
+    public var datasetId: Swift.String?
+    /// Version to paginate: "DRAFT" or a version number. Defaults to DRAFT if absent. Only used on the first request (when nextToken is absent). For subsequent pages, the version is extracted from the nextToken and this parameter is ignored.
+    public var datasetVersion: Swift.String?
+    /// Maximum number of examples to return per page. Default: 1000. Min: 1, max: 1000. Response size is validated against 5 MB limit after reading. For bulk access to all examples, use the downloadUrl field from GetDataset.
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        datasetId: Swift.String? = nil,
+        datasetVersion: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.datasetId = datasetId
+        self.datasetVersion = datasetVersion
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListDatasetExamplesOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the dataset.
+    /// This member is required.
+    public var datasetArn: Swift.String?
+    /// The unique identifier of the dataset.
+    /// This member is required.
+    public var datasetId: Swift.String?
+    /// The version returned.
+    /// This member is required.
+    public var datasetVersion: Swift.String?
+    /// Paginated example content. Each element is a JSON object containing at least an exampleId field plus the schema-specific content fields.
+    /// This member is required.
+    public var examples: [Smithy.Document]?
+    /// The token for the next page of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+
+    public init(
+        datasetArn: Swift.String? = nil,
+        datasetId: Swift.String? = nil,
+        datasetVersion: Swift.String? = nil,
+        examples: [Smithy.Document]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.datasetArn = datasetArn
+        self.datasetId = datasetId
+        self.datasetVersion = datasetVersion
+        self.examples = examples
+        self.nextToken = nextToken
+    }
+}
+
+extension ListDatasetExamplesOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ListDatasetExamplesOutput(datasetArn: \(Swift.String(describing: datasetArn)), datasetId: \(Swift.String(describing: datasetId)), datasetVersion: \(Swift.String(describing: datasetVersion)), nextToken: \(Swift.String(describing: nextToken)), examples: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListDatasetsInput: Swift.Sendable {
+    /// The maximum number of datasets to return per page.
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Summary information about a dataset.
+    public struct DatasetSummary: Swift.Sendable {
+        /// The timestamp when the dataset was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The Amazon Resource Name (ARN) of the dataset.
+        /// This member is required.
+        public var datasetArn: Swift.String?
+        /// The unique identifier of the dataset.
+        /// This member is required.
+        public var datasetId: Swift.String?
+        /// The name of the dataset.
+        /// This member is required.
+        public var datasetName: Swift.String?
+        /// The description of the dataset.
+        public var description: Swift.String?
+        /// Publish synchronization state. Only authoritative when status == ACTIVE.
+        public var draftStatus: BedrockAgentCoreControlClientTypes.DraftStatus?
+        /// The number of examples in the dataset.
+        /// This member is required.
+        public var exampleCount: Swift.Int?
+        /// The schema type of the dataset.
+        /// This member is required.
+        public var schemaType: BedrockAgentCoreControlClientTypes.DatasetSchemaType?
+        /// The current status of the dataset.
+        /// This member is required.
+        public var status: BedrockAgentCoreControlClientTypes.DatasetStatus?
+        /// The timestamp when the dataset was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            datasetArn: Swift.String? = nil,
+            datasetId: Swift.String? = nil,
+            datasetName: Swift.String? = nil,
+            description: Swift.String? = nil,
+            draftStatus: BedrockAgentCoreControlClientTypes.DraftStatus? = nil,
+            exampleCount: Swift.Int? = nil,
+            schemaType: BedrockAgentCoreControlClientTypes.DatasetSchemaType? = nil,
+            status: BedrockAgentCoreControlClientTypes.DatasetStatus? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.createdAt = createdAt
+            self.datasetArn = datasetArn
+            self.datasetId = datasetId
+            self.datasetName = datasetName
+            self.description = description
+            self.draftStatus = draftStatus
+            self.exampleCount = exampleCount
+            self.schemaType = schemaType
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct ListDatasetsOutput: Swift.Sendable {
+    /// The list of datasets.
+    /// This member is required.
+    public var datasets: [BedrockAgentCoreControlClientTypes.DatasetSummary]?
+    /// The token for the next page of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+
+    public init(
+        datasets: [BedrockAgentCoreControlClientTypes.DatasetSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.datasets = datasets
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListDatasetVersionsInput: Swift.Sendable {
+    /// The unique identifier of the dataset.
+    /// This member is required.
+    public var datasetId: Swift.String?
+    /// The maximum number of versions to return per page.
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        datasetId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.datasetId = datasetId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Summary information about a published dataset version.
+    public struct DatasetVersionSummary: Swift.Sendable {
+        /// The timestamp when this version was published.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// Dataset version identifier. Accepts "DRAFT" or a non-negative integer string. "DRAFT" refers to the single mutable working copy of the dataset.
+        ///
+        /// * Always present after CreateDataset ingestion completes.
+        ///
+        /// * Content changes in-place when examples are added, updated, or deleted.
+        ///
+        /// * NOT tracked as a DDB DatasetVersionItem — state lives in S3 (draft/manifest.json, draft/dataset.jsonl) and the DatasetItem.exampleCount field.
+        ///
+        /// * Default for read operations when ?datasetVersion is absent.
+        ///
+        ///
+        /// An integer string (e.g. "1", "2", "3") refers to a published, immutable snapshot created by CreateDatasetVersion. Once created, a published version's content never changes. Stored as a DDB DatasetVersionItem (SK=VERSION#{zero-padded-N}).
+        /// This member is required.
+        public var datasetVersion: Swift.String?
+        /// The number of examples in this version.
+        /// This member is required.
+        public var exampleCount: Swift.Int?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            datasetVersion: Swift.String? = nil,
+            exampleCount: Swift.Int? = nil
+        ) {
+            self.createdAt = createdAt
+            self.datasetVersion = datasetVersion
+            self.exampleCount = exampleCount
+        }
+    }
+}
+
+public struct ListDatasetVersionsOutput: Swift.Sendable {
+    /// The token for the next page of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+    /// The list of published dataset versions.
+    /// This member is required.
+    public var versions: [BedrockAgentCoreControlClientTypes.DatasetVersionSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        versions: [BedrockAgentCoreControlClientTypes.DatasetVersionSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.versions = versions
+    }
+}
+
+public struct UpdateDatasetInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+    public var clientToken: Swift.String?
+    /// The unique identifier of the dataset to update.
+    /// This member is required.
+    public var datasetId: Swift.String?
+    /// The updated description for the dataset.
+    public var description: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        datasetId: Swift.String? = nil,
+        description: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.datasetId = datasetId
+        self.description = description
+    }
+}
+
+public struct UpdateDatasetOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the updated dataset.
+    /// This member is required.
+    public var datasetArn: Swift.String?
+    /// The unique identifier of the updated dataset.
+    /// This member is required.
+    public var datasetId: Swift.String?
+    /// The timestamp when the dataset was updated.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        datasetArn: Swift.String? = nil,
+        datasetId: Swift.String? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.datasetArn = datasetArn
+        self.datasetId = datasetId
+        self.updatedAt = updatedAt
+    }
+}
+
+public struct UpdateDatasetExamplesInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+    public var clientToken: Swift.String?
+    /// The unique identifier of the dataset.
+    /// This member is required.
+    public var datasetId: Swift.String?
+    /// Examples to update. Each element is a JSON object containing a required exampleId string field identifying the existing example, plus the replacement fields. The exampleId is extracted and removed before persistence; the remaining document is validated against the dataset's schemaType. Max 1000 examples per call. Total request body must not exceed 5 MB.
+    /// This member is required.
+    public var examples: [Smithy.Document]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        datasetId: Swift.String? = nil,
+        examples: [Smithy.Document]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.datasetId = datasetId
+        self.examples = examples
+    }
+}
+
+extension UpdateDatasetExamplesInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateDatasetExamplesInput(clientToken: \(Swift.String(describing: clientToken)), datasetId: \(Swift.String(describing: datasetId)), examples: \"CONTENT_REDACTED\")"}
+}
+
+public struct UpdateDatasetExamplesOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the dataset.
+    /// This member is required.
+    public var datasetArn: Swift.String?
+    /// The unique identifier of the dataset.
+    /// This member is required.
+    public var datasetId: Swift.String?
+    /// The current status of the dataset.
+    /// This member is required.
+    public var status: BedrockAgentCoreControlClientTypes.DatasetStatus?
+    /// The timestamp when the examples were updated.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+    /// The number of examples updated.
+    /// This member is required.
+    public var updatedCount: Swift.Int?
+
+    public init(
+        datasetArn: Swift.String? = nil,
+        datasetId: Swift.String? = nil,
+        status: BedrockAgentCoreControlClientTypes.DatasetStatus? = nil,
+        updatedAt: Foundation.Date? = nil,
+        updatedCount: Swift.Int? = nil
+    ) {
+        self.datasetArn = datasetArn
+        self.datasetId = datasetId
+        self.status = status
+        self.updatedAt = updatedAt
+        self.updatedCount = updatedCount
     }
 }
 
@@ -7606,8 +8471,47 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes {
 
+    public enum HarnessBedrockApiFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Use the Chat Completions API format.
+        case chatCompletions
+        /// Use the Bedrock Converse Stream API format.
+        case converseStream
+        /// Use the Responses API format.
+        case responses
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HarnessBedrockApiFormat] {
+            return [
+                .chatCompletions,
+                .converseStream,
+                .responses
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .chatCompletions: return "chat_completions"
+            case .converseStream: return "converse_stream"
+            case .responses: return "responses"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
     /// Configuration for an Amazon Bedrock model provider.
     public struct HarnessBedrockModelConfig: Swift.Sendable {
+        /// Provider-specific parameters passed through to the model provider unchanged.
+        public var additionalParams: Smithy.Document?
+        /// The API format to use when calling the Bedrock provider.
+        public var apiFormat: BedrockAgentCoreControlClientTypes.HarnessBedrockApiFormat?
         /// The maximum number of tokens to allow in the generated response per model call.
         public var maxTokens: Swift.Int?
         /// The Bedrock model ID.
@@ -7619,11 +8523,15 @@ extension BedrockAgentCoreControlClientTypes {
         public var topp: Swift.Float?
 
         public init(
+            additionalParams: Smithy.Document? = nil,
+            apiFormat: BedrockAgentCoreControlClientTypes.HarnessBedrockApiFormat? = nil,
             maxTokens: Swift.Int? = nil,
             modelId: Swift.String? = nil,
             temperature: Swift.Float? = nil,
             topp: Swift.Float? = nil
         ) {
+            self.additionalParams = additionalParams
+            self.apiFormat = apiFormat
             self.maxTokens = maxTokens
             self.modelId = modelId
             self.temperature = temperature
@@ -7671,8 +8579,88 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes {
 
+    /// Configuration for a LiteLLM model provider, enabling connection to third-party model providers.
+    public struct HarnessLiteLlmModelConfig: Swift.Sendable {
+        /// Provider-specific parameters passed through to the model provider unchanged.
+        public var additionalParams: Smithy.Document?
+        /// The base URL for the model provider's API endpoint.
+        public var apiBase: Swift.String?
+        /// The ARN of the API key in AgentCore Identity for authenticating with the model provider.
+        public var apiKeyArn: Swift.String?
+        /// The maximum number of tokens to allow in the generated response per iteration.
+        public var maxTokens: Swift.Int?
+        /// The LiteLLM model identifier (e.g., "anthropic/claude-3-sonnet").
+        /// This member is required.
+        public var modelId: Swift.String?
+        /// The temperature to set when calling the model.
+        public var temperature: Swift.Float?
+        /// The topP set when calling the model.
+        public var topp: Swift.Float?
+
+        public init(
+            additionalParams: Smithy.Document? = nil,
+            apiBase: Swift.String? = nil,
+            apiKeyArn: Swift.String? = nil,
+            maxTokens: Swift.Int? = nil,
+            modelId: Swift.String? = nil,
+            temperature: Swift.Float? = nil,
+            topp: Swift.Float? = nil
+        ) {
+            self.additionalParams = additionalParams
+            self.apiBase = apiBase
+            self.apiKeyArn = apiKeyArn
+            self.maxTokens = maxTokens
+            self.modelId = modelId
+            self.temperature = temperature
+            self.topp = topp
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.HarnessLiteLlmModelConfig: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "HarnessLiteLlmModelConfig(additionalParams: \(Swift.String(describing: additionalParams)), apiKeyArn: \(Swift.String(describing: apiKeyArn)), maxTokens: \(Swift.String(describing: maxTokens)), modelId: \(Swift.String(describing: modelId)), temperature: \(Swift.String(describing: temperature)), topp: \(Swift.String(describing: topp)), apiBase: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    public enum HarnessOpenAiApiFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Use the Chat Completions API format.
+        case chatCompletions
+        /// Use the Responses API format.
+        case responses
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HarnessOpenAiApiFormat] {
+            return [
+                .chatCompletions,
+                .responses
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .chatCompletions: return "chat_completions"
+            case .responses: return "responses"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
     /// Configuration for an OpenAI model provider. Requires an API key stored in AgentCore Identity.
     public struct HarnessOpenAiModelConfig: Swift.Sendable {
+        /// Provider-specific parameters passed through to the model provider unchanged.
+        public var additionalParams: Smithy.Document?
+        /// The API format to use when calling the OpenAI provider.
+        public var apiFormat: BedrockAgentCoreControlClientTypes.HarnessOpenAiApiFormat?
         /// The ARN of your OpenAI API key on AgentCore Identity.
         /// This member is required.
         public var apiKeyArn: Swift.String?
@@ -7687,12 +8675,16 @@ extension BedrockAgentCoreControlClientTypes {
         public var topp: Swift.Float?
 
         public init(
+            additionalParams: Smithy.Document? = nil,
+            apiFormat: BedrockAgentCoreControlClientTypes.HarnessOpenAiApiFormat? = nil,
             apiKeyArn: Swift.String? = nil,
             maxTokens: Swift.Int? = nil,
             modelId: Swift.String? = nil,
             temperature: Swift.Float? = nil,
             topp: Swift.Float? = nil
         ) {
+            self.additionalParams = additionalParams
+            self.apiFormat = apiFormat
             self.apiKeyArn = apiKeyArn
             self.maxTokens = maxTokens
             self.modelId = modelId
@@ -7712,7 +8704,69 @@ extension BedrockAgentCoreControlClientTypes {
         case openaimodelconfig(BedrockAgentCoreControlClientTypes.HarnessOpenAiModelConfig)
         /// Configuration for a Google Gemini model.
         case geminimodelconfig(BedrockAgentCoreControlClientTypes.HarnessGeminiModelConfig)
+        /// The LiteLLM model configuration for connecting to third-party model providers.
+        case litellmmodelconfig(BedrockAgentCoreControlClientTypes.HarnessLiteLlmModelConfig)
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Authentication configuration for accessing a private git repository.
+    public struct HarnessSkillGitAuth: Swift.Sendable {
+        /// The ARN of the credential in AgentCore Identity containing the password or personal access token.
+        /// This member is required.
+        public var credentialArn: Swift.String?
+        /// Username for authentication. Defaults to 'oauth2' if not specified.
+        public var username: Swift.String?
+
+        public init(
+            credentialArn: Swift.String? = nil,
+            username: Swift.String? = nil
+        ) {
+            self.credentialArn = credentialArn
+            self.username = username
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// A git repository source for a skill.
+    public struct HarnessSkillGitSource: Swift.Sendable {
+        /// Authentication configuration for private repositories.
+        public var auth: BedrockAgentCoreControlClientTypes.HarnessSkillGitAuth?
+        /// Subdirectory within the repository containing the skill.
+        public var path: Swift.String?
+        /// The HTTPS URL of the git repository.
+        /// This member is required.
+        public var url: Swift.String?
+
+        public init(
+            auth: BedrockAgentCoreControlClientTypes.HarnessSkillGitAuth? = nil,
+            path: Swift.String? = nil,
+            url: Swift.String? = nil
+        ) {
+            self.auth = auth
+            self.path = path
+            self.url = url
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// An S3 source for a skill.
+    public struct HarnessSkillS3Source: Swift.Sendable {
+        /// The S3 URI pointing to the skill directory (e.g., s3://bucket/skills/my-skill/).
+        /// This member is required.
+        public var uri: Swift.String?
+
+        public init(
+            uri: Swift.String? = nil
+        ) {
+            self.uri = uri
+        }
     }
 }
 
@@ -7722,6 +8776,10 @@ extension BedrockAgentCoreControlClientTypes {
     public enum HarnessSkill: Swift.Sendable {
         /// The filesystem path to the skill definition.
         case path(Swift.String)
+        /// An S3 source containing the skill.
+        case s3(BedrockAgentCoreControlClientTypes.HarnessSkillS3Source)
+        /// A git repository containing the skill.
+        case git(BedrockAgentCoreControlClientTypes.HarnessSkillGitSource)
         case sdkUnknown(Swift.String)
     }
 }
@@ -7782,7 +8840,7 @@ extension BedrockAgentCoreControlClientTypes {
         case awsiam(BedrockAgentCoreControlClientTypes.Unit)
         /// No authentication.
         case `none`(BedrockAgentCoreControlClientTypes.Unit)
-        /// An OAuth credential provider for gateway authentication. This structure contains the configuration for authenticating with the target endpoint using OAuth.
+        /// Use OAuth credentials for outbound authentication to the gateway.
         case oauth(BedrockAgentCoreControlClientTypes.OAuthCredentialProvider)
         case sdkUnknown(Swift.String)
     }
@@ -8647,9 +9705,9 @@ public struct ServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWS
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { true }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -8670,9 +9728,9 @@ public struct ThrottledException: ClientRuntime.ModeledError, AWSClientRuntime.A
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { true }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -17525,9 +18583,9 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSCl
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -18389,6 +19447,16 @@ public struct SynchronizeGatewayTargetsOutput: Swift.Sendable {
     }
 }
 
+extension AddDatasetExamplesInput {
+
+    static func urlPathProvider(_ value: AddDatasetExamplesInput) -> Swift.String? {
+        guard let datasetId = value.datasetId else {
+            return nil
+        }
+        return "/datasets/\(datasetId.urlPercentEncoding())/examples/add"
+    }
+}
+
 extension CreateAgentRuntimeInput {
 
     static func urlPathProvider(_ value: CreateAgentRuntimeInput) -> Swift.String? {
@@ -18438,6 +19506,23 @@ extension CreateConfigurationBundleInput {
 
     static func urlPathProvider(_ value: CreateConfigurationBundleInput) -> Swift.String? {
         return "/configuration-bundles/create"
+    }
+}
+
+extension CreateDatasetInput {
+
+    static func urlPathProvider(_ value: CreateDatasetInput) -> Swift.String? {
+        return "/datasets"
+    }
+}
+
+extension CreateDatasetVersionInput {
+
+    static func urlPathProvider(_ value: CreateDatasetVersionInput) -> Swift.String? {
+        guard let datasetId = value.datasetId else {
+            return nil
+        }
+        return "/datasets/\(datasetId.urlPercentEncoding())/versions"
     }
 }
 
@@ -18695,6 +19780,38 @@ extension DeleteConfigurationBundleInput {
             return nil
         }
         return "/configuration-bundles/\(bundleId.urlPercentEncoding())"
+    }
+}
+
+extension DeleteDatasetInput {
+
+    static func urlPathProvider(_ value: DeleteDatasetInput) -> Swift.String? {
+        guard let datasetId = value.datasetId else {
+            return nil
+        }
+        return "/datasets/\(datasetId.urlPercentEncoding())"
+    }
+}
+
+extension DeleteDatasetInput {
+
+    static func queryItemProvider(_ value: DeleteDatasetInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let datasetVersion = value.datasetVersion {
+            let datasetVersionQueryItem = Smithy.URIQueryItem(name: "datasetVersion".urlPercentEncoding(), value: Swift.String(datasetVersion).urlPercentEncoding())
+            items.append(datasetVersionQueryItem)
+        }
+        return items
+    }
+}
+
+extension DeleteDatasetExamplesInput {
+
+    static func urlPathProvider(_ value: DeleteDatasetExamplesInput) -> Swift.String? {
+        guard let datasetId = value.datasetId else {
+            return nil
+        }
+        return "/datasets/\(datasetId.urlPercentEncoding())/examples/delete"
     }
 }
 
@@ -19026,6 +20143,28 @@ extension GetConfigurationBundleVersionInput {
             return nil
         }
         return "/configuration-bundles/\(bundleId.urlPercentEncoding())/versions/\(versionId.urlPercentEncoding())"
+    }
+}
+
+extension GetDatasetInput {
+
+    static func urlPathProvider(_ value: GetDatasetInput) -> Swift.String? {
+        guard let datasetId = value.datasetId else {
+            return nil
+        }
+        return "/datasets/\(datasetId.urlPercentEncoding())"
+    }
+}
+
+extension GetDatasetInput {
+
+    static func queryItemProvider(_ value: GetDatasetInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let datasetVersion = value.datasetVersion {
+            let datasetVersionQueryItem = Smithy.URIQueryItem(name: "datasetVersion".urlPercentEncoding(), value: Swift.String(datasetVersion).urlPercentEncoding())
+            items.append(datasetVersionQueryItem)
+        }
+        return items
     }
 }
 
@@ -19480,6 +20619,85 @@ extension ListConfigurationBundleVersionsInput {
 extension ListConfigurationBundleVersionsInput {
 
     static func queryItemProvider(_ value: ListConfigurationBundleVersionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListDatasetExamplesInput {
+
+    static func urlPathProvider(_ value: ListDatasetExamplesInput) -> Swift.String? {
+        guard let datasetId = value.datasetId else {
+            return nil
+        }
+        return "/datasets/\(datasetId.urlPercentEncoding())/examples"
+    }
+}
+
+extension ListDatasetExamplesInput {
+
+    static func queryItemProvider(_ value: ListDatasetExamplesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let datasetVersion = value.datasetVersion {
+            let datasetVersionQueryItem = Smithy.URIQueryItem(name: "datasetVersion".urlPercentEncoding(), value: Swift.String(datasetVersion).urlPercentEncoding())
+            items.append(datasetVersionQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListDatasetsInput {
+
+    static func urlPathProvider(_ value: ListDatasetsInput) -> Swift.String? {
+        return "/datasets"
+    }
+}
+
+extension ListDatasetsInput {
+
+    static func queryItemProvider(_ value: ListDatasetsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListDatasetVersionsInput {
+
+    static func urlPathProvider(_ value: ListDatasetVersionsInput) -> Swift.String? {
+        guard let datasetId = value.datasetId else {
+            return nil
+        }
+        return "/datasets/\(datasetId.urlPercentEncoding())/versions"
+    }
+}
+
+extension ListDatasetVersionsInput {
+
+    static func queryItemProvider(_ value: ListDatasetVersionsInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
@@ -20106,6 +21324,26 @@ extension UpdateConfigurationBundleInput {
     }
 }
 
+extension UpdateDatasetInput {
+
+    static func urlPathProvider(_ value: UpdateDatasetInput) -> Swift.String? {
+        guard let datasetId = value.datasetId else {
+            return nil
+        }
+        return "/datasets/\(datasetId.urlPercentEncoding())"
+    }
+}
+
+extension UpdateDatasetExamplesInput {
+
+    static func urlPathProvider(_ value: UpdateDatasetExamplesInput) -> Swift.String? {
+        guard let datasetId = value.datasetId else {
+            return nil
+        }
+        return "/datasets/\(datasetId.urlPercentEncoding())/examples/update"
+    }
+}
+
 extension UpdateEvaluatorInput {
 
     static func urlPathProvider(_ value: UpdateEvaluatorInput) -> Swift.String? {
@@ -20285,6 +21523,15 @@ extension UpdateWorkloadIdentityInput {
     }
 }
 
+extension AddDatasetExamplesInput {
+
+    static func write(value: AddDatasetExamplesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["source"].write(value.source, with: BedrockAgentCoreControlClientTypes.DataSourceType.write(value:to:))
+    }
+}
+
 extension CreateAgentRuntimeInput {
 
     static func write(value: CreateAgentRuntimeInput?, to writer: SmithyJSON.Writer) throws {
@@ -20381,6 +21628,28 @@ extension CreateConfigurationBundleInput {
         try writer["createdBy"].write(value.createdBy, with: BedrockAgentCoreControlClientTypes.VersionCreatedBySource.write(value:to:))
         try writer["description"].write(value.description)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension CreateDatasetInput {
+
+    static func write(value: CreateDatasetInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["datasetName"].write(value.datasetName)
+        try writer["description"].write(value.description)
+        try writer["kmsKeyArn"].write(value.kmsKeyArn)
+        try writer["schemaType"].write(value.schemaType)
+        try writer["source"].write(value.source, with: BedrockAgentCoreControlClientTypes.DataSourceType.write(value:to:))
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension CreateDatasetVersionInput {
+
+    static func write(value: CreateDatasetVersionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
     }
 }
 
@@ -20620,6 +21889,15 @@ extension DeleteApiKeyCredentialProviderInput {
     }
 }
 
+extension DeleteDatasetExamplesInput {
+
+    static func write(value: DeleteDatasetExamplesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["exampleIds"].writeList(value.exampleIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension DeleteOauth2CredentialProviderInput {
 
     static func write(value: DeleteOauth2CredentialProviderInput?, to writer: SmithyJSON.Writer) throws {
@@ -20842,6 +22120,24 @@ extension UpdateConfigurationBundleInput {
     }
 }
 
+extension UpdateDatasetInput {
+
+    static func write(value: UpdateDatasetInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["description"].write(value.description)
+    }
+}
+
+extension UpdateDatasetExamplesInput {
+
+    static func write(value: UpdateDatasetExamplesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["examples"].writeList(value.examples, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDocument(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension UpdateEvaluatorInput {
 
     static func write(value: UpdateEvaluatorInput?, to writer: SmithyJSON.Writer) throws {
@@ -21052,6 +22348,23 @@ extension UpdateWorkloadIdentityInput {
     }
 }
 
+extension AddDatasetExamplesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AddDatasetExamplesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = AddDatasetExamplesOutput()
+        value.addedCount = try reader["addedCount"].readIfPresent() ?? 0
+        value.datasetArn = try reader["datasetArn"].readIfPresent() ?? ""
+        value.datasetId = try reader["datasetId"].readIfPresent() ?? ""
+        value.exampleIds = try reader["exampleIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
 extension CreateAgentRuntimeOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateAgentRuntimeOutput {
@@ -21157,6 +22470,37 @@ extension CreateConfigurationBundleOutput {
         value.bundleId = try reader["bundleId"].readIfPresent() ?? ""
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.versionId = try reader["versionId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CreateDatasetOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateDatasetOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateDatasetOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.datasetArn = try reader["datasetArn"].readIfPresent() ?? ""
+        value.datasetId = try reader["datasetId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension CreateDatasetVersionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateDatasetVersionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateDatasetVersionOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.datasetArn = try reader["datasetArn"].readIfPresent() ?? ""
+        value.datasetId = try reader["datasetId"].readIfPresent() ?? ""
+        value.datasetVersion = try reader["datasetVersion"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -21533,6 +22877,38 @@ extension DeleteConfigurationBundleOutput {
         var value = DeleteConfigurationBundleOutput()
         value.bundleId = try reader["bundleId"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension DeleteDatasetOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteDatasetOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteDatasetOutput()
+        value.datasetArn = try reader["datasetArn"].readIfPresent() ?? ""
+        value.datasetId = try reader["datasetId"].readIfPresent() ?? ""
+        value.datasetVersion = try reader["datasetVersion"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension DeleteDatasetExamplesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteDatasetExamplesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteDatasetExamplesOutput()
+        value.datasetArn = try reader["datasetArn"].readIfPresent() ?? ""
+        value.datasetId = try reader["datasetId"].readIfPresent() ?? ""
+        value.deletedCount = try reader["deletedCount"].readIfPresent() ?? 0
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -21919,6 +23295,33 @@ extension GetConfigurationBundleVersionOutput {
         value.lineageMetadata = try reader["lineageMetadata"].readIfPresent(with: BedrockAgentCoreControlClientTypes.VersionLineageMetadata.read(from:))
         value.versionCreatedAt = try reader["versionCreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.versionId = try reader["versionId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension GetDatasetOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetDatasetOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetDatasetOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.datasetArn = try reader["datasetArn"].readIfPresent() ?? ""
+        value.datasetId = try reader["datasetId"].readIfPresent() ?? ""
+        value.datasetName = try reader["datasetName"].readIfPresent() ?? ""
+        value.datasetVersion = try reader["datasetVersion"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.downloadUrl = try reader["downloadUrl"].readIfPresent()
+        value.downloadUrlExpiresAt = try reader["downloadUrlExpiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.draftStatus = try reader["draftStatus"].readIfPresent()
+        value.exampleCount = try reader["exampleCount"].readIfPresent() ?? 0
+        value.failureReason = try reader["failureReason"].readIfPresent()
+        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
+        value.schemaType = try reader["schemaType"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -22477,6 +23880,48 @@ extension ListConfigurationBundleVersionsOutput {
     }
 }
 
+extension ListDatasetExamplesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDatasetExamplesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListDatasetExamplesOutput()
+        value.datasetArn = try reader["datasetArn"].readIfPresent() ?? ""
+        value.datasetId = try reader["datasetId"].readIfPresent() ?? ""
+        value.datasetVersion = try reader["datasetVersion"].readIfPresent() ?? ""
+        value.examples = try reader["examples"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDocument(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListDatasetsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDatasetsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListDatasetsOutput()
+        value.datasets = try reader["datasets"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.DatasetSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListDatasetVersionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDatasetVersionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListDatasetVersionsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.versions = try reader["versions"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.DatasetVersionSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension ListEvaluatorsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListEvaluatorsOutput {
@@ -22918,6 +24363,36 @@ extension UpdateConfigurationBundleOutput {
     }
 }
 
+extension UpdateDatasetOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateDatasetOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateDatasetOutput()
+        value.datasetArn = try reader["datasetArn"].readIfPresent() ?? ""
+        value.datasetId = try reader["datasetId"].readIfPresent() ?? ""
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension UpdateDatasetExamplesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateDatasetExamplesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateDatasetExamplesOutput()
+        value.datasetArn = try reader["datasetArn"].readIfPresent() ?? ""
+        value.datasetId = try reader["datasetId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedCount = try reader["updatedCount"].readIfPresent() ?? 0
+        return value
+    }
+}
+
 extension UpdateEvaluatorOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateEvaluatorOutput {
@@ -23247,6 +24722,26 @@ extension UpdateWorkloadIdentityOutput {
     }
 }
 
+enum AddDatasetExamplesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateAgentRuntimeOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -23378,6 +24873,45 @@ enum CreateConfigurationBundleOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateDatasetOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateDatasetVersionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -23821,6 +25355,44 @@ enum DeleteCodeInterpreterOutputError {
 }
 
 enum DeleteConfigurationBundleOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteDatasetOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteDatasetExamplesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -24297,6 +25869,25 @@ enum GetConfigurationBundleVersionOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetDatasetOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -24849,6 +26440,60 @@ enum ListConfigurationBundlesOutputError {
 }
 
 enum ListConfigurationBundleVersionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListDatasetExamplesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListDatasetsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListDatasetVersionsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -25472,6 +27117,45 @@ enum UpdateConfigurationBundleOutputError {
     }
 }
 
+enum UpdateDatasetOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateDatasetExamplesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateEvaluatorOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -25850,6 +27534,19 @@ extension InternalServerException {
     }
 }
 
+extension ResourceNotFoundException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceNotFoundException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ServiceQuotaExceededException {
 
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
@@ -25884,19 +27581,6 @@ extension ValidationException {
         value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.properties.reason = try reader["reason"].readIfPresent() ?? .sdkUnknown("")
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ResourceNotFoundException {
-
-    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -26791,6 +28475,7 @@ extension BedrockAgentCoreControlClientTypes.ConfigurationBundleSummary {
         value.bundleId = try reader["bundleId"].readIfPresent() ?? ""
         value.bundleName = try reader["bundleName"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -27170,6 +28855,37 @@ extension BedrockAgentCoreControlClientTypes.CustomReflectionConfigurationInput 
     }
 }
 
+extension BedrockAgentCoreControlClientTypes.DatasetSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.DatasetSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.DatasetSummary()
+        value.datasetArn = try reader["datasetArn"].readIfPresent() ?? ""
+        value.datasetId = try reader["datasetId"].readIfPresent() ?? ""
+        value.datasetName = try reader["datasetName"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.draftStatus = try reader["draftStatus"].readIfPresent()
+        value.schemaType = try reader["schemaType"].readIfPresent() ?? .sdkUnknown("")
+        value.exampleCount = try reader["exampleCount"].readIfPresent() ?? 0
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.DatasetVersionSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.DatasetVersionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.DatasetVersionSummary()
+        value.datasetVersion = try reader["datasetVersion"].readIfPresent() ?? ""
+        value.exampleCount = try reader["exampleCount"].readIfPresent() ?? 0
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes.DataSourceConfig {
 
     static func write(value: BedrockAgentCoreControlClientTypes.DataSourceConfig?, to writer: SmithyJSON.Writer) throws {
@@ -27190,6 +28906,21 @@ extension BedrockAgentCoreControlClientTypes.DataSourceConfig {
                 return .cloudwatchlogs(try reader["cloudWatchLogs"].read(with: BedrockAgentCoreControlClientTypes.CloudWatchLogsInputConfig.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.DataSourceType {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.DataSourceType?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .inlineexamples(inlineexamples):
+                try writer["inlineExamples"].write(inlineexamples, with: BedrockAgentCoreControlClientTypes.InlineExamplesSource.write(value:to:))
+            case let .s3source(s3source):
+                try writer["s3Source"].write(s3source, with: BedrockAgentCoreControlClientTypes.S3Source.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
         }
     }
 }
@@ -27925,6 +29656,8 @@ extension BedrockAgentCoreControlClientTypes.HarnessBedrockModelConfig {
 
     static func write(value: BedrockAgentCoreControlClientTypes.HarnessBedrockModelConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["additionalParams"].write(value.additionalParams)
+        try writer["apiFormat"].write(value.apiFormat)
         try writer["maxTokens"].write(value.maxTokens)
         try writer["modelId"].write(value.modelId)
         try writer["temperature"].write(value.temperature)
@@ -27938,6 +29671,8 @@ extension BedrockAgentCoreControlClientTypes.HarnessBedrockModelConfig {
         value.maxTokens = try reader["maxTokens"].readIfPresent()
         value.temperature = try reader["temperature"].readIfPresent()
         value.topp = try reader["topP"].readIfPresent()
+        value.apiFormat = try reader["apiFormat"].readIfPresent()
+        value.additionalParams = try reader["additionalParams"].readIfPresent()
         return value
     }
 }
@@ -28067,6 +29802,33 @@ extension BedrockAgentCoreControlClientTypes.HarnessInlineFunctionConfig {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes.HarnessLiteLlmModelConfig {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.HarnessLiteLlmModelConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["additionalParams"].write(value.additionalParams)
+        try writer["apiBase"].write(value.apiBase)
+        try writer["apiKeyArn"].write(value.apiKeyArn)
+        try writer["maxTokens"].write(value.maxTokens)
+        try writer["modelId"].write(value.modelId)
+        try writer["temperature"].write(value.temperature)
+        try writer["topP"].write(value.topp)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.HarnessLiteLlmModelConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.HarnessLiteLlmModelConfig()
+        value.modelId = try reader["modelId"].readIfPresent() ?? ""
+        value.apiKeyArn = try reader["apiKeyArn"].readIfPresent()
+        value.apiBase = try reader["apiBase"].readIfPresent()
+        value.maxTokens = try reader["maxTokens"].readIfPresent()
+        value.temperature = try reader["temperature"].readIfPresent()
+        value.topp = try reader["topP"].readIfPresent()
+        value.additionalParams = try reader["additionalParams"].readIfPresent()
+        return value
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes.HarnessMemoryConfiguration {
 
     static func write(value: BedrockAgentCoreControlClientTypes.HarnessMemoryConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -28100,6 +29862,8 @@ extension BedrockAgentCoreControlClientTypes.HarnessModelConfiguration {
                 try writer["bedrockModelConfig"].write(bedrockmodelconfig, with: BedrockAgentCoreControlClientTypes.HarnessBedrockModelConfig.write(value:to:))
             case let .geminimodelconfig(geminimodelconfig):
                 try writer["geminiModelConfig"].write(geminimodelconfig, with: BedrockAgentCoreControlClientTypes.HarnessGeminiModelConfig.write(value:to:))
+            case let .litellmmodelconfig(litellmmodelconfig):
+                try writer["liteLlmModelConfig"].write(litellmmodelconfig, with: BedrockAgentCoreControlClientTypes.HarnessLiteLlmModelConfig.write(value:to:))
             case let .openaimodelconfig(openaimodelconfig):
                 try writer["openAiModelConfig"].write(openaimodelconfig, with: BedrockAgentCoreControlClientTypes.HarnessOpenAiModelConfig.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
@@ -28117,6 +29881,8 @@ extension BedrockAgentCoreControlClientTypes.HarnessModelConfiguration {
                 return .openaimodelconfig(try reader["openAiModelConfig"].read(with: BedrockAgentCoreControlClientTypes.HarnessOpenAiModelConfig.read(from:)))
             case "geminiModelConfig":
                 return .geminimodelconfig(try reader["geminiModelConfig"].read(with: BedrockAgentCoreControlClientTypes.HarnessGeminiModelConfig.read(from:)))
+            case "liteLlmModelConfig":
+                return .litellmmodelconfig(try reader["liteLlmModelConfig"].read(with: BedrockAgentCoreControlClientTypes.HarnessLiteLlmModelConfig.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -28127,6 +29893,8 @@ extension BedrockAgentCoreControlClientTypes.HarnessOpenAiModelConfig {
 
     static func write(value: BedrockAgentCoreControlClientTypes.HarnessOpenAiModelConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["additionalParams"].write(value.additionalParams)
+        try writer["apiFormat"].write(value.apiFormat)
         try writer["apiKeyArn"].write(value.apiKeyArn)
         try writer["maxTokens"].write(value.maxTokens)
         try writer["modelId"].write(value.modelId)
@@ -28142,6 +29910,8 @@ extension BedrockAgentCoreControlClientTypes.HarnessOpenAiModelConfig {
         value.maxTokens = try reader["maxTokens"].readIfPresent()
         value.temperature = try reader["temperature"].readIfPresent()
         value.topp = try reader["topP"].readIfPresent()
+        value.apiFormat = try reader["apiFormat"].readIfPresent()
+        value.additionalParams = try reader["additionalParams"].readIfPresent()
         return value
     }
 }
@@ -28168,8 +29938,12 @@ extension BedrockAgentCoreControlClientTypes.HarnessSkill {
     static func write(value: BedrockAgentCoreControlClientTypes.HarnessSkill?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .git(git):
+                try writer["git"].write(git, with: BedrockAgentCoreControlClientTypes.HarnessSkillGitSource.write(value:to:))
             case let .path(path):
                 try writer["path"].write(path)
+            case let .s3(s3):
+                try writer["s3"].write(s3, with: BedrockAgentCoreControlClientTypes.HarnessSkillS3Source.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -28181,9 +29955,64 @@ extension BedrockAgentCoreControlClientTypes.HarnessSkill {
         switch name {
             case "path":
                 return .path(try reader["path"].read())
+            case "s3":
+                return .s3(try reader["s3"].read(with: BedrockAgentCoreControlClientTypes.HarnessSkillS3Source.read(from:)))
+            case "git":
+                return .git(try reader["git"].read(with: BedrockAgentCoreControlClientTypes.HarnessSkillGitSource.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.HarnessSkillGitAuth {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.HarnessSkillGitAuth?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["credentialArn"].write(value.credentialArn)
+        try writer["username"].write(value.username)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.HarnessSkillGitAuth {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.HarnessSkillGitAuth()
+        value.credentialArn = try reader["credentialArn"].readIfPresent() ?? ""
+        value.username = try reader["username"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.HarnessSkillGitSource {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.HarnessSkillGitSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["auth"].write(value.auth, with: BedrockAgentCoreControlClientTypes.HarnessSkillGitAuth.write(value:to:))
+        try writer["path"].write(value.path)
+        try writer["url"].write(value.url)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.HarnessSkillGitSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.HarnessSkillGitSource()
+        value.url = try reader["url"].readIfPresent() ?? ""
+        value.path = try reader["path"].readIfPresent()
+        value.auth = try reader["auth"].readIfPresent(with: BedrockAgentCoreControlClientTypes.HarnessSkillGitAuth.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.HarnessSkillS3Source {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.HarnessSkillS3Source?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["uri"].write(value.uri)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.HarnessSkillS3Source {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.HarnessSkillS3Source()
+        value.uri = try reader["uri"].readIfPresent() ?? ""
+        return value
     }
 }
 
@@ -28480,6 +30309,14 @@ extension BedrockAgentCoreControlClientTypes.InferenceConfiguration {
         value.topp = try reader["topP"].readIfPresent()
         value.stopSequences = try reader["stopSequences"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.InlineExamplesSource {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.InlineExamplesSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["examples"].writeList(value.examples, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDocument(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -30140,6 +31977,14 @@ extension BedrockAgentCoreControlClientTypes.S3Location {
         value.`prefix` = try reader["prefix"].readIfPresent() ?? ""
         value.versionId = try reader["versionId"].readIfPresent()
         return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.S3Source {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.S3Source?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["s3Uri"].write(value.s3Uri)
     }
 }
 

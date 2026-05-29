@@ -50,9 +50,9 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -193,9 +193,9 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -218,9 +218,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -247,9 +247,9 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil,
@@ -299,9 +299,9 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         fieldList: [SecurityAgentClientTypes.ValidationExceptionField]? = nil,
@@ -2608,6 +2608,52 @@ extension SecurityAgentClientTypes {
 
 extension SecurityAgentClientTypes {
 
+    /// Represents an environment variable required to run a verification script.
+    public struct VerificationScriptEnvVar: Swift.Sendable {
+        /// The name of the environment variable.
+        public var name: Swift.String?
+        /// The value of the environment variable.
+        public var value: Swift.String?
+
+        public init(
+            name: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.name = name
+            self.value = value
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// Contains metadata for a verification script that can be used to reproduce a security finding.
+    public struct VerificationScript: Swift.Sendable {
+        /// The list of environment variables required to run the verification script.
+        public var envVars: [SecurityAgentClientTypes.VerificationScriptEnvVar]?
+        /// Instructions for running the verification script, including prerequisites and how to interpret results.
+        public var instructions: Swift.String?
+        /// The type of script. Valid values are python and bash.
+        public var scriptType: Swift.String?
+        /// URL to download the verification script.
+        public var scriptUrl: Swift.String?
+
+        public init(
+            envVars: [SecurityAgentClientTypes.VerificationScriptEnvVar]? = nil,
+            instructions: Swift.String? = nil,
+            scriptType: Swift.String? = nil,
+            scriptUrl: Swift.String? = nil
+        ) {
+            self.envVars = envVars
+            self.instructions = instructions
+            self.scriptType = scriptType
+            self.scriptUrl = scriptUrl
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
     /// Represents a security finding discovered during a pentest job. A finding contains details about a vulnerability, including its risk level, confidence, and remediation status.
     public struct Finding: Swift.Sendable {
         /// The unique identifier of the agent space associated with the finding.
@@ -2654,6 +2700,8 @@ extension SecurityAgentClientTypes {
         public var taskId: Swift.String?
         /// The date and time the finding was last updated, in UTC format.
         public var updatedAt: Foundation.Date?
+        /// The verification script metadata for reproducing the finding, including download URL, instructions, and required environment variables.
+        public var verificationScript: SecurityAgentClientTypes.VerificationScript?
 
         public init(
             agentSpaceId: Swift.String? = nil,
@@ -2676,7 +2724,8 @@ extension SecurityAgentClientTypes {
             riskType: Swift.String? = nil,
             status: SecurityAgentClientTypes.FindingStatus? = nil,
             taskId: Swift.String? = nil,
-            updatedAt: Foundation.Date? = nil
+            updatedAt: Foundation.Date? = nil,
+            verificationScript: SecurityAgentClientTypes.VerificationScript? = nil
         ) {
             self.agentSpaceId = agentSpaceId
             self.attackScript = attackScript
@@ -2699,6 +2748,7 @@ extension SecurityAgentClientTypes {
             self.status = status
             self.taskId = taskId
             self.updatedAt = updatedAt
+            self.verificationScript = verificationScript
         }
     }
 }
@@ -3360,9 +3410,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -9127,6 +9177,7 @@ extension SecurityAgentClientTypes.Finding {
         value.codeRemediationTask = try reader["codeRemediationTask"].readIfPresent(with: SecurityAgentClientTypes.CodeRemediationTask.read(from:))
         value.lastUpdatedBy = try reader["lastUpdatedBy"].readIfPresent()
         value.codeLocations = try reader["codeLocations"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.CodeLocation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.verificationScript = try reader["verificationScript"].readIfPresent(with: SecurityAgentClientTypes.VerificationScript.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
@@ -9684,6 +9735,30 @@ extension SecurityAgentClientTypes.VerificationDetails {
         value.method = try reader["method"].readIfPresent()
         value.dnsTxt = try reader["dnsTxt"].readIfPresent(with: SecurityAgentClientTypes.DnsVerification.read(from:))
         value.httpRoute = try reader["httpRoute"].readIfPresent(with: SecurityAgentClientTypes.HttpVerification.read(from:))
+        return value
+    }
+}
+
+extension SecurityAgentClientTypes.VerificationScript {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.VerificationScript {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityAgentClientTypes.VerificationScript()
+        value.scriptType = try reader["scriptType"].readIfPresent()
+        value.scriptUrl = try reader["scriptUrl"].readIfPresent()
+        value.instructions = try reader["instructions"].readIfPresent()
+        value.envVars = try reader["envVars"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.VerificationScriptEnvVar.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SecurityAgentClientTypes.VerificationScriptEnvVar {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.VerificationScriptEnvVar {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityAgentClientTypes.VerificationScriptEnvVar()
+        value.name = try reader["name"].readIfPresent()
+        value.value = try reader["value"].readIfPresent()
         return value
     }
 }

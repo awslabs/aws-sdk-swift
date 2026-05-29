@@ -42,9 +42,9 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -66,9 +66,9 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -90,9 +90,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -114,9 +114,9 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -161,9 +161,9 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         fieldList: [BedrockDataAutomationClientTypes.ValidationExceptionField]? = nil,
@@ -299,9 +299,9 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -484,9 +484,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -1897,15 +1897,34 @@ extension BedrockDataAutomationClientTypes {
 
 extension BedrockDataAutomationClientTypes {
 
+    /// Custom Configuration of Document
+    public struct DocumentCustomOutputConfiguration: Swift.Sendable {
+        /// List of Fallback Blueprint Items
+        public var fallbackBlueprints: [BedrockDataAutomationClientTypes.BlueprintItem]?
+
+        public init(
+            fallbackBlueprints: [BedrockDataAutomationClientTypes.BlueprintItem]? = nil
+        ) {
+            self.fallbackBlueprints = fallbackBlueprints
+        }
+    }
+}
+
+extension BedrockDataAutomationClientTypes {
+
     /// Custom output configuration
     public struct CustomOutputConfiguration: Swift.Sendable {
         /// List of Blueprint Item
         public var blueprints: [BedrockDataAutomationClientTypes.BlueprintItem]?
+        /// Custom Configuration of Document
+        public var document: BedrockDataAutomationClientTypes.DocumentCustomOutputConfiguration?
 
         public init(
-            blueprints: [BedrockDataAutomationClientTypes.BlueprintItem]? = nil
+            blueprints: [BedrockDataAutomationClientTypes.BlueprintItem]? = nil,
+            document: BedrockDataAutomationClientTypes.DocumentCustomOutputConfiguration? = nil
         ) {
             self.blueprints = blueprints
+            self.document = document
         }
     }
 }
@@ -5679,12 +5698,14 @@ extension BedrockDataAutomationClientTypes.CustomOutputConfiguration {
     static func write(value: BedrockDataAutomationClientTypes.CustomOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["blueprints"].writeList(value.blueprints, memberWritingClosure: BedrockDataAutomationClientTypes.BlueprintItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["document"].write(value.document, with: BedrockDataAutomationClientTypes.DocumentCustomOutputConfiguration.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.CustomOutputConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockDataAutomationClientTypes.CustomOutputConfiguration()
         value.blueprints = try reader["blueprints"].readListIfPresent(memberReadingClosure: BedrockDataAutomationClientTypes.BlueprintItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.document = try reader["document"].readIfPresent(with: BedrockDataAutomationClientTypes.DocumentCustomOutputConfiguration.read(from:))
         return value
     }
 }
@@ -5868,6 +5889,21 @@ extension BedrockDataAutomationClientTypes.DocumentBoundingBox {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockDataAutomationClientTypes.DocumentBoundingBox()
         value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension BedrockDataAutomationClientTypes.DocumentCustomOutputConfiguration {
+
+    static func write(value: BedrockDataAutomationClientTypes.DocumentCustomOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["fallbackBlueprints"].writeList(value.fallbackBlueprints, memberWritingClosure: BedrockDataAutomationClientTypes.BlueprintItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.DocumentCustomOutputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockDataAutomationClientTypes.DocumentCustomOutputConfiguration()
+        value.fallbackBlueprints = try reader["fallbackBlueprints"].readListIfPresent(memberReadingClosure: BedrockDataAutomationClientTypes.BlueprintItem.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

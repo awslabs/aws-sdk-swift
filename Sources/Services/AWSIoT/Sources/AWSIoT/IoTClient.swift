@@ -15,7 +15,7 @@ import class AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain
 import class ClientRuntime.ClientBuilder
 import class ClientRuntime.DefaultClientPlugin
 import class ClientRuntime.HttpClientConfiguration
-import class ClientRuntime.OrchestratorBuilder
+@_spi(SchemaBasedSerde) import class ClientRuntime.OrchestratorBuilder
 import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
@@ -10985,6 +10985,9 @@ extension IoTClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetThingConnectivityDataInput, GetThingConnectivityDataOutput>(GetThingConnectivityDataInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetThingConnectivityDataInput, GetThingConnectivityDataOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetThingConnectivityDataInput, GetThingConnectivityDataOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetThingConnectivityDataInput, GetThingConnectivityDataOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetThingConnectivityDataInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetThingConnectivityDataInput, GetThingConnectivityDataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetThingConnectivityDataOutput>(GetThingConnectivityDataOutput.httpOutput(from:), GetThingConnectivityDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetThingConnectivityDataInput, GetThingConnectivityDataOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())

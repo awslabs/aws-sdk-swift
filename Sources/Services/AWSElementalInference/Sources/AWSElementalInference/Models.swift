@@ -49,14 +49,35 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
     ) {
         self.properties.message = message
+    }
+}
+
+extension ElementalInferenceClientTypes {
+
+    /// The width and height of the output video. Used in SubtitlingConfig to determine subtitle layout.
+    public struct AspectRatio: Swift.Sendable {
+        /// The height component of the aspect ratio (for example, 9 in a 16:9 ratio).
+        /// This member is required.
+        public var height: Swift.Int?
+        /// The width component of the aspect ratio (for example, 16 in a 16:9 ratio).
+        /// This member is required.
+        public var width: Swift.Int?
+
+        public init(
+            height: Swift.Int? = nil,
+            width: Swift.Int? = nil
+        ) {
+            self.height = height
+            self.width = width
+        }
     }
 }
 
@@ -73,9 +94,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { true }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -97,9 +118,9 @@ public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClien
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { true }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -121,9 +142,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -145,9 +166,9 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -169,9 +190,9 @@ public struct TooManyRequestException: ClientRuntime.ModeledError, AWSClientRunt
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { true }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -193,9 +214,9 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -208,7 +229,7 @@ extension ElementalInferenceClientTypes {
 
     /// A type of OutputConfig, used when the output in a feed is for the clip feature.
     public struct ClippingConfig: Swift.Sendable {
-        /// The metadata that is the result of the clip request to Elemental Inference.
+        /// A string that you want Elemental Inference to always include in the event clipping metadata for this output. The string might identify the sports event in the source media, for example.
         public var callbackMetadata: Swift.String?
 
         public init(
@@ -230,12 +251,124 @@ extension ElementalInferenceClientTypes {
 
 extension ElementalInferenceClientTypes {
 
+    public enum TranscriptionLanguage: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case deu
+        case eng
+        case engAu
+        case engGb
+        case engUs
+        case fra
+        case ita
+        case por
+        case spa
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TranscriptionLanguage] {
+            return [
+                .deu,
+                .eng,
+                .engAu,
+                .engGb,
+                .engUs,
+                .fra,
+                .ita,
+                .por,
+                .spa
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .deu: return "deu"
+            case .eng: return "eng"
+            case .engAu: return "eng-au"
+            case .engGb: return "eng-gb"
+            case .engUs: return "eng-us"
+            case .fra: return "fra"
+            case .ita: return "ita"
+            case .por: return "por"
+            case .spa: return "spa"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ElementalInferenceClientTypes {
+
+    public enum ProfanityFilterMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case censor
+        case disabled
+        case drop
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ProfanityFilterMode] {
+            return [
+                .censor,
+                .disabled,
+                .drop
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .censor: return "CENSOR"
+            case .disabled: return "DISABLED"
+            case .drop: return "DROP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ElementalInferenceClientTypes {
+
+    /// A type of OutputConfig, used when the output in a feed is for the smart subtitling feature. smart subtitling uses automatic speech recognition (ASR) to generate live TTML subtitles from the audio in your source media.
+    public struct SubtitlingConfig: Swift.Sendable {
+        /// The aspect ratio of the output video, specified as width and height integer values. Elemental Inference uses the aspect ratio to determine subtitle layout and line lengths.
+        public var aspectRatio: ElementalInferenceClientTypes.AspectRatio?
+        /// The ID of a custom dictionary to improve transcription accuracy for domain-specific terminology. Use the CreateDictionary operation to create a dictionary.
+        public var dictionary: Swift.String?
+        /// The language of the audio in the source media. Elemental Inference uses this setting to optimize transcription accuracy. Specify the language using an ISO 639-2/T three-letter code, optionally with a region subtag. Supported values: eng, eng-au, eng-gb, eng-us, fra, ita, deu, spa, por.
+        /// This member is required.
+        public var language: ElementalInferenceClientTypes.TranscriptionLanguage?
+        /// Controls how profanity is handled in the generated subtitles. Valid values: DISABLED (no filtering, default), CENSOR (replace profanity with asterisks), DROP (remove profanity from the transcript).
+        public var profanityFilter: ElementalInferenceClientTypes.ProfanityFilterMode?
+
+        public init(
+            aspectRatio: ElementalInferenceClientTypes.AspectRatio? = nil,
+            dictionary: Swift.String? = nil,
+            language: ElementalInferenceClientTypes.TranscriptionLanguage? = nil,
+            profanityFilter: ElementalInferenceClientTypes.ProfanityFilterMode? = nil
+        ) {
+            self.aspectRatio = aspectRatio
+            self.dictionary = dictionary
+            self.language = language
+            self.profanityFilter = profanityFilter
+        }
+    }
+}
+
+extension ElementalInferenceClientTypes {
+
     /// Contains one typed output. It is used in the CreateOutput, GetOutput, and Update Output structures.
     public enum OutputConfig: Swift.Sendable {
         /// The output config type that applies to the cropping feature.
         case cropping(ElementalInferenceClientTypes.CroppingConfig)
         /// The output config type that applies to the clipping feature.
         case clipping(ElementalInferenceClientTypes.ClippingConfig)
+        /// The output config type that applies to the smart subtitling feature.
+        case subtitling(ElementalInferenceClientTypes.SubtitlingConfig)
         case sdkUnknown(Swift.String)
     }
 }
@@ -278,7 +411,7 @@ extension ElementalInferenceClientTypes {
         /// A name for the output.
         /// This member is required.
         public var name: Swift.String?
-        /// A typed property for an output in a feed. It is used in the CreateFeed and AssociateFeed actions. It identifies the action for Elemental Inference to perform. It also provides a repository for the results of that action. For example, CroppingConfig output will contain the metadata for the crop feature.
+        /// A typed property for an output in a feed. It identifies the action for Elemental Inference to perform. It also provides a repository for the results of that action. For example, CroppingConfig output will contain the metadata for the crop feature.
         /// This member is required.
         public var outputConfig: ElementalInferenceClientTypes.OutputConfig?
         /// The status to assign to the output.
@@ -300,15 +433,15 @@ extension ElementalInferenceClientTypes {
 }
 
 public struct AssociateFeedInput: Swift.Sendable {
-    /// An identifier for the resource. If the resource is from an AWS service, this identifier must be the full ARN of that resource. Otherwise, the identifier is a name that you assign and that is appropriate for the application that owns the resource. This name must not resemble an ARN.
+    /// An identifier for the resource. This name must not resemble an ARN. The resource is the source media that the feed will process. The name you assign should help you to later identify the source media that belongs to the feed. In this way, you will know which source media to push to the feed (using PutMedia).
     /// This member is required.
     public var associatedResourceName: Swift.String?
-    /// Set to true if you want to do a dry run of the associate action.
+    /// Set to true if you want to do a dry run of the associate action. Elemental Inference will validate that the real request would succeed without actually making any changes. A dry run catches errors such as missing IAM permissions, quota limits exceeded, conflicting outputs, and so on. If the dry run fails, the action returns a 4xx error code. After you've fixed the errors, resubmit the request.
     public var dryRun: Swift.Bool?
     /// The ID of the feed.
     /// This member is required.
     public var id: Swift.String?
-    /// The outputs to add to this feed. You must specify at least one output. You can later use the UpdateFeed action to change the list of outputs.
+    /// An array of one or more outputs that you want to add to this feed now, to supplement any outputs that you specified when you created or updated the feed.
     /// This member is required.
     public var outputs: [ElementalInferenceClientTypes.CreateOutput]?
 
@@ -326,10 +459,10 @@ public struct AssociateFeedInput: Swift.Sendable {
 }
 
 public struct AssociateFeedOutput: Swift.Sendable {
-    /// The AWS ARN for this association.
+    /// The ARN of the feed.
     /// This member is required.
     public var arn: Swift.String?
-    /// An ID for this response. It is unique in Elemental Inference for this AWS account.
+    /// The ID of the feed.
     /// This member is required.
     public var id: Swift.String?
 
@@ -342,14 +475,158 @@ public struct AssociateFeedOutput: Swift.Sendable {
     }
 }
 
-public struct CreateFeedInput: Swift.Sendable {
-    /// A name for this feed.
+extension ElementalInferenceClientTypes {
+
+    public enum DictionaryLanguage: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case deu
+        case eng
+        case fra
+        case ita
+        case por
+        case spa
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DictionaryLanguage] {
+            return [
+                .deu,
+                .eng,
+                .fra,
+                .ita,
+                .por,
+                .spa
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .deu: return "deu"
+            case .eng: return "eng"
+            case .fra: return "fra"
+            case .ita: return "ita"
+            case .por: return "por"
+            case .spa: return "spa"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateDictionaryInput: Swift.Sendable {
+    /// The dictionary entries payload. Contains the custom words and phrases for the dictionary. Maximum size is 40,960 characters.
+    public var entries: Swift.String?
+    /// The language of the dictionary entries. Specify the language using an ISO 639-2/T three-letter code. Supported values: eng, fra, ita, deu, spa, por.
+    /// This member is required.
+    public var language: ElementalInferenceClientTypes.DictionaryLanguage?
+    /// A user-friendly name for this dictionary.
     /// This member is required.
     public var name: Swift.String?
-    /// An array of outputs for this feed. Each output represents a specific Elemental Inference feature. For example, an output might represent the crop feature.
+    /// Optional tags to associate with the dictionary.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        entries: Swift.String? = nil,
+        language: ElementalInferenceClientTypes.DictionaryLanguage? = nil,
+        name: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.entries = entries
+        self.language = language
+        self.name = name
+        self.tags = tags
+    }
+}
+
+extension ElementalInferenceClientTypes {
+
+    public enum DictionaryStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case available
+        case creating
+        case deleted
+        case deleting
+        case referenced
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DictionaryStatus] {
+            return [
+                .available,
+                .creating,
+                .deleted,
+                .deleting,
+                .referenced
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .available: return "AVAILABLE"
+            case .creating: return "CREATING"
+            case .deleted: return "DELETED"
+            case .deleting: return "DELETING"
+            case .referenced: return "REFERENCED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateDictionaryOutput: Swift.Sendable {
+    /// The ARN of the dictionary.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// A unique ID that Elemental Inference assigns to the dictionary.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The language of the dictionary.
+    /// This member is required.
+    public var language: ElementalInferenceClientTypes.DictionaryLanguage?
+    /// The name that you specified in the request.
+    /// This member is required.
+    public var name: Swift.String?
+    /// A list of feed IDs that reference this dictionary.
+    public var references: [Swift.String]?
+    /// The current status of the dictionary. After creation succeeds, the status will be AVAILABLE.
+    /// This member is required.
+    public var status: ElementalInferenceClientTypes.DictionaryStatus?
+    /// Any tags that you included when you created the dictionary.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        arn: Swift.String? = nil,
+        id: Swift.String? = nil,
+        language: ElementalInferenceClientTypes.DictionaryLanguage? = nil,
+        name: Swift.String? = nil,
+        references: [Swift.String]? = nil,
+        status: ElementalInferenceClientTypes.DictionaryStatus? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.arn = arn
+        self.id = id
+        self.language = language
+        self.name = name
+        self.references = references
+        self.status = status
+        self.tags = tags
+    }
+}
+
+public struct CreateFeedInput: Swift.Sendable {
+    /// A user-friendly name for this feed.
+    /// This member is required.
+    public var name: Swift.String?
+    /// An array of outputs for this feed. Each output represents a specific Elemental Inference feature. For example, there is one output type for the smart crop feature. You must specify at least one output, but you can later add outputs using AssociateFeed, or add, modify, and delete outputs using UpdateFeed.
     /// This member is required.
     public var outputs: [ElementalInferenceClientTypes.CreateOutput]?
-    /// If you want to include tags, add them now. You won't be able to add them later.
+    /// Optional tags. You can also add tags later, using TagResource.
     public var tags: [Swift.String: Swift.String]?
 
     public init(
@@ -381,16 +658,16 @@ extension ElementalInferenceClientTypes {
 
 extension ElementalInferenceClientTypes {
 
-    /// Contains configuration information about one output in a feed. It is used in the GetFeed action.
+    /// Contains configuration information about one output in a feed. It is used in the GetFeed response.
     public struct GetOutput: Swift.Sendable {
         /// The description of the output.
         public var description: Swift.String?
-        /// True means that the output was originally created in the feed by the AssociateFeed operation. False means it was created using CreateFeed or UpdateFeed. You will need this value if you use the UpdateFeed operation to modify the list of outputs in the feed.
+        /// True means that the output was originally created in the feed using AssociateFeed. False means it was created using CreateFeed or UpdateFeed. You will need this value if you use UpdateFeed to modify the list of outputs in the feed.
         public var fromAssociation: Swift.Bool?
-        /// The ARN of the output.
+        /// The name of the output.
         /// This member is required.
         public var name: Swift.String?
-        /// A typed property for an output in a feed. It is used in the GetFeed action. It identifies the action for Elemental Inference to perform. It also provides a repository for the results of that action. For example, CroppingConfig output will contain the metadata for the crop feature.
+        /// A typed property for an output in a feed. It identifies the action for Elemental Inference to perform. It also provides a repository for the results of that action. For example, CroppingConfig output will contain the metadata for the crop feature.
         /// This member is required.
         public var outputConfig: ElementalInferenceClientTypes.OutputConfig?
         /// The status of the output.
@@ -461,18 +738,18 @@ public struct CreateFeedOutput: Swift.Sendable {
     /// A unique ARN that Elemental Inference assigns to the feed.
     /// This member is required.
     public var arn: Swift.String?
-    /// The association for this feed. When you create the feed, this property is empty. You must associate a resource with the feed using AssociateFeed.
+    /// The association for this feed. When you create the feed, this property is empty. You must associate a resource with the feed using AssociateFeed or UpdateFeed.
     public var association: ElementalInferenceClientTypes.FeedAssociation?
-    /// A unique ARN that Elemental Inference assigns to the feed.
+    /// An array of endpoints for the feed. Typically, there is only one endpoint. The feed receives source media at this endpoint (when the calling application calls PutMedia) and returns the resulting metadata to this endpoint (when the calling application calls GetMetadata).
     /// This member is required.
     public var dataEndpoints: [Swift.String]?
     /// A unique ID that Elemental Inference assigns to the feed.
     /// This member is required.
     public var id: Swift.String?
-    /// The name that you specified.
+    /// The name that you specified in the request.
     /// This member is required.
     public var name: Swift.String?
-    /// Data endpoints that Elemental Inference assigns to the feed.
+    /// Repeats the outputs that you specified in the request.
     /// This member is required.
     public var outputs: [ElementalInferenceClientTypes.GetOutput]?
     /// The current status of the feed. After creation of the feed has succeeded, the status will be AVAILABLE.
@@ -499,6 +776,40 @@ public struct CreateFeedOutput: Swift.Sendable {
         self.outputs = outputs
         self.status = status
         self.tags = tags
+    }
+}
+
+public struct DeleteDictionaryInput: Swift.Sendable {
+    /// The ID of the dictionary to delete.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        id: Swift.String? = nil
+    ) {
+        self.id = id
+    }
+}
+
+public struct DeleteDictionaryOutput: Swift.Sendable {
+    /// The ARN of the deleted dictionary.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The ID of the deleted dictionary.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The status of the dictionary after deletion.
+    /// This member is required.
+    public var status: ElementalInferenceClientTypes.DictionaryStatus?
+
+    public init(
+        arn: Swift.String? = nil,
+        id: Swift.String? = nil,
+        status: ElementalInferenceClientTypes.DictionaryStatus? = nil
+    ) {
+        self.arn = arn
+        self.id = id
+        self.status = status
     }
 }
 
@@ -536,11 +847,217 @@ public struct DeleteFeedOutput: Swift.Sendable {
     }
 }
 
+public struct ExportDictionaryEntriesInput: Swift.Sendable {
+    /// The ID of the dictionary whose entries you want to export.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        id: Swift.String? = nil
+    ) {
+        self.id = id
+    }
+}
+
+public struct ExportDictionaryEntriesOutput: Swift.Sendable {
+    /// The dictionary entries payload.
+    public var entries: Swift.String?
+
+    public init(
+        entries: Swift.String? = nil
+    ) {
+        self.entries = entries
+    }
+}
+
+public struct GetDictionaryInput: Swift.Sendable {
+    /// The ID of the dictionary to retrieve.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        id: Swift.String? = nil
+    ) {
+        self.id = id
+    }
+}
+
+public struct GetDictionaryOutput: Swift.Sendable {
+    /// The ARN of the dictionary.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The ID of the dictionary.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The language of the dictionary.
+    /// This member is required.
+    public var language: ElementalInferenceClientTypes.DictionaryLanguage?
+    /// The name of the dictionary.
+    /// This member is required.
+    public var name: Swift.String?
+    /// A list of feed IDs that reference this dictionary.
+    public var references: [Swift.String]?
+    /// The current status of the dictionary.
+    /// This member is required.
+    public var status: ElementalInferenceClientTypes.DictionaryStatus?
+    /// The tags associated with the dictionary.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        arn: Swift.String? = nil,
+        id: Swift.String? = nil,
+        language: ElementalInferenceClientTypes.DictionaryLanguage? = nil,
+        name: Swift.String? = nil,
+        references: [Swift.String]? = nil,
+        status: ElementalInferenceClientTypes.DictionaryStatus? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.arn = arn
+        self.id = id
+        self.language = language
+        self.name = name
+        self.references = references
+        self.status = status
+        self.tags = tags
+    }
+}
+
+public struct ListDictionariesInput: Swift.Sendable {
+    /// The maximum number of results to return per API request. Valid range: 1 to 100.
+    public var maxResults: Swift.Int?
+    /// The token that identifies the next batch of results to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension ElementalInferenceClientTypes {
+
+    /// Contains summary information about a dictionary. Used in the ListDictionaries response.
+    public struct DictionarySummary: Swift.Sendable {
+        /// The ARN of the dictionary.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The ID of the dictionary.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The language of the dictionary.
+        /// This member is required.
+        public var language: ElementalInferenceClientTypes.DictionaryLanguage?
+        /// The name of the dictionary.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The status of the dictionary.
+        /// This member is required.
+        public var status: ElementalInferenceClientTypes.DictionaryStatus?
+
+        public init(
+            arn: Swift.String? = nil,
+            id: Swift.String? = nil,
+            language: ElementalInferenceClientTypes.DictionaryLanguage? = nil,
+            name: Swift.String? = nil,
+            status: ElementalInferenceClientTypes.DictionaryStatus? = nil
+        ) {
+            self.arn = arn
+            self.id = id
+            self.language = language
+            self.name = name
+            self.status = status
+        }
+    }
+}
+
+public struct ListDictionariesOutput: Swift.Sendable {
+    /// A list of DictionarySummary objects.
+    /// This member is required.
+    public var dictionaries: [ElementalInferenceClientTypes.DictionarySummary]?
+    /// The token to use to retrieve the next batch of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        dictionaries: [ElementalInferenceClientTypes.DictionarySummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.dictionaries = dictionaries
+        self.nextToken = nextToken
+    }
+}
+
+public struct UpdateDictionaryInput: Swift.Sendable {
+    /// New dictionary entries. If not specified, the entries are not changed.
+    public var entries: Swift.String?
+    /// The ID of the dictionary to update.
+    /// This member is required.
+    public var id: Swift.String?
+    /// A new language for the dictionary. If not specified, the language is not changed.
+    public var language: ElementalInferenceClientTypes.DictionaryLanguage?
+    /// A new name for the dictionary. If not specified, the name is not changed.
+    public var name: Swift.String?
+
+    public init(
+        entries: Swift.String? = nil,
+        id: Swift.String? = nil,
+        language: ElementalInferenceClientTypes.DictionaryLanguage? = nil,
+        name: Swift.String? = nil
+    ) {
+        self.entries = entries
+        self.id = id
+        self.language = language
+        self.name = name
+    }
+}
+
+public struct UpdateDictionaryOutput: Swift.Sendable {
+    /// The ARN of the dictionary.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The ID of the dictionary.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The updated or original language of the dictionary.
+    /// This member is required.
+    public var language: ElementalInferenceClientTypes.DictionaryLanguage?
+    /// The updated or original name of the dictionary.
+    /// This member is required.
+    public var name: Swift.String?
+    /// A list of feed IDs that reference this dictionary.
+    public var references: [Swift.String]?
+    /// The current status of the dictionary.
+    /// This member is required.
+    public var status: ElementalInferenceClientTypes.DictionaryStatus?
+    /// Any tags associated with the dictionary.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        arn: Swift.String? = nil,
+        id: Swift.String? = nil,
+        language: ElementalInferenceClientTypes.DictionaryLanguage? = nil,
+        name: Swift.String? = nil,
+        references: [Swift.String]? = nil,
+        status: ElementalInferenceClientTypes.DictionaryStatus? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.arn = arn
+        self.id = id
+        self.language = language
+        self.name = name
+        self.references = references
+        self.status = status
+        self.tags = tags
+    }
+}
+
 public struct DisassociateFeedInput: Swift.Sendable {
-    /// The name of the resource currently associated with the feed'.
+    /// The name of the resource currently associated with the feed.
     /// This member is required.
     public var associatedResourceName: Swift.String?
-    /// Set to true if you want to do a dry run of the disassociate action.
+    /// Set to true if you want to do a dry run of the disassociate action. Elemental Inference will validate that the real request would succeed without actually making any changes. A dry run catches errors such as missing IAM permissions. If the dry run fails, the action returns a 4xx error code.
     public var dryRun: Swift.Bool?
     /// The ID of the feed where you want to release the resource.
     /// This member is required.
@@ -558,10 +1075,10 @@ public struct DisassociateFeedInput: Swift.Sendable {
 }
 
 public struct DisassociateFeedOutput: Swift.Sendable {
-    /// The ID of the feed where you deleted the associated resource.
+    /// The ARN of the feed.
     /// This member is required.
     public var arn: Swift.String?
-    /// The ARN of the resource that you deleted.
+    /// The ID of the feed.
     /// This member is required.
     public var id: Swift.String?
 
@@ -590,24 +1107,24 @@ public struct GetFeedOutput: Swift.Sendable {
     /// The ARN of the feed.
     /// This member is required.
     public var arn: Swift.String?
-    /// Information about the resource, if any, associated with the feed being queried.
+    /// Information about the resource that is associated with the feed. It's possible that there is no associated resource. This is not an error.
     public var association: ElementalInferenceClientTypes.FeedAssociation?
-    /// The dataEndpoints of the feed being queried.
+    /// The dataEndpoints of the feed.
     /// This member is required.
     public var dataEndpoints: [Swift.String]?
-    /// The ID of the feed being queried.
+    /// The ID of the feed.
     /// This member is required.
     public var id: Swift.String?
-    /// The name of the feed being queried.
+    /// The name of the feed.
     /// This member is required.
     public var name: Swift.String?
-    /// An array of the outputs in the feed being queried.
+    /// An array of the outputs in the feed.
     /// This member is required.
     public var outputs: [ElementalInferenceClientTypes.GetOutput]?
-    /// The status of the feed being queried.
+    /// The status of the feed.
     /// This member is required.
     public var status: ElementalInferenceClientTypes.FeedStatus?
-    /// A list of the tags, if any, for the feed being queried.
+    /// A list of the tags, if any, for the feed.
     public var tags: [Swift.String: Swift.String]?
 
     public init(
@@ -634,7 +1151,7 @@ public struct GetFeedOutput: Swift.Sendable {
 public struct ListFeedsInput: Swift.Sendable {
     /// The maximum number of results to return per API request. For example, you submit a list request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page. Valid Range: Minimum value of 1. Maximum value of 1000.
     public var maxResults: Swift.Int?
-    /// The token that identifies the batch of results that you want to see. For example, you submit a ListBridges request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListBridges request a second time and specify the NextToken value.
+    /// The token that identifies the batch of results that you want to see. For example, you submit a ListFeeds request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListFeeds request a second time and specify the NextToken value.
     public var nextToken: Swift.String?
 
     public init(
@@ -648,7 +1165,7 @@ public struct ListFeedsInput: Swift.Sendable {
 
 extension ElementalInferenceClientTypes {
 
-    /// Contains configuration information about a feed. It is used in the ListFeeds action.
+    /// Contains configuration information about a feed. It is used in the ListFeeds response.
     public struct FeedSummary: Swift.Sendable {
         /// The ARN of the feed.
         /// This member is required.
@@ -682,7 +1199,7 @@ extension ElementalInferenceClientTypes {
 }
 
 public struct ListFeedsOutput: Swift.Sendable {
-    /// A list of feed summaries.
+    /// A list of FeedSummary objects.
     /// This member is required.
     public var feeds: [ElementalInferenceClientTypes.FeedSummary]?
     /// The token that identifies the batch of results that you want to see. For example, you submit a list request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the list request a second time and specify the NextToken value.
@@ -703,12 +1220,12 @@ extension ElementalInferenceClientTypes {
     public struct UpdateOutput: Swift.Sendable {
         /// A description of the output.
         public var description: Swift.String?
-        /// This property is set by the service when you add the output to the feed, and indicates how you added the output. True means that you used the AssociateFeed operation. False means that you used the CreateFeed or UpdateFeed operation. Use GetFeed to obtain the value. If the value is True, include this field here with a value of True. If the value is False, omit the field here.
+        /// Elemental Inference originally sets this parameter to True if this output was created by AssociateFeed or to False if this output was created by CreateFeed or UpdateFeed. You must not change this value. Therefore, use GetFeed to determine the current value. Then in the UpdateFeed request, if the current value is True, include this parameter with a value of True. If it's False, omit the parameter.
         public var fromAssociation: Swift.Bool?
-        /// The name start here
+        /// The name of the output.
         /// This member is required.
         public var name: Swift.String?
-        /// A typed property for an output in a feed. It is used in the UpdateFeed action. It identifies the action for Elemental Inference to perform. It also provides a repository for the results of that action. For example, CroppingConfig output will contain the metadata for the crop feature.
+        /// A typed property for an output in a feed. It identifies the action for Elemental Inference to perform. It also provides a repository for the results of that action. For example, CroppingConfig output will contain the metadata for the crop feature.
         /// This member is required.
         public var outputConfig: ElementalInferenceClientTypes.OutputConfig?
         /// The status of the output.
@@ -757,7 +1274,7 @@ public struct UpdateFeedOutput: Swift.Sendable {
     /// The ARN of the feed.
     /// This member is required.
     public var arn: Swift.String?
-    /// True means that the output was originally created in the feed by the AssociateFeed operation. False means it was created using CreateFeed or UpdateFeed. You will need this value if you use the UpdateFeed operation to modify the list of outputs in the feed.
+    /// Information about the resource that is associated with the feed, if any.
     public var association: ElementalInferenceClientTypes.FeedAssociation?
     /// The data endpoints of the feed.
     /// This member is required.
@@ -771,10 +1288,10 @@ public struct UpdateFeedOutput: Swift.Sendable {
     /// The array of outputs in the feed. You might have left this array unchanged, or you might have changed it.
     /// This member is required.
     public var outputs: [ElementalInferenceClientTypes.GetOutput]?
-    /// The status of the output.
+    /// The status of the feed.
     /// This member is required.
     public var status: ElementalInferenceClientTypes.FeedStatus?
-    /// The name of the resource currently associated with the feed, if any.
+    /// The tags associated with the feed.
     public var tags: [Swift.String: Swift.String]?
 
     public init(
@@ -865,10 +1382,27 @@ extension AssociateFeedInput {
     }
 }
 
+extension CreateDictionaryInput {
+
+    static func urlPathProvider(_ value: CreateDictionaryInput) -> Swift.String? {
+        return "/v1/dictionary"
+    }
+}
+
 extension CreateFeedInput {
 
     static func urlPathProvider(_ value: CreateFeedInput) -> Swift.String? {
         return "/v1/feed"
+    }
+}
+
+extension DeleteDictionaryInput {
+
+    static func urlPathProvider(_ value: DeleteDictionaryInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/v1/dictionary/\(id.urlPercentEncoding())"
     }
 }
 
@@ -892,6 +1426,26 @@ extension DisassociateFeedInput {
     }
 }
 
+extension ExportDictionaryEntriesInput {
+
+    static func urlPathProvider(_ value: ExportDictionaryEntriesInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/v1/dictionary/\(id.urlPercentEncoding())/entries/export"
+    }
+}
+
+extension GetDictionaryInput {
+
+    static func urlPathProvider(_ value: GetDictionaryInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/v1/dictionary/\(id.urlPercentEncoding())"
+    }
+}
+
 extension GetFeedInput {
 
     static func urlPathProvider(_ value: GetFeedInput) -> Swift.String? {
@@ -899,6 +1453,29 @@ extension GetFeedInput {
             return nil
         }
         return "/v1/feed/\(id.urlPercentEncoding())"
+    }
+}
+
+extension ListDictionariesInput {
+
+    static func urlPathProvider(_ value: ListDictionariesInput) -> Swift.String? {
+        return "/v1/dictionaries"
+    }
+}
+
+extension ListDictionariesInput {
+
+    static func queryItemProvider(_ value: ListDictionariesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
     }
 }
 
@@ -971,6 +1548,16 @@ extension UntagResourceInput {
     }
 }
 
+extension UpdateDictionaryInput {
+
+    static func urlPathProvider(_ value: UpdateDictionaryInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/v1/dictionary/\(id.urlPercentEncoding())"
+    }
+}
+
 extension UpdateFeedInput {
 
     static func urlPathProvider(_ value: UpdateFeedInput) -> Swift.String? {
@@ -988,6 +1575,17 @@ extension AssociateFeedInput {
         try writer["associatedResourceName"].write(value.associatedResourceName)
         try writer["dryRun"].write(value.dryRun)
         try writer["outputs"].writeList(value.outputs, memberWritingClosure: ElementalInferenceClientTypes.CreateOutput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension CreateDictionaryInput {
+
+    static func write(value: CreateDictionaryInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["entries"].write(value.entries)
+        try writer["language"].write(value.language)
+        try writer["name"].write(value.name)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -1018,6 +1616,16 @@ extension TagResourceInput {
     }
 }
 
+extension UpdateDictionaryInput {
+
+    static func write(value: UpdateDictionaryInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["entries"].write(value.entries)
+        try writer["language"].write(value.language)
+        try writer["name"].write(value.name)
+    }
+}
+
 extension UpdateFeedInput {
 
     static func write(value: UpdateFeedInput?, to writer: SmithyJSON.Writer) throws {
@@ -1040,6 +1648,24 @@ extension AssociateFeedOutput {
     }
 }
 
+extension CreateDictionaryOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateDictionaryOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateDictionaryOutput()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.language = try reader["language"].readIfPresent() ?? .sdkUnknown("")
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.references = try reader["references"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
 extension CreateFeedOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateFeedOutput {
@@ -1055,6 +1681,20 @@ extension CreateFeedOutput {
         value.outputs = try reader["outputs"].readListIfPresent(memberReadingClosure: ElementalInferenceClientTypes.GetOutput.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension DeleteDictionaryOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteDictionaryOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteDictionaryOutput()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -1086,6 +1726,36 @@ extension DisassociateFeedOutput {
     }
 }
 
+extension ExportDictionaryEntriesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ExportDictionaryEntriesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ExportDictionaryEntriesOutput()
+        value.entries = try reader["entries"].readIfPresent()
+        return value
+    }
+}
+
+extension GetDictionaryOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetDictionaryOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetDictionaryOutput()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.language = try reader["language"].readIfPresent() ?? .sdkUnknown("")
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.references = try reader["references"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
 extension GetFeedOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetFeedOutput {
@@ -1101,6 +1771,19 @@ extension GetFeedOutput {
         value.outputs = try reader["outputs"].readListIfPresent(memberReadingClosure: ElementalInferenceClientTypes.GetOutput.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension ListDictionariesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDictionariesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListDictionariesOutput()
+        value.dictionaries = try reader["dictionaries"].readListIfPresent(memberReadingClosure: ElementalInferenceClientTypes.DictionarySummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
 }
@@ -1144,6 +1827,24 @@ extension UntagResourceOutput {
     }
 }
 
+extension UpdateDictionaryOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateDictionaryOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateDictionaryOutput()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.language = try reader["language"].readIfPresent() ?? .sdkUnknown("")
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.references = try reader["references"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
 extension UpdateFeedOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateFeedOutput {
@@ -1183,6 +1884,25 @@ enum AssociateFeedOutputError {
     }
 }
 
+enum CreateDictionaryOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "TooManyRequestException": return try TooManyRequestException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateFeedOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -1195,6 +1915,25 @@ enum CreateFeedOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "TooManyRequestException": return try TooManyRequestException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteDictionaryOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "TooManyRequestException": return try TooManyRequestException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -1240,6 +1979,42 @@ enum DisassociateFeedOutputError {
     }
 }
 
+enum ExportDictionaryEntriesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestException": return try TooManyRequestException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetDictionaryOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestException": return try TooManyRequestException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetFeedOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -1252,6 +2027,23 @@ enum GetFeedOutputError {
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "TooManyRequestException": return try TooManyRequestException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListDictionariesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "TooManyRequestException": return try TooManyRequestException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -1313,6 +2105,25 @@ enum TagResourceOutputError {
 }
 
 enum UntagResourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestException": return try TooManyRequestException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateDictionaryOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -1442,6 +2253,23 @@ extension ValidationException {
     }
 }
 
+extension ElementalInferenceClientTypes.AspectRatio {
+
+    static func write(value: ElementalInferenceClientTypes.AspectRatio?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["height"].write(value.height)
+        try writer["width"].write(value.width)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ElementalInferenceClientTypes.AspectRatio {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElementalInferenceClientTypes.AspectRatio()
+        value.width = try reader["width"].readIfPresent() ?? 0
+        value.height = try reader["height"].readIfPresent() ?? 0
+        return value
+    }
+}
+
 extension ElementalInferenceClientTypes.ClippingConfig {
 
     static func write(value: ElementalInferenceClientTypes.ClippingConfig?, to writer: SmithyJSON.Writer) throws {
@@ -1478,6 +2306,20 @@ extension ElementalInferenceClientTypes.CroppingConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> ElementalInferenceClientTypes.CroppingConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         return ElementalInferenceClientTypes.CroppingConfig()
+    }
+}
+
+extension ElementalInferenceClientTypes.DictionarySummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ElementalInferenceClientTypes.DictionarySummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElementalInferenceClientTypes.DictionarySummary()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.language = try reader["language"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
     }
 }
 
@@ -1528,6 +2370,8 @@ extension ElementalInferenceClientTypes.OutputConfig {
                 try writer["clipping"].write(clipping, with: ElementalInferenceClientTypes.ClippingConfig.write(value:to:))
             case let .cropping(cropping):
                 try writer["cropping"].write(cropping, with: ElementalInferenceClientTypes.CroppingConfig.write(value:to:))
+            case let .subtitling(subtitling):
+                try writer["subtitling"].write(subtitling, with: ElementalInferenceClientTypes.SubtitlingConfig.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -1541,9 +2385,32 @@ extension ElementalInferenceClientTypes.OutputConfig {
                 return .cropping(try reader["cropping"].read(with: ElementalInferenceClientTypes.CroppingConfig.read(from:)))
             case "clipping":
                 return .clipping(try reader["clipping"].read(with: ElementalInferenceClientTypes.ClippingConfig.read(from:)))
+            case "subtitling":
+                return .subtitling(try reader["subtitling"].read(with: ElementalInferenceClientTypes.SubtitlingConfig.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension ElementalInferenceClientTypes.SubtitlingConfig {
+
+    static func write(value: ElementalInferenceClientTypes.SubtitlingConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["aspectRatio"].write(value.aspectRatio, with: ElementalInferenceClientTypes.AspectRatio.write(value:to:))
+        try writer["dictionary"].write(value.dictionary)
+        try writer["language"].write(value.language)
+        try writer["profanityFilter"].write(value.profanityFilter)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ElementalInferenceClientTypes.SubtitlingConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElementalInferenceClientTypes.SubtitlingConfig()
+        value.language = try reader["language"].readIfPresent() ?? .sdkUnknown("")
+        value.aspectRatio = try reader["aspectRatio"].readIfPresent(with: ElementalInferenceClientTypes.AspectRatio.read(from:))
+        value.dictionary = try reader["dictionary"].readIfPresent()
+        value.profanityFilter = try reader["profanityFilter"].readIfPresent()
+        return value
     }
 }
 

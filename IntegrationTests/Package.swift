@@ -60,7 +60,6 @@ private var integrationTestTargets: [Target] {
         "AWSDynamoDB",
         "AWSEC2",
         "AWSECS",
-        "AWSEventBridge",
         "AWSKinesis",
         "AWSMediaConvert",
         "AWSRoute53",
@@ -94,8 +93,6 @@ private func integrationTestTarget(_ name: String) -> Target {
         ]
     case "AWSS3":
         additionalDependencies = ["AWSSSOAdmin", "AWSS3Control", "AWSSTS"]
-    case "AWSEventBridge":
-        additionalDependencies = ["AWSRoute53"]
     case "AWSCloudFrontKeyValueStore":
         additionalDependencies = ["AWSCloudFront"]
     case "AWSSTS":

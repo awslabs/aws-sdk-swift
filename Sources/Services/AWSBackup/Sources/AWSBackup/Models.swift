@@ -277,9 +277,9 @@ public struct AlreadyExistsException: ClientRuntime.ModeledError, AWSClientRunti
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         arn: Swift.String? = nil,
@@ -315,9 +315,9 @@ public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSCli
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         code: Swift.String? = nil,
@@ -349,9 +349,9 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         code: Swift.String? = nil,
@@ -383,9 +383,9 @@ public struct MissingParameterValueException: ClientRuntime.ModeledError, AWSCli
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         code: Swift.String? = nil,
@@ -417,9 +417,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         code: Swift.String? = nil,
@@ -451,9 +451,9 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         code: Swift.String? = nil,
@@ -1751,9 +1751,9 @@ public struct InvalidResourceStateException: ClientRuntime.ModeledError, AWSClie
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         code: Swift.String? = nil,
@@ -1811,9 +1811,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         code: Swift.String? = nil,
@@ -2143,9 +2143,9 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         code: Swift.String? = nil,
@@ -3386,9 +3386,9 @@ public struct DependencyFailureException: ClientRuntime.ModeledError, AWSClientR
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         code: Swift.String? = nil,
@@ -4696,12 +4696,14 @@ extension BackupClientTypes {
     public enum ScanResultStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case noThreatsFound
         case threatsFound
+        case unknown
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ScanResultStatus] {
             return [
                 .noThreatsFound,
-                .threatsFound
+                .threatsFound,
+                .unknown
             ]
         }
 
@@ -4714,6 +4716,7 @@ extension BackupClientTypes {
             switch self {
             case .noThreatsFound: return "NO_THREATS_FOUND"
             case .threatsFound: return "THREATS_FOUND"
+            case .unknown: return "UNKNOWN"
             case let .sdkUnknown(s): return s
             }
         }
@@ -4724,7 +4727,7 @@ extension BackupClientTypes {
 
     /// Contains information about the results of a scan job.
     public struct ScanResultInfo: Swift.Sendable {
-        /// The status of the scan results. Valid values: THREATS_FOUND | NO_THREATS_FOUND.
+        /// The status of the scan results. Valid values: THREATS_FOUND | NO_THREATS_FOUND | UNKNOWN.
         /// This member is required.
         public var scanResultStatus: BackupClientTypes.ScanResultStatus?
 
@@ -4789,6 +4792,10 @@ public struct DescribeScanJobOutput: Swift.Sendable {
     public var backupVaultName: Swift.String?
     /// The date and time that a backup index finished creation, in Unix format and Coordinated Universal Time (UTC). The value of CompletionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
     public var completionDate: Foundation.Date?
+    /// The point in time the scan job scanned up to for a continuous backup.
+    public var continuousScanEndTime: Foundation.Date?
+    /// The point in time the scan job started scan from for a continuous backup.
+    public var continuousScanStartTime: Foundation.Date?
     /// Contains identifying information about the creation of a scan job, including the backup plan and rule that initiated the scan.
     /// This member is required.
     public var createdBy: BackupClientTypes.ScanJobCreator?
@@ -4839,6 +4846,8 @@ public struct DescribeScanJobOutput: Swift.Sendable {
         backupVaultArn: Swift.String? = nil,
         backupVaultName: Swift.String? = nil,
         completionDate: Foundation.Date? = nil,
+        continuousScanEndTime: Foundation.Date? = nil,
+        continuousScanStartTime: Foundation.Date? = nil,
         createdBy: BackupClientTypes.ScanJobCreator? = nil,
         creationDate: Foundation.Date? = nil,
         iamRoleArn: Swift.String? = nil,
@@ -4860,6 +4869,8 @@ public struct DescribeScanJobOutput: Swift.Sendable {
         self.backupVaultArn = backupVaultArn
         self.backupVaultName = backupVaultName
         self.completionDate = completionDate
+        self.continuousScanEndTime = continuousScanEndTime
+        self.continuousScanStartTime = continuousScanStartTime
         self.createdBy = createdBy
         self.creationDate = creationDate
         self.iamRoleArn = iamRoleArn
@@ -5291,6 +5302,62 @@ public struct GetLegalHoldOutput: Swift.Sendable {
         self.retainRecordUntil = retainRecordUntil
         self.status = status
         self.title = title
+    }
+}
+
+public struct GetPITRMalwareScanResultsInput: Swift.Sendable {
+    /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created.
+    /// This member is required.
+    public var backupVaultName: Swift.String?
+    /// The scanning engine used for the corresponding scan job. Currently only GUARDDUTY is supported.
+    /// This member is required.
+    public var malwareScanner: BackupClientTypes.MalwareScanner?
+    /// An ARN that uniquely identifies the target recovery point for scanning; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
+    /// This member is required.
+    public var recoveryPointArn: Swift.String?
+    /// The point in time within the continuous backup to examine for malware scan results.
+    /// This member is required.
+    public var scanEndTime: Foundation.Date?
+
+    public init(
+        backupVaultName: Swift.String? = nil,
+        malwareScanner: BackupClientTypes.MalwareScanner? = nil,
+        recoveryPointArn: Swift.String? = nil,
+        scanEndTime: Foundation.Date? = nil
+    ) {
+        self.backupVaultName = backupVaultName
+        self.malwareScanner = malwareScanner
+        self.recoveryPointArn = recoveryPointArn
+        self.scanEndTime = scanEndTime
+    }
+}
+
+public struct GetPITRMalwareScanResultsOutput: Swift.Sendable {
+    /// The completion time of the most recent scan job that covered the specified point in time.
+    public var lastScanJobTime: Foundation.Date?
+    /// The point in time that was queried. This echoes back the time specified in the request.
+    /// This member is required.
+    public var scanEndTime: Foundation.Date?
+    /// The scan ID generated by Amazon GuardDuty for the corresponding Scan Job ID request from Backup.
+    public var scanId: Swift.String?
+    /// Specifies the scan type used for the scan job.
+    public var scanMode: BackupClientTypes.ScanMode?
+    /// Contains the ScanResultStatus for the scan and returns THREATS_FOUND, NO_THREATS_FOUND, or UNKNOWN.
+    /// This member is required.
+    public var scanResult: BackupClientTypes.ScanResultInfo?
+
+    public init(
+        lastScanJobTime: Foundation.Date? = nil,
+        scanEndTime: Foundation.Date? = nil,
+        scanId: Swift.String? = nil,
+        scanMode: BackupClientTypes.ScanMode? = nil,
+        scanResult: BackupClientTypes.ScanResultInfo? = nil
+    ) {
+        self.lastScanJobTime = lastScanJobTime
+        self.scanEndTime = scanEndTime
+        self.scanId = scanId
+        self.scanMode = scanMode
+        self.scanResult = scanResult
     }
 }
 
@@ -7844,6 +7911,10 @@ extension BackupClientTypes {
         public var backupVaultName: Swift.String?
         /// The date and time that a scan job is completed, in Unix format and Coordinated Universal Time (UTC). The value of CompletionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public var completionDate: Foundation.Date?
+        /// The point in time the scan job scanned up to for a continuous backup.
+        public var continuousScanEndTime: Foundation.Date?
+        /// The point in time the scan job started scan from for a continuous backup.
+        public var continuousScanStartTime: Foundation.Date?
         /// Contains identifying information about the creation of a scan job.
         /// This member is required.
         public var createdBy: BackupClientTypes.ScanJobCreator?
@@ -7893,6 +7964,8 @@ extension BackupClientTypes {
             backupVaultArn: Swift.String? = nil,
             backupVaultName: Swift.String? = nil,
             completionDate: Foundation.Date? = nil,
+            continuousScanEndTime: Foundation.Date? = nil,
+            continuousScanStartTime: Foundation.Date? = nil,
             createdBy: BackupClientTypes.ScanJobCreator? = nil,
             creationDate: Foundation.Date? = nil,
             iamRoleArn: Swift.String? = nil,
@@ -7914,6 +7987,8 @@ extension BackupClientTypes {
             self.backupVaultArn = backupVaultArn
             self.backupVaultName = backupVaultName
             self.completionDate = completionDate
+            self.continuousScanEndTime = continuousScanEndTime
+            self.continuousScanStartTime = continuousScanStartTime
             self.createdBy = createdBy
             self.creationDate = creationDate
             self.iamRoleArn = iamRoleArn
@@ -8643,6 +8718,8 @@ public struct StartScanJobInput: Swift.Sendable {
     /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. Pattern: ^[a-zA-Z0-9\-\_]{2,50}$
     /// This member is required.
     public var backupVaultName: Swift.String?
+    /// The point in time the scan job will scan up to for a continuous backup.
+    public var continuousScanEndTime: Foundation.Date?
     /// Specifies the IAM role ARN used to create the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
     /// This member is required.
     public var iamRoleArn: Swift.String?
@@ -8669,6 +8746,7 @@ public struct StartScanJobInput: Swift.Sendable {
 
     public init(
         backupVaultName: Swift.String? = nil,
+        continuousScanEndTime: Foundation.Date? = nil,
         iamRoleArn: Swift.String? = nil,
         idempotencyToken: Swift.String? = nil,
         malwareScanner: BackupClientTypes.MalwareScanner? = nil,
@@ -8678,6 +8756,7 @@ public struct StartScanJobInput: Swift.Sendable {
         scannerRoleArn: Swift.String? = nil
     ) {
         self.backupVaultName = backupVaultName
+        self.continuousScanEndTime = continuousScanEndTime
         self.iamRoleArn = iamRoleArn
         self.idempotencyToken = idempotencyToken
         self.malwareScanner = malwareScanner
@@ -9775,6 +9854,45 @@ extension GetLegalHoldInput {
             return nil
         }
         return "/legal-holds/\(legalHoldId.urlPercentEncoding())"
+    }
+}
+
+extension GetPITRMalwareScanResultsInput {
+
+    static func urlPathProvider(_ value: GetPITRMalwareScanResultsInput) -> Swift.String? {
+        return "/scan/pitr-malware-scan-results"
+    }
+}
+
+extension GetPITRMalwareScanResultsInput {
+
+    static func queryItemProvider(_ value: GetPITRMalwareScanResultsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let backupVaultName = value.backupVaultName else {
+            let message = "Creating a URL Query Item failed. backupVaultName is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let backupVaultNameQueryItem = Smithy.URIQueryItem(name: "BackupVaultName".urlPercentEncoding(), value: Swift.String(backupVaultName).urlPercentEncoding())
+        items.append(backupVaultNameQueryItem)
+        guard let scanEndTime = value.scanEndTime else {
+            let message = "Creating a URL Query Item failed. scanEndTime is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let scanEndTimeQueryItem = Smithy.URIQueryItem(name: "ScanEndTime".urlPercentEncoding(), value: Swift.String(SmithyTimestamps.TimestampFormatter(format: .dateTime).string(from: scanEndTime)).urlPercentEncoding())
+        items.append(scanEndTimeQueryItem)
+        guard let malwareScanner = value.malwareScanner else {
+            let message = "Creating a URL Query Item failed. malwareScanner is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let malwareScannerQueryItem = Smithy.URIQueryItem(name: "MalwareScanner".urlPercentEncoding(), value: Swift.String(malwareScanner.rawValue).urlPercentEncoding())
+        items.append(malwareScannerQueryItem)
+        guard let recoveryPointArn = value.recoveryPointArn else {
+            let message = "Creating a URL Query Item failed. recoveryPointArn is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let recoveryPointArnQueryItem = Smithy.URIQueryItem(name: "RecoveryPointArn".urlPercentEncoding(), value: Swift.String(recoveryPointArn).urlPercentEncoding())
+        items.append(recoveryPointArnQueryItem)
+        return items
     }
 }
 
@@ -11411,6 +11529,7 @@ extension StartScanJobInput {
     static func write(value: StartScanJobInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["BackupVaultName"].write(value.backupVaultName)
+        try writer["ContinuousScanEndTime"].writeTimestamp(value.continuousScanEndTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
         try writer["IamRoleArn"].write(value.iamRoleArn)
         try writer["IdempotencyToken"].write(value.idempotencyToken)
         try writer["MalwareScanner"].write(value.malwareScanner)
@@ -12049,6 +12168,8 @@ extension DescribeScanJobOutput {
         value.backupVaultArn = try reader["BackupVaultArn"].readIfPresent() ?? ""
         value.backupVaultName = try reader["BackupVaultName"].readIfPresent() ?? ""
         value.completionDate = try reader["CompletionDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.continuousScanEndTime = try reader["ContinuousScanEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.continuousScanStartTime = try reader["ContinuousScanStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.createdBy = try reader["CreatedBy"].readIfPresent(with: BackupClientTypes.ScanJobCreator.read(from:))
         value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.iamRoleArn = try reader["IamRoleArn"].readIfPresent() ?? ""
@@ -12209,6 +12330,22 @@ extension GetLegalHoldOutput {
         value.retainRecordUntil = try reader["RetainRecordUntil"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.status = try reader["Status"].readIfPresent()
         value.title = try reader["Title"].readIfPresent()
+        return value
+    }
+}
+
+extension GetPITRMalwareScanResultsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetPITRMalwareScanResultsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetPITRMalwareScanResultsOutput()
+        value.lastScanJobTime = try reader["LastScanJobTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.scanEndTime = try reader["ScanEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.scanId = try reader["ScanId"].readIfPresent()
+        value.scanMode = try reader["ScanMode"].readIfPresent()
+        value.scanResult = try reader["ScanResult"].readIfPresent(with: BackupClientTypes.ScanResultInfo.read(from:))
         return value
     }
 }
@@ -13781,6 +13918,23 @@ enum GetBackupVaultNotificationsOutputError {
 }
 
 enum GetLegalHoldOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "MissingParameterValueException": return try MissingParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetPITRMalwareScanResultsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -16037,6 +16191,8 @@ extension BackupClientTypes.ScanJob {
         value.backupVaultArn = try reader["BackupVaultArn"].readIfPresent() ?? ""
         value.backupVaultName = try reader["BackupVaultName"].readIfPresent() ?? ""
         value.completionDate = try reader["CompletionDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.continuousScanEndTime = try reader["ContinuousScanEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.continuousScanStartTime = try reader["ContinuousScanStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.createdBy = try reader["CreatedBy"].readIfPresent(with: BackupClientTypes.ScanJobCreator.read(from:))
         value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.iamRoleArn = try reader["IamRoleArn"].readIfPresent() ?? ""

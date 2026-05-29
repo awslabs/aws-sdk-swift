@@ -43,9 +43,9 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -67,9 +67,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -91,9 +91,9 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { true }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -115,9 +115,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -139,9 +139,9 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { true }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -163,9 +163,9 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -793,9 +793,9 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
 
     public init(
         message: Swift.String? = nil
@@ -1177,12 +1177,12 @@ public struct CreateLinkOutput: Swift.Sendable {
 
 extension RTBFabricClientTypes {
 
-    /// Key-value pair for query string matching
+    /// A key-value pair for query string matching in a routing rule condition.
     public struct QueryStringKeyValuePair: Swift.Sendable {
-        /// RFC 3986 unreserved characters
+        /// The key of the query string parameter to match. Must contain only RFC 3986 unreserved characters.
         /// This member is required.
         public var key: Swift.String?
-        /// RFC 3986 unreserved characters
+        /// The value of the query string parameter to match. Must contain only RFC 3986 unreserved characters.
         /// This member is required.
         public var value: Swift.String?
 
@@ -1198,19 +1198,19 @@ extension RTBFabricClientTypes {
 
 extension RTBFabricClientTypes {
 
-    /// Conditions bag for a routing rule. All non-null fields must match (AND logic). At least one field must be set (enforced by CP).
+    /// The conditions for a routing rule. All specified fields must match for the rule to apply (AND logic). At least one condition field must be set.
     public struct RuleCondition: Swift.Sendable {
-        /// Exact host match — RFC 3986 unreserved characters
+        /// The exact host header value to match.
         public var hostHeader: Swift.String?
-        /// Wildcard host pattern (e.g., *.example.com) — RFC 3986 unreserved plus *
+        /// A wildcard pattern for host header matching (for example, *.example.com).
         public var hostHeaderWildcard: Swift.String?
-        /// Exact path match — must start with /; RFC 3986 unreserved plus /
+        /// The exact path to match. Must start with /.
         public var pathExact: Swift.String?
-        /// Path prefix matching — strict starts-with, no wildcard (preferred for new rules). Must start with /; RFC 3986 unreserved plus /
+        /// The path prefix to match. The request path must start with this value. Must start with /.
         public var pathPrefix: Swift.String?
-        /// Query string key=value pair match (single pair)
+        /// A query string key-value pair that must be present and match exactly.
         public var queryStringEquals: RTBFabricClientTypes.QueryStringKeyValuePair?
-        /// Query string key presence check (any value accepted) — RFC 3986 unreserved characters
+        /// A query string key that must be present in the request (any value is accepted).
         public var queryStringExists: Swift.String?
 
         public init(
@@ -2188,7 +2188,7 @@ public struct ListLinkRoutingRulesInput: Swift.Sendable {
 
 extension RTBFabricClientTypes {
 
-    /// Summary of a routing rule for list responses
+    /// A summary of a link routing rule.
     public struct LinkRoutingRuleSummary: Swift.Sendable {
         /// The conditions for the routing rule.
         /// This member is required.
@@ -2873,8 +2873,11 @@ public struct GetResponderGatewayOutput: Swift.Sendable {
     public var gatewayId: Swift.String?
     /// The type of gateway. Valid values are EXTERNAL or INTERNAL.
     public var gatewayType: RTBFabricClientTypes.GatewayType?
-    /// The count of inbound links for the responder gateway.
+    /// Deprecated. Use 'linksRequestedCount' instead.
+    @available(*, deprecated, message: "Use linksRequestedCount instead API deprecated since 2026-05-11")
     public var inboundLinksCount: Swift.Int?
+    /// The count of requested links waiting for the responder gateway to accept or reject.
+    public var linksRequestedCount: Swift.Int?
     /// The listener configuration for the responder gateway.
     public var listenerConfig: RTBFabricClientTypes.ListenerConfig?
     /// The configuration of the managed endpoint.
@@ -2915,6 +2918,7 @@ public struct GetResponderGatewayOutput: Swift.Sendable {
         gatewayId: Swift.String? = nil,
         gatewayType: RTBFabricClientTypes.GatewayType? = nil,
         inboundLinksCount: Swift.Int? = nil,
+        linksRequestedCount: Swift.Int? = nil,
         listenerConfig: RTBFabricClientTypes.ListenerConfig? = nil,
         managedEndpointConfiguration: RTBFabricClientTypes.ManagedEndpointConfiguration? = nil,
         port: Swift.Int? = nil,
@@ -2936,6 +2940,7 @@ public struct GetResponderGatewayOutput: Swift.Sendable {
         self.gatewayId = gatewayId
         self.gatewayType = gatewayType
         self.inboundLinksCount = inboundLinksCount
+        self.linksRequestedCount = linksRequestedCount
         self.listenerConfig = listenerConfig
         self.managedEndpointConfiguration = managedEndpointConfiguration
         self.port = port
@@ -4271,6 +4276,7 @@ extension GetResponderGatewayOutput {
         value.gatewayId = try reader["gatewayId"].readIfPresent() ?? ""
         value.gatewayType = try reader["gatewayType"].readIfPresent()
         value.inboundLinksCount = try reader["inboundLinksCount"].readIfPresent()
+        value.linksRequestedCount = try reader["linksRequestedCount"].readIfPresent()
         value.listenerConfig = try reader["listenerConfig"].readIfPresent(with: RTBFabricClientTypes.ListenerConfig.read(from:))
         value.managedEndpointConfiguration = try reader["managedEndpointConfiguration"].readIfPresent(with: RTBFabricClientTypes.ManagedEndpointConfiguration.read(from:))
         value.port = try reader["port"].readIfPresent() ?? 0

@@ -1,0 +1,8 @@
+{
+    "service": "com.amazonaws.backupgateway#BackupOnPremises_v20210101",
+    "module": "AWSBackupGateway",
+    "sdkId": "Backup Gateway",
+    "internalClient": false,
+    "operations": [],
+    "modelPath": "codegen/sdk-codegen/aws-models/backup-gateway.json"
+}

@@ -1,0 +1,8 @@
+{
+    "service": "com.amazonaws.iotthingsgraph#IotThingsGraphFrontEndService",
+    "module": "AWSIoTThingsGraph",
+    "sdkId": "IoTThingsGraph",
+    "internalClient": false,
+    "operations": [],
+    "modelPath": "codegen/sdk-codegen/aws-models/iotthingsgraph.json"
+}
