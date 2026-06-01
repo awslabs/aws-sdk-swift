@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
+import enum AWSClientRuntime.LongPollingBackoffProvider
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
 import enum ClientRuntime.ClientLogMode
 import enum ClientRuntime.DefaultTelemetry
@@ -71,6 +72,7 @@ public final class SQSClient: AWSClientRuntime.AWSServiceClient {
     let client: ClientRuntime.SdkHttpClient
     public let config: SQSClient.SQSClientConfig
     let serviceName = "SQS"
+    let retryStrategy: SmithyRetries.DefaultRetryStrategy
 
     @available(*, deprecated, message: "Use SQSClient.SQSClientConfig instead")
     public typealias Config = SQSClient.SQSClientConfiguration
@@ -80,6 +82,7 @@ public final class SQSClient: AWSClientRuntime.AWSServiceClient {
         ClientRuntime.initialize()
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         self.config = config
+        self.retryStrategy = SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions)
     }
 
     @available(*, deprecated, message: "Use init(config: SQSClient.SQSClientConfig) instead")
@@ -194,7 +197,7 @@ extension SQSClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "SQS")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -249,7 +252,7 @@ extension SQSClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "SQS")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -425,7 +428,7 @@ extension SQSClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "SQS")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -480,7 +483,7 @@ extension SQSClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "SQS")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -674,8 +677,6 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddPermissionInput, AddPermissionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddPermissionInput, AddPermissionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddPermissionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SQS", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -688,6 +689,8 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AddPermissionInput, AddPermissionOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AddPermissionInput, AddPermissionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AddPermissionInput, AddPermissionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SQS"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AddPermissionInput, AddPermissionOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
@@ -761,8 +764,6 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelMessageMoveTaskInput, CancelMessageMoveTaskOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelMessageMoveTaskInput, CancelMessageMoveTaskOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelMessageMoveTaskOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SQS", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -775,6 +776,8 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CancelMessageMoveTaskInput, CancelMessageMoveTaskOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CancelMessageMoveTaskInput, CancelMessageMoveTaskOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CancelMessageMoveTaskInput, CancelMessageMoveTaskOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SQS"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CancelMessageMoveTaskInput, CancelMessageMoveTaskOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
@@ -855,8 +858,6 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ChangeMessageVisibilityInput, ChangeMessageVisibilityOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ChangeMessageVisibilityInput, ChangeMessageVisibilityOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ChangeMessageVisibilityOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SQS", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -869,6 +870,8 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ChangeMessageVisibilityInput, ChangeMessageVisibilityOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ChangeMessageVisibilityInput, ChangeMessageVisibilityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ChangeMessageVisibilityInput, ChangeMessageVisibilityOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SQS"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ChangeMessageVisibilityInput, ChangeMessageVisibilityOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
@@ -942,8 +945,6 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ChangeMessageVisibilityBatchInput, ChangeMessageVisibilityBatchOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ChangeMessageVisibilityBatchInput, ChangeMessageVisibilityBatchOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ChangeMessageVisibilityBatchOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SQS", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -956,6 +957,8 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ChangeMessageVisibilityBatchInput, ChangeMessageVisibilityBatchOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ChangeMessageVisibilityBatchInput, ChangeMessageVisibilityBatchOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ChangeMessageVisibilityBatchInput, ChangeMessageVisibilityBatchOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SQS"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ChangeMessageVisibilityBatchInput, ChangeMessageVisibilityBatchOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
@@ -1044,8 +1047,6 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateQueueInput, CreateQueueOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateQueueInput, CreateQueueOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateQueueOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SQS", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1058,6 +1059,8 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateQueueInput, CreateQueueOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateQueueInput, CreateQueueOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateQueueInput, CreateQueueOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SQS"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateQueueInput, CreateQueueOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
@@ -1129,8 +1132,6 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteMessageInput, DeleteMessageOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMessageInput, DeleteMessageOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMessageOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SQS", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1143,6 +1144,8 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteMessageInput, DeleteMessageOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteMessageInput, DeleteMessageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteMessageInput, DeleteMessageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SQS"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteMessageInput, DeleteMessageOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
@@ -1216,8 +1219,6 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteMessageBatchInput, DeleteMessageBatchOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMessageBatchInput, DeleteMessageBatchOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMessageBatchOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SQS", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1230,6 +1231,8 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteMessageBatchInput, DeleteMessageBatchOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteMessageBatchInput, DeleteMessageBatchOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteMessageBatchInput, DeleteMessageBatchOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SQS"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteMessageBatchInput, DeleteMessageBatchOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
@@ -1299,8 +1302,6 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteQueueInput, DeleteQueueOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteQueueInput, DeleteQueueOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteQueueOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SQS", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1313,6 +1314,8 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteQueueInput, DeleteQueueOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteQueueInput, DeleteQueueOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteQueueInput, DeleteQueueOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SQS"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteQueueInput, DeleteQueueOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
@@ -1383,8 +1386,6 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetQueueAttributesInput, GetQueueAttributesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetQueueAttributesInput, GetQueueAttributesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetQueueAttributesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SQS", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1397,6 +1398,8 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetQueueAttributesInput, GetQueueAttributesOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetQueueAttributesInput, GetQueueAttributesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetQueueAttributesInput, GetQueueAttributesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SQS"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetQueueAttributesInput, GetQueueAttributesOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
@@ -1466,8 +1469,6 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetQueueUrlInput, GetQueueUrlOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetQueueUrlInput, GetQueueUrlOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetQueueUrlOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SQS", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1480,6 +1481,8 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetQueueUrlInput, GetQueueUrlOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetQueueUrlInput, GetQueueUrlOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetQueueUrlInput, GetQueueUrlOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SQS"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetQueueUrlInput, GetQueueUrlOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
@@ -1549,8 +1552,6 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDeadLetterSourceQueuesInput, ListDeadLetterSourceQueuesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDeadLetterSourceQueuesInput, ListDeadLetterSourceQueuesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDeadLetterSourceQueuesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SQS", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1563,6 +1564,8 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDeadLetterSourceQueuesInput, ListDeadLetterSourceQueuesOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDeadLetterSourceQueuesInput, ListDeadLetterSourceQueuesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListDeadLetterSourceQueuesInput, ListDeadLetterSourceQueuesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SQS"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListDeadLetterSourceQueuesInput, ListDeadLetterSourceQueuesOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
@@ -1636,8 +1639,6 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMessageMoveTasksInput, ListMessageMoveTasksOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMessageMoveTasksInput, ListMessageMoveTasksOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMessageMoveTasksOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SQS", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1650,6 +1651,8 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListMessageMoveTasksInput, ListMessageMoveTasksOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListMessageMoveTasksInput, ListMessageMoveTasksOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListMessageMoveTasksInput, ListMessageMoveTasksOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SQS"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListMessageMoveTasksInput, ListMessageMoveTasksOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
@@ -1719,8 +1722,6 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListQueueTagsInput, ListQueueTagsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListQueueTagsInput, ListQueueTagsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListQueueTagsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SQS", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1733,6 +1734,8 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListQueueTagsInput, ListQueueTagsOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListQueueTagsInput, ListQueueTagsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListQueueTagsInput, ListQueueTagsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SQS"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListQueueTagsInput, ListQueueTagsOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
@@ -1801,8 +1804,6 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListQueuesInput, ListQueuesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListQueuesInput, ListQueuesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListQueuesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SQS", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1815,6 +1816,8 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListQueuesInput, ListQueuesOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListQueuesInput, ListQueuesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListQueuesInput, ListQueuesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SQS"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListQueuesInput, ListQueuesOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
@@ -1885,8 +1888,6 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PurgeQueueInput, PurgeQueueOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PurgeQueueInput, PurgeQueueOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PurgeQueueOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SQS", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1899,6 +1900,8 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PurgeQueueInput, PurgeQueueOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PurgeQueueInput, PurgeQueueOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PurgeQueueInput, PurgeQueueOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SQS"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PurgeQueueInput, PurgeQueueOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
@@ -1995,8 +1998,6 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ReceiveMessageInput, ReceiveMessageOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ReceiveMessageInput, ReceiveMessageOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ReceiveMessageOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SQS", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2009,6 +2010,9 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ReceiveMessageInput, ReceiveMessageOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ReceiveMessageInput, ReceiveMessageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ReceiveMessageInput, ReceiveMessageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SQS"))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ReceiveMessageInput, ReceiveMessageOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
@@ -2084,8 +2088,6 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemovePermissionInput, RemovePermissionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemovePermissionInput, RemovePermissionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemovePermissionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SQS", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2098,6 +2100,8 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RemovePermissionInput, RemovePermissionOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RemovePermissionInput, RemovePermissionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RemovePermissionInput, RemovePermissionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SQS"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RemovePermissionInput, RemovePermissionOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
@@ -2179,8 +2183,6 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendMessageInput, SendMessageOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendMessageInput, SendMessageOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendMessageOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SQS", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2193,6 +2195,8 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SendMessageInput, SendMessageOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SendMessageInput, SendMessageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SendMessageInput, SendMessageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SQS"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SendMessageInput, SendMessageOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
@@ -2278,8 +2282,6 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendMessageBatchInput, SendMessageBatchOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendMessageBatchInput, SendMessageBatchOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendMessageBatchOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SQS", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2292,6 +2294,8 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SendMessageBatchInput, SendMessageBatchOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SendMessageBatchInput, SendMessageBatchOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SendMessageBatchInput, SendMessageBatchOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SQS"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SendMessageBatchInput, SendMessageBatchOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
@@ -2370,8 +2374,6 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetQueueAttributesInput, SetQueueAttributesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetQueueAttributesInput, SetQueueAttributesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SetQueueAttributesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SQS", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2384,6 +2386,8 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SetQueueAttributesInput, SetQueueAttributesOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SetQueueAttributesInput, SetQueueAttributesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SetQueueAttributesInput, SetQueueAttributesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SQS"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SetQueueAttributesInput, SetQueueAttributesOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
@@ -2459,8 +2463,6 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartMessageMoveTaskInput, StartMessageMoveTaskOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartMessageMoveTaskInput, StartMessageMoveTaskOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartMessageMoveTaskOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SQS", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2473,6 +2475,8 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartMessageMoveTaskInput, StartMessageMoveTaskOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartMessageMoveTaskInput, StartMessageMoveTaskOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartMessageMoveTaskInput, StartMessageMoveTaskOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SQS"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartMessageMoveTaskInput, StartMessageMoveTaskOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
@@ -2553,8 +2557,6 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagQueueInput, TagQueueOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagQueueInput, TagQueueOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagQueueOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SQS", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2567,6 +2569,8 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagQueueInput, TagQueueOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagQueueInput, TagQueueOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagQueueInput, TagQueueOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SQS"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagQueueInput, TagQueueOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
@@ -2636,8 +2640,6 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagQueueInput, UntagQueueOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagQueueInput, UntagQueueOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagQueueOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SQS", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2650,6 +2652,8 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagQueueInput, UntagQueueOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagQueueInput, UntagQueueOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagQueueInput, UntagQueueOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SQS"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagQueueInput, UntagQueueOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")

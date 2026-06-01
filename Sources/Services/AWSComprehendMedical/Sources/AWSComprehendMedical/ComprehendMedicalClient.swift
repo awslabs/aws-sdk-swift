@@ -20,11 +20,11 @@ import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
 import class Smithy.ContextBuilder
+import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
 import enum ClientRuntime.ClientLogMode
 import enum ClientRuntime.DefaultClockSkewProvider
-import enum ClientRuntime.DefaultRetryErrorInfoProvider
 import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import func ClientRuntime.initialize
@@ -73,6 +73,7 @@ public final class ComprehendMedicalClient: AWSClientRuntime.AWSServiceClient {
     let client: ClientRuntime.SdkHttpClient
     public let config: ComprehendMedicalClient.ComprehendMedicalClientConfig
     let serviceName = "ComprehendMedical"
+    let retryStrategy: SmithyRetries.DefaultRetryStrategy
 
     @available(*, deprecated, message: "Use ComprehendMedicalClient.ComprehendMedicalClientConfig instead")
     public typealias Config = ComprehendMedicalClient.ComprehendMedicalClientConfiguration
@@ -82,6 +83,7 @@ public final class ComprehendMedicalClient: AWSClientRuntime.AWSServiceClient {
         ClientRuntime.initialize()
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         self.config = config
+        self.retryStrategy = SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions)
     }
 
     @available(*, deprecated, message: "Use init(config: ComprehendMedicalClient.ComprehendMedicalClientConfig) instead")
@@ -196,7 +198,7 @@ extension ComprehendMedicalClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "ComprehendMedical")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -251,7 +253,7 @@ extension ComprehendMedicalClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "ComprehendMedical")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -427,7 +429,7 @@ extension ComprehendMedicalClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "ComprehendMedical")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -482,7 +484,7 @@ extension ComprehendMedicalClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "ComprehendMedical")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -660,8 +662,6 @@ extension ComprehendMedicalClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEntitiesDetectionV2JobInput, DescribeEntitiesDetectionV2JobOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEntitiesDetectionV2JobInput, DescribeEntitiesDetectionV2JobOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEntitiesDetectionV2JobOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ComprehendMedical", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -675,6 +675,8 @@ extension ComprehendMedicalClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeEntitiesDetectionV2JobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeEntitiesDetectionV2JobInput, DescribeEntitiesDetectionV2JobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeEntitiesDetectionV2JobInput, DescribeEntitiesDetectionV2JobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ComprehendMedical"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeEntitiesDetectionV2JobInput, DescribeEntitiesDetectionV2JobOutput>(serviceID: serviceName, version: ComprehendMedicalClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ComprehendMedical")
@@ -740,8 +742,6 @@ extension ComprehendMedicalClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeICD10CMInferenceJobInput, DescribeICD10CMInferenceJobOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeICD10CMInferenceJobInput, DescribeICD10CMInferenceJobOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeICD10CMInferenceJobOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ComprehendMedical", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -755,6 +755,8 @@ extension ComprehendMedicalClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeICD10CMInferenceJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeICD10CMInferenceJobInput, DescribeICD10CMInferenceJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeICD10CMInferenceJobInput, DescribeICD10CMInferenceJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ComprehendMedical"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeICD10CMInferenceJobInput, DescribeICD10CMInferenceJobOutput>(serviceID: serviceName, version: ComprehendMedicalClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ComprehendMedical")
@@ -820,8 +822,6 @@ extension ComprehendMedicalClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribePHIDetectionJobInput, DescribePHIDetectionJobOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePHIDetectionJobInput, DescribePHIDetectionJobOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePHIDetectionJobOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ComprehendMedical", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -835,6 +835,8 @@ extension ComprehendMedicalClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribePHIDetectionJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribePHIDetectionJobInput, DescribePHIDetectionJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribePHIDetectionJobInput, DescribePHIDetectionJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ComprehendMedical"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribePHIDetectionJobInput, DescribePHIDetectionJobOutput>(serviceID: serviceName, version: ComprehendMedicalClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ComprehendMedical")
@@ -900,8 +902,6 @@ extension ComprehendMedicalClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRxNormInferenceJobInput, DescribeRxNormInferenceJobOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRxNormInferenceJobInput, DescribeRxNormInferenceJobOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRxNormInferenceJobOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ComprehendMedical", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -915,6 +915,8 @@ extension ComprehendMedicalClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeRxNormInferenceJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeRxNormInferenceJobInput, DescribeRxNormInferenceJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeRxNormInferenceJobInput, DescribeRxNormInferenceJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ComprehendMedical"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeRxNormInferenceJobInput, DescribeRxNormInferenceJobOutput>(serviceID: serviceName, version: ComprehendMedicalClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ComprehendMedical")
@@ -980,8 +982,6 @@ extension ComprehendMedicalClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSNOMEDCTInferenceJobInput, DescribeSNOMEDCTInferenceJobOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSNOMEDCTInferenceJobInput, DescribeSNOMEDCTInferenceJobOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSNOMEDCTInferenceJobOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ComprehendMedical", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -995,6 +995,8 @@ extension ComprehendMedicalClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeSNOMEDCTInferenceJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeSNOMEDCTInferenceJobInput, DescribeSNOMEDCTInferenceJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeSNOMEDCTInferenceJobInput, DescribeSNOMEDCTInferenceJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ComprehendMedical"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeSNOMEDCTInferenceJobInput, DescribeSNOMEDCTInferenceJobOutput>(serviceID: serviceName, version: ComprehendMedicalClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ComprehendMedical")
@@ -1063,8 +1065,6 @@ extension ComprehendMedicalClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetectEntitiesInput, DetectEntitiesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetectEntitiesInput, DetectEntitiesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DetectEntitiesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ComprehendMedical", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1078,6 +1078,8 @@ extension ComprehendMedicalClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DetectEntitiesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DetectEntitiesInput, DetectEntitiesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DetectEntitiesInput, DetectEntitiesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ComprehendMedical"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DetectEntitiesInput, DetectEntitiesOutput>(serviceID: serviceName, version: ComprehendMedicalClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ComprehendMedical")
@@ -1145,8 +1147,6 @@ extension ComprehendMedicalClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetectEntitiesV2Input, DetectEntitiesV2Output>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetectEntitiesV2Input, DetectEntitiesV2Output>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DetectEntitiesV2Output>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ComprehendMedical", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1160,6 +1160,8 @@ extension ComprehendMedicalClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DetectEntitiesV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DetectEntitiesV2Input, DetectEntitiesV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DetectEntitiesV2Input, DetectEntitiesV2Output>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ComprehendMedical"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DetectEntitiesV2Input, DetectEntitiesV2Output>(serviceID: serviceName, version: ComprehendMedicalClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ComprehendMedical")
@@ -1227,8 +1229,6 @@ extension ComprehendMedicalClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetectPHIInput, DetectPHIOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetectPHIInput, DetectPHIOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DetectPHIOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ComprehendMedical", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1242,6 +1242,8 @@ extension ComprehendMedicalClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DetectPHIOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DetectPHIInput, DetectPHIOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DetectPHIInput, DetectPHIOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ComprehendMedical"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DetectPHIInput, DetectPHIOutput>(serviceID: serviceName, version: ComprehendMedicalClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ComprehendMedical")
@@ -1309,8 +1311,6 @@ extension ComprehendMedicalClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InferICD10CMInput, InferICD10CMOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<InferICD10CMInput, InferICD10CMOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<InferICD10CMOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ComprehendMedical", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1324,6 +1324,8 @@ extension ComprehendMedicalClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<InferICD10CMOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<InferICD10CMInput, InferICD10CMOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<InferICD10CMInput, InferICD10CMOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ComprehendMedical"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<InferICD10CMInput, InferICD10CMOutput>(serviceID: serviceName, version: ComprehendMedicalClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ComprehendMedical")
@@ -1391,8 +1393,6 @@ extension ComprehendMedicalClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InferRxNormInput, InferRxNormOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<InferRxNormInput, InferRxNormOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<InferRxNormOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ComprehendMedical", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1406,6 +1406,8 @@ extension ComprehendMedicalClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<InferRxNormOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<InferRxNormInput, InferRxNormOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<InferRxNormInput, InferRxNormOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ComprehendMedical"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<InferRxNormInput, InferRxNormOutput>(serviceID: serviceName, version: ComprehendMedicalClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ComprehendMedical")
@@ -1473,8 +1475,6 @@ extension ComprehendMedicalClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InferSNOMEDCTInput, InferSNOMEDCTOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<InferSNOMEDCTInput, InferSNOMEDCTOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<InferSNOMEDCTOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ComprehendMedical", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1488,6 +1488,8 @@ extension ComprehendMedicalClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<InferSNOMEDCTOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<InferSNOMEDCTInput, InferSNOMEDCTOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<InferSNOMEDCTInput, InferSNOMEDCTOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ComprehendMedical"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<InferSNOMEDCTInput, InferSNOMEDCTOutput>(serviceID: serviceName, version: ComprehendMedicalClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ComprehendMedical")
@@ -1553,8 +1555,6 @@ extension ComprehendMedicalClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEntitiesDetectionV2JobsInput, ListEntitiesDetectionV2JobsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEntitiesDetectionV2JobsInput, ListEntitiesDetectionV2JobsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEntitiesDetectionV2JobsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ComprehendMedical", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1568,6 +1568,8 @@ extension ComprehendMedicalClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListEntitiesDetectionV2JobsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListEntitiesDetectionV2JobsInput, ListEntitiesDetectionV2JobsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListEntitiesDetectionV2JobsInput, ListEntitiesDetectionV2JobsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ComprehendMedical"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListEntitiesDetectionV2JobsInput, ListEntitiesDetectionV2JobsOutput>(serviceID: serviceName, version: ComprehendMedicalClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ComprehendMedical")
@@ -1633,8 +1635,6 @@ extension ComprehendMedicalClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListICD10CMInferenceJobsInput, ListICD10CMInferenceJobsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListICD10CMInferenceJobsInput, ListICD10CMInferenceJobsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListICD10CMInferenceJobsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ComprehendMedical", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1648,6 +1648,8 @@ extension ComprehendMedicalClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListICD10CMInferenceJobsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListICD10CMInferenceJobsInput, ListICD10CMInferenceJobsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListICD10CMInferenceJobsInput, ListICD10CMInferenceJobsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ComprehendMedical"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListICD10CMInferenceJobsInput, ListICD10CMInferenceJobsOutput>(serviceID: serviceName, version: ComprehendMedicalClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ComprehendMedical")
@@ -1713,8 +1715,6 @@ extension ComprehendMedicalClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPHIDetectionJobsInput, ListPHIDetectionJobsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPHIDetectionJobsInput, ListPHIDetectionJobsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPHIDetectionJobsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ComprehendMedical", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1728,6 +1728,8 @@ extension ComprehendMedicalClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListPHIDetectionJobsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListPHIDetectionJobsInput, ListPHIDetectionJobsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListPHIDetectionJobsInput, ListPHIDetectionJobsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ComprehendMedical"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListPHIDetectionJobsInput, ListPHIDetectionJobsOutput>(serviceID: serviceName, version: ComprehendMedicalClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ComprehendMedical")
@@ -1793,8 +1795,6 @@ extension ComprehendMedicalClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRxNormInferenceJobsInput, ListRxNormInferenceJobsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRxNormInferenceJobsInput, ListRxNormInferenceJobsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRxNormInferenceJobsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ComprehendMedical", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1808,6 +1808,8 @@ extension ComprehendMedicalClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRxNormInferenceJobsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListRxNormInferenceJobsInput, ListRxNormInferenceJobsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListRxNormInferenceJobsInput, ListRxNormInferenceJobsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ComprehendMedical"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListRxNormInferenceJobsInput, ListRxNormInferenceJobsOutput>(serviceID: serviceName, version: ComprehendMedicalClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ComprehendMedical")
@@ -1873,8 +1875,6 @@ extension ComprehendMedicalClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSNOMEDCTInferenceJobsInput, ListSNOMEDCTInferenceJobsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSNOMEDCTInferenceJobsInput, ListSNOMEDCTInferenceJobsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSNOMEDCTInferenceJobsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ComprehendMedical", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1888,6 +1888,8 @@ extension ComprehendMedicalClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSNOMEDCTInferenceJobsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListSNOMEDCTInferenceJobsInput, ListSNOMEDCTInferenceJobsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListSNOMEDCTInferenceJobsInput, ListSNOMEDCTInferenceJobsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ComprehendMedical"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListSNOMEDCTInferenceJobsInput, ListSNOMEDCTInferenceJobsOutput>(serviceID: serviceName, version: ComprehendMedicalClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ComprehendMedical")
@@ -1954,8 +1956,6 @@ extension ComprehendMedicalClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartEntitiesDetectionV2JobInput, StartEntitiesDetectionV2JobOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartEntitiesDetectionV2JobInput, StartEntitiesDetectionV2JobOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartEntitiesDetectionV2JobOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ComprehendMedical", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1969,6 +1969,8 @@ extension ComprehendMedicalClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartEntitiesDetectionV2JobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartEntitiesDetectionV2JobInput, StartEntitiesDetectionV2JobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartEntitiesDetectionV2JobInput, StartEntitiesDetectionV2JobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ComprehendMedical"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartEntitiesDetectionV2JobInput, StartEntitiesDetectionV2JobOutput>(serviceID: serviceName, version: ComprehendMedicalClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ComprehendMedical")
@@ -2035,8 +2037,6 @@ extension ComprehendMedicalClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartICD10CMInferenceJobInput, StartICD10CMInferenceJobOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartICD10CMInferenceJobInput, StartICD10CMInferenceJobOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartICD10CMInferenceJobOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ComprehendMedical", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2050,6 +2050,8 @@ extension ComprehendMedicalClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartICD10CMInferenceJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartICD10CMInferenceJobInput, StartICD10CMInferenceJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartICD10CMInferenceJobInput, StartICD10CMInferenceJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ComprehendMedical"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartICD10CMInferenceJobInput, StartICD10CMInferenceJobOutput>(serviceID: serviceName, version: ComprehendMedicalClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ComprehendMedical")
@@ -2116,8 +2118,6 @@ extension ComprehendMedicalClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartPHIDetectionJobInput, StartPHIDetectionJobOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartPHIDetectionJobInput, StartPHIDetectionJobOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartPHIDetectionJobOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ComprehendMedical", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2131,6 +2131,8 @@ extension ComprehendMedicalClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartPHIDetectionJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartPHIDetectionJobInput, StartPHIDetectionJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartPHIDetectionJobInput, StartPHIDetectionJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ComprehendMedical"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartPHIDetectionJobInput, StartPHIDetectionJobOutput>(serviceID: serviceName, version: ComprehendMedicalClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ComprehendMedical")
@@ -2197,8 +2199,6 @@ extension ComprehendMedicalClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartRxNormInferenceJobInput, StartRxNormInferenceJobOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartRxNormInferenceJobInput, StartRxNormInferenceJobOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartRxNormInferenceJobOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ComprehendMedical", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2212,6 +2212,8 @@ extension ComprehendMedicalClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartRxNormInferenceJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartRxNormInferenceJobInput, StartRxNormInferenceJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartRxNormInferenceJobInput, StartRxNormInferenceJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ComprehendMedical"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartRxNormInferenceJobInput, StartRxNormInferenceJobOutput>(serviceID: serviceName, version: ComprehendMedicalClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ComprehendMedical")
@@ -2278,8 +2280,6 @@ extension ComprehendMedicalClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartSNOMEDCTInferenceJobInput, StartSNOMEDCTInferenceJobOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartSNOMEDCTInferenceJobInput, StartSNOMEDCTInferenceJobOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartSNOMEDCTInferenceJobOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ComprehendMedical", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2293,6 +2293,8 @@ extension ComprehendMedicalClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartSNOMEDCTInferenceJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartSNOMEDCTInferenceJobInput, StartSNOMEDCTInferenceJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartSNOMEDCTInferenceJobInput, StartSNOMEDCTInferenceJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ComprehendMedical"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartSNOMEDCTInferenceJobInput, StartSNOMEDCTInferenceJobOutput>(serviceID: serviceName, version: ComprehendMedicalClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ComprehendMedical")
@@ -2357,8 +2359,6 @@ extension ComprehendMedicalClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopEntitiesDetectionV2JobInput, StopEntitiesDetectionV2JobOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopEntitiesDetectionV2JobInput, StopEntitiesDetectionV2JobOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopEntitiesDetectionV2JobOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ComprehendMedical", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2372,6 +2372,8 @@ extension ComprehendMedicalClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopEntitiesDetectionV2JobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopEntitiesDetectionV2JobInput, StopEntitiesDetectionV2JobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopEntitiesDetectionV2JobInput, StopEntitiesDetectionV2JobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ComprehendMedical"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopEntitiesDetectionV2JobInput, StopEntitiesDetectionV2JobOutput>(serviceID: serviceName, version: ComprehendMedicalClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ComprehendMedical")
@@ -2436,8 +2438,6 @@ extension ComprehendMedicalClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopICD10CMInferenceJobInput, StopICD10CMInferenceJobOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopICD10CMInferenceJobInput, StopICD10CMInferenceJobOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopICD10CMInferenceJobOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ComprehendMedical", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2451,6 +2451,8 @@ extension ComprehendMedicalClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopICD10CMInferenceJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopICD10CMInferenceJobInput, StopICD10CMInferenceJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopICD10CMInferenceJobInput, StopICD10CMInferenceJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ComprehendMedical"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopICD10CMInferenceJobInput, StopICD10CMInferenceJobOutput>(serviceID: serviceName, version: ComprehendMedicalClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ComprehendMedical")
@@ -2515,8 +2517,6 @@ extension ComprehendMedicalClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopPHIDetectionJobInput, StopPHIDetectionJobOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopPHIDetectionJobInput, StopPHIDetectionJobOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopPHIDetectionJobOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ComprehendMedical", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2530,6 +2530,8 @@ extension ComprehendMedicalClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopPHIDetectionJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopPHIDetectionJobInput, StopPHIDetectionJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopPHIDetectionJobInput, StopPHIDetectionJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ComprehendMedical"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopPHIDetectionJobInput, StopPHIDetectionJobOutput>(serviceID: serviceName, version: ComprehendMedicalClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ComprehendMedical")
@@ -2594,8 +2596,6 @@ extension ComprehendMedicalClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopRxNormInferenceJobInput, StopRxNormInferenceJobOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopRxNormInferenceJobInput, StopRxNormInferenceJobOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopRxNormInferenceJobOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ComprehendMedical", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2609,6 +2609,8 @@ extension ComprehendMedicalClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopRxNormInferenceJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopRxNormInferenceJobInput, StopRxNormInferenceJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopRxNormInferenceJobInput, StopRxNormInferenceJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ComprehendMedical"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopRxNormInferenceJobInput, StopRxNormInferenceJobOutput>(serviceID: serviceName, version: ComprehendMedicalClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ComprehendMedical")
@@ -2674,8 +2676,6 @@ extension ComprehendMedicalClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopSNOMEDCTInferenceJobInput, StopSNOMEDCTInferenceJobOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopSNOMEDCTInferenceJobInput, StopSNOMEDCTInferenceJobOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopSNOMEDCTInferenceJobOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ComprehendMedical", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2689,6 +2689,8 @@ extension ComprehendMedicalClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopSNOMEDCTInferenceJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopSNOMEDCTInferenceJobInput, StopSNOMEDCTInferenceJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopSNOMEDCTInferenceJobInput, StopSNOMEDCTInferenceJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ComprehendMedical"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopSNOMEDCTInferenceJobInput, StopSNOMEDCTInferenceJobOutput>(serviceID: serviceName, version: ComprehendMedicalClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ComprehendMedical")
