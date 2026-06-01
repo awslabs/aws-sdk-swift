@@ -1304,14 +1304,14 @@ extension SESv2ClientTypes {
         ///
         /// * Can only contain ASCII letters (a–z, A–Z), numbers (0–9), underscores (_), or dashes (-), at signs (@), and periods (.).
         ///
-        /// * It can contain no more than 256 characters.
+        /// * It can contain no more than 255 characters.
         /// This member is required.
         public var defaultDimensionValue: Swift.String?
         /// The name of an Amazon CloudWatch dimension associated with an email sending metric. The name has to meet the following criteria:
         ///
         /// * It can only contain ASCII letters (a–z, A–Z), numbers (0–9), underscores (_), or dashes (-).
         ///
-        /// * It can contain no more than 256 characters.
+        /// * It can contain no more than 255 characters.
         /// This member is required.
         public var dimensionName: Swift.String?
         /// The location where the Amazon SES API v2 finds the value of a dimension to publish to Amazon CloudWatch. To use the message tags that you specify using an X-SES-MESSAGE-TAGS header or a parameter to the SendEmail or SendRawEmail API, choose messageTag. To use your own email headers, choose emailHeader. To use link tags, choose linkTags.
@@ -1677,11 +1677,11 @@ extension SESv2ClientTypes {
 
 extension SESv2ClientTypes {
 
-    /// The reason that the address was added to the suppression list for your account. The value can be one of the following:
+    /// The reason that the address was added to the suppression list for your account or for a specific tenant. The value can be one of the following:
     ///
-    /// * COMPLAINT – Amazon SES added an email address to the suppression list for your account because a message sent to that address results in a complaint.
+    /// * COMPLAINT – Amazon SES added an email address to the suppression list for your account or for a specific tenant because a message sent to that address results in a complaint.
     ///
-    /// * BOUNCE – Amazon SES added an email address to the suppression list for your account because a message sent to that address results in a hard bounce.
+    /// * BOUNCE – Amazon SES added an email address to the suppression list for your account or for a specific tenant because a message sent to that address results in a hard bounce.
     public enum SuppressionListReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case bounce
         case complaint
@@ -1703,6 +1703,40 @@ extension SESv2ClientTypes {
             switch self {
             case .bounce: return "BOUNCE"
             case .complaint: return "COMPLAINT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SESv2ClientTypes {
+
+    /// The suppression scope that determines which suppression list Amazon SES uses. Can be one of the following:
+    ///
+    /// * TENANT – Use the tenant's own suppression list.
+    ///
+    /// * ACCOUNT – Use the account-level suppression list.
+    public enum SuppressionListScope: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case account
+        case tenant
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SuppressionListScope] {
+            return [
+                .account,
+                .tenant
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .account: return "ACCOUNT"
+            case .tenant: return "TENANT"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1831,22 +1865,30 @@ extension SESv2ClientTypes {
 
 extension SESv2ClientTypes {
 
-    /// An object that contains information about the suppression list preferences for your account.
+    /// An object that contains information about the suppression list preferences for your account or for a specific tenant.
     public struct SuppressionOptions: Swift.Sendable {
-        /// A list that contains the reasons that email addresses are automatically added to the suppression list for your account. This list can contain any or all of the following:
+        /// A list that contains the reasons that email addresses are automatically added to the suppression list for your account or for a specific tenant. This list can contain any or all of the following:
         ///
-        /// * COMPLAINT – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a complaint.
+        /// * COMPLAINT – Amazon SES adds an email address to the suppression list for your account or for a specific tenant when a message sent to that address results in a complaint.
         ///
-        /// * BOUNCE – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a hard bounce.
+        /// * BOUNCE – Amazon SES adds an email address to the suppression list for your account or for a specific tenant when a message sent to that address results in a hard bounce.
         public var suppressedReasons: [SESv2ClientTypes.SuppressionListReason]?
+        /// The suppression scope for the configuration set. This overrides the tenant or account suppression scope for emails sent using this configuration set. Can be one of the following:
+        ///
+        /// * TENANT – Use the tenant's suppression list.
+        ///
+        /// * ACCOUNT – Use the account-level suppression list.
+        public var suppressionScope: SESv2ClientTypes.SuppressionListScope?
         /// Contains validation options for email address suppression.
         public var validationOptions: SESv2ClientTypes.SuppressionValidationOptions?
 
         public init(
             suppressedReasons: [SESv2ClientTypes.SuppressionListReason]? = nil,
+            suppressionScope: SESv2ClientTypes.SuppressionListScope? = nil,
             validationOptions: SESv2ClientTypes.SuppressionValidationOptions? = nil
         ) {
             self.suppressedReasons = suppressedReasons
+            self.suppressionScope = suppressionScope
             self.validationOptions = validationOptions
         }
     }
@@ -2004,7 +2046,7 @@ public struct CreateConfigurationSetInput: Swift.Sendable {
     public var reputationOptions: SESv2ClientTypes.ReputationOptions?
     /// An object that defines whether or not Amazon SES can send email that you send using the configuration set.
     public var sendingOptions: SESv2ClientTypes.SendingOptions?
-    /// An object that contains information about the suppression list preferences for your account.
+    /// An object that contains information about the suppression list preferences for the configuration set. You can optionally include a SuppressionScope to override the tenant or account suppression scope for emails sent using this configuration set.
     public var suppressionOptions: SESv2ClientTypes.SuppressionOptions?
     /// An array of objects that define the tags (keys and values) to associate with the configuration set.
     public var tags: [SESv2ClientTypes.Tag]?
@@ -3839,8 +3881,40 @@ public struct CreateMultiRegionEndpointOutput: Swift.Sendable {
     }
 }
 
+extension SESv2ClientTypes {
+
+    /// An object that contains the suppression list preferences for a tenant.
+    public struct TenantSuppressionAttributes: Swift.Sendable {
+        /// A list that contains the reasons that email addresses are automatically added to the suppression list for the tenant. This list can contain any or all of the following:
+        ///
+        /// * COMPLAINT – Amazon SES adds an email address to the suppression list when a message sent to that address results in a complaint.
+        ///
+        /// * BOUNCE – Amazon SES adds an email address to the suppression list when a message sent to that address results in a hard bounce.
+        public var suppressedReasons: [SESv2ClientTypes.SuppressionListReason]?
+        /// The suppression scope for the tenant. Can be one of the following:
+        ///
+        /// * TENANT – The tenant uses its own suppression list.
+        ///
+        /// * ACCOUNT – The tenant uses the account-level suppression list.
+        ///
+        ///
+        /// If you don't specify a suppression scope, the tenant defaults to ACCOUNT scope and uses the account-level suppression list.
+        public var suppressionScope: SESv2ClientTypes.SuppressionListScope?
+
+        public init(
+            suppressedReasons: [SESv2ClientTypes.SuppressionListReason]? = nil,
+            suppressionScope: SESv2ClientTypes.SuppressionListScope? = nil
+        ) {
+            self.suppressedReasons = suppressedReasons
+            self.suppressionScope = suppressionScope
+        }
+    }
+}
+
 /// Represents a request to create a tenant. Tenants are logical containers that group related SES resources together. Each tenant can have its own set of resources like email identities, configuration sets, and templates, along with reputation metrics and sending status. This helps isolate and manage email sending for different customers or business units within your Amazon SES API v2 account.
 public struct CreateTenantInput: Swift.Sendable {
+    /// An object that contains information about the suppression list preferences for the tenant. Use this to configure tenant-level suppression at creation time.
+    public var suppressionAttributes: SESv2ClientTypes.TenantSuppressionAttributes?
     /// An array of objects that define the tags (keys and values) to associate with the tenant
     public var tags: [SESv2ClientTypes.Tag]?
     /// The name of the tenant to create. The name can contain up to 64 alphanumeric characters, including letters, numbers, hyphens (-) and underscores (_) only.
@@ -3848,9 +3922,11 @@ public struct CreateTenantInput: Swift.Sendable {
     public var tenantName: Swift.String?
 
     public init(
+        suppressionAttributes: SESv2ClientTypes.TenantSuppressionAttributes? = nil,
         tags: [SESv2ClientTypes.Tag]? = nil,
         tenantName: Swift.String? = nil
     ) {
+        self.suppressionAttributes = suppressionAttributes
         self.tags = tags
         self.tenantName = tenantName
     }
@@ -3901,6 +3977,8 @@ public struct CreateTenantOutput: Swift.Sendable {
     public var createdTimestamp: Foundation.Date?
     /// The status of email sending capability for the tenant.
     public var sendingStatus: SESv2ClientTypes.SendingStatus?
+    /// An object that contains the suppression list preferences for a tenant.
+    public var suppressionAttributes: SESv2ClientTypes.TenantSuppressionAttributes?
     /// An array of objects that define the tags (keys and values) associated with the tenant.
     public var tags: [SESv2ClientTypes.Tag]?
     /// The Amazon Resource Name (ARN) of the tenant.
@@ -3913,6 +3991,7 @@ public struct CreateTenantOutput: Swift.Sendable {
     public init(
         createdTimestamp: Foundation.Date? = nil,
         sendingStatus: SESv2ClientTypes.SendingStatus? = nil,
+        suppressionAttributes: SESv2ClientTypes.TenantSuppressionAttributes? = nil,
         tags: [SESv2ClientTypes.Tag]? = nil,
         tenantArn: Swift.String? = nil,
         tenantId: Swift.String? = nil,
@@ -3920,6 +3999,7 @@ public struct CreateTenantOutput: Swift.Sendable {
     ) {
         self.createdTimestamp = createdTimestamp
         self.sendingStatus = sendingStatus
+        self.suppressionAttributes = suppressionAttributes
         self.tags = tags
         self.tenantArn = tenantArn
         self.tenantId = tenantId
@@ -4395,16 +4475,20 @@ public struct DeleteMultiRegionEndpointOutput: Swift.Sendable {
     }
 }
 
-/// A request to remove an email address from the suppression list for your account.
+/// A request to remove an email address from the suppression list for your account or for a specific tenant.
 public struct DeleteSuppressedDestinationInput: Swift.Sendable {
-    /// The suppressed email destination to remove from the account suppression list.
+    /// The suppressed email destination to remove from the suppression list for your account or for the specified tenant.
     /// This member is required.
     public var emailAddress: Swift.String?
+    /// The name of the tenant whose suppression list you want to remove the address from. If you omit this parameter, the address is removed from the account-level suppression list.
+    public var tenantName: Swift.String?
 
     public init(
-        emailAddress: Swift.String? = nil
+        emailAddress: Swift.String? = nil,
+        tenantName: Swift.String? = nil
     ) {
         self.emailAddress = emailAddress
+        self.tenantName = tenantName
     }
 }
 
@@ -5251,7 +5335,7 @@ public struct GetConfigurationSetOutput: Swift.Sendable {
     public var reputationOptions: SESv2ClientTypes.ReputationOptions?
     /// An object that defines whether or not Amazon SES can send email that you send using the configuration set.
     public var sendingOptions: SESv2ClientTypes.SendingOptions?
-    /// An object that contains information about the suppression list preferences for your account.
+    /// An object that contains information about the suppression list preferences for your account or for a specific tenant.
     public var suppressionOptions: SESv2ClientTypes.SuppressionOptions?
     /// An array of objects that define the tags (keys and values) that are associated with the configuration set.
     public var tags: [SESv2ClientTypes.Tag]?
@@ -6558,26 +6642,30 @@ public struct GetReputationEntityOutput: Swift.Sendable {
     }
 }
 
-/// A request to retrieve information about an email address that's on the suppression list for your account.
+/// A request to retrieve information about an email address that's on the suppression list for your account or for a specific tenant.
 public struct GetSuppressedDestinationInput: Swift.Sendable {
-    /// The email address that's on the account suppression list.
+    /// The email address that's on the suppression list for your account or for the specified tenant.
     /// This member is required.
     public var emailAddress: Swift.String?
+    /// The name of the tenant whose suppression list you want to query. If you omit this parameter, the operation targets the account-level suppression list.
+    public var tenantName: Swift.String?
 
     public init(
-        emailAddress: Swift.String? = nil
+        emailAddress: Swift.String? = nil,
+        tenantName: Swift.String? = nil
     ) {
         self.emailAddress = emailAddress
+        self.tenantName = tenantName
     }
 }
 
 extension SESv2ClientTypes {
 
-    /// An object that contains additional attributes that are related an email address that is on the suppression list for your account.
+    /// An object that contains additional attributes that are related an email address that is on the suppression list for your account or for a specific tenant.
     public struct SuppressedDestinationAttributes: Swift.Sendable {
-        /// A unique identifier that's generated when an email address is added to the suppression list for your account.
+        /// A unique identifier that's generated when an email address is added to the suppression list for your account or for a specific tenant.
         public var feedbackId: Swift.String?
-        /// The unique identifier of the email message that caused the email address to be added to the suppression list for your account.
+        /// The unique identifier of the email message that caused the email address to be added to the suppression list for your account or for a specific tenant.
         public var messageId: Swift.String?
 
         public init(
@@ -6592,30 +6680,34 @@ extension SESv2ClientTypes {
 
 extension SESv2ClientTypes {
 
-    /// An object that contains information about an email address that is on the suppression list for your account.
+    /// An object that contains information about an email address that is on the suppression list for your account or for a specific tenant.
     public struct SuppressedDestination: Swift.Sendable {
-        /// An optional value that can contain additional information about the reasons that the address was added to the suppression list for your account.
+        /// An optional value that can contain additional information about the reasons that the address was added to the suppression list for your account or for a specific tenant.
         public var attributes: SESv2ClientTypes.SuppressedDestinationAttributes?
-        /// The email address that is on the suppression list for your account.
+        /// The email address that is on the suppression list for your account or for a specific tenant.
         /// This member is required.
         public var emailAddress: Swift.String?
         /// The date and time when the suppressed destination was last updated, shown in Unix time format.
         /// This member is required.
         public var lastUpdateTime: Foundation.Date?
-        /// The reason that the address was added to the suppression list for your account.
+        /// The reason that the address was added to the suppression list for your account or for a specific tenant.
         /// This member is required.
         public var reason: SESv2ClientTypes.SuppressionListReason?
+        /// The name of the tenant that the suppressed destination belongs to. This field is present only when the suppressed destination is on a tenant's suppression list.
+        public var tenantName: Swift.String?
 
         public init(
             attributes: SESv2ClientTypes.SuppressedDestinationAttributes? = nil,
             emailAddress: Swift.String? = nil,
             lastUpdateTime: Foundation.Date? = nil,
-            reason: SESv2ClientTypes.SuppressionListReason? = nil
+            reason: SESv2ClientTypes.SuppressionListReason? = nil,
+            tenantName: Swift.String? = nil
         ) {
             self.attributes = attributes
             self.emailAddress = emailAddress
             self.lastUpdateTime = lastUpdateTime
             self.reason = reason
+            self.tenantName = tenantName
         }
     }
 }
@@ -6654,6 +6746,8 @@ extension SESv2ClientTypes {
         public var createdTimestamp: Foundation.Date?
         /// The status of sending capability for the tenant.
         public var sendingStatus: SESv2ClientTypes.SendingStatus?
+        /// An object that contains information about the suppression list preferences for the tenant.
+        public var suppressionAttributes: SESv2ClientTypes.TenantSuppressionAttributes?
         /// An array of objects that define the tags (keys and values) associated with the tenant.
         public var tags: [SESv2ClientTypes.Tag]?
         /// The Amazon Resource Name (ARN) of the tenant.
@@ -6666,6 +6760,7 @@ extension SESv2ClientTypes {
         public init(
             createdTimestamp: Foundation.Date? = nil,
             sendingStatus: SESv2ClientTypes.SendingStatus? = nil,
+            suppressionAttributes: SESv2ClientTypes.TenantSuppressionAttributes? = nil,
             tags: [SESv2ClientTypes.Tag]? = nil,
             tenantArn: Swift.String? = nil,
             tenantId: Swift.String? = nil,
@@ -6673,6 +6768,7 @@ extension SESv2ClientTypes {
         ) {
             self.createdTimestamp = createdTimestamp
             self.sendingStatus = sendingStatus
+            self.suppressionAttributes = suppressionAttributes
             self.tags = tags
             self.tenantArn = tenantArn
             self.tenantId = tenantId
@@ -7684,7 +7780,7 @@ public struct ListResourceTenantsOutput: Swift.Sendable {
     }
 }
 
-/// A request to obtain a list of email destinations that are on the suppression list for your account.
+/// A request to obtain a list of email destinations that are on the suppression list for your account or for a specific tenant.
 public struct ListSuppressedDestinationsInput: Swift.Sendable {
     /// Used to filter the list of suppressed email destinations so that it only includes addresses that were added to the list before a specific date.
     public var endDate: Foundation.Date?
@@ -7692,23 +7788,27 @@ public struct ListSuppressedDestinationsInput: Swift.Sendable {
     public var nextToken: Swift.String?
     /// The number of results to show in a single call to ListSuppressedDestinations. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
     public var pageSize: Swift.Int?
-    /// The factors that caused the email address to be added to .
+    /// The factors that caused the email address to be added to the suppression list for your account or for a specific tenant.
     public var reasons: [SESv2ClientTypes.SuppressionListReason]?
     /// Used to filter the list of suppressed email destinations so that it only includes addresses that were added to the list after a specific date.
     public var startDate: Foundation.Date?
+    /// The name of the tenant whose suppression list you want to retrieve. If you omit this parameter, the operation targets the account-level suppression list.
+    public var tenantName: Swift.String?
 
     public init(
         endDate: Foundation.Date? = nil,
         nextToken: Swift.String? = nil,
         pageSize: Swift.Int? = nil,
         reasons: [SESv2ClientTypes.SuppressionListReason]? = nil,
-        startDate: Foundation.Date? = nil
+        startDate: Foundation.Date? = nil,
+        tenantName: Swift.String? = nil
     ) {
         self.endDate = endDate
         self.nextToken = nextToken
         self.pageSize = pageSize
         self.reasons = reasons
         self.startDate = startDate
+        self.tenantName = tenantName
     }
 }
 
@@ -7716,13 +7816,13 @@ extension SESv2ClientTypes {
 
     /// A summary that describes the suppressed email address.
     public struct SuppressedDestinationSummary: Swift.Sendable {
-        /// The email address that's on the suppression list for your account.
+        /// The email address that's on the suppression list for your account or for a specific tenant.
         /// This member is required.
         public var emailAddress: Swift.String?
         /// The date and time when the suppressed destination was last updated, shown in Unix time format.
         /// This member is required.
         public var lastUpdateTime: Foundation.Date?
-        /// The reason that the address was added to the suppression list for your account.
+        /// The reason that the address was added to the suppression list for your account or for a specific tenant.
         /// This member is required.
         public var reason: SESv2ClientTypes.SuppressionListReason?
 
@@ -7740,7 +7840,7 @@ extension SESv2ClientTypes {
 
 /// A list of suppressed email addresses.
 public struct ListSuppressedDestinationsOutput: Swift.Sendable {
-    /// A token that indicates that there are additional email addresses on the suppression list for your account. To view additional suppressed addresses, issue another request to ListSuppressedDestinations, and pass this token in the NextToken parameter.
+    /// A token that indicates that there are additional email addresses on the suppression list for your account or for the specified tenant. To view additional suppressed addresses, issue another request to ListSuppressedDestinations, and pass this token in the NextToken parameter.
     public var nextToken: Swift.String?
     /// A list of summaries, each containing a summary for a suppressed email destination.
     public var suppressedDestinationSummaries: [SESv2ClientTypes.SuppressedDestinationSummary]?
@@ -8189,27 +8289,35 @@ public struct PutConfigurationSetSendingOptionsOutput: Swift.Sendable {
     public init() { }
 }
 
-/// A request to change the account suppression list preferences for a specific configuration set.
+/// A request to change the suppression list preferences for a specific configuration set.
 public struct PutConfigurationSetSuppressionOptionsInput: Swift.Sendable {
     /// The name of the configuration set to change the suppression list preferences for.
     /// This member is required.
     public var configurationSetName: Swift.String?
-    /// A list that contains the reasons that email addresses are automatically added to the suppression list for your account. This list can contain any or all of the following:
+    /// A list that contains the reasons that email addresses are automatically added to the suppression list for your account or for a specific tenant. This list can contain any or all of the following:
     ///
-    /// * COMPLAINT – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a complaint.
+    /// * COMPLAINT – Amazon SES adds an email address to the suppression list for your account or for a specific tenant when a message sent to that address results in a complaint.
     ///
-    /// * BOUNCE – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a hard bounce.
+    /// * BOUNCE – Amazon SES adds an email address to the suppression list for your account or for a specific tenant when a message sent to that address results in a hard bounce.
     public var suppressedReasons: [SESv2ClientTypes.SuppressionListReason]?
+    /// The suppression scope for the configuration set. This overrides the tenant or account suppression scope for emails sent using this configuration set. Can be one of the following:
+    ///
+    /// * TENANT – Use the tenant's suppression list.
+    ///
+    /// * ACCOUNT – Use the account-level suppression list.
+    public var suppressionScope: SESv2ClientTypes.SuppressionListScope?
     /// An object that contains information about the email address suppression preferences for the configuration set in the current Amazon Web Services Region.
     public var validationOptions: SESv2ClientTypes.SuppressionValidationOptions?
 
     public init(
         configurationSetName: Swift.String? = nil,
         suppressedReasons: [SESv2ClientTypes.SuppressionListReason]? = nil,
+        suppressionScope: SESv2ClientTypes.SuppressionListScope? = nil,
         validationOptions: SESv2ClientTypes.SuppressionValidationOptions? = nil
     ) {
         self.configurationSetName = configurationSetName
         self.suppressedReasons = suppressedReasons
+        self.suppressionScope = suppressionScope
         self.validationOptions = validationOptions
     }
 }
@@ -8527,26 +8635,61 @@ public struct PutEmailIdentityMailFromAttributesOutput: Swift.Sendable {
     public init() { }
 }
 
-/// A request to add an email destination to the suppression list for your account.
+/// A request to add an email destination to the suppression list for your account or for a specific tenant.
 public struct PutSuppressedDestinationInput: Swift.Sendable {
-    /// The email address that should be added to the suppression list for your account.
+    /// The email address that should be added to the suppression list for your account or for the specified tenant.
     /// This member is required.
     public var emailAddress: Swift.String?
-    /// The factors that should cause the email address to be added to the suppression list for your account.
+    /// The factors that should cause the email address to be added to the suppression list for your account or for the specified tenant.
     /// This member is required.
     public var reason: SESv2ClientTypes.SuppressionListReason?
+    /// The name of the tenant whose suppression list you want to add the address to. If you omit this parameter, the address is added to the account-level suppression list.
+    public var tenantName: Swift.String?
 
     public init(
         emailAddress: Swift.String? = nil,
-        reason: SESv2ClientTypes.SuppressionListReason? = nil
+        reason: SESv2ClientTypes.SuppressionListReason? = nil,
+        tenantName: Swift.String? = nil
     ) {
         self.emailAddress = emailAddress
         self.reason = reason
+        self.tenantName = tenantName
     }
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
 public struct PutSuppressedDestinationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+/// A request to configure the suppression list preferences for a tenant.
+public struct PutTenantSuppressionAttributesInput: Swift.Sendable {
+    /// A list that contains the reasons that email addresses are automatically added to the suppression list for the tenant. This list can contain any or all of the following:
+    ///
+    /// * COMPLAINT – Amazon SES adds an email address to the suppression list when a message sent to that address results in a complaint.
+    ///
+    /// * BOUNCE – Amazon SES adds an email address to the suppression list when a message sent to that address results in a hard bounce.
+    public var suppressedReasons: [SESv2ClientTypes.SuppressionListReason]?
+    /// The suppression scope for the tenant. Specify TENANT to use the tenant's own suppression list, or ACCOUNT to use the account-level suppression list. If you don't specify a suppression scope, the tenant defaults to ACCOUNT scope and uses the account-level suppression list.
+    public var suppressionScope: SESv2ClientTypes.SuppressionListScope?
+    /// The name of the tenant to configure suppression list preferences for.
+    /// This member is required.
+    public var tenantName: Swift.String?
+
+    public init(
+        suppressedReasons: [SESv2ClientTypes.SuppressionListReason]? = nil,
+        suppressionScope: SESv2ClientTypes.SuppressionListScope? = nil,
+        tenantName: Swift.String? = nil
+    ) {
+        self.suppressedReasons = suppressedReasons
+        self.suppressionScope = suppressionScope
+        self.tenantName = tenantName
+    }
+}
+
+/// If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
+public struct PutTenantSuppressionAttributesOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -9298,6 +9441,18 @@ extension DeleteSuppressedDestinationInput {
     }
 }
 
+extension DeleteSuppressedDestinationInput {
+
+    static func queryItemProvider(_ value: DeleteSuppressedDestinationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let tenantName = value.tenantName {
+            let tenantNameQueryItem = Smithy.URIQueryItem(name: "TenantName".urlPercentEncoding(), value: Swift.String(tenantName).urlPercentEncoding())
+            items.append(tenantNameQueryItem)
+        }
+        return items
+    }
+}
+
 extension DeleteTenantInput {
 
     static func urlPathProvider(_ value: DeleteTenantInput) -> Swift.String? {
@@ -9599,6 +9754,18 @@ extension GetSuppressedDestinationInput {
     }
 }
 
+extension GetSuppressedDestinationInput {
+
+    static func queryItemProvider(_ value: GetSuppressedDestinationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let tenantName = value.tenantName {
+            let tenantNameQueryItem = Smithy.URIQueryItem(name: "TenantName".urlPercentEncoding(), value: Swift.String(tenantName).urlPercentEncoding())
+            items.append(tenantNameQueryItem)
+        }
+        return items
+    }
+}
+
 extension GetTenantInput {
 
     static func urlPathProvider(_ value: GetTenantInput) -> Swift.String? {
@@ -9896,6 +10063,10 @@ extension ListSuppressedDestinationsInput {
             let pageSizeQueryItem = Smithy.URIQueryItem(name: "PageSize".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
             items.append(pageSizeQueryItem)
         }
+        if let tenantName = value.tenantName {
+            let tenantNameQueryItem = Smithy.URIQueryItem(name: "TenantName".urlPercentEncoding(), value: Swift.String(tenantName).urlPercentEncoding())
+            items.append(tenantNameQueryItem)
+        }
         if let reasons = value.reasons {
             reasons.forEach { queryItemValue in
                 let queryItem = Smithy.URIQueryItem(name: "Reason".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
@@ -10141,6 +10312,13 @@ extension PutSuppressedDestinationInput {
 
     static func urlPathProvider(_ value: PutSuppressedDestinationInput) -> Swift.String? {
         return "/v2/email/suppression/addresses"
+    }
+}
+
+extension PutTenantSuppressionAttributesInput {
+
+    static func urlPathProvider(_ value: PutTenantSuppressionAttributesInput) -> Swift.String? {
+        return "/v2/email/tenant/suppression"
     }
 }
 
@@ -10457,6 +10635,7 @@ extension CreateTenantInput {
 
     static func write(value: CreateTenantInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["SuppressionAttributes"].write(value.suppressionAttributes, with: SESv2ClientTypes.TenantSuppressionAttributes.write(value:to:))
         try writer["Tags"].writeList(value.tags, memberWritingClosure: SESv2ClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["TenantName"].write(value.tenantName)
     }
@@ -10670,6 +10849,7 @@ extension PutConfigurationSetSuppressionOptionsInput {
     static func write(value: PutConfigurationSetSuppressionOptionsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["SuppressedReasons"].writeList(value.suppressedReasons, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SESv2ClientTypes.SuppressionListReason>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SuppressionScope"].write(value.suppressionScope)
         try writer["ValidationOptions"].write(value.validationOptions, with: SESv2ClientTypes.SuppressionValidationOptions.write(value:to:))
     }
 }
@@ -10772,6 +10952,17 @@ extension PutSuppressedDestinationInput {
         guard let value else { return }
         try writer["EmailAddress"].write(value.emailAddress)
         try writer["Reason"].write(value.reason)
+        try writer["TenantName"].write(value.tenantName)
+    }
+}
+
+extension PutTenantSuppressionAttributesInput {
+
+    static func write(value: PutTenantSuppressionAttributesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SuppressedReasons"].writeList(value.suppressedReasons, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SESv2ClientTypes.SuppressionListReason>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SuppressionScope"].write(value.suppressionScope)
+        try writer["TenantName"].write(value.tenantName)
     }
 }
 
@@ -11059,6 +11250,7 @@ extension CreateTenantOutput {
         var value = CreateTenantOutput()
         value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.sendingStatus = try reader["SendingStatus"].readIfPresent()
+        value.suppressionAttributes = try reader["SuppressionAttributes"].readIfPresent(with: SESv2ClientTypes.TenantSuppressionAttributes.read(from:))
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: SESv2ClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.tenantArn = try reader["TenantArn"].readIfPresent()
         value.tenantId = try reader["TenantId"].readIfPresent()
@@ -11953,6 +12145,13 @@ extension PutSuppressedDestinationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutSuppressedDestinationOutput {
         return PutSuppressedDestinationOutput()
+    }
+}
+
+extension PutTenantSuppressionAttributesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutTenantSuppressionAttributesOutput {
+        return PutTenantSuppressionAttributesOutput()
     }
 }
 
@@ -13225,6 +13424,7 @@ enum ListSuppressedDestinationsOutputError {
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
             case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -13622,6 +13822,23 @@ enum PutSuppressedDestinationOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutTenantSuppressionAttributesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -15261,6 +15478,7 @@ extension SESv2ClientTypes.SuppressedDestination {
         value.reason = try reader["Reason"].readIfPresent() ?? .sdkUnknown("")
         value.lastUpdateTime = try reader["LastUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.attributes = try reader["Attributes"].readIfPresent(with: SESv2ClientTypes.SuppressedDestinationAttributes.read(from:))
+        value.tenantName = try reader["TenantName"].readIfPresent()
         return value
     }
 }
@@ -15351,6 +15569,7 @@ extension SESv2ClientTypes.SuppressionOptions {
     static func write(value: SESv2ClientTypes.SuppressionOptions?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["SuppressedReasons"].writeList(value.suppressedReasons, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SESv2ClientTypes.SuppressionListReason>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SuppressionScope"].write(value.suppressionScope)
         try writer["ValidationOptions"].write(value.validationOptions, with: SESv2ClientTypes.SuppressionValidationOptions.write(value:to:))
     }
 
@@ -15358,6 +15577,7 @@ extension SESv2ClientTypes.SuppressionOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SESv2ClientTypes.SuppressionOptions()
         value.suppressedReasons = try reader["SuppressedReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SESv2ClientTypes.SuppressionListReason>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.suppressionScope = try reader["SuppressionScope"].readIfPresent()
         value.validationOptions = try reader["ValidationOptions"].readIfPresent(with: SESv2ClientTypes.SuppressionValidationOptions.read(from:))
         return value
     }
@@ -15434,6 +15654,7 @@ extension SESv2ClientTypes.Tenant {
         value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: SESv2ClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.sendingStatus = try reader["SendingStatus"].readIfPresent()
+        value.suppressionAttributes = try reader["SuppressionAttributes"].readIfPresent(with: SESv2ClientTypes.TenantSuppressionAttributes.read(from:))
         return value
     }
 }
@@ -15458,6 +15679,23 @@ extension SESv2ClientTypes.TenantResource {
         var value = SESv2ClientTypes.TenantResource()
         value.resourceType = try reader["ResourceType"].readIfPresent()
         value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        return value
+    }
+}
+
+extension SESv2ClientTypes.TenantSuppressionAttributes {
+
+    static func write(value: SESv2ClientTypes.TenantSuppressionAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SuppressedReasons"].writeList(value.suppressedReasons, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SESv2ClientTypes.SuppressionListReason>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SuppressionScope"].write(value.suppressionScope)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.TenantSuppressionAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.TenantSuppressionAttributes()
+        value.suppressedReasons = try reader["SuppressedReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SESv2ClientTypes.SuppressionListReason>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.suppressionScope = try reader["SuppressionScope"].readIfPresent()
         return value
     }
 }

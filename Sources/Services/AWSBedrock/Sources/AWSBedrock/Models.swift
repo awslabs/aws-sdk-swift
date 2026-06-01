@@ -2171,7 +2171,9 @@ extension BedrockClientTypes {
         case generatePolicyScenarios
         case importPolicy
         case ingestContent
+        case iterativelyRefinePolicy
         case refinePolicy
+        case resolvePolicyAmbiguities
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AutomatedReasoningPolicyBuildWorkflowType] {
@@ -2180,7 +2182,9 @@ extension BedrockClientTypes {
                 .generatePolicyScenarios,
                 .importPolicy,
                 .ingestContent,
-                .refinePolicy
+                .iterativelyRefinePolicy,
+                .refinePolicy,
+                .resolvePolicyAmbiguities
             ]
         }
 
@@ -2195,7 +2199,9 @@ extension BedrockClientTypes {
             case .generatePolicyScenarios: return "GENERATE_POLICY_SCENARIOS"
             case .importPolicy: return "IMPORT_POLICY"
             case .ingestContent: return "INGEST_CONTENT"
+            case .iterativelyRefinePolicy: return "ITERATIVELY_REFINE_POLICY"
             case .refinePolicy: return "REFINE_POLICY"
+            case .resolvePolicyAmbiguities: return "RESOLVE_POLICY_AMBIGUITIES"
             case let .sdkUnknown(s): return s
             }
         }
@@ -4275,6 +4281,31 @@ extension BedrockClientTypes {
 
 extension BedrockClientTypes {
 
+    /// Configuration for an iterative policy refinement workflow, including source documents to process and optional feedback to guide the refinement.
+    public struct AutomatedReasoningPolicyIterativeRefinementContent: Swift.Sendable {
+        /// Source documents used for iterative policy refinement. These documents provide context for refining the policy definition.
+        /// This member is required.
+        public var documents: [BedrockClientTypes.AutomatedReasoningPolicyBuildWorkflowDocument]?
+        /// Optional feedback to guide the iterative refinement workflow. Provide specific instructions or constraints for policy refinement.
+        public var feedback: Swift.String?
+
+        public init(
+            documents: [BedrockClientTypes.AutomatedReasoningPolicyBuildWorkflowDocument]? = nil,
+            feedback: Swift.String? = nil
+        ) {
+            self.documents = documents
+            self.feedback = feedback
+        }
+    }
+}
+
+extension BedrockClientTypes.AutomatedReasoningPolicyIterativeRefinementContent: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AutomatedReasoningPolicyIterativeRefinementContent(documents: \(Swift.String(describing: documents)), feedback: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockClientTypes {
+
     /// Contains content and instructions for repairing or improving an existing Automated Reasoning policy.
     public struct AutomatedReasoningPolicyBuildWorkflowRepairContent: Swift.Sendable {
         /// Specific annotations or modifications to apply during the policy repair process, such as rule corrections or variable updates.
@@ -4299,6 +4330,8 @@ extension BedrockClientTypes {
         case policyrepairassets(BedrockClientTypes.AutomatedReasoningPolicyBuildWorkflowRepairContent)
         /// The content configuration for generating a fidelity report workflow. This can include source documents to analyze or an existing fidelity report to update with a new policy definition.
         case generatefidelityreportcontent(BedrockClientTypes.AutomatedReasoningPolicyGenerateFidelityReportContent)
+        /// Content configuration to start an iterative policy refinement workflow that uses generative AI to automatically make changes to the policy based on test results and the optional feedback provided.
+        case iterativerefinementcontent(BedrockClientTypes.AutomatedReasoningPolicyIterativeRefinementContent)
         case sdkUnknown(Swift.String)
     }
 }
@@ -20841,6 +20874,15 @@ extension BedrockClientTypes.AutomatedReasoningPolicyIngestContentAnnotation {
     }
 }
 
+extension BedrockClientTypes.AutomatedReasoningPolicyIterativeRefinementContent {
+
+    static func write(value: BedrockClientTypes.AutomatedReasoningPolicyIterativeRefinementContent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["documents"].writeList(value.documents, memberWritingClosure: BedrockClientTypes.AutomatedReasoningPolicyBuildWorkflowDocument.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["feedback"].write(value.feedback)
+    }
+}
+
 extension BedrockClientTypes.AutomatedReasoningPolicyMutation {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.AutomatedReasoningPolicyMutation {
@@ -21210,6 +21252,8 @@ extension BedrockClientTypes.AutomatedReasoningPolicyWorkflowTypeContent {
                 try writer["documents"].writeList(documents, memberWritingClosure: BedrockClientTypes.AutomatedReasoningPolicyBuildWorkflowDocument.write(value:to:), memberNodeInfo: "member", isFlattened: false)
             case let .generatefidelityreportcontent(generatefidelityreportcontent):
                 try writer["generateFidelityReportContent"].write(generatefidelityreportcontent, with: BedrockClientTypes.AutomatedReasoningPolicyGenerateFidelityReportContent.write(value:to:))
+            case let .iterativerefinementcontent(iterativerefinementcontent):
+                try writer["iterativeRefinementContent"].write(iterativerefinementcontent, with: BedrockClientTypes.AutomatedReasoningPolicyIterativeRefinementContent.write(value:to:))
             case let .policyrepairassets(policyrepairassets):
                 try writer["policyRepairAssets"].write(policyrepairassets, with: BedrockClientTypes.AutomatedReasoningPolicyBuildWorkflowRepairContent.write(value:to:))
             case let .sdkUnknown(sdkUnknown):

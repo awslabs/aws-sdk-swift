@@ -1734,7 +1734,7 @@ extension SESv2Client {
 
     /// Performs the `CreateTenant` operation on the `SESv2` service.
     ///
-    /// Create a tenant. Tenants are logical containers that group related SES resources together. Each tenant can have its own set of resources like email identities, configuration sets, and templates, along with reputation metrics and sending status. This helps isolate and manage email sending for different customers or business units within your Amazon SES API v2 account.
+    /// Create a tenant. Tenants are logical containers that group related SES resources together. Each tenant can have its own set of resources like email identities, configuration sets, and templates, along with reputation metrics and sending status. This helps isolate and manage email sending for different customers or business units within your Amazon SES API v2 account. You can optionally specify SuppressionAttributes to configure tenant-level suppression at creation time. When tenant-level suppression is enabled, Amazon SES maintains a separate suppression list for the tenant instead of using the account-level suppression list.
     ///
     /// - Parameter input: Represents a request to create a tenant. Tenants are logical containers that group related SES resources together. Each tenant can have its own set of resources like email identities, configuration sets, and templates, along with reputation metrics and sending status. This helps isolate and manage email sending for different customers or business units within your Amazon SES API v2 account. (Type: `CreateTenantInput`)
     ///
@@ -2575,9 +2575,9 @@ extension SESv2Client {
 
     /// Performs the `DeleteSuppressedDestination` operation on the `SESv2` service.
     ///
-    /// Removes an email address from the suppression list for your account.
+    /// Removes an email address from the suppression list for your account or for a specific tenant. To target a tenant's suppression list, specify the TenantName parameter. If you omit TenantName, the address is removed from the account-level suppression list.
     ///
-    /// - Parameter input: A request to remove an email address from the suppression list for your account. (Type: `DeleteSuppressedDestinationInput`)
+    /// - Parameter input: A request to remove an email address from the suppression list for your account or for a specific tenant. (Type: `DeleteSuppressedDestinationInput`)
     ///
     /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `DeleteSuppressedDestinationOutput`)
     ///
@@ -2611,6 +2611,7 @@ extension SESv2Client {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteSuppressedDestinationInput, DeleteSuppressedDestinationOutput>(DeleteSuppressedDestinationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSuppressedDestinationInput, DeleteSuppressedDestinationOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteSuppressedDestinationInput, DeleteSuppressedDestinationOutput>(DeleteSuppressedDestinationInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSuppressedDestinationOutput>(DeleteSuppressedDestinationOutput.httpOutput(from:), DeleteSuppressedDestinationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSuppressedDestinationInput, DeleteSuppressedDestinationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
@@ -3965,7 +3966,7 @@ extension SESv2Client {
 
     /// Performs the `GetEmailTemplate` operation on the `SESv2` service.
     ///
-    /// Displays the template object (which includes the subject line, HTML part and text part) for the template you specify. You can execute this operation no more than once per second.
+    /// Displays the template object (which includes the subject line, HTML part and text part) for the template you specify. You can execute this operation no more than 50 times per second.
     ///
     /// - Parameter input: Represents a request to display the template object (which includes the subject line, HTML part and text part) for the template you specify. (Type: `GetEmailTemplateInput`)
     ///
@@ -4379,9 +4380,9 @@ extension SESv2Client {
 
     /// Performs the `GetSuppressedDestination` operation on the `SESv2` service.
     ///
-    /// Retrieves information about a specific email address that's on the suppression list for your account.
+    /// Retrieves information about a specific email address that's on the suppression list for your account or for a specific tenant. To target a tenant's suppression list, specify the TenantName parameter. If you omit TenantName, the operation targets the account-level suppression list.
     ///
-    /// - Parameter input: A request to retrieve information about an email address that's on the suppression list for your account. (Type: `GetSuppressedDestinationInput`)
+    /// - Parameter input: A request to retrieve information about an email address that's on the suppression list for your account or for a specific tenant. (Type: `GetSuppressedDestinationInput`)
     ///
     /// - Returns: Information about the suppressed email address. (Type: `GetSuppressedDestinationOutput`)
     ///
@@ -4415,6 +4416,7 @@ extension SESv2Client {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetSuppressedDestinationInput, GetSuppressedDestinationOutput>(GetSuppressedDestinationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSuppressedDestinationInput, GetSuppressedDestinationOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<GetSuppressedDestinationInput, GetSuppressedDestinationOutput>(GetSuppressedDestinationInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSuppressedDestinationOutput>(GetSuppressedDestinationOutput.httpOutput(from:), GetSuppressedDestinationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSuppressedDestinationInput, GetSuppressedDestinationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
@@ -4448,7 +4450,7 @@ extension SESv2Client {
 
     /// Performs the `GetTenant` operation on the `SESv2` service.
     ///
-    /// Get information about a specific tenant, including the tenant's name, ID, ARN, creation timestamp, tags, and sending status.
+    /// Get information about a specific tenant, including the tenant's name, ID, ARN, creation timestamp, tags, sending status, and suppression attributes.
     ///
     /// - Parameter input: Represents a request to get information about a specific tenant. (Type: `GetTenantInput`)
     ///
@@ -5572,9 +5574,9 @@ extension SESv2Client {
 
     /// Performs the `ListSuppressedDestinations` operation on the `SESv2` service.
     ///
-    /// Retrieves a list of email addresses that are on the suppression list for your account.
+    /// Retrieves a list of email addresses that are on the suppression list for your account or for a specific tenant. To target a tenant's suppression list, specify the TenantName parameter. If you omit TenantName, the operation targets the account-level suppression list.
     ///
-    /// - Parameter input: A request to obtain a list of email destinations that are on the suppression list for your account. (Type: `ListSuppressedDestinationsInput`)
+    /// - Parameter input: A request to obtain a list of email destinations that are on the suppression list for your account or for a specific tenant. (Type: `ListSuppressedDestinationsInput`)
     ///
     /// - Returns: A list of suppressed email addresses. (Type: `ListSuppressedDestinationsOutput`)
     ///
@@ -5583,6 +5585,7 @@ extension SESv2Client {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `InvalidNextTokenException` : The specified request includes an invalid or expired token.
+    /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     public func listSuppressedDestinations(input: ListSuppressedDestinationsInput) async throws -> ListSuppressedDestinationsOutput {
         let context = Smithy.ContextBuilder()
@@ -6499,9 +6502,9 @@ extension SESv2Client {
 
     /// Performs the `PutConfigurationSetSuppressionOptions` operation on the `SESv2` service.
     ///
-    /// Specify the account suppression list preferences for a configuration set.
+    /// Specify the suppression list preferences for a configuration set. You can also use this operation to specify a SuppressionScope to override the suppression scope of the tenant or account for emails sent using this configuration set.
     ///
-    /// - Parameter input: A request to change the account suppression list preferences for a specific configuration set. (Type: `PutConfigurationSetSuppressionOptionsInput`)
+    /// - Parameter input: A request to change the suppression list preferences for a specific configuration set. (Type: `PutConfigurationSetSuppressionOptionsInput`)
     ///
     /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `PutConfigurationSetSuppressionOptionsOutput`)
     ///
@@ -7378,9 +7381,9 @@ extension SESv2Client {
 
     /// Performs the `PutSuppressedDestination` operation on the `SESv2` service.
     ///
-    /// Adds an email address to the suppression list for your account.
+    /// Adds an email address to the suppression list for your account or for a specific tenant. To target a tenant's suppression list, specify the TenantName parameter. If you omit TenantName, the address is added to the account-level suppression list.
     ///
-    /// - Parameter input: A request to add an email destination to the suppression list for your account. (Type: `PutSuppressedDestinationInput`)
+    /// - Parameter input: A request to add an email destination to the suppression list for your account or for a specific tenant. (Type: `PutSuppressedDestinationInput`)
     ///
     /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `PutSuppressedDestinationOutput`)
     ///
@@ -7388,6 +7391,7 @@ extension SESv2Client {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : The input you provided is invalid.
+    /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     public func putSuppressedDestination(input: PutSuppressedDestinationInput) async throws -> PutSuppressedDestinationOutput {
         let context = Smithy.ContextBuilder()
@@ -7435,6 +7439,78 @@ extension SESv2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SESv2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutSuppressedDestination")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `PutTenantSuppressionAttributes` operation on the `SESv2` service.
+    ///
+    /// Configure the suppression list preferences for a tenant. Use this operation to enable or disable tenant-level suppression, or to change the suppressed reasons for a tenant. When you set the suppression scope to TENANT, Amazon SES maintains a separate suppression list for the tenant. When you set the scope to ACCOUNT, the tenant uses the account-level suppression list.
+    ///
+    /// - Parameter input: A request to configure the suppression list preferences for a tenant. (Type: `PutTenantSuppressionAttributesInput`)
+    ///
+    /// - Returns: If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body. (Type: `PutTenantSuppressionAttributesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input you provided is invalid.
+    /// - `NotFoundException` : The resource you attempted to access doesn't exist.
+    /// - `TooManyRequestsException` : Too many requests have been made to the operation.
+    public func putTenantSuppressionAttributes(input: PutTenantSuppressionAttributesInput) async throws -> PutTenantSuppressionAttributesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "putTenantSuppressionAttributes")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ses")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<PutTenantSuppressionAttributesInput, PutTenantSuppressionAttributesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutTenantSuppressionAttributesInput, PutTenantSuppressionAttributesOutput>(PutTenantSuppressionAttributesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutTenantSuppressionAttributesInput, PutTenantSuppressionAttributesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutTenantSuppressionAttributesInput, PutTenantSuppressionAttributesOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutTenantSuppressionAttributesInput, PutTenantSuppressionAttributesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutTenantSuppressionAttributesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutTenantSuppressionAttributesInput, PutTenantSuppressionAttributesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutTenantSuppressionAttributesOutput>(PutTenantSuppressionAttributesOutput.httpOutput(from:), PutTenantSuppressionAttributesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutTenantSuppressionAttributesInput, PutTenantSuppressionAttributesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutTenantSuppressionAttributesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SESv2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutTenantSuppressionAttributesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutTenantSuppressionAttributesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutTenantSuppressionAttributesInput, PutTenantSuppressionAttributesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutTenantSuppressionAttributesInput, PutTenantSuppressionAttributesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutTenantSuppressionAttributesInput, PutTenantSuppressionAttributesOutput>(serviceID: serviceName, version: SESv2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SESv2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutTenantSuppressionAttributes")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

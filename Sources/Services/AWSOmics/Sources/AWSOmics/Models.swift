@@ -6300,6 +6300,8 @@ public struct GetRunOutput: Swift.Sendable {
     public var definition: Swift.String?
     /// The run's digest.
     public var digest: Swift.String?
+    /// The engine-specific settings for the workflow run.
+    public var engineSettings: Smithy.Document?
     /// The actual Nextflow engine version that Amazon Web Services HealthOmics used for the run. The other workflow definition languages don't provide a value for this field.
     public var engineVersion: Swift.String?
     /// The reason a run has failed.
@@ -6373,6 +6375,7 @@ public struct GetRunOutput: Swift.Sendable {
         creationTime: Foundation.Date? = nil,
         definition: Swift.String? = nil,
         digest: Swift.String? = nil,
+        engineSettings: Smithy.Document? = nil,
         engineVersion: Swift.String? = nil,
         failureReason: Swift.String? = nil,
         id: Swift.String? = nil,
@@ -6414,6 +6417,7 @@ public struct GetRunOutput: Swift.Sendable {
         self.creationTime = creationTime
         self.definition = definition
         self.digest = digest
+        self.engineSettings = engineSettings
         self.engineVersion = engineVersion
         self.failureReason = failureReason
         self.id = id
@@ -7192,6 +7196,10 @@ public struct GetWorkflowOutput: Swift.Sendable {
     public var name: Swift.String?
     /// The workflow's parameter template.
     public var parameterTemplate: [Swift.String: OmicsClientTypes.WorkflowParameter]?
+    /// A mapping of profile names to their parameter templates. Each profile defines its own set of parameters that you can use when starting a run with that profile.
+    public var profileParameterTemplates: [Swift.String: [Swift.String: OmicsClientTypes.WorkflowParameter]]?
+    /// The list of Nextflow profiles that are available for this workflow. Profiles allow you to select predefined configuration settings at runtime.
+    public var profiles: [Swift.String]?
     /// The README content for the workflow, providing documentation and usage information.
     public var readme: Swift.String?
     /// The path to the workflow README markdown file within the repository. This file provides documentation and usage information for the workflow. If not specified, the README.md file from the root directory of the repository will be used.
@@ -7226,6 +7234,8 @@ public struct GetWorkflowOutput: Swift.Sendable {
         metadata: [Swift.String: Swift.String]? = nil,
         name: Swift.String? = nil,
         parameterTemplate: [Swift.String: OmicsClientTypes.WorkflowParameter]? = nil,
+        profileParameterTemplates: [Swift.String: [Swift.String: OmicsClientTypes.WorkflowParameter]]? = nil,
+        profiles: [Swift.String]? = nil,
         readme: Swift.String? = nil,
         readmePath: Swift.String? = nil,
         status: OmicsClientTypes.WorkflowStatus? = nil,
@@ -7250,6 +7260,8 @@ public struct GetWorkflowOutput: Swift.Sendable {
         self.metadata = metadata
         self.name = name
         self.parameterTemplate = parameterTemplate
+        self.profileParameterTemplates = profileParameterTemplates
+        self.profiles = profiles
         self.readme = readme
         self.readmePath = readmePath
         self.status = status
@@ -7316,6 +7328,10 @@ public struct GetWorkflowVersionOutput: Swift.Sendable {
     public var metadata: [Swift.String: Swift.String]?
     /// The parameter template for the workflow version.
     public var parameterTemplate: [Swift.String: OmicsClientTypes.WorkflowParameter]?
+    /// A mapping of profile names to their parameter templates. Each profile defines its own set of parameters that you can use when starting a run with that profile.
+    public var profileParameterTemplates: [Swift.String: [Swift.String: OmicsClientTypes.WorkflowParameter]]?
+    /// The list of Nextflow profiles that are available for this workflow version. Profiles allow you to select predefined configuration settings at runtime.
+    public var profiles: [Swift.String]?
     /// The README content for the workflow version, providing documentation and usage information specific to this version.
     public var readme: Swift.String?
     /// The path to the workflow version README markdown file within the repository. This file provides documentation and usage information for the workflow. If not specified, the README.md file from the root directory of the repository will be used.
@@ -7354,6 +7370,8 @@ public struct GetWorkflowVersionOutput: Swift.Sendable {
         main: Swift.String? = nil,
         metadata: [Swift.String: Swift.String]? = nil,
         parameterTemplate: [Swift.String: OmicsClientTypes.WorkflowParameter]? = nil,
+        profileParameterTemplates: [Swift.String: [Swift.String: OmicsClientTypes.WorkflowParameter]]? = nil,
+        profiles: [Swift.String]? = nil,
         readme: Swift.String? = nil,
         readmePath: Swift.String? = nil,
         status: OmicsClientTypes.WorkflowStatus? = nil,
@@ -7379,6 +7397,8 @@ public struct GetWorkflowVersionOutput: Swift.Sendable {
         self.main = main
         self.metadata = metadata
         self.parameterTemplate = parameterTemplate
+        self.profileParameterTemplates = profileParameterTemplates
+        self.profiles = profiles
         self.readme = readme
         self.readmePath = readmePath
         self.status = status
@@ -9649,6 +9669,8 @@ public struct StartRunInput: Swift.Sendable {
     public var cacheId: Swift.String?
     /// Optional configuration name to use for the workflow run.
     public var configurationName: Swift.String?
+    /// Engine-specific settings for the workflow run. Use this field to specify configuration options that are specific to the workflow engine (for example, Nextflow profiles).
+    public var engineSettings: Smithy.Document?
     /// A log level for the run.
     public var logLevel: OmicsClientTypes.RunLogLevel?
     /// A name for the run. This is recommended to view and organize runs in the Amazon Web Services HealthOmics console and CloudWatch logs.
@@ -9693,6 +9715,7 @@ public struct StartRunInput: Swift.Sendable {
         cacheBehavior: OmicsClientTypes.CacheBehavior? = nil,
         cacheId: Swift.String? = nil,
         configurationName: Swift.String? = nil,
+        engineSettings: Smithy.Document? = nil,
         logLevel: OmicsClientTypes.RunLogLevel? = nil,
         name: Swift.String? = nil,
         networkingMode: OmicsClientTypes.NetworkingMode? = nil,
@@ -9715,6 +9738,7 @@ public struct StartRunInput: Swift.Sendable {
         self.cacheBehavior = cacheBehavior
         self.cacheId = cacheId
         self.configurationName = configurationName
+        self.engineSettings = engineSettings
         self.logLevel = logLevel
         self.name = name
         self.networkingMode = networkingMode
@@ -12483,6 +12507,7 @@ extension StartRunInput {
         try writer["cacheBehavior"].write(value.cacheBehavior)
         try writer["cacheId"].write(value.cacheId)
         try writer["configurationName"].write(value.configurationName)
+        try writer["engineSettings"].write(value.engineSettings)
         try writer["logLevel"].write(value.logLevel)
         try writer["name"].write(value.name)
         try writer["networkingMode"].write(value.networkingMode)
@@ -13349,6 +13374,7 @@ extension GetRunOutput {
         value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.definition = try reader["definition"].readIfPresent()
         value.digest = try reader["digest"].readIfPresent()
+        value.engineSettings = try reader["engineSettings"].readIfPresent()
         value.engineVersion = try reader["engineVersion"].readIfPresent()
         value.failureReason = try reader["failureReason"].readIfPresent()
         value.id = try reader["id"].readIfPresent()
@@ -13570,6 +13596,8 @@ extension GetWorkflowOutput {
         value.metadata = try reader["metadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.name = try reader["name"].readIfPresent()
         value.parameterTemplate = try reader["parameterTemplate"].readMapIfPresent(valueReadingClosure: OmicsClientTypes.WorkflowParameter.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.profileParameterTemplates = try reader["profileParameterTemplates"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: OmicsClientTypes.WorkflowParameter.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.profiles = try reader["profiles"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.readme = try reader["readme"].readIfPresent()
         value.readmePath = try reader["readmePath"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
@@ -13602,6 +13630,8 @@ extension GetWorkflowVersionOutput {
         value.main = try reader["main"].readIfPresent()
         value.metadata = try reader["metadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.parameterTemplate = try reader["parameterTemplate"].readMapIfPresent(valueReadingClosure: OmicsClientTypes.WorkflowParameter.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.profileParameterTemplates = try reader["profileParameterTemplates"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: OmicsClientTypes.WorkflowParameter.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.profiles = try reader["profiles"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.readme = try reader["readme"].readIfPresent()
         value.readmePath = try reader["readmePath"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
