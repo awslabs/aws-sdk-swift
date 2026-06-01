@@ -241,6 +241,10 @@ class PresignableUrlIntegration(
         operationMiddlewareCopy.removeMiddleware(op, "ContentLengthMiddleware")
         operationMiddlewareCopy.removeMiddleware(op, AmzSdkRequestMiddleware.NAME)
         operationMiddlewareCopy.removeMiddleware(op, AmzSdkInvocationIdMiddleware.NAME)
+        // Presigned URLs do not execute the request, so no retry strategy is needed; removing
+        // also avoids the codegen template's `self.retryStrategy` reference, which is unavailable
+        // in the Input extension where the presigner code is rendered.
+        operationMiddlewareCopy.removeMiddleware(op, "RetryMiddleware")
 
         when (op.id.toString()) {
             "com.amazonaws.s3#GetObject", "com.amazonaws.polly#SynthesizeSpeech" -> {

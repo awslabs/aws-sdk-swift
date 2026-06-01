@@ -21,20 +21,18 @@ private let AMZ_SDK_REQUEST_HEADER = "amz-sdk-request"
 public class AmzSdkRequestMiddleware<InputType, OperationStackOutput> {
     public var id: String { "AmzSdkRequest" }
 
-    // Max number of retries configured for retry strategy.
-    private var maxRetries: Int
+    private var maxAttempts: Int
     private var attempt: Int = 0
 
     public init(maxRetries: Int) {
-        self.maxRetries = maxRetries
+        self.maxAttempts = maxRetries + 1
     }
 
     private func addHeader(builder: HTTPRequestBuilder, context: Context) {
         self.attempt += 1
 
-        // Only compute ttl after first attempt
         if self.attempt == 1 {
-            builder.withHeader(name: AMZ_SDK_REQUEST_HEADER, value: "attempt=1; max=\(maxRetries)")
+            builder.withHeader(name: AMZ_SDK_REQUEST_HEADER, value: "attempt=1; max=\(maxAttempts)")
         } else {
             let estimatedSkew = context.estimatedSkew ?? {
                 context.getLogger()?.info("Estimated skew not found; defaulting to zero.")
@@ -47,7 +45,7 @@ public class AmzSdkRequestMiddleware<InputType, OperationStackOutput> {
             let ttlDateUTCString = awsGetTTL(now: Date(), estimatedSkew: estimatedSkew, socketTimeout: socketTimeout)
             builder.updateHeader(
                 name: AMZ_SDK_REQUEST_HEADER,
-                value: "ttl=\(ttlDateUTCString); attempt=\(self.attempt); max=\(maxRetries)"
+                value: "ttl=\(ttlDateUTCString); attempt=\(self.attempt); max=\(maxAttempts)"
             )
         }
     }

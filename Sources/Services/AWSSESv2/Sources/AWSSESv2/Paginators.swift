@@ -407,7 +407,8 @@ extension ListSuppressedDestinationsInput: ClientRuntime.PaginateToken {
             nextToken: token,
             pageSize: self.pageSize,
             reasons: self.reasons,
-            startDate: self.startDate
+            startDate: self.startDate,
+            tenantName: self.tenantName
         )}
 }
 extension SESv2Client {

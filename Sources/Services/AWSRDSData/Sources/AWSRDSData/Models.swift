@@ -18,6 +18,8 @@ import enum SmithyReadWrite.ReaderError
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
 @_spi(SmithyReadWrite) import func SmithyReadWrite.listReadingClosure
 @_spi(SmithyReadWrite) import func SmithyReadWrite.listWritingClosure
+@_spi(SmithyReadWrite) import func SmithyReadWrite.optionalFormOf
+@_spi(SmithyReadWrite) import func SmithyReadWrite.sparseFormOf
 import protocol AWSClientRuntime.AWSServiceError
 import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
@@ -733,16 +735,16 @@ extension RDSDataClientTypes {
 
     /// Contains an array.
     public indirect enum ArrayValue: Swift.Sendable {
-        /// An array of Boolean values.
-        case booleanvalues([Swift.Bool])
-        /// An array of integers.
-        case longvalues([Swift.Int])
-        /// An array of floating-point numbers.
-        case doublevalues([Swift.Double])
-        /// An array of strings.
-        case stringvalues([Swift.String])
-        /// An array of arrays.
-        case arrayvalues([RDSDataClientTypes.ArrayValue])
+        /// An array of Boolean values. Can contain null values.
+        case booleanvalues([Swift.Bool?])
+        /// An array of integers. Can contain null values.
+        case longvalues([Swift.Int?])
+        /// An array of floating-point numbers. Can contain null values.
+        case doublevalues([Swift.Double?])
+        /// An array of strings. Can contain null values.
+        case stringvalues([Swift.String?])
+        /// An array of arrays. Can contain null values.
+        case arrayvalues([RDSDataClientTypes.ArrayValue?])
         case sdkUnknown(Swift.String)
     }
 }
@@ -838,7 +840,7 @@ public struct ExecuteStatementInput: Swift.Sendable {
     public var resultSetOptions: RDSDataClientTypes.ResultSetOptions?
     /// The name of the database schema. Currently, the schema parameter isn't supported.
     public var schema: Swift.String?
-    /// The ARN of the secret that enables access to the DB cluster. Enter the database user name and password for the credentials in the secret. For information about creating the secret, see [Create a database secret](https://docs.aws.amazon.com/secretsmanager/latest/userguide/create_database_secret.html).
+    /// The ARN of the secret that enables access to the DB cluster. Enter the database user name and password for the credentials in the secret. For information about creating the secret, see [Create a database secret](https://docs.aws.amazon.com/secretsmanager/latest/userguide/create_database_secret.html). When you use the CLI on Linux to reference a secret created in the RDS console, the ARN might include special characters like rds!cluster. If you enclose the ARN in double quotes, the ! character might trigger a shell expansion error, such as -bash: !cluster: event not found. To avoid this, escape the exclamation mark (\!) in the ARN or enclose the entire ARN in single quotes (') instead of double quotes. Alternatively, disable shell history expansion by running set +H before you execute the command.
     /// This member is required.
     public var secretArn: Swift.String?
     /// The SQL statement to run.
@@ -1485,15 +1487,15 @@ extension RDSDataClientTypes.ArrayValue {
         guard let value else { return }
         switch value {
             case let .arrayvalues(arrayvalues):
-                try writer["arrayValues"].writeList(arrayvalues, memberWritingClosure: RDSDataClientTypes.ArrayValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+                try writer["arrayValues"].writeList(arrayvalues, memberWritingClosure: SmithyReadWrite.sparseFormOf(writingClosure: RDSDataClientTypes.ArrayValue.write(value:to:)), memberNodeInfo: "member", isFlattened: false)
             case let .booleanvalues(booleanvalues):
-                try writer["booleanValues"].writeList(booleanvalues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeBool(value:to:), memberNodeInfo: "member", isFlattened: false)
+                try writer["booleanValues"].writeList(booleanvalues, memberWritingClosure: SmithyReadWrite.sparseFormOf(writingClosure: SmithyReadWrite.WritingClosures.writeBool(value:to:)), memberNodeInfo: "member", isFlattened: false)
             case let .doublevalues(doublevalues):
-                try writer["doubleValues"].writeList(doublevalues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false)
+                try writer["doubleValues"].writeList(doublevalues, memberWritingClosure: SmithyReadWrite.sparseFormOf(writingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:)), memberNodeInfo: "member", isFlattened: false)
             case let .longvalues(longvalues):
-                try writer["longValues"].writeList(longvalues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
+                try writer["longValues"].writeList(longvalues, memberWritingClosure: SmithyReadWrite.sparseFormOf(writingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:)), memberNodeInfo: "member", isFlattened: false)
             case let .stringvalues(stringvalues):
-                try writer["stringValues"].writeList(stringvalues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+                try writer["stringValues"].writeList(stringvalues, memberWritingClosure: SmithyReadWrite.sparseFormOf(writingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:)), memberNodeInfo: "member", isFlattened: false)
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -1504,15 +1506,15 @@ extension RDSDataClientTypes.ArrayValue {
         let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
         switch name {
             case "booleanValues":
-                return .booleanvalues(try reader["booleanValues"].readList(memberReadingClosure: SmithyReadWrite.ReadingClosures.readBool(from:), memberNodeInfo: "member", isFlattened: false))
+                return .booleanvalues(try reader["booleanValues"].readList(memberReadingClosure: SmithyReadWrite.optionalFormOf(readingClosure: SmithyReadWrite.ReadingClosures.readBool(from:)), memberNodeInfo: "member", isFlattened: false))
             case "longValues":
-                return .longvalues(try reader["longValues"].readList(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false))
+                return .longvalues(try reader["longValues"].readList(memberReadingClosure: SmithyReadWrite.optionalFormOf(readingClosure: SmithyReadWrite.ReadingClosures.readInt(from:)), memberNodeInfo: "member", isFlattened: false))
             case "doubleValues":
-                return .doublevalues(try reader["doubleValues"].readList(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false))
+                return .doublevalues(try reader["doubleValues"].readList(memberReadingClosure: SmithyReadWrite.optionalFormOf(readingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:)), memberNodeInfo: "member", isFlattened: false))
             case "stringValues":
-                return .stringvalues(try reader["stringValues"].readList(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false))
+                return .stringvalues(try reader["stringValues"].readList(memberReadingClosure: SmithyReadWrite.optionalFormOf(readingClosure: SmithyReadWrite.ReadingClosures.readString(from:)), memberNodeInfo: "member", isFlattened: false))
             case "arrayValues":
-                return .arrayvalues(try reader["arrayValues"].readList(memberReadingClosure: RDSDataClientTypes.ArrayValue.read(from:), memberNodeInfo: "member", isFlattened: false))
+                return .arrayvalues(try reader["arrayValues"].readList(memberReadingClosure: SmithyReadWrite.optionalFormOf(readingClosure: RDSDataClientTypes.ArrayValue.read(from:)), memberNodeInfo: "member", isFlattened: false))
             default:
                 return .sdkUnknown(name ?? "")
         }
