@@ -6,28 +6,41 @@
 //
 
 @_spi(FileBasedConfig) import AWSSDKCommon
+import class Foundation.ProcessInfo
+import enum Smithy.ClientError
 
 public enum AWSRetryConfig {
 
-    /// Determines the retry mode to be used from the given config.  If none can be determined, `legacy` will be used as a default.
-    /// - Parameters:
-    ///   - configValue: The retry mode passed at client construction, or `nil` if none was passed.
-    ///   - profileName: The profile name passed at client construction.  If `nil` is passed, the SDK will resolve the profile to be used.
-    ///   - fileBasedConfig: The file-based config from which to load configuration, if needed.
-    /// - Returns: The retry mode that was resolved.
+    /// Determines the retry mode to be used from the given config.
+    ///
+    /// Default is `legacy`; flips to `standard` when `AWS_NEW_RETRIES_2026=true`.
+    /// - Throws: `ClientError.invalidValue` if `AWS_RETRY_MODE` or the `retry_mode` config field is set but unparseable.
     static func retryMode(
         configValue: AWSRetryMode?,
         profileName: String?,
         fileBasedConfig: FileBasedConfiguration
-    ) -> AWSRetryMode {
-        return FieldResolver(
-            configValue: configValue,
-            envVarName: "AWS_RETRY_MODE",
-            configFieldName: "retry_mode",
-            fileBasedConfig: fileBasedConfig,
-            profileName: profileName,
-            converter: { AWSRetryMode(rawValue: $0) }
-        ).value ?? .legacy
+    ) throws -> AWSRetryMode {
+        if let configValue { return configValue }
+        if let raw = ProcessInfo.processInfo.environment["AWS_RETRY_MODE"] {
+            guard let mode = AWSRetryMode(rawValue: raw) else {
+                throw ClientError.invalidValue(
+                    "Invalid AWS_RETRY_MODE: \"\(raw)\". Expected one of: legacy, standard, adaptive."
+                )
+            }
+            return mode
+        }
+        let envProfileName = ProcessInfo.processInfo.environment["AWS_PROFILE"]
+        let sectionName = profileName ?? envProfileName ?? "default"
+        let key = FileBasedConfigurationKey(rawValue: "retry_mode")
+        if let raw = fileBasedConfig.section(for: sectionName)?.string(for: key) {
+            guard let mode = AWSRetryMode(rawValue: raw) else {
+                throw ClientError.invalidValue(
+                    "Invalid retry_mode in config file: \"\(raw)\". Expected one of: legacy, standard, adaptive."
+                )
+            }
+            return mode
+        }
+        return AWSRetryFeatures.isNewRetries2026Enabled ? .standard : .legacy
     }
 
     /// Determines the max attempts (for retry purposes) to be used from the given config.  If none can be determined, `3` will be used as a default.

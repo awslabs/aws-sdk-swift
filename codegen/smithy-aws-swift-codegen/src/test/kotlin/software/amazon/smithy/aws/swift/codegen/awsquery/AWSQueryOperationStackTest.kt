@@ -34,8 +34,6 @@ class AWSQueryOperationStackTest {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<NoInputAndOutputOutput>(NoInputAndOutputOutput.httpOutput(from:), NoInputAndOutputOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<NoInputAndOutputInput, NoInputAndOutputOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<NoInputAndOutputOutput>())
         let endpointParamsBlock = { (context: Smithy.Context) in
             EndpointParams()
@@ -46,6 +44,8 @@ class AWSQueryOperationStackTest {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<NoInputAndOutputOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<NoInputAndOutputInput, NoInputAndOutputOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<NoInputAndOutputInput, NoInputAndOutputOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Query Protocol"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<NoInputAndOutputInput, NoInputAndOutputOutput>(serviceID: serviceName, version: QueryProtocolClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "QueryProtocol")

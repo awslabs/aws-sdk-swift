@@ -55,8 +55,6 @@ extension GetFooInput {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetFooInput, GetFooOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFooInput, GetFooOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFooOutput>())
         let endpointParamsBlock = { (context: Smithy.Context) in
             EndpointParams()
@@ -137,8 +135,6 @@ extension PostFooInput {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PostFooInput, PostFooOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PostFooInput, PostFooOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PostFooOutput>())
         let endpointParamsBlock = { (context: Smithy.Context) in
             EndpointParams()
@@ -219,8 +215,6 @@ extension PutFooInput {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutFooInput, PutFooOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutFooInput, PutFooOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutFooOutput>())
         let endpointParamsBlock = { (context: Smithy.Context) in
             EndpointParams()
@@ -300,8 +294,6 @@ extension PutObjectInput {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutObjectOutput>(PutObjectOutput.httpOutput(from:), PutObjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutObjectInput, PutObjectOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutObjectOutput>())
         let endpointParamsBlock = { (context: Smithy.Context) in
             EndpointParams()

@@ -31,6 +31,9 @@ codegen/protocol-test-codegen-local/smithy-build.json
 codegen/protocol-test-codegen/smithy-build.json
 SmokeTests/
 
+# SCP custom-model fixture (consumed by SCP build_model, not a real AWS service)
+/.scp-fixtures/
+
 # Preview embedded dependencies
 /smithy-swift/
 
