@@ -477,6 +477,39 @@ extension OpenSearchServerlessClientTypes {
     }
 }
 
+extension OpenSearchServerlessClientTypes {
+
+    /// The autoscaling status of an OpenSearch Serverless collection group: ACTION_SCALING_UP, ACTION_SCALING_DOWN, or NO_ACTION.
+    public enum AutoscalingStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case actionScalingDown
+        case actionScalingUp
+        case noAction
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AutoscalingStatus] {
+            return [
+                .actionScalingDown,
+                .actionScalingUp,
+                .noAction
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .actionScalingDown: return "ACTION_SCALING_DOWN"
+            case .actionScalingUp: return "ACTION_SCALING_UP"
+            case .noAction: return "NO_ACTION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct BatchGetCollectionInput: Swift.Sendable {
     /// A list of collection IDs. You can't provide names and IDs in the same request. The ID is part of the collection endpoint. You can also retrieve it using the [ListCollections](https://docs.aws.amazon.com/opensearch-service/latest/ServerlessAPIReference/API_ListCollections.html) API.
     public var ids: [Swift.String]?
@@ -489,6 +522,38 @@ public struct BatchGetCollectionInput: Swift.Sendable {
     ) {
         self.ids = ids
         self.names = names
+    }
+}
+
+extension OpenSearchServerlessClientTypes {
+
+    /// Indicates whether deletion protection is ENABLED or DISABLED for the collection. When deletion protection is ENABLED, the collection cannot be deleted.
+    public enum DeletionProtection: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Deletion protection disabled
+        case disabled
+        /// Deletion protection enabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DeletionProtection] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
     }
 }
 
@@ -690,6 +755,8 @@ extension OpenSearchServerlessClientTypes {
         public var createdDate: Swift.Int?
         /// Collection-specific endpoint used to access OpenSearch Dashboards.
         public var dashboardEndpoint: Swift.String?
+        /// Indicates whether deletion protection is ENABLED or DISABLED for the collection.
+        public var deletionProtection: OpenSearchServerlessClientTypes.DeletionProtection?
         /// A description of the collection.
         public var description: Swift.String?
         /// A failure code associated with the request.
@@ -721,6 +788,7 @@ extension OpenSearchServerlessClientTypes {
             collectionGroupName: Swift.String? = nil,
             createdDate: Swift.Int? = nil,
             dashboardEndpoint: Swift.String? = nil,
+            deletionProtection: OpenSearchServerlessClientTypes.DeletionProtection? = nil,
             description: Swift.String? = nil,
             failureCode: Swift.String? = nil,
             failureMessage: Swift.String? = nil,
@@ -739,6 +807,7 @@ extension OpenSearchServerlessClientTypes {
             self.collectionGroupName = collectionGroupName
             self.createdDate = createdDate
             self.dashboardEndpoint = dashboardEndpoint
+            self.deletionProtection = deletionProtection
             self.description = description
             self.failureCode = failureCode
             self.failureMessage = failureMessage
@@ -841,6 +910,73 @@ extension OpenSearchServerlessClientTypes {
 
 extension OpenSearchServerlessClientTypes {
 
+    /// Capacity details for an OpenSearch Serverless collection group, including the current capacity and autoscaling status.
+    public struct CapacityDetails: Swift.Sendable {
+        /// The current autoscaling status for the collection group.
+        public var autoscalingStatus: OpenSearchServerlessClientTypes.AutoscalingStatus?
+        /// The current capacity in OpenSearch Compute Units (OCUs).
+        public var capacityInOcu: Swift.Float?
+
+        public init(
+            autoscalingStatus: OpenSearchServerlessClientTypes.AutoscalingStatus? = nil,
+            capacityInOcu: Swift.Float? = nil
+        ) {
+            self.autoscalingStatus = autoscalingStatus
+            self.capacityInOcu = capacityInOcu
+        }
+    }
+}
+
+extension OpenSearchServerlessClientTypes {
+
+    /// Current search and indexing capacity for an OpenSearch Serverless collection group. Measured in OpenSearch Compute Units (OCUs).
+    public struct CurrentCapacity: Swift.Sendable {
+        /// The indexing capacity for the collection group.
+        public var indexing: OpenSearchServerlessClientTypes.CapacityDetails?
+        /// The search capacity for the collection group.
+        public var search: OpenSearchServerlessClientTypes.CapacityDetails?
+
+        public init(
+            indexing: OpenSearchServerlessClientTypes.CapacityDetails? = nil,
+            search: OpenSearchServerlessClientTypes.CapacityDetails? = nil
+        ) {
+            self.indexing = indexing
+            self.search = search
+        }
+    }
+}
+
+extension OpenSearchServerlessClientTypes {
+
+    public enum ServerlessGeneration: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case classic
+        case nextgen
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ServerlessGeneration] {
+            return [
+                .classic,
+                .nextgen
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .classic: return "CLASSIC"
+            case .nextgen: return "NEXTGEN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OpenSearchServerlessClientTypes {
+
     /// A map of key-value pairs associated to an OpenSearch Serverless resource.
     public struct Tag: Swift.Sendable {
         /// The key to use in the tag.
@@ -870,8 +1006,12 @@ extension OpenSearchServerlessClientTypes {
         public var capacityLimits: OpenSearchServerlessClientTypes.CollectionGroupCapacityLimits?
         /// The Epoch time when the collection group was created.
         public var createdDate: Swift.Int?
+        /// Current search and indexing capacity for the collection group.
+        public var currentCapacity: OpenSearchServerlessClientTypes.CurrentCapacity?
         /// The description of the collection group.
         public var description: Swift.String?
+        /// The generation of Amazon OpenSearch Serverless for the collection group.
+        public var generation: OpenSearchServerlessClientTypes.ServerlessGeneration?
         /// The unique identifier of the collection group.
         public var id: Swift.String?
         /// The name of the collection group.
@@ -887,7 +1027,9 @@ extension OpenSearchServerlessClientTypes {
             arn: Swift.String? = nil,
             capacityLimits: OpenSearchServerlessClientTypes.CollectionGroupCapacityLimits? = nil,
             createdDate: Swift.Int? = nil,
+            currentCapacity: OpenSearchServerlessClientTypes.CurrentCapacity? = nil,
             description: Swift.String? = nil,
+            generation: OpenSearchServerlessClientTypes.ServerlessGeneration? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             numberOfCollections: Swift.Int? = nil,
@@ -897,7 +1039,9 @@ extension OpenSearchServerlessClientTypes {
             self.arn = arn
             self.capacityLimits = capacityLimits
             self.createdDate = createdDate
+            self.currentCapacity = currentCapacity
             self.description = description
+            self.generation = generation
             self.id = id
             self.name = name
             self.numberOfCollections = numberOfCollections
@@ -1412,6 +1556,8 @@ public struct CreateCollectionInput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// The name of the collection group to associate with the collection.
     public var collectionGroupName: Swift.String?
+    /// Indicates whether to enable deletion protection for the collection. When set to ENABLED, the collection cannot be deleted.
+    public var deletionProtection: OpenSearchServerlessClientTypes.DeletionProtection?
     /// Description of the collection.
     public var description: Swift.String?
     /// Encryption settings for the collection.
@@ -1431,6 +1577,7 @@ public struct CreateCollectionInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         collectionGroupName: Swift.String? = nil,
+        deletionProtection: OpenSearchServerlessClientTypes.DeletionProtection? = nil,
         description: Swift.String? = nil,
         encryptionConfig: OpenSearchServerlessClientTypes.EncryptionConfig? = nil,
         name: Swift.String? = nil,
@@ -1441,6 +1588,7 @@ public struct CreateCollectionInput: Swift.Sendable {
     ) {
         self.clientToken = clientToken
         self.collectionGroupName = collectionGroupName
+        self.deletionProtection = deletionProtection
         self.description = description
         self.encryptionConfig = encryptionConfig
         self.name = name
@@ -1461,6 +1609,8 @@ extension OpenSearchServerlessClientTypes {
         public var collectionGroupName: Swift.String?
         /// The Epoch time when the collection was created.
         public var createdDate: Swift.Int?
+        /// Indicates whether deletion protection is ENABLED or DISABLED for the collection.
+        public var deletionProtection: OpenSearchServerlessClientTypes.DeletionProtection?
         /// A description of the collection.
         public var description: Swift.String?
         /// The unique identifier of the collection.
@@ -1484,6 +1634,7 @@ extension OpenSearchServerlessClientTypes {
             arn: Swift.String? = nil,
             collectionGroupName: Swift.String? = nil,
             createdDate: Swift.Int? = nil,
+            deletionProtection: OpenSearchServerlessClientTypes.DeletionProtection? = nil,
             description: Swift.String? = nil,
             id: Swift.String? = nil,
             kmsKeyArn: Swift.String? = nil,
@@ -1497,6 +1648,7 @@ extension OpenSearchServerlessClientTypes {
             self.arn = arn
             self.collectionGroupName = collectionGroupName
             self.createdDate = createdDate
+            self.deletionProtection = deletionProtection
             self.description = description
             self.id = id
             self.kmsKeyArn = kmsKeyArn
@@ -1541,6 +1693,8 @@ extension OpenSearchServerlessClientTypes {
 
     /// Details about a deleted OpenSearch Serverless collection.
     public struct DeleteCollectionDetail: Swift.Sendable {
+        /// Indicates whether deletion protection is ENABLED or DISABLED for the collection.
+        public var deletionProtection: OpenSearchServerlessClientTypes.DeletionProtection?
         /// The unique identifier of the collection.
         public var id: Swift.String?
         /// The name of the collection.
@@ -1549,10 +1703,12 @@ extension OpenSearchServerlessClientTypes {
         public var status: OpenSearchServerlessClientTypes.CollectionStatus?
 
         public init(
+            deletionProtection: OpenSearchServerlessClientTypes.DeletionProtection? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             status: OpenSearchServerlessClientTypes.CollectionStatus? = nil
         ) {
+            self.deletionProtection = deletionProtection
             self.id = id
             self.name = name
             self.status = status
@@ -1666,6 +1822,8 @@ public struct ListCollectionsOutput: Swift.Sendable {
 public struct UpdateCollectionInput: Swift.Sendable {
     /// Unique, case-sensitive identifier to ensure idempotency of the request.
     public var clientToken: Swift.String?
+    /// Indicates whether to enable or disable deletion protection for the collection. When set to ENABLED, the collection cannot be deleted.
+    public var deletionProtection: OpenSearchServerlessClientTypes.DeletionProtection?
     /// A description of the collection.
     public var description: Swift.String?
     /// The unique identifier of the collection.
@@ -1676,11 +1834,13 @@ public struct UpdateCollectionInput: Swift.Sendable {
 
     public init(
         clientToken: Swift.String? = nil,
+        deletionProtection: OpenSearchServerlessClientTypes.DeletionProtection? = nil,
         description: Swift.String? = nil,
         id: Swift.String? = nil,
         vectorOptions: OpenSearchServerlessClientTypes.VectorOptions? = nil
     ) {
         self.clientToken = clientToken
+        self.deletionProtection = deletionProtection
         self.description = description
         self.id = id
         self.vectorOptions = vectorOptions
@@ -1695,6 +1855,8 @@ extension OpenSearchServerlessClientTypes {
         public var arn: Swift.String?
         /// The date and time when the collection was created.
         public var createdDate: Swift.Int?
+        /// Indicates whether deletion protection is ENABLED or DISABLED for the collection.
+        public var deletionProtection: OpenSearchServerlessClientTypes.DeletionProtection?
         /// The description of the collection.
         public var description: Swift.String?
         /// The unique identifier of the collection.
@@ -1713,6 +1875,7 @@ extension OpenSearchServerlessClientTypes {
         public init(
             arn: Swift.String? = nil,
             createdDate: Swift.Int? = nil,
+            deletionProtection: OpenSearchServerlessClientTypes.DeletionProtection? = nil,
             description: Swift.String? = nil,
             id: Swift.String? = nil,
             lastModifiedDate: Swift.Int? = nil,
@@ -1723,6 +1886,7 @@ extension OpenSearchServerlessClientTypes {
         ) {
             self.arn = arn
             self.createdDate = createdDate
+            self.deletionProtection = deletionProtection
             self.description = description
             self.id = id
             self.lastModifiedDate = lastModifiedDate
@@ -1752,6 +1916,8 @@ public struct CreateCollectionGroupInput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// A description of the collection group.
     public var description: Swift.String?
+    /// The generation of Amazon OpenSearch Serverless for the collection group. Valid values are CLASSIC and NEXTGEN.
+    public var generation: OpenSearchServerlessClientTypes.ServerlessGeneration?
     /// The name of the collection group.
     /// This member is required.
     public var name: Swift.String?
@@ -1765,6 +1931,7 @@ public struct CreateCollectionGroupInput: Swift.Sendable {
         capacityLimits: OpenSearchServerlessClientTypes.CollectionGroupCapacityLimits? = nil,
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
+        generation: OpenSearchServerlessClientTypes.ServerlessGeneration? = nil,
         name: Swift.String? = nil,
         standbyReplicas: OpenSearchServerlessClientTypes.StandbyReplicas? = nil,
         tags: [OpenSearchServerlessClientTypes.Tag]? = nil
@@ -1772,6 +1939,7 @@ public struct CreateCollectionGroupInput: Swift.Sendable {
         self.capacityLimits = capacityLimits
         self.clientToken = clientToken
         self.description = description
+        self.generation = generation
         self.name = name
         self.standbyReplicas = standbyReplicas
         self.tags = tags
@@ -1790,6 +1958,8 @@ extension OpenSearchServerlessClientTypes {
         public var createdDate: Swift.Int?
         /// The description of the collection group.
         public var description: Swift.String?
+        /// The generation of Amazon OpenSearch Serverless for the collection group.
+        public var generation: OpenSearchServerlessClientTypes.ServerlessGeneration?
         /// The unique identifier of the collection group.
         public var id: Swift.String?
         /// The name of the collection group.
@@ -1804,6 +1974,7 @@ extension OpenSearchServerlessClientTypes {
             capacityLimits: OpenSearchServerlessClientTypes.CollectionGroupCapacityLimits? = nil,
             createdDate: Swift.Int? = nil,
             description: Swift.String? = nil,
+            generation: OpenSearchServerlessClientTypes.ServerlessGeneration? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             standbyReplicas: OpenSearchServerlessClientTypes.StandbyReplicas? = nil,
@@ -1813,6 +1984,7 @@ extension OpenSearchServerlessClientTypes {
             self.capacityLimits = capacityLimits
             self.createdDate = createdDate
             self.description = description
+            self.generation = generation
             self.id = id
             self.name = name
             self.standbyReplicas = standbyReplicas
@@ -1878,6 +2050,8 @@ extension OpenSearchServerlessClientTypes {
         public var capacityLimits: OpenSearchServerlessClientTypes.CollectionGroupCapacityLimits?
         /// The Epoch time when the collection group was created.
         public var createdDate: Swift.Int?
+        /// The generation of Amazon OpenSearch Serverless for the collection group.
+        public var generation: OpenSearchServerlessClientTypes.ServerlessGeneration?
         /// The unique identifier of the collection group.
         public var id: Swift.String?
         /// The name of the collection group.
@@ -1889,6 +2063,7 @@ extension OpenSearchServerlessClientTypes {
             arn: Swift.String? = nil,
             capacityLimits: OpenSearchServerlessClientTypes.CollectionGroupCapacityLimits? = nil,
             createdDate: Swift.Int? = nil,
+            generation: OpenSearchServerlessClientTypes.ServerlessGeneration? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             numberOfCollections: Swift.Int? = nil
@@ -1896,6 +2071,7 @@ extension OpenSearchServerlessClientTypes {
             self.arn = arn
             self.capacityLimits = capacityLimits
             self.createdDate = createdDate
+            self.generation = generation
             self.id = id
             self.name = name
             self.numberOfCollections = numberOfCollections
@@ -1954,6 +2130,8 @@ extension OpenSearchServerlessClientTypes {
         public var createdDate: Swift.Int?
         /// The description of the collection group.
         public var description: Swift.String?
+        /// The generation of Amazon OpenSearch Serverless for the collection group.
+        public var generation: OpenSearchServerlessClientTypes.ServerlessGeneration?
         /// The unique identifier of the collection group.
         public var id: Swift.String?
         /// The date and time when the collection group was last modified.
@@ -1966,6 +2144,7 @@ extension OpenSearchServerlessClientTypes {
             capacityLimits: OpenSearchServerlessClientTypes.CollectionGroupCapacityLimits? = nil,
             createdDate: Swift.Int? = nil,
             description: Swift.String? = nil,
+            generation: OpenSearchServerlessClientTypes.ServerlessGeneration? = nil,
             id: Swift.String? = nil,
             lastModifiedDate: Swift.Int? = nil,
             name: Swift.String? = nil
@@ -1974,6 +2153,7 @@ extension OpenSearchServerlessClientTypes {
             self.capacityLimits = capacityLimits
             self.createdDate = createdDate
             self.description = description
+            self.generation = generation
             self.id = id
             self.lastModifiedDate = lastModifiedDate
             self.name = name

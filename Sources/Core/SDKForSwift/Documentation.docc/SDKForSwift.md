@@ -743,6 +743,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSResiliencehub](/sdk-for-swift/latest/api/awsresiliencehub/documentation/awsresiliencehub)
 
+[AWSResiliencehubv2](/sdk-for-swift/latest/api/awsresiliencehubv2/documentation/awsresiliencehubv2)
+
 [AWSResourceExplorer2](/sdk-for-swift/latest/api/awsresourceexplorer2/documentation/awsresourceexplorer2)
 
 [AWSResourceGroups](/sdk-for-swift/latest/api/awsresourcegroups/documentation/awsresourcegroups)

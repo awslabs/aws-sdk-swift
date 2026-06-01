@@ -1885,10 +1885,19 @@
             },
             "properties": {
                 "apiKey": {
-                    "target": "com.amazonaws.bedrockagentcorecontrol#ApiKeyType"
+                    "target": "com.amazonaws.bedrockagentcorecontrol#DefaultApiKeyType"
                 },
                 "apiKeySecretArn": {
                     "target": "com.amazonaws.bedrockagentcorecontrol#Secret"
+                },
+                "apiKeySecretJsonKey": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#SecretJsonKeyType"
+                },
+                "apiKeySecretConfig": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#SecretReference"
+                },
+                "apiKeySecretSource": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#SecretSourceType"
                 },
                 "credentialProviderArn": {
                     "target": "com.amazonaws.bedrockagentcorecontrol#ApiKeyCredentialProviderArnType"
@@ -1975,16 +1984,6 @@
                 "target": "com.amazonaws.bedrockagentcorecontrol#ApiKeyCredentialProviderItem"
             }
         },
-        "com.amazonaws.bedrockagentcorecontrol#ApiKeyType": {
-            "type": "string",
-            "traits": {
-                "smithy.api#length": {
-                    "min": 1,
-                    "max": 65536
-                },
-                "smithy.api#sensitive": {}
-            }
-        },
         "com.amazonaws.bedrockagentcorecontrol#ApiSchemaConfiguration": {
             "type": "union",
             "members": {
@@ -2034,10 +2033,23 @@
                     }
                 },
                 "clientSecret": {
-                    "target": "com.amazonaws.bedrockagentcorecontrol#ClientSecretType",
+                    "target": "com.amazonaws.bedrockagentcorecontrol#DefaultClientSecretType",
                     "traits": {
-                        "smithy.api#documentation": "<p>The client secret for the Atlassian OAuth2 provider. This secret is assigned by Atlassian and used along with the client ID to authenticate your application.</p>",
-                        "smithy.api#required": {}
+                        "smithy.api#addedDefault": {},
+                        "smithy.api#default": "",
+                        "smithy.api#documentation": "<p>The client secret for the Atlassian OAuth2 provider. This secret is assigned by Atlassian and used along with the client ID to authenticate your application.</p>"
+                    }
+                },
+                "clientSecretConfig": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#SecretReference",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A reference to the AWS Secrets Manager secret that stores the client secret. This includes the secret ID and the JSON key used to extract the client secret value from the secret. Required when <code>clientSecretSource</code> is set to <code>EXTERNAL</code>.</p>"
+                    }
+                },
+                "clientSecretSource": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#SecretSourceType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The source type of the client secret for the Atlassian OAuth2 provider. Use <code>MANAGED</code> if the secret is managed by the service, or <code>EXTERNAL</code> if you manage the secret yourself in AWS Secrets Manager.</p>"
                     }
                 }
             },
@@ -2778,16 +2790,6 @@
                 }
             }
         },
-        "com.amazonaws.bedrockagentcorecontrol#ClientSecretType": {
-            "type": "string",
-            "traits": {
-                "smithy.api#length": {
-                    "min": 1,
-                    "max": 2048
-                },
-                "smithy.api#sensitive": {}
-            }
-        },
         "com.amazonaws.bedrockagentcorecontrol#ClientToken": {
             "type": "string",
             "traits": {
@@ -3095,17 +3097,6 @@
                 "smithy.api#pattern": "^[a-zA-Z0-9\\-_]+$"
             }
         },
-        "com.amazonaws.bedrockagentcorecontrol#CoinbaseCdpApiKeySecretType": {
-            "type": "string",
-            "traits": {
-                "smithy.api#length": {
-                    "min": 1,
-                    "max": 2048
-                },
-                "smithy.api#pattern": "^[a-zA-Z0-9+/=\\-_\\s]+$",
-                "smithy.api#sensitive": {}
-            }
-        },
         "com.amazonaws.bedrockagentcorecontrol#CoinbaseCdpConfigurationInput": {
             "type": "structure",
             "members": {
@@ -3117,17 +3108,43 @@
                     }
                 },
                 "apiKeySecret": {
-                    "target": "com.amazonaws.bedrockagentcorecontrol#CoinbaseCdpApiKeySecretType",
+                    "target": "com.amazonaws.bedrockagentcorecontrol#DefaultCoinbaseCdpApiKeySecretType",
                     "traits": {
-                        "smithy.api#documentation": "<p>The API key secret provided by Coinbase Developer Platform.</p>",
-                        "smithy.api#required": {}
+                        "smithy.api#addedDefault": {},
+                        "smithy.api#default": "",
+                        "smithy.api#documentation": "<p>The API key secret provided by Coinbase Developer Platform.</p>"
+                    }
+                },
+                "apiKeySecretSource": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#SecretSourceType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The source type of the API key secret for the Coinbase Developer Platform. Use <code>MANAGED</code> if the secret is managed by the service, or <code>EXTERNAL</code> if you manage the secret yourself in AWS Secrets Manager.</p>"
+                    }
+                },
+                "apiKeySecretConfig": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#SecretReference",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A reference to the AWS Secrets Manager secret that stores the API key secret. This includes the secret ID and the JSON key used to extract the API key secret value from the secret. Required when <code>apiKeySecretSource</code> is set to <code>EXTERNAL</code>.</p>"
                     }
                 },
                 "walletSecret": {
-                    "target": "com.amazonaws.bedrockagentcorecontrol#CoinbaseCdpWalletSecretType",
+                    "target": "com.amazonaws.bedrockagentcorecontrol#DefaultCoinbaseCdpWalletSecretType",
                     "traits": {
-                        "smithy.api#documentation": "<p>The wallet secret provided by Coinbase Developer Platform.</p>",
-                        "smithy.api#required": {}
+                        "smithy.api#addedDefault": {},
+                        "smithy.api#default": "",
+                        "smithy.api#documentation": "<p>The wallet secret provided by Coinbase Developer Platform.</p>"
+                    }
+                },
+                "walletSecretSource": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#SecretSourceType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The source type of the wallet secret for the Coinbase Developer Platform. Use <code>MANAGED</code> if the secret is managed by the service, or <code>EXTERNAL</code> if you manage the secret yourself in AWS Secrets Manager.</p>"
+                    }
+                },
+                "walletSecretConfig": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#SecretReference",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A reference to the AWS Secrets Manager secret that stores the wallet secret. This includes the secret ID and the JSON key used to extract the wallet secret value from the secret. Required when <code>walletSecretSource</code> is set to <code>EXTERNAL</code>.</p>"
                     }
                 }
             },
@@ -3151,26 +3168,39 @@
                         "smithy.api#required": {}
                     }
                 },
+                "apiKeySecretJsonKey": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#SecretJsonKeyType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The JSON key used to extract the API key secret value from the AWS Secrets Manager secret.</p>"
+                    }
+                },
+                "apiKeySecretSource": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#SecretSourceType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The source type of the API key secret. Either <code>MANAGED</code> if the secret is managed by the service, or <code>EXTERNAL</code> if managed by the user in AWS Secrets Manager.</p>"
+                    }
+                },
                 "walletSecretArn": {
                     "target": "com.amazonaws.bedrockagentcorecontrol#Secret",
                     "traits": {
                         "smithy.api#required": {}
                     }
+                },
+                "walletSecretJsonKey": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#SecretJsonKeyType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The JSON key used to extract the wallet secret value from the AWS Secrets Manager secret.</p>"
+                    }
+                },
+                "walletSecretSource": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#SecretSourceType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The source type of the wallet secret. Either <code>MANAGED</code> if the secret is managed by the service, or <code>EXTERNAL</code> if managed by the user in AWS Secrets Manager.</p>"
+                    }
                 }
             },
             "traits": {
                 "smithy.api#documentation": "<p>Coinbase CDP configuration output with secret ARNs.</p>"
-            }
-        },
-        "com.amazonaws.bedrockagentcorecontrol#CoinbaseCdpWalletSecretType": {
-            "type": "string",
-            "traits": {
-                "smithy.api#length": {
-                    "min": 1,
-                    "max": 2048
-                },
-                "smithy.api#pattern": "^[a-zA-Z0-9+/=\\-_\\s]+$",
-                "smithy.api#sensitive": {}
             }
         },
         "com.amazonaws.bedrockagentcorecontrol#ComponentConfiguration": {
@@ -3434,6 +3464,12 @@
                     "target": "com.amazonaws.bedrockagentcorecontrol#ConfigurationBundleDescription",
                     "traits": {
                         "smithy.api#documentation": "<p>The description of the configuration bundle.</p>"
+                    }
+                },
+                "createdAt": {
+                    "target": "smithy.api#Timestamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The timestamp when the configuration bundle was created.</p>"
                     }
                 }
             },
@@ -4003,10 +4039,23 @@
                     }
                 },
                 "apiKey": {
-                    "target": "com.amazonaws.bedrockagentcorecontrol#ApiKeyType",
+                    "target": "com.amazonaws.bedrockagentcorecontrol#DefaultApiKeyType",
                     "traits": {
-                        "smithy.api#documentation": "<p>The API key to use for authentication. This value is encrypted and stored securely.</p>",
-                        "smithy.api#required": {}
+                        "smithy.api#addedDefault": {},
+                        "smithy.api#default": "",
+                        "smithy.api#documentation": "<p>The API key to use for authentication. This value is encrypted and stored securely.</p>"
+                    }
+                },
+                "apiKeySecretConfig": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#SecretReference",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A reference to the AWS Secrets Manager secret that stores the API key. This includes the secret ID and the JSON key used to extract the API key value from the secret. Required when <code>apiKeySecretSource</code> is set to <code>EXTERNAL</code>.</p>"
+                    }
+                },
+                "apiKeySecretSource": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#SecretSourceType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The source type of the API key secret. Use <code>MANAGED</code> if the secret is managed by the service, or <code>EXTERNAL</code> if you manage the secret yourself in AWS Secrets Manager.</p>"
                     }
                 },
                 "tags": {
@@ -4030,6 +4079,20 @@
                         "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the secret containing the API key.</p>",
                         "smithy.api#property": {},
                         "smithy.api#required": {}
+                    }
+                },
+                "apiKeySecretJsonKey": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#SecretJsonKeyType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The JSON key used to extract the API key value from the AWS Secrets Manager secret.</p>",
+                        "smithy.api#property": {}
+                    }
+                },
+                "apiKeySecretSource": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#SecretSourceType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The source type of the API key secret. Either <code>MANAGED</code> if the secret is managed by the service, or <code>EXTERNAL</code> if managed by the user in AWS Secrets Manager.</p>",
+                        "smithy.api#property": {}
                     }
                 },
                 "name": {
@@ -5966,6 +6029,20 @@
                         "smithy.api#required": {}
                     }
                 },
+                "clientSecretJsonKey": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#SecretJsonKeyType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The JSON key used to extract the client secret value from the AWS Secrets Manager secret.</p>",
+                        "smithy.api#property": {}
+                    }
+                },
+                "clientSecretSource": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#SecretSourceType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The source type of the client secret. Either <code>MANAGED</code> if the secret is managed by the service, or <code>EXTERNAL</code> if managed by the user in AWS Secrets Manager.</p>",
+                        "smithy.api#property": {}
+                    }
+                },
                 "name": {
                     "target": "com.amazonaws.bedrockagentcorecontrol#CredentialProviderName",
                     "traits": {
@@ -7900,16 +7977,16 @@
                         "smithy.api#documentation": "<p>The client secret for the custom OAuth2 provider.</p>"
                     }
                 },
-                "privateEndpoint": {
-                    "target": "com.amazonaws.bedrockagentcorecontrol#PrivateEndpoint",
+                "clientSecretConfig": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#SecretReference",
                     "traits": {
-                        "smithy.api#documentation": "<p>The default private endpoint for the custom OAuth2 provider, enabling secure connectivity through a VPC Lattice resource configuration.</p>"
+                        "smithy.api#documentation": "<p>A reference to the AWS Secrets Manager secret that stores the client secret. This includes the secret ID and the JSON key used to extract the client secret value from the secret. Required when <code>clientSecretSource</code> is set to <code>EXTERNAL</code>.</p>"
                     }
                 },
-                "privateEndpointOverrides": {
-                    "target": "com.amazonaws.bedrockagentcorecontrol#PrivateEndpointOverrides",
+                "clientSecretSource": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#SecretSourceType",
                     "traits": {
-                        "smithy.api#documentation": "<p>The private endpoint overrides for the custom OAuth2 provider configuration.</p>"
+                        "smithy.api#documentation": "<p>The source type of the client secret. Use <code>MANAGED</code> if the secret is managed by the service, or <code>EXTERNAL</code> if you manage the secret yourself in AWS Secrets Manager.</p>"
                     }
                 },
                 "onBehalfOfTokenExchangeConfig": {
@@ -7922,6 +7999,18 @@
                     "target": "com.amazonaws.bedrockagentcorecontrol#ClientAuthenticationMethodType",
                     "traits": {
                         "smithy.api#documentation": "<p>The client authentication method to use when authenticating with the token endpoint.</p>"
+                    }
+                },
+                "privateEndpoint": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#PrivateEndpoint",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The default private endpoint for the custom OAuth2 provider, enabling secure connectivity through a VPC Lattice resource configuration.</p>"
+                    }
+                },
+                "privateEndpointOverrides": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#PrivateEndpointOverrides",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The private endpoint overrides for the custom OAuth2 provider configuration.</p>"
                     }
                 }
             },
@@ -8339,6 +8428,15 @@
                 "smithy.api#httpError": 400
             }
         },
+        "com.amazonaws.bedrockagentcorecontrol#DefaultApiKeyType": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "max": 65536
+                },
+                "smithy.api#sensitive": {}
+            }
+        },
         "com.amazonaws.bedrockagentcorecontrol#DefaultClientIdType": {
             "type": "string",
             "traits": {
@@ -8353,6 +8451,46 @@
                 "smithy.api#length": {
                     "max": 2048
                 },
+                "smithy.api#sensitive": {}
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#DefaultCoinbaseCdpApiKeySecretType": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "max": 2048
+                },
+                "smithy.api#pattern": "^[a-zA-Z0-9+/=\\-_\\s]*$",
+                "smithy.api#sensitive": {}
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#DefaultCoinbaseCdpWalletSecretType": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "max": 2048
+                },
+                "smithy.api#pattern": "^[a-zA-Z0-9+/=\\-_\\s]*$",
+                "smithy.api#sensitive": {}
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#DefaultStripePrivyAppSecretType": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "max": 2048
+                },
+                "smithy.api#pattern": "^[a-zA-Z0-9+/=\\-_\\s]*$",
+                "smithy.api#sensitive": {}
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#DefaultStripePrivyAuthorizationPrivateKeyType": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "max": 2048
+                },
+                "smithy.api#pattern": "^[a-zA-Z0-9+/=\\-_\\s]*$",
                 "smithy.api#sensitive": {}
             }
         },
@@ -12876,6 +13014,20 @@
                         "smithy.api#required": {}
                     }
                 },
+                "apiKeySecretJsonKey": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#SecretJsonKeyType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The JSON key used to extract the API key value from the AWS Secrets Manager secret.</p>",
+                        "smithy.api#property": {}
+                    }
+                },
+                "apiKeySecretSource": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#SecretSourceType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The source type of the API key secret. Either <code>MANAGED</code> if the secret is managed by the service, or <code>EXTERNAL</code> if managed by the user in AWS Secrets Manager.</p>",
+                        "smithy.api#property": {}
+                    }
+                },
                 "name": {
                     "target": "com.amazonaws.bedrockagentcorecontrol#CredentialProviderName",
                     "traits": {
@@ -14599,6 +14751,20 @@
                         "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the client secret in AWS Secrets Manager.</p>",
                         "smithy.api#property": {},
                         "smithy.api#required": {}
+                    }
+                },
+                "clientSecretJsonKey": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#SecretJsonKeyType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The JSON key used to extract the client secret value from the AWS Secrets Manager secret.</p>",
+                        "smithy.api#property": {}
+                    }
+                },
+                "clientSecretSource": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#SecretSourceType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The source type of the client secret. Either <code>MANAGED</code> if the secret is managed by the service, or <code>EXTERNAL</code> if managed by the user in AWS Secrets Manager.</p>",
+                        "smithy.api#property": {}
                     }
                 },
                 "name": {
@@ -16730,10 +16896,23 @@
                     }
                 },
                 "clientSecret": {
-                    "target": "com.amazonaws.bedrockagentcorecontrol#ClientSecretType",
+                    "target": "com.amazonaws.bedrockagentcorecontrol#DefaultClientSecretType",
                     "traits": {
-                        "smithy.api#documentation": "<p>The client secret for the GitHub OAuth2 provider.</p>",
-                        "smithy.api#required": {}
+                        "smithy.api#addedDefault": {},
+                        "smithy.api#default": "",
+                        "smithy.api#documentation": "<p>The client secret for the GitHub OAuth2 provider.</p>"
+                    }
+                },
+                "clientSecretConfig": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#SecretReference",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A reference to the AWS Secrets Manager secret that stores the client secret. This includes the secret ID and the JSON key used to extract the client secret value from the secret. Required when <code>clientSecretSource</code> is set to <code>EXTERNAL</code>.</p>"
+                    }
+                },
+                "clientSecretSource": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#SecretSourceType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The source type of the client secret. Use <code>MANAGED</code> if the secret is managed by the service, or <code>EXTERNAL</code> if you manage the secret yourself in AWS Secrets Manager.</p>"
                     }
                 }
             },
@@ -16773,10 +16952,23 @@
                     }
                 },
                 "clientSecret": {
-                    "target": "com.amazonaws.bedrockagentcorecontrol#ClientSecretType",
+                    "target": "com.amazonaws.bedrockagentcorecontrol#DefaultClientSecretType",
                     "traits": {
-                        "smithy.api#documentation": "<p>The client secret for the Google OAuth2 provider.</p>",
-                        "smithy.api#required": {}
+                        "smithy.api#addedDefault": {},
+                        "smithy.api#default": "",
+                        "smithy.api#documentation": "<p>The client secret for the Google OAuth2 provider.</p>"
+                    }
+                },
+                "clientSecretConfig": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#SecretReference",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A reference to the AWS Secrets Manager secret that stores the client secret. This includes the secret ID and the JSON key used to extract the client secret value from the secret. Required when <code>clientSecretSource</code> is set to <code>EXTERNAL</code>.</p>"
+                    }
+                },
+                "clientSecretSource": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#SecretSourceType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The source type of the client secret. Use <code>MANAGED</code> if the secret is managed by the service, or <code>EXTERNAL</code> if you manage the secret yourself in AWS Secrets Manager.</p>"
                     }
                 }
             },
@@ -16960,7 +17152,7 @@
             "type": "structure",
             "members": {
                 "browserArn": {
-                    "target": "com.amazonaws.bedrockagentcorecontrol#BrowserArn",
+                    "target": "com.amazonaws.bedrockagentcorecontrol#HarnessBrowserArn",
                     "traits": {
                         "smithy.api#documentation": "<p>If not populated, the built-in Browser ARN is used.</p>"
                     }
@@ -16974,7 +17166,7 @@
             "type": "structure",
             "members": {
                 "codeInterpreterArn": {
-                    "target": "com.amazonaws.bedrockagentcorecontrol#CodeInterpreterArn",
+                    "target": "com.amazonaws.bedrockagentcorecontrol#HarnessCodeInterpreterArn",
                     "traits": {
                         "smithy.api#documentation": "<p>If not populated, the built-in Code Interpreter ARN is used.</p>"
                     }
@@ -17162,6 +17354,32 @@
                 "smithy.api#pattern": "^arn:([^:]+)?:bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:harness/[a-zA-Z][a-zA-Z0-9_]{0,39}-[a-zA-Z0-9]{10}$"
             }
         },
+        "com.amazonaws.bedrockagentcorecontrol#HarnessBedrockApiFormat": {
+            "type": "enum",
+            "members": {
+                "CONVERSE_STREAM": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Use the Bedrock Converse Stream API format.</p>",
+                        "smithy.api#enumValue": "converse_stream"
+                    }
+                },
+                "RESPONSES": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Use the Responses API format.</p>",
+                        "smithy.api#enumValue": "responses"
+                    }
+                },
+                "CHAT_COMPLETIONS": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Use the Chat Completions API format.</p>",
+                        "smithy.api#enumValue": "chat_completions"
+                    }
+                }
+            }
+        },
         "com.amazonaws.bedrockagentcorecontrol#HarnessBedrockModelConfig": {
             "type": "structure",
             "members": {
@@ -17189,10 +17407,36 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The topP set when calling the model.</p>"
                     }
+                },
+                "apiFormat": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#HarnessBedrockApiFormat",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The API format to use when calling the Bedrock provider.</p>"
+                    }
+                },
+                "additionalParams": {
+                    "target": "smithy.api#Document",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Provider-specific parameters passed through to the model provider unchanged.</p>"
+                    }
                 }
             },
             "traits": {
                 "smithy.api#documentation": "<p>Configuration for an Amazon Bedrock model provider.</p>"
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#HarnessBrowserArn": {
+            "type": "string",
+            "traits": {
+                "smithy.api#documentation": "Browser ARN for Harness tool configuration. Accepts both managed (aws.browser.v1) and custom browser ARNs.",
+                "smithy.api#pattern": "^arn:aws(-[^:]+)?:bedrock-agentcore:[a-z0-9-]+:(aws|[0-9]{12}):browser(-custom)?/(aws\\.browser\\.v1|[a-zA-Z][a-zA-Z0-9_]{0,47}-[a-zA-Z0-9]{10})$"
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#HarnessCodeInterpreterArn": {
+            "type": "string",
+            "traits": {
+                "smithy.api#documentation": "Code Interpreter ARN for Harness tool configuration. Accepts both managed (aws.codeinterpreter.v1) and custom code interpreter ARNs.",
+                "smithy.api#pattern": "^arn:aws(-[^:]+)?:bedrock-agentcore:[a-z0-9-]+:(aws|[0-9]{12}):code-interpreter(-custom)?/(aws\\.codeinterpreter\\.v1|[a-zA-Z][a-zA-Z0-9_]{0,47}-[a-zA-Z0-9]{10})$"
             }
         },
         "com.amazonaws.bedrockagentcorecontrol#HarnessEnvironmentArtifact": {
@@ -17250,7 +17494,10 @@
                     }
                 },
                 "oauth": {
-                    "target": "com.amazonaws.bedrockagentcorecontrol#OAuthCredentialProvider"
+                    "target": "com.amazonaws.bedrockagentcorecontrol#OAuthCredentialProvider",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Use OAuth credentials for outbound authentication to the gateway.</p>"
+                    }
                 }
             },
             "traits": {
@@ -17341,6 +17588,67 @@
                 "smithy.api#sensitive": {}
             }
         },
+        "com.amazonaws.bedrockagentcorecontrol#HarnessLiteLlmApiBase": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 16383
+                },
+                "smithy.api#sensitive": {}
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#HarnessLiteLlmModelConfig": {
+            "type": "structure",
+            "members": {
+                "modelId": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#ModelId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The LiteLLM model identifier (e.g., \"anthropic/claude-3-sonnet\").</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "apiKeyArn": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#ApiKeyArn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ARN of the API key in AgentCore Identity for authenticating with the model provider.</p>"
+                    }
+                },
+                "apiBase": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#HarnessLiteLlmApiBase",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The base URL for the model provider's API endpoint.</p>"
+                    }
+                },
+                "maxTokens": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#MaxTokens",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The maximum number of tokens to allow in the generated response per iteration.</p>"
+                    }
+                },
+                "temperature": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#Temperature",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The temperature to set when calling the model.</p>"
+                    }
+                },
+                "topP": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#TopP",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The topP set when calling the model.</p>"
+                    }
+                },
+                "additionalParams": {
+                    "target": "smithy.api#Document",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Provider-specific parameters passed through to the model provider unchanged.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Configuration for a LiteLLM model provider, enabling connection to third-party model providers.</p>"
+            }
+        },
         "com.amazonaws.bedrockagentcorecontrol#HarnessMemoryConfiguration": {
             "type": "union",
             "members": {
@@ -17375,6 +17683,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>Configuration for a Google Gemini model.</p>"
                     }
+                },
+                "liteLlmModelConfig": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#HarnessLiteLlmModelConfig",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The LiteLLM model configuration for connecting to third-party model providers.</p>"
+                    }
                 }
             },
             "traits": {
@@ -17385,6 +17699,25 @@
             "type": "string",
             "traits": {
                 "smithy.api#pattern": "^[a-zA-Z][a-zA-Z0-9_]{0,39}$"
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#HarnessOpenAiApiFormat": {
+            "type": "enum",
+            "members": {
+                "CHAT_COMPLETIONS": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Use the Chat Completions API format.</p>",
+                        "smithy.api#enumValue": "chat_completions"
+                    }
+                },
+                "RESPONSES": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Use the Responses API format.</p>",
+                        "smithy.api#enumValue": "responses"
+                    }
+                }
             }
         },
         "com.amazonaws.bedrockagentcorecontrol#HarnessOpenAiModelConfig": {
@@ -17420,6 +17753,18 @@
                     "target": "com.amazonaws.bedrockagentcorecontrol#TopP",
                     "traits": {
                         "smithy.api#documentation": "<p>The topP set when calling the model.</p>"
+                    }
+                },
+                "apiFormat": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#HarnessOpenAiApiFormat",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The API format to use when calling the OpenAI provider.</p>"
+                    }
+                },
+                "additionalParams": {
+                    "target": "smithy.api#Document",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Provider-specific parameters passed through to the model provider unchanged.</p>"
                     }
                 }
             },
@@ -17486,10 +17831,79 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The filesystem path to the skill definition.</p>"
                     }
+                },
+                "s3": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#HarnessSkillS3Source",
+                    "traits": {
+                        "smithy.api#documentation": "<p>An S3 source containing the skill.</p>"
+                    }
+                },
+                "git": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#HarnessSkillGitSource",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A git repository containing the skill.</p>"
+                    }
                 }
             },
             "traits": {
                 "smithy.api#documentation": "<p>A skill available to the agent.</p>"
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#HarnessSkillGitAuth": {
+            "type": "structure",
+            "members": {
+                "credentialArn": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#ApiKeyArn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ARN of the credential in AgentCore Identity containing the password or personal access token.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "username": {
+                    "target": "smithy.api#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Username for authentication. Defaults to 'oauth2' if not specified.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Authentication configuration for accessing a private git repository.</p>"
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#HarnessSkillGitSource": {
+            "type": "structure",
+            "members": {
+                "url": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#HarnessSkillGitUrl",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The HTTPS URL of the git repository.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "path": {
+                    "target": "smithy.api#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Subdirectory within the repository containing the skill.</p>"
+                    }
+                },
+                "auth": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#HarnessSkillGitAuth",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Authentication configuration for private repositories.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>A git repository source for a skill.</p>"
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#HarnessSkillGitUrl": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 8
+                },
+                "smithy.api#pattern": "^https://"
             }
         },
         "com.amazonaws.bedrockagentcorecontrol#HarnessSkillPath": {
@@ -17498,6 +17912,30 @@
                 "smithy.api#length": {
                     "min": 1
                 }
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#HarnessSkillS3Source": {
+            "type": "structure",
+            "members": {
+                "uri": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#HarnessSkillS3Uri",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The S3 URI pointing to the skill directory (e.g., s3://bucket/skills/my-skill/).</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>An S3 source for a skill.</p>"
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#HarnessSkillS3Uri": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 5
+                },
+                "smithy.api#pattern": "^s3://"
             }
         },
         "com.amazonaws.bedrockagentcorecontrol#HarnessSkills": {
@@ -18070,10 +18508,23 @@
                     }
                 },
                 "clientSecret": {
-                    "target": "com.amazonaws.bedrockagentcorecontrol#ClientSecretType",
+                    "target": "com.amazonaws.bedrockagentcorecontrol#DefaultClientSecretType",
                     "traits": {
-                        "smithy.api#documentation": "<p>The client secret for the supported OAuth2 provider. This secret is assigned by the OAuth2 provider and used along with the client ID to authenticate your application.</p>",
-                        "smithy.api#required": {}
+                        "smithy.api#addedDefault": {},
+                        "smithy.api#default": "",
+                        "smithy.api#documentation": "<p>The client secret for the supported OAuth2 provider. This secret is assigned by the OAuth2 provider and used along with the client ID to authenticate your application.</p>"
+                    }
+                },
+                "clientSecretConfig": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#SecretReference",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A reference to the AWS Secrets Manager secret that stores the client secret. This includes the secret ID and the JSON key used to extract the client secret value from the secret. Required when <code>clientSecretSource</code> is set to <code>EXTERNAL</code>.</p>"
+                    }
+                },
+                "clientSecretSource": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#SecretSourceType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The source type of the client secret. Use <code>MANAGED</code> if the secret is managed by the service, or <code>EXTERNAL</code> if you manage the secret yourself in AWS Secrets Manager.</p>"
                     }
                 },
                 "issuer": {
@@ -18492,10 +18943,23 @@
                     }
                 },
                 "clientSecret": {
-                    "target": "com.amazonaws.bedrockagentcorecontrol#ClientSecretType",
+                    "target": "com.amazonaws.bedrockagentcorecontrol#DefaultClientSecretType",
                     "traits": {
-                        "smithy.api#documentation": "<p>The client secret for the LinkedIn OAuth2 provider. This secret is assigned by LinkedIn and used along with the client ID to authenticate your application.</p>",
-                        "smithy.api#required": {}
+                        "smithy.api#addedDefault": {},
+                        "smithy.api#default": "",
+                        "smithy.api#documentation": "<p>The client secret for the LinkedIn OAuth2 provider. This secret is assigned by LinkedIn and used along with the client ID to authenticate your application.</p>"
+                    }
+                },
+                "clientSecretConfig": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#SecretReference",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A reference to the AWS Secrets Manager secret that stores the client secret. This includes the secret ID and the JSON key used to extract the client secret value from the secret. Required when <code>clientSecretSource</code> is set to <code>EXTERNAL</code>.</p>"
+                    }
+                },
+                "clientSecretSource": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#SecretSourceType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The source type of the client secret. Use <code>MANAGED</code> if the secret is managed by the service, or <code>EXTERNAL</code> if you manage the secret yourself in AWS Secrets Manager.</p>"
                     }
                 }
             },
@@ -22699,10 +23163,23 @@
                     }
                 },
                 "clientSecret": {
-                    "target": "com.amazonaws.bedrockagentcorecontrol#ClientSecretType",
+                    "target": "com.amazonaws.bedrockagentcorecontrol#DefaultClientSecretType",
                     "traits": {
-                        "smithy.api#documentation": "<p>The client secret for the Microsoft OAuth2 provider.</p>",
-                        "smithy.api#required": {}
+                        "smithy.api#addedDefault": {},
+                        "smithy.api#default": "",
+                        "smithy.api#documentation": "<p>The client secret for the Microsoft OAuth2 provider.</p>"
+                    }
+                },
+                "clientSecretConfig": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#SecretReference",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A reference to the AWS Secrets Manager secret that stores the client secret. This includes the secret ID and the JSON key used to extract the client secret value from the secret. Required when <code>clientSecretSource</code> is set to <code>EXTERNAL</code>.</p>"
+                    }
+                },
+                "clientSecretSource": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#SecretSourceType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The source type of the client secret. Use <code>MANAGED</code> if the secret is managed by the service, or <code>EXTERNAL</code> if you manage the secret yourself in AWS Secrets Manager.</p>"
                     }
                 },
                 "tenantId": {
@@ -23354,6 +23831,12 @@
                 },
                 "clientSecretArn": {
                     "target": "com.amazonaws.bedrockagentcorecontrol#Secret"
+                },
+                "clientSecretJsonKey": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#SecretJsonKeyType"
+                },
+                "clientSecretSource": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#SecretSourceType"
                 },
                 "createdTime": {
                     "target": "smithy.api#Timestamp"
@@ -26582,10 +27065,23 @@
                     }
                 },
                 "clientSecret": {
-                    "target": "com.amazonaws.bedrockagentcorecontrol#ClientSecretType",
+                    "target": "com.amazonaws.bedrockagentcorecontrol#DefaultClientSecretType",
                     "traits": {
-                        "smithy.api#documentation": "<p>The client secret for the Salesforce OAuth2 provider.</p>",
-                        "smithy.api#required": {}
+                        "smithy.api#addedDefault": {},
+                        "smithy.api#default": "",
+                        "smithy.api#documentation": "<p>The client secret for the Salesforce OAuth2 provider.</p>"
+                    }
+                },
+                "clientSecretConfig": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#SecretReference",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A reference to the AWS Secrets Manager secret that stores the client secret. This includes the secret ID and the JSON key used to extract the client secret value from the secret. Required when <code>clientSecretSource</code> is set to <code>EXTERNAL</code>.</p>"
+                    }
+                },
+                "clientSecretSource": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#SecretSourceType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The source type of the client secret. Use <code>MANAGED</code> if the secret is managed by the service, or <code>EXTERNAL</code> if you manage the secret yourself in AWS Secrets Manager.</p>"
                     }
                 }
             },
@@ -26797,6 +27293,63 @@
             "type": "string",
             "traits": {
                 "smithy.api#pattern": "^arn:(aws|aws-us-gov):secretsmanager:[A-Za-z0-9-]{1,64}:[0-9]{12}:secret:[a-zA-Z0-9-_/+=.@!]+$"
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#SecretIdType": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 2048
+                }
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#SecretJsonKeyType": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 128
+                }
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#SecretReference": {
+            "type": "structure",
+            "members": {
+                "secretId": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#SecretIdType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ID of the AWS Secrets Manager secret that stores the secret value.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "jsonKey": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#SecretJsonKeyType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The JSON key used to extract the secret value from the AWS Secrets Manager secret.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Contains a reference to a secret stored in AWS Secrets Manager.</p>"
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#SecretSourceType": {
+            "type": "enum",
+            "members": {
+                "MANAGED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "MANAGED"
+                    }
+                },
+                "EXTERNAL": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "EXTERNAL"
+                    }
+                }
             }
         },
         "com.amazonaws.bedrockagentcorecontrol#SecretsManagerLocation": {
@@ -27367,10 +27920,23 @@
                     }
                 },
                 "clientSecret": {
-                    "target": "com.amazonaws.bedrockagentcorecontrol#ClientSecretType",
+                    "target": "com.amazonaws.bedrockagentcorecontrol#DefaultClientSecretType",
                     "traits": {
-                        "smithy.api#documentation": "<p>The client secret for the Slack OAuth2 provider.</p>",
-                        "smithy.api#required": {}
+                        "smithy.api#addedDefault": {},
+                        "smithy.api#default": "",
+                        "smithy.api#documentation": "<p>The client secret for the Slack OAuth2 provider.</p>"
+                    }
+                },
+                "clientSecretConfig": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#SecretReference",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A reference to the AWS Secrets Manager secret that stores the client secret. This includes the secret ID and the JSON key used to extract the client secret value from the secret. Required when <code>clientSecretSource</code> is set to <code>EXTERNAL</code>.</p>"
+                    }
+                },
+                "clientSecretSource": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#SecretSourceType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The source type of the client secret. Use <code>MANAGED</code> if the secret is managed by the service, or <code>EXTERNAL</code> if you manage the secret yourself in AWS Secrets Manager.</p>"
                     }
                 }
             },
@@ -27827,17 +28393,6 @@
                 "smithy.api#pattern": "^[a-zA-Z0-9\\-_]+$"
             }
         },
-        "com.amazonaws.bedrockagentcorecontrol#StripePrivyAppSecretType": {
-            "type": "string",
-            "traits": {
-                "smithy.api#length": {
-                    "min": 1,
-                    "max": 2048
-                },
-                "smithy.api#pattern": "^[a-zA-Z0-9+/=\\-_\\s]+$",
-                "smithy.api#sensitive": {}
-            }
-        },
         "com.amazonaws.bedrockagentcorecontrol#StripePrivyAuthorizationIdType": {
             "type": "string",
             "traits": {
@@ -27846,17 +28401,6 @@
                     "max": 512
                 },
                 "smithy.api#pattern": "^[a-zA-Z0-9\\-_]+$"
-            }
-        },
-        "com.amazonaws.bedrockagentcorecontrol#StripePrivyAuthorizationPrivateKeyType": {
-            "type": "string",
-            "traits": {
-                "smithy.api#length": {
-                    "min": 1,
-                    "max": 2048
-                },
-                "smithy.api#pattern": "^[a-zA-Z0-9+/=\\-_\\s]+$",
-                "smithy.api#sensitive": {}
             }
         },
         "com.amazonaws.bedrockagentcorecontrol#StripePrivyConfigurationInput": {
@@ -27870,17 +28414,43 @@
                     }
                 },
                 "appSecret": {
-                    "target": "com.amazonaws.bedrockagentcorecontrol#StripePrivyAppSecretType",
+                    "target": "com.amazonaws.bedrockagentcorecontrol#DefaultStripePrivyAppSecretType",
                     "traits": {
-                        "smithy.api#documentation": "<p>The app secret provided by Privy.</p>",
-                        "smithy.api#required": {}
+                        "smithy.api#addedDefault": {},
+                        "smithy.api#default": "",
+                        "smithy.api#documentation": "<p>The app secret provided by Privy.</p>"
+                    }
+                },
+                "appSecretSource": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#SecretSourceType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The source type of the app secret. Use <code>MANAGED</code> if the secret is managed by the service, or <code>EXTERNAL</code> if you manage the secret yourself in AWS Secrets Manager.</p>"
+                    }
+                },
+                "appSecretConfig": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#SecretReference",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A reference to the AWS Secrets Manager secret that stores the app secret. This includes the secret ID and the JSON key used to extract the app secret value from the secret. Required when <code>appSecretSource</code> is set to <code>EXTERNAL</code>.</p>"
                     }
                 },
                 "authorizationPrivateKey": {
-                    "target": "com.amazonaws.bedrockagentcorecontrol#StripePrivyAuthorizationPrivateKeyType",
+                    "target": "com.amazonaws.bedrockagentcorecontrol#DefaultStripePrivyAuthorizationPrivateKeyType",
                     "traits": {
-                        "smithy.api#documentation": "<p>The authorization private key for the Stripe Privy integration.</p>",
-                        "smithy.api#required": {}
+                        "smithy.api#addedDefault": {},
+                        "smithy.api#default": "",
+                        "smithy.api#documentation": "<p>The authorization private key for the Stripe Privy integration.</p>"
+                    }
+                },
+                "authorizationPrivateKeySource": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#SecretSourceType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The source type of the authorization private key. Use <code>MANAGED</code> if the secret is managed by the service, or <code>EXTERNAL</code> if you manage the secret yourself in AWS Secrets Manager.</p>"
+                    }
+                },
+                "authorizationPrivateKeyConfig": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#SecretReference",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A reference to the AWS Secrets Manager secret that stores the authorization private key. This includes the secret ID and the JSON key used to extract the authorization private key value from the secret. Required when <code>authorizationPrivateKeySource</code> is set to <code>EXTERNAL</code>.</p>"
                     }
                 },
                 "authorizationId": {
@@ -27911,10 +28481,34 @@
                         "smithy.api#required": {}
                     }
                 },
+                "appSecretJsonKey": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#SecretJsonKeyType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The JSON key used to extract the app secret value from the AWS Secrets Manager secret.</p>"
+                    }
+                },
+                "appSecretSource": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#SecretSourceType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The source type of the app secret. Either <code>MANAGED</code> if the secret is managed by the service, or <code>EXTERNAL</code> if managed by the user in AWS Secrets Manager.</p>"
+                    }
+                },
                 "authorizationPrivateKeyArn": {
                     "target": "com.amazonaws.bedrockagentcorecontrol#Secret",
                     "traits": {
                         "smithy.api#required": {}
+                    }
+                },
+                "authorizationPrivateKeyJsonKey": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#SecretJsonKeyType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The JSON key used to extract the authorization private key value from the AWS Secrets Manager secret.</p>"
+                    }
+                },
+                "authorizationPrivateKeySource": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#SecretSourceType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The source type of the authorization private key. Either <code>MANAGED</code> if the secret is managed by the service, or <code>EXTERNAL</code> if managed by the user in AWS Secrets Manager.</p>"
                     }
                 },
                 "authorizationId": {
@@ -29603,10 +30197,23 @@
                     }
                 },
                 "apiKey": {
-                    "target": "com.amazonaws.bedrockagentcorecontrol#ApiKeyType",
+                    "target": "com.amazonaws.bedrockagentcorecontrol#DefaultApiKeyType",
                     "traits": {
-                        "smithy.api#documentation": "<p>The new API key to use for authentication. This value replaces the existing API key and is encrypted and stored securely.</p>",
-                        "smithy.api#required": {}
+                        "smithy.api#addedDefault": {},
+                        "smithy.api#default": "",
+                        "smithy.api#documentation": "<p>The new API key to use for authentication. This value replaces the existing API key and is encrypted and stored securely.</p>"
+                    }
+                },
+                "apiKeySecretConfig": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#SecretReference",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A reference to the AWS Secrets Manager secret that stores the API key. This includes the secret ID and the JSON key used to extract the API key value from the secret. Required when <code>apiKeySecretSource</code> is set to <code>EXTERNAL</code>.</p>"
+                    }
+                },
+                "apiKeySecretSource": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#SecretSourceType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The source type of the API key secret. Use <code>MANAGED</code> if the secret is managed by the service, or <code>EXTERNAL</code> if you manage the secret yourself in AWS Secrets Manager.</p>"
                     }
                 }
             },
@@ -29623,6 +30230,20 @@
                         "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the API key secret in AWS Secrets Manager.</p>",
                         "smithy.api#property": {},
                         "smithy.api#required": {}
+                    }
+                },
+                "apiKeySecretJsonKey": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#SecretJsonKeyType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The JSON key used to extract the API key value from the AWS Secrets Manager secret.</p>",
+                        "smithy.api#property": {}
+                    }
+                },
+                "apiKeySecretSource": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#SecretSourceType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The source type of the API key secret. Either <code>MANAGED</code> if the secret is managed by the service, or <code>EXTERNAL</code> if managed by the user in AWS Secrets Manager.</p>",
+                        "smithy.api#property": {}
                     }
                 },
                 "name": {
@@ -31137,6 +31758,20 @@
                         "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the client secret in AWS Secrets Manager.</p>",
                         "smithy.api#property": {},
                         "smithy.api#required": {}
+                    }
+                },
+                "clientSecretJsonKey": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#SecretJsonKeyType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The JSON key used to extract the client secret value from the AWS Secrets Manager secret.</p>",
+                        "smithy.api#property": {}
+                    }
+                },
+                "clientSecretSource": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#SecretSourceType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The source type of the client secret. Either <code>MANAGED</code> if the secret is managed by the service, or <code>EXTERNAL</code> if managed by the user in AWS Secrets Manager.</p>",
+                        "smithy.api#property": {}
                     }
                 },
                 "name": {

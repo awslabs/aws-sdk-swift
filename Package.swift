@@ -15,7 +15,7 @@ import PackageDescription
 
 // MARK: - Dynamic Content
 
-let clientRuntimeVersion: Version = "0.211.0"
+let clientRuntimeVersion: Version = "0.213.0"
 let crtVersion: Version = "0.61.1"
 
 let excludeRuntimeUnitTests = false
@@ -1647,6 +1647,11 @@ private let serviceClientData: [ServiceClientData] = [
         "AWSResiliencehub",
         "resiliencehub.json",
         [.AWSClientRuntime, .AWSSDKChecksums, .AWSSDKHTTPAuth, .AWSSDKIdentity, .ClientRuntime, .Smithy, .SmithyHTTPAPI, .SmithyHTTPAuthAPI, .SmithyIdentity, .SmithyJSON, .SmithyReadWrite, .SmithyRetries, .SmithyRetriesAPI, .SmithyTimestamps]
+    ),
+    .init(
+        "AWSResiliencehubv2",
+        "resiliencehubv2.json",
+        [.AWSClientRuntime, .AWSSDKChecksums, .AWSSDKHTTPAuth, .AWSSDKIdentity, .ClientRuntime, .Smithy, .SmithyHTTPAPI, .SmithyHTTPAuthAPI, .SmithyIdentity, .SmithyJSON, .SmithyReadWrite, .SmithyRetries, .SmithyRetriesAPI, .SmithyTimestamps, .SmithyWaitersAPI]
     ),
     .init(
         "AWSResourceExplorer2",

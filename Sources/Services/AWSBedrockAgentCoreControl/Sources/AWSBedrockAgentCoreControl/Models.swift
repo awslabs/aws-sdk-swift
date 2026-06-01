@@ -2472,10 +2472,63 @@ public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Contains a reference to a secret stored in AWS Secrets Manager.
+    public struct SecretReference: Swift.Sendable {
+        /// The JSON key used to extract the secret value from the AWS Secrets Manager secret.
+        /// This member is required.
+        public var jsonKey: Swift.String?
+        /// The ID of the AWS Secrets Manager secret that stores the secret value.
+        /// This member is required.
+        public var secretId: Swift.String?
+
+        public init(
+            jsonKey: Swift.String? = nil,
+            secretId: Swift.String? = nil
+        ) {
+            self.jsonKey = jsonKey
+            self.secretId = secretId
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    public enum SecretSourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case external
+        case managed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SecretSourceType] {
+            return [
+                .external,
+                .managed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .external: return "EXTERNAL"
+            case .managed: return "MANAGED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct CreateApiKeyCredentialProviderInput: Swift.Sendable {
     /// The API key to use for authentication. This value is encrypted and stored securely.
-    /// This member is required.
     public var apiKey: Swift.String?
+    /// A reference to the AWS Secrets Manager secret that stores the API key. This includes the secret ID and the JSON key used to extract the API key value from the secret. Required when apiKeySecretSource is set to EXTERNAL.
+    public var apiKeySecretConfig: BedrockAgentCoreControlClientTypes.SecretReference?
+    /// The source type of the API key secret. Use MANAGED if the secret is managed by the service, or EXTERNAL if you manage the secret yourself in AWS Secrets Manager.
+    public var apiKeySecretSource: BedrockAgentCoreControlClientTypes.SecretSourceType?
     /// The name of the API key credential provider. The name must be unique within your account.
     /// This member is required.
     public var name: Swift.String?
@@ -2484,10 +2537,14 @@ public struct CreateApiKeyCredentialProviderInput: Swift.Sendable {
 
     public init(
         apiKey: Swift.String? = nil,
+        apiKeySecretConfig: BedrockAgentCoreControlClientTypes.SecretReference? = nil,
+        apiKeySecretSource: BedrockAgentCoreControlClientTypes.SecretSourceType? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.apiKey = apiKey
+        self.apiKeySecretConfig = apiKeySecretConfig
+        self.apiKeySecretSource = apiKeySecretSource
         self.name = name
         self.tags = tags
     }
@@ -2495,7 +2552,7 @@ public struct CreateApiKeyCredentialProviderInput: Swift.Sendable {
 
 extension CreateApiKeyCredentialProviderInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateApiKeyCredentialProviderInput(name: \(Swift.String(describing: name)), tags: \(Swift.String(describing: tags)), apiKey: \"CONTENT_REDACTED\")"}
+        "CreateApiKeyCredentialProviderInput(apiKeySecretConfig: \(Swift.String(describing: apiKeySecretConfig)), apiKeySecretSource: \(Swift.String(describing: apiKeySecretSource)), name: \(Swift.String(describing: name)), tags: \(Swift.String(describing: tags)), apiKey: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreControlClientTypes {
@@ -2518,6 +2575,10 @@ public struct CreateApiKeyCredentialProviderOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the secret containing the API key.
     /// This member is required.
     public var apiKeySecretArn: BedrockAgentCoreControlClientTypes.Secret?
+    /// The JSON key used to extract the API key value from the AWS Secrets Manager secret.
+    public var apiKeySecretJsonKey: Swift.String?
+    /// The source type of the API key secret. Either MANAGED if the secret is managed by the service, or EXTERNAL if managed by the user in AWS Secrets Manager.
+    public var apiKeySecretSource: BedrockAgentCoreControlClientTypes.SecretSourceType?
     /// The Amazon Resource Name (ARN) of the created API key credential provider.
     /// This member is required.
     public var credentialProviderArn: Swift.String?
@@ -2527,10 +2588,14 @@ public struct CreateApiKeyCredentialProviderOutput: Swift.Sendable {
 
     public init(
         apiKeySecretArn: BedrockAgentCoreControlClientTypes.Secret? = nil,
+        apiKeySecretJsonKey: Swift.String? = nil,
+        apiKeySecretSource: BedrockAgentCoreControlClientTypes.SecretSourceType? = nil,
         credentialProviderArn: Swift.String? = nil,
         name: Swift.String? = nil
     ) {
         self.apiKeySecretArn = apiKeySecretArn
+        self.apiKeySecretJsonKey = apiKeySecretJsonKey
+        self.apiKeySecretSource = apiKeySecretSource
         self.credentialProviderArn = credentialProviderArn
         self.name = name
     }
@@ -2569,6 +2634,10 @@ public struct GetApiKeyCredentialProviderOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the API key secret in AWS Secrets Manager.
     /// This member is required.
     public var apiKeySecretArn: BedrockAgentCoreControlClientTypes.Secret?
+    /// The JSON key used to extract the API key value from the AWS Secrets Manager secret.
+    public var apiKeySecretJsonKey: Swift.String?
+    /// The source type of the API key secret. Either MANAGED if the secret is managed by the service, or EXTERNAL if managed by the user in AWS Secrets Manager.
+    public var apiKeySecretSource: BedrockAgentCoreControlClientTypes.SecretSourceType?
     /// The timestamp when the API key credential provider was created.
     /// This member is required.
     public var createdTime: Foundation.Date?
@@ -2584,12 +2653,16 @@ public struct GetApiKeyCredentialProviderOutput: Swift.Sendable {
 
     public init(
         apiKeySecretArn: BedrockAgentCoreControlClientTypes.Secret? = nil,
+        apiKeySecretJsonKey: Swift.String? = nil,
+        apiKeySecretSource: BedrockAgentCoreControlClientTypes.SecretSourceType? = nil,
         createdTime: Foundation.Date? = nil,
         credentialProviderArn: Swift.String? = nil,
         lastUpdatedTime: Foundation.Date? = nil,
         name: Swift.String? = nil
     ) {
         self.apiKeySecretArn = apiKeySecretArn
+        self.apiKeySecretJsonKey = apiKeySecretJsonKey
+        self.apiKeySecretSource = apiKeySecretSource
         self.createdTime = createdTime
         self.credentialProviderArn = credentialProviderArn
         self.lastUpdatedTime = lastUpdatedTime
@@ -2661,30 +2734,41 @@ public struct ListApiKeyCredentialProvidersOutput: Swift.Sendable {
 
 public struct UpdateApiKeyCredentialProviderInput: Swift.Sendable {
     /// The new API key to use for authentication. This value replaces the existing API key and is encrypted and stored securely.
-    /// This member is required.
     public var apiKey: Swift.String?
+    /// A reference to the AWS Secrets Manager secret that stores the API key. This includes the secret ID and the JSON key used to extract the API key value from the secret. Required when apiKeySecretSource is set to EXTERNAL.
+    public var apiKeySecretConfig: BedrockAgentCoreControlClientTypes.SecretReference?
+    /// The source type of the API key secret. Use MANAGED if the secret is managed by the service, or EXTERNAL if you manage the secret yourself in AWS Secrets Manager.
+    public var apiKeySecretSource: BedrockAgentCoreControlClientTypes.SecretSourceType?
     /// The name of the API key credential provider to update.
     /// This member is required.
     public var name: Swift.String?
 
     public init(
         apiKey: Swift.String? = nil,
+        apiKeySecretConfig: BedrockAgentCoreControlClientTypes.SecretReference? = nil,
+        apiKeySecretSource: BedrockAgentCoreControlClientTypes.SecretSourceType? = nil,
         name: Swift.String? = nil
     ) {
         self.apiKey = apiKey
+        self.apiKeySecretConfig = apiKeySecretConfig
+        self.apiKeySecretSource = apiKeySecretSource
         self.name = name
     }
 }
 
 extension UpdateApiKeyCredentialProviderInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateApiKeyCredentialProviderInput(name: \(Swift.String(describing: name)), apiKey: \"CONTENT_REDACTED\")"}
+        "UpdateApiKeyCredentialProviderInput(apiKeySecretConfig: \(Swift.String(describing: apiKeySecretConfig)), apiKeySecretSource: \(Swift.String(describing: apiKeySecretSource)), name: \(Swift.String(describing: name)), apiKey: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateApiKeyCredentialProviderOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the API key secret in AWS Secrets Manager.
     /// This member is required.
     public var apiKeySecretArn: BedrockAgentCoreControlClientTypes.Secret?
+    /// The JSON key used to extract the API key value from the AWS Secrets Manager secret.
+    public var apiKeySecretJsonKey: Swift.String?
+    /// The source type of the API key secret. Either MANAGED if the secret is managed by the service, or EXTERNAL if managed by the user in AWS Secrets Manager.
+    public var apiKeySecretSource: BedrockAgentCoreControlClientTypes.SecretSourceType?
     /// The timestamp when the API key credential provider was created.
     /// This member is required.
     public var createdTime: Foundation.Date?
@@ -2700,12 +2784,16 @@ public struct UpdateApiKeyCredentialProviderOutput: Swift.Sendable {
 
     public init(
         apiKeySecretArn: BedrockAgentCoreControlClientTypes.Secret? = nil,
+        apiKeySecretJsonKey: Swift.String? = nil,
+        apiKeySecretSource: BedrockAgentCoreControlClientTypes.SecretSourceType? = nil,
         createdTime: Foundation.Date? = nil,
         credentialProviderArn: Swift.String? = nil,
         lastUpdatedTime: Foundation.Date? = nil,
         name: Swift.String? = nil
     ) {
         self.apiKeySecretArn = apiKeySecretArn
+        self.apiKeySecretJsonKey = apiKeySecretJsonKey
+        self.apiKeySecretSource = apiKeySecretSource
         self.createdTime = createdTime
         self.credentialProviderArn = credentialProviderArn
         self.lastUpdatedTime = lastUpdatedTime
@@ -4323,6 +4411,8 @@ extension BedrockAgentCoreControlClientTypes {
         /// The name of the configuration bundle.
         /// This member is required.
         public var bundleName: Swift.String?
+        /// The timestamp when the configuration bundle was created.
+        public var createdAt: Foundation.Date?
         /// The description of the configuration bundle.
         public var description: Swift.String?
 
@@ -4330,11 +4420,13 @@ extension BedrockAgentCoreControlClientTypes {
             bundleArn: Swift.String? = nil,
             bundleId: Swift.String? = nil,
             bundleName: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
             description: Swift.String? = nil
         ) {
             self.bundleArn = bundleArn
             self.bundleId = bundleId
             self.bundleName = bundleName
+            self.createdAt = createdAt
             self.description = description
         }
     }
@@ -4342,7 +4434,7 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes.ConfigurationBundleSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ConfigurationBundleSummary(bundleArn: \(Swift.String(describing: bundleArn)), bundleId: \(Swift.String(describing: bundleId)), bundleName: \(Swift.String(describing: bundleName)), description: \"CONTENT_REDACTED\")"}
+        "ConfigurationBundleSummary(bundleArn: \(Swift.String(describing: bundleArn)), bundleId: \(Swift.String(describing: bundleId)), bundleName: \(Swift.String(describing: bundleName)), createdAt: \(Swift.String(describing: createdAt)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListConfigurationBundlesOutput: Swift.Sendable {
@@ -8467,8 +8559,47 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes {
 
+    public enum HarnessBedrockApiFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Use the Chat Completions API format.
+        case chatCompletions
+        /// Use the Bedrock Converse Stream API format.
+        case converseStream
+        /// Use the Responses API format.
+        case responses
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HarnessBedrockApiFormat] {
+            return [
+                .chatCompletions,
+                .converseStream,
+                .responses
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .chatCompletions: return "chat_completions"
+            case .converseStream: return "converse_stream"
+            case .responses: return "responses"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
     /// Configuration for an Amazon Bedrock model provider.
     public struct HarnessBedrockModelConfig: Swift.Sendable {
+        /// Provider-specific parameters passed through to the model provider unchanged.
+        public var additionalParams: Smithy.Document?
+        /// The API format to use when calling the Bedrock provider.
+        public var apiFormat: BedrockAgentCoreControlClientTypes.HarnessBedrockApiFormat?
         /// The maximum number of tokens to allow in the generated response per model call.
         public var maxTokens: Swift.Int?
         /// The Bedrock model ID.
@@ -8480,11 +8611,15 @@ extension BedrockAgentCoreControlClientTypes {
         public var topp: Swift.Float?
 
         public init(
+            additionalParams: Smithy.Document? = nil,
+            apiFormat: BedrockAgentCoreControlClientTypes.HarnessBedrockApiFormat? = nil,
             maxTokens: Swift.Int? = nil,
             modelId: Swift.String? = nil,
             temperature: Swift.Float? = nil,
             topp: Swift.Float? = nil
         ) {
+            self.additionalParams = additionalParams
+            self.apiFormat = apiFormat
             self.maxTokens = maxTokens
             self.modelId = modelId
             self.temperature = temperature
@@ -8532,8 +8667,88 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes {
 
+    /// Configuration for a LiteLLM model provider, enabling connection to third-party model providers.
+    public struct HarnessLiteLlmModelConfig: Swift.Sendable {
+        /// Provider-specific parameters passed through to the model provider unchanged.
+        public var additionalParams: Smithy.Document?
+        /// The base URL for the model provider's API endpoint.
+        public var apiBase: Swift.String?
+        /// The ARN of the API key in AgentCore Identity for authenticating with the model provider.
+        public var apiKeyArn: Swift.String?
+        /// The maximum number of tokens to allow in the generated response per iteration.
+        public var maxTokens: Swift.Int?
+        /// The LiteLLM model identifier (e.g., "anthropic/claude-3-sonnet").
+        /// This member is required.
+        public var modelId: Swift.String?
+        /// The temperature to set when calling the model.
+        public var temperature: Swift.Float?
+        /// The topP set when calling the model.
+        public var topp: Swift.Float?
+
+        public init(
+            additionalParams: Smithy.Document? = nil,
+            apiBase: Swift.String? = nil,
+            apiKeyArn: Swift.String? = nil,
+            maxTokens: Swift.Int? = nil,
+            modelId: Swift.String? = nil,
+            temperature: Swift.Float? = nil,
+            topp: Swift.Float? = nil
+        ) {
+            self.additionalParams = additionalParams
+            self.apiBase = apiBase
+            self.apiKeyArn = apiKeyArn
+            self.maxTokens = maxTokens
+            self.modelId = modelId
+            self.temperature = temperature
+            self.topp = topp
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.HarnessLiteLlmModelConfig: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "HarnessLiteLlmModelConfig(additionalParams: \(Swift.String(describing: additionalParams)), apiKeyArn: \(Swift.String(describing: apiKeyArn)), maxTokens: \(Swift.String(describing: maxTokens)), modelId: \(Swift.String(describing: modelId)), temperature: \(Swift.String(describing: temperature)), topp: \(Swift.String(describing: topp)), apiBase: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    public enum HarnessOpenAiApiFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Use the Chat Completions API format.
+        case chatCompletions
+        /// Use the Responses API format.
+        case responses
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HarnessOpenAiApiFormat] {
+            return [
+                .chatCompletions,
+                .responses
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .chatCompletions: return "chat_completions"
+            case .responses: return "responses"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
     /// Configuration for an OpenAI model provider. Requires an API key stored in AgentCore Identity.
     public struct HarnessOpenAiModelConfig: Swift.Sendable {
+        /// Provider-specific parameters passed through to the model provider unchanged.
+        public var additionalParams: Smithy.Document?
+        /// The API format to use when calling the OpenAI provider.
+        public var apiFormat: BedrockAgentCoreControlClientTypes.HarnessOpenAiApiFormat?
         /// The ARN of your OpenAI API key on AgentCore Identity.
         /// This member is required.
         public var apiKeyArn: Swift.String?
@@ -8548,12 +8763,16 @@ extension BedrockAgentCoreControlClientTypes {
         public var topp: Swift.Float?
 
         public init(
+            additionalParams: Smithy.Document? = nil,
+            apiFormat: BedrockAgentCoreControlClientTypes.HarnessOpenAiApiFormat? = nil,
             apiKeyArn: Swift.String? = nil,
             maxTokens: Swift.Int? = nil,
             modelId: Swift.String? = nil,
             temperature: Swift.Float? = nil,
             topp: Swift.Float? = nil
         ) {
+            self.additionalParams = additionalParams
+            self.apiFormat = apiFormat
             self.apiKeyArn = apiKeyArn
             self.maxTokens = maxTokens
             self.modelId = modelId
@@ -8573,7 +8792,69 @@ extension BedrockAgentCoreControlClientTypes {
         case openaimodelconfig(BedrockAgentCoreControlClientTypes.HarnessOpenAiModelConfig)
         /// Configuration for a Google Gemini model.
         case geminimodelconfig(BedrockAgentCoreControlClientTypes.HarnessGeminiModelConfig)
+        /// The LiteLLM model configuration for connecting to third-party model providers.
+        case litellmmodelconfig(BedrockAgentCoreControlClientTypes.HarnessLiteLlmModelConfig)
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Authentication configuration for accessing a private git repository.
+    public struct HarnessSkillGitAuth: Swift.Sendable {
+        /// The ARN of the credential in AgentCore Identity containing the password or personal access token.
+        /// This member is required.
+        public var credentialArn: Swift.String?
+        /// Username for authentication. Defaults to 'oauth2' if not specified.
+        public var username: Swift.String?
+
+        public init(
+            credentialArn: Swift.String? = nil,
+            username: Swift.String? = nil
+        ) {
+            self.credentialArn = credentialArn
+            self.username = username
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// A git repository source for a skill.
+    public struct HarnessSkillGitSource: Swift.Sendable {
+        /// Authentication configuration for private repositories.
+        public var auth: BedrockAgentCoreControlClientTypes.HarnessSkillGitAuth?
+        /// Subdirectory within the repository containing the skill.
+        public var path: Swift.String?
+        /// The HTTPS URL of the git repository.
+        /// This member is required.
+        public var url: Swift.String?
+
+        public init(
+            auth: BedrockAgentCoreControlClientTypes.HarnessSkillGitAuth? = nil,
+            path: Swift.String? = nil,
+            url: Swift.String? = nil
+        ) {
+            self.auth = auth
+            self.path = path
+            self.url = url
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// An S3 source for a skill.
+    public struct HarnessSkillS3Source: Swift.Sendable {
+        /// The S3 URI pointing to the skill directory (e.g., s3://bucket/skills/my-skill/).
+        /// This member is required.
+        public var uri: Swift.String?
+
+        public init(
+            uri: Swift.String? = nil
+        ) {
+            self.uri = uri
+        }
     }
 }
 
@@ -8583,6 +8864,10 @@ extension BedrockAgentCoreControlClientTypes {
     public enum HarnessSkill: Swift.Sendable {
         /// The filesystem path to the skill definition.
         case path(Swift.String)
+        /// An S3 source containing the skill.
+        case s3(BedrockAgentCoreControlClientTypes.HarnessSkillS3Source)
+        /// A git repository containing the skill.
+        case git(BedrockAgentCoreControlClientTypes.HarnessSkillGitSource)
         case sdkUnknown(Swift.String)
     }
 }
@@ -8643,7 +8928,7 @@ extension BedrockAgentCoreControlClientTypes {
         case awsiam(BedrockAgentCoreControlClientTypes.Unit)
         /// No authentication.
         case `none`(BedrockAgentCoreControlClientTypes.Unit)
-        /// An OAuth credential provider for gateway authentication. This structure contains the configuration for authenticating with the target endpoint using OAuth.
+        /// Use OAuth credentials for outbound authentication to the gateway.
         case oauth(BedrockAgentCoreControlClientTypes.OAuthCredentialProvider)
         case sdkUnknown(Swift.String)
     }
@@ -11869,22 +12154,29 @@ extension BedrockAgentCoreControlClientTypes {
         /// This member is required.
         public var clientId: Swift.String?
         /// The client secret for the Atlassian OAuth2 provider. This secret is assigned by Atlassian and used along with the client ID to authenticate your application.
-        /// This member is required.
         public var clientSecret: Swift.String?
+        /// A reference to the AWS Secrets Manager secret that stores the client secret. This includes the secret ID and the JSON key used to extract the client secret value from the secret. Required when clientSecretSource is set to EXTERNAL.
+        public var clientSecretConfig: BedrockAgentCoreControlClientTypes.SecretReference?
+        /// The source type of the client secret for the Atlassian OAuth2 provider. Use MANAGED if the secret is managed by the service, or EXTERNAL if you manage the secret yourself in AWS Secrets Manager.
+        public var clientSecretSource: BedrockAgentCoreControlClientTypes.SecretSourceType?
 
         public init(
             clientId: Swift.String? = nil,
-            clientSecret: Swift.String? = nil
+            clientSecret: Swift.String? = "",
+            clientSecretConfig: BedrockAgentCoreControlClientTypes.SecretReference? = nil,
+            clientSecretSource: BedrockAgentCoreControlClientTypes.SecretSourceType? = nil
         ) {
             self.clientId = clientId
             self.clientSecret = clientSecret
+            self.clientSecretConfig = clientSecretConfig
+            self.clientSecretSource = clientSecretSource
         }
     }
 }
 
 extension BedrockAgentCoreControlClientTypes.AtlassianOauth2ProviderConfigInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "AtlassianOauth2ProviderConfigInput(clientId: \(Swift.String(describing: clientId)), clientSecret: \"CONTENT_REDACTED\")"}
+        "AtlassianOauth2ProviderConfigInput(clientId: \(Swift.String(describing: clientId)), clientSecretConfig: \(Swift.String(describing: clientSecretConfig)), clientSecretSource: \(Swift.String(describing: clientSecretSource)), clientSecret: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreControlClientTypes {
@@ -12046,6 +12338,10 @@ extension BedrockAgentCoreControlClientTypes {
         public var clientId: Swift.String?
         /// The client secret for the custom OAuth2 provider.
         public var clientSecret: Swift.String?
+        /// A reference to the AWS Secrets Manager secret that stores the client secret. This includes the secret ID and the JSON key used to extract the client secret value from the secret. Required when clientSecretSource is set to EXTERNAL.
+        public var clientSecretConfig: BedrockAgentCoreControlClientTypes.SecretReference?
+        /// The source type of the client secret. Use MANAGED if the secret is managed by the service, or EXTERNAL if you manage the secret yourself in AWS Secrets Manager.
+        public var clientSecretSource: BedrockAgentCoreControlClientTypes.SecretSourceType?
         /// The OAuth2 discovery information for the custom provider.
         /// This member is required.
         public var oauthDiscovery: BedrockAgentCoreControlClientTypes.Oauth2Discovery?
@@ -12060,6 +12356,8 @@ extension BedrockAgentCoreControlClientTypes {
             clientAuthenticationMethod: BedrockAgentCoreControlClientTypes.ClientAuthenticationMethodType? = nil,
             clientId: Swift.String? = "",
             clientSecret: Swift.String? = "",
+            clientSecretConfig: BedrockAgentCoreControlClientTypes.SecretReference? = nil,
+            clientSecretSource: BedrockAgentCoreControlClientTypes.SecretSourceType? = nil,
             oauthDiscovery: BedrockAgentCoreControlClientTypes.Oauth2Discovery? = nil,
             onBehalfOfTokenExchangeConfig: BedrockAgentCoreControlClientTypes.OnBehalfOfTokenExchangeConfigType? = nil,
             privateEndpoint: BedrockAgentCoreControlClientTypes.PrivateEndpoint? = nil,
@@ -12068,6 +12366,8 @@ extension BedrockAgentCoreControlClientTypes {
             self.clientAuthenticationMethod = clientAuthenticationMethod
             self.clientId = clientId
             self.clientSecret = clientSecret
+            self.clientSecretConfig = clientSecretConfig
+            self.clientSecretSource = clientSecretSource
             self.oauthDiscovery = oauthDiscovery
             self.onBehalfOfTokenExchangeConfig = onBehalfOfTokenExchangeConfig
             self.privateEndpoint = privateEndpoint
@@ -12078,7 +12378,7 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes.CustomOauth2ProviderConfigInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CustomOauth2ProviderConfigInput(clientAuthenticationMethod: \(Swift.String(describing: clientAuthenticationMethod)), clientId: \(Swift.String(describing: clientId)), oauthDiscovery: \(Swift.String(describing: oauthDiscovery)), onBehalfOfTokenExchangeConfig: \(Swift.String(describing: onBehalfOfTokenExchangeConfig)), privateEndpoint: \(Swift.String(describing: privateEndpoint)), privateEndpointOverrides: \(Swift.String(describing: privateEndpointOverrides)), clientSecret: \"CONTENT_REDACTED\")"}
+        "CustomOauth2ProviderConfigInput(clientAuthenticationMethod: \(Swift.String(describing: clientAuthenticationMethod)), clientId: \(Swift.String(describing: clientId)), clientSecretConfig: \(Swift.String(describing: clientSecretConfig)), clientSecretSource: \(Swift.String(describing: clientSecretSource)), oauthDiscovery: \(Swift.String(describing: oauthDiscovery)), onBehalfOfTokenExchangeConfig: \(Swift.String(describing: onBehalfOfTokenExchangeConfig)), privateEndpoint: \(Swift.String(describing: privateEndpoint)), privateEndpointOverrides: \(Swift.String(describing: privateEndpointOverrides)), clientSecret: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreControlClientTypes {
@@ -12089,22 +12389,29 @@ extension BedrockAgentCoreControlClientTypes {
         /// This member is required.
         public var clientId: Swift.String?
         /// The client secret for the GitHub OAuth2 provider.
-        /// This member is required.
         public var clientSecret: Swift.String?
+        /// A reference to the AWS Secrets Manager secret that stores the client secret. This includes the secret ID and the JSON key used to extract the client secret value from the secret. Required when clientSecretSource is set to EXTERNAL.
+        public var clientSecretConfig: BedrockAgentCoreControlClientTypes.SecretReference?
+        /// The source type of the client secret. Use MANAGED if the secret is managed by the service, or EXTERNAL if you manage the secret yourself in AWS Secrets Manager.
+        public var clientSecretSource: BedrockAgentCoreControlClientTypes.SecretSourceType?
 
         public init(
             clientId: Swift.String? = nil,
-            clientSecret: Swift.String? = nil
+            clientSecret: Swift.String? = "",
+            clientSecretConfig: BedrockAgentCoreControlClientTypes.SecretReference? = nil,
+            clientSecretSource: BedrockAgentCoreControlClientTypes.SecretSourceType? = nil
         ) {
             self.clientId = clientId
             self.clientSecret = clientSecret
+            self.clientSecretConfig = clientSecretConfig
+            self.clientSecretSource = clientSecretSource
         }
     }
 }
 
 extension BedrockAgentCoreControlClientTypes.GithubOauth2ProviderConfigInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GithubOauth2ProviderConfigInput(clientId: \(Swift.String(describing: clientId)), clientSecret: \"CONTENT_REDACTED\")"}
+        "GithubOauth2ProviderConfigInput(clientId: \(Swift.String(describing: clientId)), clientSecretConfig: \(Swift.String(describing: clientSecretConfig)), clientSecretSource: \(Swift.String(describing: clientSecretSource)), clientSecret: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreControlClientTypes {
@@ -12115,22 +12422,29 @@ extension BedrockAgentCoreControlClientTypes {
         /// This member is required.
         public var clientId: Swift.String?
         /// The client secret for the Google OAuth2 provider.
-        /// This member is required.
         public var clientSecret: Swift.String?
+        /// A reference to the AWS Secrets Manager secret that stores the client secret. This includes the secret ID and the JSON key used to extract the client secret value from the secret. Required when clientSecretSource is set to EXTERNAL.
+        public var clientSecretConfig: BedrockAgentCoreControlClientTypes.SecretReference?
+        /// The source type of the client secret. Use MANAGED if the secret is managed by the service, or EXTERNAL if you manage the secret yourself in AWS Secrets Manager.
+        public var clientSecretSource: BedrockAgentCoreControlClientTypes.SecretSourceType?
 
         public init(
             clientId: Swift.String? = nil,
-            clientSecret: Swift.String? = nil
+            clientSecret: Swift.String? = "",
+            clientSecretConfig: BedrockAgentCoreControlClientTypes.SecretReference? = nil,
+            clientSecretSource: BedrockAgentCoreControlClientTypes.SecretSourceType? = nil
         ) {
             self.clientId = clientId
             self.clientSecret = clientSecret
+            self.clientSecretConfig = clientSecretConfig
+            self.clientSecretSource = clientSecretSource
         }
     }
 }
 
 extension BedrockAgentCoreControlClientTypes.GoogleOauth2ProviderConfigInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GoogleOauth2ProviderConfigInput(clientId: \(Swift.String(describing: clientId)), clientSecret: \"CONTENT_REDACTED\")"}
+        "GoogleOauth2ProviderConfigInput(clientId: \(Swift.String(describing: clientId)), clientSecretConfig: \(Swift.String(describing: clientSecretConfig)), clientSecretSource: \(Swift.String(describing: clientSecretSource)), clientSecret: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreControlClientTypes {
@@ -12143,8 +12457,11 @@ extension BedrockAgentCoreControlClientTypes {
         /// This member is required.
         public var clientId: Swift.String?
         /// The client secret for the supported OAuth2 provider. This secret is assigned by the OAuth2 provider and used along with the client ID to authenticate your application.
-        /// This member is required.
         public var clientSecret: Swift.String?
+        /// A reference to the AWS Secrets Manager secret that stores the client secret. This includes the secret ID and the JSON key used to extract the client secret value from the secret. Required when clientSecretSource is set to EXTERNAL.
+        public var clientSecretConfig: BedrockAgentCoreControlClientTypes.SecretReference?
+        /// The source type of the client secret. Use MANAGED if the secret is managed by the service, or EXTERNAL if you manage the secret yourself in AWS Secrets Manager.
+        public var clientSecretSource: BedrockAgentCoreControlClientTypes.SecretSourceType?
         /// Token issuer of your isolated OAuth2 application tenant. This URL identifies the authorization server that issues tokens for this provider.
         public var issuer: Swift.String?
         /// OAuth2 token endpoint for your isolated OAuth2 application tenant. This is where authorization codes are exchanged for access tokens.
@@ -12153,13 +12470,17 @@ extension BedrockAgentCoreControlClientTypes {
         public init(
             authorizationEndpoint: Swift.String? = nil,
             clientId: Swift.String? = nil,
-            clientSecret: Swift.String? = nil,
+            clientSecret: Swift.String? = "",
+            clientSecretConfig: BedrockAgentCoreControlClientTypes.SecretReference? = nil,
+            clientSecretSource: BedrockAgentCoreControlClientTypes.SecretSourceType? = nil,
             issuer: Swift.String? = nil,
             tokenEndpoint: Swift.String? = nil
         ) {
             self.authorizationEndpoint = authorizationEndpoint
             self.clientId = clientId
             self.clientSecret = clientSecret
+            self.clientSecretConfig = clientSecretConfig
+            self.clientSecretSource = clientSecretSource
             self.issuer = issuer
             self.tokenEndpoint = tokenEndpoint
         }
@@ -12168,7 +12489,7 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes.IncludedOauth2ProviderConfigInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "IncludedOauth2ProviderConfigInput(authorizationEndpoint: \(Swift.String(describing: authorizationEndpoint)), clientId: \(Swift.String(describing: clientId)), issuer: \(Swift.String(describing: issuer)), tokenEndpoint: \(Swift.String(describing: tokenEndpoint)), clientSecret: \"CONTENT_REDACTED\")"}
+        "IncludedOauth2ProviderConfigInput(authorizationEndpoint: \(Swift.String(describing: authorizationEndpoint)), clientId: \(Swift.String(describing: clientId)), clientSecretConfig: \(Swift.String(describing: clientSecretConfig)), clientSecretSource: \(Swift.String(describing: clientSecretSource)), issuer: \(Swift.String(describing: issuer)), tokenEndpoint: \(Swift.String(describing: tokenEndpoint)), clientSecret: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreControlClientTypes {
@@ -12179,22 +12500,29 @@ extension BedrockAgentCoreControlClientTypes {
         /// This member is required.
         public var clientId: Swift.String?
         /// The client secret for the LinkedIn OAuth2 provider. This secret is assigned by LinkedIn and used along with the client ID to authenticate your application.
-        /// This member is required.
         public var clientSecret: Swift.String?
+        /// A reference to the AWS Secrets Manager secret that stores the client secret. This includes the secret ID and the JSON key used to extract the client secret value from the secret. Required when clientSecretSource is set to EXTERNAL.
+        public var clientSecretConfig: BedrockAgentCoreControlClientTypes.SecretReference?
+        /// The source type of the client secret. Use MANAGED if the secret is managed by the service, or EXTERNAL if you manage the secret yourself in AWS Secrets Manager.
+        public var clientSecretSource: BedrockAgentCoreControlClientTypes.SecretSourceType?
 
         public init(
             clientId: Swift.String? = nil,
-            clientSecret: Swift.String? = nil
+            clientSecret: Swift.String? = "",
+            clientSecretConfig: BedrockAgentCoreControlClientTypes.SecretReference? = nil,
+            clientSecretSource: BedrockAgentCoreControlClientTypes.SecretSourceType? = nil
         ) {
             self.clientId = clientId
             self.clientSecret = clientSecret
+            self.clientSecretConfig = clientSecretConfig
+            self.clientSecretSource = clientSecretSource
         }
     }
 }
 
 extension BedrockAgentCoreControlClientTypes.LinkedinOauth2ProviderConfigInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "LinkedinOauth2ProviderConfigInput(clientId: \(Swift.String(describing: clientId)), clientSecret: \"CONTENT_REDACTED\")"}
+        "LinkedinOauth2ProviderConfigInput(clientId: \(Swift.String(describing: clientId)), clientSecretConfig: \(Swift.String(describing: clientSecretConfig)), clientSecretSource: \(Swift.String(describing: clientSecretSource)), clientSecret: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreControlClientTypes {
@@ -12205,18 +12533,25 @@ extension BedrockAgentCoreControlClientTypes {
         /// This member is required.
         public var clientId: Swift.String?
         /// The client secret for the Microsoft OAuth2 provider.
-        /// This member is required.
         public var clientSecret: Swift.String?
+        /// A reference to the AWS Secrets Manager secret that stores the client secret. This includes the secret ID and the JSON key used to extract the client secret value from the secret. Required when clientSecretSource is set to EXTERNAL.
+        public var clientSecretConfig: BedrockAgentCoreControlClientTypes.SecretReference?
+        /// The source type of the client secret. Use MANAGED if the secret is managed by the service, or EXTERNAL if you manage the secret yourself in AWS Secrets Manager.
+        public var clientSecretSource: BedrockAgentCoreControlClientTypes.SecretSourceType?
         /// The Microsoft Entra ID (formerly Azure AD) tenant ID for your organization. This identifies the specific tenant within Microsoft's identity platform where your application is registered.
         public var tenantId: Swift.String?
 
         public init(
             clientId: Swift.String? = nil,
-            clientSecret: Swift.String? = nil,
+            clientSecret: Swift.String? = "",
+            clientSecretConfig: BedrockAgentCoreControlClientTypes.SecretReference? = nil,
+            clientSecretSource: BedrockAgentCoreControlClientTypes.SecretSourceType? = nil,
             tenantId: Swift.String? = nil
         ) {
             self.clientId = clientId
             self.clientSecret = clientSecret
+            self.clientSecretConfig = clientSecretConfig
+            self.clientSecretSource = clientSecretSource
             self.tenantId = tenantId
         }
     }
@@ -12224,7 +12559,7 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes.MicrosoftOauth2ProviderConfigInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "MicrosoftOauth2ProviderConfigInput(clientId: \(Swift.String(describing: clientId)), tenantId: \(Swift.String(describing: tenantId)), clientSecret: \"CONTENT_REDACTED\")"}
+        "MicrosoftOauth2ProviderConfigInput(clientId: \(Swift.String(describing: clientId)), clientSecretConfig: \(Swift.String(describing: clientSecretConfig)), clientSecretSource: \(Swift.String(describing: clientSecretSource)), tenantId: \(Swift.String(describing: tenantId)), clientSecret: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreControlClientTypes {
@@ -12235,22 +12570,29 @@ extension BedrockAgentCoreControlClientTypes {
         /// This member is required.
         public var clientId: Swift.String?
         /// The client secret for the Salesforce OAuth2 provider.
-        /// This member is required.
         public var clientSecret: Swift.String?
+        /// A reference to the AWS Secrets Manager secret that stores the client secret. This includes the secret ID and the JSON key used to extract the client secret value from the secret. Required when clientSecretSource is set to EXTERNAL.
+        public var clientSecretConfig: BedrockAgentCoreControlClientTypes.SecretReference?
+        /// The source type of the client secret. Use MANAGED if the secret is managed by the service, or EXTERNAL if you manage the secret yourself in AWS Secrets Manager.
+        public var clientSecretSource: BedrockAgentCoreControlClientTypes.SecretSourceType?
 
         public init(
             clientId: Swift.String? = nil,
-            clientSecret: Swift.String? = nil
+            clientSecret: Swift.String? = "",
+            clientSecretConfig: BedrockAgentCoreControlClientTypes.SecretReference? = nil,
+            clientSecretSource: BedrockAgentCoreControlClientTypes.SecretSourceType? = nil
         ) {
             self.clientId = clientId
             self.clientSecret = clientSecret
+            self.clientSecretConfig = clientSecretConfig
+            self.clientSecretSource = clientSecretSource
         }
     }
 }
 
 extension BedrockAgentCoreControlClientTypes.SalesforceOauth2ProviderConfigInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "SalesforceOauth2ProviderConfigInput(clientId: \(Swift.String(describing: clientId)), clientSecret: \"CONTENT_REDACTED\")"}
+        "SalesforceOauth2ProviderConfigInput(clientId: \(Swift.String(describing: clientId)), clientSecretConfig: \(Swift.String(describing: clientSecretConfig)), clientSecretSource: \(Swift.String(describing: clientSecretSource)), clientSecret: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreControlClientTypes {
@@ -12261,22 +12603,29 @@ extension BedrockAgentCoreControlClientTypes {
         /// This member is required.
         public var clientId: Swift.String?
         /// The client secret for the Slack OAuth2 provider.
-        /// This member is required.
         public var clientSecret: Swift.String?
+        /// A reference to the AWS Secrets Manager secret that stores the client secret. This includes the secret ID and the JSON key used to extract the client secret value from the secret. Required when clientSecretSource is set to EXTERNAL.
+        public var clientSecretConfig: BedrockAgentCoreControlClientTypes.SecretReference?
+        /// The source type of the client secret. Use MANAGED if the secret is managed by the service, or EXTERNAL if you manage the secret yourself in AWS Secrets Manager.
+        public var clientSecretSource: BedrockAgentCoreControlClientTypes.SecretSourceType?
 
         public init(
             clientId: Swift.String? = nil,
-            clientSecret: Swift.String? = nil
+            clientSecret: Swift.String? = "",
+            clientSecretConfig: BedrockAgentCoreControlClientTypes.SecretReference? = nil,
+            clientSecretSource: BedrockAgentCoreControlClientTypes.SecretSourceType? = nil
         ) {
             self.clientId = clientId
             self.clientSecret = clientSecret
+            self.clientSecretConfig = clientSecretConfig
+            self.clientSecretSource = clientSecretSource
         }
     }
 }
 
 extension BedrockAgentCoreControlClientTypes.SlackOauth2ProviderConfigInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "SlackOauth2ProviderConfigInput(clientId: \(Swift.String(describing: clientId)), clientSecret: \"CONTENT_REDACTED\")"}
+        "SlackOauth2ProviderConfigInput(clientId: \(Swift.String(describing: clientId)), clientSecretConfig: \(Swift.String(describing: clientSecretConfig)), clientSecretSource: \(Swift.String(describing: clientSecretSource)), clientSecret: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreControlClientTypes {
@@ -12603,6 +12952,10 @@ public struct CreateOauth2CredentialProviderOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the client secret in AWS Secrets Manager.
     /// This member is required.
     public var clientSecretArn: BedrockAgentCoreControlClientTypes.Secret?
+    /// The JSON key used to extract the client secret value from the AWS Secrets Manager secret.
+    public var clientSecretJsonKey: Swift.String?
+    /// The source type of the client secret. Either MANAGED if the secret is managed by the service, or EXTERNAL if managed by the user in AWS Secrets Manager.
+    public var clientSecretSource: BedrockAgentCoreControlClientTypes.SecretSourceType?
     /// The Amazon Resource Name (ARN) of the OAuth2 credential provider.
     /// This member is required.
     public var credentialProviderArn: Swift.String?
@@ -12617,6 +12970,8 @@ public struct CreateOauth2CredentialProviderOutput: Swift.Sendable {
     public init(
         callbackUrl: Swift.String? = nil,
         clientSecretArn: BedrockAgentCoreControlClientTypes.Secret? = nil,
+        clientSecretJsonKey: Swift.String? = nil,
+        clientSecretSource: BedrockAgentCoreControlClientTypes.SecretSourceType? = nil,
         credentialProviderArn: Swift.String? = nil,
         name: Swift.String? = nil,
         oauth2ProviderConfigOutput: BedrockAgentCoreControlClientTypes.Oauth2ProviderConfigOutput? = nil,
@@ -12624,6 +12979,8 @@ public struct CreateOauth2CredentialProviderOutput: Swift.Sendable {
     ) {
         self.callbackUrl = callbackUrl
         self.clientSecretArn = clientSecretArn
+        self.clientSecretJsonKey = clientSecretJsonKey
+        self.clientSecretSource = clientSecretSource
         self.credentialProviderArn = credentialProviderArn
         self.name = name
         self.oauth2ProviderConfigOutput = oauth2ProviderConfigOutput
@@ -12666,6 +13023,10 @@ public struct GetOauth2CredentialProviderOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the client secret in AWS Secrets Manager.
     /// This member is required.
     public var clientSecretArn: BedrockAgentCoreControlClientTypes.Secret?
+    /// The JSON key used to extract the client secret value from the AWS Secrets Manager secret.
+    public var clientSecretJsonKey: Swift.String?
+    /// The source type of the client secret. Either MANAGED if the secret is managed by the service, or EXTERNAL if managed by the user in AWS Secrets Manager.
+    public var clientSecretSource: BedrockAgentCoreControlClientTypes.SecretSourceType?
     /// The timestamp when the OAuth2 credential provider was created.
     /// This member is required.
     public var createdTime: Foundation.Date?
@@ -12692,6 +13053,8 @@ public struct GetOauth2CredentialProviderOutput: Swift.Sendable {
     public init(
         callbackUrl: Swift.String? = nil,
         clientSecretArn: BedrockAgentCoreControlClientTypes.Secret? = nil,
+        clientSecretJsonKey: Swift.String? = nil,
+        clientSecretSource: BedrockAgentCoreControlClientTypes.SecretSourceType? = nil,
         createdTime: Foundation.Date? = nil,
         credentialProviderArn: Swift.String? = nil,
         credentialProviderVendor: BedrockAgentCoreControlClientTypes.CredentialProviderVendorType? = nil,
@@ -12703,6 +13066,8 @@ public struct GetOauth2CredentialProviderOutput: Swift.Sendable {
     ) {
         self.callbackUrl = callbackUrl
         self.clientSecretArn = clientSecretArn
+        self.clientSecretJsonKey = clientSecretJsonKey
+        self.clientSecretSource = clientSecretSource
         self.createdTime = createdTime
         self.credentialProviderArn = credentialProviderArn
         self.credentialProviderVendor = credentialProviderVendor
@@ -12809,6 +13174,10 @@ public struct UpdateOauth2CredentialProviderOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the client secret in AWS Secrets Manager.
     /// This member is required.
     public var clientSecretArn: BedrockAgentCoreControlClientTypes.Secret?
+    /// The JSON key used to extract the client secret value from the AWS Secrets Manager secret.
+    public var clientSecretJsonKey: Swift.String?
+    /// The source type of the client secret. Either MANAGED if the secret is managed by the service, or EXTERNAL if managed by the user in AWS Secrets Manager.
+    public var clientSecretSource: BedrockAgentCoreControlClientTypes.SecretSourceType?
     /// The timestamp when the OAuth2 credential provider was created.
     /// This member is required.
     public var createdTime: Foundation.Date?
@@ -12833,6 +13202,8 @@ public struct UpdateOauth2CredentialProviderOutput: Swift.Sendable {
     public init(
         callbackUrl: Swift.String? = nil,
         clientSecretArn: BedrockAgentCoreControlClientTypes.Secret? = nil,
+        clientSecretJsonKey: Swift.String? = nil,
+        clientSecretSource: BedrockAgentCoreControlClientTypes.SecretSourceType? = nil,
         createdTime: Foundation.Date? = nil,
         credentialProviderArn: Swift.String? = nil,
         credentialProviderVendor: BedrockAgentCoreControlClientTypes.CredentialProviderVendorType? = nil,
@@ -12843,6 +13214,8 @@ public struct UpdateOauth2CredentialProviderOutput: Swift.Sendable {
     ) {
         self.callbackUrl = callbackUrl
         self.clientSecretArn = clientSecretArn
+        self.clientSecretJsonKey = clientSecretJsonKey
+        self.clientSecretSource = clientSecretSource
         self.createdTime = createdTime
         self.credentialProviderArn = credentialProviderArn
         self.credentialProviderVendor = credentialProviderVendor
@@ -13571,27 +13944,41 @@ extension BedrockAgentCoreControlClientTypes {
         /// This member is required.
         public var apiKeyId: Swift.String?
         /// The API key secret provided by Coinbase Developer Platform.
-        /// This member is required.
         public var apiKeySecret: Swift.String?
+        /// A reference to the AWS Secrets Manager secret that stores the API key secret. This includes the secret ID and the JSON key used to extract the API key secret value from the secret. Required when apiKeySecretSource is set to EXTERNAL.
+        public var apiKeySecretConfig: BedrockAgentCoreControlClientTypes.SecretReference?
+        /// The source type of the API key secret for the Coinbase Developer Platform. Use MANAGED if the secret is managed by the service, or EXTERNAL if you manage the secret yourself in AWS Secrets Manager.
+        public var apiKeySecretSource: BedrockAgentCoreControlClientTypes.SecretSourceType?
         /// The wallet secret provided by Coinbase Developer Platform.
-        /// This member is required.
         public var walletSecret: Swift.String?
+        /// A reference to the AWS Secrets Manager secret that stores the wallet secret. This includes the secret ID and the JSON key used to extract the wallet secret value from the secret. Required when walletSecretSource is set to EXTERNAL.
+        public var walletSecretConfig: BedrockAgentCoreControlClientTypes.SecretReference?
+        /// The source type of the wallet secret for the Coinbase Developer Platform. Use MANAGED if the secret is managed by the service, or EXTERNAL if you manage the secret yourself in AWS Secrets Manager.
+        public var walletSecretSource: BedrockAgentCoreControlClientTypes.SecretSourceType?
 
         public init(
             apiKeyId: Swift.String? = nil,
-            apiKeySecret: Swift.String? = nil,
-            walletSecret: Swift.String? = nil
+            apiKeySecret: Swift.String? = "",
+            apiKeySecretConfig: BedrockAgentCoreControlClientTypes.SecretReference? = nil,
+            apiKeySecretSource: BedrockAgentCoreControlClientTypes.SecretSourceType? = nil,
+            walletSecret: Swift.String? = "",
+            walletSecretConfig: BedrockAgentCoreControlClientTypes.SecretReference? = nil,
+            walletSecretSource: BedrockAgentCoreControlClientTypes.SecretSourceType? = nil
         ) {
             self.apiKeyId = apiKeyId
             self.apiKeySecret = apiKeySecret
+            self.apiKeySecretConfig = apiKeySecretConfig
+            self.apiKeySecretSource = apiKeySecretSource
             self.walletSecret = walletSecret
+            self.walletSecretConfig = walletSecretConfig
+            self.walletSecretSource = walletSecretSource
         }
     }
 }
 
 extension BedrockAgentCoreControlClientTypes.CoinbaseCdpConfigurationInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CoinbaseCdpConfigurationInput(apiKeyId: \(Swift.String(describing: apiKeyId)), apiKeySecret: \"CONTENT_REDACTED\", walletSecret: \"CONTENT_REDACTED\")"}
+        "CoinbaseCdpConfigurationInput(apiKeyId: \(Swift.String(describing: apiKeyId)), apiKeySecretConfig: \(Swift.String(describing: apiKeySecretConfig)), apiKeySecretSource: \(Swift.String(describing: apiKeySecretSource)), walletSecretConfig: \(Swift.String(describing: walletSecretConfig)), walletSecretSource: \(Swift.String(describing: walletSecretSource)), apiKeySecret: \"CONTENT_REDACTED\", walletSecret: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreControlClientTypes {
@@ -13602,32 +13989,46 @@ extension BedrockAgentCoreControlClientTypes {
         /// This member is required.
         public var appId: Swift.String?
         /// The app secret provided by Privy.
-        /// This member is required.
         public var appSecret: Swift.String?
+        /// A reference to the AWS Secrets Manager secret that stores the app secret. This includes the secret ID and the JSON key used to extract the app secret value from the secret. Required when appSecretSource is set to EXTERNAL.
+        public var appSecretConfig: BedrockAgentCoreControlClientTypes.SecretReference?
+        /// The source type of the app secret. Use MANAGED if the secret is managed by the service, or EXTERNAL if you manage the secret yourself in AWS Secrets Manager.
+        public var appSecretSource: BedrockAgentCoreControlClientTypes.SecretSourceType?
         /// The authorization ID for the Stripe Privy integration.
         /// This member is required.
         public var authorizationId: Swift.String?
         /// The authorization private key for the Stripe Privy integration.
-        /// This member is required.
         public var authorizationPrivateKey: Swift.String?
+        /// A reference to the AWS Secrets Manager secret that stores the authorization private key. This includes the secret ID and the JSON key used to extract the authorization private key value from the secret. Required when authorizationPrivateKeySource is set to EXTERNAL.
+        public var authorizationPrivateKeyConfig: BedrockAgentCoreControlClientTypes.SecretReference?
+        /// The source type of the authorization private key. Use MANAGED if the secret is managed by the service, or EXTERNAL if you manage the secret yourself in AWS Secrets Manager.
+        public var authorizationPrivateKeySource: BedrockAgentCoreControlClientTypes.SecretSourceType?
 
         public init(
             appId: Swift.String? = nil,
-            appSecret: Swift.String? = nil,
+            appSecret: Swift.String? = "",
+            appSecretConfig: BedrockAgentCoreControlClientTypes.SecretReference? = nil,
+            appSecretSource: BedrockAgentCoreControlClientTypes.SecretSourceType? = nil,
             authorizationId: Swift.String? = nil,
-            authorizationPrivateKey: Swift.String? = nil
+            authorizationPrivateKey: Swift.String? = "",
+            authorizationPrivateKeyConfig: BedrockAgentCoreControlClientTypes.SecretReference? = nil,
+            authorizationPrivateKeySource: BedrockAgentCoreControlClientTypes.SecretSourceType? = nil
         ) {
             self.appId = appId
             self.appSecret = appSecret
+            self.appSecretConfig = appSecretConfig
+            self.appSecretSource = appSecretSource
             self.authorizationId = authorizationId
             self.authorizationPrivateKey = authorizationPrivateKey
+            self.authorizationPrivateKeyConfig = authorizationPrivateKeyConfig
+            self.authorizationPrivateKeySource = authorizationPrivateKeySource
         }
     }
 }
 
 extension BedrockAgentCoreControlClientTypes.StripePrivyConfigurationInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "StripePrivyConfigurationInput(appId: \(Swift.String(describing: appId)), authorizationId: \(Swift.String(describing: authorizationId)), appSecret: \"CONTENT_REDACTED\", authorizationPrivateKey: \"CONTENT_REDACTED\")"}
+        "StripePrivyConfigurationInput(appId: \(Swift.String(describing: appId)), appSecretConfig: \(Swift.String(describing: appSecretConfig)), appSecretSource: \(Swift.String(describing: appSecretSource)), authorizationId: \(Swift.String(describing: authorizationId)), authorizationPrivateKeyConfig: \(Swift.String(describing: authorizationPrivateKeyConfig)), authorizationPrivateKeySource: \(Swift.String(describing: authorizationPrivateKeySource)), appSecret: \"CONTENT_REDACTED\", authorizationPrivateKey: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreControlClientTypes {
@@ -13678,18 +14079,34 @@ extension BedrockAgentCoreControlClientTypes {
         /// Contains information about a secret in AWS Secrets Manager.
         /// This member is required.
         public var apiKeySecretArn: BedrockAgentCoreControlClientTypes.Secret?
+        /// The JSON key used to extract the API key secret value from the AWS Secrets Manager secret.
+        public var apiKeySecretJsonKey: Swift.String?
+        /// The source type of the API key secret. Either MANAGED if the secret is managed by the service, or EXTERNAL if managed by the user in AWS Secrets Manager.
+        public var apiKeySecretSource: BedrockAgentCoreControlClientTypes.SecretSourceType?
         /// Contains information about a secret in AWS Secrets Manager.
         /// This member is required.
         public var walletSecretArn: BedrockAgentCoreControlClientTypes.Secret?
+        /// The JSON key used to extract the wallet secret value from the AWS Secrets Manager secret.
+        public var walletSecretJsonKey: Swift.String?
+        /// The source type of the wallet secret. Either MANAGED if the secret is managed by the service, or EXTERNAL if managed by the user in AWS Secrets Manager.
+        public var walletSecretSource: BedrockAgentCoreControlClientTypes.SecretSourceType?
 
         public init(
             apiKeyId: Swift.String? = nil,
             apiKeySecretArn: BedrockAgentCoreControlClientTypes.Secret? = nil,
-            walletSecretArn: BedrockAgentCoreControlClientTypes.Secret? = nil
+            apiKeySecretJsonKey: Swift.String? = nil,
+            apiKeySecretSource: BedrockAgentCoreControlClientTypes.SecretSourceType? = nil,
+            walletSecretArn: BedrockAgentCoreControlClientTypes.Secret? = nil,
+            walletSecretJsonKey: Swift.String? = nil,
+            walletSecretSource: BedrockAgentCoreControlClientTypes.SecretSourceType? = nil
         ) {
             self.apiKeyId = apiKeyId
             self.apiKeySecretArn = apiKeySecretArn
+            self.apiKeySecretJsonKey = apiKeySecretJsonKey
+            self.apiKeySecretSource = apiKeySecretSource
             self.walletSecretArn = walletSecretArn
+            self.walletSecretJsonKey = walletSecretJsonKey
+            self.walletSecretSource = walletSecretSource
         }
     }
 }
@@ -13704,23 +14121,39 @@ extension BedrockAgentCoreControlClientTypes {
         /// Contains information about a secret in AWS Secrets Manager.
         /// This member is required.
         public var appSecretArn: BedrockAgentCoreControlClientTypes.Secret?
+        /// The JSON key used to extract the app secret value from the AWS Secrets Manager secret.
+        public var appSecretJsonKey: Swift.String?
+        /// The source type of the app secret. Either MANAGED if the secret is managed by the service, or EXTERNAL if managed by the user in AWS Secrets Manager.
+        public var appSecretSource: BedrockAgentCoreControlClientTypes.SecretSourceType?
         /// The authorization ID for the Stripe Privy integration.
         /// This member is required.
         public var authorizationId: Swift.String?
         /// Contains information about a secret in AWS Secrets Manager.
         /// This member is required.
         public var authorizationPrivateKeyArn: BedrockAgentCoreControlClientTypes.Secret?
+        /// The JSON key used to extract the authorization private key value from the AWS Secrets Manager secret.
+        public var authorizationPrivateKeyJsonKey: Swift.String?
+        /// The source type of the authorization private key. Either MANAGED if the secret is managed by the service, or EXTERNAL if managed by the user in AWS Secrets Manager.
+        public var authorizationPrivateKeySource: BedrockAgentCoreControlClientTypes.SecretSourceType?
 
         public init(
             appId: Swift.String? = nil,
             appSecretArn: BedrockAgentCoreControlClientTypes.Secret? = nil,
+            appSecretJsonKey: Swift.String? = nil,
+            appSecretSource: BedrockAgentCoreControlClientTypes.SecretSourceType? = nil,
             authorizationId: Swift.String? = nil,
-            authorizationPrivateKeyArn: BedrockAgentCoreControlClientTypes.Secret? = nil
+            authorizationPrivateKeyArn: BedrockAgentCoreControlClientTypes.Secret? = nil,
+            authorizationPrivateKeyJsonKey: Swift.String? = nil,
+            authorizationPrivateKeySource: BedrockAgentCoreControlClientTypes.SecretSourceType? = nil
         ) {
             self.appId = appId
             self.appSecretArn = appSecretArn
+            self.appSecretJsonKey = appSecretJsonKey
+            self.appSecretSource = appSecretSource
             self.authorizationId = authorizationId
             self.authorizationPrivateKeyArn = authorizationPrivateKeyArn
+            self.authorizationPrivateKeyJsonKey = authorizationPrivateKeyJsonKey
+            self.authorizationPrivateKeySource = authorizationPrivateKeySource
         }
     }
 }
@@ -21372,6 +21805,8 @@ extension CreateApiKeyCredentialProviderInput {
     static func write(value: CreateApiKeyCredentialProviderInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["apiKey"].write(value.apiKey)
+        try writer["apiKeySecretConfig"].write(value.apiKeySecretConfig, with: BedrockAgentCoreControlClientTypes.SecretReference.write(value:to:))
+        try writer["apiKeySecretSource"].write(value.apiKeySecretSource)
         try writer["name"].write(value.name)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
@@ -21904,6 +22339,8 @@ extension UpdateApiKeyCredentialProviderInput {
     static func write(value: UpdateApiKeyCredentialProviderInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["apiKey"].write(value.apiKey)
+        try writer["apiKeySecretConfig"].write(value.apiKeySecretConfig, with: BedrockAgentCoreControlClientTypes.SecretReference.write(value:to:))
+        try writer["apiKeySecretSource"].write(value.apiKeySecretSource)
         try writer["name"].write(value.name)
     }
 }
@@ -22211,6 +22648,8 @@ extension CreateApiKeyCredentialProviderOutput {
         let reader = responseReader
         var value = CreateApiKeyCredentialProviderOutput()
         value.apiKeySecretArn = try reader["apiKeySecretArn"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Secret.read(from:))
+        value.apiKeySecretJsonKey = try reader["apiKeySecretJsonKey"].readIfPresent()
+        value.apiKeySecretSource = try reader["apiKeySecretSource"].readIfPresent()
         value.credentialProviderArn = try reader["credentialProviderArn"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent() ?? ""
         return value
@@ -22433,6 +22872,8 @@ extension CreateOauth2CredentialProviderOutput {
         var value = CreateOauth2CredentialProviderOutput()
         value.callbackUrl = try reader["callbackUrl"].readIfPresent()
         value.clientSecretArn = try reader["clientSecretArn"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Secret.read(from:))
+        value.clientSecretJsonKey = try reader["clientSecretJsonKey"].readIfPresent()
+        value.clientSecretSource = try reader["clientSecretSource"].readIfPresent()
         value.credentialProviderArn = try reader["credentialProviderArn"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent() ?? ""
         value.oauth2ProviderConfigOutput = try reader["oauth2ProviderConfigOutput"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Oauth2ProviderConfigOutput.read(from:))
@@ -22986,6 +23427,8 @@ extension GetApiKeyCredentialProviderOutput {
         let reader = responseReader
         var value = GetApiKeyCredentialProviderOutput()
         value.apiKeySecretArn = try reader["apiKeySecretArn"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Secret.read(from:))
+        value.apiKeySecretJsonKey = try reader["apiKeySecretJsonKey"].readIfPresent()
+        value.apiKeySecretSource = try reader["apiKeySecretSource"].readIfPresent()
         value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.credentialProviderArn = try reader["credentialProviderArn"].readIfPresent() ?? ""
         value.lastUpdatedTime = try reader["lastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
@@ -23262,6 +23705,8 @@ extension GetOauth2CredentialProviderOutput {
         var value = GetOauth2CredentialProviderOutput()
         value.callbackUrl = try reader["callbackUrl"].readIfPresent()
         value.clientSecretArn = try reader["clientSecretArn"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Secret.read(from:))
+        value.clientSecretJsonKey = try reader["clientSecretJsonKey"].readIfPresent()
+        value.clientSecretSource = try reader["clientSecretSource"].readIfPresent()
         value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.credentialProviderArn = try reader["credentialProviderArn"].readIfPresent() ?? ""
         value.credentialProviderVendor = try reader["credentialProviderVendor"].readIfPresent() ?? .sdkUnknown("")
@@ -24143,6 +24588,8 @@ extension UpdateApiKeyCredentialProviderOutput {
         let reader = responseReader
         var value = UpdateApiKeyCredentialProviderOutput()
         value.apiKeySecretArn = try reader["apiKeySecretArn"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Secret.read(from:))
+        value.apiKeySecretJsonKey = try reader["apiKeySecretJsonKey"].readIfPresent()
+        value.apiKeySecretSource = try reader["apiKeySecretSource"].readIfPresent()
         value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.credentialProviderArn = try reader["credentialProviderArn"].readIfPresent() ?? ""
         value.lastUpdatedTime = try reader["lastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
@@ -24322,6 +24769,8 @@ extension UpdateOauth2CredentialProviderOutput {
         var value = UpdateOauth2CredentialProviderOutput()
         value.callbackUrl = try reader["callbackUrl"].readIfPresent()
         value.clientSecretArn = try reader["clientSecretArn"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Secret.read(from:))
+        value.clientSecretJsonKey = try reader["clientSecretJsonKey"].readIfPresent()
+        value.clientSecretSource = try reader["clientSecretSource"].readIfPresent()
         value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.credentialProviderArn = try reader["credentialProviderArn"].readIfPresent() ?? ""
         value.credentialProviderVendor = try reader["credentialProviderVendor"].readIfPresent() ?? .sdkUnknown("")
@@ -27758,6 +28207,8 @@ extension BedrockAgentCoreControlClientTypes.AtlassianOauth2ProviderConfigInput 
         guard let value else { return }
         try writer["clientId"].write(value.clientId)
         try writer["clientSecret"].write(value.clientSecret)
+        try writer["clientSecretConfig"].write(value.clientSecretConfig, with: BedrockAgentCoreControlClientTypes.SecretReference.write(value:to:))
+        try writer["clientSecretSource"].write(value.clientSecretSource)
     }
 }
 
@@ -28165,7 +28616,11 @@ extension BedrockAgentCoreControlClientTypes.CoinbaseCdpConfigurationInput {
         guard let value else { return }
         try writer["apiKeyId"].write(value.apiKeyId)
         try writer["apiKeySecret"].write(value.apiKeySecret)
+        try writer["apiKeySecretConfig"].write(value.apiKeySecretConfig, with: BedrockAgentCoreControlClientTypes.SecretReference.write(value:to:))
+        try writer["apiKeySecretSource"].write(value.apiKeySecretSource)
         try writer["walletSecret"].write(value.walletSecret)
+        try writer["walletSecretConfig"].write(value.walletSecretConfig, with: BedrockAgentCoreControlClientTypes.SecretReference.write(value:to:))
+        try writer["walletSecretSource"].write(value.walletSecretSource)
     }
 }
 
@@ -28176,7 +28631,11 @@ extension BedrockAgentCoreControlClientTypes.CoinbaseCdpConfigurationOutput {
         var value = BedrockAgentCoreControlClientTypes.CoinbaseCdpConfigurationOutput()
         value.apiKeyId = try reader["apiKeyId"].readIfPresent() ?? ""
         value.apiKeySecretArn = try reader["apiKeySecretArn"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Secret.read(from:))
+        value.apiKeySecretJsonKey = try reader["apiKeySecretJsonKey"].readIfPresent()
+        value.apiKeySecretSource = try reader["apiKeySecretSource"].readIfPresent()
         value.walletSecretArn = try reader["walletSecretArn"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Secret.read(from:))
+        value.walletSecretJsonKey = try reader["walletSecretJsonKey"].readIfPresent()
+        value.walletSecretSource = try reader["walletSecretSource"].readIfPresent()
         return value
     }
 }
@@ -28278,6 +28737,7 @@ extension BedrockAgentCoreControlClientTypes.ConfigurationBundleSummary {
         value.bundleId = try reader["bundleId"].readIfPresent() ?? ""
         value.bundleName = try reader["bundleName"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -28608,6 +29068,8 @@ extension BedrockAgentCoreControlClientTypes.CustomOauth2ProviderConfigInput {
         try writer["clientAuthenticationMethod"].write(value.clientAuthenticationMethod)
         try writer["clientId"].write(value.clientId)
         try writer["clientSecret"].write(value.clientSecret)
+        try writer["clientSecretConfig"].write(value.clientSecretConfig, with: BedrockAgentCoreControlClientTypes.SecretReference.write(value:to:))
+        try writer["clientSecretSource"].write(value.clientSecretSource)
         try writer["oauthDiscovery"].write(value.oauthDiscovery, with: BedrockAgentCoreControlClientTypes.Oauth2Discovery.write(value:to:))
         try writer["onBehalfOfTokenExchangeConfig"].write(value.onBehalfOfTokenExchangeConfig, with: BedrockAgentCoreControlClientTypes.OnBehalfOfTokenExchangeConfigType.write(value:to:))
         try writer["privateEndpoint"].write(value.privateEndpoint, with: BedrockAgentCoreControlClientTypes.PrivateEndpoint.write(value:to:))
@@ -29277,6 +29739,8 @@ extension BedrockAgentCoreControlClientTypes.GithubOauth2ProviderConfigInput {
         guard let value else { return }
         try writer["clientId"].write(value.clientId)
         try writer["clientSecret"].write(value.clientSecret)
+        try writer["clientSecretConfig"].write(value.clientSecretConfig, with: BedrockAgentCoreControlClientTypes.SecretReference.write(value:to:))
+        try writer["clientSecretSource"].write(value.clientSecretSource)
     }
 }
 
@@ -29297,6 +29761,8 @@ extension BedrockAgentCoreControlClientTypes.GoogleOauth2ProviderConfigInput {
         guard let value else { return }
         try writer["clientId"].write(value.clientId)
         try writer["clientSecret"].write(value.clientSecret)
+        try writer["clientSecretConfig"].write(value.clientSecretConfig, with: BedrockAgentCoreControlClientTypes.SecretReference.write(value:to:))
+        try writer["clientSecretSource"].write(value.clientSecretSource)
     }
 }
 
@@ -29458,6 +29924,8 @@ extension BedrockAgentCoreControlClientTypes.HarnessBedrockModelConfig {
 
     static func write(value: BedrockAgentCoreControlClientTypes.HarnessBedrockModelConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["additionalParams"].write(value.additionalParams)
+        try writer["apiFormat"].write(value.apiFormat)
         try writer["maxTokens"].write(value.maxTokens)
         try writer["modelId"].write(value.modelId)
         try writer["temperature"].write(value.temperature)
@@ -29471,6 +29939,8 @@ extension BedrockAgentCoreControlClientTypes.HarnessBedrockModelConfig {
         value.maxTokens = try reader["maxTokens"].readIfPresent()
         value.temperature = try reader["temperature"].readIfPresent()
         value.topp = try reader["topP"].readIfPresent()
+        value.apiFormat = try reader["apiFormat"].readIfPresent()
+        value.additionalParams = try reader["additionalParams"].readIfPresent()
         return value
     }
 }
@@ -29600,6 +30070,33 @@ extension BedrockAgentCoreControlClientTypes.HarnessInlineFunctionConfig {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes.HarnessLiteLlmModelConfig {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.HarnessLiteLlmModelConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["additionalParams"].write(value.additionalParams)
+        try writer["apiBase"].write(value.apiBase)
+        try writer["apiKeyArn"].write(value.apiKeyArn)
+        try writer["maxTokens"].write(value.maxTokens)
+        try writer["modelId"].write(value.modelId)
+        try writer["temperature"].write(value.temperature)
+        try writer["topP"].write(value.topp)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.HarnessLiteLlmModelConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.HarnessLiteLlmModelConfig()
+        value.modelId = try reader["modelId"].readIfPresent() ?? ""
+        value.apiKeyArn = try reader["apiKeyArn"].readIfPresent()
+        value.apiBase = try reader["apiBase"].readIfPresent()
+        value.maxTokens = try reader["maxTokens"].readIfPresent()
+        value.temperature = try reader["temperature"].readIfPresent()
+        value.topp = try reader["topP"].readIfPresent()
+        value.additionalParams = try reader["additionalParams"].readIfPresent()
+        return value
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes.HarnessMemoryConfiguration {
 
     static func write(value: BedrockAgentCoreControlClientTypes.HarnessMemoryConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -29633,6 +30130,8 @@ extension BedrockAgentCoreControlClientTypes.HarnessModelConfiguration {
                 try writer["bedrockModelConfig"].write(bedrockmodelconfig, with: BedrockAgentCoreControlClientTypes.HarnessBedrockModelConfig.write(value:to:))
             case let .geminimodelconfig(geminimodelconfig):
                 try writer["geminiModelConfig"].write(geminimodelconfig, with: BedrockAgentCoreControlClientTypes.HarnessGeminiModelConfig.write(value:to:))
+            case let .litellmmodelconfig(litellmmodelconfig):
+                try writer["liteLlmModelConfig"].write(litellmmodelconfig, with: BedrockAgentCoreControlClientTypes.HarnessLiteLlmModelConfig.write(value:to:))
             case let .openaimodelconfig(openaimodelconfig):
                 try writer["openAiModelConfig"].write(openaimodelconfig, with: BedrockAgentCoreControlClientTypes.HarnessOpenAiModelConfig.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
@@ -29650,6 +30149,8 @@ extension BedrockAgentCoreControlClientTypes.HarnessModelConfiguration {
                 return .openaimodelconfig(try reader["openAiModelConfig"].read(with: BedrockAgentCoreControlClientTypes.HarnessOpenAiModelConfig.read(from:)))
             case "geminiModelConfig":
                 return .geminimodelconfig(try reader["geminiModelConfig"].read(with: BedrockAgentCoreControlClientTypes.HarnessGeminiModelConfig.read(from:)))
+            case "liteLlmModelConfig":
+                return .litellmmodelconfig(try reader["liteLlmModelConfig"].read(with: BedrockAgentCoreControlClientTypes.HarnessLiteLlmModelConfig.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -29660,6 +30161,8 @@ extension BedrockAgentCoreControlClientTypes.HarnessOpenAiModelConfig {
 
     static func write(value: BedrockAgentCoreControlClientTypes.HarnessOpenAiModelConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["additionalParams"].write(value.additionalParams)
+        try writer["apiFormat"].write(value.apiFormat)
         try writer["apiKeyArn"].write(value.apiKeyArn)
         try writer["maxTokens"].write(value.maxTokens)
         try writer["modelId"].write(value.modelId)
@@ -29675,6 +30178,8 @@ extension BedrockAgentCoreControlClientTypes.HarnessOpenAiModelConfig {
         value.maxTokens = try reader["maxTokens"].readIfPresent()
         value.temperature = try reader["temperature"].readIfPresent()
         value.topp = try reader["topP"].readIfPresent()
+        value.apiFormat = try reader["apiFormat"].readIfPresent()
+        value.additionalParams = try reader["additionalParams"].readIfPresent()
         return value
     }
 }
@@ -29701,8 +30206,12 @@ extension BedrockAgentCoreControlClientTypes.HarnessSkill {
     static func write(value: BedrockAgentCoreControlClientTypes.HarnessSkill?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .git(git):
+                try writer["git"].write(git, with: BedrockAgentCoreControlClientTypes.HarnessSkillGitSource.write(value:to:))
             case let .path(path):
                 try writer["path"].write(path)
+            case let .s3(s3):
+                try writer["s3"].write(s3, with: BedrockAgentCoreControlClientTypes.HarnessSkillS3Source.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -29714,9 +30223,64 @@ extension BedrockAgentCoreControlClientTypes.HarnessSkill {
         switch name {
             case "path":
                 return .path(try reader["path"].read())
+            case "s3":
+                return .s3(try reader["s3"].read(with: BedrockAgentCoreControlClientTypes.HarnessSkillS3Source.read(from:)))
+            case "git":
+                return .git(try reader["git"].read(with: BedrockAgentCoreControlClientTypes.HarnessSkillGitSource.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.HarnessSkillGitAuth {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.HarnessSkillGitAuth?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["credentialArn"].write(value.credentialArn)
+        try writer["username"].write(value.username)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.HarnessSkillGitAuth {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.HarnessSkillGitAuth()
+        value.credentialArn = try reader["credentialArn"].readIfPresent() ?? ""
+        value.username = try reader["username"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.HarnessSkillGitSource {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.HarnessSkillGitSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["auth"].write(value.auth, with: BedrockAgentCoreControlClientTypes.HarnessSkillGitAuth.write(value:to:))
+        try writer["path"].write(value.path)
+        try writer["url"].write(value.url)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.HarnessSkillGitSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.HarnessSkillGitSource()
+        value.url = try reader["url"].readIfPresent() ?? ""
+        value.path = try reader["path"].readIfPresent()
+        value.auth = try reader["auth"].readIfPresent(with: BedrockAgentCoreControlClientTypes.HarnessSkillGitAuth.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.HarnessSkillS3Source {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.HarnessSkillS3Source?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["uri"].write(value.uri)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.HarnessSkillS3Source {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.HarnessSkillS3Source()
+        value.uri = try reader["uri"].readIfPresent() ?? ""
+        return value
     }
 }
 
@@ -29962,6 +30526,8 @@ extension BedrockAgentCoreControlClientTypes.IncludedOauth2ProviderConfigInput {
         try writer["authorizationEndpoint"].write(value.authorizationEndpoint)
         try writer["clientId"].write(value.clientId)
         try writer["clientSecret"].write(value.clientSecret)
+        try writer["clientSecretConfig"].write(value.clientSecretConfig, with: BedrockAgentCoreControlClientTypes.SecretReference.write(value:to:))
+        try writer["clientSecretSource"].write(value.clientSecretSource)
         try writer["issuer"].write(value.issuer)
         try writer["tokenEndpoint"].write(value.tokenEndpoint)
     }
@@ -30172,6 +30738,8 @@ extension BedrockAgentCoreControlClientTypes.LinkedinOauth2ProviderConfigInput {
         guard let value else { return }
         try writer["clientId"].write(value.clientId)
         try writer["clientSecret"].write(value.clientSecret)
+        try writer["clientSecretConfig"].write(value.clientSecretConfig, with: BedrockAgentCoreControlClientTypes.SecretReference.write(value:to:))
+        try writer["clientSecretSource"].write(value.clientSecretSource)
     }
 }
 
@@ -30616,6 +31184,8 @@ extension BedrockAgentCoreControlClientTypes.MicrosoftOauth2ProviderConfigInput 
         guard let value else { return }
         try writer["clientId"].write(value.clientId)
         try writer["clientSecret"].write(value.clientSecret)
+        try writer["clientSecretConfig"].write(value.clientSecretConfig, with: BedrockAgentCoreControlClientTypes.SecretReference.write(value:to:))
+        try writer["clientSecretSource"].write(value.clientSecretSource)
         try writer["tenantId"].write(value.tenantId)
     }
 }
@@ -31698,6 +32268,8 @@ extension BedrockAgentCoreControlClientTypes.SalesforceOauth2ProviderConfigInput
         guard let value else { return }
         try writer["clientId"].write(value.clientId)
         try writer["clientSecret"].write(value.clientSecret)
+        try writer["clientSecretConfig"].write(value.clientSecretConfig, with: BedrockAgentCoreControlClientTypes.SecretReference.write(value:to:))
+        try writer["clientSecretSource"].write(value.clientSecretSource)
     }
 }
 
@@ -31757,6 +32329,15 @@ extension BedrockAgentCoreControlClientTypes.Secret {
         var value = BedrockAgentCoreControlClientTypes.Secret()
         value.secretArn = try reader["secretArn"].readIfPresent() ?? ""
         return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.SecretReference {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.SecretReference?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["jsonKey"].write(value.jsonKey)
+        try writer["secretId"].write(value.secretId)
     }
 }
 
@@ -31982,6 +32563,8 @@ extension BedrockAgentCoreControlClientTypes.SlackOauth2ProviderConfigInput {
         guard let value else { return }
         try writer["clientId"].write(value.clientId)
         try writer["clientSecret"].write(value.clientSecret)
+        try writer["clientSecretConfig"].write(value.clientSecretConfig, with: BedrockAgentCoreControlClientTypes.SecretReference.write(value:to:))
+        try writer["clientSecretSource"].write(value.clientSecretSource)
     }
 }
 
@@ -32134,8 +32717,12 @@ extension BedrockAgentCoreControlClientTypes.StripePrivyConfigurationInput {
         guard let value else { return }
         try writer["appId"].write(value.appId)
         try writer["appSecret"].write(value.appSecret)
+        try writer["appSecretConfig"].write(value.appSecretConfig, with: BedrockAgentCoreControlClientTypes.SecretReference.write(value:to:))
+        try writer["appSecretSource"].write(value.appSecretSource)
         try writer["authorizationId"].write(value.authorizationId)
         try writer["authorizationPrivateKey"].write(value.authorizationPrivateKey)
+        try writer["authorizationPrivateKeyConfig"].write(value.authorizationPrivateKeyConfig, with: BedrockAgentCoreControlClientTypes.SecretReference.write(value:to:))
+        try writer["authorizationPrivateKeySource"].write(value.authorizationPrivateKeySource)
     }
 }
 
@@ -32146,7 +32733,11 @@ extension BedrockAgentCoreControlClientTypes.StripePrivyConfigurationOutput {
         var value = BedrockAgentCoreControlClientTypes.StripePrivyConfigurationOutput()
         value.appId = try reader["appId"].readIfPresent() ?? ""
         value.appSecretArn = try reader["appSecretArn"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Secret.read(from:))
+        value.appSecretJsonKey = try reader["appSecretJsonKey"].readIfPresent()
+        value.appSecretSource = try reader["appSecretSource"].readIfPresent()
         value.authorizationPrivateKeyArn = try reader["authorizationPrivateKeyArn"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Secret.read(from:))
+        value.authorizationPrivateKeyJsonKey = try reader["authorizationPrivateKeyJsonKey"].readIfPresent()
+        value.authorizationPrivateKeySource = try reader["authorizationPrivateKeySource"].readIfPresent()
         value.authorizationId = try reader["authorizationId"].readIfPresent() ?? ""
         return value
     }

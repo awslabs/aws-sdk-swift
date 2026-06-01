@@ -33764,6 +33764,126 @@ public struct CreateNamespaceOutput: Swift.Sendable {
 
 extension QuickSightClientTypes {
 
+    public enum OAuthClientAuthenticationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case token
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OAuthClientAuthenticationType] {
+            return [
+                .token
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .token: return "TOKEN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateOAuthClientApplicationInput: Swift.Sendable {
+    /// The Amazon Web Services account ID.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The client ID of the OAuth application that is registered with the identity provider.
+    /// This member is required.
+    public var clientId: Swift.String?
+    /// The client secret of the OAuth application that is registered with the identity provider.
+    /// This member is required.
+    public var clientSecret: Swift.String?
+    /// The type of data source that the OAuthClientApplication is used with. Valid values are SNOWFLAKE.
+    public var dataSourceType: QuickSightClientTypes.DataSourceType?
+    /// VPC connection properties.
+    public var identityProviderVpcConnectionProperties: QuickSightClientTypes.VpcConnectionProperties?
+    /// The display name for the OAuthClientApplication.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The authorization endpoint URL of the identity provider that is used to obtain authorization codes.
+    public var oAuthAuthorizationEndpointUrl: Swift.String?
+    /// An ID for the OAuthClientApplication that you want to create. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    /// This member is required.
+    public var oAuthClientApplicationId: Swift.String?
+    /// The authentication type to use for the OAuthClientApplication. This determines the OAuth 2.0 grant flow that is used when the data source connects to the identity provider. Valid values are TOKEN.
+    /// This member is required.
+    public var oAuthClientAuthenticationType: QuickSightClientTypes.OAuthClientAuthenticationType?
+    /// The OAuth scopes that are requested when the OAuthClientApplication obtains an access token from the identity provider.
+    public var oAuthScopes: Swift.String?
+    /// The token endpoint URL of the identity provider that is used to obtain access tokens.
+    /// This member is required.
+    public var oAuthTokenEndpointUrl: Swift.String?
+    /// Contains a map of the key-value pairs for the resource tag or tags assigned to the OAuthClientApplication.
+    public var tags: [QuickSightClientTypes.Tag]?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        clientId: Swift.String? = nil,
+        clientSecret: Swift.String? = nil,
+        dataSourceType: QuickSightClientTypes.DataSourceType? = nil,
+        identityProviderVpcConnectionProperties: QuickSightClientTypes.VpcConnectionProperties? = nil,
+        name: Swift.String? = nil,
+        oAuthAuthorizationEndpointUrl: Swift.String? = nil,
+        oAuthClientApplicationId: Swift.String? = nil,
+        oAuthClientAuthenticationType: QuickSightClientTypes.OAuthClientAuthenticationType? = nil,
+        oAuthScopes: Swift.String? = nil,
+        oAuthTokenEndpointUrl: Swift.String? = nil,
+        tags: [QuickSightClientTypes.Tag]? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.clientId = clientId
+        self.clientSecret = clientSecret
+        self.dataSourceType = dataSourceType
+        self.identityProviderVpcConnectionProperties = identityProviderVpcConnectionProperties
+        self.name = name
+        self.oAuthAuthorizationEndpointUrl = oAuthAuthorizationEndpointUrl
+        self.oAuthClientApplicationId = oAuthClientApplicationId
+        self.oAuthClientAuthenticationType = oAuthClientAuthenticationType
+        self.oAuthScopes = oAuthScopes
+        self.oAuthTokenEndpointUrl = oAuthTokenEndpointUrl
+        self.tags = tags
+    }
+}
+
+extension CreateOAuthClientApplicationInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateOAuthClientApplicationInput(awsAccountId: \(Swift.String(describing: awsAccountId)), dataSourceType: \(Swift.String(describing: dataSourceType)), identityProviderVpcConnectionProperties: \(Swift.String(describing: identityProviderVpcConnectionProperties)), name: \(Swift.String(describing: name)), oAuthClientApplicationId: \(Swift.String(describing: oAuthClientApplicationId)), oAuthClientAuthenticationType: \(Swift.String(describing: oAuthClientAuthenticationType)), oAuthScopes: \(Swift.String(describing: oAuthScopes)), tags: \(Swift.String(describing: tags)), clientId: \"CONTENT_REDACTED\", clientSecret: \"CONTENT_REDACTED\", oAuthAuthorizationEndpointUrl: \"CONTENT_REDACTED\", oAuthTokenEndpointUrl: \"CONTENT_REDACTED\")"}
+}
+
+public struct CreateOAuthClientApplicationOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the OAuthClientApplication.
+    public var arn: Swift.String?
+    /// The status of creating the OAuthClientApplication.
+    public var creationStatus: QuickSightClientTypes.ResourceStatus?
+    /// The ID of the OAuthClientApplication. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    public var oAuthClientApplicationId: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init(
+        arn: Swift.String? = nil,
+        creationStatus: QuickSightClientTypes.ResourceStatus? = nil,
+        oAuthClientApplicationId: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    ) {
+        self.arn = arn
+        self.creationStatus = creationStatus
+        self.oAuthClientApplicationId = oAuthClientApplicationId
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
+extension QuickSightClientTypes {
+
     public enum RefreshInterval: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case daily
         case hourly
@@ -38055,6 +38175,46 @@ public struct DeleteNamespaceOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteOAuthClientApplicationInput: Swift.Sendable {
+    /// The Amazon Web Services account ID.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The ID of the OAuthClientApplication that you want to delete.
+    /// This member is required.
+    public var oAuthClientApplicationId: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        oAuthClientApplicationId: Swift.String? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.oAuthClientApplicationId = oAuthClientApplicationId
+    }
+}
+
+public struct DeleteOAuthClientApplicationOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the OAuthClientApplication that you deleted.
+    public var arn: Swift.String?
+    /// The ID of the OAuthClientApplication. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    public var oAuthClientApplicationId: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init(
+        arn: Swift.String? = nil,
+        oAuthClientApplicationId: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    ) {
+        self.arn = arn
+        self.oAuthClientApplicationId = oAuthClientApplicationId
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
 public struct DeleteRefreshScheduleInput: Swift.Sendable {
     /// The Amazon Web Services account ID.
     /// This member is required.
@@ -41270,6 +41430,102 @@ public struct DescribeNamespaceOutput: Swift.Sendable {
         status: Swift.Int = 0
     ) {
         self.namespace = namespace
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
+public struct DescribeOAuthClientApplicationInput: Swift.Sendable {
+    /// The Amazon Web Services account ID.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The ID of the OAuthClientApplication that you want to describe.
+    /// This member is required.
+    public var oAuthClientApplicationId: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        oAuthClientApplicationId: Swift.String? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.oAuthClientApplicationId = oAuthClientApplicationId
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// An OAuth client application that is used to authenticate connections to a data source through an OAuth identity provider.
+    public struct OAuthClientApplication: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the OAuthClientApplication.
+        public var arn: Swift.String?
+        /// The time that the OAuthClientApplication was created.
+        public var createdTime: Foundation.Date?
+        /// The type of data source that the OAuthClientApplication is used with. Valid values are SNOWFLAKE.
+        public var dataSourceType: QuickSightClientTypes.DataSourceType?
+        /// VPC connection properties.
+        public var identityProviderVpcConnectionProperties: QuickSightClientTypes.VpcConnectionProperties?
+        /// The time that the OAuthClientApplication was last updated.
+        public var lastUpdatedTime: Foundation.Date?
+        /// The display name of the OAuthClientApplication.
+        public var name: Swift.String?
+        /// The authorization endpoint URL of the identity provider that is used to obtain authorization codes.
+        public var oAuthAuthorizationEndpointUrl: Swift.String?
+        /// The ID of the OAuthClientApplication. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+        public var oAuthClientApplicationId: Swift.String?
+        /// The OAuth client authentication type used by the OAuthClientApplication. Valid values are TOKEN.
+        public var oAuthClientAuthenticationType: QuickSightClientTypes.OAuthClientAuthenticationType?
+        /// The OAuth scopes that are requested when the OAuthClientApplication obtains an access token from the identity provider.
+        public var oAuthScopes: Swift.String?
+        /// The token endpoint URL of the identity provider that is used to obtain access tokens.
+        public var oAuthTokenEndpointUrl: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            createdTime: Foundation.Date? = nil,
+            dataSourceType: QuickSightClientTypes.DataSourceType? = nil,
+            identityProviderVpcConnectionProperties: QuickSightClientTypes.VpcConnectionProperties? = nil,
+            lastUpdatedTime: Foundation.Date? = nil,
+            name: Swift.String? = nil,
+            oAuthAuthorizationEndpointUrl: Swift.String? = nil,
+            oAuthClientApplicationId: Swift.String? = nil,
+            oAuthClientAuthenticationType: QuickSightClientTypes.OAuthClientAuthenticationType? = nil,
+            oAuthScopes: Swift.String? = nil,
+            oAuthTokenEndpointUrl: Swift.String? = nil
+        ) {
+            self.arn = arn
+            self.createdTime = createdTime
+            self.dataSourceType = dataSourceType
+            self.identityProviderVpcConnectionProperties = identityProviderVpcConnectionProperties
+            self.lastUpdatedTime = lastUpdatedTime
+            self.name = name
+            self.oAuthAuthorizationEndpointUrl = oAuthAuthorizationEndpointUrl
+            self.oAuthClientApplicationId = oAuthClientApplicationId
+            self.oAuthClientAuthenticationType = oAuthClientAuthenticationType
+            self.oAuthScopes = oAuthScopes
+            self.oAuthTokenEndpointUrl = oAuthTokenEndpointUrl
+        }
+    }
+}
+
+extension QuickSightClientTypes.OAuthClientApplication: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "OAuthClientApplication(arn: \(Swift.String(describing: arn)), createdTime: \(Swift.String(describing: createdTime)), dataSourceType: \(Swift.String(describing: dataSourceType)), identityProviderVpcConnectionProperties: \(Swift.String(describing: identityProviderVpcConnectionProperties)), lastUpdatedTime: \(Swift.String(describing: lastUpdatedTime)), name: \(Swift.String(describing: name)), oAuthClientApplicationId: \(Swift.String(describing: oAuthClientApplicationId)), oAuthClientAuthenticationType: \(Swift.String(describing: oAuthClientAuthenticationType)), oAuthScopes: \(Swift.String(describing: oAuthScopes)), oAuthAuthorizationEndpointUrl: \"CONTENT_REDACTED\", oAuthTokenEndpointUrl: \"CONTENT_REDACTED\")"}
+}
+
+public struct DescribeOAuthClientApplicationOutput: Swift.Sendable {
+    /// The information about the OAuthClientApplication.
+    public var oAuthClientApplication: QuickSightClientTypes.OAuthClientApplication?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init(
+        oAuthClientApplication: QuickSightClientTypes.OAuthClientApplication? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    ) {
+        self.oAuthClientApplication = oAuthClientApplication
         self.requestId = requestId
         self.status = status
     }
@@ -45440,6 +45696,92 @@ public struct ListNamespacesOutput: Swift.Sendable {
     }
 }
 
+public struct ListOAuthClientApplicationsInput: Swift.Sendable {
+    /// The Amazon Web Services account ID.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The maximum number of results to return.
+    public var maxResults: Swift.Int?
+    /// A pagination token that can be used in a subsequent request.
+    public var nextToken: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A summary of an OAuthClientApplication.
+    public struct OAuthClientApplicationSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the OAuthClientApplication.
+        public var arn: Swift.String?
+        /// The time that the OAuthClientApplication was created.
+        public var createdTime: Foundation.Date?
+        /// The type of data source that the OAuthClientApplication is used with. Valid values are SNOWFLAKE.
+        public var dataSourceType: QuickSightClientTypes.DataSourceType?
+        /// VPC connection properties.
+        public var identityProviderVpcConnectionProperties: QuickSightClientTypes.VpcConnectionProperties?
+        /// The time that the OAuthClientApplication was last updated.
+        public var lastUpdatedTime: Foundation.Date?
+        /// The display name of the OAuthClientApplication.
+        public var name: Swift.String?
+        /// The ID of the OAuthClientApplication. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+        public var oAuthClientApplicationId: Swift.String?
+        /// The OAuth client authentication type used by the OAuthClientApplication. Valid values are TOKEN.
+        public var oAuthClientAuthenticationType: QuickSightClientTypes.OAuthClientAuthenticationType?
+
+        public init(
+            arn: Swift.String? = nil,
+            createdTime: Foundation.Date? = nil,
+            dataSourceType: QuickSightClientTypes.DataSourceType? = nil,
+            identityProviderVpcConnectionProperties: QuickSightClientTypes.VpcConnectionProperties? = nil,
+            lastUpdatedTime: Foundation.Date? = nil,
+            name: Swift.String? = nil,
+            oAuthClientApplicationId: Swift.String? = nil,
+            oAuthClientAuthenticationType: QuickSightClientTypes.OAuthClientAuthenticationType? = nil
+        ) {
+            self.arn = arn
+            self.createdTime = createdTime
+            self.dataSourceType = dataSourceType
+            self.identityProviderVpcConnectionProperties = identityProviderVpcConnectionProperties
+            self.lastUpdatedTime = lastUpdatedTime
+            self.name = name
+            self.oAuthClientApplicationId = oAuthClientApplicationId
+            self.oAuthClientAuthenticationType = oAuthClientAuthenticationType
+        }
+    }
+}
+
+public struct ListOAuthClientApplicationsOutput: Swift.Sendable {
+    /// A pagination token that can be used in a subsequent request.
+    public var nextToken: Swift.String?
+    /// A list of OAuthClientApplication summaries.
+    public var oAuthClientApplications: [QuickSightClientTypes.OAuthClientApplicationSummary]?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init(
+        nextToken: Swift.String? = nil,
+        oAuthClientApplications: [QuickSightClientTypes.OAuthClientApplicationSummary]? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    ) {
+        self.nextToken = nextToken
+        self.oAuthClientApplications = oAuthClientApplications
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
 public struct ListRefreshSchedulesInput: Swift.Sendable {
     /// The Amazon Web Services account ID.
     /// This member is required.
@@ -49380,6 +49722,88 @@ public struct UpdateKeyRegistrationOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateOAuthClientApplicationInput: Swift.Sendable {
+    /// The Amazon Web Services account ID.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The client ID of the OAuth application that is registered with the identity provider.
+    public var clientId: Swift.String?
+    /// The client secret of the OAuth application that is registered with the identity provider.
+    public var clientSecret: Swift.String?
+    /// The type of data source that the OAuthClientApplication is used with. Valid values are SNOWFLAKE.
+    public var dataSourceType: QuickSightClientTypes.DataSourceType?
+    /// VPC connection properties.
+    public var identityProviderVpcConnectionProperties: QuickSightClientTypes.VpcConnectionProperties?
+    /// The display name for the OAuthClientApplication.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The authorization endpoint URL of the identity provider that is used to obtain authorization codes.
+    public var oAuthAuthorizationEndpointUrl: Swift.String?
+    /// The ID of the OAuthClientApplication that you want to update.
+    /// This member is required.
+    public var oAuthClientApplicationId: Swift.String?
+    /// The OAuth scopes that are requested when the OAuthClientApplication obtains an access token from the identity provider.
+    public var oAuthScopes: Swift.String?
+    /// The token endpoint URL of the identity provider that is used to obtain access tokens.
+    public var oAuthTokenEndpointUrl: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        clientId: Swift.String? = nil,
+        clientSecret: Swift.String? = nil,
+        dataSourceType: QuickSightClientTypes.DataSourceType? = nil,
+        identityProviderVpcConnectionProperties: QuickSightClientTypes.VpcConnectionProperties? = nil,
+        name: Swift.String? = nil,
+        oAuthAuthorizationEndpointUrl: Swift.String? = nil,
+        oAuthClientApplicationId: Swift.String? = nil,
+        oAuthScopes: Swift.String? = nil,
+        oAuthTokenEndpointUrl: Swift.String? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.clientId = clientId
+        self.clientSecret = clientSecret
+        self.dataSourceType = dataSourceType
+        self.identityProviderVpcConnectionProperties = identityProviderVpcConnectionProperties
+        self.name = name
+        self.oAuthAuthorizationEndpointUrl = oAuthAuthorizationEndpointUrl
+        self.oAuthClientApplicationId = oAuthClientApplicationId
+        self.oAuthScopes = oAuthScopes
+        self.oAuthTokenEndpointUrl = oAuthTokenEndpointUrl
+    }
+}
+
+extension UpdateOAuthClientApplicationInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateOAuthClientApplicationInput(awsAccountId: \(Swift.String(describing: awsAccountId)), dataSourceType: \(Swift.String(describing: dataSourceType)), identityProviderVpcConnectionProperties: \(Swift.String(describing: identityProviderVpcConnectionProperties)), name: \(Swift.String(describing: name)), oAuthClientApplicationId: \(Swift.String(describing: oAuthClientApplicationId)), oAuthScopes: \(Swift.String(describing: oAuthScopes)), clientId: \"CONTENT_REDACTED\", clientSecret: \"CONTENT_REDACTED\", oAuthAuthorizationEndpointUrl: \"CONTENT_REDACTED\", oAuthTokenEndpointUrl: \"CONTENT_REDACTED\")"}
+}
+
+public struct UpdateOAuthClientApplicationOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the OAuthClientApplication.
+    public var arn: Swift.String?
+    /// The ID of the OAuthClientApplication. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    public var oAuthClientApplicationId: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+    /// The status of updating the OAuthClientApplication.
+    public var updateStatus: QuickSightClientTypes.ResourceStatus?
+
+    public init(
+        arn: Swift.String? = nil,
+        oAuthClientApplicationId: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0,
+        updateStatus: QuickSightClientTypes.ResourceStatus? = nil
+    ) {
+        self.arn = arn
+        self.oAuthClientApplicationId = oAuthClientApplicationId
+        self.requestId = requestId
+        self.status = status
+        self.updateStatus = updateStatus
+    }
+}
+
 public struct UpdatePublicSharingSettingsInput: Swift.Sendable {
     /// The Amazon Web Services account ID associated with your Amazon Quick Sight subscription.
     /// This member is required.
@@ -50838,6 +51262,16 @@ extension CreateNamespaceInput {
     }
 }
 
+extension CreateOAuthClientApplicationInput {
+
+    static func urlPathProvider(_ value: CreateOAuthClientApplicationInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/oauth-client-applications"
+    }
+}
+
 extension CreateRefreshScheduleInput {
 
     static func urlPathProvider(_ value: CreateRefreshScheduleInput) -> Swift.String? {
@@ -51273,6 +51707,19 @@ extension DeleteNamespaceInput {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/namespaces/\(namespace.urlPercentEncoding())"
+    }
+}
+
+extension DeleteOAuthClientApplicationInput {
+
+    static func urlPathProvider(_ value: DeleteOAuthClientApplicationInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let oAuthClientApplicationId = value.oAuthClientApplicationId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/oauth-client-applications/\(oAuthClientApplicationId.urlPercentEncoding())"
     }
 }
 
@@ -52130,6 +52577,19 @@ extension DescribeNamespaceInput {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/namespaces/\(namespace.urlPercentEncoding())"
+    }
+}
+
+extension DescribeOAuthClientApplicationInput {
+
+    static func urlPathProvider(_ value: DescribeOAuthClientApplicationInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let oAuthClientApplicationId = value.oAuthClientApplicationId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/oauth-client-applications/\(oAuthClientApplicationId.urlPercentEncoding())"
     }
 }
 
@@ -53150,6 +53610,32 @@ extension ListNamespacesInput {
 extension ListNamespacesInput {
 
     static func queryItemProvider(_ value: ListNamespacesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListOAuthClientApplicationsInput {
+
+    static func urlPathProvider(_ value: ListOAuthClientApplicationsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/oauth-client-applications"
+    }
+}
+
+extension ListOAuthClientApplicationsInput {
+
+    static func queryItemProvider(_ value: ListOAuthClientApplicationsInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
@@ -54255,6 +54741,19 @@ extension UpdateKeyRegistrationInput {
     }
 }
 
+extension UpdateOAuthClientApplicationInput {
+
+    static func urlPathProvider(_ value: UpdateOAuthClientApplicationInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let oAuthClientApplicationId = value.oAuthClientApplicationId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/oauth-client-applications/\(oAuthClientApplicationId.urlPercentEncoding())"
+    }
+}
+
 extension UpdatePublicSharingSettingsInput {
 
     static func urlPathProvider(_ value: UpdatePublicSharingSettingsInput) -> Swift.String? {
@@ -54731,6 +55230,24 @@ extension CreateNamespaceInput {
         guard let value else { return }
         try writer["IdentityStore"].write(value.identityStore)
         try writer["Namespace"].write(value.namespace)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: QuickSightClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension CreateOAuthClientApplicationInput {
+
+    static func write(value: CreateOAuthClientApplicationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientId"].write(value.clientId)
+        try writer["ClientSecret"].write(value.clientSecret)
+        try writer["DataSourceType"].write(value.dataSourceType)
+        try writer["IdentityProviderVpcConnectionProperties"].write(value.identityProviderVpcConnectionProperties, with: QuickSightClientTypes.VpcConnectionProperties.write(value:to:))
+        try writer["Name"].write(value.name)
+        try writer["OAuthAuthorizationEndpointUrl"].write(value.oAuthAuthorizationEndpointUrl)
+        try writer["OAuthClientApplicationId"].write(value.oAuthClientApplicationId)
+        try writer["OAuthClientAuthenticationType"].write(value.oAuthClientAuthenticationType)
+        try writer["OAuthScopes"].write(value.oAuthScopes)
+        try writer["OAuthTokenEndpointUrl"].write(value.oAuthTokenEndpointUrl)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: QuickSightClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -55319,6 +55836,21 @@ extension UpdateKeyRegistrationInput {
     }
 }
 
+extension UpdateOAuthClientApplicationInput {
+
+    static func write(value: UpdateOAuthClientApplicationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientId"].write(value.clientId)
+        try writer["ClientSecret"].write(value.clientSecret)
+        try writer["DataSourceType"].write(value.dataSourceType)
+        try writer["IdentityProviderVpcConnectionProperties"].write(value.identityProviderVpcConnectionProperties, with: QuickSightClientTypes.VpcConnectionProperties.write(value:to:))
+        try writer["Name"].write(value.name)
+        try writer["OAuthAuthorizationEndpointUrl"].write(value.oAuthAuthorizationEndpointUrl)
+        try writer["OAuthScopes"].write(value.oAuthScopes)
+        try writer["OAuthTokenEndpointUrl"].write(value.oAuthTokenEndpointUrl)
+    }
+}
+
 extension UpdatePublicSharingSettingsInput {
 
     static func write(value: UpdatePublicSharingSettingsInput?, to writer: SmithyJSON.Writer) throws {
@@ -55800,6 +56332,22 @@ extension CreateNamespaceOutput {
     }
 }
 
+extension CreateOAuthClientApplicationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateOAuthClientApplicationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateOAuthClientApplicationOutput()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.creationStatus = try reader["CreationStatus"].readIfPresent()
+        value.oAuthClientApplicationId = try reader["OAuthClientApplicationId"].readIfPresent()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
 extension CreateRefreshScheduleOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateRefreshScheduleOutput {
@@ -56206,6 +56754,21 @@ extension DeleteNamespaceOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteNamespaceOutput()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension DeleteOAuthClientApplicationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteOAuthClientApplicationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteOAuthClientApplicationOutput()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.oAuthClientApplicationId = try reader["OAuthClientApplicationId"].readIfPresent()
         value.requestId = try reader["RequestId"].readIfPresent()
         value.status = httpResponse.statusCode.rawValue
         return value
@@ -57017,6 +57580,20 @@ extension DescribeNamespaceOutput {
     }
 }
 
+extension DescribeOAuthClientApplicationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeOAuthClientApplicationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeOAuthClientApplicationOutput()
+        value.oAuthClientApplication = try reader["OAuthClientApplication"].readIfPresent(with: QuickSightClientTypes.OAuthClientApplication.read(from:))
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
 extension DescribeQPersonalizationConfigurationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeQPersonalizationConfigurationOutput {
@@ -57717,6 +58294,21 @@ extension ListNamespacesOutput {
         var value = ListNamespacesOutput()
         value.namespaces = try reader["Namespaces"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.NamespaceInfoV2.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension ListOAuthClientApplicationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListOAuthClientApplicationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListOAuthClientApplicationsOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.oAuthClientApplications = try reader["OAuthClientApplications"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.OAuthClientApplicationSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.requestId = try reader["RequestId"].readIfPresent()
         value.status = httpResponse.statusCode.rawValue
         return value
@@ -58704,6 +59296,22 @@ extension UpdateKeyRegistrationOutput {
     }
 }
 
+extension UpdateOAuthClientApplicationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateOAuthClientApplicationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateOAuthClientApplicationOutput()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.oAuthClientApplicationId = try reader["OAuthClientApplicationId"].readIfPresent()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.updateStatus = try reader["UpdateStatus"].readIfPresent()
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
 extension UpdatePublicSharingSettingsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdatePublicSharingSettingsOutput {
@@ -59394,6 +60002,27 @@ enum CreateNamespaceOutputError {
     }
 }
 
+enum CreateOAuthClientApplicationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceExistsException": return try ResourceExistsException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateRefreshScheduleOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -59964,6 +60593,25 @@ enum DeleteNamespaceOutputError {
             case "PreconditionNotMetException": return try PreconditionNotMetException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ResourceUnavailableException": return try ResourceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteOAuthClientApplicationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -60939,6 +61587,24 @@ enum DescribeNamespaceOutputError {
     }
 }
 
+enum DescribeOAuthClientApplicationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeQPersonalizationConfigurationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -61843,6 +62509,25 @@ enum ListNamespacesOutputError {
             case "PreconditionNotMetException": return try PreconditionNotMetException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ResourceUnavailableException": return try ResourceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListOAuthClientApplicationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -63131,6 +63816,26 @@ enum UpdateKeyRegistrationOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateOAuthClientApplicationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -76003,6 +76708,43 @@ extension QuickSightClientTypes.NumericSeparatorConfiguration {
         var value = QuickSightClientTypes.NumericSeparatorConfiguration()
         value.decimalSeparator = try reader["DecimalSeparator"].readIfPresent()
         value.thousandsSeparator = try reader["ThousandsSeparator"].readIfPresent(with: QuickSightClientTypes.ThousandSeparatorOptions.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.OAuthClientApplication {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.OAuthClientApplication {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.OAuthClientApplication()
+        value.oAuthClientApplicationId = try reader["OAuthClientApplicationId"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.oAuthClientAuthenticationType = try reader["OAuthClientAuthenticationType"].readIfPresent()
+        value.oAuthTokenEndpointUrl = try reader["OAuthTokenEndpointUrl"].readIfPresent()
+        value.oAuthAuthorizationEndpointUrl = try reader["OAuthAuthorizationEndpointUrl"].readIfPresent()
+        value.oAuthScopes = try reader["OAuthScopes"].readIfPresent()
+        value.dataSourceType = try reader["DataSourceType"].readIfPresent()
+        value.identityProviderVpcConnectionProperties = try reader["IdentityProviderVpcConnectionProperties"].readIfPresent(with: QuickSightClientTypes.VpcConnectionProperties.read(from:))
+        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.arn = try reader["Arn"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.OAuthClientApplicationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.OAuthClientApplicationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.OAuthClientApplicationSummary()
+        value.oAuthClientApplicationId = try reader["OAuthClientApplicationId"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.oAuthClientAuthenticationType = try reader["OAuthClientAuthenticationType"].readIfPresent()
+        value.dataSourceType = try reader["DataSourceType"].readIfPresent()
+        value.identityProviderVpcConnectionProperties = try reader["IdentityProviderVpcConnectionProperties"].readIfPresent(with: QuickSightClientTypes.VpcConnectionProperties.read(from:))
+        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.arn = try reader["Arn"].readIfPresent()
         return value
     }
 }

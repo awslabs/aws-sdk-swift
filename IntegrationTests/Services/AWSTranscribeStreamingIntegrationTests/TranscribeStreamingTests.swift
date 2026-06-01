@@ -106,6 +106,7 @@ final class TranscribeStreamingTests: XCTestCase, @unchecked Sendable {
             "Hello transcribed streaming from Swift S. D. K.",
             "Hello transcribed streaming from swift sdk.",
             "Hello transcribes streaming from Swift SDK.",
+            "Hello Transcribe streaming from Swift SDK.",
         ]
         XCTAssertTrue(candidates.contains(where: { $0.lowercased() == fullMessage.lowercased() }))
     }

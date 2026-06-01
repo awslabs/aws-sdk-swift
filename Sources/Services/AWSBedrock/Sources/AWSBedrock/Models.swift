@@ -273,9 +273,9 @@ extension BedrockClientTypes {
 
 extension BedrockClientTypes {
 
-    /// Input data configuration for the advanced prompt optimization job.
+    /// Contains the input data configuration for an advanced prompt optimization job.
     public struct AdvancedPromptOptimizationInputConfig: Swift.Sendable {
-        /// S3 URI of the input JSONL file.
+        /// The S3 URI of the JSONL input file containing prompt templates and evaluation samples.
         /// This member is required.
         public var s3Uri: Swift.String?
 
@@ -358,7 +358,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 /// Batch Delete Advanced Prompt Optimization Jobs Request
 public struct BatchDeleteAdvancedPromptOptimizationJobInput: Swift.Sendable {
-    /// List of advanced prompt optimization job identifiers to delete.
+    /// A list of advanced prompt optimization job identifiers (ARNs or IDs) to delete.
     /// This member is required.
     public var jobIdentifiers: [Swift.String]?
 
@@ -371,7 +371,7 @@ public struct BatchDeleteAdvancedPromptOptimizationJobInput: Swift.Sendable {
 
 extension BedrockClientTypes {
 
-    /// Status of the advanced prompt optimization job.
+    /// The status of an advanced prompt optimization job.
     public enum AdvancedPromptOptimizationJobStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case completed
         case deleting
@@ -416,12 +416,12 @@ extension BedrockClientTypes {
 
 extension BedrockClientTypes {
 
-    /// Successfully deleted advanced prompt optimization job.
+    /// Contains information about a successfully deleted advanced prompt optimization job.
     public struct BatchDeleteAdvancedPromptOptimizationJobItem: Swift.Sendable {
-        /// Identifier of the deleted job.
+        /// The identifier of the deleted job.
         /// This member is required.
         public var jobIdentifier: Swift.String?
-        /// Status of the deleted job.
+        /// The status of the deleted job.
         /// This member is required.
         public var jobStatus: BedrockClientTypes.AdvancedPromptOptimizationJobStatus?
 
@@ -437,15 +437,15 @@ extension BedrockClientTypes {
 
 extension BedrockClientTypes {
 
-    /// Batch deletion error for an advanced prompt optimization job.
+    /// Contains information about an error that occurred when deleting an advanced prompt optimization job.
     public struct BatchDeleteAdvancedPromptOptimizationJobError: Swift.Sendable {
-        /// Error code for the deletion failure.
+        /// The error code for the deletion failure.
         /// This member is required.
         public var code: Swift.String?
-        /// Identifier of the job that failed to delete.
+        /// The identifier of the job that could not be deleted.
         /// This member is required.
         public var jobIdentifier: Swift.String?
-        /// Error message describing the deletion failure.
+        /// A message describing the error.
         public var message: Swift.String?
 
         public init(
@@ -462,10 +462,10 @@ extension BedrockClientTypes {
 
 /// Batch Delete Advanced Prompt Optimization Jobs Response
 public struct BatchDeleteAdvancedPromptOptimizationJobOutput: Swift.Sendable {
-    /// List of successfully deleted advanced prompt optimization jobs.
+    /// A list of successfully deleted advanced prompt optimization jobs.
     /// This member is required.
     public var advancedPromptOptimizationJobs: [BedrockClientTypes.BatchDeleteAdvancedPromptOptimizationJobItem]?
-    /// List of errors encountered during batch deletion.
+    /// A list of errors encountered during batch deletion.
     /// This member is required.
     public var errors: [BedrockClientTypes.BatchDeleteAdvancedPromptOptimizationJobError]?
 
@@ -576,15 +576,15 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
 
 extension BedrockClientTypes {
 
-    /// Inference configuration for a model.
+    /// Base inference parameters to pass to a model. For more information, see [Inference parameters for foundation models](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html).
     public struct InferenceConfiguration: Swift.Sendable {
-        /// The maximum number of tokens to generate.
+        /// The maximum number of tokens to allow in the generated response. The default value is the maximum allowed value for the model that you are using.
         public var maxTokens: Swift.Int?
-        /// Stop sequences that end generation.
+        /// A list of stop sequences. A stop sequence is a sequence of characters that causes the model to stop generating the response.
         public var stopSequences: [Swift.String]?
-        /// The temperature for sampling.
+        /// The likelihood of the model selecting higher-probability options while generating a response. A lower value makes the model more likely to choose higher-probability options, while a higher value makes the model more likely to choose lower-probability options.
         public var temperature: Swift.Float?
-        /// The top-p value for nucleus sampling.
+        /// The percentage of most-likely candidates that the model considers for the next token. For example, if you choose a value of 0.8 for topP, the model selects from the top 80% of the probability distribution of tokens that could be next in the sequence.
         public var topp: Swift.Float?
 
         public init(
@@ -603,13 +603,13 @@ extension BedrockClientTypes {
 
 extension BedrockClientTypes {
 
-    /// Configuration for a model used in advanced prompt optimization.
+    /// Contains the configuration for a model used in an advanced prompt optimization job, including the model ID and inference parameters.
     public struct ModelConfiguration: Swift.Sendable {
-        /// Additional model request fields.
+        /// Additional model request fields. Use this to pass model-specific parameters that are not included in the standard inference configuration.
         public var additionalModelRequestFields: [Swift.String: Smithy.Document]?
-        /// Inference configuration for the model.
+        /// The inference configuration for the model, including parameters such as maximum tokens, temperature, and top-p.
         public var inferenceConfig: BedrockClientTypes.InferenceConfiguration?
-        /// The model ID.
+        /// The ID of the model to use for optimization.
         /// This member is required.
         public var modelId: Swift.String?
 
@@ -627,9 +627,9 @@ extension BedrockClientTypes {
 
 extension BedrockClientTypes {
 
-    /// Output data configuration for the advanced prompt optimization job.
+    /// Contains the output data configuration for an advanced prompt optimization job.
     public struct AdvancedPromptOptimizationOutputConfig: Swift.Sendable {
-        /// S3 URI prefix for the output location.
+        /// The S3 URI prefix where the optimization results will be written.
         /// This member is required.
         public var s3Uri: Swift.String?
 
@@ -664,25 +664,25 @@ extension BedrockClientTypes {
 
 /// Create Advanced Prompt Optimization Job Request
 public struct CreateAdvancedPromptOptimizationJobInput: Swift.Sendable {
-    /// Idempotency token for the request.
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request but does not return an error.
     public var clientToken: Swift.String?
-    /// KMS key ARN for encrypting output data.
+    /// The Amazon Resource Name (ARN) of the KMS key used for encrypting the output data. If not specified, the output is encrypted with an Amazon-owned KMS key.
     public var encryptionKeyArn: Swift.String?
-    /// Input data configuration for the advanced prompt optimization job.
+    /// Specifies the S3 location of your JSONL input file containing prompt templates and evaluation samples.
     /// This member is required.
     public var inputConfig: BedrockClientTypes.AdvancedPromptOptimizationInputConfig?
-    /// Description of the advanced prompt optimization job.
+    /// A description of the advanced prompt optimization job.
     public var jobDescription: Swift.String?
-    /// Name of the advanced prompt optimization job.
+    /// A name for the advanced prompt optimization job.
     /// This member is required.
     public var jobName: Swift.String?
-    /// Model configurations for advanced prompt optimization.
+    /// A list of model configurations specifying the target models for prompt optimization. You can specify up to 5 models.
     /// This member is required.
     public var modelConfigurations: [BedrockClientTypes.ModelConfiguration]?
-    /// Output data configuration for the advanced prompt optimization job.
+    /// Specifies the S3 location where optimization results will be stored.
     /// This member is required.
     public var outputConfig: BedrockClientTypes.AdvancedPromptOptimizationOutputConfig?
-    /// Tags to associate with the job.
+    /// Tags to associate with the advanced prompt optimization job.
     public var tags: [BedrockClientTypes.Tag]?
 
     public init(
@@ -708,7 +708,7 @@ public struct CreateAdvancedPromptOptimizationJobInput: Swift.Sendable {
 
 /// Create Advanced Prompt Optimization Job Response
 public struct CreateAdvancedPromptOptimizationJobOutput: Swift.Sendable {
-    /// ARN of the created advanced prompt optimization job.
+    /// The Amazon Resource Name (ARN) of the created advanced prompt optimization job.
     /// This member is required.
     public var jobArn: Swift.String?
 
@@ -721,7 +721,7 @@ public struct CreateAdvancedPromptOptimizationJobOutput: Swift.Sendable {
 
 /// Get Advanced Prompt Optimization Job Request
 public struct GetAdvancedPromptOptimizationJobInput: Swift.Sendable {
-    /// ARN or ID of the advanced prompt optimization job.
+    /// The ARN or ID of the advanced prompt optimization job.
     /// This member is required.
     public var jobIdentifier: Swift.String?
 
@@ -734,33 +734,33 @@ public struct GetAdvancedPromptOptimizationJobInput: Swift.Sendable {
 
 /// Get Advanced Prompt Optimization Job Response
 public struct GetAdvancedPromptOptimizationJobOutput: Swift.Sendable {
-    /// Creation time of the advanced prompt optimization job.
+    /// The time at which the advanced prompt optimization job was created.
     /// This member is required.
     public var creationTime: Foundation.Date?
-    /// KMS key ARN used for encrypting output data.
+    /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the output data.
     public var encryptionKeyArn: Swift.String?
-    /// Failure message if the advanced prompt optimization job failed.
+    /// If the job failed, a message describing the reason for the failure.
     public var failureMessage: Swift.String?
-    /// Input data configuration for the advanced prompt optimization job.
+    /// The input data configuration for the optimization job.
     /// This member is required.
     public var inputConfig: BedrockClientTypes.AdvancedPromptOptimizationInputConfig?
-    /// ARN of the advanced prompt optimization job.
+    /// The Amazon Resource Name (ARN) of the advanced prompt optimization job.
     /// This member is required.
     public var jobArn: Swift.String?
-    /// Description of the advanced prompt optimization job.
+    /// The description of the advanced prompt optimization job.
     public var jobDescription: Swift.String?
-    /// Name of the advanced prompt optimization job.
+    /// The name of the advanced prompt optimization job.
     /// This member is required.
     public var jobName: Swift.String?
-    /// Status of the advanced prompt optimization job.
+    /// The status of the advanced prompt optimization job.
     /// This member is required.
     public var jobStatus: BedrockClientTypes.AdvancedPromptOptimizationJobStatus?
-    /// Last modified time of the advanced prompt optimization job.
+    /// The time at which the advanced prompt optimization job was last modified.
     public var lastModifiedTime: Foundation.Date?
-    /// Model configurations for advanced prompt optimization.
+    /// The model configurations used in the optimization job.
     /// This member is required.
     public var modelConfigurations: [BedrockClientTypes.ModelConfiguration]?
-    /// Output data configuration for the advanced prompt optimization job.
+    /// The output data configuration for the optimization job.
     /// This member is required.
     public var outputConfig: BedrockClientTypes.AdvancedPromptOptimizationOutputConfig?
 
@@ -848,13 +848,13 @@ extension BedrockClientTypes {
 
 /// List Advanced Prompt Optimization Jobs Request
 public struct ListAdvancedPromptOptimizationJobsInput: Swift.Sendable {
-    /// Maximum number of results to return.
+    /// The maximum number of results to return in the response.
     public var maxResults: Swift.Int?
-    /// Pagination token for the next page of results.
+    /// If the total number of results is greater than the maxResults value provided in the request, use this token in a subsequent request to get the next set of results.
     public var nextToken: Swift.String?
-    /// Field to sort by in the returned list of jobs.
+    /// The field to sort the results by.
     public var sortBy: BedrockClientTypes.SortJobsBy?
-    /// Sort order for the results.
+    /// The sort order for the results.
     public var sortOrder: BedrockClientTypes.SortOrder?
 
     public init(
@@ -872,21 +872,21 @@ public struct ListAdvancedPromptOptimizationJobsInput: Swift.Sendable {
 
 extension BedrockClientTypes {
 
-    /// Summary of an advanced prompt optimization job.
+    /// Contains a summary of an advanced prompt optimization job.
     public struct AdvancedPromptOptimizationJobSummary: Swift.Sendable {
-        /// Creation time of the advanced prompt optimization job.
+        /// The time at which the job was created.
         /// This member is required.
         public var creationTime: Foundation.Date?
-        /// ARN of the advanced prompt optimization job.
+        /// The Amazon Resource Name (ARN) of the job.
         /// This member is required.
         public var jobArn: Swift.String?
-        /// Name of the advanced prompt optimization job.
+        /// The name of the job.
         /// This member is required.
         public var jobName: Swift.String?
-        /// Status of the advanced prompt optimization job.
+        /// The status of the job.
         /// This member is required.
         public var jobStatus: BedrockClientTypes.AdvancedPromptOptimizationJobStatus?
-        /// Last modified time of the advanced prompt optimization job.
+        /// The time at which the job was last modified.
         public var lastModifiedTime: Foundation.Date?
 
         public init(
@@ -907,9 +907,9 @@ extension BedrockClientTypes {
 
 /// List Advanced Prompt Optimization Jobs Response
 public struct ListAdvancedPromptOptimizationJobsOutput: Swift.Sendable {
-    /// List of advanced prompt optimization job summaries.
+    /// A list of advanced prompt optimization job summaries.
     public var jobSummaries: [BedrockClientTypes.AdvancedPromptOptimizationJobSummary]?
-    /// Pagination token for the next page of results.
+    /// If the total number of results is greater than the maxResults value provided in the request, use this token in a subsequent request to get the next set of results.
     public var nextToken: Swift.String?
 
     public init(
@@ -923,7 +923,7 @@ public struct ListAdvancedPromptOptimizationJobsOutput: Swift.Sendable {
 
 /// Stop Advanced Prompt Optimization Job Request
 public struct StopAdvancedPromptOptimizationJobInput: Swift.Sendable {
-    /// ARN or ID of the advanced prompt optimization job to stop.
+    /// The ARN or ID of the advanced prompt optimization job to stop.
     /// This member is required.
     public var jobIdentifier: Swift.String?
 
@@ -2171,7 +2171,9 @@ extension BedrockClientTypes {
         case generatePolicyScenarios
         case importPolicy
         case ingestContent
+        case iterativelyRefinePolicy
         case refinePolicy
+        case resolvePolicyAmbiguities
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AutomatedReasoningPolicyBuildWorkflowType] {
@@ -2180,7 +2182,9 @@ extension BedrockClientTypes {
                 .generatePolicyScenarios,
                 .importPolicy,
                 .ingestContent,
-                .refinePolicy
+                .iterativelyRefinePolicy,
+                .refinePolicy,
+                .resolvePolicyAmbiguities
             ]
         }
 
@@ -2195,7 +2199,9 @@ extension BedrockClientTypes {
             case .generatePolicyScenarios: return "GENERATE_POLICY_SCENARIOS"
             case .importPolicy: return "IMPORT_POLICY"
             case .ingestContent: return "INGEST_CONTENT"
+            case .iterativelyRefinePolicy: return "ITERATIVELY_REFINE_POLICY"
             case .refinePolicy: return "REFINE_POLICY"
+            case .resolvePolicyAmbiguities: return "RESOLVE_POLICY_AMBIGUITIES"
             case let .sdkUnknown(s): return s
             }
         }
@@ -4275,6 +4281,31 @@ extension BedrockClientTypes {
 
 extension BedrockClientTypes {
 
+    /// Configuration for an iterative policy refinement workflow, including source documents to process and optional feedback to guide the refinement.
+    public struct AutomatedReasoningPolicyIterativeRefinementContent: Swift.Sendable {
+        /// Source documents used for iterative policy refinement. These documents provide context for refining the policy definition.
+        /// This member is required.
+        public var documents: [BedrockClientTypes.AutomatedReasoningPolicyBuildWorkflowDocument]?
+        /// Optional feedback to guide the iterative refinement workflow. Provide specific instructions or constraints for policy refinement.
+        public var feedback: Swift.String?
+
+        public init(
+            documents: [BedrockClientTypes.AutomatedReasoningPolicyBuildWorkflowDocument]? = nil,
+            feedback: Swift.String? = nil
+        ) {
+            self.documents = documents
+            self.feedback = feedback
+        }
+    }
+}
+
+extension BedrockClientTypes.AutomatedReasoningPolicyIterativeRefinementContent: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AutomatedReasoningPolicyIterativeRefinementContent(documents: \(Swift.String(describing: documents)), feedback: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockClientTypes {
+
     /// Contains content and instructions for repairing or improving an existing Automated Reasoning policy.
     public struct AutomatedReasoningPolicyBuildWorkflowRepairContent: Swift.Sendable {
         /// Specific annotations or modifications to apply during the policy repair process, such as rule corrections or variable updates.
@@ -4299,6 +4330,8 @@ extension BedrockClientTypes {
         case policyrepairassets(BedrockClientTypes.AutomatedReasoningPolicyBuildWorkflowRepairContent)
         /// The content configuration for generating a fidelity report workflow. This can include source documents to analyze or an existing fidelity report to update with a new policy definition.
         case generatefidelityreportcontent(BedrockClientTypes.AutomatedReasoningPolicyGenerateFidelityReportContent)
+        /// Content configuration to start an iterative policy refinement workflow that uses generative AI to automatically make changes to the policy based on test results and the optional feedback provided.
+        case iterativerefinementcontent(BedrockClientTypes.AutomatedReasoningPolicyIterativeRefinementContent)
         case sdkUnknown(Swift.String)
     }
 }
@@ -5360,6 +5393,34 @@ public struct UpdateCustomModelDeploymentOutput: Swift.Sendable {
 
 extension BedrockClientTypes {
 
+    /// Contains the Amazon Resource Name (ARN) of a SageMaker AI model package to use as the data source for a custom model.
+    public struct ModelPackageArnDataSource: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the SageMaker AI model package. The ARN must be for a model package of restricted type. To use a model package ARN, you must have the sagemaker:DescribeModelPackage and sagemaker:AccessModelPackageData permissions on the model package resource.
+        /// This member is required.
+        public var modelPackageArn: Swift.String?
+
+        public init(
+            modelPackageArn: Swift.String? = nil
+        ) {
+            self.modelPackageArn = modelPackageArn
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// The data source for a custom model. This is a union type that supports the following member:
+    ///
+    /// * modelPackageArnDataSource — Specifies a SageMaker AI model package as the data source.
+    public enum CustomModelDataSource: Swift.Sendable {
+        /// A SageMaker AI model package ARN as the data source for the custom model. When you specify a model package ARN, Amazon Bedrock resolves the model package to retrieve the model artifacts.
+        case modelpackagearndatasource(BedrockClientTypes.ModelPackageArnDataSource)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockClientTypes {
+
     /// The Amazon S3 data source of the model to import.
     public struct S3DataSource: Swift.Sendable {
         /// The URI of the Amazon S3 data source.
@@ -5387,21 +5448,23 @@ extension BedrockClientTypes {
 public struct CreateCustomModelInput: Swift.Sendable {
     /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
     public var clientRequestToken: Swift.String?
+    /// The data source for the custom model. Use this field to specify a SageMaker AI model package ARN as the source for your custom model. Amazon Bedrock resolves the model package to retrieve the model artifacts. You can specify either customModelDataSource or modelSourceConfig, but not both.
+    public var customModelDataSource: BedrockClientTypes.CustomModelDataSource?
     /// The Amazon Resource Name (ARN) of the customer managed KMS key to encrypt the custom model. If you don't provide a KMS key, Amazon Bedrock uses an Amazon Web Services-managed KMS key to encrypt the model. If you provide a customer managed KMS key, your Amazon Bedrock service role must have permissions to use it. For more information see [Encryption of imported models](https://docs.aws.amazon.com/bedrock/latest/userguide/encryption-import-model.html).
     public var modelKmsKeyArn: Swift.String?
     /// A unique name for the custom model.
     /// This member is required.
     public var modelName: Swift.String?
     /// The data source for the model. The Amazon S3 URI in the model source must be for the Amazon-managed Amazon S3 bucket containing your model artifacts.
-    /// This member is required.
     public var modelSourceConfig: BedrockClientTypes.ModelDataSource?
     /// A list of key-value pairs to associate with the custom model resource. You can use these tags to organize and identify your resources. For more information, see [Tagging resources](https://docs.aws.amazon.com/bedrock/latest/userguide/tagging.html) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
     public var modelTags: [BedrockClientTypes.Tag]?
-    /// The Amazon Resource Name (ARN) of an IAM service role that Amazon Bedrock assumes to perform tasks on your behalf. This role must have permissions to access the Amazon S3 bucket containing your model artifacts and the KMS key (if specified). For more information, see [Setting up an IAM service role for importing models](https://docs.aws.amazon.com/bedrock/latest/userguide/model-import-iam-role.html) in the Amazon Bedrock User Guide.
+    /// The Amazon Resource Name (ARN) of an IAM service role that Amazon Bedrock assumes to perform tasks on your behalf. This role must have permissions to access the Amazon S3 bucket containing your model artifacts and the KMS key (if specified). For more information, see [Setting up an IAM service role for importing models](https://docs.aws.amazon.com/bedrock/latest/userguide/model-import-iam-role.html) in the Amazon Bedrock User Guide. This field is required when you use modelSourceConfig with an Amazon S3 data source. It is not required when you use customModelDataSource with a model package ARN, because Amazon Bedrock uses its own credentials to access the model artifacts.
     public var roleArn: Swift.String?
 
     public init(
         clientRequestToken: Swift.String? = nil,
+        customModelDataSource: BedrockClientTypes.CustomModelDataSource? = nil,
         modelKmsKeyArn: Swift.String? = nil,
         modelName: Swift.String? = nil,
         modelSourceConfig: BedrockClientTypes.ModelDataSource? = nil,
@@ -5409,6 +5472,7 @@ public struct CreateCustomModelInput: Swift.Sendable {
         roleArn: Swift.String? = nil
     ) {
         self.clientRequestToken = clientRequestToken
+        self.customModelDataSource = customModelDataSource
         self.modelKmsKeyArn = modelKmsKeyArn
         self.modelName = modelName
         self.modelSourceConfig = modelSourceConfig
@@ -15934,6 +15998,7 @@ extension CreateCustomModelInput {
     static func write(value: CreateCustomModelInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["clientRequestToken"].write(value.clientRequestToken)
+        try writer["customModelDataSource"].write(value.customModelDataSource, with: BedrockClientTypes.CustomModelDataSource.write(value:to:))
         try writer["modelKmsKeyArn"].write(value.modelKmsKeyArn)
         try writer["modelName"].write(value.modelName)
         try writer["modelSourceConfig"].write(value.modelSourceConfig, with: BedrockClientTypes.ModelDataSource.write(value:to:))
@@ -20809,6 +20874,15 @@ extension BedrockClientTypes.AutomatedReasoningPolicyIngestContentAnnotation {
     }
 }
 
+extension BedrockClientTypes.AutomatedReasoningPolicyIterativeRefinementContent {
+
+    static func write(value: BedrockClientTypes.AutomatedReasoningPolicyIterativeRefinementContent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["documents"].writeList(value.documents, memberWritingClosure: BedrockClientTypes.AutomatedReasoningPolicyBuildWorkflowDocument.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["feedback"].write(value.feedback)
+    }
+}
+
 extension BedrockClientTypes.AutomatedReasoningPolicyMutation {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.AutomatedReasoningPolicyMutation {
@@ -21178,6 +21252,8 @@ extension BedrockClientTypes.AutomatedReasoningPolicyWorkflowTypeContent {
                 try writer["documents"].writeList(documents, memberWritingClosure: BedrockClientTypes.AutomatedReasoningPolicyBuildWorkflowDocument.write(value:to:), memberNodeInfo: "member", isFlattened: false)
             case let .generatefidelityreportcontent(generatefidelityreportcontent):
                 try writer["generateFidelityReportContent"].write(generatefidelityreportcontent, with: BedrockClientTypes.AutomatedReasoningPolicyGenerateFidelityReportContent.write(value:to:))
+            case let .iterativerefinementcontent(iterativerefinementcontent):
+                try writer["iterativeRefinementContent"].write(iterativerefinementcontent, with: BedrockClientTypes.AutomatedReasoningPolicyIterativeRefinementContent.write(value:to:))
             case let .policyrepairassets(policyrepairassets):
                 try writer["policyRepairAssets"].write(policyrepairassets, with: BedrockClientTypes.AutomatedReasoningPolicyBuildWorkflowRepairContent.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
@@ -21359,6 +21435,19 @@ extension BedrockClientTypes.CustomMetricEvaluatorModelConfig {
         var value = BedrockClientTypes.CustomMetricEvaluatorModelConfig()
         value.bedrockEvaluatorModels = try reader["bedrockEvaluatorModels"].readListIfPresent(memberReadingClosure: BedrockClientTypes.CustomMetricBedrockEvaluatorModel.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
+    }
+}
+
+extension BedrockClientTypes.CustomModelDataSource {
+
+    static func write(value: BedrockClientTypes.CustomModelDataSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .modelpackagearndatasource(modelpackagearndatasource):
+                try writer["modelPackageArnDataSource"].write(modelpackagearndatasource, with: BedrockClientTypes.ModelPackageArnDataSource.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
     }
 }
 
@@ -23053,6 +23142,14 @@ extension BedrockClientTypes.ModelInvocationJobSummary {
         value.successRecordCount = try reader["successRecordCount"].readIfPresent()
         value.errorRecordCount = try reader["errorRecordCount"].readIfPresent()
         return value
+    }
+}
+
+extension BedrockClientTypes.ModelPackageArnDataSource {
+
+    static func write(value: BedrockClientTypes.ModelPackageArnDataSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["modelPackageArn"].write(value.modelPackageArn)
     }
 }
 

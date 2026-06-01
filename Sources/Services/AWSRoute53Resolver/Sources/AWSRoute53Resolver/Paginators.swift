@@ -199,6 +199,37 @@ extension PaginatorSequence where OperationStackInput == ListFirewallRulesInput,
     }
 }
 extension Route53ResolverClient {
+    /// Paginate over `[ListFirewallRuleTypesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListFirewallRuleTypesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListFirewallRuleTypesOutput`
+    public func listFirewallRuleTypesPaginated(input: ListFirewallRuleTypesInput) -> ClientRuntime.PaginatorSequence<ListFirewallRuleTypesInput, ListFirewallRuleTypesOutput> {
+        return ClientRuntime.PaginatorSequence<ListFirewallRuleTypesInput, ListFirewallRuleTypesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listFirewallRuleTypes(input:))
+    }
+}
+
+extension ListFirewallRuleTypesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListFirewallRuleTypesInput {
+        return ListFirewallRuleTypesInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            ruleType: self.ruleType
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListFirewallRuleTypesInput, OperationStackOutput == ListFirewallRuleTypesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listFirewallRuleTypesPaginated`
+    /// to access the nested member `[Route53ResolverClientTypes.FirewallRuleTypeDefinition]`
+    /// - Returns: `[Route53ResolverClientTypes.FirewallRuleTypeDefinition]`
+    public func firewallRuleTypes() async throws -> [Route53ResolverClientTypes.FirewallRuleTypeDefinition] {
+        return try await self.asyncCompactMap { item in item.firewallRuleTypes }
+    }
+}
+extension Route53ResolverClient {
     /// Paginate over `[ListOutpostResolversOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
