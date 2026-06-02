@@ -1938,11 +1938,11 @@ extension GeoRoutesClientTypes.RouteMatrixOrigin: Swift.CustomDebugStringConvert
 
 extension GeoRoutesClientTypes {
 
-    /// Provides the circle that was used while calculating the route.
+    /// AutoCircle requests the route matrix service to define a Circle boundary that best attempts to include most waypoints (Origins and Destinations) using the AutoCircle settings. Any waypoints outside of the auto-defined Circle boundary will be considered out of the routing boundary, which results in a route matrix entry error. AutoCircle is only used in the request to configure a Circle for the route calculation. The derived Circle will also be provided in the response.
     public struct RouteMatrixAutoCircle: Swift.Sendable {
-        /// The margin provided for the calculation.
+        /// The minimal distance, in meters, between any waypoint and the perimeter of the circle auto-defined for the boundary. Some margin is usually recommended so that the routing has enough leeway to travel from one waypoint to another optimally without conflicting with the routing boundary. The total of MaxRadius and Margin must be less than or equal to 200,000 meters.
         public var margin: Swift.Int
-        /// The maximum size of the radius provided for the calculation.
+        /// The maximum radius, in meters, that the auto-defined Circle boundary should have, before the Margin distance is added to the circle. The total of MaxRadius and Margin must be less than or equal to 200,000 meters.
         public var maxRadius: Swift.Int
 
         public init(
@@ -1962,12 +1962,12 @@ extension GeoRoutesClientTypes.RouteMatrixAutoCircle: Swift.CustomDebugStringCon
 
 extension GeoRoutesClientTypes {
 
-    /// Geometry defined as a circle. When request routing boundary was set as AutoCircle, the response routing boundary will return Circle derived from the AutoCircle settings.
+    /// Geometry defined as a circle. The circle defines the routing boundary area. Any waypoints outside the circle will result in a route matrix entry error. You can specify a Circle directly in the request, or it will be auto-derived when AutoCircle is used. When AutoCircle is set in the request, the response routing boundary will return Circle derived from the AutoCircle settings.
     public struct Circle: Swift.Sendable {
         /// Center of the Circle in World Geodetic System (WGS 84) format: [longitude, latitude]. Example: [-123.1174, 49.2847] represents the position with longitude -123.1174 and latitude 49.2847.
         /// This member is required.
         public var center: [Swift.Double]?
-        /// Radius of the Circle. Unit: meters
+        /// Radius of the Circle. Unit: meters Valid Range: Minimum value of 0. Maximum value of 200000.
         /// This member is required.
         public var radius: Swift.Double?
 
@@ -1991,13 +1991,13 @@ extension GeoRoutesClientTypes {
 
     /// Geometry of the routing boundary.
     public struct RouteMatrixBoundaryGeometry: Swift.Sendable {
-        /// Provides the circle that was used while calculating the route.
+        /// AutoCircle requests the route matrix service to define a Circle boundary that best attempts to include most waypoints (Origins and Destinations) using the AutoCircle settings. Any waypoints outside of the auto-defined Circle boundary will be considered out of the routing boundary, which results in a route matrix entry error. AutoCircle is only used in the request to configure a Circle for the route calculation. The derived Circle will also be provided in the response.
         public var autoCircle: GeoRoutesClientTypes.RouteMatrixAutoCircle?
-        /// Geometry defined as a bounding box. The first pair represents the X and Y coordinates (longitude and latitude,) of the southwest corner of the bounding box; the second pair represents the X and Y coordinates (longitude and latitude) of the northeast corner.
+        /// Geometry defined as a bounding box. The first pair represents the X and Y coordinates (longitude and latitude,) of the southwest corner of the bounding box; the second pair represents the X and Y coordinates (longitude and latitude) of the northeast corner. Diagonal distance of the bounding box must be less than or equal to 400,000 meters.
         public var boundingBox: [Swift.Double]?
-        /// Geometry defined as a circle. When request routing boundary was set as AutoCircle, the response routing boundary will return Circle derived from the AutoCircle settings.
+        /// Geometry defined as a circle. The circle defines the routing boundary area. Any waypoints outside the circle will result in a route matrix entry error. You can specify a Circle directly in the request, or it will be auto-derived when AutoCircle is used. When AutoCircle is set in the request, the response routing boundary will return Circle derived from the AutoCircle settings.
         public var circle: GeoRoutesClientTypes.Circle?
-        /// Geometry defined as a polygon with only one linear ring.
+        /// Geometry defined as a polygon with only one linear ring. A linear ring is a closed sequence of four or more coordinates. The first and last coordinates are the same, forming a closed boundary. Each coordinate is a position in [longitude, latitude] format. The structure is an array of linear rings (only 1 allowed). Each linear ring is an array of coordinates (minimum 4), and each coordinate is an array of two doubles [longitude, latitude]. Maximum distance between any two vertices must be less than or equal to 400,000 meters.
         public var polygon: [[[Swift.Double]]]?
 
         public init(
@@ -2433,7 +2433,22 @@ public struct CalculateRouteMatrixInput: Swift.Sendable {
     /// Time of departure from the origin. Time format:YYYY-MM-DDThh:mm:ss.sssZ | YYYY-MM-DDThh:mm:ss.sss+hh:mm Examples: 2020-04-22T17:57:24Z
     ///     2020-04-22T17:57:24+02:00
     public var departureTime: Swift.String?
-    /// List of destinations for the route. Route calculations are billed for each origin and destination pair. If you use a large matrix of origins and destinations, your costs will increase accordingly. For more information, see [Routes pricing](https://docs.aws.amazon.com/location/latest/developerguide/routes-pricing.html) in the Amazon Location Service Developer Guide.
+    /// List of destinations for the route in World Geodetic System (WGS 84) format: [longitude, latitude]. Route calculations are billed for each origin and destination pair. If you use a large matrix of origins and destinations, your costs will increase accordingly. For more information, see [Routes pricing](https://docs.aws.amazon.com/location/latest/developerguide/routes-pricing.html) in the Amazon Location Service Developer Guide. The maximum number of destinations depends on the routing boundary configuration:
+    ///
+    /// * With RoutingBoundary.Geometry set: maximum 500 destinations
+    ///
+    /// * With RoutingBoundary.Unbounded set to true: maximum 100 destinations
+    ///
+    /// * For [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers in ap-southeast-1 and ap-southeast-5: maximum 350 destinations
+    ///
+    ///
+    /// The total matrix size (origins × destinations) must not exceed:
+    ///
+    /// * With RoutingBoundary.Geometry: 160,000
+    ///
+    /// * With RoutingBoundary.Unbounded: 100
+    ///
+    /// * For [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers in ap-southeast-1 and ap-southeast-5: 122,500
     /// This member is required.
     public var destinations: [GeoRoutesClientTypes.RouteMatrixDestination]?
     /// Features to be strictly excluded while calculating the route. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
@@ -2442,10 +2457,25 @@ public struct CalculateRouteMatrixInput: Swift.Sendable {
     public var key: Swift.String?
     /// Controls the trade-off between finding the shortest travel time (FastestRoute) and the shortest distance (ShortestRoute) when calculating reachable areas. Default value: FastestRoute
     public var optimizeRoutingFor: GeoRoutesClientTypes.RoutingObjective?
-    /// The position for the origin in World Geodetic System (WGS 84) format: [longitude, latitude]. Route calculations are billed for each origin and destination pair. Using a large amount of Origins in a request can lead you to incur unexpected charges. For more information, see [Routes pricing](https://docs.aws.amazon.com/location/latest/developerguide/routes-pricing.html) in the Amazon Location Service Developer Guide.
+    /// List of origins for the route in World Geodetic System (WGS 84) format: [longitude, latitude]. Route calculations are billed for each origin and destination pair. Using a large amount of Origins in a request can lead you to incur unexpected charges. For more information, see [Routes pricing](https://docs.aws.amazon.com/location/latest/developerguide/routes-pricing.html) in the Amazon Location Service Developer Guide. The maximum number of origins depends on the routing boundary configuration:
+    ///
+    /// * With RoutingBoundary.Geometry set: maximum 500 origins
+    ///
+    /// * With RoutingBoundary.Unbounded set to true: maximum 15 origins
+    ///
+    /// * For [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers in ap-southeast-1 and ap-southeast-5: maximum 350 origins
+    ///
+    ///
+    /// The total matrix size (origins × destinations) must not exceed:
+    ///
+    /// * With RoutingBoundary.Geometry: 160,000
+    ///
+    /// * With RoutingBoundary.Unbounded: 100
+    ///
+    /// * For [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers in ap-southeast-1 and ap-southeast-5: 122,500
     /// This member is required.
     public var origins: [GeoRoutesClientTypes.RouteMatrixOrigin]?
-    /// Boundary within which the matrix is to be calculated. All data, origins and destinations outside the boundary are considered invalid. For [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers, ap-southeast-1 and ap-southeast-5 regions support only Unbounded set to true. Default value: Unbounded set to true When request routing boundary was set as AutoCircle, the response routing boundary will return Circle derived from the AutoCircle settings.
+    /// Boundary within which the matrix is to be calculated. All data, origins and destinations outside the boundary are considered invalid. For [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers, ap-southeast-1 and ap-southeast-5 regions support only Unbounded set to true. Default value: Unbounded set to true When AutoCircle is set in the request, the response routing boundary will return Circle derived from the AutoCircle settings.
     public var routingBoundary: GeoRoutesClientTypes.RouteMatrixBoundary?
     /// Traffic related options. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
     public var traffic: GeoRoutesClientTypes.RouteMatrixTrafficOptions?
@@ -2580,7 +2610,7 @@ public struct CalculateRouteMatrixOutput: Swift.Sendable {
     /// The calculated route matrix containing the results for all pairs of Origins to Destination positions. Each row corresponds to one entry in Origins. Each entry in the row corresponds to the route from that entry in Origins to an entry in Destination positions.
     /// This member is required.
     public var routeMatrix: [[GeoRoutesClientTypes.RouteMatrixEntry]]?
-    /// Boundary within which the matrix is to be calculated. All data, origins and destinations outside the boundary are considered invalid. When request routing boundary was set as AutoCircle, the response routing boundary will return Circle derived from the AutoCircle settings.
+    /// Boundary within which the matrix is to be calculated. All data, origins and destinations outside the boundary are considered invalid. When AutoCircle is set in the request, the response routing boundary will return Circle derived from the AutoCircle settings.
     /// This member is required.
     public var routingBoundary: GeoRoutesClientTypes.RouteMatrixBoundary?
 
@@ -2985,8 +3015,11 @@ extension GeoRoutesClientTypes {
 extension GeoRoutesClientTypes {
 
     public enum RouteLegAdditionalFeature: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case bookings
         case elevation
         case incidents
+        case intermediateStops
+        case nextDepartures
         case passThroughWaypoints
         case summary
         case tolls
@@ -2998,8 +3031,11 @@ extension GeoRoutesClientTypes {
 
         public static var allCases: [RouteLegAdditionalFeature] {
             return [
+                .bookings,
                 .elevation,
                 .incidents,
+                .intermediateStops,
+                .nextDepartures,
                 .passThroughWaypoints,
                 .summary,
                 .tolls,
@@ -3017,8 +3053,11 @@ extension GeoRoutesClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .bookings: return "Bookings"
             case .elevation: return "Elevation"
             case .incidents: return "Incidents"
+            case .intermediateStops: return "IntermediateStops"
+            case .nextDepartures: return "NextDepartures"
             case .passThroughWaypoints: return "PassThroughWaypoints"
             case .summary: return "Summary"
             case .tolls: return "Tolls"
@@ -3289,16 +3328,20 @@ extension GeoRoutesClientTypes {
 
     public enum RouteTravelMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case car
+        case intermodal
         case pedestrian
         case scooter
+        case transit
         case truck
         case sdkUnknown(Swift.String)
 
         public static var allCases: [RouteTravelMode] {
             return [
                 .car,
+                .intermodal,
                 .pedestrian,
                 .scooter,
+                .transit,
                 .truck
             ]
         }
@@ -3311,8 +3354,10 @@ extension GeoRoutesClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .car: return "Car"
+            case .intermodal: return "Intermodal"
             case .pedestrian: return "Pedestrian"
             case .scooter: return "Scooter"
+            case .transit: return "Transit"
             case .truck: return "Truck"
             case let .sdkUnknown(s): return s
             }
@@ -3406,6 +3451,437 @@ extension GeoRoutesClientTypes.RouteCarOptions: Swift.CustomDebugStringConvertib
 
 extension GeoRoutesClientTypes {
 
+    public enum RouteAccessibilityAttribute: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case wheelchair
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RouteAccessibilityAttribute] {
+            return [
+                .wheelchair
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .wheelchair: return "Wheelchair"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GeoRoutesClientTypes {
+
+    /// Options for the pedestrian leg of the intermodal route.
+    public struct RouteIntermodalPedestrianOptions: Swift.Sendable {
+        /// Maximum walking distance allowed. Unit: meters
+        public var maxDistance: Swift.Int?
+        /// Walking speed. Unit: kilometers per hour
+        public var speed: Swift.Double?
+
+        public init(
+            maxDistance: Swift.Int? = 0,
+            speed: Swift.Double? = 0.0
+        ) {
+            self.maxDistance = maxDistance
+            self.speed = speed
+        }
+    }
+}
+
+extension GeoRoutesClientTypes.RouteIntermodalPedestrianOptions: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteIntermodalPedestrianOptions(maxDistance: \"CONTENT_REDACTED\", speed: \"CONTENT_REDACTED\")"}
+}
+
+extension GeoRoutesClientTypes {
+
+    public enum RouteRentalMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case all
+        case car
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RouteRentalMode] {
+            return [
+                .all,
+                .car
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "All"
+            case .car: return "Car"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GeoRoutesClientTypes {
+
+    public enum RouteIntermodalEnabledLegs: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case entireRoute
+        case firstLeg
+        case lastLeg
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RouteIntermodalEnabledLegs] {
+            return [
+                .entireRoute,
+                .firstLeg,
+                .lastLeg,
+                .none
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .entireRoute: return "EntireRoute"
+            case .firstLeg: return "FirstLeg"
+            case .lastLeg: return "LastLeg"
+            case .none: return "None"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GeoRoutesClientTypes {
+
+    /// Options for the rental leg of the intermodal route.
+    public struct RouteIntermodalRentalOptions: Swift.Sendable {
+        /// Allowed rental transport modes when calculating the route. By default, all transport modes are allowed. Cannot be used together with ExcludedModes.
+        public var allowedModes: [GeoRoutesClientTypes.RouteRentalMode]?
+        /// Specifies the portion of the route for which this leg type is enabled. By default, the leg type is enabled for all legs. Valid values:
+        ///
+        /// * FirstLeg - Enable this leg type for the first non-pedestrian leg of the route.
+        ///
+        /// * LastLeg - Enable this leg type for the last non-pedestrian leg of the route.
+        ///
+        /// * EntireRoute - Enable this leg type for the entire route.
+        ///
+        /// * None - Disable this leg type entirely.
+        public var enabledFor: [GeoRoutesClientTypes.RouteIntermodalEnabledLegs]?
+        /// Excluded rental transport modes when calculating the route. By default, all transport modes are allowed. Cannot be used together with AllowedModes.
+        public var excludedModes: [GeoRoutesClientTypes.RouteRentalMode]?
+
+        public init(
+            allowedModes: [GeoRoutesClientTypes.RouteRentalMode]? = nil,
+            enabledFor: [GeoRoutesClientTypes.RouteIntermodalEnabledLegs]? = nil,
+            excludedModes: [GeoRoutesClientTypes.RouteRentalMode]? = nil
+        ) {
+            self.allowedModes = allowedModes
+            self.enabledFor = enabledFor
+            self.excludedModes = excludedModes
+        }
+    }
+}
+
+extension GeoRoutesClientTypes.RouteIntermodalRentalOptions: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteIntermodalRentalOptions(allowedModes: \"CONTENT_REDACTED\", enabledFor: \"CONTENT_REDACTED\", excludedModes: \"CONTENT_REDACTED\")"}
+}
+
+extension GeoRoutesClientTypes {
+
+    public enum RouteTaxiMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case all
+        case car
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RouteTaxiMode] {
+            return [
+                .all,
+                .car
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "All"
+            case .car: return "Car"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GeoRoutesClientTypes {
+
+    /// Options for the taxi leg of the intermodal route.
+    public struct RouteIntermodalTaxiOptions: Swift.Sendable {
+        /// Allowed taxi transport modes when calculating the route. By default, all transport modes are allowed. Cannot be used together with ExcludedModes.
+        public var allowedModes: [GeoRoutesClientTypes.RouteTaxiMode]?
+        /// Specifies the portion of the route for which this leg type is enabled. By default, the leg type is enabled for all legs. Valid values:
+        ///
+        /// * FirstLeg - Enable this leg type for the first non-pedestrian leg of the route.
+        ///
+        /// * LastLeg - Enable this leg type for the last non-pedestrian leg of the route.
+        ///
+        /// * EntireRoute - Enable this leg type for the entire route.
+        ///
+        /// * None - Disable this leg type entirely.
+        public var enabledFor: [GeoRoutesClientTypes.RouteIntermodalEnabledLegs]?
+        /// Excluded taxi transport modes when calculating the route. By default, all transport modes are allowed. Cannot be used together with AllowedModes.
+        public var excludedModes: [GeoRoutesClientTypes.RouteTaxiMode]?
+
+        public init(
+            allowedModes: [GeoRoutesClientTypes.RouteTaxiMode]? = nil,
+            enabledFor: [GeoRoutesClientTypes.RouteIntermodalEnabledLegs]? = nil,
+            excludedModes: [GeoRoutesClientTypes.RouteTaxiMode]? = nil
+        ) {
+            self.allowedModes = allowedModes
+            self.enabledFor = enabledFor
+            self.excludedModes = excludedModes
+        }
+    }
+}
+
+extension GeoRoutesClientTypes.RouteIntermodalTaxiOptions: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteIntermodalTaxiOptions(allowedModes: \"CONTENT_REDACTED\", enabledFor: \"CONTENT_REDACTED\", excludedModes: \"CONTENT_REDACTED\")"}
+}
+
+extension GeoRoutesClientTypes {
+
+    public enum RouteTransitMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case aerialTramway
+        case airplane
+        case all
+        case bus
+        case busRapidTransit
+        case cityTrain
+        case ferry
+        case funicularRailway
+        case highSpeedTrain
+        case intercityTrain
+        case interregionalTrain
+        case lightRail
+        case monorail
+        case privateBus
+        case regionalTrain
+        case subway
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RouteTransitMode] {
+            return [
+                .aerialTramway,
+                .airplane,
+                .all,
+                .bus,
+                .busRapidTransit,
+                .cityTrain,
+                .ferry,
+                .funicularRailway,
+                .highSpeedTrain,
+                .intercityTrain,
+                .interregionalTrain,
+                .lightRail,
+                .monorail,
+                .privateBus,
+                .regionalTrain,
+                .subway
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .aerialTramway: return "AerialTramway"
+            case .airplane: return "Airplane"
+            case .all: return "All"
+            case .bus: return "Bus"
+            case .busRapidTransit: return "BusRapidTransit"
+            case .cityTrain: return "CityTrain"
+            case .ferry: return "Ferry"
+            case .funicularRailway: return "FunicularRailway"
+            case .highSpeedTrain: return "HighSpeedTrain"
+            case .intercityTrain: return "IntercityTrain"
+            case .interregionalTrain: return "InterregionalTrain"
+            case .lightRail: return "LightRail"
+            case .monorail: return "Monorail"
+            case .privateBus: return "PrivateBus"
+            case .regionalTrain: return "RegionalTrain"
+            case .subway: return "Subway"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GeoRoutesClientTypes {
+
+    /// Options for the transit leg of the intermodal route.
+    public struct RouteIntermodalTransitOptions: Swift.Sendable {
+        /// Allowed transit transport modes when calculating the route. By default, all transport modes are allowed. Cannot be used together with ExcludedModes.
+        public var allowedModes: [GeoRoutesClientTypes.RouteTransitMode]?
+        /// Specifies the portion of the route for which this leg type is enabled. By default, the leg type is enabled for all legs. Valid values:
+        ///
+        /// * FirstLeg - Enable this leg type for the first non-pedestrian leg of the route.
+        ///
+        /// * LastLeg - Enable this leg type for the last non-pedestrian leg of the route.
+        ///
+        /// * EntireRoute - Enable this leg type for the entire route.
+        ///
+        /// * None - Disable this leg type entirely.
+        public var enabledFor: [GeoRoutesClientTypes.RouteIntermodalEnabledLegs]?
+        /// Excluded transit transport modes when calculating the route. By default, all transport modes are allowed. Cannot be used together with AllowedModes.
+        public var excludedModes: [GeoRoutesClientTypes.RouteTransitMode]?
+
+        public init(
+            allowedModes: [GeoRoutesClientTypes.RouteTransitMode]? = nil,
+            enabledFor: [GeoRoutesClientTypes.RouteIntermodalEnabledLegs]? = nil,
+            excludedModes: [GeoRoutesClientTypes.RouteTransitMode]? = nil
+        ) {
+            self.allowedModes = allowedModes
+            self.enabledFor = enabledFor
+            self.excludedModes = excludedModes
+        }
+    }
+}
+
+extension GeoRoutesClientTypes.RouteIntermodalTransitOptions: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteIntermodalTransitOptions(allowedModes: \"CONTENT_REDACTED\", enabledFor: \"CONTENT_REDACTED\", excludedModes: \"CONTENT_REDACTED\")"}
+}
+
+extension GeoRoutesClientTypes {
+
+    public enum RouteVehicleMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case all
+        case car
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RouteVehicleMode] {
+            return [
+                .all,
+                .car
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "All"
+            case .car: return "Car"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GeoRoutesClientTypes {
+
+    /// Options for the vehicle leg of the intermodal route.
+    public struct RouteIntermodalVehicleOptions: Swift.Sendable {
+        /// Allowed vehicle transport modes when calculating the route. By default, all transport modes are allowed. Cannot be used together with ExcludedModes.
+        public var allowedModes: [GeoRoutesClientTypes.RouteVehicleMode]?
+        /// Specifies the portion of the route for which this leg type is enabled. By default, the leg type is enabled for all legs. Valid values:
+        ///
+        /// * FirstLeg - Enable this leg type for the first non-pedestrian leg of the route.
+        ///
+        /// * LastLeg - Enable this leg type for the last non-pedestrian leg of the route.
+        ///
+        /// * EntireRoute - Enable this leg type for the entire route.
+        ///
+        /// * None - Disable this leg type entirely.
+        public var enabledFor: [GeoRoutesClientTypes.RouteIntermodalEnabledLegs]?
+        /// Excluded vehicle transport modes when calculating the route. By default, all transport modes are allowed. Cannot be used together with AllowedModes.
+        public var excludedModes: [GeoRoutesClientTypes.RouteVehicleMode]?
+
+        public init(
+            allowedModes: [GeoRoutesClientTypes.RouteVehicleMode]? = nil,
+            enabledFor: [GeoRoutesClientTypes.RouteIntermodalEnabledLegs]? = nil,
+            excludedModes: [GeoRoutesClientTypes.RouteVehicleMode]? = nil
+        ) {
+            self.allowedModes = allowedModes
+            self.enabledFor = enabledFor
+            self.excludedModes = excludedModes
+        }
+    }
+}
+
+extension GeoRoutesClientTypes.RouteIntermodalVehicleOptions: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteIntermodalVehicleOptions(allowedModes: \"CONTENT_REDACTED\", enabledFor: \"CONTENT_REDACTED\", excludedModes: \"CONTENT_REDACTED\")"}
+}
+
+extension GeoRoutesClientTypes {
+
+    /// Options related to intermodal routing. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
+    public struct RouteIntermodalOptions: Swift.Sendable {
+        /// Accessibility attributes to consider when calculating the route.
+        public var accessibilityAttributes: [GeoRoutesClientTypes.RouteAccessibilityAttribute]?
+        /// Maximum number of transfers allowed when calculating the route.
+        public var maxTransfers: Swift.Int?
+        /// Options for the pedestrian leg of the intermodal route.
+        public var pedestrian: GeoRoutesClientTypes.RouteIntermodalPedestrianOptions?
+        /// Options for the rental leg of the intermodal route.
+        public var rental: GeoRoutesClientTypes.RouteIntermodalRentalOptions?
+        /// Options for the taxi leg of the intermodal route.
+        public var taxi: GeoRoutesClientTypes.RouteIntermodalTaxiOptions?
+        /// Options for the transit leg of the intermodal route.
+        public var transit: GeoRoutesClientTypes.RouteIntermodalTransitOptions?
+        /// Options for the vehicle leg of the intermodal route.
+        public var vehicle: GeoRoutesClientTypes.RouteIntermodalVehicleOptions?
+
+        public init(
+            accessibilityAttributes: [GeoRoutesClientTypes.RouteAccessibilityAttribute]? = nil,
+            maxTransfers: Swift.Int? = nil,
+            pedestrian: GeoRoutesClientTypes.RouteIntermodalPedestrianOptions? = nil,
+            rental: GeoRoutesClientTypes.RouteIntermodalRentalOptions? = nil,
+            taxi: GeoRoutesClientTypes.RouteIntermodalTaxiOptions? = nil,
+            transit: GeoRoutesClientTypes.RouteIntermodalTransitOptions? = nil,
+            vehicle: GeoRoutesClientTypes.RouteIntermodalVehicleOptions? = nil
+        ) {
+            self.accessibilityAttributes = accessibilityAttributes
+            self.maxTransfers = maxTransfers
+            self.pedestrian = pedestrian
+            self.rental = rental
+            self.taxi = taxi
+            self.transit = transit
+            self.vehicle = vehicle
+        }
+    }
+}
+
+extension GeoRoutesClientTypes.RouteIntermodalOptions: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteIntermodalOptions(maxTransfers: \(Swift.String(describing: maxTransfers)), pedestrian: \(Swift.String(describing: pedestrian)), rental: \(Swift.String(describing: rental)), taxi: \(Swift.String(describing: taxi)), transit: \(Swift.String(describing: transit)), vehicle: \(Swift.String(describing: vehicle)), accessibilityAttributes: \"CONTENT_REDACTED\")"}
+}
+
+extension GeoRoutesClientTypes {
+
     /// Options related to the pedestrian. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
     public struct RoutePedestrianOptions: Swift.Sendable {
         /// Walking speed in Kilometers per hour.
@@ -3454,6 +3930,66 @@ extension GeoRoutesClientTypes {
 extension GeoRoutesClientTypes.RouteScooterOptions: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "RouteScooterOptions(licensePlate: \(Swift.String(describing: licensePlate)), engineType: \"CONTENT_REDACTED\", maxSpeed: \"CONTENT_REDACTED\", occupancy: \"CONTENT_REDACTED\")"}
+}
+
+extension GeoRoutesClientTypes {
+
+    /// Options for the pedestrian leg of the transit route.
+    public struct RouteTransitPedestrianOptions: Swift.Sendable {
+        /// Maximum walking distance allowed. Unit: meters
+        public var maxDistance: Swift.Int?
+        /// Walking speed. Unit: kilometers per hour
+        public var speed: Swift.Double?
+
+        public init(
+            maxDistance: Swift.Int? = 0,
+            speed: Swift.Double? = 0.0
+        ) {
+            self.maxDistance = maxDistance
+            self.speed = speed
+        }
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTransitPedestrianOptions: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteTransitPedestrianOptions(maxDistance: \"CONTENT_REDACTED\", speed: \"CONTENT_REDACTED\")"}
+}
+
+extension GeoRoutesClientTypes {
+
+    /// Options related to transit routing. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
+    public struct RouteTransitOptions: Swift.Sendable {
+        /// Accessibility attributes to consider when calculating the route.
+        public var accessibilityAttributes: [GeoRoutesClientTypes.RouteAccessibilityAttribute]?
+        /// Allowed transit transport modes when calculating the route. By default, all transport modes are allowed. Cannot be used together with ExcludedModes.
+        public var allowedModes: [GeoRoutesClientTypes.RouteTransitMode]?
+        /// Excluded transit transport modes when calculating the route. By default, all transport modes are allowed. Cannot be used together with AllowedModes.
+        public var excludedModes: [GeoRoutesClientTypes.RouteTransitMode]?
+        /// Maximum number of transfers allowed when calculating the route.
+        public var maxTransfers: Swift.Int?
+        /// Options for the pedestrian leg of the transit route.
+        public var pedestrian: GeoRoutesClientTypes.RouteTransitPedestrianOptions?
+
+        public init(
+            accessibilityAttributes: [GeoRoutesClientTypes.RouteAccessibilityAttribute]? = nil,
+            allowedModes: [GeoRoutesClientTypes.RouteTransitMode]? = nil,
+            excludedModes: [GeoRoutesClientTypes.RouteTransitMode]? = nil,
+            maxTransfers: Swift.Int? = nil,
+            pedestrian: GeoRoutesClientTypes.RouteTransitPedestrianOptions? = nil
+        ) {
+            self.accessibilityAttributes = accessibilityAttributes
+            self.allowedModes = allowedModes
+            self.excludedModes = excludedModes
+            self.maxTransfers = maxTransfers
+            self.pedestrian = pedestrian
+        }
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTransitOptions: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteTransitOptions(maxTransfers: \(Swift.String(describing: maxTransfers)), pedestrian: \(Swift.String(describing: pedestrian)), accessibilityAttributes: \"CONTENT_REDACTED\", allowedModes: \"CONTENT_REDACTED\", excludedModes: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -3699,22 +4235,30 @@ extension GeoRoutesClientTypes {
     public struct RouteTravelModeOptions: Swift.Sendable {
         /// Travel mode options when the provided travel mode is Car.
         public var car: GeoRoutesClientTypes.RouteCarOptions?
+        /// Travel mode options when the provided travel mode is Intermodal. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
+        public var intermodal: GeoRoutesClientTypes.RouteIntermodalOptions?
         /// Travel mode options when the provided travel mode is Pedestrian.
         public var pedestrian: GeoRoutesClientTypes.RoutePedestrianOptions?
         /// Travel mode options when the provided travel mode is Scooter. When travel mode is set to Scooter, then the avoidance option ControlledAccessHighways defaults to true.
         public var scooter: GeoRoutesClientTypes.RouteScooterOptions?
+        /// Travel mode options when the provided travel mode is Transit. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
+        public var transit: GeoRoutesClientTypes.RouteTransitOptions?
         /// Travel mode options when the provided travel mode is Truck.
         public var truck: GeoRoutesClientTypes.RouteTruckOptions?
 
         public init(
             car: GeoRoutesClientTypes.RouteCarOptions? = nil,
+            intermodal: GeoRoutesClientTypes.RouteIntermodalOptions? = nil,
             pedestrian: GeoRoutesClientTypes.RoutePedestrianOptions? = nil,
             scooter: GeoRoutesClientTypes.RouteScooterOptions? = nil,
+            transit: GeoRoutesClientTypes.RouteTransitOptions? = nil,
             truck: GeoRoutesClientTypes.RouteTruckOptions? = nil
         ) {
             self.car = car
+            self.intermodal = intermodal
             self.pedestrian = pedestrian
             self.scooter = scooter
+            self.transit = transit
             self.truck = truck
         }
     }
@@ -3936,14 +4480,20 @@ extension GeoRoutesClientTypes {
 
     public enum RouteResponseNoticeCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case mainLanguageNotFound
+        case noTransitStationsFound
         case other
+        case transitDataUnavailable
+        case transitRouteUnavailable
         case travelTimeExceedsDriverWorkHours
         case sdkUnknown(Swift.String)
 
         public static var allCases: [RouteResponseNoticeCode] {
             return [
                 .mainLanguageNotFound,
+                .noTransitStationsFound,
                 .other,
+                .transitDataUnavailable,
+                .transitRouteUnavailable,
                 .travelTimeExceedsDriverWorkHours
             ]
         }
@@ -3956,7 +4506,10 @@ extension GeoRoutesClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .mainLanguageNotFound: return "MainLanguageNotFound"
+            case .noTransitStationsFound: return "NoTransitStationsFound"
             case .other: return "Other"
+            case .transitDataUnavailable: return "TransitDataUnavailable"
+            case .transitRouteUnavailable: return "TransitRouteUnavailable"
             case .travelTimeExceedsDriverWorkHours: return "TravelTimeExceedsDriverWorkHours"
             case let .sdkUnknown(s): return s
             }
@@ -4106,10 +4659,10 @@ extension GeoRoutesClientTypes {
 
     /// Details corresponding to the arrival for the leg.
     public struct RouteFerryArrival: Swift.Sendable {
-        /// The place details.
+        /// Place details corresponding to the arrival.
         /// This member is required.
         public var place: GeoRoutesClientTypes.RouteFerryPlace?
-        /// The time.
+        /// The arrival time.
         public var time: Swift.String?
 
         public init(
@@ -4187,10 +4740,10 @@ extension GeoRoutesClientTypes {
 
     /// Details corresponding to the departure for the leg.
     public struct RouteFerryDeparture: Swift.Sendable {
-        /// The place details.
+        /// Place details corresponding to the departure.
         /// This member is required.
         public var place: GeoRoutesClientTypes.RouteFerryPlace?
-        /// The time.
+        /// The departure time.
         public var time: Swift.String?
 
         public init(
@@ -4313,7 +4866,7 @@ extension GeoRoutesClientTypes {
     public struct RoutePassThroughWaypoint: Swift.Sendable {
         /// Offset in the leg geometry corresponding to the start of this step.
         public var geometryOffset: Swift.Int?
-        /// The place details.
+        /// Place details corresponding to the pass-through waypoint.
         /// This member is required.
         public var place: GeoRoutesClientTypes.RoutePassThroughPlace?
 
@@ -4364,7 +4917,7 @@ extension GeoRoutesClientTypes {
         public var duration: Swift.Int
         /// Offset in the leg geometry corresponding to the start of this span.
         public var geometryOffset: Swift.Int?
-        /// Provides an array of names of the ferry span in available languages.
+        /// Names of the ferry span in available languages.
         public var names: [GeoRoutesClientTypes.LocalizedString]?
         /// 2-3 letter Region code corresponding to the Span. This is either a province or a state.
         public var region: Swift.String?
@@ -4394,12 +4947,12 @@ extension GeoRoutesClientTypes.RouteFerrySpan: Swift.CustomDebugStringConvertibl
 
 extension GeoRoutesClientTypes {
 
-    /// Summarized details of the leg.
+    /// Summary including duration and distance for the entire leg.
     public struct RouteFerryOverviewSummary: Swift.Sendable {
-        /// Distance of the step.
+        /// Distance of the entire leg. Unit: meters
         /// This member is required.
         public var distance: Swift.Int
-        /// Duration of the step. Unit: seconds
+        /// Duration of the entire leg. Unit: seconds
         /// This member is required.
         public var duration: Swift.Int
 
@@ -4618,6 +5171,127 @@ extension GeoRoutesClientTypes.RouteLegGeometry: Swift.CustomDebugStringConverti
 
 extension GeoRoutesClientTypes {
 
+    public enum RoutePedestrianAfterTravelStepType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case wait
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RoutePedestrianAfterTravelStepType] {
+            return [
+                .wait
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .wait: return "Wait"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GeoRoutesClientTypes {
+
+    /// Steps of a leg that must be performed after the travel portion of the leg.
+    public struct RoutePedestrianAfterTravelStep: Swift.Sendable {
+        /// Duration of the step. Unit: seconds
+        /// This member is required.
+        public var duration: Swift.Int?
+        /// Brief description of the step in the requested language. Only available when the TravelStepType is Default.
+        public var instruction: Swift.String?
+        /// Type of the step.
+        /// This member is required.
+        public var type: GeoRoutesClientTypes.RoutePedestrianAfterTravelStepType?
+
+        public init(
+            duration: Swift.Int? = 0,
+            instruction: Swift.String? = nil,
+            type: GeoRoutesClientTypes.RoutePedestrianAfterTravelStepType? = nil
+        ) {
+            self.duration = duration
+            self.instruction = instruction
+            self.type = type
+        }
+    }
+}
+
+extension GeoRoutesClientTypes.RoutePedestrianAfterTravelStep: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RoutePedestrianAfterTravelStep(duration: \"CONTENT_REDACTED\", instruction: \"CONTENT_REDACTED\", type: \"CONTENT_REDACTED\")"}
+}
+
+extension GeoRoutesClientTypes {
+
+    public enum RouteAccessibilityAvailability: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case available
+        case limited
+        case unavailable
+        case unknown
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RouteAccessibilityAvailability] {
+            return [
+                .available,
+                .limited,
+                .unavailable,
+                .unknown
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .available: return "Available"
+            case .limited: return "Limited"
+            case .unavailable: return "Unavailable"
+            case .unknown: return "Unknown"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GeoRoutesClientTypes {
+
+    /// Details about the availability of accessibility features.
+    public struct RouteAccessibilityAvailabilityDetails: Swift.Sendable {
+        /// Wheelchair accessibility status.
+        public var wheelchair: GeoRoutesClientTypes.RouteAccessibilityAvailability?
+
+        public init(
+            wheelchair: GeoRoutesClientTypes.RouteAccessibilityAvailability? = nil
+        ) {
+            self.wheelchair = wheelchair
+        }
+    }
+}
+
+extension GeoRoutesClientTypes {
+
+    /// Details of the access point.
+    public struct RouteAccessPointDetails: Swift.Sendable {
+        /// Wheelchair accessibility information for the access point.
+        public var accessibility: GeoRoutesClientTypes.RouteAccessibilityAvailabilityDetails?
+
+        public init(
+            accessibility: GeoRoutesClientTypes.RouteAccessibilityAvailabilityDetails? = nil
+        ) {
+            self.accessibility = accessibility
+        }
+    }
+}
+
+extension GeoRoutesClientTypes {
+
     public enum RouteSideOfStreet: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case `left`
         case `right`
@@ -4647,8 +5321,73 @@ extension GeoRoutesClientTypes {
 
 extension GeoRoutesClientTypes {
 
+    /// Details about the station.
+    public struct RouteStationDetails: Swift.Sendable {
+        /// Wheelchair accessibility information for the station.
+        public var accessibility: GeoRoutesClientTypes.RouteAccessibilityAvailabilityDetails?
+        /// Platform name or number.
+        public var platformName: Swift.String?
+        /// Short text or a number that identifies the station.
+        public var shortName: Swift.String?
+
+        public init(
+            accessibility: GeoRoutesClientTypes.RouteAccessibilityAvailabilityDetails? = nil,
+            platformName: Swift.String? = nil,
+            shortName: Swift.String? = nil
+        ) {
+            self.accessibility = accessibility
+            self.platformName = platformName
+            self.shortName = shortName
+        }
+    }
+}
+
+extension GeoRoutesClientTypes.RouteStationDetails: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteStationDetails(accessibility: \(Swift.String(describing: accessibility)), platformName: \"CONTENT_REDACTED\", shortName: \"CONTENT_REDACTED\")"}
+}
+
+extension GeoRoutesClientTypes {
+
+    public enum RoutePedestrianPlaceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accessPoint
+        case dockingStation
+        case parkingLot
+        case station
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RoutePedestrianPlaceType] {
+            return [
+                .accessPoint,
+                .dockingStation,
+                .parkingLot,
+                .station
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accessPoint: return "AccessPoint"
+            case .dockingStation: return "DockingStation"
+            case .parkingLot: return "ParkingLot"
+            case .station: return "Station"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GeoRoutesClientTypes {
+
     /// Place details corresponding to the arrival or departure.
     public struct RoutePedestrianPlace: Swift.Sendable {
+        /// Details of the access point.
+        public var accessPointDetails: GeoRoutesClientTypes.RouteAccessPointDetails?
         /// The name of the place.
         public var name: Swift.String?
         /// Position provided in the request.
@@ -4658,20 +5397,30 @@ extension GeoRoutesClientTypes {
         public var position: [Swift.Double]?
         /// Options to configure matching the provided position to a side of the street.
         public var sideOfStreet: GeoRoutesClientTypes.RouteSideOfStreet?
+        /// Details about the station.
+        public var stationDetails: GeoRoutesClientTypes.RouteStationDetails?
+        /// The type of the place.
+        public var type: GeoRoutesClientTypes.RoutePedestrianPlaceType?
         /// Index of the waypoint in the request.
         public var waypointIndex: Swift.Int?
 
         public init(
+            accessPointDetails: GeoRoutesClientTypes.RouteAccessPointDetails? = nil,
             name: Swift.String? = nil,
             originalPosition: [Swift.Double]? = nil,
             position: [Swift.Double]? = nil,
             sideOfStreet: GeoRoutesClientTypes.RouteSideOfStreet? = nil,
+            stationDetails: GeoRoutesClientTypes.RouteStationDetails? = nil,
+            type: GeoRoutesClientTypes.RoutePedestrianPlaceType? = nil,
             waypointIndex: Swift.Int? = nil
         ) {
+            self.accessPointDetails = accessPointDetails
             self.name = name
             self.originalPosition = originalPosition
             self.position = position
             self.sideOfStreet = sideOfStreet
+            self.stationDetails = stationDetails
+            self.type = type
             self.waypointIndex = waypointIndex
         }
     }
@@ -4679,7 +5428,7 @@ extension GeoRoutesClientTypes {
 
 extension GeoRoutesClientTypes.RoutePedestrianPlace: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RoutePedestrianPlace(name: \"CONTENT_REDACTED\", originalPosition: \"CONTENT_REDACTED\", position: \"CONTENT_REDACTED\", sideOfStreet: \"CONTENT_REDACTED\", waypointIndex: \"CONTENT_REDACTED\")"}
+        "RoutePedestrianPlace(accessPointDetails: \(Swift.String(describing: accessPointDetails)), stationDetails: \(Swift.String(describing: stationDetails)), name: \"CONTENT_REDACTED\", originalPosition: \"CONTENT_REDACTED\", position: \"CONTENT_REDACTED\", sideOfStreet: \"CONTENT_REDACTED\", type: \"CONTENT_REDACTED\", waypointIndex: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -4687,10 +5436,10 @@ extension GeoRoutesClientTypes {
     /// Details corresponding to the arrival for a leg. Time format:YYYY-MM-DDThh:mm:ss.sssZ | YYYY-MM-DDThh:mm:ss.sss+hh:mm Examples: 2020-04-22T17:57:24Z
     ///     2020-04-22T17:57:24+02:00
     public struct RoutePedestrianArrival: Swift.Sendable {
-        /// The place details.
+        /// Place details corresponding to the arrival.
         /// This member is required.
         public var place: GeoRoutesClientTypes.RoutePedestrianPlace?
-        /// The time.
+        /// The arrival time.
         public var time: Swift.String?
 
         public init(
@@ -4713,10 +5462,10 @@ extension GeoRoutesClientTypes {
     /// Details corresponding to the departure for a leg. Time format:YYYY-MM-DDThh:mm:ss.sssZ | YYYY-MM-DDThh:mm:ss.sss+hh:mm Examples: 2020-04-22T17:57:24Z
     ///     2020-04-22T17:57:24+02:00
     public struct RoutePedestrianDeparture: Swift.Sendable {
-        /// The place details.
+        /// Place details corresponding to the departure.
         /// This member is required.
         public var place: GeoRoutesClientTypes.RoutePedestrianPlace?
-        /// The time.
+        /// The departure time.
         public var time: Swift.String?
 
         public init(
@@ -5099,12 +5848,12 @@ extension GeoRoutesClientTypes.RoutePedestrianSpan: Swift.CustomDebugStringConve
 
 extension GeoRoutesClientTypes {
 
-    /// Provides a summary of a pedestrian route step.
+    /// Summary including duration and distance for the entire leg.
     public struct RoutePedestrianOverviewSummary: Swift.Sendable {
-        /// Distance of the step.
+        /// Distance of the entire leg. Unit: meters
         /// This member is required.
         public var distance: Swift.Int
-        /// Duration of the step.
+        /// Duration of the entire leg. Unit: seconds
         /// This member is required.
         public var duration: Swift.Int
 
@@ -5632,13 +6381,16 @@ extension GeoRoutesClientTypes {
 
 extension GeoRoutesClientTypes.RoutePedestrianTravelStep: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RoutePedestrianTravelStep(continueStepDetails: \(Swift.String(describing: continueStepDetails)), currentRoad: \(Swift.String(describing: currentRoad)), exitNumber: \(Swift.String(describing: exitNumber)), geometryOffset: \(Swift.String(describing: geometryOffset)), keepStepDetails: \(Swift.String(describing: keepStepDetails)), nextRoad: \(Swift.String(describing: nextRoad)), roundaboutEnterStepDetails: \(Swift.String(describing: roundaboutEnterStepDetails)), roundaboutExitStepDetails: \(Swift.String(describing: roundaboutExitStepDetails)), roundaboutPassStepDetails: \(Swift.String(describing: roundaboutPassStepDetails)), signpost: \(Swift.String(describing: signpost)), turnStepDetails: \(Swift.String(describing: turnStepDetails)), type: \(Swift.String(describing: type)), distance: \"CONTENT_REDACTED\", duration: \"CONTENT_REDACTED\", instruction: \"CONTENT_REDACTED\")"}
+        "RoutePedestrianTravelStep(continueStepDetails: \(Swift.String(describing: continueStepDetails)), currentRoad: \(Swift.String(describing: currentRoad)), exitNumber: \(Swift.String(describing: exitNumber)), geometryOffset: \(Swift.String(describing: geometryOffset)), keepStepDetails: \(Swift.String(describing: keepStepDetails)), nextRoad: \(Swift.String(describing: nextRoad)), roundaboutEnterStepDetails: \(Swift.String(describing: roundaboutEnterStepDetails)), roundaboutExitStepDetails: \(Swift.String(describing: roundaboutExitStepDetails)), roundaboutPassStepDetails: \(Swift.String(describing: roundaboutPassStepDetails)), signpost: \(Swift.String(describing: signpost)), turnStepDetails: \(Swift.String(describing: turnStepDetails)), distance: \"CONTENT_REDACTED\", duration: \"CONTENT_REDACTED\", instruction: \"CONTENT_REDACTED\", type: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
 
     /// Details that are specific to a pedestrian leg.
     public struct RoutePedestrianLegDetails: Swift.Sendable {
+        /// Steps of a leg that must be performed after the travel portion of the leg.
+        /// This member is required.
+        public var afterTravelSteps: [GeoRoutesClientTypes.RoutePedestrianAfterTravelStep]?
         /// Details corresponding to the arrival for the leg.
         /// This member is required.
         public var arrival: GeoRoutesClientTypes.RoutePedestrianArrival?
@@ -5661,6 +6413,7 @@ extension GeoRoutesClientTypes {
         public var travelSteps: [GeoRoutesClientTypes.RoutePedestrianTravelStep]?
 
         public init(
+            afterTravelSteps: [GeoRoutesClientTypes.RoutePedestrianAfterTravelStep]? = [],
             arrival: GeoRoutesClientTypes.RoutePedestrianArrival? = nil,
             departure: GeoRoutesClientTypes.RoutePedestrianDeparture? = nil,
             notices: [GeoRoutesClientTypes.RoutePedestrianNotice]? = nil,
@@ -5669,6 +6422,7 @@ extension GeoRoutesClientTypes {
             summary: GeoRoutesClientTypes.RoutePedestrianSummary? = nil,
             travelSteps: [GeoRoutesClientTypes.RoutePedestrianTravelStep]? = nil
         ) {
+            self.afterTravelSteps = afterTravelSteps
             self.arrival = arrival
             self.departure = departure
             self.notices = notices
@@ -5682,22 +6436,2413 @@ extension GeoRoutesClientTypes {
 
 extension GeoRoutesClientTypes {
 
+    public enum RouteRentalAfterTravelStepType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case park
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RouteRentalAfterTravelStepType] {
+            return [
+                .park
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .park: return "Park"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GeoRoutesClientTypes {
+
+    /// A step that must be performed after the travel portion of the leg.
+    public struct RouteRentalAfterTravelStep: Swift.Sendable {
+        /// Duration of the step. Unit: seconds
+        /// This member is required.
+        public var duration: Swift.Int?
+        /// Brief description of the step in the requested language.
+        public var instruction: Swift.String?
+        /// Type of the step.
+        /// This member is required.
+        public var type: GeoRoutesClientTypes.RouteRentalAfterTravelStepType?
+
+        public init(
+            duration: Swift.Int? = 0,
+            instruction: Swift.String? = nil,
+            type: GeoRoutesClientTypes.RouteRentalAfterTravelStepType? = nil
+        ) {
+            self.duration = duration
+            self.instruction = instruction
+            self.type = type
+        }
+    }
+}
+
+extension GeoRoutesClientTypes.RouteRentalAfterTravelStep: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteRentalAfterTravelStep(duration: \"CONTENT_REDACTED\", instruction: \"CONTENT_REDACTED\", type: \"CONTENT_REDACTED\")"}
+}
+
+extension GeoRoutesClientTypes {
+
+    /// Details about the rental agency.
+    public struct RouteRentalAgency: Swift.Sendable {
+        /// Name of the agency.
+        /// This member is required.
+        public var name: Swift.String?
+        /// URL to the agency's website.
+        public var url: Swift.String?
+
+        public init(
+            name: Swift.String? = nil,
+            url: Swift.String? = nil
+        ) {
+            self.name = name
+            self.url = url
+        }
+    }
+}
+
+extension GeoRoutesClientTypes.RouteRentalAgency: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteRentalAgency(name: \"CONTENT_REDACTED\", url: \"CONTENT_REDACTED\")"}
+}
+
+extension GeoRoutesClientTypes {
+
+    public enum RouteRentalPlaceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accessPoint
+        case dockingStation
+        case parkingLot
+        case station
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RouteRentalPlaceType] {
+            return [
+                .accessPoint,
+                .dockingStation,
+                .parkingLot,
+                .station
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accessPoint: return "AccessPoint"
+            case .dockingStation: return "DockingStation"
+            case .parkingLot: return "ParkingLot"
+            case .station: return "Station"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GeoRoutesClientTypes {
+
+    /// Place details corresponding to the arrival or departure.
+    public struct RouteRentalPlace: Swift.Sendable {
+        /// Details of the access point.
+        public var accessPointDetails: GeoRoutesClientTypes.RouteAccessPointDetails?
+        /// The name of the place.
+        public var name: Swift.String?
+        /// Position provided in the request.
+        public var originalPosition: [Swift.Double]?
+        /// Position in World Geodetic System (WGS 84) format: [longitude, latitude].
+        /// This member is required.
+        public var position: [Swift.Double]?
+        /// Details about the station.
+        public var stationDetails: GeoRoutesClientTypes.RouteStationDetails?
+        /// The type of the place.
+        public var type: GeoRoutesClientTypes.RouteRentalPlaceType?
+        /// Index of the waypoint in the request.
+        public var waypointIndex: Swift.Int?
+
+        public init(
+            accessPointDetails: GeoRoutesClientTypes.RouteAccessPointDetails? = nil,
+            name: Swift.String? = nil,
+            originalPosition: [Swift.Double]? = nil,
+            position: [Swift.Double]? = nil,
+            stationDetails: GeoRoutesClientTypes.RouteStationDetails? = nil,
+            type: GeoRoutesClientTypes.RouteRentalPlaceType? = nil,
+            waypointIndex: Swift.Int? = nil
+        ) {
+            self.accessPointDetails = accessPointDetails
+            self.name = name
+            self.originalPosition = originalPosition
+            self.position = position
+            self.stationDetails = stationDetails
+            self.type = type
+            self.waypointIndex = waypointIndex
+        }
+    }
+}
+
+extension GeoRoutesClientTypes.RouteRentalPlace: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteRentalPlace(accessPointDetails: \(Swift.String(describing: accessPointDetails)), stationDetails: \(Swift.String(describing: stationDetails)), name: \"CONTENT_REDACTED\", originalPosition: \"CONTENT_REDACTED\", position: \"CONTENT_REDACTED\", type: \"CONTENT_REDACTED\", waypointIndex: \"CONTENT_REDACTED\")"}
+}
+
+extension GeoRoutesClientTypes {
+
+    /// Details corresponding to the arrival for the leg.
+    public struct RouteRentalArrival: Swift.Sendable {
+        /// Place details corresponding to the arrival.
+        /// This member is required.
+        public var place: GeoRoutesClientTypes.RouteRentalPlace?
+        /// The arrival time.
+        public var time: Swift.String?
+
+        public init(
+            place: GeoRoutesClientTypes.RouteRentalPlace? = nil,
+            time: Swift.String? = nil
+        ) {
+            self.place = place
+            self.time = time
+        }
+    }
+}
+
+extension GeoRoutesClientTypes.RouteRentalArrival: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteRentalArrival(place: \(Swift.String(describing: place)), time: \"CONTENT_REDACTED\")"}
+}
+
+extension GeoRoutesClientTypes {
+
+    public enum RouteAttributionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disclaimer
+        case tariff
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RouteAttributionType] {
+            return [
+                .disclaimer,
+                .tariff
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disclaimer: return "Disclaimer"
+            case .tariff: return "Tariff"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GeoRoutesClientTypes {
+
+    public enum RouteWebLinkDeviceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case android
+        case ios
+        case web
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RouteWebLinkDeviceType] {
+            return [
+                .android,
+                .ios,
+                .web
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .android: return "Android"
+            case .ios: return "Ios"
+            case .web: return "Web"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GeoRoutesClientTypes {
+
+    /// The URL to an external resource.
+    public struct RouteWebLink: Swift.Sendable {
+        /// The interactive or clickable portion of the text.
+        public var anchorText: Swift.String?
+        /// Text describing the URL.
+        /// This member is required.
+        public var description: Swift.String?
+        /// Device type for which the link is intended.
+        public var deviceType: GeoRoutesClientTypes.RouteWebLinkDeviceType?
+        /// The URL of the link.
+        public var url: Swift.String?
+
+        public init(
+            anchorText: Swift.String? = nil,
+            description: Swift.String? = nil,
+            deviceType: GeoRoutesClientTypes.RouteWebLinkDeviceType? = nil,
+            url: Swift.String? = nil
+        ) {
+            self.anchorText = anchorText
+            self.description = description
+            self.deviceType = deviceType
+            self.url = url
+        }
+    }
+}
+
+extension GeoRoutesClientTypes.RouteWebLink: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteWebLink(anchorText: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", deviceType: \"CONTENT_REDACTED\", url: \"CONTENT_REDACTED\")"}
+}
+
+extension GeoRoutesClientTypes {
+
+    /// Required attribution to display.
+    public struct RouteAttribution: Swift.Sendable {
+        /// The type of the attribution link.
+        public var attributionType: GeoRoutesClientTypes.RouteAttributionType?
+        /// The URL to an external resource.
+        /// This member is required.
+        public var webLink: GeoRoutesClientTypes.RouteWebLink?
+
+        public init(
+            attributionType: GeoRoutesClientTypes.RouteAttributionType? = nil,
+            webLink: GeoRoutesClientTypes.RouteWebLink? = nil
+        ) {
+            self.attributionType = attributionType
+            self.webLink = webLink
+        }
+    }
+}
+
+extension GeoRoutesClientTypes.RouteAttribution: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteAttribution(webLink: \(Swift.String(describing: webLink)), attributionType: \"CONTENT_REDACTED\")"}
+}
+
+extension GeoRoutesClientTypes {
+
+    public enum RouteRentalBeforeTravelStepType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case setup
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RouteRentalBeforeTravelStepType] {
+            return [
+                .setup
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .setup: return "Setup"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GeoRoutesClientTypes {
+
+    /// A step that must be performed before the travel portion of the leg.
+    public struct RouteRentalBeforeTravelStep: Swift.Sendable {
+        /// Duration of the step. Unit: seconds
+        /// This member is required.
+        public var duration: Swift.Int?
+        /// Brief description of the step in the requested language.
+        public var instruction: Swift.String?
+        /// Type of the step.
+        /// This member is required.
+        public var type: GeoRoutesClientTypes.RouteRentalBeforeTravelStepType?
+
+        public init(
+            duration: Swift.Int? = 0,
+            instruction: Swift.String? = nil,
+            type: GeoRoutesClientTypes.RouteRentalBeforeTravelStepType? = nil
+        ) {
+            self.duration = duration
+            self.instruction = instruction
+            self.type = type
+        }
+    }
+}
+
+extension GeoRoutesClientTypes.RouteRentalBeforeTravelStep: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteRentalBeforeTravelStep(duration: \"CONTENT_REDACTED\", instruction: \"CONTENT_REDACTED\", type: \"CONTENT_REDACTED\")"}
+}
+
+extension GeoRoutesClientTypes {
+
+    /// Details corresponding to the departure for the leg.
+    public struct RouteRentalDeparture: Swift.Sendable {
+        /// Place details corresponding to the departure.
+        /// This member is required.
+        public var place: GeoRoutesClientTypes.RouteRentalPlace?
+        /// The departure time.
+        public var time: Swift.String?
+
+        public init(
+            place: GeoRoutesClientTypes.RouteRentalPlace? = nil,
+            time: Swift.String? = nil
+        ) {
+            self.place = place
+            self.time = time
+        }
+    }
+}
+
+extension GeoRoutesClientTypes.RouteRentalDeparture: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteRentalDeparture(place: \(Swift.String(describing: place)), time: \"CONTENT_REDACTED\")"}
+}
+
+extension GeoRoutesClientTypes {
+
+    /// Summary including duration and distance for the entire leg.
+    public struct RouteRentalOverviewSummary: Swift.Sendable {
+        /// Distance of the entire leg. Unit: meters
+        /// This member is required.
+        public var distance: Swift.Int?
+        /// Duration of the entire leg. Unit: seconds
+        /// This member is required.
+        public var duration: Swift.Int?
+
+        public init(
+            distance: Swift.Int? = 0,
+            duration: Swift.Int? = 0
+        ) {
+            self.distance = distance
+            self.duration = duration
+        }
+    }
+}
+
+extension GeoRoutesClientTypes.RouteRentalOverviewSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteRentalOverviewSummary(distance: \"CONTENT_REDACTED\", duration: \"CONTENT_REDACTED\")"}
+}
+
+extension GeoRoutesClientTypes {
+
+    /// Summary including duration and distance for the travel portion of the leg only.
+    public struct RouteRentalTravelOnlySummary: Swift.Sendable {
+        /// Duration of the travel portion of the rental leg. Unit: seconds
+        /// This member is required.
+        public var duration: Swift.Int?
+
+        public init(
+            duration: Swift.Int? = 0
+        ) {
+            self.duration = duration
+        }
+    }
+}
+
+extension GeoRoutesClientTypes.RouteRentalTravelOnlySummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteRentalTravelOnlySummary(duration: \"CONTENT_REDACTED\")"}
+}
+
+extension GeoRoutesClientTypes {
+
+    /// Summary of the rental leg.
+    public struct RouteRentalSummary: Swift.Sendable {
+        /// Summary including duration and distance for the entire leg.
+        public var overview: GeoRoutesClientTypes.RouteRentalOverviewSummary?
+        /// Summary including duration and distance for the travel portion of the leg only.
+        public var travelOnly: GeoRoutesClientTypes.RouteRentalTravelOnlySummary?
+
+        public init(
+            overview: GeoRoutesClientTypes.RouteRentalOverviewSummary? = nil,
+            travelOnly: GeoRoutesClientTypes.RouteRentalTravelOnlySummary? = nil
+        ) {
+            self.overview = overview
+            self.travelOnly = travelOnly
+        }
+    }
+}
+
+extension GeoRoutesClientTypes {
+
+    /// Transport mode details for the rental leg.
+    public struct RouteRentalTransportModeDetails: Swift.Sendable {
+        /// Number of available seats in the vehicle.
+        public var availableSeats: Swift.Int?
+        /// Human readable transport category.
+        public var category: Swift.String?
+        /// Color of the transport polyline and background for the transport name.
+        public var color: Swift.String?
+        /// Vehicle engine type.
+        public var engine: GeoRoutesClientTypes.RouteEngineType?
+        /// Vehicle license plate number.
+        public var licensePlate: Swift.String?
+        /// Mode of the rental transport.
+        /// This member is required.
+        public var mode: GeoRoutesClientTypes.RouteRentalMode?
+        /// Vehicle model.
+        public var model: Swift.String?
+        /// Vehicle name or mobility provider name.
+        public var name: Swift.String?
+        /// Color of the transport name text.
+        public var textColor: Swift.String?
+
+        public init(
+            availableSeats: Swift.Int? = nil,
+            category: Swift.String? = nil,
+            color: Swift.String? = nil,
+            engine: GeoRoutesClientTypes.RouteEngineType? = nil,
+            licensePlate: Swift.String? = nil,
+            mode: GeoRoutesClientTypes.RouteRentalMode? = nil,
+            model: Swift.String? = nil,
+            name: Swift.String? = nil,
+            textColor: Swift.String? = nil
+        ) {
+            self.availableSeats = availableSeats
+            self.category = category
+            self.color = color
+            self.engine = engine
+            self.licensePlate = licensePlate
+            self.mode = mode
+            self.model = model
+            self.name = name
+            self.textColor = textColor
+        }
+    }
+}
+
+extension GeoRoutesClientTypes.RouteRentalTransportModeDetails: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteRentalTransportModeDetails(availableSeats: \"CONTENT_REDACTED\", category: \"CONTENT_REDACTED\", color: \"CONTENT_REDACTED\", engine: \"CONTENT_REDACTED\", licensePlate: \"CONTENT_REDACTED\", mode: \"CONTENT_REDACTED\", model: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", textColor: \"CONTENT_REDACTED\")"}
+}
+
+extension GeoRoutesClientTypes {
+
+    /// Details related to the exit step.
+    public struct RouteExitStepDetails: Swift.Sendable {
+        /// Name of the intersection, if applicable to the step.
+        /// This member is required.
+        public var intersection: [GeoRoutesClientTypes.LocalizedString]?
+        /// Exit to be taken.
+        public var relativeExit: Swift.Int?
+        /// Steering direction for the step.
+        public var steeringDirection: GeoRoutesClientTypes.RouteSteeringDirection?
+        /// Angle of the turn.
+        public var turnAngle: Swift.Double
+        /// Intensity of the turn.
+        public var turnIntensity: GeoRoutesClientTypes.RouteTurnIntensity?
+
+        public init(
+            intersection: [GeoRoutesClientTypes.LocalizedString]? = nil,
+            relativeExit: Swift.Int? = nil,
+            steeringDirection: GeoRoutesClientTypes.RouteSteeringDirection? = nil,
+            turnAngle: Swift.Double = 0.0,
+            turnIntensity: GeoRoutesClientTypes.RouteTurnIntensity? = nil
+        ) {
+            self.intersection = intersection
+            self.relativeExit = relativeExit
+            self.steeringDirection = steeringDirection
+            self.turnAngle = turnAngle
+            self.turnIntensity = turnIntensity
+        }
+    }
+}
+
+extension GeoRoutesClientTypes.RouteExitStepDetails: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteExitStepDetails(intersection: \(Swift.String(describing: intersection)), turnAngle: \(Swift.String(describing: turnAngle)), relativeExit: \"CONTENT_REDACTED\", steeringDirection: \"CONTENT_REDACTED\", turnIntensity: \"CONTENT_REDACTED\")"}
+}
+
+extension GeoRoutesClientTypes {
+
+    /// Details that are specific to a ramp step.
+    public struct RouteRampStepDetails: Swift.Sendable {
+        /// Name of the intersection, if applicable to the step.
+        /// This member is required.
+        public var intersection: [GeoRoutesClientTypes.LocalizedString]?
+        /// Steering direction for the step.
+        public var steeringDirection: GeoRoutesClientTypes.RouteSteeringDirection?
+        /// Angle of the turn.
+        public var turnAngle: Swift.Double
+        /// Intensity of the turn.
+        public var turnIntensity: GeoRoutesClientTypes.RouteTurnIntensity?
+
+        public init(
+            intersection: [GeoRoutesClientTypes.LocalizedString]? = nil,
+            steeringDirection: GeoRoutesClientTypes.RouteSteeringDirection? = nil,
+            turnAngle: Swift.Double = 0.0,
+            turnIntensity: GeoRoutesClientTypes.RouteTurnIntensity? = nil
+        ) {
+            self.intersection = intersection
+            self.steeringDirection = steeringDirection
+            self.turnAngle = turnAngle
+            self.turnIntensity = turnIntensity
+        }
+    }
+}
+
+extension GeoRoutesClientTypes.RouteRampStepDetails: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteRampStepDetails(intersection: \(Swift.String(describing: intersection)), turnAngle: \(Swift.String(describing: turnAngle)), steeringDirection: \"CONTENT_REDACTED\", turnIntensity: \"CONTENT_REDACTED\")"}
+}
+
+extension GeoRoutesClientTypes {
+
+    public enum RouteRentalTravelStepType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case arrive
+        case `continue`
+        case depart
+        case exit
+        case keep
+        case ramp
+        case roundaboutEnter
+        case roundaboutExit
+        case roundaboutPass
+        case turn
+        case uTurn
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RouteRentalTravelStepType] {
+            return [
+                .arrive,
+                .continue,
+                .depart,
+                .exit,
+                .keep,
+                .ramp,
+                .roundaboutEnter,
+                .roundaboutExit,
+                .roundaboutPass,
+                .turn,
+                .uTurn
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .arrive: return "Arrive"
+            case .continue: return "Continue"
+            case .depart: return "Depart"
+            case .exit: return "Exit"
+            case .keep: return "Keep"
+            case .ramp: return "Ramp"
+            case .roundaboutEnter: return "RoundaboutEnter"
+            case .roundaboutExit: return "RoundaboutExit"
+            case .roundaboutPass: return "RoundaboutPass"
+            case .turn: return "Turn"
+            case .uTurn: return "UTurn"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GeoRoutesClientTypes {
+
+    /// Details related to the U-turn step.
+    public struct RouteUTurnStepDetails: Swift.Sendable {
+        /// Name of the intersection, if applicable to the step.
+        /// This member is required.
+        public var intersection: [GeoRoutesClientTypes.LocalizedString]?
+        /// Steering direction for the step.
+        public var steeringDirection: GeoRoutesClientTypes.RouteSteeringDirection?
+        /// Angle of the turn.
+        public var turnAngle: Swift.Double
+        /// Intensity of the turn.
+        public var turnIntensity: GeoRoutesClientTypes.RouteTurnIntensity?
+
+        public init(
+            intersection: [GeoRoutesClientTypes.LocalizedString]? = nil,
+            steeringDirection: GeoRoutesClientTypes.RouteSteeringDirection? = nil,
+            turnAngle: Swift.Double = 0.0,
+            turnIntensity: GeoRoutesClientTypes.RouteTurnIntensity? = nil
+        ) {
+            self.intersection = intersection
+            self.steeringDirection = steeringDirection
+            self.turnAngle = turnAngle
+            self.turnIntensity = turnIntensity
+        }
+    }
+}
+
+extension GeoRoutesClientTypes.RouteUTurnStepDetails: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteUTurnStepDetails(intersection: \(Swift.String(describing: intersection)), turnAngle: \(Swift.String(describing: turnAngle)), steeringDirection: \"CONTENT_REDACTED\", turnIntensity: \"CONTENT_REDACTED\")"}
+}
+
+extension GeoRoutesClientTypes {
+
+    /// A step that must be performed during the travel portion of the leg.
+    public struct RouteRentalTravelStep: Swift.Sendable {
+        /// Details related to the continue step.
+        public var continueStepDetails: GeoRoutesClientTypes.RouteContinueStepDetails?
+        /// Distance of the step. Unit: meters
+        public var distance: Swift.Int?
+        /// Duration of the step. Unit: seconds
+        /// This member is required.
+        public var duration: Swift.Int?
+        /// Details related to the exit step.
+        public var exitStepDetails: GeoRoutesClientTypes.RouteExitStepDetails?
+        /// Offset in the leg geometry corresponding to the start of this step.
+        public var geometryOffset: Swift.Int?
+        /// Brief description of the step in the requested language.
+        public var instruction: Swift.String?
+        /// Details that are specific to a Keep step.
+        public var keepStepDetails: GeoRoutesClientTypes.RouteKeepStepDetails?
+        /// Details that are specific to a ramp step.
+        public var rampStepDetails: GeoRoutesClientTypes.RouteRampStepDetails?
+        /// Details about the roundabout leg.
+        public var roundaboutEnterStepDetails: GeoRoutesClientTypes.RouteRoundaboutEnterStepDetails?
+        /// Details about the roundabout step.
+        public var roundaboutExitStepDetails: GeoRoutesClientTypes.RouteRoundaboutExitStepDetails?
+        /// Details about the step.
+        public var roundaboutPassStepDetails: GeoRoutesClientTypes.RouteRoundaboutPassStepDetails?
+        /// Details related to the turn step.
+        public var turnStepDetails: GeoRoutesClientTypes.RouteTurnStepDetails?
+        /// Type of the step.
+        /// This member is required.
+        public var type: GeoRoutesClientTypes.RouteRentalTravelStepType?
+        /// Details related to the U-turn step.
+        public var uTurnStepDetails: GeoRoutesClientTypes.RouteUTurnStepDetails?
+
+        public init(
+            continueStepDetails: GeoRoutesClientTypes.RouteContinueStepDetails? = nil,
+            distance: Swift.Int? = 0,
+            duration: Swift.Int? = 0,
+            exitStepDetails: GeoRoutesClientTypes.RouteExitStepDetails? = nil,
+            geometryOffset: Swift.Int? = nil,
+            instruction: Swift.String? = nil,
+            keepStepDetails: GeoRoutesClientTypes.RouteKeepStepDetails? = nil,
+            rampStepDetails: GeoRoutesClientTypes.RouteRampStepDetails? = nil,
+            roundaboutEnterStepDetails: GeoRoutesClientTypes.RouteRoundaboutEnterStepDetails? = nil,
+            roundaboutExitStepDetails: GeoRoutesClientTypes.RouteRoundaboutExitStepDetails? = nil,
+            roundaboutPassStepDetails: GeoRoutesClientTypes.RouteRoundaboutPassStepDetails? = nil,
+            turnStepDetails: GeoRoutesClientTypes.RouteTurnStepDetails? = nil,
+            type: GeoRoutesClientTypes.RouteRentalTravelStepType? = nil,
+            uTurnStepDetails: GeoRoutesClientTypes.RouteUTurnStepDetails? = nil
+        ) {
+            self.continueStepDetails = continueStepDetails
+            self.distance = distance
+            self.duration = duration
+            self.exitStepDetails = exitStepDetails
+            self.geometryOffset = geometryOffset
+            self.instruction = instruction
+            self.keepStepDetails = keepStepDetails
+            self.rampStepDetails = rampStepDetails
+            self.roundaboutEnterStepDetails = roundaboutEnterStepDetails
+            self.roundaboutExitStepDetails = roundaboutExitStepDetails
+            self.roundaboutPassStepDetails = roundaboutPassStepDetails
+            self.turnStepDetails = turnStepDetails
+            self.type = type
+            self.uTurnStepDetails = uTurnStepDetails
+        }
+    }
+}
+
+extension GeoRoutesClientTypes.RouteRentalTravelStep: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteRentalTravelStep(continueStepDetails: \(Swift.String(describing: continueStepDetails)), exitStepDetails: \(Swift.String(describing: exitStepDetails)), geometryOffset: \(Swift.String(describing: geometryOffset)), keepStepDetails: \(Swift.String(describing: keepStepDetails)), rampStepDetails: \(Swift.String(describing: rampStepDetails)), roundaboutEnterStepDetails: \(Swift.String(describing: roundaboutEnterStepDetails)), roundaboutExitStepDetails: \(Swift.String(describing: roundaboutExitStepDetails)), roundaboutPassStepDetails: \(Swift.String(describing: roundaboutPassStepDetails)), turnStepDetails: \(Swift.String(describing: turnStepDetails)), uTurnStepDetails: \(Swift.String(describing: uTurnStepDetails)), distance: \"CONTENT_REDACTED\", duration: \"CONTENT_REDACTED\", instruction: \"CONTENT_REDACTED\", type: \"CONTENT_REDACTED\")"}
+}
+
+extension GeoRoutesClientTypes {
+
+    /// Populated when the Leg type is Rental, and provides additional information that is specific to rental vehicle travel.
+    public struct RouteRentalLegDetails: Swift.Sendable {
+        /// Steps of a leg that must be performed after the travel portion of the leg.
+        /// This member is required.
+        public var afterTravelSteps: [GeoRoutesClientTypes.RouteRentalAfterTravelStep]?
+        /// Details about the rental agency.
+        /// This member is required.
+        public var agency: GeoRoutesClientTypes.RouteRentalAgency?
+        /// Details corresponding to the arrival for the leg.
+        /// This member is required.
+        public var arrival: GeoRoutesClientTypes.RouteRentalArrival?
+        /// List of required attributions to display.
+        /// This member is required.
+        public var attributions: [GeoRoutesClientTypes.RouteAttribution]?
+        /// Steps of a leg that must be performed before the travel portion of the leg.
+        /// This member is required.
+        public var beforeTravelSteps: [GeoRoutesClientTypes.RouteRentalBeforeTravelStep]?
+        /// Web links to external ticket booking services for the rental.
+        /// This member is required.
+        public var bookingWebLinks: [GeoRoutesClientTypes.RouteWebLink]?
+        /// Details corresponding to the departure for the leg.
+        /// This member is required.
+        public var departure: GeoRoutesClientTypes.RouteRentalDeparture?
+        /// Summary of the rental leg.
+        public var summary: GeoRoutesClientTypes.RouteRentalSummary?
+        /// Transport mode details for the rental leg.
+        /// This member is required.
+        public var transport: GeoRoutesClientTypes.RouteRentalTransportModeDetails?
+        /// Steps of a leg that must be performed during the travel portion of the leg.
+        /// This member is required.
+        public var travelSteps: [GeoRoutesClientTypes.RouteRentalTravelStep]?
+
+        public init(
+            afterTravelSteps: [GeoRoutesClientTypes.RouteRentalAfterTravelStep]? = nil,
+            agency: GeoRoutesClientTypes.RouteRentalAgency? = nil,
+            arrival: GeoRoutesClientTypes.RouteRentalArrival? = nil,
+            attributions: [GeoRoutesClientTypes.RouteAttribution]? = nil,
+            beforeTravelSteps: [GeoRoutesClientTypes.RouteRentalBeforeTravelStep]? = nil,
+            bookingWebLinks: [GeoRoutesClientTypes.RouteWebLink]? = nil,
+            departure: GeoRoutesClientTypes.RouteRentalDeparture? = nil,
+            summary: GeoRoutesClientTypes.RouteRentalSummary? = nil,
+            transport: GeoRoutesClientTypes.RouteRentalTransportModeDetails? = nil,
+            travelSteps: [GeoRoutesClientTypes.RouteRentalTravelStep]? = nil
+        ) {
+            self.afterTravelSteps = afterTravelSteps
+            self.agency = agency
+            self.arrival = arrival
+            self.attributions = attributions
+            self.beforeTravelSteps = beforeTravelSteps
+            self.bookingWebLinks = bookingWebLinks
+            self.departure = departure
+            self.summary = summary
+            self.transport = transport
+            self.travelSteps = travelSteps
+        }
+    }
+}
+
+extension GeoRoutesClientTypes {
+
+    public enum RouteTaxiAfterTravelStepType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case park
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RouteTaxiAfterTravelStepType] {
+            return [
+                .park
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .park: return "Park"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GeoRoutesClientTypes {
+
+    /// A step that must be performed after the travel portion of the leg.
+    public struct RouteTaxiAfterTravelStep: Swift.Sendable {
+        /// Duration of the step. Unit: seconds
+        /// This member is required.
+        public var duration: Swift.Int?
+        /// Brief description of the step in the requested language.
+        public var instruction: Swift.String?
+        /// Type of the step.
+        /// This member is required.
+        public var type: GeoRoutesClientTypes.RouteTaxiAfterTravelStepType?
+
+        public init(
+            duration: Swift.Int? = 0,
+            instruction: Swift.String? = nil,
+            type: GeoRoutesClientTypes.RouteTaxiAfterTravelStepType? = nil
+        ) {
+            self.duration = duration
+            self.instruction = instruction
+            self.type = type
+        }
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTaxiAfterTravelStep: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteTaxiAfterTravelStep(duration: \"CONTENT_REDACTED\", instruction: \"CONTENT_REDACTED\", type: \"CONTENT_REDACTED\")"}
+}
+
+extension GeoRoutesClientTypes {
+
+    /// Details about the taxi agency.
+    public struct RouteTaxiAgency: Swift.Sendable {
+        /// Name of the agency.
+        /// This member is required.
+        public var name: Swift.String?
+        /// URL to the agency's website.
+        public var url: Swift.String?
+
+        public init(
+            name: Swift.String? = nil,
+            url: Swift.String? = nil
+        ) {
+            self.name = name
+            self.url = url
+        }
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTaxiAgency: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteTaxiAgency(name: \"CONTENT_REDACTED\", url: \"CONTENT_REDACTED\")"}
+}
+
+extension GeoRoutesClientTypes {
+
+    public enum RouteTaxiPlaceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accessPoint
+        case station
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RouteTaxiPlaceType] {
+            return [
+                .accessPoint,
+                .station
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accessPoint: return "AccessPoint"
+            case .station: return "Station"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GeoRoutesClientTypes {
+
+    /// Place details corresponding to the arrival or departure.
+    public struct RouteTaxiPlace: Swift.Sendable {
+        /// Details of the access point.
+        public var accessPointDetails: GeoRoutesClientTypes.RouteAccessPointDetails?
+        /// The name of the place.
+        public var name: Swift.String?
+        /// Position provided in the request.
+        public var originalPosition: [Swift.Double]?
+        /// Position in World Geodetic System (WGS 84) format: [longitude, latitude].
+        /// This member is required.
+        public var position: [Swift.Double]?
+        /// Details about the station.
+        public var stationDetails: GeoRoutesClientTypes.RouteStationDetails?
+        /// The type of the place.
+        public var type: GeoRoutesClientTypes.RouteTaxiPlaceType?
+        /// Index of the waypoint in the request.
+        public var waypointIndex: Swift.Int?
+
+        public init(
+            accessPointDetails: GeoRoutesClientTypes.RouteAccessPointDetails? = nil,
+            name: Swift.String? = nil,
+            originalPosition: [Swift.Double]? = nil,
+            position: [Swift.Double]? = nil,
+            stationDetails: GeoRoutesClientTypes.RouteStationDetails? = nil,
+            type: GeoRoutesClientTypes.RouteTaxiPlaceType? = nil,
+            waypointIndex: Swift.Int? = nil
+        ) {
+            self.accessPointDetails = accessPointDetails
+            self.name = name
+            self.originalPosition = originalPosition
+            self.position = position
+            self.stationDetails = stationDetails
+            self.type = type
+            self.waypointIndex = waypointIndex
+        }
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTaxiPlace: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteTaxiPlace(accessPointDetails: \(Swift.String(describing: accessPointDetails)), stationDetails: \(Swift.String(describing: stationDetails)), name: \"CONTENT_REDACTED\", originalPosition: \"CONTENT_REDACTED\", position: \"CONTENT_REDACTED\", type: \"CONTENT_REDACTED\", waypointIndex: \"CONTENT_REDACTED\")"}
+}
+
+extension GeoRoutesClientTypes {
+
+    /// Details corresponding to the arrival for the leg.
+    public struct RouteTaxiArrival: Swift.Sendable {
+        /// Place details corresponding to the arrival.
+        /// This member is required.
+        public var place: GeoRoutesClientTypes.RouteTaxiPlace?
+        /// The arrival time.
+        public var time: Swift.String?
+
+        public init(
+            place: GeoRoutesClientTypes.RouteTaxiPlace? = nil,
+            time: Swift.String? = nil
+        ) {
+            self.place = place
+            self.time = time
+        }
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTaxiArrival: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteTaxiArrival(place: \(Swift.String(describing: place)), time: \"CONTENT_REDACTED\")"}
+}
+
+extension GeoRoutesClientTypes {
+
+    public enum RouteTaxiBeforeTravelStepType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case wait
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RouteTaxiBeforeTravelStepType] {
+            return [
+                .wait
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .wait: return "Wait"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GeoRoutesClientTypes {
+
+    /// A step that must be performed before the travel portion of the leg.
+    public struct RouteTaxiBeforeTravelStep: Swift.Sendable {
+        /// Duration of the step. Unit: seconds
+        /// This member is required.
+        public var duration: Swift.Int?
+        /// Brief description of the step in the requested language.
+        public var instruction: Swift.String?
+        /// Type of the step.
+        /// This member is required.
+        public var type: GeoRoutesClientTypes.RouteTaxiBeforeTravelStepType?
+
+        public init(
+            duration: Swift.Int? = 0,
+            instruction: Swift.String? = nil,
+            type: GeoRoutesClientTypes.RouteTaxiBeforeTravelStepType? = nil
+        ) {
+            self.duration = duration
+            self.instruction = instruction
+            self.type = type
+        }
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTaxiBeforeTravelStep: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteTaxiBeforeTravelStep(duration: \"CONTENT_REDACTED\", instruction: \"CONTENT_REDACTED\", type: \"CONTENT_REDACTED\")"}
+}
+
+extension GeoRoutesClientTypes {
+
+    /// Details corresponding to the departure for the leg.
+    public struct RouteTaxiDeparture: Swift.Sendable {
+        /// Place details corresponding to the departure.
+        /// This member is required.
+        public var place: GeoRoutesClientTypes.RouteTaxiPlace?
+        /// The departure time.
+        public var time: Swift.String?
+
+        public init(
+            place: GeoRoutesClientTypes.RouteTaxiPlace? = nil,
+            time: Swift.String? = nil
+        ) {
+            self.place = place
+            self.time = time
+        }
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTaxiDeparture: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteTaxiDeparture(place: \(Swift.String(describing: place)), time: \"CONTENT_REDACTED\")"}
+}
+
+extension GeoRoutesClientTypes {
+
+    public enum RouteTaxiNoticeCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accuratePolylineUnavailable
+        case other
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RouteTaxiNoticeCode] {
+            return [
+                .accuratePolylineUnavailable,
+                .other
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accuratePolylineUnavailable: return "AccuratePolylineUnavailable"
+            case .other: return "Other"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GeoRoutesClientTypes {
+
+    /// A notice that indicates an issue that occurred during route calculation.
+    public struct RouteTaxiNotice: Swift.Sendable {
+        /// Code corresponding to the issue.
+        /// This member is required.
+        public var code: GeoRoutesClientTypes.RouteTaxiNoticeCode?
+        /// Impact corresponding to the issue. While Low impact notices can be safely ignored, High impact notices must be evaluated further to determine the impact.
+        public var impact: GeoRoutesClientTypes.RouteNoticeImpact?
+
+        public init(
+            code: GeoRoutesClientTypes.RouteTaxiNoticeCode? = nil,
+            impact: GeoRoutesClientTypes.RouteNoticeImpact? = nil
+        ) {
+            self.code = code
+            self.impact = impact
+        }
+    }
+}
+
+extension GeoRoutesClientTypes {
+
+    /// Summary including duration and distance for the entire leg.
+    public struct RouteTaxiOverviewSummary: Swift.Sendable {
+        /// Distance of the entire leg. Unit: meters
+        /// This member is required.
+        public var distance: Swift.Int?
+        /// Duration of the entire leg. Unit: seconds
+        /// This member is required.
+        public var duration: Swift.Int?
+
+        public init(
+            distance: Swift.Int? = 0,
+            duration: Swift.Int? = 0
+        ) {
+            self.distance = distance
+            self.duration = duration
+        }
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTaxiOverviewSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteTaxiOverviewSummary(distance: \"CONTENT_REDACTED\", duration: \"CONTENT_REDACTED\")"}
+}
+
+extension GeoRoutesClientTypes {
+
+    /// Summary including duration and distance for the travel portion of the leg only.
+    public struct RouteTaxiTravelOnlySummary: Swift.Sendable {
+        /// Duration of the travel portion of the taxi leg. Unit: seconds
+        /// This member is required.
+        public var duration: Swift.Int?
+
+        public init(
+            duration: Swift.Int? = 0
+        ) {
+            self.duration = duration
+        }
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTaxiTravelOnlySummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteTaxiTravelOnlySummary(duration: \"CONTENT_REDACTED\")"}
+}
+
+extension GeoRoutesClientTypes {
+
+    /// Summary of the taxi leg.
+    public struct RouteTaxiSummary: Swift.Sendable {
+        /// Summary including duration and distance for the entire leg.
+        public var overview: GeoRoutesClientTypes.RouteTaxiOverviewSummary?
+        /// Summary including duration and distance for the travel portion of the leg only.
+        public var travelOnly: GeoRoutesClientTypes.RouteTaxiTravelOnlySummary?
+
+        public init(
+            overview: GeoRoutesClientTypes.RouteTaxiOverviewSummary? = nil,
+            travelOnly: GeoRoutesClientTypes.RouteTaxiTravelOnlySummary? = nil
+        ) {
+            self.overview = overview
+            self.travelOnly = travelOnly
+        }
+    }
+}
+
+extension GeoRoutesClientTypes {
+
+    /// Transport mode details for the taxi leg.
+    public struct RouteTaxiTransportModeDetails: Swift.Sendable {
+        /// Number of available seats in the vehicle.
+        public var availableSeats: Swift.Int?
+        /// Human readable transport category.
+        public var category: Swift.String?
+        /// Color of the transport polyline and background for the transport name.
+        public var color: Swift.String?
+        /// Vehicle engine type.
+        public var engine: GeoRoutesClientTypes.RouteEngineType?
+        /// Vehicle license plate number.
+        public var licensePlate: Swift.String?
+        /// Mode of the taxi transport.
+        /// This member is required.
+        public var mode: GeoRoutesClientTypes.RouteTaxiMode?
+        /// Vehicle model.
+        public var model: Swift.String?
+        /// Vehicle name or mobility provider name.
+        public var name: Swift.String?
+        /// Color of the transport name text.
+        public var textColor: Swift.String?
+
+        public init(
+            availableSeats: Swift.Int? = nil,
+            category: Swift.String? = nil,
+            color: Swift.String? = nil,
+            engine: GeoRoutesClientTypes.RouteEngineType? = nil,
+            licensePlate: Swift.String? = nil,
+            mode: GeoRoutesClientTypes.RouteTaxiMode? = nil,
+            model: Swift.String? = nil,
+            name: Swift.String? = nil,
+            textColor: Swift.String? = nil
+        ) {
+            self.availableSeats = availableSeats
+            self.category = category
+            self.color = color
+            self.engine = engine
+            self.licensePlate = licensePlate
+            self.mode = mode
+            self.model = model
+            self.name = name
+            self.textColor = textColor
+        }
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTaxiTransportModeDetails: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteTaxiTransportModeDetails(availableSeats: \"CONTENT_REDACTED\", category: \"CONTENT_REDACTED\", color: \"CONTENT_REDACTED\", engine: \"CONTENT_REDACTED\", licensePlate: \"CONTENT_REDACTED\", mode: \"CONTENT_REDACTED\", model: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", textColor: \"CONTENT_REDACTED\")"}
+}
+
+extension GeoRoutesClientTypes {
+
+    public enum RouteTaxiTravelStepType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case arrive
+        case `continue`
+        case depart
+        case exit
+        case keep
+        case ramp
+        case roundaboutEnter
+        case roundaboutExit
+        case roundaboutPass
+        case turn
+        case uTurn
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RouteTaxiTravelStepType] {
+            return [
+                .arrive,
+                .continue,
+                .depart,
+                .exit,
+                .keep,
+                .ramp,
+                .roundaboutEnter,
+                .roundaboutExit,
+                .roundaboutPass,
+                .turn,
+                .uTurn
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .arrive: return "Arrive"
+            case .continue: return "Continue"
+            case .depart: return "Depart"
+            case .exit: return "Exit"
+            case .keep: return "Keep"
+            case .ramp: return "Ramp"
+            case .roundaboutEnter: return "RoundaboutEnter"
+            case .roundaboutExit: return "RoundaboutExit"
+            case .roundaboutPass: return "RoundaboutPass"
+            case .turn: return "Turn"
+            case .uTurn: return "UTurn"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GeoRoutesClientTypes {
+
+    /// A step that must be performed during the travel portion of the leg.
+    public struct RouteTaxiTravelStep: Swift.Sendable {
+        /// Details related to the continue step.
+        public var continueStepDetails: GeoRoutesClientTypes.RouteContinueStepDetails?
+        /// Distance of the step. Unit: meters
+        public var distance: Swift.Int?
+        /// Duration of the step. Unit: seconds
+        /// This member is required.
+        public var duration: Swift.Int?
+        /// Details related to the exit step.
+        public var exitStepDetails: GeoRoutesClientTypes.RouteExitStepDetails?
+        /// Offset in the leg geometry corresponding to the start of this step.
+        public var geometryOffset: Swift.Int?
+        /// Brief description of the step in the requested language.
+        public var instruction: Swift.String?
+        /// Details that are specific to a Keep step.
+        public var keepStepDetails: GeoRoutesClientTypes.RouteKeepStepDetails?
+        /// Details that are specific to a ramp step.
+        public var rampStepDetails: GeoRoutesClientTypes.RouteRampStepDetails?
+        /// Details about the roundabout leg.
+        public var roundaboutEnterStepDetails: GeoRoutesClientTypes.RouteRoundaboutEnterStepDetails?
+        /// Details about the roundabout step.
+        public var roundaboutExitStepDetails: GeoRoutesClientTypes.RouteRoundaboutExitStepDetails?
+        /// Details about the step.
+        public var roundaboutPassStepDetails: GeoRoutesClientTypes.RouteRoundaboutPassStepDetails?
+        /// Details related to the turn step.
+        public var turnStepDetails: GeoRoutesClientTypes.RouteTurnStepDetails?
+        /// Type of the step.
+        /// This member is required.
+        public var type: GeoRoutesClientTypes.RouteTaxiTravelStepType?
+        /// Details related to the U-turn step.
+        public var uTurnStepDetails: GeoRoutesClientTypes.RouteUTurnStepDetails?
+
+        public init(
+            continueStepDetails: GeoRoutesClientTypes.RouteContinueStepDetails? = nil,
+            distance: Swift.Int? = 0,
+            duration: Swift.Int? = 0,
+            exitStepDetails: GeoRoutesClientTypes.RouteExitStepDetails? = nil,
+            geometryOffset: Swift.Int? = nil,
+            instruction: Swift.String? = nil,
+            keepStepDetails: GeoRoutesClientTypes.RouteKeepStepDetails? = nil,
+            rampStepDetails: GeoRoutesClientTypes.RouteRampStepDetails? = nil,
+            roundaboutEnterStepDetails: GeoRoutesClientTypes.RouteRoundaboutEnterStepDetails? = nil,
+            roundaboutExitStepDetails: GeoRoutesClientTypes.RouteRoundaboutExitStepDetails? = nil,
+            roundaboutPassStepDetails: GeoRoutesClientTypes.RouteRoundaboutPassStepDetails? = nil,
+            turnStepDetails: GeoRoutesClientTypes.RouteTurnStepDetails? = nil,
+            type: GeoRoutesClientTypes.RouteTaxiTravelStepType? = nil,
+            uTurnStepDetails: GeoRoutesClientTypes.RouteUTurnStepDetails? = nil
+        ) {
+            self.continueStepDetails = continueStepDetails
+            self.distance = distance
+            self.duration = duration
+            self.exitStepDetails = exitStepDetails
+            self.geometryOffset = geometryOffset
+            self.instruction = instruction
+            self.keepStepDetails = keepStepDetails
+            self.rampStepDetails = rampStepDetails
+            self.roundaboutEnterStepDetails = roundaboutEnterStepDetails
+            self.roundaboutExitStepDetails = roundaboutExitStepDetails
+            self.roundaboutPassStepDetails = roundaboutPassStepDetails
+            self.turnStepDetails = turnStepDetails
+            self.type = type
+            self.uTurnStepDetails = uTurnStepDetails
+        }
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTaxiTravelStep: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteTaxiTravelStep(continueStepDetails: \(Swift.String(describing: continueStepDetails)), exitStepDetails: \(Swift.String(describing: exitStepDetails)), geometryOffset: \(Swift.String(describing: geometryOffset)), keepStepDetails: \(Swift.String(describing: keepStepDetails)), rampStepDetails: \(Swift.String(describing: rampStepDetails)), roundaboutEnterStepDetails: \(Swift.String(describing: roundaboutEnterStepDetails)), roundaboutExitStepDetails: \(Swift.String(describing: roundaboutExitStepDetails)), roundaboutPassStepDetails: \(Swift.String(describing: roundaboutPassStepDetails)), turnStepDetails: \(Swift.String(describing: turnStepDetails)), uTurnStepDetails: \(Swift.String(describing: uTurnStepDetails)), distance: \"CONTENT_REDACTED\", duration: \"CONTENT_REDACTED\", instruction: \"CONTENT_REDACTED\", type: \"CONTENT_REDACTED\")"}
+}
+
+extension GeoRoutesClientTypes {
+
+    /// Populated when the Leg type is Taxi, and provides additional information that is specific to taxi travel.
+    public struct RouteTaxiLegDetails: Swift.Sendable {
+        /// Steps of a leg that must be performed after the travel portion of the leg.
+        /// This member is required.
+        public var afterTravelSteps: [GeoRoutesClientTypes.RouteTaxiAfterTravelStep]?
+        /// Details about the taxi agency.
+        /// This member is required.
+        public var agency: GeoRoutesClientTypes.RouteTaxiAgency?
+        /// Details corresponding to the arrival for the leg.
+        /// This member is required.
+        public var arrival: GeoRoutesClientTypes.RouteTaxiArrival?
+        /// List of required attributions to display.
+        /// This member is required.
+        public var attributions: [GeoRoutesClientTypes.RouteAttribution]?
+        /// Steps of a leg that must be performed before the travel portion of the leg.
+        /// This member is required.
+        public var beforeTravelSteps: [GeoRoutesClientTypes.RouteTaxiBeforeTravelStep]?
+        /// Web links to external ticket booking services for the taxi.
+        /// This member is required.
+        public var bookingWebLinks: [GeoRoutesClientTypes.RouteWebLink]?
+        /// Details corresponding to the departure for the leg.
+        /// This member is required.
+        public var departure: GeoRoutesClientTypes.RouteTaxiDeparture?
+        /// List of notices that indicate issues that occurred during route calculation.
+        /// This member is required.
+        public var notices: [GeoRoutesClientTypes.RouteTaxiNotice]?
+        /// Summary of the taxi leg.
+        public var summary: GeoRoutesClientTypes.RouteTaxiSummary?
+        /// Transport mode details for the taxi leg.
+        /// This member is required.
+        public var transport: GeoRoutesClientTypes.RouteTaxiTransportModeDetails?
+        /// Steps of a leg that must be performed during the travel portion of the leg.
+        /// This member is required.
+        public var travelSteps: [GeoRoutesClientTypes.RouteTaxiTravelStep]?
+
+        public init(
+            afterTravelSteps: [GeoRoutesClientTypes.RouteTaxiAfterTravelStep]? = nil,
+            agency: GeoRoutesClientTypes.RouteTaxiAgency? = nil,
+            arrival: GeoRoutesClientTypes.RouteTaxiArrival? = nil,
+            attributions: [GeoRoutesClientTypes.RouteAttribution]? = nil,
+            beforeTravelSteps: [GeoRoutesClientTypes.RouteTaxiBeforeTravelStep]? = nil,
+            bookingWebLinks: [GeoRoutesClientTypes.RouteWebLink]? = nil,
+            departure: GeoRoutesClientTypes.RouteTaxiDeparture? = nil,
+            notices: [GeoRoutesClientTypes.RouteTaxiNotice]? = nil,
+            summary: GeoRoutesClientTypes.RouteTaxiSummary? = nil,
+            transport: GeoRoutesClientTypes.RouteTaxiTransportModeDetails? = nil,
+            travelSteps: [GeoRoutesClientTypes.RouteTaxiTravelStep]? = nil
+        ) {
+            self.afterTravelSteps = afterTravelSteps
+            self.agency = agency
+            self.arrival = arrival
+            self.attributions = attributions
+            self.beforeTravelSteps = beforeTravelSteps
+            self.bookingWebLinks = bookingWebLinks
+            self.departure = departure
+            self.notices = notices
+            self.summary = summary
+            self.transport = transport
+            self.travelSteps = travelSteps
+        }
+    }
+}
+
+extension GeoRoutesClientTypes {
+
+    public enum RouteTransitAfterTravelStepType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case deboard
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RouteTransitAfterTravelStepType] {
+            return [
+                .deboard
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .deboard: return "Deboard"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GeoRoutesClientTypes {
+
+    /// A step that must be performed after the travel portion of the leg.
+    public struct RouteTransitAfterTravelStep: Swift.Sendable {
+        /// Duration of the step. Unit: seconds
+        /// This member is required.
+        public var duration: Swift.Int?
+        /// Brief description of the step in the requested language.
+        public var instruction: Swift.String?
+        /// Type of the step.
+        /// This member is required.
+        public var type: GeoRoutesClientTypes.RouteTransitAfterTravelStepType?
+
+        public init(
+            duration: Swift.Int? = 0,
+            instruction: Swift.String? = nil,
+            type: GeoRoutesClientTypes.RouteTransitAfterTravelStepType? = nil
+        ) {
+            self.duration = duration
+            self.instruction = instruction
+            self.type = type
+        }
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTransitAfterTravelStep: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteTransitAfterTravelStep(duration: \"CONTENT_REDACTED\", instruction: \"CONTENT_REDACTED\", type: \"CONTENT_REDACTED\")"}
+}
+
+extension GeoRoutesClientTypes {
+
+    /// Details about the transit agency.
+    public struct RouteTransitAgency: Swift.Sendable {
+        /// Name of the agency.
+        /// This member is required.
+        public var name: Swift.String?
+        /// URL to the agency's website.
+        public var url: Swift.String?
+
+        public init(
+            name: Swift.String? = nil,
+            url: Swift.String? = nil
+        ) {
+            self.name = name
+            self.url = url
+        }
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTransitAgency: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteTransitAgency(name: \"CONTENT_REDACTED\", url: \"CONTENT_REDACTED\")"}
+}
+
+extension GeoRoutesClientTypes {
+
+    public enum RouteTransitPlaceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case station
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RouteTransitPlaceType] {
+            return [
+                .station
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .station: return "Station"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GeoRoutesClientTypes {
+
+    /// Place details corresponding to the arrival or departure.
+    public struct RouteTransitPlace: Swift.Sendable {
+        /// The name of the place.
+        public var name: Swift.String?
+        /// Position provided in the request.
+        public var originalPosition: [Swift.Double]?
+        /// Position in World Geodetic System (WGS 84) format: [longitude, latitude].
+        /// This member is required.
+        public var position: [Swift.Double]?
+        /// Details about the station.
+        public var stationDetails: GeoRoutesClientTypes.RouteStationDetails?
+        /// The type of the place.
+        public var type: GeoRoutesClientTypes.RouteTransitPlaceType?
+        /// Index of the waypoint in the request.
+        public var waypointIndex: Swift.Int?
+
+        public init(
+            name: Swift.String? = nil,
+            originalPosition: [Swift.Double]? = nil,
+            position: [Swift.Double]? = nil,
+            stationDetails: GeoRoutesClientTypes.RouteStationDetails? = nil,
+            type: GeoRoutesClientTypes.RouteTransitPlaceType? = nil,
+            waypointIndex: Swift.Int? = nil
+        ) {
+            self.name = name
+            self.originalPosition = originalPosition
+            self.position = position
+            self.stationDetails = stationDetails
+            self.type = type
+            self.waypointIndex = waypointIndex
+        }
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTransitPlace: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteTransitPlace(stationDetails: \(Swift.String(describing: stationDetails)), name: \"CONTENT_REDACTED\", originalPosition: \"CONTENT_REDACTED\", position: \"CONTENT_REDACTED\", type: \"CONTENT_REDACTED\", waypointIndex: \"CONTENT_REDACTED\")"}
+}
+
+extension GeoRoutesClientTypes {
+
+    public enum RouteTransitTripStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case added
+        case cancelled
+        case replaced
+        case scheduled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RouteTransitTripStatus] {
+            return [
+                .added,
+                .cancelled,
+                .replaced,
+                .scheduled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .added: return "Added"
+            case .cancelled: return "Cancelled"
+            case .replaced: return "Replaced"
+            case .scheduled: return "Scheduled"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GeoRoutesClientTypes {
+
+    /// Details corresponding to the arrival for the leg.
+    public struct RouteTransitArrival: Swift.Sendable {
+        /// The delay from the scheduled arrival time. Unit: seconds
+        public var delay: Swift.Int?
+        /// Place details corresponding to the arrival.
+        /// This member is required.
+        public var place: GeoRoutesClientTypes.RouteTransitPlace?
+        /// The status of the arrival.
+        public var status: GeoRoutesClientTypes.RouteTransitTripStatus?
+        /// The arrival time.
+        public var time: Swift.String?
+
+        public init(
+            delay: Swift.Int? = 0,
+            place: GeoRoutesClientTypes.RouteTransitPlace? = nil,
+            status: GeoRoutesClientTypes.RouteTransitTripStatus? = nil,
+            time: Swift.String? = nil
+        ) {
+            self.delay = delay
+            self.place = place
+            self.status = status
+            self.time = time
+        }
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTransitArrival: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteTransitArrival(place: \(Swift.String(describing: place)), delay: \"CONTENT_REDACTED\", status: \"CONTENT_REDACTED\", time: \"CONTENT_REDACTED\")"}
+}
+
+extension GeoRoutesClientTypes {
+
+    public enum RouteTransitBeforeTravelStepType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case board
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RouteTransitBeforeTravelStepType] {
+            return [
+                .board
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .board: return "Board"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GeoRoutesClientTypes {
+
+    /// A step that must be performed before the travel portion of the leg.
+    public struct RouteTransitBeforeTravelStep: Swift.Sendable {
+        /// Duration of the step. Unit: seconds
+        /// This member is required.
+        public var duration: Swift.Int?
+        /// Brief description of the step in the requested language.
+        public var instruction: Swift.String?
+        /// Type of the step.
+        /// This member is required.
+        public var type: GeoRoutesClientTypes.RouteTransitBeforeTravelStepType?
+
+        public init(
+            duration: Swift.Int? = 0,
+            instruction: Swift.String? = nil,
+            type: GeoRoutesClientTypes.RouteTransitBeforeTravelStepType? = nil
+        ) {
+            self.duration = duration
+            self.instruction = instruction
+            self.type = type
+        }
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTransitBeforeTravelStep: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteTransitBeforeTravelStep(duration: \"CONTENT_REDACTED\", instruction: \"CONTENT_REDACTED\", type: \"CONTENT_REDACTED\")"}
+}
+
+extension GeoRoutesClientTypes {
+
+    /// Details corresponding to the departure for the leg.
+    public struct RouteTransitDeparture: Swift.Sendable {
+        /// The delay from the scheduled departure time. Unit: seconds
+        public var delay: Swift.Int?
+        /// Place details corresponding to the departure.
+        /// This member is required.
+        public var place: GeoRoutesClientTypes.RouteTransitPlace?
+        /// The status of the departure.
+        public var status: GeoRoutesClientTypes.RouteTransitTripStatus?
+        /// The departure time.
+        public var time: Swift.String?
+
+        public init(
+            delay: Swift.Int? = 0,
+            place: GeoRoutesClientTypes.RouteTransitPlace? = nil,
+            status: GeoRoutesClientTypes.RouteTransitTripStatus? = nil,
+            time: Swift.String? = nil
+        ) {
+            self.delay = delay
+            self.place = place
+            self.status = status
+            self.time = time
+        }
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTransitDeparture: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteTransitDeparture(place: \(Swift.String(describing: place)), delay: \"CONTENT_REDACTED\", status: \"CONTENT_REDACTED\", time: \"CONTENT_REDACTED\")"}
+}
+
+extension GeoRoutesClientTypes {
+
+    public enum RouteTransitIncidentEffect: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case delayed
+        case detoured
+        case other
+        case serviceAdded
+        case serviceCancelled
+        case serviceModified
+        case serviceReduced
+        case stopMoved
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RouteTransitIncidentEffect] {
+            return [
+                .delayed,
+                .detoured,
+                .other,
+                .serviceAdded,
+                .serviceCancelled,
+                .serviceModified,
+                .serviceReduced,
+                .stopMoved
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .delayed: return "Delayed"
+            case .detoured: return "Detoured"
+            case .other: return "Other"
+            case .serviceAdded: return "ServiceAdded"
+            case .serviceCancelled: return "ServiceCancelled"
+            case .serviceModified: return "ServiceModified"
+            case .serviceReduced: return "ServiceReduced"
+            case .stopMoved: return "StopMoved"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GeoRoutesClientTypes {
+
+    public enum RouteTransitIncidentType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accident
+        case construction
+        case demonstration
+        case holiday
+        case maintenance
+        case medicalEmergency
+        case other
+        case policeActivity
+        case strike
+        case technicalProblem
+        case weather
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RouteTransitIncidentType] {
+            return [
+                .accident,
+                .construction,
+                .demonstration,
+                .holiday,
+                .maintenance,
+                .medicalEmergency,
+                .other,
+                .policeActivity,
+                .strike,
+                .technicalProblem,
+                .weather
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accident: return "Accident"
+            case .construction: return "Construction"
+            case .demonstration: return "Demonstration"
+            case .holiday: return "Holiday"
+            case .maintenance: return "Maintenance"
+            case .medicalEmergency: return "MedicalEmergency"
+            case .other: return "Other"
+            case .policeActivity: return "PoliceActivity"
+            case .strike: return "Strike"
+            case .technicalProblem: return "TechnicalProblem"
+            case .weather: return "Weather"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GeoRoutesClientTypes {
+
+    /// An incident describes disruptions on the transit route.
+    public struct RouteTransitIncident: Swift.Sendable {
+        /// A human readable description of the incident.
+        public var description: Swift.String?
+        /// The effect of the incident on the transit service.
+        /// This member is required.
+        public var effect: GeoRoutesClientTypes.RouteTransitIncidentEffect?
+        /// The end time of the incident.
+        public var endTime: Swift.String?
+        /// The start time of the incident.
+        public var startTime: Swift.String?
+        /// Type of the incident.
+        /// This member is required.
+        public var type: GeoRoutesClientTypes.RouteTransitIncidentType?
+        /// URL to the original incident published at the agency website.
+        public var url: Swift.String?
+
+        public init(
+            description: Swift.String? = nil,
+            effect: GeoRoutesClientTypes.RouteTransitIncidentEffect? = nil,
+            endTime: Swift.String? = nil,
+            startTime: Swift.String? = nil,
+            type: GeoRoutesClientTypes.RouteTransitIncidentType? = nil,
+            url: Swift.String? = nil
+        ) {
+            self.description = description
+            self.effect = effect
+            self.endTime = endTime
+            self.startTime = startTime
+            self.type = type
+            self.url = url
+        }
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTransitIncident: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteTransitIncident(description: \"CONTENT_REDACTED\", effect: \"CONTENT_REDACTED\", endTime: \"CONTENT_REDACTED\", startTime: \"CONTENT_REDACTED\", type: \"CONTENT_REDACTED\", url: \"CONTENT_REDACTED\")"}
+}
+
+extension GeoRoutesClientTypes {
+
+    public enum RouteTransitIntermediateStopAttribute: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case noEntry
+        case noExit
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RouteTransitIntermediateStopAttribute] {
+            return [
+                .noEntry,
+                .noExit
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .noEntry: return "NoEntry"
+            case .noExit: return "NoExit"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GeoRoutesClientTypes {
+
+    /// Transport mode details for the transit leg.
+    public struct RouteTransitTransportModeDetails: Swift.Sendable {
+        /// Wheelchair accessibility information for the transit vehicle.
+        public var accessibility: GeoRoutesClientTypes.RouteAccessibilityAvailabilityDetails?
+        /// Color of the transport polyline and background for the transport name.
+        public var color: Swift.String?
+        /// Transit route headsign.
+        public var headsign: Swift.String?
+        /// Long name of the transit route.
+        public var longRouteName: Swift.String?
+        /// Mode of the transit transport.
+        /// This member is required.
+        public var mode: GeoRoutesClientTypes.RouteTransitMode?
+        /// Transit route name.
+        public var routeName: Swift.String?
+        /// Short name of the transit route.
+        public var shortRouteName: Swift.String?
+        /// Color of the transport name text.
+        public var textColor: Swift.String?
+
+        public init(
+            accessibility: GeoRoutesClientTypes.RouteAccessibilityAvailabilityDetails? = nil,
+            color: Swift.String? = nil,
+            headsign: Swift.String? = nil,
+            longRouteName: Swift.String? = nil,
+            mode: GeoRoutesClientTypes.RouteTransitMode? = nil,
+            routeName: Swift.String? = nil,
+            shortRouteName: Swift.String? = nil,
+            textColor: Swift.String? = nil
+        ) {
+            self.accessibility = accessibility
+            self.color = color
+            self.headsign = headsign
+            self.longRouteName = longRouteName
+            self.mode = mode
+            self.routeName = routeName
+            self.shortRouteName = shortRouteName
+            self.textColor = textColor
+        }
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTransitTransportModeDetails: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteTransitTransportModeDetails(accessibility: \(Swift.String(describing: accessibility)), color: \"CONTENT_REDACTED\", headsign: \"CONTENT_REDACTED\", longRouteName: \"CONTENT_REDACTED\", mode: \"CONTENT_REDACTED\", routeName: \"CONTENT_REDACTED\", shortRouteName: \"CONTENT_REDACTED\", textColor: \"CONTENT_REDACTED\")"}
+}
+
+extension GeoRoutesClientTypes {
+
+    /// An intermediate stop between departure and destination of the transit route.
+    public struct RouteTransitIntermediateStop: Swift.Sendable {
+        /// Attributes of the intermediate stop.
+        public var attributes: [GeoRoutesClientTypes.RouteTransitIntermediateStopAttribute]?
+        /// Departure details for the intermediate stop.
+        /// This member is required.
+        public var departure: GeoRoutesClientTypes.RouteTransitDeparture?
+        /// Duration of the stop. Unit: seconds
+        /// This member is required.
+        public var duration: Swift.Int?
+        /// Offset in the leg geometry corresponding to the start of this stop.
+        public var geometryOffset: Swift.Int?
+        /// Transport mode details at the intermediate stop.
+        public var transport: GeoRoutesClientTypes.RouteTransitTransportModeDetails?
+
+        public init(
+            attributes: [GeoRoutesClientTypes.RouteTransitIntermediateStopAttribute]? = nil,
+            departure: GeoRoutesClientTypes.RouteTransitDeparture? = nil,
+            duration: Swift.Int? = 0,
+            geometryOffset: Swift.Int? = nil,
+            transport: GeoRoutesClientTypes.RouteTransitTransportModeDetails? = nil
+        ) {
+            self.attributes = attributes
+            self.departure = departure
+            self.duration = duration
+            self.geometryOffset = geometryOffset
+            self.transport = transport
+        }
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTransitIntermediateStop: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteTransitIntermediateStop(departure: \(Swift.String(describing: departure)), geometryOffset: \(Swift.String(describing: geometryOffset)), transport: \(Swift.String(describing: transport)), attributes: \"CONTENT_REDACTED\", duration: \"CONTENT_REDACTED\")"}
+}
+
+extension GeoRoutesClientTypes {
+
+    /// Details about the next available departure for the transit service.
+    public struct RouteTransitNextDeparture: Swift.Sendable {
+        /// The delay from the scheduled departure time. Unit: seconds
+        public var delay: Swift.Int?
+        /// Platform name or number for the departure.
+        public var platformName: Swift.String?
+        /// The status of the departure.
+        public var status: GeoRoutesClientTypes.RouteTransitTripStatus?
+        /// The departure time.
+        /// This member is required.
+        public var time: Swift.String?
+        /// Transport mode details for this departure.
+        public var transport: GeoRoutesClientTypes.RouteTransitTransportModeDetails?
+
+        public init(
+            delay: Swift.Int? = 0,
+            platformName: Swift.String? = nil,
+            status: GeoRoutesClientTypes.RouteTransitTripStatus? = nil,
+            time: Swift.String? = nil,
+            transport: GeoRoutesClientTypes.RouteTransitTransportModeDetails? = nil
+        ) {
+            self.delay = delay
+            self.platformName = platformName
+            self.status = status
+            self.time = time
+            self.transport = transport
+        }
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTransitNextDeparture: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteTransitNextDeparture(transport: \(Swift.String(describing: transport)), delay: \"CONTENT_REDACTED\", platformName: \"CONTENT_REDACTED\", status: \"CONTENT_REDACTED\", time: \"CONTENT_REDACTED\")"}
+}
+
+extension GeoRoutesClientTypes {
+
+    public enum RouteTransitNoticeCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accuratePolylineUnavailable
+        case intermediateStopsUnavailable
+        case noSchedule
+        case other
+        case potentialViolatedVehicleRestrictionUsage
+        case scheduledTimes
+        case seasonalClosure
+        case violatedAvoidAreas
+        case violatedAvoidFerry
+        case violatedAvoidRailFerry
+        case violatedExcludedTransitMode
+        case violatedVehicleRestriction
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RouteTransitNoticeCode] {
+            return [
+                .accuratePolylineUnavailable,
+                .intermediateStopsUnavailable,
+                .noSchedule,
+                .other,
+                .potentialViolatedVehicleRestrictionUsage,
+                .scheduledTimes,
+                .seasonalClosure,
+                .violatedAvoidAreas,
+                .violatedAvoidFerry,
+                .violatedAvoidRailFerry,
+                .violatedExcludedTransitMode,
+                .violatedVehicleRestriction
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accuratePolylineUnavailable: return "AccuratePolylineUnavailable"
+            case .intermediateStopsUnavailable: return "IntermediateStopsUnavailable"
+            case .noSchedule: return "NoSchedule"
+            case .other: return "Other"
+            case .potentialViolatedVehicleRestrictionUsage: return "PotentialViolatedVehicleRestrictionUsage"
+            case .scheduledTimes: return "ScheduledTimes"
+            case .seasonalClosure: return "SeasonalClosure"
+            case .violatedAvoidAreas: return "ViolatedAvoidAreas"
+            case .violatedAvoidFerry: return "ViolatedAvoidFerry"
+            case .violatedAvoidRailFerry: return "ViolatedAvoidRailFerry"
+            case .violatedExcludedTransitMode: return "ViolatedExcludedTransitMode"
+            case .violatedVehicleRestriction: return "ViolatedVehicleRestriction"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GeoRoutesClientTypes {
+
+    /// A notice that indicates an issue that occurred during route calculation.
+    public struct RouteTransitNotice: Swift.Sendable {
+        /// Code corresponding to the issue.
+        /// This member is required.
+        public var code: GeoRoutesClientTypes.RouteTransitNoticeCode?
+        /// Impact corresponding to the issue. While Low impact notices can be safely ignored, High impact notices must be evaluated further to determine the impact.
+        public var impact: GeoRoutesClientTypes.RouteNoticeImpact?
+
+        public init(
+            code: GeoRoutesClientTypes.RouteTransitNoticeCode? = nil,
+            impact: GeoRoutesClientTypes.RouteNoticeImpact? = nil
+        ) {
+            self.code = code
+            self.impact = impact
+        }
+    }
+}
+
+extension GeoRoutesClientTypes {
+
+    /// Span computed for the requested SpanAdditionalFeatures.
+    public struct RouteTransitSpan: Swift.Sendable {
+        /// 3 letter Country code corresponding to the Span.
+        public var country: Swift.String?
+        /// Distance of the computed span. This feature doesn't split a span, but is always computed on a span split by other properties. Unit: meters
+        public var distance: Swift.Int?
+        /// Duration of the computed span. This feature doesn't split a span, but is always computed on a span split by other properties. Unit: seconds
+        public var duration: Swift.Int?
+        /// Offset in the leg geometry corresponding to the start of this span.
+        public var geometryOffset: Swift.Int?
+        /// Names of the transit span in available languages.
+        public var names: [GeoRoutesClientTypes.LocalizedString]?
+        /// 2-3 letter Region code corresponding to the Span. This is either a province or a state.
+        public var region: Swift.String?
+
+        public init(
+            country: Swift.String? = nil,
+            distance: Swift.Int? = 0,
+            duration: Swift.Int? = 0,
+            geometryOffset: Swift.Int? = nil,
+            names: [GeoRoutesClientTypes.LocalizedString]? = nil,
+            region: Swift.String? = nil
+        ) {
+            self.country = country
+            self.distance = distance
+            self.duration = duration
+            self.geometryOffset = geometryOffset
+            self.names = names
+            self.region = region
+        }
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTransitSpan: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteTransitSpan(geometryOffset: \(Swift.String(describing: geometryOffset)), names: \(Swift.String(describing: names)), country: \"CONTENT_REDACTED\", distance: \"CONTENT_REDACTED\", duration: \"CONTENT_REDACTED\", region: \"CONTENT_REDACTED\")"}
+}
+
+extension GeoRoutesClientTypes {
+
+    /// Summary including duration and distance for the entire leg.
+    public struct RouteTransitOverviewSummary: Swift.Sendable {
+        /// Distance of the entire leg. Unit: meters
+        /// This member is required.
+        public var distance: Swift.Int?
+        /// Duration of the entire leg. Unit: seconds
+        /// This member is required.
+        public var duration: Swift.Int?
+
+        public init(
+            distance: Swift.Int? = 0,
+            duration: Swift.Int? = 0
+        ) {
+            self.distance = distance
+            self.duration = duration
+        }
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTransitOverviewSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteTransitOverviewSummary(distance: \"CONTENT_REDACTED\", duration: \"CONTENT_REDACTED\")"}
+}
+
+extension GeoRoutesClientTypes {
+
+    /// Summary including duration and distance for the travel portion of the leg only.
+    public struct RouteTransitTravelOnlySummary: Swift.Sendable {
+        /// Duration of the travel portion of the transit leg. Unit: seconds
+        /// This member is required.
+        public var duration: Swift.Int?
+
+        public init(
+            duration: Swift.Int? = 0
+        ) {
+            self.duration = duration
+        }
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTransitTravelOnlySummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteTransitTravelOnlySummary(duration: \"CONTENT_REDACTED\")"}
+}
+
+extension GeoRoutesClientTypes {
+
+    /// Summary of the transit leg.
+    public struct RouteTransitSummary: Swift.Sendable {
+        /// Summary including duration and distance for the entire leg.
+        public var overview: GeoRoutesClientTypes.RouteTransitOverviewSummary?
+        /// Summary including duration and distance for the travel portion of the leg only.
+        public var travelOnly: GeoRoutesClientTypes.RouteTransitTravelOnlySummary?
+
+        public init(
+            overview: GeoRoutesClientTypes.RouteTransitOverviewSummary? = nil,
+            travelOnly: GeoRoutesClientTypes.RouteTransitTravelOnlySummary? = nil
+        ) {
+            self.overview = overview
+            self.travelOnly = travelOnly
+        }
+    }
+}
+
+extension GeoRoutesClientTypes {
+
+    public enum RouteTransitTravelStepType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case depart
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RouteTransitTravelStepType] {
+            return [
+                .depart
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .depart: return "Depart"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GeoRoutesClientTypes {
+
+    /// A step that must be performed during the travel portion of the leg.
+    public struct RouteTransitTravelStep: Swift.Sendable {
+        /// Distance of the step. Unit: meters
+        public var distance: Swift.Int?
+        /// Duration of the step. Unit: seconds
+        /// This member is required.
+        public var duration: Swift.Int?
+        /// Offset in the leg geometry corresponding to the start of this step.
+        public var geometryOffset: Swift.Int?
+        /// Brief description of the step in the requested language.
+        public var instruction: Swift.String?
+        /// Type of the step.
+        /// This member is required.
+        public var type: GeoRoutesClientTypes.RouteTransitTravelStepType?
+
+        public init(
+            distance: Swift.Int? = 0,
+            duration: Swift.Int? = 0,
+            geometryOffset: Swift.Int? = nil,
+            instruction: Swift.String? = nil,
+            type: GeoRoutesClientTypes.RouteTransitTravelStepType? = nil
+        ) {
+            self.distance = distance
+            self.duration = duration
+            self.geometryOffset = geometryOffset
+            self.instruction = instruction
+            self.type = type
+        }
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTransitTravelStep: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteTransitTravelStep(geometryOffset: \(Swift.String(describing: geometryOffset)), distance: \"CONTENT_REDACTED\", duration: \"CONTENT_REDACTED\", instruction: \"CONTENT_REDACTED\", type: \"CONTENT_REDACTED\")"}
+}
+
+extension GeoRoutesClientTypes {
+
+    /// Populated when the Leg type is Transit, and provides additional information that is specific to public transit travel.
+    public struct RouteTransitLegDetails: Swift.Sendable {
+        /// Steps of a leg that must be performed after the travel portion of the leg.
+        /// This member is required.
+        public var afterTravelSteps: [GeoRoutesClientTypes.RouteTransitAfterTravelStep]?
+        /// Details about the transit agency.
+        public var agency: GeoRoutesClientTypes.RouteTransitAgency?
+        /// Details corresponding to the arrival for the leg.
+        /// This member is required.
+        public var arrival: GeoRoutesClientTypes.RouteTransitArrival?
+        /// List of required attributions to display.
+        /// This member is required.
+        public var attributions: [GeoRoutesClientTypes.RouteAttribution]?
+        /// Steps of a leg that must be performed before the travel portion of the leg.
+        /// This member is required.
+        public var beforeTravelSteps: [GeoRoutesClientTypes.RouteTransitBeforeTravelStep]?
+        /// Web links to external ticket booking services for the transit.
+        /// This member is required.
+        public var bookingWebLinks: [GeoRoutesClientTypes.RouteWebLink]?
+        /// Details corresponding to the departure for the leg.
+        /// This member is required.
+        public var departure: GeoRoutesClientTypes.RouteTransitDeparture?
+        /// Incidents affecting this leg of the transit route.
+        /// This member is required.
+        public var incidents: [GeoRoutesClientTypes.RouteTransitIncident]?
+        /// Intermediate stops between departure and destination of the transit route.
+        /// This member is required.
+        public var intermediateStops: [GeoRoutesClientTypes.RouteTransitIntermediateStop]?
+        /// List of next departures that cover the same section of the route.
+        /// This member is required.
+        public var nextDepartures: [GeoRoutesClientTypes.RouteTransitNextDeparture]?
+        /// List of notices that indicate issues that occurred during route calculation.
+        /// This member is required.
+        public var notices: [GeoRoutesClientTypes.RouteTransitNotice]?
+        /// Waypoints that were passed through during the leg. This includes the waypoints that were configured with the PassThrough option. Not populated when the TravelMode is Transit or Intermodal.
+        /// This member is required.
+        public var passThroughWaypoints: [GeoRoutesClientTypes.RoutePassThroughWaypoint]?
+        /// Spans that were computed for the requested SpanAdditionalFeatures. Not populated when the TravelMode is Transit or Intermodal.
+        /// This member is required.
+        public var spans: [GeoRoutesClientTypes.RouteTransitSpan]?
+        /// Summary of the transit leg.
+        public var summary: GeoRoutesClientTypes.RouteTransitSummary?
+        /// Transport mode details for the transit leg.
+        /// This member is required.
+        public var transport: GeoRoutesClientTypes.RouteTransitTransportModeDetails?
+        /// Steps of a leg that must be performed during the travel portion of the leg.
+        /// This member is required.
+        public var travelSteps: [GeoRoutesClientTypes.RouteTransitTravelStep]?
+
+        public init(
+            afterTravelSteps: [GeoRoutesClientTypes.RouteTransitAfterTravelStep]? = nil,
+            agency: GeoRoutesClientTypes.RouteTransitAgency? = nil,
+            arrival: GeoRoutesClientTypes.RouteTransitArrival? = nil,
+            attributions: [GeoRoutesClientTypes.RouteAttribution]? = nil,
+            beforeTravelSteps: [GeoRoutesClientTypes.RouteTransitBeforeTravelStep]? = nil,
+            bookingWebLinks: [GeoRoutesClientTypes.RouteWebLink]? = nil,
+            departure: GeoRoutesClientTypes.RouteTransitDeparture? = nil,
+            incidents: [GeoRoutesClientTypes.RouteTransitIncident]? = nil,
+            intermediateStops: [GeoRoutesClientTypes.RouteTransitIntermediateStop]? = nil,
+            nextDepartures: [GeoRoutesClientTypes.RouteTransitNextDeparture]? = nil,
+            notices: [GeoRoutesClientTypes.RouteTransitNotice]? = nil,
+            passThroughWaypoints: [GeoRoutesClientTypes.RoutePassThroughWaypoint]? = nil,
+            spans: [GeoRoutesClientTypes.RouteTransitSpan]? = nil,
+            summary: GeoRoutesClientTypes.RouteTransitSummary? = nil,
+            transport: GeoRoutesClientTypes.RouteTransitTransportModeDetails? = nil,
+            travelSteps: [GeoRoutesClientTypes.RouteTransitTravelStep]? = nil
+        ) {
+            self.afterTravelSteps = afterTravelSteps
+            self.agency = agency
+            self.arrival = arrival
+            self.attributions = attributions
+            self.beforeTravelSteps = beforeTravelSteps
+            self.bookingWebLinks = bookingWebLinks
+            self.departure = departure
+            self.incidents = incidents
+            self.intermediateStops = intermediateStops
+            self.nextDepartures = nextDepartures
+            self.notices = notices
+            self.passThroughWaypoints = passThroughWaypoints
+            self.spans = spans
+            self.summary = summary
+            self.transport = transport
+            self.travelSteps = travelSteps
+        }
+    }
+}
+
+extension GeoRoutesClientTypes {
+
     public enum RouteLegTravelMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case aerialTramway
+        case airplane
+        case bus
+        case busRapidTransit
         case car
         case carShuttleTrain
+        case cityTrain
         case ferry
+        case funicularRailway
+        case highSpeedTrain
+        case intercityTrain
+        case interregionalTrain
+        case lightRail
+        case monorail
         case pedestrian
+        case privateBus
+        case regionalTrain
         case scooter
+        case subway
         case truck
         case sdkUnknown(Swift.String)
 
         public static var allCases: [RouteLegTravelMode] {
             return [
+                .aerialTramway,
+                .airplane,
+                .bus,
+                .busRapidTransit,
                 .car,
                 .carShuttleTrain,
+                .cityTrain,
                 .ferry,
+                .funicularRailway,
+                .highSpeedTrain,
+                .intercityTrain,
+                .interregionalTrain,
+                .lightRail,
+                .monorail,
                 .pedestrian,
+                .privateBus,
+                .regionalTrain,
                 .scooter,
+                .subway,
                 .truck
             ]
         }
@@ -5709,11 +8854,25 @@ extension GeoRoutesClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .aerialTramway: return "AerialTramway"
+            case .airplane: return "Airplane"
+            case .bus: return "Bus"
+            case .busRapidTransit: return "BusRapidTransit"
             case .car: return "Car"
             case .carShuttleTrain: return "CarShuttleTrain"
+            case .cityTrain: return "CityTrain"
             case .ferry: return "Ferry"
+            case .funicularRailway: return "FunicularRailway"
+            case .highSpeedTrain: return "HighSpeedTrain"
+            case .intercityTrain: return "IntercityTrain"
+            case .interregionalTrain: return "InterregionalTrain"
+            case .lightRail: return "LightRail"
+            case .monorail: return "Monorail"
             case .pedestrian: return "Pedestrian"
+            case .privateBus: return "PrivateBus"
+            case .regionalTrain: return "RegionalTrain"
             case .scooter: return "Scooter"
+            case .subway: return "Subway"
             case .truck: return "Truck"
             case let .sdkUnknown(s): return s
             }
@@ -5726,6 +8885,9 @@ extension GeoRoutesClientTypes {
     public enum RouteLegType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case ferry
         case pedestrian
+        case rental
+        case taxi
+        case transit
         case vehicle
         case sdkUnknown(Swift.String)
 
@@ -5733,6 +8895,9 @@ extension GeoRoutesClientTypes {
             return [
                 .ferry,
                 .pedestrian,
+                .rental,
+                .taxi,
+                .transit,
                 .vehicle
             ]
         }
@@ -5746,7 +8911,133 @@ extension GeoRoutesClientTypes {
             switch self {
             case .ferry: return "Ferry"
             case .pedestrian: return "Pedestrian"
+            case .rental: return "Rental"
+            case .taxi: return "Taxi"
+            case .transit: return "Transit"
             case .vehicle: return "Vehicle"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GeoRoutesClientTypes {
+
+    /// Details about the EV charge at the current step.
+    public struct RouteChargeStepDetails: Swift.Sendable {
+        /// Estimated vehicle battery charge before this step (in kWh).
+        public var arrivalCharge: Swift.Double?
+        /// Maximum charging power available to the vehicle. Unit: KwH
+        public var consumablePower: Swift.Double?
+        /// Details that are specific to a Charge step. Unit: KwH
+        public var desiredCharge: Swift.Double?
+
+        public init(
+            arrivalCharge: Swift.Double? = nil,
+            consumablePower: Swift.Double? = nil,
+            desiredCharge: Swift.Double? = nil
+        ) {
+            self.arrivalCharge = arrivalCharge
+            self.consumablePower = consumablePower
+            self.desiredCharge = desiredCharge
+        }
+    }
+}
+
+extension GeoRoutesClientTypes.RouteChargeStepDetails: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteChargeStepDetails(arrivalCharge: \"CONTENT_REDACTED\", consumablePower: \"CONTENT_REDACTED\", desiredCharge: \"CONTENT_REDACTED\")"}
+}
+
+extension GeoRoutesClientTypes {
+
+    public enum RouteVehicleAfterTravelStepType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case park
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RouteVehicleAfterTravelStepType] {
+            return [
+                .park
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .park: return "Park"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GeoRoutesClientTypes {
+
+    /// Steps of a leg that must be performed after the travel portion of the leg.
+    public struct RouteVehicleAfterTravelStep: Swift.Sendable {
+        /// Details that are specific to a Charge step. Unit: KwH
+        public var chargeStepDetails: GeoRoutesClientTypes.RouteChargeStepDetails?
+        /// Duration of the step. Unit: seconds
+        /// This member is required.
+        public var duration: Swift.Int?
+        /// Brief description of the step in the requested language. Only available when the TravelStepType is Default.
+        public var instruction: Swift.String?
+        /// Type of the step.
+        /// This member is required.
+        public var type: GeoRoutesClientTypes.RouteVehicleAfterTravelStepType?
+
+        public init(
+            chargeStepDetails: GeoRoutesClientTypes.RouteChargeStepDetails? = nil,
+            duration: Swift.Int? = 0,
+            instruction: Swift.String? = nil,
+            type: GeoRoutesClientTypes.RouteVehicleAfterTravelStepType? = nil
+        ) {
+            self.chargeStepDetails = chargeStepDetails
+            self.duration = duration
+            self.instruction = instruction
+            self.type = type
+        }
+    }
+}
+
+extension GeoRoutesClientTypes.RouteVehicleAfterTravelStep: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteVehicleAfterTravelStep(chargeStepDetails: \(Swift.String(describing: chargeStepDetails)), duration: \"CONTENT_REDACTED\", instruction: \"CONTENT_REDACTED\", type: \"CONTENT_REDACTED\")"}
+}
+
+extension GeoRoutesClientTypes {
+
+    public enum RouteVehiclePlaceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accessPoint
+        case dockingStation
+        case parkingLot
+        case station
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RouteVehiclePlaceType] {
+            return [
+                .accessPoint,
+                .dockingStation,
+                .parkingLot,
+                .station
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accessPoint: return "AccessPoint"
+            case .dockingStation: return "DockingStation"
+            case .parkingLot: return "ParkingLot"
+            case .station: return "Station"
             case let .sdkUnknown(s): return s
             }
         }
@@ -5757,6 +9048,8 @@ extension GeoRoutesClientTypes {
 
     /// Place details corresponding to the arrival or departure.
     public struct RouteVehiclePlace: Swift.Sendable {
+        /// Details of the access point.
+        public var accessPointDetails: GeoRoutesClientTypes.RouteAccessPointDetails?
         /// The name of the place.
         public var name: Swift.String?
         /// Position provided in the request.
@@ -5766,20 +9059,30 @@ extension GeoRoutesClientTypes {
         public var position: [Swift.Double]?
         /// Options to configure matching the provided position to a side of the street.
         public var sideOfStreet: GeoRoutesClientTypes.RouteSideOfStreet?
+        /// Details about the station.
+        public var stationDetails: GeoRoutesClientTypes.RouteStationDetails?
+        /// The type of the place.
+        public var type: GeoRoutesClientTypes.RouteVehiclePlaceType?
         /// Index of the waypoint in the request.
         public var waypointIndex: Swift.Int?
 
         public init(
+            accessPointDetails: GeoRoutesClientTypes.RouteAccessPointDetails? = nil,
             name: Swift.String? = nil,
             originalPosition: [Swift.Double]? = nil,
             position: [Swift.Double]? = nil,
             sideOfStreet: GeoRoutesClientTypes.RouteSideOfStreet? = nil,
+            stationDetails: GeoRoutesClientTypes.RouteStationDetails? = nil,
+            type: GeoRoutesClientTypes.RouteVehiclePlaceType? = nil,
             waypointIndex: Swift.Int? = nil
         ) {
+            self.accessPointDetails = accessPointDetails
             self.name = name
             self.originalPosition = originalPosition
             self.position = position
             self.sideOfStreet = sideOfStreet
+            self.stationDetails = stationDetails
+            self.type = type
             self.waypointIndex = waypointIndex
         }
     }
@@ -5787,17 +9090,17 @@ extension GeoRoutesClientTypes {
 
 extension GeoRoutesClientTypes.RouteVehiclePlace: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RouteVehiclePlace(name: \"CONTENT_REDACTED\", originalPosition: \"CONTENT_REDACTED\", position: \"CONTENT_REDACTED\", sideOfStreet: \"CONTENT_REDACTED\", waypointIndex: \"CONTENT_REDACTED\")"}
+        "RouteVehiclePlace(accessPointDetails: \(Swift.String(describing: accessPointDetails)), stationDetails: \(Swift.String(describing: stationDetails)), name: \"CONTENT_REDACTED\", originalPosition: \"CONTENT_REDACTED\", position: \"CONTENT_REDACTED\", sideOfStreet: \"CONTENT_REDACTED\", type: \"CONTENT_REDACTED\", waypointIndex: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
 
     /// Details corresponding to the arrival for a leg.
     public struct RouteVehicleArrival: Swift.Sendable {
-        /// The place details.
+        /// Place details corresponding to the arrival.
         /// This member is required.
         public var place: GeoRoutesClientTypes.RouteVehiclePlace?
-        /// The time.
+        /// The arrival time.
         public var time: Swift.String?
 
         public init(
@@ -5819,7 +9122,7 @@ extension GeoRoutesClientTypes {
 
     /// Details corresponding to the departure for the leg.
     public struct RouteVehicleDeparture: Swift.Sendable {
-        /// The place details.
+        /// Place details corresponding to the departure.
         /// This member is required.
         public var place: GeoRoutesClientTypes.RouteVehiclePlace?
         /// The departure time.
@@ -6603,17 +9906,17 @@ extension GeoRoutesClientTypes.RouteVehicleSpan: Swift.CustomDebugStringConverti
 
 extension GeoRoutesClientTypes {
 
-    /// Summarized details of the leg.
+    /// Summary including duration and distance for the entire leg.
     public struct RouteVehicleOverviewSummary: Swift.Sendable {
         /// Total duration in free flowing traffic, which is the best case or shortest duration possible to cover the leg. Unit: seconds
         public var bestCaseDuration: Swift.Int
-        /// Distance of the step.
+        /// Distance of the entire leg. Unit: meters
         /// This member is required.
         public var distance: Swift.Int
-        /// Duration of the step. Unit: seconds
+        /// Duration of the entire leg. Unit: seconds
         /// This member is required.
         public var duration: Swift.Int
-        /// Duration of the computed span under typical traffic congestion. Unit: seconds
+        /// Duration of the leg under typical traffic congestion. Unit: seconds
         public var typicalDuration: Swift.Int
 
         public init(
@@ -6644,7 +9947,7 @@ extension GeoRoutesClientTypes {
         /// Duration of the step. Unit: seconds
         /// This member is required.
         public var duration: Swift.Int
-        /// Duration of the computed span under typical traffic congestion. Unit: seconds
+        /// Duration of the leg under typical traffic congestion. Unit: seconds
         public var typicalDuration: Swift.Int
 
         public init(
@@ -7120,76 +10423,6 @@ extension GeoRoutesClientTypes.RouteEnterHighwayStepDetails: Swift.CustomDebugSt
 
 extension GeoRoutesClientTypes {
 
-    /// Details related to the exit step.
-    public struct RouteExitStepDetails: Swift.Sendable {
-        /// Name of the intersection, if applicable to the step.
-        /// This member is required.
-        public var intersection: [GeoRoutesClientTypes.LocalizedString]?
-        /// Exit to be taken.
-        public var relativeExit: Swift.Int?
-        /// Steering direction for the step.
-        public var steeringDirection: GeoRoutesClientTypes.RouteSteeringDirection?
-        /// Angle of the turn.
-        public var turnAngle: Swift.Double
-        /// Intensity of the turn.
-        public var turnIntensity: GeoRoutesClientTypes.RouteTurnIntensity?
-
-        public init(
-            intersection: [GeoRoutesClientTypes.LocalizedString]? = nil,
-            relativeExit: Swift.Int? = nil,
-            steeringDirection: GeoRoutesClientTypes.RouteSteeringDirection? = nil,
-            turnAngle: Swift.Double = 0.0,
-            turnIntensity: GeoRoutesClientTypes.RouteTurnIntensity? = nil
-        ) {
-            self.intersection = intersection
-            self.relativeExit = relativeExit
-            self.steeringDirection = steeringDirection
-            self.turnAngle = turnAngle
-            self.turnIntensity = turnIntensity
-        }
-    }
-}
-
-extension GeoRoutesClientTypes.RouteExitStepDetails: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "RouteExitStepDetails(intersection: \(Swift.String(describing: intersection)), turnAngle: \(Swift.String(describing: turnAngle)), relativeExit: \"CONTENT_REDACTED\", steeringDirection: \"CONTENT_REDACTED\", turnIntensity: \"CONTENT_REDACTED\")"}
-}
-
-extension GeoRoutesClientTypes {
-
-    /// Details that are specific to a ramp step.
-    public struct RouteRampStepDetails: Swift.Sendable {
-        /// Name of the intersection, if applicable to the step.
-        /// This member is required.
-        public var intersection: [GeoRoutesClientTypes.LocalizedString]?
-        /// Steering direction for the step.
-        public var steeringDirection: GeoRoutesClientTypes.RouteSteeringDirection?
-        /// Angle of the turn.
-        public var turnAngle: Swift.Double
-        /// Intensity of the turn.
-        public var turnIntensity: GeoRoutesClientTypes.RouteTurnIntensity?
-
-        public init(
-            intersection: [GeoRoutesClientTypes.LocalizedString]? = nil,
-            steeringDirection: GeoRoutesClientTypes.RouteSteeringDirection? = nil,
-            turnAngle: Swift.Double = 0.0,
-            turnIntensity: GeoRoutesClientTypes.RouteTurnIntensity? = nil
-        ) {
-            self.intersection = intersection
-            self.steeringDirection = steeringDirection
-            self.turnAngle = turnAngle
-            self.turnIntensity = turnIntensity
-        }
-    }
-}
-
-extension GeoRoutesClientTypes.RouteRampStepDetails: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "RouteRampStepDetails(intersection: \(Swift.String(describing: intersection)), turnAngle: \(Swift.String(describing: turnAngle)), steeringDirection: \"CONTENT_REDACTED\", turnIntensity: \"CONTENT_REDACTED\")"}
-}
-
-extension GeoRoutesClientTypes {
-
     public enum RouteVehicleTravelStepType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case arrive
         case `continue`
@@ -7248,39 +10481,6 @@ extension GeoRoutesClientTypes {
             }
         }
     }
-}
-
-extension GeoRoutesClientTypes {
-
-    /// Details related to the U-turn step.
-    public struct RouteUTurnStepDetails: Swift.Sendable {
-        /// Name of the intersection, if applicable to the step.
-        /// This member is required.
-        public var intersection: [GeoRoutesClientTypes.LocalizedString]?
-        /// Steering direction for the step.
-        public var steeringDirection: GeoRoutesClientTypes.RouteSteeringDirection?
-        /// Angle of the turn.
-        public var turnAngle: Swift.Double
-        /// Intensity of the turn.
-        public var turnIntensity: GeoRoutesClientTypes.RouteTurnIntensity?
-
-        public init(
-            intersection: [GeoRoutesClientTypes.LocalizedString]? = nil,
-            steeringDirection: GeoRoutesClientTypes.RouteSteeringDirection? = nil,
-            turnAngle: Swift.Double = 0.0,
-            turnIntensity: GeoRoutesClientTypes.RouteTurnIntensity? = nil
-        ) {
-            self.intersection = intersection
-            self.steeringDirection = steeringDirection
-            self.turnAngle = turnAngle
-            self.turnIntensity = turnIntensity
-        }
-    }
-}
-
-extension GeoRoutesClientTypes.RouteUTurnStepDetails: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "RouteUTurnStepDetails(intersection: \(Swift.String(describing: intersection)), turnAngle: \(Swift.String(describing: turnAngle)), steeringDirection: \"CONTENT_REDACTED\", turnIntensity: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -7409,6 +10609,9 @@ extension GeoRoutesClientTypes {
 
     /// Steps of a leg that correspond to the travel portion of the leg.
     public struct RouteVehicleLegDetails: Swift.Sendable {
+        /// Steps of a leg that must be performed after the travel portion of the leg.
+        /// This member is required.
+        public var afterTravelSteps: [GeoRoutesClientTypes.RouteVehicleAfterTravelStep]?
         /// Details corresponding to the arrival for the leg.
         /// This member is required.
         public var arrival: GeoRoutesClientTypes.RouteVehicleArrival?
@@ -7446,6 +10649,7 @@ extension GeoRoutesClientTypes {
         public var zones: [GeoRoutesClientTypes.RouteZone]?
 
         public init(
+            afterTravelSteps: [GeoRoutesClientTypes.RouteVehicleAfterTravelStep]? = [],
             arrival: GeoRoutesClientTypes.RouteVehicleArrival? = nil,
             departure: GeoRoutesClientTypes.RouteVehicleDeparture? = nil,
             incidents: [GeoRoutesClientTypes.RouteVehicleIncident]? = nil,
@@ -7459,6 +10663,7 @@ extension GeoRoutesClientTypes {
             truckRoadTypes: [Swift.String]? = nil,
             zones: [GeoRoutesClientTypes.RouteZone]? = nil
         ) {
+            self.afterTravelSteps = afterTravelSteps
             self.arrival = arrival
             self.departure = departure
             self.incidents = incidents
@@ -7477,7 +10682,7 @@ extension GeoRoutesClientTypes {
 
 extension GeoRoutesClientTypes.RouteVehicleLegDetails: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RouteVehicleLegDetails(arrival: \(Swift.String(describing: arrival)), departure: \(Swift.String(describing: departure)), incidents: \(Swift.String(describing: incidents)), notices: \(Swift.String(describing: notices)), passThroughWaypoints: \(Swift.String(describing: passThroughWaypoints)), spans: \(Swift.String(describing: spans)), summary: \(Swift.String(describing: summary)), tollSystems: \(Swift.String(describing: tollSystems)), tolls: \(Swift.String(describing: tolls)), travelSteps: \(Swift.String(describing: travelSteps)), zones: \(Swift.String(describing: zones)), truckRoadTypes: \"CONTENT_REDACTED\")"}
+        "RouteVehicleLegDetails(afterTravelSteps: \(Swift.String(describing: afterTravelSteps)), arrival: \(Swift.String(describing: arrival)), departure: \(Swift.String(describing: departure)), incidents: \(Swift.String(describing: incidents)), notices: \(Swift.String(describing: notices)), passThroughWaypoints: \(Swift.String(describing: passThroughWaypoints)), spans: \(Swift.String(describing: spans)), summary: \(Swift.String(describing: summary)), tollSystems: \(Swift.String(describing: tollSystems)), tolls: \(Swift.String(describing: tolls)), travelSteps: \(Swift.String(describing: travelSteps)), zones: \(Swift.String(describing: zones)), truckRoadTypes: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -7493,6 +10698,12 @@ extension GeoRoutesClientTypes {
         public var language: Swift.String?
         /// Details related to the pedestrian leg.
         public var pedestrianLegDetails: GeoRoutesClientTypes.RoutePedestrianLegDetails?
+        /// Details related to the rental leg. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
+        public var rentalLegDetails: GeoRoutesClientTypes.RouteRentalLegDetails?
+        /// Details related to the taxi leg. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
+        public var taxiLegDetails: GeoRoutesClientTypes.RouteTaxiLegDetails?
+        /// Details related to the transit leg.
+        public var transitLegDetails: GeoRoutesClientTypes.RouteTransitLegDetails?
         /// Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility. Default value: Car
         /// This member is required.
         public var travelMode: GeoRoutesClientTypes.RouteLegTravelMode?
@@ -7507,6 +10718,9 @@ extension GeoRoutesClientTypes {
             geometry: GeoRoutesClientTypes.RouteLegGeometry? = nil,
             language: Swift.String? = nil,
             pedestrianLegDetails: GeoRoutesClientTypes.RoutePedestrianLegDetails? = nil,
+            rentalLegDetails: GeoRoutesClientTypes.RouteRentalLegDetails? = nil,
+            taxiLegDetails: GeoRoutesClientTypes.RouteTaxiLegDetails? = nil,
+            transitLegDetails: GeoRoutesClientTypes.RouteTransitLegDetails? = nil,
             travelMode: GeoRoutesClientTypes.RouteLegTravelMode? = nil,
             type: GeoRoutesClientTypes.RouteLegType? = nil,
             vehicleLegDetails: GeoRoutesClientTypes.RouteVehicleLegDetails? = nil
@@ -7515,6 +10729,9 @@ extension GeoRoutesClientTypes {
             self.geometry = geometry
             self.language = language
             self.pedestrianLegDetails = pedestrianLegDetails
+            self.rentalLegDetails = rentalLegDetails
+            self.taxiLegDetails = taxiLegDetails
+            self.transitLegDetails = transitLegDetails
             self.travelMode = travelMode
             self.type = type
             self.vehicleLegDetails = vehicleLegDetails
@@ -7524,7 +10741,7 @@ extension GeoRoutesClientTypes {
 
 extension GeoRoutesClientTypes.RouteLeg: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RouteLeg(ferryLegDetails: \(Swift.String(describing: ferryLegDetails)), geometry: \(Swift.String(describing: geometry)), language: \(Swift.String(describing: language)), pedestrianLegDetails: \(Swift.String(describing: pedestrianLegDetails)), vehicleLegDetails: \(Swift.String(describing: vehicleLegDetails)), travelMode: \"CONTENT_REDACTED\", type: \"CONTENT_REDACTED\")"}
+        "RouteLeg(ferryLegDetails: \(Swift.String(describing: ferryLegDetails)), geometry: \(Swift.String(describing: geometry)), language: \(Swift.String(describing: language)), pedestrianLegDetails: \(Swift.String(describing: pedestrianLegDetails)), rentalLegDetails: \(Swift.String(describing: rentalLegDetails)), taxiLegDetails: \(Swift.String(describing: taxiLegDetails)), transitLegDetails: \(Swift.String(describing: transitLegDetails)), vehicleLegDetails: \(Swift.String(describing: vehicleLegDetails)), travelMode: \"CONTENT_REDACTED\", type: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -8540,7 +11757,11 @@ public struct OptimizeWaypointsInput: Swift.Sendable {
     public var travelMode: GeoRoutesClientTypes.WaypointOptimizationTravelMode?
     /// Travel mode related options for the provided travel mode.
     public var travelModeOptions: GeoRoutesClientTypes.WaypointOptimizationTravelModeOptions?
-    /// List of waypoints between the Origin and Destination.
+    /// List of waypoints between the Origin and Destination, in World Geodetic System (WGS 84) format: [longitude, latitude]. The maximum number of waypoints allowed per request:
+    ///
+    /// * Maximum 50 waypoints per request
+    ///
+    /// * Maximum 20 waypoints when using constraints (AccessHours, AppointmentTime, ServiceDuration, Heading, SideOfStreet, Before)
     public var waypoints: [GeoRoutesClientTypes.WaypointOptimizationWaypoint]?
 
     public init(
@@ -9286,7 +12507,7 @@ public struct SnapToRoadsOutput: Swift.Sendable {
 extension CalculateIsolinesInput {
 
     static func urlPathProvider(_ value: CalculateIsolinesInput) -> Swift.String? {
-        return "/isolines"
+        return "/v2/isolines"
     }
 }
 
@@ -9305,7 +12526,7 @@ extension CalculateIsolinesInput {
 extension CalculateRouteMatrixInput {
 
     static func urlPathProvider(_ value: CalculateRouteMatrixInput) -> Swift.String? {
-        return "/route-matrix"
+        return "/v2/route-matrix"
     }
 }
 
@@ -9324,7 +12545,7 @@ extension CalculateRouteMatrixInput {
 extension CalculateRoutesInput {
 
     static func urlPathProvider(_ value: CalculateRoutesInput) -> Swift.String? {
-        return "/routes"
+        return "/v2/routes"
     }
 }
 
@@ -9343,7 +12564,7 @@ extension CalculateRoutesInput {
 extension OptimizeWaypointsInput {
 
     static func urlPathProvider(_ value: OptimizeWaypointsInput) -> Swift.String? {
-        return "/optimize-waypoints"
+        return "/v2/optimize-waypoints"
     }
 }
 
@@ -9362,7 +12583,7 @@ extension OptimizeWaypointsInput {
 extension SnapToRoadsInput {
 
     static func urlPathProvider(_ value: SnapToRoadsInput) -> Swift.String? {
-        return "/snap-to-roads"
+        return "/v2/snap-to-roads"
     }
 }
 
@@ -10098,12 +13319,43 @@ extension GeoRoutesClientTypes.Route {
     }
 }
 
+extension GeoRoutesClientTypes.RouteAccessibilityAvailabilityDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteAccessibilityAvailabilityDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteAccessibilityAvailabilityDetails()
+        value.wheelchair = try reader["Wheelchair"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteAccessPointDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteAccessPointDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteAccessPointDetails()
+        value.accessibility = try reader["Accessibility"].readIfPresent(with: GeoRoutesClientTypes.RouteAccessibilityAvailabilityDetails.read(from:))
+        return value
+    }
+}
+
 extension GeoRoutesClientTypes.RouteAllowOptions {
 
     static func write(value: GeoRoutesClientTypes.RouteAllowOptions?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Hot"].write(value.hot)
         try writer["Hov"].write(value.hov)
+    }
+}
+
+extension GeoRoutesClientTypes.RouteAttribution {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteAttribution {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteAttribution()
+        value.attributionType = try reader["AttributionType"].readIfPresent()
+        value.webLink = try reader["WebLink"].readIfPresent(with: GeoRoutesClientTypes.RouteWebLink.read(from:))
+        return value
     }
 }
 
@@ -10163,6 +13415,18 @@ extension GeoRoutesClientTypes.RouteCarOptions {
         try writer["LicensePlate"].write(value.licensePlate, with: GeoRoutesClientTypes.RouteVehicleLicensePlate.write(value:to:))
         try writer["MaxSpeed"].write(value.maxSpeed)
         try writer["Occupancy"].write(value.occupancy)
+    }
+}
+
+extension GeoRoutesClientTypes.RouteChargeStepDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteChargeStepDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteChargeStepDetails()
+        value.arrivalCharge = try reader["ArrivalCharge"].readIfPresent()
+        value.consumablePower = try reader["ConsumablePower"].readIfPresent()
+        value.desiredCharge = try reader["DesiredCharge"].readIfPresent()
+        return value
     }
 }
 
@@ -10413,6 +13677,69 @@ extension GeoRoutesClientTypes.RouteFerryTravelStep {
     }
 }
 
+extension GeoRoutesClientTypes.RouteIntermodalOptions {
+
+    static func write(value: GeoRoutesClientTypes.RouteIntermodalOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AccessibilityAttributes"].writeList(value.accessibilityAttributes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GeoRoutesClientTypes.RouteAccessibilityAttribute>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MaxTransfers"].write(value.maxTransfers)
+        try writer["Pedestrian"].write(value.pedestrian, with: GeoRoutesClientTypes.RouteIntermodalPedestrianOptions.write(value:to:))
+        try writer["Rental"].write(value.rental, with: GeoRoutesClientTypes.RouteIntermodalRentalOptions.write(value:to:))
+        try writer["Taxi"].write(value.taxi, with: GeoRoutesClientTypes.RouteIntermodalTaxiOptions.write(value:to:))
+        try writer["Transit"].write(value.transit, with: GeoRoutesClientTypes.RouteIntermodalTransitOptions.write(value:to:))
+        try writer["Vehicle"].write(value.vehicle, with: GeoRoutesClientTypes.RouteIntermodalVehicleOptions.write(value:to:))
+    }
+}
+
+extension GeoRoutesClientTypes.RouteIntermodalPedestrianOptions {
+
+    static func write(value: GeoRoutesClientTypes.RouteIntermodalPedestrianOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxDistance"].write(value.maxDistance)
+        try writer["Speed"].write(value.speed)
+    }
+}
+
+extension GeoRoutesClientTypes.RouteIntermodalRentalOptions {
+
+    static func write(value: GeoRoutesClientTypes.RouteIntermodalRentalOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AllowedModes"].writeList(value.allowedModes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GeoRoutesClientTypes.RouteRentalMode>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["EnabledFor"].writeList(value.enabledFor, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GeoRoutesClientTypes.RouteIntermodalEnabledLegs>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ExcludedModes"].writeList(value.excludedModes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GeoRoutesClientTypes.RouteRentalMode>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension GeoRoutesClientTypes.RouteIntermodalTaxiOptions {
+
+    static func write(value: GeoRoutesClientTypes.RouteIntermodalTaxiOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AllowedModes"].writeList(value.allowedModes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GeoRoutesClientTypes.RouteTaxiMode>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["EnabledFor"].writeList(value.enabledFor, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GeoRoutesClientTypes.RouteIntermodalEnabledLegs>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ExcludedModes"].writeList(value.excludedModes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GeoRoutesClientTypes.RouteTaxiMode>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension GeoRoutesClientTypes.RouteIntermodalTransitOptions {
+
+    static func write(value: GeoRoutesClientTypes.RouteIntermodalTransitOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AllowedModes"].writeList(value.allowedModes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GeoRoutesClientTypes.RouteTransitMode>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["EnabledFor"].writeList(value.enabledFor, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GeoRoutesClientTypes.RouteIntermodalEnabledLegs>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ExcludedModes"].writeList(value.excludedModes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GeoRoutesClientTypes.RouteTransitMode>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension GeoRoutesClientTypes.RouteIntermodalVehicleOptions {
+
+    static func write(value: GeoRoutesClientTypes.RouteIntermodalVehicleOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AllowedModes"].writeList(value.allowedModes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GeoRoutesClientTypes.RouteVehicleMode>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["EnabledFor"].writeList(value.enabledFor, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GeoRoutesClientTypes.RouteIntermodalEnabledLegs>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ExcludedModes"].writeList(value.excludedModes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GeoRoutesClientTypes.RouteVehicleMode>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension GeoRoutesClientTypes.RouteKeepStepDetails {
 
     static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteKeepStepDetails {
@@ -10438,6 +13765,9 @@ extension GeoRoutesClientTypes.RouteLeg {
         value.travelMode = try reader["TravelMode"].readIfPresent() ?? .sdkUnknown("")
         value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
         value.vehicleLegDetails = try reader["VehicleLegDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteVehicleLegDetails.read(from:))
+        value.rentalLegDetails = try reader["RentalLegDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteRentalLegDetails.read(from:))
+        value.taxiLegDetails = try reader["TaxiLegDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteTaxiLegDetails.read(from:))
+        value.transitLegDetails = try reader["TransitLegDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteTransitLegDetails.read(from:))
         return value
     }
 }
@@ -10799,6 +14129,18 @@ extension GeoRoutesClientTypes.RoutePassThroughWaypoint {
     }
 }
 
+extension GeoRoutesClientTypes.RoutePedestrianAfterTravelStep {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RoutePedestrianAfterTravelStep {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RoutePedestrianAfterTravelStep()
+        value.duration = try reader["Duration"].readIfPresent()
+        value.instruction = try reader["Instruction"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension GeoRoutesClientTypes.RoutePedestrianArrival {
 
     static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RoutePedestrianArrival {
@@ -10826,6 +14168,7 @@ extension GeoRoutesClientTypes.RoutePedestrianLegDetails {
     static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RoutePedestrianLegDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GeoRoutesClientTypes.RoutePedestrianLegDetails()
+        value.afterTravelSteps = try reader["AfterTravelSteps"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RoutePedestrianAfterTravelStep.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.arrival = try reader["Arrival"].readIfPresent(with: GeoRoutesClientTypes.RoutePedestrianArrival.read(from:))
         value.departure = try reader["Departure"].readIfPresent(with: GeoRoutesClientTypes.RoutePedestrianDeparture.read(from:))
         value.notices = try reader["Notices"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RoutePedestrianNotice.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
@@ -10872,10 +14215,13 @@ extension GeoRoutesClientTypes.RoutePedestrianPlace {
     static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RoutePedestrianPlace {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GeoRoutesClientTypes.RoutePedestrianPlace()
+        value.accessPointDetails = try reader["AccessPointDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteAccessPointDetails.read(from:))
         value.name = try reader["Name"].readIfPresent()
         value.originalPosition = try reader["OriginalPosition"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
         value.position = try reader["Position"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.sideOfStreet = try reader["SideOfStreet"].readIfPresent()
+        value.stationDetails = try reader["StationDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteStationDetails.read(from:))
+        value.type = try reader["Type"].readIfPresent()
         value.waypointIndex = try reader["WaypointIndex"].readIfPresent()
         return value
     }
@@ -10959,6 +14305,171 @@ extension GeoRoutesClientTypes.RouteRampStepDetails {
         value.steeringDirection = try reader["SteeringDirection"].readIfPresent()
         value.turnAngle = try reader["TurnAngle"].readIfPresent() ?? 0
         value.turnIntensity = try reader["TurnIntensity"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteRentalAfterTravelStep {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteRentalAfterTravelStep {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteRentalAfterTravelStep()
+        value.duration = try reader["Duration"].readIfPresent()
+        value.instruction = try reader["Instruction"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteRentalAgency {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteRentalAgency {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteRentalAgency()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.url = try reader["Url"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteRentalArrival {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteRentalArrival {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteRentalArrival()
+        value.place = try reader["Place"].readIfPresent(with: GeoRoutesClientTypes.RouteRentalPlace.read(from:))
+        value.time = try reader["Time"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteRentalBeforeTravelStep {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteRentalBeforeTravelStep {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteRentalBeforeTravelStep()
+        value.duration = try reader["Duration"].readIfPresent()
+        value.instruction = try reader["Instruction"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteRentalDeparture {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteRentalDeparture {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteRentalDeparture()
+        value.place = try reader["Place"].readIfPresent(with: GeoRoutesClientTypes.RouteRentalPlace.read(from:))
+        value.time = try reader["Time"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteRentalLegDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteRentalLegDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteRentalLegDetails()
+        value.afterTravelSteps = try reader["AfterTravelSteps"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteRentalAfterTravelStep.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.agency = try reader["Agency"].readIfPresent(with: GeoRoutesClientTypes.RouteRentalAgency.read(from:))
+        value.arrival = try reader["Arrival"].readIfPresent(with: GeoRoutesClientTypes.RouteRentalArrival.read(from:))
+        value.attributions = try reader["Attributions"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteAttribution.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.beforeTravelSteps = try reader["BeforeTravelSteps"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteRentalBeforeTravelStep.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.bookingWebLinks = try reader["BookingWebLinks"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteWebLink.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.departure = try reader["Departure"].readIfPresent(with: GeoRoutesClientTypes.RouteRentalDeparture.read(from:))
+        value.summary = try reader["Summary"].readIfPresent(with: GeoRoutesClientTypes.RouteRentalSummary.read(from:))
+        value.transport = try reader["Transport"].readIfPresent(with: GeoRoutesClientTypes.RouteRentalTransportModeDetails.read(from:))
+        value.travelSteps = try reader["TravelSteps"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteRentalTravelStep.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteRentalOverviewSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteRentalOverviewSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteRentalOverviewSummary()
+        value.duration = try reader["Duration"].readIfPresent()
+        value.distance = try reader["Distance"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteRentalPlace {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteRentalPlace {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteRentalPlace()
+        value.accessPointDetails = try reader["AccessPointDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteAccessPointDetails.read(from:))
+        value.name = try reader["Name"].readIfPresent()
+        value.originalPosition = try reader["OriginalPosition"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
+        value.position = try reader["Position"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.stationDetails = try reader["StationDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteStationDetails.read(from:))
+        value.type = try reader["Type"].readIfPresent()
+        value.waypointIndex = try reader["WaypointIndex"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteRentalSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteRentalSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteRentalSummary()
+        value.overview = try reader["Overview"].readIfPresent(with: GeoRoutesClientTypes.RouteRentalOverviewSummary.read(from:))
+        value.travelOnly = try reader["TravelOnly"].readIfPresent(with: GeoRoutesClientTypes.RouteRentalTravelOnlySummary.read(from:))
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteRentalTransportModeDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteRentalTransportModeDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteRentalTransportModeDetails()
+        value.availableSeats = try reader["AvailableSeats"].readIfPresent()
+        value.category = try reader["Category"].readIfPresent()
+        value.color = try reader["Color"].readIfPresent()
+        value.engine = try reader["Engine"].readIfPresent()
+        value.licensePlate = try reader["LicensePlate"].readIfPresent()
+        value.mode = try reader["Mode"].readIfPresent() ?? .sdkUnknown("")
+        value.model = try reader["Model"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.textColor = try reader["TextColor"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteRentalTravelOnlySummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteRentalTravelOnlySummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteRentalTravelOnlySummary()
+        value.duration = try reader["Duration"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteRentalTravelStep {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteRentalTravelStep {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteRentalTravelStep()
+        value.continueStepDetails = try reader["ContinueStepDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteContinueStepDetails.read(from:))
+        value.distance = try reader["Distance"].readIfPresent()
+        value.duration = try reader["Duration"].readIfPresent()
+        value.exitStepDetails = try reader["ExitStepDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteExitStepDetails.read(from:))
+        value.geometryOffset = try reader["GeometryOffset"].readIfPresent()
+        value.instruction = try reader["Instruction"].readIfPresent()
+        value.keepStepDetails = try reader["KeepStepDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteKeepStepDetails.read(from:))
+        value.rampStepDetails = try reader["RampStepDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteRampStepDetails.read(from:))
+        value.roundaboutEnterStepDetails = try reader["RoundaboutEnterStepDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteRoundaboutEnterStepDetails.read(from:))
+        value.roundaboutExitStepDetails = try reader["RoundaboutExitStepDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteRoundaboutExitStepDetails.read(from:))
+        value.roundaboutPassStepDetails = try reader["RoundaboutPassStepDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteRoundaboutPassStepDetails.read(from:))
+        value.turnStepDetails = try reader["TurnStepDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteTurnStepDetails.read(from:))
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.uTurnStepDetails = try reader["UTurnStepDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteUTurnStepDetails.read(from:))
         return value
     }
 }
@@ -11090,6 +14601,18 @@ extension GeoRoutesClientTypes.RouteSpanSpeedLimitDetails {
     }
 }
 
+extension GeoRoutesClientTypes.RouteStationDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteStationDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteStationDetails()
+        value.accessibility = try reader["Accessibility"].readIfPresent(with: GeoRoutesClientTypes.RouteAccessibilityAvailabilityDetails.read(from:))
+        value.platformName = try reader["PlatformName"].readIfPresent()
+        value.shortName = try reader["ShortName"].readIfPresent()
+        return value
+    }
+}
+
 extension GeoRoutesClientTypes.RouteSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteSummary {
@@ -11098,6 +14621,183 @@ extension GeoRoutesClientTypes.RouteSummary {
         value.distance = try reader["Distance"].readIfPresent() ?? 0
         value.duration = try reader["Duration"].readIfPresent() ?? 0
         value.tolls = try reader["Tolls"].readIfPresent(with: GeoRoutesClientTypes.RouteTollSummary.read(from:))
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTaxiAfterTravelStep {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteTaxiAfterTravelStep {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteTaxiAfterTravelStep()
+        value.duration = try reader["Duration"].readIfPresent()
+        value.instruction = try reader["Instruction"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTaxiAgency {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteTaxiAgency {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteTaxiAgency()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.url = try reader["Url"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTaxiArrival {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteTaxiArrival {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteTaxiArrival()
+        value.place = try reader["Place"].readIfPresent(with: GeoRoutesClientTypes.RouteTaxiPlace.read(from:))
+        value.time = try reader["Time"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTaxiBeforeTravelStep {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteTaxiBeforeTravelStep {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteTaxiBeforeTravelStep()
+        value.duration = try reader["Duration"].readIfPresent()
+        value.instruction = try reader["Instruction"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTaxiDeparture {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteTaxiDeparture {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteTaxiDeparture()
+        value.place = try reader["Place"].readIfPresent(with: GeoRoutesClientTypes.RouteTaxiPlace.read(from:))
+        value.time = try reader["Time"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTaxiLegDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteTaxiLegDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteTaxiLegDetails()
+        value.afterTravelSteps = try reader["AfterTravelSteps"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteTaxiAfterTravelStep.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.agency = try reader["Agency"].readIfPresent(with: GeoRoutesClientTypes.RouteTaxiAgency.read(from:))
+        value.arrival = try reader["Arrival"].readIfPresent(with: GeoRoutesClientTypes.RouteTaxiArrival.read(from:))
+        value.attributions = try reader["Attributions"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteAttribution.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.beforeTravelSteps = try reader["BeforeTravelSteps"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteTaxiBeforeTravelStep.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.bookingWebLinks = try reader["BookingWebLinks"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteWebLink.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.departure = try reader["Departure"].readIfPresent(with: GeoRoutesClientTypes.RouteTaxiDeparture.read(from:))
+        value.notices = try reader["Notices"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteTaxiNotice.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.summary = try reader["Summary"].readIfPresent(with: GeoRoutesClientTypes.RouteTaxiSummary.read(from:))
+        value.transport = try reader["Transport"].readIfPresent(with: GeoRoutesClientTypes.RouteTaxiTransportModeDetails.read(from:))
+        value.travelSteps = try reader["TravelSteps"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteTaxiTravelStep.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTaxiNotice {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteTaxiNotice {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteTaxiNotice()
+        value.code = try reader["Code"].readIfPresent() ?? .sdkUnknown("")
+        value.impact = try reader["Impact"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTaxiOverviewSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteTaxiOverviewSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteTaxiOverviewSummary()
+        value.duration = try reader["Duration"].readIfPresent()
+        value.distance = try reader["Distance"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTaxiPlace {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteTaxiPlace {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteTaxiPlace()
+        value.accessPointDetails = try reader["AccessPointDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteAccessPointDetails.read(from:))
+        value.name = try reader["Name"].readIfPresent()
+        value.originalPosition = try reader["OriginalPosition"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
+        value.position = try reader["Position"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.stationDetails = try reader["StationDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteStationDetails.read(from:))
+        value.type = try reader["Type"].readIfPresent()
+        value.waypointIndex = try reader["WaypointIndex"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTaxiSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteTaxiSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteTaxiSummary()
+        value.overview = try reader["Overview"].readIfPresent(with: GeoRoutesClientTypes.RouteTaxiOverviewSummary.read(from:))
+        value.travelOnly = try reader["TravelOnly"].readIfPresent(with: GeoRoutesClientTypes.RouteTaxiTravelOnlySummary.read(from:))
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTaxiTransportModeDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteTaxiTransportModeDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteTaxiTransportModeDetails()
+        value.availableSeats = try reader["AvailableSeats"].readIfPresent()
+        value.category = try reader["Category"].readIfPresent()
+        value.color = try reader["Color"].readIfPresent()
+        value.engine = try reader["Engine"].readIfPresent()
+        value.licensePlate = try reader["LicensePlate"].readIfPresent()
+        value.mode = try reader["Mode"].readIfPresent() ?? .sdkUnknown("")
+        value.model = try reader["Model"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.textColor = try reader["TextColor"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTaxiTravelOnlySummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteTaxiTravelOnlySummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteTaxiTravelOnlySummary()
+        value.duration = try reader["Duration"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTaxiTravelStep {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteTaxiTravelStep {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteTaxiTravelStep()
+        value.continueStepDetails = try reader["ContinueStepDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteContinueStepDetails.read(from:))
+        value.distance = try reader["Distance"].readIfPresent()
+        value.duration = try reader["Duration"].readIfPresent()
+        value.exitStepDetails = try reader["ExitStepDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteExitStepDetails.read(from:))
+        value.geometryOffset = try reader["GeometryOffset"].readIfPresent()
+        value.instruction = try reader["Instruction"].readIfPresent()
+        value.keepStepDetails = try reader["KeepStepDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteKeepStepDetails.read(from:))
+        value.rampStepDetails = try reader["RampStepDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteRampStepDetails.read(from:))
+        value.roundaboutEnterStepDetails = try reader["RoundaboutEnterStepDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteRoundaboutEnterStepDetails.read(from:))
+        value.roundaboutExitStepDetails = try reader["RoundaboutExitStepDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteRoundaboutExitStepDetails.read(from:))
+        value.roundaboutPassStepDetails = try reader["RoundaboutPassStepDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteRoundaboutPassStepDetails.read(from:))
+        value.turnStepDetails = try reader["TurnStepDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteTurnStepDetails.read(from:))
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.uTurnStepDetails = try reader["UTurnStepDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteUTurnStepDetails.read(from:))
         return value
     }
 }
@@ -11258,6 +14958,260 @@ extension GeoRoutesClientTypes.RouteTrailerOptions {
     }
 }
 
+extension GeoRoutesClientTypes.RouteTransitAfterTravelStep {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteTransitAfterTravelStep {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteTransitAfterTravelStep()
+        value.duration = try reader["Duration"].readIfPresent()
+        value.instruction = try reader["Instruction"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTransitAgency {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteTransitAgency {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteTransitAgency()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.url = try reader["Url"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTransitArrival {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteTransitArrival {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteTransitArrival()
+        value.delay = try reader["Delay"].readIfPresent()
+        value.place = try reader["Place"].readIfPresent(with: GeoRoutesClientTypes.RouteTransitPlace.read(from:))
+        value.status = try reader["Status"].readIfPresent()
+        value.time = try reader["Time"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTransitBeforeTravelStep {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteTransitBeforeTravelStep {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteTransitBeforeTravelStep()
+        value.duration = try reader["Duration"].readIfPresent()
+        value.instruction = try reader["Instruction"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTransitDeparture {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteTransitDeparture {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteTransitDeparture()
+        value.delay = try reader["Delay"].readIfPresent()
+        value.place = try reader["Place"].readIfPresent(with: GeoRoutesClientTypes.RouteTransitPlace.read(from:))
+        value.status = try reader["Status"].readIfPresent()
+        value.time = try reader["Time"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTransitIncident {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteTransitIncident {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteTransitIncident()
+        value.description = try reader["Description"].readIfPresent()
+        value.effect = try reader["Effect"].readIfPresent() ?? .sdkUnknown("")
+        value.endTime = try reader["EndTime"].readIfPresent()
+        value.startTime = try reader["StartTime"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.url = try reader["Url"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTransitIntermediateStop {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteTransitIntermediateStop {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteTransitIntermediateStop()
+        value.attributes = try reader["Attributes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GeoRoutesClientTypes.RouteTransitIntermediateStopAttribute>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.departure = try reader["Departure"].readIfPresent(with: GeoRoutesClientTypes.RouteTransitDeparture.read(from:))
+        value.duration = try reader["Duration"].readIfPresent()
+        value.geometryOffset = try reader["GeometryOffset"].readIfPresent()
+        value.transport = try reader["Transport"].readIfPresent(with: GeoRoutesClientTypes.RouteTransitTransportModeDetails.read(from:))
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTransitLegDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteTransitLegDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteTransitLegDetails()
+        value.afterTravelSteps = try reader["AfterTravelSteps"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteTransitAfterTravelStep.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.agency = try reader["Agency"].readIfPresent(with: GeoRoutesClientTypes.RouteTransitAgency.read(from:))
+        value.arrival = try reader["Arrival"].readIfPresent(with: GeoRoutesClientTypes.RouteTransitArrival.read(from:))
+        value.attributions = try reader["Attributions"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteAttribution.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.beforeTravelSteps = try reader["BeforeTravelSteps"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteTransitBeforeTravelStep.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.bookingWebLinks = try reader["BookingWebLinks"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteWebLink.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.departure = try reader["Departure"].readIfPresent(with: GeoRoutesClientTypes.RouteTransitDeparture.read(from:))
+        value.incidents = try reader["Incidents"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteTransitIncident.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.intermediateStops = try reader["IntermediateStops"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteTransitIntermediateStop.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextDepartures = try reader["NextDepartures"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteTransitNextDeparture.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.notices = try reader["Notices"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteTransitNotice.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.passThroughWaypoints = try reader["PassThroughWaypoints"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RoutePassThroughWaypoint.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.spans = try reader["Spans"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteTransitSpan.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.summary = try reader["Summary"].readIfPresent(with: GeoRoutesClientTypes.RouteTransitSummary.read(from:))
+        value.transport = try reader["Transport"].readIfPresent(with: GeoRoutesClientTypes.RouteTransitTransportModeDetails.read(from:))
+        value.travelSteps = try reader["TravelSteps"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteTransitTravelStep.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTransitNextDeparture {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteTransitNextDeparture {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteTransitNextDeparture()
+        value.delay = try reader["Delay"].readIfPresent()
+        value.platformName = try reader["PlatformName"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.time = try reader["Time"].readIfPresent() ?? ""
+        value.transport = try reader["Transport"].readIfPresent(with: GeoRoutesClientTypes.RouteTransitTransportModeDetails.read(from:))
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTransitNotice {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteTransitNotice {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteTransitNotice()
+        value.code = try reader["Code"].readIfPresent() ?? .sdkUnknown("")
+        value.impact = try reader["Impact"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTransitOptions {
+
+    static func write(value: GeoRoutesClientTypes.RouteTransitOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AccessibilityAttributes"].writeList(value.accessibilityAttributes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GeoRoutesClientTypes.RouteAccessibilityAttribute>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["AllowedModes"].writeList(value.allowedModes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GeoRoutesClientTypes.RouteTransitMode>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ExcludedModes"].writeList(value.excludedModes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GeoRoutesClientTypes.RouteTransitMode>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MaxTransfers"].write(value.maxTransfers)
+        try writer["Pedestrian"].write(value.pedestrian, with: GeoRoutesClientTypes.RouteTransitPedestrianOptions.write(value:to:))
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTransitOverviewSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteTransitOverviewSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteTransitOverviewSummary()
+        value.distance = try reader["Distance"].readIfPresent()
+        value.duration = try reader["Duration"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTransitPedestrianOptions {
+
+    static func write(value: GeoRoutesClientTypes.RouteTransitPedestrianOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxDistance"].write(value.maxDistance)
+        try writer["Speed"].write(value.speed)
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTransitPlace {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteTransitPlace {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteTransitPlace()
+        value.name = try reader["Name"].readIfPresent()
+        value.originalPosition = try reader["OriginalPosition"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
+        value.position = try reader["Position"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.stationDetails = try reader["StationDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteStationDetails.read(from:))
+        value.type = try reader["Type"].readIfPresent()
+        value.waypointIndex = try reader["WaypointIndex"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTransitSpan {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteTransitSpan {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteTransitSpan()
+        value.country = try reader["Country"].readIfPresent()
+        value.distance = try reader["Distance"].readIfPresent()
+        value.duration = try reader["Duration"].readIfPresent()
+        value.geometryOffset = try reader["GeometryOffset"].readIfPresent()
+        value.names = try reader["Names"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.LocalizedString.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.region = try reader["Region"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTransitSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteTransitSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteTransitSummary()
+        value.overview = try reader["Overview"].readIfPresent(with: GeoRoutesClientTypes.RouteTransitOverviewSummary.read(from:))
+        value.travelOnly = try reader["TravelOnly"].readIfPresent(with: GeoRoutesClientTypes.RouteTransitTravelOnlySummary.read(from:))
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTransitTransportModeDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteTransitTransportModeDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteTransitTransportModeDetails()
+        value.accessibility = try reader["Accessibility"].readIfPresent(with: GeoRoutesClientTypes.RouteAccessibilityAvailabilityDetails.read(from:))
+        value.color = try reader["Color"].readIfPresent()
+        value.headsign = try reader["Headsign"].readIfPresent()
+        value.longRouteName = try reader["LongRouteName"].readIfPresent()
+        value.mode = try reader["Mode"].readIfPresent() ?? .sdkUnknown("")
+        value.routeName = try reader["RouteName"].readIfPresent()
+        value.shortRouteName = try reader["ShortRouteName"].readIfPresent()
+        value.textColor = try reader["TextColor"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTransitTravelOnlySummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteTransitTravelOnlySummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteTransitTravelOnlySummary()
+        value.duration = try reader["Duration"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoRoutesClientTypes.RouteTransitTravelStep {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteTransitTravelStep {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteTransitTravelStep()
+        value.distance = try reader["Distance"].readIfPresent()
+        value.duration = try reader["Duration"].readIfPresent()
+        value.geometryOffset = try reader["GeometryOffset"].readIfPresent()
+        value.instruction = try reader["Instruction"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension GeoRoutesClientTypes.RouteTransponder {
 
     static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteTransponder {
@@ -11273,8 +15227,10 @@ extension GeoRoutesClientTypes.RouteTravelModeOptions {
     static func write(value: GeoRoutesClientTypes.RouteTravelModeOptions?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Car"].write(value.car, with: GeoRoutesClientTypes.RouteCarOptions.write(value:to:))
+        try writer["Intermodal"].write(value.intermodal, with: GeoRoutesClientTypes.RouteIntermodalOptions.write(value:to:))
         try writer["Pedestrian"].write(value.pedestrian, with: GeoRoutesClientTypes.RoutePedestrianOptions.write(value:to:))
         try writer["Scooter"].write(value.scooter, with: GeoRoutesClientTypes.RouteScooterOptions.write(value:to:))
+        try writer["Transit"].write(value.transit, with: GeoRoutesClientTypes.RouteTransitOptions.write(value:to:))
         try writer["Truck"].write(value.truck, with: GeoRoutesClientTypes.RouteTruckOptions.write(value:to:))
     }
 }
@@ -11331,6 +15287,19 @@ extension GeoRoutesClientTypes.RouteUTurnStepDetails {
     }
 }
 
+extension GeoRoutesClientTypes.RouteVehicleAfterTravelStep {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteVehicleAfterTravelStep {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteVehicleAfterTravelStep()
+        value.chargeStepDetails = try reader["ChargeStepDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteChargeStepDetails.read(from:))
+        value.duration = try reader["Duration"].readIfPresent()
+        value.instruction = try reader["Instruction"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension GeoRoutesClientTypes.RouteVehicleArrival {
 
     static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteVehicleArrival {
@@ -11372,6 +15341,7 @@ extension GeoRoutesClientTypes.RouteVehicleLegDetails {
     static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteVehicleLegDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GeoRoutesClientTypes.RouteVehicleLegDetails()
+        value.afterTravelSteps = try reader["AfterTravelSteps"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteVehicleAfterTravelStep.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.arrival = try reader["Arrival"].readIfPresent(with: GeoRoutesClientTypes.RouteVehicleArrival.read(from:))
         value.departure = try reader["Departure"].readIfPresent(with: GeoRoutesClientTypes.RouteVehicleDeparture.read(from:))
         value.incidents = try reader["Incidents"].readListIfPresent(memberReadingClosure: GeoRoutesClientTypes.RouteVehicleIncident.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
@@ -11442,6 +15412,9 @@ extension GeoRoutesClientTypes.RouteVehiclePlace {
         value.position = try reader["Position"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.sideOfStreet = try reader["SideOfStreet"].readIfPresent()
         value.waypointIndex = try reader["WaypointIndex"].readIfPresent()
+        value.accessPointDetails = try reader["AccessPointDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteAccessPointDetails.read(from:))
+        value.stationDetails = try reader["StationDetails"].readIfPresent(with: GeoRoutesClientTypes.RouteStationDetails.read(from:))
+        value.type = try reader["Type"].readIfPresent()
         return value
     }
 }
@@ -11570,6 +15543,19 @@ extension GeoRoutesClientTypes.RouteWaypoint {
         try writer["Position"].writeList(value.position, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["SideOfStreet"].write(value.sideOfStreet, with: GeoRoutesClientTypes.RouteSideOfStreetOptions.write(value:to:))
         try writer["StopDuration"].write(value.stopDuration)
+    }
+}
+
+extension GeoRoutesClientTypes.RouteWebLink {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoRoutesClientTypes.RouteWebLink {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoRoutesClientTypes.RouteWebLink()
+        value.anchorText = try reader["AnchorText"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent() ?? ""
+        value.deviceType = try reader["DeviceType"].readIfPresent()
+        value.url = try reader["Url"].readIfPresent()
+        return value
     }
 }
 

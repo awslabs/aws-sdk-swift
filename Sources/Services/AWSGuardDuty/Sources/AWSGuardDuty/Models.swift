@@ -9445,6 +9445,10 @@ extension GuardDutyClientTypes {
         public var addressFamily: Swift.String?
         /// Example of the command line involved in the suspicious activity.
         public var commandLineExample: Swift.String?
+        /// Represents the type of file operation that triggered the finding, such as Write, Delete, Rename, Link, or Symlink.
+        public var fileOperation: Swift.String?
+        /// The path of the sensitive file that was modified. Modification includes write, delete, rename, link, or symlink operations. This field is indexed for filtering.
+        public var filePath: Swift.String?
         /// Represents the type of mounted fileSystem.
         public var fileSystemType: Swift.String?
         /// Represents options that control the behavior of a runtime operation or action. For example, a filesystem mount operation may contain a read-only flag.
@@ -9471,6 +9475,8 @@ extension GuardDutyClientTypes {
         public var mountSource: Swift.String?
         /// The path in the container that is mapped to the host directory.
         public var mountTarget: Swift.String?
+        /// All file paths modified by the same process that triggered the finding, up to a maximum of 25 paths.
+        public var relatedFilePaths: [Swift.String]?
         /// The path in the container that modified the release agent file.
         public var releaseAgentPath: Swift.String?
         /// The path to the leveraged runc implementation.
@@ -9495,6 +9501,8 @@ extension GuardDutyClientTypes {
         public init(
             addressFamily: Swift.String? = nil,
             commandLineExample: Swift.String? = nil,
+            fileOperation: Swift.String? = nil,
+            filePath: Swift.String? = nil,
             fileSystemType: Swift.String? = nil,
             flags: [Swift.String]? = nil,
             ianaProtocolNumber: Swift.Int? = nil,
@@ -9508,6 +9516,7 @@ extension GuardDutyClientTypes {
             moduleSha256: Swift.String? = nil,
             mountSource: Swift.String? = nil,
             mountTarget: Swift.String? = nil,
+            relatedFilePaths: [Swift.String]? = nil,
             releaseAgentPath: Swift.String? = nil,
             runcBinaryPath: Swift.String? = nil,
             scriptPath: Swift.String? = nil,
@@ -9521,6 +9530,8 @@ extension GuardDutyClientTypes {
         ) {
             self.addressFamily = addressFamily
             self.commandLineExample = commandLineExample
+            self.fileOperation = fileOperation
+            self.filePath = filePath
             self.fileSystemType = fileSystemType
             self.flags = flags
             self.ianaProtocolNumber = ianaProtocolNumber
@@ -9534,6 +9545,7 @@ extension GuardDutyClientTypes {
             self.moduleSha256 = moduleSha256
             self.mountSource = mountSource
             self.mountTarget = mountTarget
+            self.relatedFilePaths = relatedFilePaths
             self.releaseAgentPath = releaseAgentPath
             self.runcBinaryPath = runcBinaryPath
             self.scriptPath = scriptPath
@@ -21386,6 +21398,9 @@ extension GuardDutyClientTypes.RuntimeContext {
         value.serviceName = try reader["serviceName"].readIfPresent()
         value.commandLineExample = try reader["commandLineExample"].readIfPresent()
         value.threatFilePath = try reader["threatFilePath"].readIfPresent()
+        value.fileOperation = try reader["fileOperation"].readIfPresent()
+        value.filePath = try reader["filePath"].readIfPresent()
+        value.relatedFilePaths = try reader["relatedFilePaths"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
